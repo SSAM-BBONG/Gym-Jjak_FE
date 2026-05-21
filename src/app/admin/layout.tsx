@@ -1,7 +1,10 @@
 export default function Layout({ children }: { children: React.ReactNode }) {
     return (
-        <section>
-            {children}
+        <section className="flex">
+            <aside></aside>
+            <section>
+                {children}
+            </section>
         </section>
     );
 }
