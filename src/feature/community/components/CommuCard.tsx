@@ -1,4 +1,4 @@
-export default function PtZonePage() {
+export default function Page() {
     return (
         <div></div>
     );
