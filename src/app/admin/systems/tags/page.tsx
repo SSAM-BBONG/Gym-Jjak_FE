@@ -1,5 +1,5 @@
 export default function Page() {
     return (
-        <div>조직 조회</div>
+        <div>태그</div>
     );
 }

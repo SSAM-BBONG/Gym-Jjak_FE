@@ -1,5 +1,5 @@
 export default function Page() {
     return (
-        <div></div>
+        <div>블랙리스트 조회</div>
     );
 }

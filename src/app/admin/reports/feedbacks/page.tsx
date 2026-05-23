@@ -1,5 +1,5 @@
 export default function Page() {
     return (
-        <div></div>
+        <div>피드백 신고 관리</div>
     );
 }

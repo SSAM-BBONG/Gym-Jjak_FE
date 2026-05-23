@@ -1,5 +1,5 @@
 export default function Page() {
     return (
-        <div></div>
+        <div>트레이너 조회</div>
     );
 }
