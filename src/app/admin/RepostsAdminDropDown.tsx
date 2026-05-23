@@ -1,0 +1,28 @@
+'use client'
+
+import AdminNavLink from "@/feature/admin/components/AdminNavLink";
+import { useState } from "react";
+
+
+export default function ReportsAdminDropDown() {
+    const [dropDownView, setDropDown] = useState<boolean>(true);
+
+    const handleClickDropDown = () => {
+        setDropDown(!dropDownView)
+    }
+
+    return (
+        <section>
+            <div onClick={handleClickDropDown} className="flex text-[#99A1AF] font-medium text-base py-3 px-4 items-center rounded-md hover:bg-gray-800 hover:text-white">
+                <img />신고 관리<img className="ml-auto" />
+            </div>
+            <ul hidden={dropDownView} className="px-4">
+                <li><AdminNavLink href="/admin/reports/comments">댓글 관리</AdminNavLink></li>
+                <li><AdminNavLink href="/admin/reports/feedbacks">피드백 관리</AdminNavLink></li>
+                <li><AdminNavLink href="/admin/reports/posts">게시글 관리</AdminNavLink></li>
+                <li><AdminNavLink href="/admin/reports/pt">PT 관리</AdminNavLink></li>
+                <li><AdminNavLink href="/admin/reports/reviews">리뷰 관리</AdminNavLink></li>
+            </ul>
+        </section>
+    );
+}

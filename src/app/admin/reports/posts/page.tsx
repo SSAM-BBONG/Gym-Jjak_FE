@@ -1,5 +1,5 @@
 export default function Page() {
     return (
-        <div></div>
+        <div>게시글 신고 조회</div>
     );
 }
