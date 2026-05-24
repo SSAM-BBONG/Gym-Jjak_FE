@@ -22,7 +22,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 <SystemLogsAdminDropDown />
                 <SystemsAdminDropDown />
             </aside>
-            <section>
+            <section className="flex-1">
                 {children}
             </section>
         </section>
