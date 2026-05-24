@@ -10,7 +10,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <section>
             {children}
         </section>
-        <footer className="fixed bottom-0 w-full">
+        <footer className="w-full">
             <UserFooter />
         </footer>
         </>
