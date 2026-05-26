@@ -1,5 +1,4 @@
 import Header from "@/components/layout/Header";
-import UserFooter from "@/components/layout/UserFooter";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
     return (
@@ -7,12 +6,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <header className="flex">
             <Header />
         </header>
-        <section>
+        <section className="mt-17.5 bg-[#0B0F19] px-30 min-h-[700px]">
             {children}
         </section>
-        <footer className="w-full">
-            <UserFooter />
-        </footer>
         </>
     );
 }
