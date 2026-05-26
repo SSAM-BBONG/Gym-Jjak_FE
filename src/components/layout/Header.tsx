@@ -5,7 +5,7 @@ import Link from "next/link";
 
 export default function Header() {
     return (
-        <div className="h-17.5 bg-black flex-1 flex items-center justify-between px-30">
+        <div className="fixed w-full h-17.5 bg-black flex-1 flex items-center justify-between px-30">
             <div className="flex items-center gap-3">
                 <div className="bg-[#BFFF0B] size-10 rounded-[10px] flex items-center justify-center">
                     <img src={Logo} alt="로고"/>
