@@ -5,6 +5,7 @@ import MembersAdminDropDown from "./MembersAdminDropDown";
 import ReportsAdminDropDown from "./RepostsAdminDropDown";
 import SystemLogsAdminDropDown from "./SystemLogsAdminDropDown";
 import SystemsAdminDropDown from "./SystemsAdminDropDown";
+import DashboardNavLink from "@/feature/admin/components/DashboardNavLink";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
     return (
@@ -14,7 +15,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                     <div className="bg-[#BFFF0B] w-2 h-2 rounded-full"></div>
                     <h1 className="text-white text-xl font-extrabold">관리자 메뉴</h1>
                 </div>
-                <AdminNavLink href="/admin" mode="main">대시보드</AdminNavLink>
+                <DashboardNavLink href="/admin">대시보드</DashboardNavLink>
                 <MembersAdminDropDown />
                 <ApprovalsAdminDropDown />
                 <ReportsAdminDropDown />
