@@ -7,7 +7,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <header className="flex">
             <Header />
         </header>
-        <section>
+        <section className="bg-[#0B0F19] px-30 min-h-[700px]">
             {children}
         </section>
         <footer className="w-full">
