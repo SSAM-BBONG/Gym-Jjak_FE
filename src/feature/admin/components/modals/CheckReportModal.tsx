@@ -1,14 +1,18 @@
 import { CloseButton } from "@/components/ui/image";
+import StatusSelector from "../StatusSelector";
+import ReportStatus from "../ReportStatus";
+import ReportReason from "../ReportReason";
 
-interface ChangeStateModalProps {
+interface CheckReportModalProps {
     isModal: boolean;
     closeModal: () => void;
     activeModal: () => void;
+    noneActiveModal: () => void;
     title: string;
 }
 
 
-export default function CheckDelteModal({ isModal, closeModal, activeModal, title }: ChangeStateModalProps) {
+export default function CheckReportModal({ isModal, closeModal, activeModal, noneActiveModal, title }: CheckReportModalProps) {
     if (!isModal) return null;
 
     return (
@@ -20,11 +24,12 @@ export default function CheckDelteModal({ isModal, closeModal, activeModal, titl
                 onClick={(e) => e.stopPropagation()}>
                 <article>
                     <div className="flex justify-between border-b-[#1E2939] border-b items-center pb-8 pt-2">
-                        <h3 className="font-bold text-xl text-[#E8EAF0]">댓글 관리</h3>
+                        <h3 className="font-bold text-xl text-[#E8EAF0]">신고 사유 확인</h3>
                         <img src={CloseButton} onClick={closeModal} />
                     </div>
                     <div className="flex justify-between items-center my-4">
                         <h3 className="font-bold text-xl text-[#E8EAF0] py-2">이름</h3>
+                        <ReportReason text='음란물' />
                     </div>
                     <div
                         className="border-[#364153] border w-full h-47 p-6 bg-[#1E2939] rounded-2xl resize-none focus:border-[#BFFF0B] text-white focus:outline-none"
@@ -34,10 +39,17 @@ export default function CheckDelteModal({ isModal, closeModal, activeModal, titl
                 </article>
                 <article className='flex gap-3'>
                     <button
+                        type="button"
+                        onClick={noneActiveModal}
+                        className='w-full flex pt-2 pb-3 justify-center items-center rounded-lg text-white text-center font-semibold text-base bg-[#1E2939]'
+                    >
+                        반려
+                    </button>
+                    <button
                         onClick={activeModal}
                         className='w-full flex pt-2 pb-3 justify-center items-center rounded-lg text-black text-center font-semibold text-base bg-[#BFFF0B]'
                     >
-                        삭제하기
+                        승인
                     </button>
                 </article>
             </form>

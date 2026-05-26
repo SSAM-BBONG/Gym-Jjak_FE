@@ -5,11 +5,13 @@ interface TrainerDetailModal {
     isModal: boolean;
     closeModal: () => void;
     activeModal: () => void;
+    noneActiveModal: () => void;
+    mode: string;
     title: string;
 }
 
 
-export default function TrainerDetailModal({ isModal, closeModal, activeModal, title }: TrainerDetailModal) {
+export default function TrainerDetailModal({ isModal, closeModal, activeModal, noneActiveModal, mode, title }: TrainerDetailModal) {
     if (!isModal) return null;
 
     return (
@@ -35,6 +37,16 @@ export default function TrainerDetailModal({ isModal, closeModal, activeModal, t
                         </div>
                     </div>
                     <section className="flex flex-col gap-6">
+                        {mode === 'trainerView' && (
+                            <article>
+                                <p className="text-white font-bold text-lg mb-3.5">소속 조직</p>
+                                <div
+                                    className="flex items-center gap-4 border-[#364153] border w-full p-4 mt-2 bg-[#1E2939] rounded-md text-[#D1D5DC] text-base font-normal"
+                                >
+                                    <p>안녕하세요</p>
+                                </div>
+                            </article>
+                        )}
                         <article>
                             <p className="text-white font-bold text-lg mb-3.5">자기소개</p>
                             <div
@@ -66,21 +78,23 @@ export default function TrainerDetailModal({ isModal, closeModal, activeModal, t
                         </article>
                     </section>
                 </article>
-                <article className='flex gap-3 mt-10'>
-                    <button
-                        type="button"
-                        onClick={closeModal}
-                        className='w-full flex pt-2 pb-3 justify-center items-center rounded-lg text-white text-center font-semibold text-base bg-[#1E2939]'
-                    >
-                        아니오
-                    </button>
-                    <button
-                        onClick={activeModal}
-                        className='w-full flex pt-2 pb-3 justify-center items-center rounded-lg text-black text-center font-semibold text-base bg-[#BFFF0B]'
-                    >
-                        예
-                    </button>
-                </article>
+                {mode !== 'trainerView' && (
+                    <article className='flex gap-3 mt-10'>
+                        <button
+                            type="button"
+                            onClick={noneActiveModal}
+                            className='w-full flex pt-2 pb-3 justify-center items-center rounded-lg text-white text-center font-semibold text-base bg-[#1E2939]'
+                        >
+                            반려
+                        </button>
+                        <button
+                            onClick={activeModal}
+                            className='w-full flex pt-2 pb-3 justify-center items-center rounded-lg text-black text-center font-semibold text-base bg-[#BFFF0B]'
+                        >
+                            승인
+                        </button>
+                    </article>
+                )}
             </form>
         </section>
     );
