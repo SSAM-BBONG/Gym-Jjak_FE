@@ -6,11 +6,13 @@ interface OrganizationDetailModalProps {
     isModal: boolean;
     closeModal: () => void;
     activeModal: () => void;
+    noneActiveModal: () => void;
+    mode: string;
     title: string;
 }
 
 
-export default function OrganizationDetailModal({ isModal, closeModal, activeModal, title }: OrganizationDetailModalProps) {
+export default function OrganizationDetailModal({ isModal, closeModal, activeModal, noneActiveModal, mode, title }: OrganizationDetailModalProps) {
     if (!isModal) return null;
 
     return (
@@ -94,31 +96,37 @@ export default function OrganizationDetailModal({ isModal, closeModal, activeMod
                             <AdminModalP title='운동 시설 번호' />
                             <AdminModalDiv content="F-2018-003" />
                         </article>
-                        <article>
-                            <AdminModalP title='소속 트레이너 수' />
-                            <AdminModalDiv content="5명" />
-                        </article>
-                        <article>
-                            <AdminModalP title='승인일' />
-                            <AdminModalDiv content="2026-10-04" />
-                        </article>
+                        {mode === 'organizationView' && (
+                            <>
+                                <article>
+                                    <AdminModalP title='소속 트레이너 수' />
+                                    <AdminModalDiv content="5명" />
+                                </article>
+                                <article>
+                                    <AdminModalP title='승인일' />
+                                    <AdminModalDiv content="2026-10-04" />
+                                </article>
+                            </>
+                        )}
                     </section>
                 </article>
-                <article className='flex gap-3 mt-10'>
-                    <button
-                        type="button"
-                        onClick={closeModal}
-                        className='w-full flex pt-2 pb-3 justify-center items-center rounded-lg text-white text-center font-semibold text-base bg-[#1E2939]'
-                    >
-                        아니오
-                    </button>
-                    <button
-                        onClick={activeModal}
-                        className='w-full flex pt-2 pb-3 justify-center items-center rounded-lg text-black text-center font-semibold text-base bg-[#BFFF0B]'
-                    >
-                        예
-                    </button>
-                </article>
+                {mode !== 'organizationView' && (
+                    <article className='flex gap-3 mt-10'>
+                        <button
+                            type="button"
+                            onClick={noneActiveModal}
+                            className='w-full flex pt-2 pb-3 justify-center items-center rounded-lg text-white text-center font-semibold text-base bg-[#1E2939]'
+                        >
+                            반려
+                        </button>
+                        <button
+                            onClick={activeModal}
+                            className='w-full flex pt-2 pb-3 justify-center items-center rounded-lg text-black text-center font-semibold text-base bg-[#BFFF0B]'
+                        >
+                            승인
+                        </button>
+                    </article>
+                )}
             </form>
         </section>
     );

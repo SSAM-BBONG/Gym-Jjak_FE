@@ -3,7 +3,7 @@
 import { useState } from "react"
 
 
-function useModal(activefunc?: () => void) {
+function useModal(activefunc?: () => void, noneActivefunc?: () => void) {
     const [isModal, setIsModal] = useState<boolean>(false);
 
     //모달 여는 함수 
@@ -16,13 +16,18 @@ function useModal(activefunc?: () => void) {
         setIsModal(false);
     }
 
+    const noneActiveModal = (): void => {
+        setIsModal(false);
+        noneActivefunc?.();
+    }
+
     //모달이 실행될 때 일어나는 함수
     const activeModal = (): void => {
         setIsModal(false);
         activefunc?.();
     }
 
-    return { openModal, closeModal, activeModal, isModal }
+    return { openModal, closeModal, activeModal, noneActiveModal, isModal }
 }
 
 export default useModal

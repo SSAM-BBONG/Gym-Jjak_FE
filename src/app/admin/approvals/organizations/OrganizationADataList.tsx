@@ -1,0 +1,24 @@
+import SearchBar from "@/feature/admin/components/SearchBar";
+import OrganizationADataItem from "./OrganizationADataItem";
+
+export default function OrganizationADataList() {
+    return (
+        <div>
+            <SearchBar></SearchBar>
+            <section className="bg-[#1E2939] border-[#364153] border-separate border-spacing-0 border mt-6 rounded-md w-full ">
+                <div style={{ display: 'grid' }} className="!gird grid-cols-13 px-6 text-[#99A1AF] font-bold text-sm border-0 h-13 items-center">
+                    <p className="col-span-3">아이디</p>
+                    <p className="col-span-3">상호</p>
+                    <p className="col-span-2">대표자</p>
+                    <p className="col-span-3">전화번호</p>
+                    <p className="col-span-2">상세</p>
+                </div>
+                <OrganizationADataItem />
+                <OrganizationADataItem />
+                <OrganizationADataItem />
+                <OrganizationADataItem />
+                <OrganizationADataItem />
+            </section>
+        </div>
+    );
+}

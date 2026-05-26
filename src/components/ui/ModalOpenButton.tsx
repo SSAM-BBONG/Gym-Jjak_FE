@@ -6,9 +6,9 @@ import OneButtonModal from "./OneButtonModal";
 import TwoButtonModal from "./TwoButtonModal";
 import TrainerRejectModal from "@/feature/admin/components/modals/TrainerRejectModal";
 import TrainerDetailModal from "@/feature/admin/components/modals/TrainerDatailModal";
-import OrganigationDetailModal from "@/feature/admin/components/modals/OrganizationDetailModal";
 import OrganizationDetailModal from "@/feature/admin/components/modals/OrganizationDetailModal";
-import CheckDelteModal from "@/feature/admin/components/modals/CheckDeleteModal";
+import CheckReportModal from "@/feature/admin/components/modals/CheckReportModal";
+import CheckViewModal from "@/feature/admin/components/modals/CheckViewModal";
 
 export default function ModalOpenButton() {
 
@@ -24,8 +24,9 @@ export default function ModalOpenButton() {
     const modal4 = useModal(handleConfirm1);
     const modal5 = useModal(handleConfirm1);
     const modal6 = useModal(handleConfirm1);
+    const modal7 = useModal(handleConfirm1);
     return (
-        <>
+        <div className="text-white">
             <button onClick={modal.openModal}>
                 원버튼모달 오픈
             </button>
@@ -52,6 +53,10 @@ export default function ModalOpenButton() {
             |
             <button onClick={modal6.openModal}>
                 댓글
+            </button>
+            |
+            <button onClick={modal7.openModal}>
+                신고
             </button>
 
             <OneButtonModal
@@ -82,20 +87,31 @@ export default function ModalOpenButton() {
                 isModal={modal4.isModal}
                 closeModal={modal4.closeModal}
                 activeModal={modal4.activeModal}
+                noneActiveModal={modal4.noneActiveModal}
+                mode="trainerView"
                 title='모달입니다'
             />
             <OrganizationDetailModal
                 isModal={modal5.isModal}
                 closeModal={modal5.closeModal}
                 activeModal={modal5.activeModal}
+                noneActiveModal={modal5.noneActiveModal}
+                mode='organizationApprove'
                 title='모달입니다'
             />
-            <CheckDelteModal
+            <CheckViewModal
                 isModal={modal6.isModal}
                 closeModal={modal6.closeModal}
-                activeModal={modal6.activeModal}
+                mode='comment'
                 title='모달입니다'
             />
-        </>
+            <CheckReportModal
+                isModal={modal7.isModal}
+                closeModal={modal7.closeModal}
+                activeModal={modal7.activeModal}
+                noneActiveModal={modal7.noneActiveModal}
+                title='모달입니다'
+            />
+        </div>
     );
 }

@@ -1,3 +1,8 @@
+'use client'
+
+import useModal from "@/components/hooks/useModal";
+import CheckViewModal from "./modals/CheckViewModal";
+
 interface ActiveStatusProps {
     text: '활성' | '영구 정지' | '7일 정지' | '탈퇴'
 }
@@ -10,9 +15,20 @@ const colorVariants = {
 };
 
 export default function ActiveStatus({ text }: ActiveStatusProps) {
+    const modal = useModal();
     return (
-        <div className={`py-1 px-3 font-medium text-xs rounded-lg border ${colorVariants[text]}`}>
-            {text}
-        </div>
+        <>
+            <div
+                onClick={(text === '영구 정지' || text === '7일 정지') ? modal.openModal : () => { }}
+                className={`py-1 px-3 font-medium text-xs rounded-lg border inline ${colorVariants[text]}`}>
+                {text}
+            </div>
+            <CheckViewModal
+                isModal={modal.isModal}
+                closeModal={modal.closeModal}
+                mode='report'
+                title='모달입니다'
+            />
+        </>
     );
 }
