@@ -8,7 +8,7 @@ import {
 
 export default function Page() {
   return (
-    <div className="px-30 bg-[#0B0F19] flex flex-col gap-6">
+    <div className="px-30 flex flex-col gap-6">
       <div className="flex justify-between mt-[80px] mb-[90px]">
         <div className="flex flex-col gap-8">
           <p className="font-normal text-[14px] text-[#99A1AF]"> 전문적인 PT를 원하는 사람들</p>
