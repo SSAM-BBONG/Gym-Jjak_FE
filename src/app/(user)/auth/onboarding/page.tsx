@@ -1,6 +1,6 @@
 export default function Page() {
     return (
-        <div className="w-screen">
+        <>
             <section className="w-2xl m-auto">
                 <div className="w-full flex justify-between mb-3">
                     <p className="text-[#99A1AF] font-normal text-sm">단계</p><p className="font-medium text-sm text-[#BFFF0B]">100%</p>
@@ -22,6 +22,6 @@ export default function Page() {
                     <button className="ml-auto bg-[#BFFF0B] py-3 px-8 rounded-[10px] text-base font-bold">다음</button>
                 </article>
             </section>
-        </div>
+        </>
     );
 }
