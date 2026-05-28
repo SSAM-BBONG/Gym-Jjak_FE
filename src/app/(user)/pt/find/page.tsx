@@ -1,6 +1,6 @@
 import PtFindCard from "@/feature/pt/components/PtFindCard"
 
-export default function Page() {
+export default function PtFindPage() {
     return (
         <div className="grid grid-cols-[0.7fr_1.3fr] h-[calc(100vh-70px)] overflow-hidden">
             <div className="flex flex-[3] flex-col gap-6 p-6 min-h-0 overflow-y-auto scrollbar-none">
