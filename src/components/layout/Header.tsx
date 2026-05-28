@@ -5,7 +5,7 @@ import Link from "next/link";
 
 export default function Header() {
     return (
-        <div className="fixed w-full h-17.5 bg-black flex-1 flex items-center justify-between px-30">
+        <header className="fixed top-0 left-0 w-full h-17.5 bg-black flex-1 flex items-center justify-between px-30">
             <div className="flex items-center gap-3">
                 <div className="bg-[#BFFF0B] size-10 rounded-[10px] flex items-center justify-center">
                     <img src={Logo} alt="로고"/>
@@ -29,6 +29,6 @@ export default function Header() {
                 <button className="bg-[#BFFF0B] px-4 py-2 rounded-[10px] text[14px]"> 로그인 </button>
                 <UserProfile/>
             </div>
-        </div>
+        </header>
     );
 }

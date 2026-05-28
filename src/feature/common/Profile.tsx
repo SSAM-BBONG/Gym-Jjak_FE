@@ -1,6 +1,7 @@
 'use client'
 
 import { HeaderLogout, HeaderProfile, Profile } from "@/components/ui/image";
+import Link from "next/link";
 import { useState } from "react";
 
 export default function UserProfile() {
@@ -24,7 +25,7 @@ export default function UserProfile() {
                         <hr className="border-t-[#1E2939]"/>
                         <div className="flex gap-3 items-center">
                             <img src={HeaderProfile} alt="헤더 마이페이지"/>
-                            <p className="text-[#D1D5DC] text-[14px] hover:text-[#BFFF0B] cursor-pointer"> 마이페이지</p>
+                            <Link href='/mypage'><p className="text-[#D1D5DC] text-[14px] hover:text-[#BFFF0B] cursor-pointer"> 마이페이지</p> </Link>
                         </div>
                         <div className="flex gap-3 items-center">
                             <img src={HeaderLogout} alt="로그아웃"/>
