@@ -1,4 +1,4 @@
-import { FooterBlog, FooterEmail, FooterInsta, FooterLocation, FooterNumber, FooterYoutube, Logo } from "../ui/image";
+import { CommonLocation, FooterBlog, FooterEmail, FooterInsta, FooterNumber, FooterYoutube, Logo } from "../ui/image";
 
 export default function UserFooter() {
   return (
@@ -28,7 +28,7 @@ export default function UserFooter() {
                 <p className="text-[#99A1AF]"> 02-1004-5678 </p>
             </div>
             <div className="flex gap-2 items-center">
-                <img src={FooterLocation} alt="하단바 위치 로고"/>
+                <img src={CommonLocation} alt="하단바 위치 로고"/>
                 <p className="text-[#99A1AF]"> 경기도 성남시 수정구 산성대로 553 을지대학교 </p>
             </div>
           </div>
