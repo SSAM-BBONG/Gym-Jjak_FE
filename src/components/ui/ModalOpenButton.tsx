@@ -9,6 +9,8 @@ import TrainerDetailModal from "@/feature/admin/components/modals/TrainerDatailM
 import OrganizationDetailModal from "@/feature/admin/components/modals/OrganizationDetailModal";
 import CheckReportModal from "@/feature/admin/components/modals/CheckReportModal";
 import CheckViewModal from "@/feature/admin/components/modals/CheckViewModal";
+import AdminPagination from "@/feature/admin/components/AdminPagination";
+import PtReservationModal from "@/feature/pt/components/PtReservationModal";
 
 export default function ModalOpenButton() {
 
@@ -25,8 +27,11 @@ export default function ModalOpenButton() {
     const modal5 = useModal(handleConfirm1);
     const modal6 = useModal(handleConfirm1);
     const modal7 = useModal(handleConfirm1);
+    const modal8 = useModal(handleConfirm1);
     return (
         <div className="text-white">
+
+            {/* <AdminPagination mode={'COMMENT'} /> */}
             <button onClick={modal.openModal}>
                 원버튼모달 오픈
             </button>
@@ -57,6 +62,10 @@ export default function ModalOpenButton() {
             |
             <button onClick={modal7.openModal}>
                 신고
+            </button>
+            |
+            <button onClick={modal8.openModal}>
+                캘린더
             </button>
 
             <OneButtonModal
@@ -110,6 +119,13 @@ export default function ModalOpenButton() {
                 closeModal={modal7.closeModal}
                 activeModal={modal7.activeModal}
                 noneActiveModal={modal7.noneActiveModal}
+                title='모달입니다'
+            />
+            <PtReservationModal
+                isModal={modal8.isModal}
+                closeModal={modal8.closeModal}
+                activeModal={modal8.activeModal}
+                noneActiveModal={modal8.noneActiveModal}
                 title='모달입니다'
             />
         </div>
