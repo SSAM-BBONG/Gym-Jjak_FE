@@ -1,7 +1,8 @@
 'use server'
 
+import { axiosFetch } from "@/lib/api";
 import { SignUpFormData } from "@/lib/registerSchema";
-import { login, register } from "@/service/auth.service";
+import { login, logout, register } from "@/service/auth.service";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -111,4 +112,15 @@ export const registerAction = async (payload: SignUpFormData): Promise<ActionSta
         message: '회원가입 성공'
     }
 
+}
+
+export const logoutAction = async () => {
+    try {
+        await logout();
+    } catch(error) {
+    }
+    const cookieStore = await cookies();
+    cookieStore.delete('accessToken');
+
+    redirect('/');
 }
