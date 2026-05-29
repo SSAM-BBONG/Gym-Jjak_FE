@@ -1,11 +1,18 @@
 import SearchBar from "@/feature/admin/components/SearchBar";
 import ReportDataItem from "./ReportDataItem";
+import AdminPagination from "@/feature/admin/components/AdminPagination";
 
-interface ReportMode {
-    mode: 'review' | 'comment' | 'PT' | 'feedback' | 'post'
+interface ReportDataListProps {
+    mode: 'TRAINER_REVIEW' | 'COMMENT' | 'PT_COURSE' | 'FEEDBACK' | 'POST';
+    searchParams: Promise<{
+        page: string;
+    }>
 }
 
-export default function ReportDataList({ mode }: ReportMode) {
+export default async function ReportDataList({ mode, searchParams }: ReportDataListProps) {
+
+    const { page } = await searchParams;
+
     return (
         <div>
             <SearchBar></SearchBar>
@@ -22,6 +29,7 @@ export default function ReportDataList({ mode }: ReportMode) {
                 </div>
                 <ReportDataItem mode={mode} />
             </section>
+            <AdminPagination mode={mode} page={page} />
         </div>
     );
 }

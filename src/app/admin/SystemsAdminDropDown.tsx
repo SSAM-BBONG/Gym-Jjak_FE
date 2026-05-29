@@ -19,8 +19,8 @@ export default function SystemsAdminDropDown() {
                 <img src={AdminSystems} alt="시스템 관리" />시스템 관리<img src={AdminArrowButton} alt="화살표 버튼" className={dropDownView ? "ml-auto -rotate-90" : "ml-auto"} />
             </div>
             <ul hidden={dropDownView} className="px-4">
-                <li><AdminNavLink href='/admin/systems/categories'>카테고리 관리</AdminNavLink></li>
-                <li><AdminNavLink href='/admin/systems/tags'>태그 관리</AdminNavLink></li>
+                <li><AdminNavLink href='/admin/systems/categories?page=1'>카테고리 관리</AdminNavLink></li>
+                <li><AdminNavLink href='/admin/systems/tags?page=1'>태그 관리</AdminNavLink></li>
             </ul>
         </section>
     );

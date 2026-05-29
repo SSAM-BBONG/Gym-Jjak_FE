@@ -9,8 +9,9 @@ import TwoButtonModal from "@/components/ui/TwoButtonModal";
 import TrainerRejectModal from "./modals/TrainerRejectModal";
 
 interface DetailButtonMode {
-    mode: 'trainerView' | 'organizationView' | 'trainerApprove' | 'organizationApprove' | 'review' | 'comment' | 'PT' | 'feedback' | 'post'
+    mode: 'trainerView' | 'organizationView' | 'trainerApprove' | 'organizationApprove' | 'TRAINER_REVIEW' | 'COMMENT' | 'PT_COURSE' | 'FEEDBACK' | 'POST'
 }
+
 
 export default function DetailButton({ mode }: DetailButtonMode) {
 
@@ -46,7 +47,7 @@ export default function DetailButton({ mode }: DetailButtonMode) {
             trainerModal.openModal();
         } else if (mode === 'organizationView' || mode === 'organizationApprove') {
             organizationModal.openModal();
-        } else if (mode === 'review' || mode === 'comment') {
+        } else if (mode === 'TRAINER_REVIEW' || mode === 'COMMENT') {
             viewModal.openModal();
         } else {
             window.open("http://localhost:3000/admin", "_blank", "noopener,noreferrer");
