@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { CommonLocation, FooterBlog, FooterEmail, FooterInsta, FooterNumber, FooterYoutube, Logo } from "../ui/image";
 
 export default function UserFooter() {
@@ -33,20 +34,26 @@ export default function UserFooter() {
             </div>
           </div>
           <div className="flex items-center gap-3">
-            <p className="flex items-center justify-center size-[40px] rounded-full bg-[#1E2939]"> <img src={FooterBlog} alt="하단바 블로그 로고"/></p>
-            <p className="flex items-center justify-center size-[40px] rounded-full bg-[#1E2939]"> <img src={FooterInsta} alt="하단바 인스타 로고"/></p>
-            <p className="flex items-center justify-center size-[40px] rounded-full bg-[#1E2939]"> <img src={FooterYoutube} alt="하단바 유튜브 로고"/></p>
+            <p className="flex items-center justify-center size-10 rounded-full bg-[#1E2939]"> <img src={FooterBlog} alt="하단바 블로그 로고"/></p>
+            <p className="flex items-center justify-center size-10 rounded-full bg-[#1E2939]"> <img src={FooterInsta} alt="하단바 인스타 로고"/></p>
+            <p className="flex items-center justify-center size-10 rounded-full bg-[#1E2939]"> <img src={FooterYoutube} alt="하단바 유튜브 로고"/></p>
           </div>
         </div>
-        <div className="flex flex-col gap-[14px]">
+        <div className="flex flex-col gap-3.5">
           <p className="text-white"> 서비스 </p>
-          <p className="text-[#99A1AF] hover:text-[#BFFF0B]"> PT ZONE </p>
-          <p className="text-[#99A1AF] hover:text-[#BFFF0B]"> 홈트 ZONE </p>
-          <p className="text-[#99A1AF] hover:text-[#BFFF0B]"> 커뮤니티 </p>
-          <p className="text-[#99A1AF] hover:text-[#BFFF0B]"> 캘린더 </p>
+          <Link href="/pt">
+            <p className="text-[#99A1AF] hover:text-[#BFFF0B] cursor-pointer"> PT ZONE </p>
+          </Link>
+            <p className="text-[#99A1AF] hover:text-[#BFFF0B] cursor-pointer"> 홈트 ZONE </p>
+          <Link href="/community">
+            <p className="text-[#99A1AF] hover:text-[#BFFF0B] cursor-pointer"> 커뮤니티 </p>
+          </Link>
+          <Link href="/calender">
+            <p className="text-[#99A1AF] hover:text-[#BFFF0B] cursor-pointer"> 캘린더 </p>
+          </Link>
         </div>
       </div>
-      <hr className="border-t-[#1E2939] mt-[40px]"/>
+      <hr className="border-t-[#1E2939] mt-10"/>
       <div className="flex gap-4 mt-6 mb-4"> 
         <p className="text-[#6A7282] hover:text-white"> 이용약관 </p>
         <p className="text-[#6A7282]"> | </p>
