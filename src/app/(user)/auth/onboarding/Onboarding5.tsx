@@ -1,4 +1,4 @@
-export default function Page() {
+export default function Onboarding5() {
     return (
         <section className="w-2xl m-auto">
             <div className="w-full flex justify-between mb-3">
@@ -9,16 +9,9 @@ export default function Page() {
                 <h1 className="font-black text-5xl text-white mb-4.5">신체 정보를 입력해주세요</h1>
                 <p className="font-normal text-lg text-[#99A1AF] mb-12">맞춤형 운동 계획을 위해 필요해요</p>
             </article>
-            <article className="flex flex-col gap-3 mb-12 w-md m-auto">
-                <label className="text-sm font-medium text-[#D1D5DC]">키 (cm)</label>
-                <input
-                    placeholder="키를 작성해주세요"
-                    className="px-6 py-4 mb-6 border border-[#364153] bg-[#101828] rounded-[10px] text-white focus:outline-0 focus:border-[#BFFF0B]" />
-                <label className="text-sm font-medium text-[#D1D5DC]">체중 (kg)</label>
-                <input
-                    placeholder="체중을 작성해주세요"
-                    className="px-6 py-4 border border-[#364153] bg-[#101828] rounded-[10px] text-white focus:outline-0 focus:border-[#BFFF0B]" />
-            </article>
+            <form>
+
+            </form>
             <article className="flex">
                 <button className="py-3 px-8 rounded-[10px] text-base font-bold bg-[#10182880] text-[#D1D5DC]">이전</button>
                 <button className="ml-auto bg-[#BFFF0B] py-3 px-8 rounded-[10px] text-base font-bold">다음</button>
