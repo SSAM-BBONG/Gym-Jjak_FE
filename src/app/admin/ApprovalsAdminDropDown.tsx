@@ -19,8 +19,8 @@ export default function ApprovalsAdminDropDown() {
                 <img src={AdminApprovals} alt="승인 관리" />승인 관리<img src={AdminArrowButton} alt="화살표 버튼" className={dropDownView ? "ml-auto -rotate-90" : "ml-auto"} />
             </div>
             <ul hidden={dropDownView} className="px-4">
-                <li><AdminNavLink href="/admin/approvals/organizations">조직 승인</AdminNavLink></li>
-                <li><AdminNavLink href="/admin/approvals/trainers">트레이너 승인</AdminNavLink></li>
+                <li><AdminNavLink href="/admin/approvals/organizations?page=1">조직 승인</AdminNavLink></li>
+                <li><AdminNavLink href="/admin/approvals/trainers?page=1">트레이너 승인</AdminNavLink></li>
             </ul>
         </section>
     );
