@@ -1,10 +1,11 @@
 'use client'
 
-import { Calendar } from "@/components/ui/calendar";
+
 import { useState } from "react";
 import { ko } from "date-fns/locale"
 import CalendarAddButton from "./CalendarAddButton";
 import CalendarItem from "@/feature/calendar/components/CalendarItem";
+import { MainCalendar } from "@/components/ui/mainCalendar";
 
 export default function Page() {
 
@@ -31,14 +32,14 @@ export default function Page() {
 
     return (
         <div className="flex">
-            <Calendar
+            <MainCalendar
                 mode="single"
                 locale={ko}
                 selected={date}
                 onSelect={setDate}
                 className="rounded-lg border"
             />
-            <section className="w-2/5 text-white ml-8">
+            <section className="text- w-2/5 text-white ml-8">
                 <div className="flex justify-between mb-2">
                     <h1 className="font-black text-5xl">{day}</h1>
                     {currentDay === selectDay && <CalendarAddButton />}
