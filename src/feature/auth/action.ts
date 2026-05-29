@@ -38,13 +38,13 @@ export const loginAction = async (prevState: ActionState, formData: FormData): P
 
     const cookieStore = await cookies();
 
-    cookieStore.set('accessToken', response.data.accessToken, {
+    cookieStore.set('accessToken', response.data.data.accessToken, {
         httpOnly: true,
         maxAge: 60 * 60,
         path: '/'
     });
 
-    redirect('/');
+    // redirect('/');
 
     return {
         success: true,
@@ -99,6 +99,8 @@ export const registerAction = async (payload: SignUpFormData): Promise<ActionSta
 
 
     try {
+        // await axiosFetch.post('/api/auth/signup', { username, password, name, nickname, phone })
+        // await axios.post('http://localhost:8081/api/auth/signup', { username, password, name, nickname, phone });
         await register({ username, password, name, nickname, phone });
     } catch (error) {
         return {

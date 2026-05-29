@@ -5,7 +5,7 @@ import { cookies } from "next/headers";
 
 // 공통 설정
 export const axiosFetch = axios.create({
-    baseURL: process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8080',
+    baseURL: process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8081',
     timeout: 5000,// 백엔드의 응답을 기다리는 시간(경과되면 오류터짐), 없으면 서버의 응답을 무한으로 기다림(무한 로딩)
     headers: {
         'Content-Type': 'application/json',
@@ -45,13 +45,13 @@ axiosFetch.interceptors.response.use(
                 case 401:
 
                     try {
-                        const base_url = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8080';
+                        const base_url = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8081';
 
-                        const res = await axios.post(`${base_url}/api/users/token/reissue`)
+                        const res = await axios.post(`${base_url}/api/token/reissue`)
                         const cookieStore = await cookies();
-                        cookieStore.set('accessToken', res.data.accessToken, {
+                        cookieStore.set('accessToken', res.data.data.accessToken, {
                             httpOnly: true,   // 자바스크립트 접근 불가(xss 방지)
-                            maxAge: 60 * 60,   // 1시간
+                            maxAge: 60 * 15,   // 15분
                             path: '/'
                         })
 
