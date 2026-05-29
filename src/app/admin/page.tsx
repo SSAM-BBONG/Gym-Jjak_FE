@@ -1,5 +1,7 @@
+import ModalOpenButton from "@/components/ui/ModalOpenButton";
+
 export default function Page() {
     return (
-        <div></div>
+        <div><ModalOpenButton /></div>
     );
 }
