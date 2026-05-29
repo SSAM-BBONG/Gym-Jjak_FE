@@ -1,5 +1,3 @@
-USE gymjjak_db;
-
 -- GymJjak 1st Project Schema (MySQL 8.x)
 -- Version: v4, Team meeting updates applied + single tag per PT course.
 -- Generated from ERD export after syntax/constraint cleanup.
@@ -157,7 +155,7 @@ CREATE TABLE organization_applications (
                                            business_name VARCHAR(100) NOT NULL,
                                            representative_name VARCHAR(50) NOT NULL,
                                            representative_phone VARCHAR(20) NOT NULL,
-                                           opening_date VARCHAR(20) NOT NULL,
+                                           opening_date DATE NOT NULL,
                                            road_address VARCHAR(255) NOT NULL,
                                            jibun_address VARCHAR(255) NULL,
                                            detail_address VARCHAR(255) NULL,
@@ -581,20 +579,26 @@ CREATE TABLE report_groups (
                                snapshot_title TEXT NULL,
                                snapshot_content TEXT NULL,
                                snapshot_file_url VARCHAR(500) NULL,
-                               report_count INT NOT NULL DEFAULT 1,
-                               access_count INT NOT NULL DEFAULT 0,
-                               status VARCHAR(30) NOT NULL DEFAULT 'PENDING',
+
+                               total_report_count INT NOT NULL DEFAULT 1,
+                               effective_report_count INT NOT NULL DEFAULT 1,
+
+                               review_status VARCHAR(30) NOT NULL DEFAULT 'PENDING',
+                               sanction_status VARCHAR(30) NOT NULL DEFAULT 'NONE',
+
                                processed_by BIGINT NULL,
                                created_at DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
                                updated_at DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
                                deleted_at DATETIME(6) NULL,
+
                                CONSTRAINT pk_report_groups PRIMARY KEY (report_group_id),
                                CONSTRAINT uk_report_groups_report_number UNIQUE (report_number),
                                CONSTRAINT uk_report_groups_target UNIQUE (target_type, target_id),
                                CONSTRAINT fk_report_groups_target_owner FOREIGN KEY (target_owner_id) REFERENCES users(user_id),
                                CONSTRAINT fk_report_groups_processed_by FOREIGN KEY (processed_by) REFERENCES users(user_id),
-                               CONSTRAINT chk_report_groups_count CHECK (report_count >= 1),
-                               CONSTRAINT chk_report_groups_access_count CHECK (access_count >= 0)
+
+                               CONSTRAINT chk_report_groups_total_count CHECK (total_report_count >= 0),
+                               CONSTRAINT chk_report_groups_effective_count CHECK (effective_report_count >= 0)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE reports (
@@ -602,12 +606,18 @@ CREATE TABLE reports (
                          report_group_id BIGINT NOT NULL,
                          reporter_id BIGINT NOT NULL,
                          reason VARCHAR(50) NOT NULL,
-                         detail VARCHAR(500) NULL,
+                         detail TEXT NULL,
+                         status VARCHAR(30) NOT NULL,
+                         processed_by BIGINT NULL,
+                         processed_at DATETIME(6) NULL,
                          created_at DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
                          CONSTRAINT pk_reports PRIMARY KEY (report_id),
-                         CONSTRAINT uk_reports_group_reporter UNIQUE (report_group_id, reporter_id),
-                         CONSTRAINT fk_reports_group FOREIGN KEY (report_group_id) REFERENCES report_groups(report_group_id) ON DELETE CASCADE,
-                         CONSTRAINT fk_reports_reporter FOREIGN KEY (reporter_id) REFERENCES users(user_id)
+                         CONSTRAINT fk_reports_report_group FOREIGN KEY (report_group_id) REFERENCES report_groups(report_group_id),
+                         CONSTRAINT fk_reports_reporter FOREIGN KEY (reporter_id) REFERENCES users(user_id),
+                         CONSTRAINT fk_reports_processed_by FOREIGN KEY (processed_by) REFERENCES users(user_id),
+                         INDEX idx_reports_group_created (report_group_id, created_at),
+                         INDEX idx_reports_reporter_created (reporter_id, created_at),
+                         INDEX idx_reports_status_created (status, created_at)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE notifications (
