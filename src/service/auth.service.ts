@@ -14,3 +14,9 @@ export const register = async (userInfo: RegisterRequest) => {
 
     return response;
 }
+
+export const logout = async () => {
+    const response = await axiosFetch.post('/api/auth/logout');
+
+    return response;
+}

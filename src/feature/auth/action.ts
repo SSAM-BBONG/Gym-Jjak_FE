@@ -161,3 +161,14 @@ export const registerAction = async (payload: SignUpFormData): Promise<ActionSta
     }
 
 }
+
+export const logoutAction = async () => {
+    try {
+        await logout();
+    } catch(error) {
+    }
+    const cookieStore = await cookies();
+    cookieStore.delete('accessToken');
+
+    redirect('/');
+}
