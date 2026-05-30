@@ -1,10 +1,11 @@
 'use server'
 
 import { SignUpFormData } from "@/lib/registerSchema";
-import { login, register } from "@/service/auth.service";
+import { login, logout, onboarding, register } from "@/service/auth.service";
 import axios from "axios";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { onbordingRequest } from "./type";
 
 interface ActionState {
     success: boolean;
@@ -165,10 +166,37 @@ export const registerAction = async (payload: SignUpFormData): Promise<ActionSta
 export const logoutAction = async () => {
     try {
         await logout();
-    } catch(error) {
+    } catch (error) {
     }
     const cookieStore = await cookies();
     cookieStore.delete('accessToken');
 
     redirect('/');
 }
+
+
+export const onboardingAction = async (payload: onbordingRequest): Promise<ActionState> => {
+    try {
+        await onboarding(payload);
+    } catch (error) {
+        let errorMessage: string = 'Unknown Error';
+        if (axios.isAxiosError(error)) {
+            // Axios 자체 에러인 경우
+            errorMessage = (error.response && error.response.data) ? error.response.data.message : error.message
+        } else if (error instanceof Error) {
+            // 일반적인 JS 에러인 경우
+            errorMessage = error.message;
+        }
+        return {
+            success: false,
+            message: errorMessage
+        }
+    }
+    redirect('/');
+
+    return {
+        success: true,
+        message: '로그인 성공'
+    }
+}
+
