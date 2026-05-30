@@ -1,3 +1,4 @@
+import Map from "@/components/ui/Map";
 import PtFindCard from "@/feature/pt/components/PtFindCard"
 
 export default function PtFindPage() {
@@ -13,6 +14,7 @@ export default function PtFindPage() {
                     <PtFindCard/>
             </div>
             <div className="flex-[7] bg-gray-500">
+                <Map/>
             </div>
         </div>
     );
