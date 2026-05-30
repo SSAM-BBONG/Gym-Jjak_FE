@@ -12,47 +12,44 @@ export interface MyTokenPayload {
     exp: number; //만료 시간
 }
 
+const defaultUserInfo = {
+    sub: '',
+    username: '',
+    role: '',
+    iat: 0,
+    exp: 0
+}
+
 export const decodeJWT = async () => {
     const cookieStore = await cookies();
-    const token = cookieStore.get('accessToken');
+    const token = cookieStore.get('accessToken')?.value;
+    const refreshToken = cookieStore.get('refreshToken')?.value;
 
-    if (!token) {
-        return {
-            sub: '',
-            username: '',
-            role: '',
-            iat: 0,
-            exp: 0
-        }
+    if (!refreshToken) {
+        return defaultUserInfo
     }
-    try {
-        const decoded = jwtDecode<MyTokenPayload>(token.value);
-
-        const expiryTime = decoded.exp * 1000;
-        const currentTime = Date.now();
-
-        if (currentTime >= expiryTime) {
+    if (refreshToken && !token) {
+        try {
             console.log("토큰 만료됨, 재발급 시작");
             const newToken = await refreshGet();
 
-            if (!newToken) return {
-                sub: '',
-                username: '',
-                role: '',
-                iat: 0,
-                exp: 0
-            };
-
+            if (!newToken) return defaultUserInfo
+            console.log('발급 성공')
             return jwtDecode<MyTokenPayload>(newToken);
-        }
-        return decoded
-    } catch (error) {
-        return {
-            sub: '',
-            username: '',
-            role: '',
-            iat: 0,
-            exp: 0
+        } catch (error) {
+            return defaultUserInfo
         }
     }
+    if (refreshToken && token) {
+        const decoded = jwtDecode<MyTokenPayload>(token);
+
+        if (Date.now() >= decoded.exp * 1000) {
+            const newToken = await refreshGet();
+            if (!newToken) return defaultUserInfo;
+            return jwtDecode<MyTokenPayload>(newToken);
+        }
+
+        return decoded;
+    }
+
 } 

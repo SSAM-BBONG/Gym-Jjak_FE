@@ -1,8 +1,8 @@
 'use server'
 
-import { axiosFetch } from "@/lib/api";
 import { SignUpFormData } from "@/lib/registerSchema";
-import { login, logout, register } from "@/service/auth.service";
+import { login, register } from "@/service/auth.service";
+import axios from "axios";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -30,9 +30,18 @@ export const loginAction = async (prevState: ActionState, formData: FormData): P
     try {
         response = await login(payload);
     } catch (error) {
+        let errorMessage: string = 'Unknown Error';
+        if (axios.isAxiosError(error)) {
+            // Axios 자체 에러인 경우
+            errorMessage = (error.response && error.response.data) ? error.response.data.message : error.message
+        } else if (error instanceof Error) {
+            // 일반적인 JS 에러인 경우
+            errorMessage = error.message;
+        }
+
         return {
             success: false,
-            message: error instanceof Error ? error.message : 'Unknown Error'
+            message: errorMessage
         }
     }
 
@@ -40,11 +49,41 @@ export const loginAction = async (prevState: ActionState, formData: FormData): P
 
     cookieStore.set('accessToken', response.data.data.accessToken, {
         httpOnly: true,
-        maxAge: 60 * 60,
+        maxAge: 60 * 15,
         path: '/'
     });
 
-    // redirect('/');
+    //백에서 보낸 쿠키 헤더 가져오기
+    const setCookieHeader = response.headers['set-cookie'];
+
+    // console.log(setCookieHeader)
+    // [
+    //     'refreshToken=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxOSIsInVzZXJuYW1lIjoic2lldW5AdGVzdC5jb20iLCJpYXQiOjE3ODAxMTA2MzAsImV4cCI6MTc4MTMyMDIzMH0.6wPwgV2PnS8nhq6qyKyrr022gbAyp-cjMH5cHdwNMPU; Path=/; Max-Age=1209600; Expires=Sat, 13 Jun 2026 03:10:31 GMT; HttpOnly; SameSite=Lax'
+    // ]
+
+    //쿠키에서 토큰 찾아서 넣는 부분
+    if (setCookieHeader) {
+        const refreshToken = setCookieHeader.find((cookie) => cookie.startsWith('refreshToken='));
+
+        const refreshValue = refreshToken?.split(';')[0].replace('refreshToken=', '');
+
+        if (refreshValue) {
+            cookieStore.set('refreshToken', refreshValue, {
+                httpOnly: true,
+                maxAge: 60 * 60 * 3,
+                path: '/'
+            });
+        }
+
+    }
+
+
+    if (response.data.data.onboardingCompleted) {
+        redirect('/');
+    } else {
+        redirect('/auth/onboarding?page=1');
+    }
+
 
     return {
         success: true,
@@ -99,13 +138,20 @@ export const registerAction = async (payload: SignUpFormData): Promise<ActionSta
 
 
     try {
-        // await axiosFetch.post('/api/auth/signup', { username, password, name, nickname, phone })
-        // await axios.post('http://localhost:8081/api/auth/signup', { username, password, name, nickname, phone });
         await register({ username, password, name, nickname, phone });
     } catch (error) {
+        let errorMessage: string = 'Unknown Error';
+        if (axios.isAxiosError(error)) {
+            // Axios 자체 에러인 경우
+            errorMessage = (error.response && error.response.data) ? error.response.data.message : error.message
+        } else if (error instanceof Error) {
+            // 일반적인 JS 에러인 경우
+            errorMessage = error.message;
+        }
+
         return {
             success: false,
-            message: error instanceof Error ? error.message : 'Unknown Error'
+            message: errorMessage
         }
     }
 
