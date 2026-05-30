@@ -4,7 +4,7 @@ import { jwtDecode } from "jwt-decode";
 import { cookies } from "next/headers"
 import { refreshGet } from "./stateError";
 
-interface MyTokenPayload {
+export interface MyTokenPayload {
     sub: string;
     username: string;
     role: string;
