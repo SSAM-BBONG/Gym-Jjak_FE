@@ -6,8 +6,8 @@ import { decodeJWT } from "@/lib/decode";
 export default async function PtZonePage() {
 
     // accessToken 디코딩 한 값 저장
-    const userinf = await  decodeJWT();
-
+    const userinf = await decodeJWT();
+    
     return (
         <div className="flex flex-col gap-10 px-40">
             <div className="pt-10">
@@ -15,7 +15,7 @@ export default async function PtZonePage() {
                 <p className="text-[16px] font-normal text-[#99A1AF]"> 전문 트레이너와 함께하는 1:1 맞춤 PT </p>
             </div>
             {/* 역할에 따라 서로 다른 UI 분기 설정 */}
-            { userinf.role === "trainer" ?
+            { userinf?.role === "TRAINER" ?
             (
             <div className="grid grid-cols-4 gap-6">
                 <PtCard 
