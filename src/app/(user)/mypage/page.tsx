@@ -1,38 +1,101 @@
 import {
-  MypageAccountSetting,
-  MypageApplication,
-  MypageContinuosDeclaration,
-  MypageInbody,
-  MypageMyActivity,
-  MypageOnboarding,
-  MypageOrganApplication,
-  MypageOrganization,
-  MypageProfile,
-  MypageStyle,
-  MypageUserEdit,
-  MypageWritePost,
+  MypageAccountSetting, MypageApplication, MypageContinuosDeclaration, MypageInbody, MypageMyActivity, MypageOnboarding,
+  MypageOrganApplication, MypageOrganization, MypageProfile, MypageStyle, MypageUserEdit, MypageWritePost,
+  Profile,
 } from "@/components/ui/image";
+import { decodeJWT } from "@/lib/decode";
 import Link from "next/link";
 
-export default function MyPage() {
+export default async function MyPage() {
+
+  // 사용자 정보 디코딩
+  const userinf = await  decodeJWT();
+
   return (
-    <div className="flex flex-col gap-1 pt-8">
+    <div className="flex flex-col gap-1 pt-8 px-40">
       <p className="text-[36px] font-black text-white"> 마이페이지</p>
       <p className="text-[14px] font-normal text-[#99A1AF]">
         나의 정보를 확인하고 관리하세요
       </p>
 
+    { userinf?.role === "TRAINER" 
+      ?
+      (
+        <>
+            <div
+            className="
+            flex flex-col
+            bg-[linear-gradient(135deg,rgba(16,24,40,0.90)0%,rgba(30,41,57,0.90)100%)]
+            border border-[#36415380]
+            rounded-[16px]
+            p-6
+            gap-6
+            "
+          >
+            <div className="flex gap-2 items-center">
+              <img src={MypageMyActivity} alt="마이페이지 나의 활동" />
+              <p className="text-[18px] font-extrabold text-white">나의 조직</p>
+            </div>
+            <Link href="/mypage/organization/manage">
+            <div className="flex justify-between bg-[#1E2939] rounded-[10px] p-4">
+              <p className="text-[14px] font-medium text-white">
+                내 조직 관리
+              </p>
+              <div className="flex gap-2">
+                <p className="text-[12px] font-medium text-[#6A7282]"> 12개 </p>
+                <p className="text-[12px] font-medium text-[#6A7282]"> 〉</p>
+              </div>
+            </div>
+            </Link>
+          </div>
+
+          <div
+            className="
+            flex flex-col
+            bg-[linear-gradient(135deg,rgba(16,24,40,0.90)0%,rgba(30,41,57,0.90)100%)]
+            border border-[#82181A4D]
+            rounded-[16px]
+            p-6
+            gap-6"
+          >
+            <div className="flex gap-2 items-center">
+              <img src={MypageAccountSetting} alt="마이페이지 계정 설정" />
+              <p className="text-[18px] font-extrabold text-[#FF6467]">
+                계정 설정
+              </p>
+            </div>
+
+            <Link href="/mypage/password">
+            <div className=" flex justify-between items-center p-4 bg-[#1E293980] rounded-[10px]">
+              <p className="text-[14px] font-medium text-[#99A1AF]">
+                비밀번호 변경
+              </p>
+              <p className="text-[12px] font-medium text-[#6A7282]"> 〉 </p>
+            </div>
+            </Link>
+
+            <div className=" flex justify-between items-center p-4 bg-[#1E293980] rounded-[10px]">
+              <p className="text-[14px] font-medium text-[#99A1AF]">
+                회원 탈퇴
+              </p>
+              <p className="text-[12px] font-medium text-[#6A7282]"> 〉 </p>
+            </div>
+          </div>
+          </>
+      ) : (
       <div className="flex gap-6 items-start mt-8">
         <div
           className="flex flex-col items-center p-6 flex-[2.5] rounded-[16px] gap-4
         bg-[linear-gradient(135deg,rgba(16,24,40,0.90)0%,rgba(30,41,57,0.90)100%)]"
         >
-          <div className="relative flex items-center justify-center size-20 rounded-full border-3 border-[#BFFF0B]">
+          <div className="relative flex items-center justify-center size-20 rounded-full  border-3 border-[#BFFF0B]">
+            <div className="w-full overflow-hidden rounded-full">
             <img
-              className="object-cotain"
-              src={MypageWritePost}
+              className="w-full"
+              src={Profile}
               alt="마이페이지 프로필 이미지"
             />
+            </div>
             <p
               className="
             px-3 py-1 
@@ -283,7 +346,7 @@ export default function MyPage() {
             </p>
 
             <div className="grid grid-cols-2 gap-3">
-              <Link href="/mypage/organization">
+              <Link href="/mypage/organization/application">
               <div className="flex flex-col bg-[#1E2939] rounded-[14px] p-4">
                 <div className="flex justify-between mb-3">
                   <img
@@ -305,6 +368,7 @@ export default function MyPage() {
                 </p>
               </div>
               </Link>
+              <Link href="/mypage/organization">
               <div className="flex flex-col bg-[#BFFF0B] rounded-[14px] p-4">
                 <div className="flex justify-between mb-3">
                   <img
@@ -314,77 +378,18 @@ export default function MyPage() {
                   <p className="text-[12px] font-extrabold text-black"> 〉</p>
                 </div>
                 <p className="text-[14px] font-extrabold text-black">
-                  
                   신청하기
                 </p>
                 <p className="text-[12px] font-medium text-black">
-                  
                   새로운 조직 신청
                 </p>
               </div>
-            </div>
-          </div>
-                    <div
-            className="
-            flex flex-col
-            bg-[linear-gradient(135deg,rgba(16,24,40,0.90)0%,rgba(30,41,57,0.90)100%)]
-            border border-[#36415380]
-            rounded-[16px]
-            p-6
-            gap-6
-            "
-          >
-            <div className="flex gap-2 items-center">
-              <img src={MypageMyActivity} alt="마이페이지 나의 활동" />
-              <p className="text-[18px] font-extrabold text-white">나의 조직</p>
-            </div>
-            <Link href="/mypage/organization/manage">
-            <div className="flex justify-between bg-[#1E2939] rounded-[10px] p-4">
-              <p className="text-[14px] font-medium text-white">
-                내 조직 관리
-              </p>
-              <div className="flex gap-2">
-                <p className="text-[12px] font-medium text-[#6A7282]"> 12개 </p>
-                <p className="text-[12px] font-medium text-[#6A7282]"> 〉</p>
-              </div>
-            </div>
-            </Link>
-          </div>
-
-          <div
-            className="
-            flex flex-col
-            bg-[linear-gradient(135deg,rgba(16,24,40,0.90)0%,rgba(30,41,57,0.90)100%)]
-            border border-[#82181A4D]
-            rounded-[16px]
-            p-6
-            gap-6"
-          >
-            <div className="flex gap-2 items-center">
-              <img src={MypageAccountSetting} alt="마이페이지 계정 설정" />
-              <p className="text-[18px] font-extrabold text-[#FF6467]">
-                계정 설정
-              </p>
-            </div>
-
-            <Link href="/mypage/password">
-            <div className=" flex justify-between items-center p-4 bg-[#1E293980] rounded-[10px]">
-              <p className="text-[14px] font-medium text-[#99A1AF]">
-                비밀번호 변경
-              </p>
-              <p className="text-[12px] font-medium text-[#6A7282]"> 〉 </p>
-            </div>
-            </Link>
-
-            <div className=" flex justify-between items-center p-4 bg-[#1E293980] rounded-[10px]">
-              <p className="text-[14px] font-medium text-[#99A1AF]">
-                회원 탈퇴
-              </p>
-              <p className="text-[12px] font-medium text-[#6A7282]"> 〉 </p>
+              </Link>
             </div>
           </div>
         </div>
       </div>
+      )}
     </div>
   );
 }
