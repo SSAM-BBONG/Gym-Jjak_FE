@@ -26,13 +26,13 @@ export default function TwoButtonModal({ isModal, closeModal, activeModal, title
                         onClick={closeModal}
                         className='w-full flex pt-2 pb-3 justify-center items-center rounded-lg text-white text-center font-semibold text-base bg-[#1E2939]'
                     >
-                        아니오
+                        취소
                     </button>
                     <button
                         onClick={activeModal}
                         className='w-full flex pt-2 pb-3 justify-center items-center rounded-lg text-black text-center font-semibold text-base bg-[#BFFF0B]'
                     >
-                        예
+                        확인
                     </button>
                 </article>
             </div>
