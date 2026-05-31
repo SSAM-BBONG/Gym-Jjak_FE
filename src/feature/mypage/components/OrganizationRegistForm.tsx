@@ -5,6 +5,7 @@ import OrganizationRegistMap from "./OrganizationRegistMap";
 import { createOrganizationApplicationAction } from "../action";
 import { useActionState } from "react";
 import { OrganizationApplicationDetail } from "../type";
+import Link from "next/link";
 
 // 조직 신청 폼 타입
 interface OrganizationRegistFormProps {
@@ -93,14 +94,14 @@ export default function OrganizationRegistForm({mode = "create", application}: O
                 </label>
                 {/* 상세조회일때는 사업자등록증 파일 볼 수 있게 설정 */}
                 {isReadOnly && application?.businessLicenseFileUrl && (
-                    <a
+                    <Link
                         href={application.businessLicenseFileUrl}
                         target="_blank"
                         rel="noreferrer"
                         className="text-[14px] font-medium text-[#BFFF0B]"
                     >
                         사업자등록증 파일 보기
-                    </a>
+                    </Link>
                 )}
             </div>
 

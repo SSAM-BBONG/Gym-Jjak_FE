@@ -12,6 +12,19 @@ import { onboardingAction } from "@/feature/auth/action";
 import { success } from "zod";
 import OneButtonModal from "@/components/ui/OneButtonModal";
 
+interface DaumAddressData {
+  roadAddress: string;
+  sido: string;
+  sigungu: string;
+  bname: string;
+  roadname: string;
+}
+
+interface KakaoAddressResult {
+  x: string; 
+  y: string; 
+}
+
 export default function Onboarding6Form({ totalData, setTotalData }: { totalData: onbordingRequest, setTotalData: Dispatch<SetStateAction<onbordingRequest>> }) {
     const router = useRouter();
     const [userAdress, setUserAddress] = useState({
@@ -51,24 +64,38 @@ export default function Onboarding6Form({ totalData, setTotalData }: { totalData
         }
     }
 
-    const completeHandler = (data: any) => {
+const completeHandler = (data: DaumAddressData) => {
+  const selectedRoadAddress = data.roadAddress;
+
+  window.kakao.maps.load(() => {
+    const geocoder = new window.kakao.maps.services.Geocoder();
+
+    geocoder.addressSearch(
+      selectedRoadAddress,
+      (result: KakaoAddressResult[], status: string) => {
+        if (status !== "OK") return;
+
         const newAddress = {
-            sido: data.sido,
-            sigungu: data.sigungu,
-            eupmyeondong: data.roadname,
-            fullName: data.roadAddress,
-            latitude: 37.5665,
-            longitude: 127.978
+          sido: data.sido,
+          sigungu: data.sigungu,
+          eupmyeondong: data.bname || data.roadname,
+          fullName: selectedRoadAddress,
+          latitude: Number(result[0].y),
+          longitude: Number(result[0].x),
         };
 
         setTotalData({
-            ...totalData,
-            region: newAddress
-        })
+          ...totalData,
+          region: newAddress,
+        });
+
         setUserAddress(newAddress);
-        setValue('region', newAddress);
+        setValue("region", newAddress);
         modal.closeModal();
-    }
+      }
+    );
+  });
+};
 
 
     return (
