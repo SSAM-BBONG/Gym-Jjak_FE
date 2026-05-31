@@ -14,7 +14,7 @@ export default function RootLayout({
     <html
       lang="en"
     >
-      
+
       <body>
         {/* 카카오맵 사용을 위한 layout에서 sdk로드하여 필요한 페이지에서 바로 카카오맵 사용할 수 있게 설절 */}
         <Script
@@ -22,7 +22,7 @@ export default function RootLayout({
           strategy="afterInteractive"
         />
         {children}
-        </body>
+      </body>
     </html>
   );
 }

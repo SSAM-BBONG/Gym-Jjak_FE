@@ -1,6 +1,5 @@
 import Onboarding1 from "./Onboarding1";
 import Onboarding2 from "./Onboarding2";
-import Onboarding2Form from "./Onboarding2Form";
 import Onboarding3 from "./Onboarding3";
 import Onboarding4 from "./Onboarding4";
 import Onboarding5 from "./Onboarding5";
@@ -26,7 +25,7 @@ export default async function Page({ searchParams }: paramsProps) {
     };
 
     return (
-        <section className="w-2xl m-auto">
+        <section className="w-2xl m-auto my-10">
             {stepComponents[Number(page)] || stepComponents[1]}
             <OnbordingForms page={page} />
         </section>

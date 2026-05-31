@@ -1,16 +1,16 @@
-import DetailButton from "@/feature/admin/components/DetailButton";
+import OrganizationDetailButton from "@/feature/admin/components/OrganizationDetailButton";
 
-export default function OrganizationADataItem() {
+export default function OrganizationADataItem({ organization }: { organization: Organizations }) {
     return (
         <div
             style={{ display: 'grid' }}
             className="!gird grid-cols-13 px-6 text-white font-normal text-sm border-t border-[#364153] h-17.5 items-center"
         >
-            <p className="col-span-3">아이디</p>
-            <p className="col-span-3">상호</p>
-            <p className="col-span-2">대표자</p>
-            <p className="col-span-3">전화번호</p>
-            <div className="col-span-2"><DetailButton mode='organizationApprove' /></div>
+            <p className="col-span-3">{organization.requestedLoginId}</p>
+            <p className="col-span-3">{organization.businessName}</p>
+            <p className="col-span-2">{organization.representativeName}</p>
+            <p className="col-span-3">{organization.representativePhone}</p>
+            <div className="col-span-2"><OrganizationDetailButton mode='organizationApprove' applicationId={organization.organizationApplicationId} /></div>
         </div>
     );
 }

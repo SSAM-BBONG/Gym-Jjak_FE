@@ -1,7 +1,7 @@
 import SearchBar from "@/feature/admin/components/SearchBar";
 import OrganizationADataItem from "./OrganizationADataItem";
 
-export default function OrganizationADataList() {
+export default function OrganizationADataList({ organizations }: { organizations: Organizations[] }) {
     return (
         <div>
             <SearchBar></SearchBar>
@@ -13,11 +13,12 @@ export default function OrganizationADataList() {
                     <p className="col-span-3">전화번호</p>
                     <p className="col-span-2">상세</p>
                 </div>
-                <OrganizationADataItem />
-                <OrganizationADataItem />
-                <OrganizationADataItem />
-                <OrganizationADataItem />
-                <OrganizationADataItem />
+                {organizations.map(organization => <OrganizationADataItem organization={organization} key={organization.organizationApplicationId} />)}
+                {organizations.length === 0 && (
+                    <div className="px-6 py-10 text-center text-sm text-muted-foreground">
+                        조직 신청이 없습니다.
+                    </div>
+                )}
             </section>
         </div>
     );

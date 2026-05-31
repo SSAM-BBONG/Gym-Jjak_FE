@@ -6,10 +6,11 @@ import TwoButtonModal from "@/components/ui/TwoButtonModal";
 import { DetailButtonImg } from "@/components/ui/image";
 
 
-export default function ReportCheck() {
+export default function ReportCheck({ reportGroupId }: { reportGroupId: number }) {
     const handleConfirm1 = () => {
         ApprovalModal.openModal();
     };
+
 
     const handleReject = () => {
         RejectModal.openModal();
@@ -26,13 +27,16 @@ export default function ReportCheck() {
                 className="flex items-center gap-2.5 text-sm font-medium text-white bg-[#1E2939] border-[#364153] border rounded-lg py-2 px-3">
                 <img src={DetailButtonImg} /> 사유확인
             </button>
-            <CheckReportModal
-                isModal={modal.isModal}
-                closeModal={modal.closeModal}
-                activeModal={modal.activeModal}
-                noneActiveModal={modal.noneActiveModal}
-                title='모달입니다'
-            />
+            {modal.isModal &&
+                <CheckReportModal
+                    isModal={modal.isModal}
+                    closeModal={modal.closeModal}
+                    activeModal={modal.activeModal}
+                    noneActiveModal={modal.noneActiveModal}
+                    reportGroupId={reportGroupId}
+                />
+            }
+
             <TwoButtonModal
                 isModal={ApprovalModal.isModal}
                 closeModal={ApprovalModal.closeModal}

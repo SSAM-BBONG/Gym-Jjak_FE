@@ -19,7 +19,7 @@ export default function LoginForm() {
 
 
     return (
-        <form action={loginFormAction}>
+        <form action={loginFormAction} className="w-md">
             <label
                 htmlFor="username"
                 className="w-full text-[#D1D5DC] text-sm font-medium">

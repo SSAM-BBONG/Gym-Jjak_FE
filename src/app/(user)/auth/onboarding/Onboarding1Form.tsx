@@ -86,7 +86,7 @@ export default function Onboarding1Form({ totalData, setTotalData }: { totalData
                     재활
                 </label>
             </div>
-            <div className="text-white">{errors.exerciseGoal?.message}</div>
+            <div className="text-red-500 text-md mb-5 text-center">{errors.exerciseGoal?.message}</div>
 
 
             <article className="flex">

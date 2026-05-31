@@ -31,7 +31,7 @@ export default function Page() {
     }
 
     return (
-        <div className="flex">
+        <div className="flex mx-30 my-10">
             <MainCalendar
                 mode="single"
                 locale={ko}
