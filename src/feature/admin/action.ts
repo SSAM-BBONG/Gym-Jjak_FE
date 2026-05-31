@@ -1,25 +1,42 @@
 'use server'
 
 import { approvalOrganization, approvalReport, getOrganizationbyId, getReportPtbyId, rejectOrganization, rejectReport } from "@/service/report.service"
+import axios from "axios";
 import { redirect } from "next/navigation";
 
 export const OrganizationDetailAction = async (applicationId: number) => {
     try {
         const response = await getOrganizationbyId(applicationId);
-        console.log(response)
         return response.data;
     } catch (error) {
-        console.log(error)
+        let errorMessage: string = 'Unknown Error';
+        if (axios.isAxiosError(error)) {
+            // Axios 자체 에러인 경우
+            errorMessage = (error.response && error.response.data) ? error.response.data.message : error.message
+        } else if (error instanceof Error) {
+            // 일반적인 JS 에러인 경우
+            errorMessage = error.message;
+        }
+
+        throw new Error(errorMessage)
     }
 }
 
 export const ReportPtDetailAction = async (reportGroupId: number) => {
     try {
         const response = await getReportPtbyId(reportGroupId);
-        console.log(response)
         return response.data;
     } catch (error) {
-        console.log(error)
+        let errorMessage: string = 'Unknown Error';
+        if (axios.isAxiosError(error)) {
+            // Axios 자체 에러인 경우
+            errorMessage = (error.response && error.response.data) ? error.response.data.message : error.message
+        } else if (error instanceof Error) {
+            // 일반적인 JS 에러인 경우
+            errorMessage = error.message;
+        }
+
+        throw new Error(errorMessage)
     }
 }
 
@@ -29,7 +46,16 @@ export const ReportApprovalAction = async (reportGroupId: number, reportId: numb
         const response = await approvalReport(reportGroupId, reportId);
         return response.data;
     } catch (error) {
-        console.log(error);
+        let errorMessage: string = 'Unknown Error';
+        if (axios.isAxiosError(error)) {
+            // Axios 자체 에러인 경우
+            errorMessage = (error.response && error.response.data) ? error.response.data.message : error.message
+        } else if (error instanceof Error) {
+            // 일반적인 JS 에러인 경우
+            errorMessage = error.message;
+        }
+
+        throw new Error(errorMessage)
     }
 
 
@@ -42,7 +68,16 @@ export const ReportRejectAction = async (reportGroupId: number, reportId: number
         const response = await rejectReport(reportGroupId, reportId);
         return response.data;
     } catch (error) {
-        console.log(error);
+        let errorMessage: string = 'Unknown Error';
+        if (axios.isAxiosError(error)) {
+            // Axios 자체 에러인 경우
+            errorMessage = (error.response && error.response.data) ? error.response.data.message : error.message
+        } else if (error instanceof Error) {
+            // 일반적인 JS 에러인 경우
+            errorMessage = error.message;
+        }
+
+        throw new Error(errorMessage)
     }
 
 }
@@ -51,7 +86,16 @@ export const organizationApprovalAction = async (applicationId: number) => {
     try {
         await approvalOrganization(applicationId);
     } catch (error) {
-        console.log(error);
+        let errorMessage: string = 'Unknown Error';
+        if (axios.isAxiosError(error)) {
+            // Axios 자체 에러인 경우
+            errorMessage = (error.response && error.response.data) ? error.response.data.message : error.message
+        } else if (error instanceof Error) {
+            // 일반적인 JS 에러인 경우
+            errorMessage = error.message;
+        }
+
+        throw new Error(errorMessage)
     }
 
     redirect('/admin/approvals/organizations?page=1')
@@ -72,9 +116,18 @@ export const organizationRejectAction = async (applicationId: number, formData: 
 
     try {
         await rejectOrganization(applicationId, payload);
-        console.log('반려됨:', reason);
+
     } catch (error) {
-        console.log(error);
+        let errorMessage: string = 'Unknown Error';
+        if (axios.isAxiosError(error)) {
+            // Axios 자체 에러인 경우
+            errorMessage = (error.response && error.response.data) ? error.response.data.message : error.message
+        } else if (error instanceof Error) {
+            // 일반적인 JS 에러인 경우
+            errorMessage = error.message;
+        }
+
+        throw new Error(errorMessage)
     }
 
     redirect('/admin/approvals/organizations?page=1')

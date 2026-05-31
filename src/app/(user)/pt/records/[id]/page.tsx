@@ -12,7 +12,7 @@ export default function PtRecordDetailPage() {
             border border-[#1E2939] rounded-[16px]
             ">
                 <div
-                    style={{ backgroundImage: `url(${PtfindTestImg})` }} 
+                    style={{ backgroundImage: `url(${PtfindTestImg})` }}
                     className="flex-3 bg-no-repeat bg-cover">
                 </div>
                 <div className="flex flex-col gap-2 flex-7 p-6">
@@ -23,7 +23,7 @@ export default function PtRecordDetailPage() {
                             <p className="text-[12px] font-normal text-[#6A7282]"> 진척도 </p>
                             <p className="text-[14px] font-extrabold text-[#BFFF0B]"> 3/12 </p>
                         </div>
-                      <div className="flex flex-col gap-1 p-3 rounded-[10px] bg-[#1E293980]">
+                        <div className="flex flex-col gap-1 p-3 rounded-[10px] bg-[#1E293980]">
                             <p className="text-[12px] font-normal text-[#6A7282]"> 상태 </p>
                             <p className="text-[14px] font-extrabold text-white"> 수강중 </p>
                         </div>
@@ -33,8 +33,8 @@ export default function PtRecordDetailPage() {
                     </div>
                 </div>
             </div>
-            
-                <PtRecordDetailButton/>
+
+            <PtRecordDetailButton />
 
             <div className="
             grid grid-cols-3 gap-2
@@ -47,7 +47,7 @@ export default function PtRecordDetailPage() {
                 <p className="py-3 text-[16px] font-extrabold text-[#99A1AF] rounded-[10px] text-center"> 식단 관리 </p>
             </div>
 
-            <PfFeebBackCard/>
+            <PfFeebBackCard />
 
         </div>
     );

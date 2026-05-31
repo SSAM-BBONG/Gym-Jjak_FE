@@ -3,6 +3,7 @@ import { Alarm, HeaderLogout, HeaderProfile, Logo, Profile } from "../ui/image";
 import NavBar from "./NavBar";
 import Link from "next/link";
 import { cookies } from "next/headers";
+import { decodeJWT } from "@/lib/decode";
 
 export default async function Header() {
 
@@ -10,7 +11,11 @@ export default async function Header() {
     const cookieStore = await cookies();
 
     // 쿠키 꺼내오기
-    const accessToken = cookieStore.get("accessToken"); 
+    const accessToken = cookieStore.get("accessToken");
+
+
+    const user = await decodeJWT();
+
 
     return (
         <header className="fixed top-0 left-0 w-full h-17.5 bg-black flex-1 flex items-center justify-between px-30 z-9999 border-b border-b-[#1E2939]">
@@ -21,14 +26,19 @@ export default async function Header() {
                     </div>
                 </Link>
                 <Link href="/">
-                <div className="flex-col cursor-pointer">
-                    <p className="text-[#BFFF0B] text-[12px]">GYMJJAK</p>
-                    <p className="text-white text text-[10px]">Fitness Platform </p>
-                </div>
+                    <div className="flex-col cursor-pointer">
+                        <p className="text-[#BFFF0B] text-[12px]">GYMJJAK</p>
+                        <p className="text-white text text-[10px]">Fitness Platform </p>
+                    </div>
                 </Link>
             </div>
             <NavBar />
             <div className="flex gap-5 items-center">
+                {user?.role === 'ADMIN' && (
+                    <Link href="/admin/approvals/organizations?page=1">
+                        <button className="text-[#BFFF0B] border-[#BFFF0B] border px-4 py-2 rounded-[10px] text-[14px] font-extrabold bg-black cursor-pointer"> 관리자 </button>
+                    </Link>
+                )}
                 <Link href="/alarm">
                     <div className="relative">
                         <img src={Alarm} alt="알림" />
@@ -37,18 +47,18 @@ export default async function Header() {
                 </Link>
                 {/* 쿠키가 없으면 로그인 버튼 있을때는 프로필 보이도록 설정 */}
                 {/* accessToken === undefined <- 쿠키에 null 값이 들어갈때 문제생김 수정 */}
-                { !accessToken
-                    ? 
-                    ( 
-                    <Link href="/auth/login">
-                    <button className="bg-[#BFFF0B] px-4 py-2 rounded-[10px] text-[14px] font-extrabold text-black cursor-pointer"> 로그인 </button>
-                    </Link>
+                {!accessToken
+                    ?
+                    (
+                        <Link href="/auth/login">
+                            <button className="bg-[#BFFF0B] px-4 py-2 rounded-[10px] text-[14px] font-extrabold text-black cursor-pointer"> 로그인 </button>
+                        </Link>
                     )
                     :
                     (
-                    <UserProfile />
+                        <UserProfile />
                     )
-                }   
+                }
             </div>
         </header>
     );

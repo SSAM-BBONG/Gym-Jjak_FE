@@ -1,19 +1,17 @@
+'use client'
+
 import SearchBar from "@/feature/admin/components/SearchBar";
 import ReportDataItem from "./ReportDataItem";
 import AdminPagination from "@/feature/admin/components/AdminPagination";
 
 interface ReportDataListProps {
     mode: 'TRAINER_REVIEW' | 'COMMENT' | 'PT_COURSE' | 'FEEDBACK' | 'POST';
-    searchParams: Promise<{
-        page: string;
-    }>;
     reposts: Reposts[]
-    totalPage: number
+    totalPage: number;
+    page: string;
 }
 
-export default async function ReportDataList({ mode, searchParams, reposts, totalPage }: ReportDataListProps) {
-
-    const { page } = await searchParams;
+export default function ReportDataList({ mode, reposts, totalPage, page }: ReportDataListProps) {
 
     return (
         <div>

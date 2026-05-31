@@ -1,3 +1,5 @@
+'use client'
+
 import SearchBar from "@/feature/admin/components/SearchBar";
 import UserDataItem from "./UserDataItem";
 

@@ -9,7 +9,7 @@ interface ReportMode {
 }
 
 
-export default async function ReportDataItem({ mode, repost }: ReportMode) {
+export default function ReportDataItem({ mode, repost }: ReportMode) {
 
     return (
         <div
