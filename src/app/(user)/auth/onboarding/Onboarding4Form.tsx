@@ -154,7 +154,7 @@ export default function Onboarding4Form({ totalData, setTotalData }: { totalData
                     클라이밍
                 </label>
             </div>
-            <div className="text-white">{errors.preferredExercise?.message}</div>
+            <div className="text-red-500 text-md mb-5 text-center">{errors.preferredExercise?.message}</div>
 
 
             <article className="flex">

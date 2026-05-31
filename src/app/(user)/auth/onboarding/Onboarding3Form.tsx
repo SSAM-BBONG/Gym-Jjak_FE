@@ -23,7 +23,6 @@ export default function Onboarding3Form({ totalData, setTotalData }: { totalData
     })
 
     const handleNext = (data: OnBoarding3Type) => {
-        console.log("부모가 준 setTotalData의 정체:", setTotalData);
         setTotalData({
             ...totalData,
             ...data
@@ -70,7 +69,7 @@ export default function Onboarding3Form({ totalData, setTotalData }: { totalData
                     5~7회
                 </label>
             </div>
-            <div className="text-white">{errors.exerciseFrequency?.message}</div>
+            <div className="text-red-500 text-md mb-5 text-center">{errors.exerciseFrequency?.message}</div>
 
             <article className="flex">
                 <button type="button" onClick={() => router.push('/auth/onboarding?page=2')} className="py-3 px-8 rounded-[10px] text-base font-bold bg-[#10182880] text-[#D1D5DC]">이전</button>

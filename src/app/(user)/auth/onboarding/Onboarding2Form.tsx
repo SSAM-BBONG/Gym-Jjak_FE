@@ -99,7 +99,7 @@ export default function Onboarding2Form({ totalData, setTotalData }: { totalData
                     <p className="text-sm font-medium">운동이 생활의 일부에요</p>
                 </label>
             </div>
-            <div className="text-white">{errors.exercisePeriod?.message}</div>
+            <div className="text-red-500 text-md mb-5 text-center">{errors.exercisePeriod?.message}</div>
 
             <article className="flex">
                 <button type="button" onClick={() => router.push('/auth/onboarding?page=1')} className="py-3 px-8 rounded-[10px] text-base font-bold bg-[#10182880] text-[#D1D5DC]">이전</button>

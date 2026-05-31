@@ -47,7 +47,7 @@ export default function Onboarding5Form({ totalData, setTotalData }: { totalData
                     placeholder="체중을 작성해주세요"
                     className="px-6 py-4 border border-[#364153] bg-[#101828] rounded-[10px] text-white focus:outline-0 focus:border-[#BFFF0B]" />
             </div>
-            <div className="text-white">{errors.weight?.message}{errors.height?.message}</div>
+            <div className="text-red-500 text-md mb-5 text-center">{errors.weight?.message}{errors.height?.message}</div>
 
             <article className="flex">
                 <button type="button" onClick={() => router.push('/auth/onboarding?page=4')} className="py-3 px-8 rounded-[10px] text-base font-bold bg-[#10182880] text-[#D1D5DC]">이전</button>

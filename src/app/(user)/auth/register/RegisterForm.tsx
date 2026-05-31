@@ -30,7 +30,7 @@ export default function RegisterForm() {
     const {
         register,
         handleSubmit,
-        formState: { errors, isSubmitting, isValid },
+        formState: { errors, isSubmitting },
     } = useForm<SignUpFormData>({
         resolver: zodResolver(signUpSchema),
         mode: 'onChange',
@@ -52,7 +52,7 @@ export default function RegisterForm() {
     };
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)} className="w-md">
             <label
                 htmlFor="username"
                 className="w-full text-[#D1D5DC] text-sm font-medium">
@@ -64,14 +64,14 @@ export default function RegisterForm() {
                 {...register('username')}
                 placeholder="이메일을 입력해주세요"
                 className="w-full py-3 px-4 text-base font-normal rounded-md bg-[#101828] border-[#364153] border focus:outline-0 focus:border-[#BFFF0B] text-white" />
-            {/* {errors.username?.message && <p className="text-white">{errors.username?.message}</p>} */}
+            {errors.username?.message ? <p className="text-red-400 text-sm m-1 mb-5">{errors.username?.message}</p> : <p className="text-[#99A1AF] text-sm  m-1 mb-5">이메일 양식에 맞춰주세요</p>}
             <label
                 htmlFor="password"
                 className="w-full text-[#D1D5DC] text-sm font-medium">
                 비밀번호
             </label>
             <div
-                className="flex w-full py-3 px-4 mb-5 text-base font-normal rounded-md bg-[#101828] border-[#364153] border focus:border-[#BFFF0B] text-white focus-within:border-[#BFFF0B]">
+                className="flex w-full py-3 px-4 text-base font-normal rounded-md bg-[#101828] border-[#364153] border focus:border-[#BFFF0B] text-white focus-within:border-[#BFFF0B]">
                 <input
                     id="password"
                     type="password"
@@ -80,14 +80,14 @@ export default function RegisterForm() {
                     className="w-full focus:outline-0"
                 /><img />
             </div>
-            {errors.password?.message && <p className="text-white">{errors.password?.message}</p>}
+            {errors.password?.message ? <p className="text-red-400 text-sm m-1 mb-5">{errors.password?.message}</p> : <p className="text-[#99A1AF] text-sm m-1 mb-5">숫자, 영어, 특수문자를 포함하여 8~16자로 작성해주세요</p>}
             <label
                 htmlFor="passwordCheck"
                 className="w-full text-[#D1D5DC] text-sm font-medium">
                 비밀번호 확인
             </label>
             <div
-                className="flex w-full py-3 px-4 mb-5 text-base font-normal rounded-md bg-[#101828] border-[#364153] border focus:border-[#BFFF0B] text-white focus-within:border-[#BFFF0B]">
+                className="flex w-full py-3 px-4 text-base font-normal rounded-md bg-[#101828] border-[#364153] border focus:border-[#BFFF0B] text-white focus-within:border-[#BFFF0B]">
                 <input
                     id="passwordCheck"
                     type="password"
@@ -96,7 +96,7 @@ export default function RegisterForm() {
                     className="w-full focus:outline-0"
                 /><img />
             </div>
-            {errors.passwordCheck?.message && <p className="text-white">{errors.passwordCheck?.message}</p>}
+            {errors.passwordCheck?.message ? <p className="text-red-400 text-sm m-1 mb-5">{errors.passwordCheck?.message}</p> : <p className="text-[#99A1AF] text-sm m-1 mb-5"> </p>}
             <label
                 htmlFor="name"
                 className="w-full text-[#D1D5DC] text-sm font-medium">
@@ -108,10 +108,10 @@ export default function RegisterForm() {
                 {...register('name')}
                 placeholder="이름을 입력해주세요"
                 className="w-full py-3 px-4 text-base font-normal rounded-md bg-[#101828] border-[#364153] border focus:outline-0 focus:border-[#BFFF0B] text-white" />
-            {/* {errors.name?.message && <p className="text-white">{errors.name?.message}</p>} */}
+            {errors.name?.message && <p className="text-red-400 text-sm m-1 mb-5">{errors.name?.message}</p>}
             <label
                 htmlFor="nickname"
-                className="w-full text-[#D1D5DC] text-sm font-medium">
+                className="w-full text-[#D1D5DC] text-sm font-medium mt-5 block">
                 닉네임
             </label>
             <input
@@ -120,7 +120,7 @@ export default function RegisterForm() {
                 {...register('nickname')}
                 placeholder="닉네임을 입력해주세요"
                 className="w-full py-3 px-4 text-base font-normal rounded-md bg-[#101828] border-[#364153] border focus:outline-0 focus:border-[#BFFF0B] text-white" />
-            {/* {errors.nickname?.message && <p className="text-white">{errors.nickname?.message}</p>} */}
+            {errors.nickname?.message ? <p className="text-red-400 text-sm m-1 mb-5">{errors.nickname?.message}</p> : <p className="text-[#99A1AF] text-sm m-1 mb-5">1자 이상 입력해주세요</p>}
             <label
                 htmlFor="phone"
                 className="w-full text-[#D1D5DC] text-sm font-medium">
@@ -131,11 +131,12 @@ export default function RegisterForm() {
                 type="string"
                 {...register('phone')}
                 placeholder="전화번호를 입력해주세요"
-                className="w-full py-3 px-4 mb-11 text-base font-normal rounded-md bg-[#101828] border-[#364153] border focus:outline-0 focus:border-[#BFFF0B] text-white" />
-            {/* {errors.phone?.message && <p className="text-white">{errors.phone?.message}</p>} */}
+                className="w-full py-3 px-4 text-base font-normal rounded-md bg-[#101828] border-[#364153] border focus:outline-0 focus:border-[#BFFF0B] text-white" />
+            {errors.phone?.message ? <p className="text-red-400 text-sm m-1 mb-11">{errors.phone?.message}</p> : <p className="text-[#99A1AF] text-sm m-1 mb-11">'-'을 포함하여 작성해주세요</p>}
             <button
                 type="submit"
-                className="w-full text-base font-bold mb-6.5 text-black bg-[#BFFF0B] py-4 rounded-md">회원가입</button>
+                className="w-full text-base font-bold mb-6.5 text-black bg-[#BFFF0B] py-4 rounded-md">회원가입
+            </button>
 
             {!isSubmitting && (
                 <OneButtonModal

@@ -11,6 +11,7 @@ import CheckReportModal from "@/feature/admin/components/modals/CheckReportModal
 import CheckViewModal from "@/feature/admin/components/modals/CheckViewModal";
 import AdminPagination from "@/feature/admin/components/AdminPagination";
 import PtReservationModal from "@/feature/pt/components/PtReservationModal";
+import { decodeJWT } from "@/lib/decode";
 
 export default function ModalOpenButton() {
 
@@ -28,6 +29,11 @@ export default function ModalOpenButton() {
     const modal6 = useModal(handleConfirm1);
     const modal7 = useModal(handleConfirm1);
     const modal8 = useModal(handleConfirm1);
+
+    const deco = async () => {
+        const user = await decodeJWT();
+        console.log(user?.role);
+    }
     return (
         <div className="text-white">
 
@@ -67,6 +73,8 @@ export default function ModalOpenButton() {
             <button onClick={modal8.openModal}>
                 캘린더
             </button>
+            |
+            <button onClick={deco}>디코더</button>
 
             <OneButtonModal
                 isModal={modal.isModal}
@@ -100,27 +108,27 @@ export default function ModalOpenButton() {
                 mode="trainerView"
                 title='모달입니다'
             />
-            <OrganizationDetailModal
+            {/* <OrganizationDetailModal
                 isModal={modal5.isModal}
                 closeModal={modal5.closeModal}
                 activeModal={modal5.activeModal}
                 noneActiveModal={modal5.noneActiveModal}
                 mode='organizationApprove'
                 title='모달입니다'
-            />
+            /> */}
             <CheckViewModal
                 isModal={modal6.isModal}
                 closeModal={modal6.closeModal}
                 mode='comment'
                 title='모달입니다'
             />
-            <CheckReportModal
+            {/* <CheckReportModal
                 isModal={modal7.isModal}
                 closeModal={modal7.closeModal}
                 activeModal={modal7.activeModal}
                 noneActiveModal={modal7.noneActiveModal}
                 title='모달입니다'
-            />
+            /> */}
             <PtReservationModal
                 isModal={modal8.isModal}
                 closeModal={modal8.closeModal}

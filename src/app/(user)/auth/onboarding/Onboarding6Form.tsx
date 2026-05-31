@@ -85,7 +85,7 @@ export default function Onboarding6Form({ totalData, setTotalData }: { totalData
                     <button className="font-semibold px-6 py rounded-[10px] bg-[#BFFF0B] text-black">주소 찾기</button>
                 </div>
             </div>
-            <div className="text-white">{errors.region?.message}</div>
+            {errors && <div className="text-red-500 text-md mb-5 text-center">{errors.region?.message ? errors.region?.message : '주소를 검색해주세요'}</div>}
 
             <article className="flex">
                 <button type="button" onClick={() => router.push('/auth/onboarding?page=5')} className="py-3 px-8 rounded-[10px] text-base font-bold bg-[#10182880] text-[#D1D5DC]">이전</button>
