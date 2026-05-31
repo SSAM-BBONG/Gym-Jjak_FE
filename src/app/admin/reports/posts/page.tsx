@@ -1,3 +1,4 @@
+import { getReport } from "@/service/report.service";
 import ReportDataList from "../ReportDataList";
 
 interface paramsProps {
@@ -6,11 +7,16 @@ interface paramsProps {
     }>
 }
 
-export default function Page({ searchParams }: paramsProps) {
+export default async function Page({ searchParams }: paramsProps) {
+    const { page } = await searchParams;
+    const response = await getReport('POST', page);
+    const reposts: Reposts[] = response.data.data.reports;
+    const totalPage: number = response.data.data.totalPages
+
     return (
         <section className="p-7.5">
             <h1 className="font-extrabold text-4xl text-white mb-8">게시물 신고 조회</h1>
-            <ReportDataList mode='POST' searchParams={searchParams} />
+            <ReportDataList mode='POST' searchParams={searchParams} reposts={reposts} totalPage={totalPage} />
         </section>
     );
 }

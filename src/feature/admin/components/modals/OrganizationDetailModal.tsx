@@ -1,6 +1,9 @@
 import { AdminDocument, CloseButton } from "@/components/ui/image";
 import AdminModalP from "./AdminModalP";
 import AdminModalDiv from "./AdminModalDiv";
+import { useEffect, useState } from "react";
+import { OrganizationDetailAction } from "../../action";
+import { approvalOrganization } from "@/service/report.service";
 
 interface OrganizationDetailModalProps {
     isModal: boolean;
@@ -8,11 +11,55 @@ interface OrganizationDetailModalProps {
     activeModal: () => void;
     noneActiveModal: () => void;
     mode: string;
-    title: string;
+    applicationId: number;
 }
 
+const emptyOrganizationInstance = {
+    organizationApplicationId: 0,
+    requestedLoginId: '',
+    businessRegistrationNumber: '',
+    businessName: '',
+    representativeName: '',
+    representativePhone: '',
+    openingDate: '',
+    roadAddress: '',
+    jibunAddress: '',
+    detailAddress: '',
+    latitude: 0,
+    longitude: 0,
+    websiteUrl: '',
+    instagramUrl: '',
+    blogUrl: '',
+    facilityPhone: '',
+    businessLicenseFileUrl: ''
+}
 
-export default function OrganizationDetailModal({ isModal, closeModal, activeModal, noneActiveModal, mode, title }: OrganizationDetailModalProps) {
+export default function OrganizationDetailModal({ isModal, closeModal, activeModal, noneActiveModal, mode, applicationId }: OrganizationDetailModalProps) {
+
+    const [organizationInfo, setOrganizationInfo] = useState<Organization>(emptyOrganizationInstance);
+    let first = true;
+    useEffect(() => {
+
+        const fetchOrganization = async () => {
+            const res = await OrganizationDetailAction(applicationId);
+            console.log(res);
+            setOrganizationInfo(res?.data ?? emptyOrganizationInstance);
+        }
+
+        if (isModal) {
+
+            if (!first) {
+                return;
+            }
+            fetchOrganization();
+
+            first = false;
+        }
+
+
+    }, [isModal])
+
+
     if (!isModal) return null;
 
     return (
@@ -31,7 +78,7 @@ export default function OrganizationDetailModal({ isModal, closeModal, activeMod
                     <section className="flex flex-col gap-6">
                         <article>
                             <AdminModalP title='아이디' />
-                            <AdminModalDiv content="아이디" />
+                            <AdminModalDiv content={organizationInfo.requestedLoginId} />
                         </article>
                         <article>
                             <AdminModalP title='사업자 등록증' />
@@ -40,7 +87,7 @@ export default function OrganizationDetailModal({ isModal, closeModal, activeMod
                             >
                                 <img src={AdminDocument} />
                                 <div>
-                                    <p className="text-white">파일이름</p>
+                                    <p className="text-white">{organizationInfo.businessLicenseFileUrl}</p>
                                     <p className="text-sm">파일 크기:</p>
                                 </div>
                                 <button type='button' className="px-4.5 py-2 text-black bg-[#BFFF0B] rounded-md font-bold ml-auto">다운로드</button>
@@ -49,52 +96,61 @@ export default function OrganizationDetailModal({ isModal, closeModal, activeMod
                         </article>
                         <article>
                             <AdminModalP title='사업자 등록 번호' />
-                            <AdminModalDiv content="123-45-66789" />
+                            <AdminModalDiv content={organizationInfo.businessRegistrationNumber} />
                         </article>
                         <article>
                             <AdminModalP title='사업장 주소' />
-                            <AdminModalDiv content="경기도 성남시" />
+                            <AdminModalDiv content={organizationInfo.roadAddress} />
                         </article>
                         <article>
                             <AdminModalP title='상호' />
-                            <AdminModalDiv content="피트니트 센터 성남점" />
+                            <AdminModalDiv content={organizationInfo.businessName} />
                         </article>
                         <div className="flex gap-4">
                             <article className="w-full">
                                 <AdminModalP title='대표자 이름' />
-                                <AdminModalDiv content="김대표" />
+                                <AdminModalDiv content={organizationInfo.representativeName} />
                             </article>
                             <article className="w-full">
                                 <AdminModalP title='대표자 전화번호' />
-                                <AdminModalDiv content="010-1234-1234" />
+                                <AdminModalDiv content={organizationInfo.representativePhone} />
                             </article>
                         </div>
                         <article>
                             <AdminModalP title='운동시설 전화번호' />
-                            <AdminModalDiv content="031-740-1234" />
+                            <AdminModalDiv content={organizationInfo.facilityPhone} />
                         </article>
                         <article>
                             <AdminModalP title='개업일자' />
-                            <AdminModalDiv content="2018-03-10" />
+                            <AdminModalDiv content={organizationInfo.openingDate} />
                         </article>
                         <article>
                             <AdminModalP title='웹사이트 링크' />
-                            <div
-                                className="flex flex-col justify-center border-[#364153] border w-full p-4 mt-2 bg-[#1E2939] rounded-md text-[#D1D5DC] text-base font-normal"
-                            >
-                                <p className="text-sm">인스타그램</p>
-                                <a href="https://instagram.com/fitcenter" target="_blank" className="text-[#BFFF0B]">https://instagram.com/fitcenter</a>
-                            </div>
-                            <div
-                                className="flex flex-col justify-center border-[#364153] border w-full p-4 mt-2 bg-[#1E2939] rounded-md text-[#D1D5DC] text-base font-normal"
-                            >
-                                <p className="text-sm">인스타그램</p>
-                                <a href="https://instagram.com/fitcenter" target="_blank" className="text-[#BFFF0B]">https://instagram.com/fitcenter</a>
-                            </div>
+                            {organizationInfo.instagramUrl &&
+                                <div
+                                    className="flex flex-col justify-center border-[#364153] border w-full p-4 mt-2 bg-[#1E2939] rounded-md text-[#D1D5DC] text-base font-normal"
+                                >
+                                    <p className="text-sm">인스타그램</p>
+                                    <a href={organizationInfo.instagramUrl} target="_blank" className="text-[#BFFF0B]">{organizationInfo.instagramUrl}</a>
+                                </div>}
+                            {organizationInfo.blogUrl &&
+                                <div
+                                    className="flex flex-col justify-center border-[#364153] border w-full p-4 mt-2 bg-[#1E2939] rounded-md text-[#D1D5DC] text-base font-normal"
+                                >
+                                    <p className="text-sm">블로그</p>
+                                    <a href={organizationInfo.blogUrl} target="_blank" className="text-[#BFFF0B]">{organizationInfo.blogUrl}</a>
+                                </div>}
+                            {organizationInfo.websiteUrl &&
+                                <div
+                                    className="flex flex-col justify-center border-[#364153] border w-full p-4 mt-2 bg-[#1E2939] rounded-md text-[#D1D5DC] text-base font-normal"
+                                >
+                                    <p className="text-sm">웹사이트</p>
+                                    <a href={organizationInfo.websiteUrl} target="_blank" className="text-[#BFFF0B]">{organizationInfo.websiteUrl}</a>
+                                </div>}
                         </article>
                         <article>
                             <AdminModalP title='운동 시설 번호' />
-                            <AdminModalDiv content="F-2018-003" />
+                            <AdminModalDiv content={organizationInfo.requestedLoginId} />
                         </article>
                         {mode === 'organizationView' && (
                             <>
