@@ -12,6 +12,7 @@
 .env
 .env.local
 docker-compose.yml
+server/node_modules
 
 # testing
 /coverage
