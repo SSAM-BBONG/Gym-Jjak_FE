@@ -1,14 +1,25 @@
 import { PtDetailHistory, PtDetailQualification, PtfindTestImg } from "@/components/ui/image";
+import { getPtDetail } from "@/service/ptzone.service";
 import Link from "next/link";
 
-export default function Page() {
+
+type PtDetailPageProps = {
+  params: Promise<{
+    id: string;
+  }>;
+};
+
+export default async function PtDetailPage({ params }: PtDetailPageProps) {
+  const { id } = await params;
+  
+  const response = await getPtDetail(id);
     return (
         <div className="flex flex-col gap-8 px-80 py-10">
             <div
                 style={{
                 backgroundImage: `
                     linear-gradient(0deg, #000 0%, rgba(0,0,0,0.60) 50%, rgba(0,0,0,0.00) 100%),
-                    url(${PtfindTestImg})
+                    url(${response.data.thumbnailUrl})
                 `,
                 }}
                 className="
@@ -17,17 +28,17 @@ export default function Page() {
                 bg-cover bg-center bg-no-repeat bg-gray-300
                 rounded-[14px]  
                 p-6">
-                <p className="text-[36px] font-black text-white"> 체계적 근육 강화 PT과정 </p>
+                <p className="text-[36px] font-black text-white"> {response.data.title} </p>
                 <div className="flex justify-between items-center">
                     <div className="flex gap-3 items-center">
                         <div className="text-[#BFFF0B] text-[20px]"> ★ </div>
                         <p className="text-[18px] font-extrabold text-white"> 
-                            4.8 <span className="text-[14px] font-normal text-[#99A1AF]">(127개 리뷰)</span>
+                            {response.data.averageRating}  <span className="text-[14px] font-normal text-[#99A1AF]">({response.data.reviewCount}개)</span>
                         </p>
                     </div>
                     <div className="flex flex-col gap-1">
-                        <p className="text-[36px] font-black text-[#BFFF0B]"> 345,000원</p>
-                        <p className="text-[14px] font-normal text-[#99A1AF] text-right"> 12회 </p>
+                        <p className="text-[36px] font-black text-[#BFFF0B]"> {response.data.price}</p>
+                        <p className="text-[14px] font-normal text-[#99A1AF] text-right"> {response.data.totalSessionCount}회 </p>
                     </div>
                 </div>
             </div>
@@ -61,14 +72,14 @@ export default function Page() {
                 <p className="text-[18px] font-extrabold text-white"> 강사 정보 </p>
                 <div className="flex gap-4">
                     <div
-                    style={{ backgroundImage: `url(${PtfindTestImg})` }}
+                    style={{ backgroundImage: `url(${response.data.thumbnailUrl})` }}
                     className="bg-cover size-15 border border-[#BFFF0B] rounded-full"> 
                     </div>
                     
                     <div className="flex flex-col flex-8 gap-2">
-                        <p className="text-[18px] font-extrabold text-white"> 김철수 트레이너 </p>
-                        <p className="text-[14px] font-normal text-[#99A1AF]"> 경력 10년 </p>
-                        <p className="text-[14px] font-normal text-[#D1D5DC]"> 10년 경력의 전문 트레이너입니다. 체계적인 프로그램으로 확실한 변화를 만들어드립니다. 개인 맞춤형 PT로 목표 달성을 도와드리겠습니다. </p>
+                        <p className="text-[18px] font-extrabold text-white"> {response.data.trainerName} 트레이너 </p>
+                        <p className="text-[14px] font-normal text-[#99A1AF]"> {response.data.trainerSpec} </p>
+                        <p className="text-[14px] font-normal text-[#D1D5DC]"> {response.data.trainerIntroduction} </p>
                     </div>
                 </div>
                 <div className="flex">
@@ -100,7 +111,7 @@ export default function Page() {
             p-6
             ">
                 <p className="text-[18px] font-extrabold text-white"> 강좌 소개 </p>
-                <p className="text-[14px] font-normal text-[#D1D5DC]"> 가슴 근육 발달에 특화된 12주 프로그램입니다. 초보자부터 중급자까지 체계적으로 배울 수 있습니다. 과학적 운동 방법론을 기반으로 한 개인 맞춤형 트레이닝을 제공합니다. </p>
+                <p className="text-[14px] font-normal text-[#D1D5DC]"> {response.data.description} </p>
             </div>
 
             <div className="
