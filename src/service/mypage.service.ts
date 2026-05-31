@@ -13,8 +13,7 @@ export const getOrganizationApplications = async (): Promise<OrganizationApplica
 
 // 조직 계정 신청 상세 조회 API
 export const getOrganizationApplication = async (applicationId: string): Promise<OrganizationApplicationDetailResponse> => {
-  const response = await axiosFetch.get(
-    `/api/organization-applications/${applicationId}`);
+  const response = await axiosFetch.get(`/api/organization-applications/${applicationId}`);
   return response.data;
 };
 
