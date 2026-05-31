@@ -1,3 +1,4 @@
+// PT 상세조회 응답 타입
 export interface PtDetailResponse {
   status: number;
   code: string;
@@ -5,6 +6,7 @@ export interface PtDetailResponse {
   data: PtDetail;
 }
 
+// PT 상세조회 타입
 export interface PtDetail {
   ptCourseId: number;
   categoryName: string;
@@ -36,6 +38,7 @@ export interface PtDetail {
   recentReviews: PtRecentReview[];
 }
 
+// PT 상세조회 자격증 타입
 export interface PtTrainerCertification {
   certificationId?: number;
   name: string;
@@ -43,6 +46,7 @@ export interface PtTrainerCertification {
   acquiredDate: string;
 }
 
+// PT 상세조회 수상경력 타입
 export interface PtTrainerAward {
   awardId?: number;
   competitionName: string;
@@ -50,6 +54,7 @@ export interface PtTrainerAward {
   awardDate: string;
 }
 
+// PT 상세조회 커리큘럼 타입
 export interface PtCourseCurriculum {
   curriculumId: number;
   sessionNo: number;
@@ -57,6 +62,7 @@ export interface PtCourseCurriculum {
   content: string;
 }
 
+// PT 상세조회 리뷰 타입
 export interface PtRecentReview {
   reviewId: number;
   userNickname: string;
@@ -64,4 +70,77 @@ export interface PtRecentReview {
   rating: number;
   content: string;
   createdAt: string;
+}
+
+
+// PT 목록 조회
+export interface PtListData {
+  content: PtContent[];
+  totalElements: number;
+  totalPages: number;
+  page: number;
+  size: number;
+}
+
+// PT 목록 응답 타입
+export interface PtListResponse {
+  status: number;
+  code: string;
+  message: string;
+  data: PtListData;
+}
+
+// PT 목록 타입
+export interface PtContent {
+  ptCourseId: number;
+  title: string;
+  thumbnailUrl: string;
+  price: number;
+  totalSessionCount: number;
+
+  categoryName: string;
+  tag: string;
+
+  organizationName: string;
+  organizationAddress: string;
+  latitude: number;
+  longitude: number;
+
+  trainerDisplayName: string;
+
+  averageRating: number;
+  reviewCount: number;
+
+  status: "VISIBLE" | "HIDDEN" | "DELETED";
+}
+
+// 온보딩 응답 타입
+export interface OnboardingResponse {
+  status: number;
+  code: string;
+  message: string;
+  data: Onboarding;
+}
+
+// 온보딩 타입
+export interface Onboarding {
+  onboardingId: number;
+  exerciseGoal: string;
+  exercisePeriod: string;
+  exerciseFrequency: string;
+  preferredExercise: string;
+  preferredRegion: PreferredRegion;
+  height: number;
+  weight: number;
+}
+
+// 온보딩 지역 타입
+export interface PreferredRegion {
+  regionId: number;
+  sido: string;
+  sigungu: string;
+  eupmyeondong: string;
+  fullName: string;
+  latitude: number;
+  longitude: number;
 }

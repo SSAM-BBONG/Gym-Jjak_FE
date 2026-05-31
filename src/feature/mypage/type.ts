@@ -1,3 +1,4 @@
+// 조직 신청 타입
 export interface OrganizationApplication {
   organizationApplicationId: number;
   businessName: string;
@@ -8,6 +9,7 @@ export interface OrganizationApplication {
   createdAt: string;
 }
 
+// 조직 신청 응답 타입
 export interface OrganizationApplicationResponse {
   status: number;
   code: string;
@@ -15,6 +17,7 @@ export interface OrganizationApplicationResponse {
   data: OrganizationApplication[];
 }
 
+// 조직 신청시 응답 타입
 export interface OrganizationApplicationCreateResponse {
   status: number;
   code: string;
@@ -22,6 +25,7 @@ export interface OrganizationApplicationCreateResponse {
   data?: OrganizationApplication;
 }
 
+// 조직 상세조회 타입 
 export interface OrganizationApplicationDetail {
   organizationApplicationId: number;
   requestedLoginId: string;
@@ -42,6 +46,7 @@ export interface OrganizationApplicationDetail {
   businessLicenseFileUrl: string;
 }
 
+// 조직 상세조회 응답 타입
 export interface OrganizationApplicationDetailResponse {
   status: number;
   code: string;
@@ -49,6 +54,7 @@ export interface OrganizationApplicationDetailResponse {
   data: OrganizationApplicationDetail;
 }
 
+// 액션 타입
 export interface MypageActionState {
   success: boolean;
   message?: string;

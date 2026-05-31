@@ -1,25 +1,56 @@
 "use client";
 
-import { Map, MapMarker } from "react-kakao-maps-sdk";
+import { PtContent } from "@/feature/pt/type";
+import { CustomOverlayMap, Map, MapMarker } from "react-kakao-maps-sdk";
 
-export default function KakaoMap() {
+
+interface PtFindProps {
+  latitude: number;
+  longitude: number;
+  ptList: PtContent[];
+}
+
+export default function KakaoMap({latitude, longitude, ptList}: PtFindProps) {
+
+  // const handleMarkerClick = () => {
+  //   ptList.filter()
+  // }
+
   return (
     // 지도 출력 컴포넌트 
     <Map
       center={{
-        lat: 37.46098,
-        lng: 127.16515,
+        lat: latitude,
+        lng: longitude,
       }}
       level={3}
       className="h-full"
+      draggable={true}
+      scrollwheel={true}
     >
-        {/* 맵에 나타나는 마커 관련 */}
-      <MapMarker
-        position={{
-        lat: 37.46098,
-        lng: 127.16515,
+    <MapMarker 
+      position={{
+        lat: latitude,
+        lng: longitude,
         }}
-      />
+    />
+    {/* 맵에 나타나는 마커 관련 */}
+    {ptList.map((item) => (
+      <CustomOverlayMap
+            key={item.ptCourseId}
+        position={{
+        lat: item.latitude,
+        lng: item.longitude,
+        }}
+      >
+           <div 
+              className="w-20 h-10 rounded-[10px] bg-[#BFFF0B] flex flex-col gap-5" 
+            > 
+              {item.organizationName}
+
+           </div>
+      </CustomOverlayMap>
+    ))}
     </Map>
   );
 }

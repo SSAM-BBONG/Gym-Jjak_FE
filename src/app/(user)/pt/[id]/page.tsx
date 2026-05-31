@@ -37,7 +37,7 @@ export default async function PtDetailPage({ params }: PtDetailPageProps) {
                         </p>
                     </div>
                     <div className="flex flex-col gap-1">
-                        <p className="text-[36px] font-black text-[#BFFF0B]"> {response.data.price}</p>
+                        <p className="text-[36px] font-black text-[#BFFF0B]"> {response.data.price.toLocaleString()}원</p>
                         <p className="text-[14px] font-normal text-[#99A1AF] text-right"> {response.data.totalSessionCount}회 </p>
                     </div>
                 </div>
