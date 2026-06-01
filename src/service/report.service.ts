@@ -1,16 +1,17 @@
 import { axiosFetch } from "@/lib/api"
+import { cache } from "react";
 
-export const getReport = async (targetType: string, page: string) => {
+export const getReport = cache(async (targetType: string, page: string) => {
     const response = await axiosFetch(`/api/reportgroup/list?targetType=${targetType}&page=${page}`);
 
     return response;
-}
+})
 
-export const getReportPtbyId = async (reportGroupId: number) => {
+export const getReportPtbyId = cache(async (reportGroupId: number) => {
     const response = await axiosFetch(`/api/reportgroup/detail/${reportGroupId}`)
 
     return response
-}
+})
 
 export const approvalReport = async (reportGroupId: number, reportId: number) => {
     const response = await axiosFetch.patch(`/api/reportgroup/${reportGroupId}/reports/${reportId}/approve`)
@@ -25,17 +26,17 @@ export const rejectReport = async (reportGroupId: number, reportId: number) => {
     return response;
 }
 
-export const getOrganization = async () => {
+export const getOrganization = cache(async () => {
     const response = await axiosFetch('/api/organization-applications');
 
     return response;
-}
+})
 
-export const getOrganizationbyId = async (applicationId: number) => {
+export const getOrganizationbyId = cache(async (applicationId: number) => {
     const response = await axiosFetch(`/api/organization-applications/${applicationId}`);
 
     return response;
-}
+})
 
 
 export const approvalOrganization = async (applicationId: number) => {
