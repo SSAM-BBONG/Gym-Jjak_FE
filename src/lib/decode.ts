@@ -2,6 +2,7 @@
 
 import { jwtDecode } from "jwt-decode";
 import { cookies } from "next/headers"
+import { cache } from "react";
 import { refreshGet } from "./stateError";
 
 export interface MyTokenPayload {
@@ -20,7 +21,7 @@ const defaultUserInfo = {
     exp: 0
 }
 
-export const decodeJWT = async () => {
+export const decodeJWT = cache(async () => {
     const cookieStore = await cookies();
     const token = cookieStore.get('accessToken')?.value;
     const refreshToken = cookieStore.get('refreshToken')?.value;
@@ -52,4 +53,4 @@ export const decodeJWT = async () => {
         return decoded;
     }
 
-} 
+})

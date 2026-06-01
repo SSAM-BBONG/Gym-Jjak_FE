@@ -106,7 +106,7 @@ export interface PtContent {
   latitude: number;
   longitude: number;
 
-  trainerDisplayName: string;
+  trainerName: string;
 
   averageRating: number;
   reviewCount: number;

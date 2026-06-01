@@ -8,7 +8,6 @@ interface PtFindCardProps {
 
 
 export default function PtFindCard({ response }: PtFindCardProps) {
-    console.log(response);
     return (
         <div className="
         flex flex-col

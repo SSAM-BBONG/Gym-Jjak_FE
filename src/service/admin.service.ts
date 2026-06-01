@@ -1,10 +1,11 @@
 import { axiosFetch } from "@/lib/api";
+import { cache } from "react";
 
-export const getCategories = async () => {
+export const getCategories = cache(async () => {
     const response = await axiosFetch('/api/categories');
 
     return response;
-}
+})
 
 
 export const createCategories = async (payload: { name: string }) => {

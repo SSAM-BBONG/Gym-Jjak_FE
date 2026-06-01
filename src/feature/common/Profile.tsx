@@ -26,16 +26,18 @@ export default function UserProfile() {
     }
 
     // TwoButtonModal에서 확인 클릭 시 OneButtonModal 열기
-    const handleLogoutConfirmClick = () => {
+    const handleLogoutConfirmClick = async () => {
         setLogoutConfirmModal(false);
         setLogoutCheckModal(true);
-        logoutAction();
+        await logoutAction();
+        window.dispatchEvent(new Event('auth-changed'));
     }
 
     // OneButtonModal에서 확인 클릭 시 기존 로그아웃 로직 실행
     const handleLogoutFinalClick = () => {
         router.push("/");
         router.refresh();
+        window.dispatchEvent(new Event('auth-changed'));
     }
 
     return (
