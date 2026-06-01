@@ -46,7 +46,7 @@ export default function OrganizationDetailModal({ isModal, closeModal, activeMod
             setOrganizationInfo(res?.data ?? emptyOrganizationInstance);
         }
 
-        if (isModal) {
+        if (mode === 'organizationApprove') {
 
             if (!first) {
                 return;

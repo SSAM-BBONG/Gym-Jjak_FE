@@ -33,7 +33,7 @@ export default function Onboarding5Form({ totalData, setTotalData }: { totalData
 
     return (
         <form onSubmit={handleSubmit(handleNext)}>
-            <div className="flex flex-col gap-3 mb-12 w-md m-auto">
+            <div className="flex flex-col gap-3 pb-12 w-md m-auto">
                 <label className="text-sm font-medium text-[#D1D5DC]">키 (cm)</label>
                 <input
                     {...register('height', { valueAsNumber: true })}

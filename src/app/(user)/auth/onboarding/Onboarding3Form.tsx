@@ -31,7 +31,7 @@ export default function Onboarding3Form({ totalData, setTotalData }: { totalData
     }
     return (
         <form onSubmit={handleSubmit(handleNext)}>
-            <div className="flex gap-4 mb-12">
+            <div className="flex gap-4 pb-12">
                 <label
                     htmlFor="rarely"
                     className="font-black text-2xl text-white w-full p-8.5 border border-[#364153] rounded-lg text-center

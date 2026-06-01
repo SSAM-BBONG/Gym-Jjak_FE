@@ -69,3 +69,11 @@ interface category {
     createdAt: string;
     usageCount: number;
 }
+
+
+interface tag {
+    tagId: number;
+    name: string;
+    createdAt: string;
+    usageCount: number;
+}

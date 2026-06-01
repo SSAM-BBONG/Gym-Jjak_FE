@@ -32,7 +32,7 @@ export default function Onboarding4Form({ totalData, setTotalData }: { totalData
     }
     return (
         <form onSubmit={handleSubmit(handleNext)}>
-            <div className="grid grid-cols-2 grid-rows-5 gap-3 mb-12">
+            <div className="grid grid-cols-2 grid-rows-5 gap-3 pb-12">
                 <label
                     htmlFor="웨이트 트레이닝"
                     className="w-full font-bold text-base p-5.5 text-center text-white border border-[#364153] rounded-lg
