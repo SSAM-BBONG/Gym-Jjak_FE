@@ -1,4 +1,6 @@
-import {  OnboardingResponse, PtDetailResponse, PtListResponse} from "@/feature/pt/type";
+﻿import {
+  OnboardingResponse, PtCourseCreateResponse, PtDetailResponse, PtListResponse
+} from "@/feature/pt/type";
 import { axiosFetch } from "@/lib/api";
 import { cache } from "react";
 
@@ -18,4 +20,23 @@ export const getPtLists = cache(async (): Promise<PtListResponse> => {
 export const getOnboarding = cache(async (): Promise<OnboardingResponse> => {
       const response = await axiosFetch.get(`/api/onboarding/me`);
   return response.data;
-});
+};
+
+// PT 등록 API 
+export const createPtCourse = async (formData: FormData): Promise<PtCourseCreateResponse> => {
+  const response = await axiosFetch.post("/api/pt-courses", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+
+  return response.data;
+};
+
+
+// PT 인기 강습 API
+// export const getPopularPtLists = async (): Promise<PtPopularLists> => {
+//   const response = await fetch(`${BASE_URL}/api/pt-courses/popular`);
+
+//   return response.json();
+// };

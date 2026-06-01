@@ -1,4 +1,4 @@
-'use server'
+﻿'use server'
 
 import { createCategories, deleteCategories, updateCategories } from "@/service/admin.service";
 import { approvalOrganization, approvalReport, getOrganizationbyId, getReportPtbyId, rejectOrganization, rejectReport } from "@/service/report.service"
