@@ -3,7 +3,7 @@
 import SearchBar from "@/feature/admin/components/SearchBar";
 import SystemDataItem from "./SystemDataItem";
 
-export default function SystemDataList({ text }: { text: string }) {
+export default function SystemDataList({ text, datas }: { text: string, datas: category[] | tag[] }) {
     return (
         <div>
             <SearchBar></SearchBar>
@@ -15,12 +15,16 @@ export default function SystemDataList({ text }: { text: string }) {
                     <p className="col-span-2">관리</p>
                     <p className="col-span-2"></p>
                 </div>
-
-                <SystemDataItem text={text} />
-                <SystemDataItem text={text} />
-                <SystemDataItem text={text} />
-                <SystemDataItem text={text} />
-                <SystemDataItem text={text} />
+                {
+                    datas.map(data => {
+                        return <SystemDataItem text={text} data={data} key={data.name} />
+                    })
+                }
+                {datas?.length === 0 && (
+                    <div className="px-6 py-10 text-center text-sm text-muted-foreground">
+                        {text}가 없습니다.
+                    </div>
+                )}
             </section>
         </div>
     );

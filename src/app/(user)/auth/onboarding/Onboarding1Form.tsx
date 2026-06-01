@@ -32,7 +32,7 @@ export default function Onboarding1Form({ totalData, setTotalData }: { totalData
 
     return (
         <form onSubmit={handleSubmit(handleNext)}>
-            <div className="flex flex-wrap gap-4 mb-12">
+            <div className="flex flex-wrap gap-4 pb-12">
                 <label
                     htmlFor="diet"
                     className="w-82 h-29 rounded-lg border border-[#364153] bg-[#10182880] text-white text-xl font-bold text-center p-7.5

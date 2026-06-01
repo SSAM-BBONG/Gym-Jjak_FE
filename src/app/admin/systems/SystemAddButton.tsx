@@ -20,7 +20,7 @@ export default function SystemAddButton({ text }: { text: string }) {
                 activeModal={modal.activeModal}
                 mode={text}
                 system="create"
-                title='모달입니다' />
+            />
         </>
 
     );

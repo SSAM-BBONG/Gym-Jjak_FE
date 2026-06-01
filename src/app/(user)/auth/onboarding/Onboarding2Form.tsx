@@ -32,7 +32,7 @@ export default function Onboarding2Form({ totalData, setTotalData }: { totalData
 
     return (
         <form onSubmit={handleSubmit(handleNext)}>
-            <div className="flex flex-col gap-3 mb-12">
+            <div className="flex flex-col gap-3 pb-12">
                 <label
                     htmlFor="first"
                     className="w-full h-26 rounded-lg p-6.25 border border-[#364153] bg-[#10182880] text-white

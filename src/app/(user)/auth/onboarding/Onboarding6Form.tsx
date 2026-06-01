@@ -13,16 +13,16 @@ import { success } from "zod";
 import OneButtonModal from "@/components/ui/OneButtonModal";
 
 interface DaumAddressData {
-  roadAddress: string;
-  sido: string;
-  sigungu: string;
-  bname: string;
-  roadname: string;
+    roadAddress: string;
+    sido: string;
+    sigungu: string;
+    bname: string;
+    roadname: string;
 }
 
 interface KakaoAddressResult {
-  x: string; 
-  y: string; 
+    x: string;
+    y: string;
 }
 
 export default function Onboarding6Form({ totalData, setTotalData }: { totalData: onbordingRequest, setTotalData: Dispatch<SetStateAction<onbordingRequest>> }) {
@@ -64,43 +64,43 @@ export default function Onboarding6Form({ totalData, setTotalData }: { totalData
         }
     }
 
-const completeHandler = (data: DaumAddressData) => {
-  const selectedRoadAddress = data.roadAddress;
+    const completeHandler = (data: DaumAddressData) => {
+        const selectedRoadAddress = data.roadAddress;
 
-  window.kakao.maps.load(() => {
-    const geocoder = new window.kakao.maps.services.Geocoder();
+        window.kakao.maps.load(() => {
+            const geocoder = new window.kakao.maps.services.Geocoder();
 
-    geocoder.addressSearch(
-      selectedRoadAddress,
-      (result: KakaoAddressResult[], status: string) => {
-        if (status !== "OK") return;
+            geocoder.addressSearch(
+                selectedRoadAddress,
+                (result: KakaoAddressResult[], status: string) => {
+                    if (status !== "OK") return;
 
-        const newAddress = {
-          sido: data.sido,
-          sigungu: data.sigungu,
-          eupmyeondong: data.bname || data.roadname,
-          fullName: selectedRoadAddress,
-          latitude: Number(result[0].y),
-          longitude: Number(result[0].x),
-        };
+                    const newAddress = {
+                        sido: data.sido,
+                        sigungu: data.sigungu,
+                        eupmyeondong: data.bname || data.roadname,
+                        fullName: selectedRoadAddress,
+                        latitude: Number(result[0].y),
+                        longitude: Number(result[0].x),
+                    };
 
-        setTotalData({
-          ...totalData,
-          region: newAddress,
+                    setTotalData({
+                        ...totalData,
+                        region: newAddress,
+                    });
+
+                    setUserAddress(newAddress);
+                    setValue("region", newAddress);
+                    modal.closeModal();
+                }
+            );
         });
-
-        setUserAddress(newAddress);
-        setValue("region", newAddress);
-        modal.closeModal();
-      }
-    );
-  });
-};
+    };
 
 
     return (
         <form onSubmit={handleSubmit(handleNext)}>
-            <div className="flex flex-col gap-3 mb-12 w-md m-auto">
+            <div className="flex flex-col gap-3 pb-12 w-md m-auto">
                 <label className="text-sm font-medium text-[#D1D5DC]">선호 지역</label>
                 <div className="flex mb-6 gap-2"
                     onClick={modal.openModal}>

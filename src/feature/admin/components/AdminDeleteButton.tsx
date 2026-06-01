@@ -3,9 +3,15 @@
 import useModal from "@/components/hooks/useModal";
 import { AdminDeleteImg } from "@/components/ui/image";
 import TwoButtonModal from "@/components/ui/TwoButtonModal";
+import { deleteCategoryAction } from "../action";
 
-export default function AdminDeleteButton({ mode }: { mode: string }) {
-    const modal = useModal();
+export default function AdminDeleteButton({ mode, id }: { mode: string, id: number }) {
+
+    const handleDelete = async () => {
+        await deleteCategoryAction(id);
+    }
+
+    const modal = useModal(handleDelete);
 
     return (
         <>

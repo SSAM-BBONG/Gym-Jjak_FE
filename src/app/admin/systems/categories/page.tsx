@@ -13,7 +13,7 @@ export default async function Page() {
                 <SystemAddButton text="카테고리" />
             </div>
 
-            <SystemDataList text="카테고리" />
+            <SystemDataList text="카테고리" datas={categories} />
         </section>
     );
 }

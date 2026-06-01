@@ -1,5 +1,6 @@
 'use server'
 
+import { createCategories, deleteCategories, updateCategories } from "@/service/admin.service";
 import { approvalOrganization, approvalReport, getOrganizationbyId, getReportPtbyId, rejectOrganization, rejectReport } from "@/service/report.service"
 import axios from "axios";
 import { redirect } from "next/navigation";
@@ -131,4 +132,78 @@ export const organizationRejectAction = async (applicationId: number, formData: 
     }
 
     redirect('/admin/approvals/organizations?page=1')
+}
+
+
+
+export const deleteCategoryAction = async (categoryId: number) => {
+    try {
+        await deleteCategories(categoryId);
+    } catch (error) {
+        let errorMessage: string = 'Unknown Error';
+        if (axios.isAxiosError(error)) {
+            // Axios 자체 에러인 경우
+            errorMessage = (error.response && error.response.data) ? error.response.data.message : error.message
+        } else if (error instanceof Error) {
+            // 일반적인 JS 에러인 경우
+            errorMessage = error.message;
+        }
+
+        throw new Error(errorMessage)
+    }
+
+
+    redirect('/admin/systems/categories?page=1')
+}
+
+
+export const createCategoryAction = async (formData: FormData) => {
+    const name = formData.get('name') as string;
+    const payload = {
+        name
+    }
+
+    try {
+        await createCategories(payload);
+    } catch (error) {
+        let errorMessage: string = 'Unknown Error';
+        if (axios.isAxiosError(error)) {
+            // Axios 자체 에러인 경우
+            errorMessage = (error.response && error.response.data) ? error.response.data.message : error.message
+        } else if (error instanceof Error) {
+            // 일반적인 JS 에러인 경우
+            errorMessage = error.message;
+        }
+
+        throw new Error(errorMessage)
+    }
+
+    redirect('/admin/systems/categories?page=1')
+
+}
+
+
+export const updateCategoryAction = async (id: number, formData: FormData) => {
+    const name = formData.get('name') as string;
+    const payload = {
+        name
+    }
+
+    try {
+        await updateCategories(id, payload);
+    } catch (error) {
+        let errorMessage: string = 'Unknown Error';
+        if (axios.isAxiosError(error)) {
+            // Axios 자체 에러인 경우
+            errorMessage = (error.response && error.response.data) ? error.response.data.message : error.message
+        } else if (error instanceof Error) {
+            // 일반적인 JS 에러인 경우
+            errorMessage = error.message;
+        }
+
+        throw new Error(errorMessage)
+    }
+
+    redirect('/admin/systems/categories?page=1')
+
 }

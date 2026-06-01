@@ -25,7 +25,7 @@ export default async function Page({ searchParams }: paramsProps) {
     };
 
     return (
-        <section className="w-2xl m-auto my-10">
+        <section className="w-2xl m-auto mt-10 pb-10">
             {stepComponents[Number(page)] || stepComponents[1]}
             <OnbordingForms page={page} />
         </section>
