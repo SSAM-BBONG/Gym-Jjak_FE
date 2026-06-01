@@ -45,7 +45,7 @@ export default function PtManageUserFeedBackPage() {
                 <p className="py-3 text-[16px] font-extrabold text-[#99A1AF] rounded-[10px] text-center"> 식단 관리 </p>
             </div>
 
-            <PtManageFeedBackCard/>
+            <PtManageFeedBackCard />
 
 
         </div>

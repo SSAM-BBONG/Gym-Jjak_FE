@@ -6,10 +6,10 @@ import Link from "next/link";
 export default async function PtFindPage() {
 
     const response = await getOnboarding();
-    
+
     const response2 = await getPtLists();
-    
-   
+
+
     return (
         <div className="grid grid-cols-[0.7fr_1.3fr] h-[calc(100vh-70px)] overflow-hidden">
             <div className="flex flex-[3] flex-col gap-6 p-6 min-h-0 overflow-y-auto scrollbar-none">
@@ -22,11 +22,11 @@ export default async function PtFindPage() {
                     <PtFindCard
                         key={item.ptCourseId}
                         response={item}
-                        />
-                    ))}
+                    />
+                ))}
             </div>
             <div className="flex-[7] bg-gray-500">
-                <Map 
+                <Map
                     latitude={response.data.preferredRegion.latitude}
                     longitude={response.data.preferredRegion.longitude}
                     ptList={response2.data.content}

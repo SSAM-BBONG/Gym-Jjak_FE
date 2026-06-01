@@ -15,9 +15,9 @@ export default function PtRecordsPage() {
             </div>
 
             <div className="flex flex-col gap-5">
-                <PtRecordCard/>
-                <PtRecordCard/>
-                <PtRecordCard/>
+                <PtRecordCard />
+                <PtRecordCard />
+                <PtRecordCard />
             </div>
         </div>
     );

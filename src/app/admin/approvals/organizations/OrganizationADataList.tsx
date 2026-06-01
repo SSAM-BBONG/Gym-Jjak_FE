@@ -1,3 +1,5 @@
+'use client'
+
 import SearchBar from "@/feature/admin/components/SearchBar";
 import OrganizationADataItem from "./OrganizationADataItem";
 
