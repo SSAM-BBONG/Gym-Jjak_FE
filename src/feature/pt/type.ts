@@ -144,3 +144,27 @@ export interface PreferredRegion {
   latitude: number;
   longitude: number;
 }
+
+export interface PtActionState {
+  success: boolean;
+  message?: string;
+  errors?: Record<string, string>;
+}
+
+export interface PtCourseCreateResponse {
+  status: number;
+  code: string;
+  message: string;
+  data: PtCourseCreateData;
+}
+
+export interface PtCourseCreateData {
+  ptCourseId: number;
+  title: string;
+  description: string;
+  categoryId: number;
+  tagId: number;
+  price: number;
+  totalSessionCount: number;
+  thumbnailUrl?: string;
+}
