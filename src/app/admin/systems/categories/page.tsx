@@ -1,7 +1,11 @@
+import { getCategories } from "@/service/admin.service";
 import SystemAddButton from "../SystemAddButton";
 import SystemDataList from "../SystemDataList";
 
-export default function Page() {
+export default async function Page() {
+
+    const response = await getCategories();
+    const categories: category[] = response.data.data;
     return (
         <section className="p-7.5">
             <div className="flex items-center  mb-8">
@@ -9,7 +13,7 @@ export default function Page() {
                 <SystemAddButton text="카테고리" />
             </div>
 
-            <SystemDataList text="카테고리" />
+            <SystemDataList text="카테고리" datas={categories} />
         </section>
     );
 }

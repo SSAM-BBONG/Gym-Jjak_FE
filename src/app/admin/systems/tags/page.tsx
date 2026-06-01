@@ -1,7 +1,9 @@
 import SystemAddButton from "../SystemAddButton";
 import SystemDataList from "../SystemDataList";
 
-export default function Page({ text }: { text: string }) {
+export default function Page() {
+    const tag: tag[] = [];
+
     return (
         <section className="p-7.5">
             <div className="flex items-center  mb-8">
@@ -9,7 +11,7 @@ export default function Page({ text }: { text: string }) {
                 <SystemAddButton text="태그" />
             </div>
 
-            <SystemDataList text="태그" />
+            <SystemDataList text="태그" datas={tag} />
         </section>
     );
 }

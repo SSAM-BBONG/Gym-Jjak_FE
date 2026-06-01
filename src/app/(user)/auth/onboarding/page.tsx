@@ -1,24 +1,36 @@
-import Onboarding1Form from "./Onboarding1Form";
+import Onboarding1 from "./Onboarding1";
+import Onboarding2 from "./Onboarding2";
+import Onboarding3 from "./Onboarding3";
+import Onboarding4 from "./Onboarding4";
+import Onboarding5 from "./Onboarding5";
+import Onboarding6 from "./Onboarding6";
+import OnbordingForms from "./OnbordingForms";
 
-export default function Page() {
+interface paramsProps {
+    searchParams: Promise<{
+        page: string;
+    }>
+}
+
+export default async function Page({ searchParams }: paramsProps) {
+    const { page } = await searchParams;
+
+    const stepComponents: Record<number, React.ReactNode> = {
+        1: <Onboarding1 />,
+        2: <Onboarding2 />,
+        3: <Onboarding3 />,
+        4: <Onboarding4 />,
+        5: <Onboarding5 />,
+        6: <Onboarding6 />,
+    };
+
     return (
-        <section className="w-2xl m-auto">
-            <div className="w-full flex justify-between mb-3">
-                <p className="text-[#99A1AF] font-normal text-sm">1단계</p><p className="font-medium text-sm text-[#BFFF0B]">17%</p>
-            </div>
-            <div className="w-full h-2 bg-[#1E2939] rounded-xl mb-12"><div className="w-1/6 h-2 bg-[#BFFF0B] rounded-xl"></div></div>
-            <article className="text-center">
-                <h1 className="font-black text-5xl text-white mb-4.5">운동 목적을 알려주세요</h1>
-                <p className="font-normal text-lg text-[#99A1AF] mb-12">어떤 목표를 가지고 계신가요?</p>
-            </article>
-            <form>
-                <Onboarding1Form />
-                <article className="flex">
-                    <button className="py-3 px-8 rounded-[10px] text-base font-bold bg-[#10182880] text-[#D1D5DC] ">이전</button>
-                    <button className="ml-auto bg-[#BFFF0B] py-3 px-8 rounded-[10px] text-base font-bold">다음</button>
-                </article>
-            </form>
-
+        <section className="w-2xl m-auto mt-10 pb-10">
+            {stepComponents[Number(page)] || stepComponents[1]}
+            <OnbordingForms page={page} />
         </section>
-    );
+    )
+
+
+
 }

@@ -3,6 +3,12 @@
 import axios, { AxiosResponse, InternalAxiosRequestConfig } from "axios";
 import { cookies } from "next/headers";
 
+declare module 'axios' {
+    interface InternalAxiosRequestConfig {
+        _retry?: boolean;
+    }
+}
+
 // 공통 설정
 export const axiosFetch = axios.create({
     baseURL: process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8081',
@@ -39,32 +45,68 @@ axiosFetch.interceptors.response.use(
     },
     async (error) => {
         if (error.response) {
-            const { status, data } = error.response;
+            const { status } = error.response;
 
             switch (status) {
                 case 401:
+                    const cookieStore = await cookies();
+                    if (!cookieStore.get('refreshToken')?.value) {
+                        return Promise.reject(error);
+                    }
+
+                    if (error.config._retry) {
+                        cookieStore.delete('accessToken');
+                        cookieStore.delete('refreshToken');
+                        return Promise.reject(error);
+                    }
+                    error.config._retry = true;
 
                     try {
                         const base_url = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8081';
 
-                        const res = await axios.post(`${base_url}/api/token/reissue`)
-                        const cookieStore = await cookies();
+                        const refreshToken = cookieStore.get('refreshToken')?.value
+                        const res = await axios.post(
+                            `${base_url}/api/token/reissue`,
+                            {},
+                            {
+                                headers: {
+                                    Cookie: `refreshToken=${refreshToken}`
+                                }
+                            }
+                        );
+
                         cookieStore.set('accessToken', res.data.data.accessToken, {
                             httpOnly: true,   // 자바스크립트 접근 불가(xss 방지)
                             maxAge: 60 * 15,   // 15분
                             path: '/'
                         })
 
-                        error.config.headers.Authorization = `Bearer ${res.data.accessToken}`;
 
+                        const setCookieHeader = res.headers['set-cookie'];
+
+                        if (setCookieHeader) {
+                            const newRefreshToken = setCookieHeader.find((cookie) => cookie.startsWith('refreshToken='));
+                            const newRefreshValue = newRefreshToken?.split(';')[0].replace('refreshToken=', '');
+
+                            if (newRefreshValue) {
+                                cookieStore.set('refreshToken', newRefreshValue, {
+                                    httpOnly: true,
+                                    maxAge: 60 * 60 * 3,
+                                    path: '/'
+                                });
+                            }
+                        }
+
+                        //원래 하려던 요청을 다시 요청
+                        //근데 원래 요청의 헤더에는 예전의 accessToken이 들어있으니 이를 새로 발급받은 토큰으로 교체
+                        error.config.headers.Authorization = `Bearer ${res.data.data.accessToken}`;
                         return axiosFetch(error.config)
                     } catch (refreshError) {
-                        const cookieStore = await cookies();
                         cookieStore.delete('accessToken');
 
                         return Promise.reject(refreshError);
                     }
-                    break;
+
 
                 default:
                     return Promise.reject(error);

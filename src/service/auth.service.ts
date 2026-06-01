@@ -1,4 +1,4 @@
-import { LoginRequest, RegisterRequest } from "@/feature/auth/type";
+import { LoginRequest, onbordingRequest, RegisterRequest } from "@/feature/auth/type";
 import { axiosFetch } from "@/lib/api"
 
 export const login = async (user: LoginRequest) => {
@@ -17,6 +17,12 @@ export const register = async (userInfo: RegisterRequest) => {
 
 export const logout = async () => {
     const response = await axiosFetch.post('/api/auth/logout');
+
+    return response;
+}
+
+export const onboarding = async (onbordingInfo: onbordingRequest) => {
+    const response = await axiosFetch.post('/api/onboarding/me', onbordingInfo)
 
     return response;
 }

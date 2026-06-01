@@ -1,17 +1,17 @@
+'use client'
+
 import SearchBar from "@/feature/admin/components/SearchBar";
 import ReportDataItem from "./ReportDataItem";
 import AdminPagination from "@/feature/admin/components/AdminPagination";
 
 interface ReportDataListProps {
     mode: 'TRAINER_REVIEW' | 'COMMENT' | 'PT_COURSE' | 'FEEDBACK' | 'POST';
-    searchParams: Promise<{
-        page: string;
-    }>
+    reposts: Reposts[]
+    totalPage: number;
+    page: string;
 }
 
-export default async function ReportDataList({ mode, searchParams }: ReportDataListProps) {
-
-    const { page } = await searchParams;
+export default function ReportDataList({ mode, reposts, totalPage, page }: ReportDataListProps) {
 
     return (
         <div>
@@ -27,9 +27,17 @@ export default async function ReportDataList({ mode, searchParams }: ReportDataL
                     <p className="col-span-2">상태</p>
                     <p className="col-span-3">관리</p>
                 </div>
-                <ReportDataItem mode={mode} />
+                {reposts?.map((repost) => (
+                    <ReportDataItem mode={mode} repost={repost} key={repost.reportGroupId} />
+                ))}
+
+                {reposts?.length === 0 && (
+                    <div className="px-6 py-10 text-center text-sm text-muted-foreground">
+                        신고가 없습니다.
+                    </div>
+                )}
             </section>
-            <AdminPagination mode={mode} page={page} />
+            <AdminPagination mode={mode} page={page} totalPage={totalPage} />
         </div>
     );
 }

@@ -4,7 +4,7 @@ import useModal from "@/components/hooks/useModal";
 import { AdminUpdateImg } from "@/components/ui/image";
 import AdminAddModal from "./modals/AdminAddModal";
 
-export default function AdminUpdateButton({ mode }: { mode: string }) {
+export default function AdminUpdateButton({ mode, id, name }: { mode: string, id: number, name: string }) {
 
     const modal = useModal();
 
@@ -21,7 +21,8 @@ export default function AdminUpdateButton({ mode }: { mode: string }) {
                 activeModal={modal.activeModal}
                 mode={mode}
                 system="update"
-                title='모달입니다' />
+                id={id}
+                name={name} />
         </>
 
     );

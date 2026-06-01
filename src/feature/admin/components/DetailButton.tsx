@@ -75,7 +75,7 @@ export default function DetailButton({ mode }: DetailButtonMode) {
                 activeModal={organizationModal.activeModal}
                 noneActiveModal={organizationModal.noneActiveModal}
                 mode={mode}
-                title='모달입니다'
+                applicationId={0}
             />
             <CheckViewModal
                 isModal={viewModal.isModal}

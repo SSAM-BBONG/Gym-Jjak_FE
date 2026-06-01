@@ -1,8 +1,19 @@
+"use client";
+
 import { OrganApplicationUpload} from "@/components/ui/image";
+import { createPtCourseAction } from "@/feature/pt/actions";
+import { useActionState } from "react";
 
 export default function PtRegistForm() {
+    const [state, formAction, isPending] = useActionState(createPtCourseAction, {
+        success: false,
+        message: "",
+        errors: {},
+    });
+
     return (
-        <div className="flex flex-col gap-6 mt-6">
+        <form action={formAction} className="flex flex-col gap-6 mt-6">
+            {state.message && <p className="text-sm text-red-400">{state.message}</p>}
             <div className="
             flex flex-col gap-4
             bg-[#101828]
@@ -17,7 +28,7 @@ export default function PtRegistForm() {
                     <label
                         className="px-7 py-3 rounded-[10px] bg-[#BFFF0B] text-[16px] font-extrabold text-black cursor-pointer" 
                         htmlFor="ptregist-img-upload"> 이미지 업로드 </label>
-                    <input type="file" className="hidden" id="ptregist-img-upload"/>
+                    <input type="file" name="thumbnail" className="hidden" id="ptregist-img-upload"/>
                 </div>
             </div>
 
@@ -32,6 +43,7 @@ export default function PtRegistForm() {
                     <div className="flex flex-col gap-2">
                         <label className="text-[14px] font-medium text-white"> 강습명 </label>
                         <input 
+                            name="title"
                             type="text" 
                             placeholder="예: 체계적인 가슴 집중 PT"
                             className="
@@ -43,6 +55,7 @@ export default function PtRegistForm() {
                     <div className="flex flex-col gap-2">
                         <label className="text-[14px] font-medium text-white"> 강습 소개 </label>
                         <textarea 
+                            name="description"
                             placeholder="강습의 목적, 진행 방식, 준비물, 대상자 등을 작성해주세요"
                             className="
                             px-4 py-3
@@ -55,6 +68,7 @@ export default function PtRegistForm() {
                     <div className="flex flex-col flex-1 gap-2">
                         <label className="text-[14px] font-medium text-white"> 총 회차 </label>
                         <input 
+                            name="totalSessionCount"
                             type="text" 
                             placeholder="총 회차를 입력해주세요"
                             className="
@@ -78,6 +92,7 @@ export default function PtRegistForm() {
                     <div className="flex flex-col gap-2">
                         <label className="text-[14px] font-medium text-white"> 가격 (1회당)</label>
                         <input 
+                            name="price"
                             type="text" 
                             placeholder="PT 1회당 가격을 입력해주세요"
                             className="
@@ -99,17 +114,17 @@ export default function PtRegistForm() {
                 <div className="flex flex-col gap-2">
                     <p className="text-[14px] font-medium text-white"> 카테고리 </p>
                     <div className="flex gap-3">
-                        <button className="px-4 py-2 bg-[#BFFF0B] rounded-[10px] text-black text-[16px] font-extrabold"> 다이어트 </button>
-                        <button className="px-4 py-2 bg-[#1E2939] rounded-[10px] text-[#99A1AF] text-[16px] font-medium"> 벌크업 </button>
-                        <button className="px-4 py-2 bg-[#1E2939] rounded-[10px] text-[#99A1AF] text-[16px] font-medium"> 체력증진 </button>
-                        <button className="px-4 py-2 bg-[#1E2939] rounded-[10px] text-[#99A1AF] text-[16px] font-medium"> 재활 </button>
+                        <label className="px-4 py-2 bg-[#BFFF0B] rounded-[10px] text-black text-[16px] font-extrabold"><input className="hidden" name="categoryId" type="radio" value="1" defaultChecked /> 다이어트 </label>
+                        <label className="px-4 py-2 bg-[#1E2939] rounded-[10px] text-[#99A1AF] text-[16px] font-medium"><input className="hidden" name="categoryId" type="radio" value="2" /> 벌크업 </label>
+                        <label className="px-4 py-2 bg-[#1E2939] rounded-[10px] text-[#99A1AF] text-[16px] font-medium"><input className="hidden" name="categoryId" type="radio" value="3" /> 체력증진 </label>
+                        <label className="px-4 py-2 bg-[#1E2939] rounded-[10px] text-[#99A1AF] text-[16px] font-medium"><input className="hidden" name="categoryId" type="radio" value="4" /> 재활 </label>
                     </div>
                 </div>
                 <div className="flex flex-col gap-2">
                     <p className="text-[14px] font-medium text-white"> 태그 (복수 선택) </p>
                     <div className="flex gap-1">
-                        <button className="px-4 py-2 bg-[#1E2939] rounded-[10px] text-[#99A1AF] text-[14px] font-medium"> 어깨 </button>
-                        <button className="px-4 py-2 bg-[#1E2939] rounded-[10px] text-[#99A1AF] text-[14px] font-medium"> 가슴 </button>
+                        <label className="px-4 py-2 bg-[#1E2939] rounded-[10px] text-[#99A1AF] text-[14px] font-medium"><input className="hidden" name="tagId" type="radio" value="1" defaultChecked /> 어깨 </label>
+                        <label className="px-4 py-2 bg-[#1E2939] rounded-[10px] text-[#99A1AF] text-[14px] font-medium"><input className="hidden" name="tagId" type="radio" value="2" /> 가슴 </label>
                         <button className="px-4 py-2 bg-[#1E2939] rounded-[10px] text-[#99A1AF] text-[14px] font-medium"> 등 </button>
                         <button className="px-4 py-2 bg-[#1E2939] rounded-[10px] text-[#99A1AF] text-[14px] font-medium"> 하체 </button>
                         <button className="px-4 py-2 bg-[#1E2939] rounded-[10px] text-[#99A1AF] text-[14px] font-medium"> 허벅지 </button>
@@ -242,9 +257,9 @@ export default function PtRegistForm() {
             </div>
 
             <div className="flex gap-3">
-                <button className="flex-1 rounded-[10px] bg-[#1E2939] py-4 text-white text-[16px] font-extrabold"> 취소 </button>
-                <button className="flex-1 rounded-[10px] bg-[#BFFF0B] py-4 text-black text-[16px] font-extrabold"> 등록하기 </button>
+                <button type="button" className="flex-1 rounded-[10px] bg-[#1E2939] py-4 text-white text-[16px] font-extrabold"> 취소 </button>
+                <button disabled={isPending} className="flex-1 rounded-[10px] bg-[#BFFF0B] py-4 text-black text-[16px] font-extrabold"> {isPending ? "등록 중" : "등록하기"} </button>
             </div>
-        </div>
+        </form>
     );
 }
