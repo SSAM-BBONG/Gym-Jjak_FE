@@ -1,17 +1,12 @@
+import CheckRole from "@/components/layout/CheckRole";
 import { MypageInbody, PtTrainerRegistPending } from "@/components/ui/image";
 import TrainerRegistForm from "@/feature/pt/components/TrainerRegistForm";
-import { decodeJWT } from "@/lib/decode";
-import { redirect } from "next/navigation";
 
 export default async function PtTrainerRegistPage() {
 
-    const user = await decodeJWT();
-    if (!user?.role) {
-        redirect('/auth/login');
-    }
-
     return (
         <div>
+            <CheckRole mode='nopermission' />
             <TrainerRegistForm />
 
             <div className="flex flex-col px-40 pt-10">

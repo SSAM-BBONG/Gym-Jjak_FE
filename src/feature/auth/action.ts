@@ -6,11 +6,26 @@ import axios from "axios";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { onbordingRequest } from "./type";
+import { decodeJWT } from "@/lib/decode";
 
 interface ActionState {
     success: boolean;
     message?: string;
     errors?: Record<string, string>;
+}
+
+export const getHeaderUserAction = async () => {
+    const user = await decodeJWT();
+
+    if (!user?.sub) {
+        return null;
+    }
+
+    return {
+        sub: user.sub,
+        username: user.username,
+        role: user.role,
+    }
 }
 
 export const loginAction = async (prevState: ActionState, formData: FormData): Promise<ActionState> => {

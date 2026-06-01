@@ -1,13 +1,10 @@
-import { decodeJWT } from "@/lib/decode";
-import { redirect } from "next/navigation";
+import CheckRole from "@/components/layout/CheckRole";
 
 export default async function Layout({ children }: { children: React.ReactNode }) {
-    const user = await decodeJWT();
-    if (!user?.role) {
-        redirect('/auth/login');
-    }
+
     return (
         <section>
+            <CheckRole mode="login" />
             {children}
         </section>
     );
