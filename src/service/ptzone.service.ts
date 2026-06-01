@@ -20,7 +20,7 @@ export const getPtLists = cache(async (): Promise<PtListResponse> => {
 export const getOnboarding = cache(async (): Promise<OnboardingResponse> => {
       const response = await axiosFetch.get(`/api/onboarding/me`);
   return response.data;
-};
+});
 
 // PT 등록 API 
 export const createPtCourse = async (formData: FormData): Promise<PtCourseCreateResponse> => {
