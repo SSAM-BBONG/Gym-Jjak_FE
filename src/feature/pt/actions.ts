@@ -31,7 +31,7 @@ const getRequiredString = (
   const value = formData.get(field);
 
   if (typeof value !== "string" || !value.trim()) {
-    errors[field] = "?꾩닔 ?낅젰媛믪엯?덈떎.";
+    errors[field] = "필수 입력값입니다.";
     return "";
   }
 
@@ -46,7 +46,7 @@ const getNumber = (
   const numberValue = Number(value);
 
   if (!Number.isFinite(numberValue)) {
-    errors[field] = "?レ옄濡??낅젰?댁＜?몄슂.";
+    errors[field] = "숫자로 입력해주세요.";
     return 0;
   }
 
@@ -84,25 +84,25 @@ export const createPtCourseAction = async (
   );
 
   if (categoryId < 1) {
-    errors.categoryId = "移댄뀒怨좊━瑜??좏깮?댁＜?몄슂.";
+    errors.categoryId = "카테고리를 선택해주세요.";
   }
 
   if (tagId < 1) {
-    errors.tagId = "?쒓렇瑜??좏깮?댁＜?몄슂.";
+    errors.tagId = "태그를 선택해주세요.";
   }
 
   if (price < 0) {
-    errors.price = "媛寃⑹? 0 ?댁긽?댁뼱???⑸땲??";
+    errors.price = "가격은 0 이상이어야 합니다.";
   }
 
   if (totalSessionCount < 1) {
-    errors.totalSessionCount = "?꾩껜 ?뚯감 ?섎뒗 1 ?댁긽?댁뼱???⑸땲??";
+    errors.totalSessionCount = "전체 회차 수는 1 이상이어야 합니다.";
   }
 
   if (Object.keys(errors).length > 0) {
     return {
       success: false,
-      message: "?낅젰媛믪쓣 ?뺤씤?댁＜?몄슂.",
+      message: "입력값을 확인해주세요.",
       errors,
     };
   }
@@ -132,7 +132,7 @@ export const createPtCourseAction = async (
   try {
     await createPtCourse(payload);
   } catch (error) {
-    let message = "PT 媛뺤뒿 ?깅줉 以??ㅻ쪟媛 諛쒖깮?덉뒿?덈떎.";
+    let message = "PT 강습 등록 중 오류가 발생했습니다.";
 
     if (axios.isAxiosError(error)) {
       message = error.response?.data?.message || error.message;
@@ -150,5 +150,6 @@ export const createPtCourseAction = async (
   revalidatePath("/pt");
   revalidatePath("/pt/find");
   revalidatePath("/pt/manage");
+
   redirect("/pt/manage");
 };

@@ -37,7 +37,7 @@ export default function KakaoMap({latitude, longitude, ptList}: PtFindProps) {
     {/* 맵에 나타나는 마커 관련 */}
     {ptList.map((item) => (
       <CustomOverlayMap
-            key={item.ptCourseId}
+        key={item.ptCourseId}
         position={{
         lat: item.latitude,
         lng: item.longitude,
