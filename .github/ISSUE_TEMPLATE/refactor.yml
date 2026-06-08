@@ -48,8 +48,8 @@ body:
         - Accessibility
         - UI/UX Improvement
         - Other
-      validations:
-        required: true
+    validations:
+      required: true
 
   - type: textarea
     id: tasks
