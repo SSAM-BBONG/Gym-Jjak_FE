@@ -56,7 +56,7 @@ export default function CheckReportModal({ isModal, closeModal, activeModal, non
             className="z-999 bg-black/50 fixed top-0 left-0 w-screen h-screen"
             onClick={closeModal} >
             <div
-                className="bg-gradient-to-br from-[#101828] to-[#000] w-md h-max-150 rounded-2xl border border-[#1E2939] z-1000 fixed top-1/2 left-1/2 p-6 flex -translate-x-1/2 -translate-y-1/2 flex-col 
+                className="bg-gradient-to-br from-[#101828] to-[#000] w-md h-150 rounded-2xl border border-[#1E2939] z-1000 fixed top-1/2 left-1/2 p-6 flex -translate-x-1/2 -translate-y-1/2 flex-col 
                                 overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
 
                 onClick={(e) => e.stopPropagation()}>

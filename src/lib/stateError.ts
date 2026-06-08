@@ -21,7 +21,7 @@ export const refreshGet = async () => {
 
         cookieStore.set('accessToken', res.data.data.accessToken, {
             httpOnly: true,   // 자바스크립트 접근 불가(xss 방지)
-            maxAge: 60 * 15,   // 15분
+            maxAge: 60 * 60,   // 15분
             path: '/'
         })
 
