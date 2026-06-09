@@ -1,4 +1,3 @@
-import CheckRole from "@/components/layout/CheckRole";
 import { MypageInbody, PtTrainerRegistPending } from "@/components/ui/image";
 import TrainerRegistForm from "@/feature/pt/components/TrainerRegistForm";
 
@@ -6,7 +5,6 @@ export default async function PtTrainerRegistPage() {
 
     return (
         <div>
-            <CheckRole mode='nopermission' />
             <TrainerRegistForm />
 
             <div className="flex flex-col px-40 pt-10">

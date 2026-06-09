@@ -65,7 +65,7 @@ export const loginAction = async (prevState: ActionState, formData: FormData): P
 
     cookieStore.set('accessToken', response.data.data.accessToken, {
         httpOnly: true,
-        maxAge: 60 * 15,
+        maxAge: 60 * 1,
         path: '/'
     });
 
@@ -99,59 +99,10 @@ export const loginAction = async (prevState: ActionState, formData: FormData): P
     } else {
         redirect('/auth/onboarding?page=1');
     }
-
-
-    return {
-        success: true,
-        message: '로그인 성공'
-    }
 }
 
 export const registerAction = async (payload: SignUpFormData): Promise<ActionState> => {
-    const { username, password, passwordCheck, name, nickname, phone } = payload;
-
-
-    if (!username.trim() || !password.trim() || !passwordCheck.trim() || !name.trim() || !nickname.trim() || !phone.trim()) {
-        return {
-            success: false,
-            message: '값을 입력해주세요'
-        }
-    }
-    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*()_+=\-[\]{}|;':",./<>?~`]).+$/;
-    if (password.length < 8 || password.length > 16) {
-        return {
-            success: false,
-            message: '비밀번호는 8자 이상 16자 이하여야 합니다.'
-        }
-    }
-    if (!passwordRegex.test(password)) {
-        return {
-            success: false,
-            message: '비밀번호는 영어, 숫자, 특수문자가 하나씩 포함되어야 합니다.'
-        }
-    }
-    if (password !== passwordCheck) {
-        return {
-            success: false,
-            message: '비밀번호가 일치하지 않습니다.'
-        }
-    }
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(username)) {
-        return {
-            success: false,
-            message: '이메일 형식이 맞지 않습니다.'
-        }
-    }
-    const phoneRegex = /^\d{3}-\d{4}-\d{4}$/
-    if (!phoneRegex.test(phone)) {
-        return {
-            success: false,
-            message: '전화번호 형식이 맞지 않습니다.'
-        }
-    }
-
-
+    const { username, password, name, nickname, phone } = payload;
 
     try {
         await register({ username, password, name, nickname, phone });
@@ -182,6 +133,18 @@ export const logoutAction = async () => {
     try {
         await logout();
     } catch (error) {
+        let errorMessage: string = 'Unknown Error';
+        if (axios.isAxiosError(error)) {
+            // Axios 자체 에러인 경우
+            errorMessage = (error.response && error.response.data) ? error.response.data.message : error.message
+        } else if (error instanceof Error) {
+            // 일반적인 JS 에러인 경우
+            errorMessage = error.message;
+        }
+        return {
+            success: false,
+            message: errorMessage
+        }
     }
     const cookieStore = await cookies();
     cookieStore.delete('accessToken');
@@ -207,10 +170,5 @@ export const onboardingAction = async (payload: onbordingRequest): Promise<Actio
         }
     }
     redirect('/');
-
-    return {
-        success: true,
-        message: '로그인 성공'
-    }
 }
 

@@ -16,8 +16,6 @@ export default function LoginForm() {
 
     const modal = useModal();
 
-
-
     return (
         <form action={loginFormAction} className="w-md">
             <label
