@@ -123,7 +123,7 @@ export default function PtRegistForm() {
                 <div className="flex flex-col gap-2">
                     <p className="text-[14px] font-medium text-white"> 태그 (복수 선택) </p>
                     <div className="flex gap-1">
-                        <label className="px-4 py-2 bg-[#1E2939] rounded-[10px] text-[#99A1AF] text-[14px] font-medium"><input className="hidden" name="tagId" type="radio" value="1" defaultChecked /> 어깨 </label>
+                        <label className="px-4 py-2 bg-[#BFFF0B] rounded-[10px] text-black text-[14px] font-extrabold"><input className="hidden" name="tagId" type="radio" value="1" defaultChecked /> 어깨 </label>
                         <label className="px-4 py-2 bg-[#1E2939] rounded-[10px] text-[#99A1AF] text-[14px] font-medium"><input className="hidden" name="tagId" type="radio" value="2" /> 가슴 </label>
                         <button className="px-4 py-2 bg-[#1E2939] rounded-[10px] text-[#99A1AF] text-[14px] font-medium"> 등 </button>
                         <button className="px-4 py-2 bg-[#1E2939] rounded-[10px] text-[#99A1AF] text-[14px] font-medium"> 하체 </button>

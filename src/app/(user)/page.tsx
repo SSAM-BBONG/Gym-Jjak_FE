@@ -18,11 +18,11 @@ export default function Page() {
           <span className="text-[#BFFF0B]"> 폭발시켜라 </span> <br/>
           오늘부터 시작하세요. </p>
           <p className="font-normal text-[14px] text-[#99A1AF]">
-            최고의 트레이너 관리와 과학적 데이터 기반 PT를 싲가해보세요. <br />
+            최고의 트레이너 관리와 과학적 데이터 기반 PT를 시작해보세요. <br />
             당신의 목표를 달성할 수 있습니다.
           </p>
           <Link href="/pt">
-            <button className="bg-[#BFFF0B] text-black font-extrabold text-[16px] px-9 py-3.5 rounded-[10px] cursor-pointer"> 지금 바로 체험하기</button>
+            <button className="bg-[#BFFF0B] text-black font-extrabold text-[16px] px-9 py-3.5 rounded-[10px] cursor-pointer hover:opacity-80"> 지금 바로 체험하기</button>
           </Link>
         </div>
 
@@ -67,7 +67,8 @@ export default function Page() {
             </p>
             <p>목표 맞춤 PT 프로그램</p>
           </div>
-          <button className="bg-[#BFFF0B] rounded-[10px] text-black flex items-center justify-center px-6 py-2 font-bold hover:cursor-pointer">
+          <button className="bg-[#BFFF0B] rounded-[10px] text-black flex items-center justify-center px-6 py-2 font-bold
+          hover:cursor-pointer hover:opacity-80">
             PT 센터 찾기
           </button>
         </div>
@@ -93,7 +94,8 @@ export default function Page() {
             </p>
           </div>
           <Link href="/community">
-          <button className="w-full bg-[#1E2939] text-white px-2 py-3 text-center rounded-[10px] font-extrabold hover:text-[#BFFF0B] hover:cursor-pointer">
+          <button className="w-full bg-[#1E2939] text-white px-2 py-2.5 text-center rounded-[10px] font-extrabold
+          hover:bg-[#BFFF0B] hover:text-black hover:cursor-pointer">
             커뮤니티 가기
           </button>
           </Link>
@@ -120,7 +122,8 @@ export default function Page() {
               집에서 할 수 있는 <br /> 맞춤형 운동 루틴
             </p>
           </div>
-          <button className="w-full bg-[#1E2939] text-white px-2 py-3 text-center rounded-[10px] font-extrabold mt-8 hover:text-[#BFFF0B] hover:cursor-pointer">
+          <button className="w-full bg-[#1E2939] text-white px-2 py-2.5 text-center rounded-[10px] font-extrabold
+          hover:bg-[#BFFF0B] hover:text-black hover:cursor-pointer">
             홈트 ZONE 가기
           </button>
         </div>
@@ -139,7 +142,8 @@ export default function Page() {
             </p>
           </div>
           <Link href="/calendar">
-            <button className="w-full bg-[#1E2939] text-white px-2 py-3 text-center rounded-[10px] font-extrabold mt-8 hover:text-[#BFFF0B] hover:cursor-pointer">
+            <button className="w-full bg-[#1E2939] text-white px-2 py-3 text-center rounded-[10px] font-extrabold mt-8
+                      hover:bg-[#BFFF0B] hover:text-black hover:cursor-pointer">
               캘린더 가기
             </button>
           </Link>
@@ -158,7 +162,8 @@ export default function Page() {
               팀을 만들고 함께 <br /> 목표를 달성하세요
             </p>
           </div>
-          <button className="w-full bg-[#1E2939] text-white px-2 py-3 rounded-[10px] font-extrabold mt-8 hover:text-[#BFFF0B] text-center hover:cursor-pointer">
+          <button className="w-full bg-[#1E2939] text-white px-2 py-3 rounded-[10px] font-extrabold mt-8
+                    hover:bg-[#BFFF0B] hover:text-black hover:cursor-pointer">
             길드 대항전 참여하기
           </button>
         </div>

@@ -45,7 +45,8 @@ export default function UserProfile() {
             <div className="relative">
                 <div
                     onClick={handleProfileClick}
-                    className="rounded-full size-8 border-[#99A1AF] border overflow-hidden flex items-center justify-center hover:cursor-pointer"
+                    className="rounded-full size-8 border-gray-700 border-2 overflow-hidden flex items-center justify-center
+                    hover:cursor-pointer hover:border-[#BFFF0B]"
                 >
                     <img src={Profile} alt="프로필 이미지" />
                 </div>
