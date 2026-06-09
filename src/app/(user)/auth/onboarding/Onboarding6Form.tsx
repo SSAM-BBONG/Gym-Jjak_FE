@@ -11,6 +11,7 @@ import useModal from "@/components/hooks/useModal";
 import { onboardingAction } from "@/feature/auth/action";
 import { success } from "zod";
 import OneButtonModal from "@/components/ui/OneButtonModal";
+import Link from "next/link";
 
 interface DaumAddressData {
     roadAddress: string;
@@ -115,7 +116,7 @@ export default function Onboarding6Form({ totalData, setTotalData }: { totalData
             {errors && <div className="text-red-500 text-md mb-5 text-center">{errors.region?.message ? errors.region?.message : '주소를 검색해주세요'}</div>}
 
             <article className="flex">
-                <button type="button" onClick={() => router.push('/auth/onboarding?page=5')} className="py-3 px-8 rounded-[10px] text-base font-bold bg-[#10182880] text-[#D1D5DC]">이전</button>
+                <Link href='/auth/onboarding?page=5'> <button type="button" className="py-3 px-8 rounded-[10px] text-base font-bold bg-[#10182880] text-[#D1D5DC]">이전</button></Link>
                 <button type="submit" className="ml-auto bg-[#BFFF0B] py-3 px-8 rounded-[10px] text-base font-bold">다음</button>
             </article>
             <SearchAdressModal

@@ -7,18 +7,18 @@ import { DetailButtonImg } from "@/components/ui/image";
 
 
 export default function ReportCheck({ reportGroupId }: { reportGroupId: number }) {
-    const handleConfirm1 = () => {
-        ApprovalModal.openModal();
-    };
+    // const handleConfirm1 = () => {
+    //     ApprovalModal.openModal();
+    // };
 
 
-    const handleReject = () => {
-        RejectModal.openModal();
-    }
+    // const handleReject = () => {
+    //     RejectModal.openModal();
+    // }
 
-    const modal = useModal(handleConfirm1, handleReject);
-    const ApprovalModal = useModal(handleConfirm1);
-    const RejectModal = useModal(handleConfirm1);
+    const modal = useModal();
+    // const ApprovalModal = useModal(handleConfirm1);
+    // const RejectModal = useModal(handleConfirm1);
 
     return (
         <>
@@ -37,7 +37,7 @@ export default function ReportCheck({ reportGroupId }: { reportGroupId: number }
                 />
             }
 
-            <TwoButtonModal
+            {/* <TwoButtonModal
                 isModal={ApprovalModal.isModal}
                 closeModal={ApprovalModal.closeModal}
                 activeModal={ApprovalModal.activeModal}
@@ -50,7 +50,7 @@ export default function ReportCheck({ reportGroupId }: { reportGroupId: number }
                 activeModal={RejectModal.activeModal}
                 title='신고 승인'
                 content={`신고를 반려하시겠습니까?`}
-            />
+            /> */}
         </>
     );
 }

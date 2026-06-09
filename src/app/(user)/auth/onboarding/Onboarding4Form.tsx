@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { Dispatch, SetStateAction } from "react";
 import { onbordingRequest } from "@/feature/auth/type";
+import Link from "next/link";
 
 export default function Onboarding4Form({ totalData, setTotalData }: { totalData: onbordingRequest, setTotalData: Dispatch<SetStateAction<onbordingRequest>> }) {
     const router = useRouter();
@@ -158,7 +159,7 @@ export default function Onboarding4Form({ totalData, setTotalData }: { totalData
 
 
             <article className="flex">
-                <button type="button" onClick={() => router.push('/auth/onboarding?page=3')} className="py-3 px-8 rounded-[10px] text-base font-bold bg-[#10182880] text-[#D1D5DC]">이전</button>
+                <Link href='/auth/onboarding?page=3'><button type="button" className="py-3 px-8 rounded-[10px] text-base font-bold bg-[#10182880] text-[#D1D5DC]">이전</button></Link>
                 <button type="submit" className="ml-auto bg-[#BFFF0B] py-3 px-8 rounded-[10px] text-base font-bold">다음</button>
             </article>
         </form>

@@ -1,4 +1,5 @@
-'use server'
+// use server를 쓰면 서버 액션으로 판단될 수 있어 next 규칙과 충돌할 수 있음
+import 'server-only';
 
 import axios, { AxiosResponse, InternalAxiosRequestConfig } from "axios";
 import { cookies } from "next/headers";
@@ -77,7 +78,7 @@ axiosFetch.interceptors.response.use(
 
                         cookieStore.set('accessToken', res.data.data.accessToken, {
                             httpOnly: true,   // 자바스크립트 접근 불가(xss 방지)
-                            maxAge: 60 * 60,   // 15분
+                            maxAge: 60 * 1,   // 15분
                             path: '/'
                         })
 
