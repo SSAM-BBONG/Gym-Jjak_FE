@@ -10,12 +10,8 @@ export const OrganizationDetailAction = async (applicationId: number) => {
         const response = await getOrganizationbyId(applicationId);
         return response.data;
     } catch (error) {
-        let errorMessage: string = 'Unknown Error';
-        if (axios.isAxiosError(error)) {
-            // Axios 자체 에러인 경우
-            errorMessage = (error.response && error.response.data) ? error.response.data.message : error.message
-        } else if (error instanceof Error) {
-            // 일반적인 JS 에러인 경우
+        let errorMessage: string = '알 수 없는 오류입니다. 재시도해주세요.'
+        if (error instanceof Error) {
             errorMessage = error.message;
         }
 
@@ -28,12 +24,8 @@ export const ReportPtDetailAction = async (reportGroupId: number) => {
         const response = await getReportPtbyId(reportGroupId);
         return response.data;
     } catch (error) {
-        let errorMessage: string = 'Unknown Error';
-        if (axios.isAxiosError(error)) {
-            // Axios 자체 에러인 경우
-            errorMessage = (error.response && error.response.data) ? error.response.data.message : error.message
-        } else if (error instanceof Error) {
-            // 일반적인 JS 에러인 경우
+        let errorMessage: string = '알 수 없는 오류입니다. 재시도해주세요.'
+        if (error instanceof Error) {
             errorMessage = error.message;
         }
 
@@ -47,12 +39,8 @@ export const ReportApprovalAction = async (reportGroupId: number, reportId: numb
         const response = await approvalReport(reportGroupId, reportId);
         return response.data;
     } catch (error) {
-        let errorMessage: string = 'Unknown Error';
-        if (axios.isAxiosError(error)) {
-            // Axios 자체 에러인 경우
-            errorMessage = (error.response && error.response.data) ? error.response.data.message : error.message
-        } else if (error instanceof Error) {
-            // 일반적인 JS 에러인 경우
+        let errorMessage: string = '알 수 없는 오류입니다. 재시도해주세요.'
+        if (error instanceof Error) {
             errorMessage = error.message;
         }
 
@@ -69,12 +57,8 @@ export const ReportRejectAction = async (reportGroupId: number, reportId: number
         const response = await rejectReport(reportGroupId, reportId);
         return response.data;
     } catch (error) {
-        let errorMessage: string = 'Unknown Error';
-        if (axios.isAxiosError(error)) {
-            // Axios 자체 에러인 경우
-            errorMessage = (error.response && error.response.data) ? error.response.data.message : error.message
-        } else if (error instanceof Error) {
-            // 일반적인 JS 에러인 경우
+        let errorMessage: string = '알 수 없는 오류입니다. 재시도해주세요.'
+        if (error instanceof Error) {
             errorMessage = error.message;
         }
 
@@ -87,12 +71,8 @@ export const organizationApprovalAction = async (applicationId: number) => {
     try {
         await approvalOrganization(applicationId);
     } catch (error) {
-        let errorMessage: string = 'Unknown Error';
-        if (axios.isAxiosError(error)) {
-            // Axios 자체 에러인 경우
-            errorMessage = (error.response && error.response.data) ? error.response.data.message : error.message
-        } else if (error instanceof Error) {
-            // 일반적인 JS 에러인 경우
+        let errorMessage: string = '알 수 없는 오류입니다. 재시도해주세요.'
+        if (error instanceof Error) {
             errorMessage = error.message;
         }
 
@@ -119,12 +99,8 @@ export const organizationRejectAction = async (applicationId: number, formData: 
         await rejectOrganization(applicationId, payload);
 
     } catch (error) {
-        let errorMessage: string = 'Unknown Error';
-        if (axios.isAxiosError(error)) {
-            // Axios 자체 에러인 경우
-            errorMessage = (error.response && error.response.data) ? error.response.data.message : error.message
-        } else if (error instanceof Error) {
-            // 일반적인 JS 에러인 경우
+        let errorMessage: string = '알 수 없는 오류입니다. 재시도해주세요.'
+        if (error instanceof Error) {
             errorMessage = error.message;
         }
 
@@ -140,12 +116,8 @@ export const deleteCategoryAction = async (categoryId: number) => {
     try {
         await deleteCategories(categoryId);
     } catch (error) {
-        let errorMessage: string = 'Unknown Error';
-        if (axios.isAxiosError(error)) {
-            // Axios 자체 에러인 경우
-            errorMessage = (error.response && error.response.data) ? error.response.data.message : error.message
-        } else if (error instanceof Error) {
-            // 일반적인 JS 에러인 경우
+        let errorMessage: string = '알 수 없는 오류입니다. 재시도해주세요.'
+        if (error instanceof Error) {
             errorMessage = error.message;
         }
 
@@ -166,12 +138,8 @@ export const createCategoryAction = async (formData: FormData) => {
     try {
         await createCategories(payload);
     } catch (error) {
-        let errorMessage: string = 'Unknown Error';
-        if (axios.isAxiosError(error)) {
-            // Axios 자체 에러인 경우
-            errorMessage = (error.response && error.response.data) ? error.response.data.message : error.message
-        } else if (error instanceof Error) {
-            // 일반적인 JS 에러인 경우
+        let errorMessage: string = '알 수 없는 오류입니다. 재시도해주세요.'
+        if (error instanceof Error) {
             errorMessage = error.message;
         }
 
@@ -192,12 +160,8 @@ export const updateCategoryAction = async (id: number, formData: FormData) => {
     try {
         await updateCategories(id, payload);
     } catch (error) {
-        let errorMessage: string = 'Unknown Error';
-        if (axios.isAxiosError(error)) {
-            // Axios 자체 에러인 경우
-            errorMessage = (error.response && error.response.data) ? error.response.data.message : error.message
-        } else if (error instanceof Error) {
-            // 일반적인 JS 에러인 경우
+        let errorMessage: string = '알 수 없는 오류입니다. 재시도해주세요.'
+        if (error instanceof Error) {
             errorMessage = error.message;
         }
 

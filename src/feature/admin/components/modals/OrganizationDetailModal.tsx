@@ -3,7 +3,6 @@ import AdminModalP from "./AdminModalP";
 import AdminModalDiv from "./AdminModalDiv";
 import { useEffect, useState } from "react";
 import { OrganizationDetailAction } from "../../action";
-import { approvalOrganization } from "@/service/report.service";
 
 interface OrganizationDetailModalProps {
     isModal: boolean;
@@ -42,8 +41,8 @@ export default function OrganizationDetailModal({ isModal, closeModal, activeMod
 
         const fetchOrganization = async () => {
             const res = await OrganizationDetailAction(applicationId);
-            console.log(res);
-            setOrganizationInfo(res?.data ?? emptyOrganizationInstance);
+            console.log('조직 확인', res);
+            setOrganizationInfo(res ?? emptyOrganizationInstance);
         }
 
         if (mode === 'organizationApprove') {
@@ -66,7 +65,7 @@ export default function OrganizationDetailModal({ isModal, closeModal, activeMod
         <section
             className="z-999 bg-black/50 fixed top-0 left-0 w-screen h-screen"
             onClick={closeModal} >
-            <form
+            <div
                 className="bg-gradient-to-br from-[#101828] to-[#000] w-3xl h-150 rounded-2xl border border-[#1E2939] z-1000 fixed top-1/2 left-1/2 p-6 flex -translate-x-1/2 -translate-y-1/2 flex-col justify-between
                 overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
                 onClick={(e) => e.stopPropagation()}>
@@ -183,7 +182,7 @@ export default function OrganizationDetailModal({ isModal, closeModal, activeMod
                         </button>
                     </article>
                 )}
-            </form>
+            </div>
         </section>
     );
 }

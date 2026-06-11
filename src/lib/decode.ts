@@ -31,11 +31,9 @@ export const decodeJWT = cache(async () => {
     }
     if (refreshToken && !token) {
         try {
-            console.log("토큰 만료됨, 재발급 시작");
             const newToken = await refreshGet();
 
             if (!newToken) return defaultUserInfo
-            console.log('발급 성공')
             return jwtDecode<MyTokenPayload>(newToken);
         } catch (error) {
             return defaultUserInfo

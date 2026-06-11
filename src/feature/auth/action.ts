@@ -5,8 +5,9 @@ import { login, logout, onboarding, register } from "@/service/auth.service";
 import axios from "axios";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { onbordingRequest } from "./type";
+import { LoginResponse, onbordingRequest } from "./type";
 import { decodeJWT } from "@/lib/decode";
+import { ReissueResponse } from "@/lib/refreshType";
 
 interface ActionState {
     success: boolean;
@@ -46,12 +47,8 @@ export const loginAction = async (prevState: ActionState, formData: FormData): P
     try {
         response = await login(payload);
     } catch (error) {
-        let errorMessage: string = 'Unknown Error';
-        if (axios.isAxiosError(error)) {
-            // Axios 자체 에러인 경우
-            errorMessage = (error.response && error.response.data) ? error.response.data.message : error.message
-        } else if (error instanceof Error) {
-            // 일반적인 JS 에러인 경우
+        let errorMessage: string = '알 수 없는 오류입니다. 재시도해주세요.'
+        if (error instanceof Error) {
             errorMessage = error.message;
         }
 
@@ -61,40 +58,34 @@ export const loginAction = async (prevState: ActionState, formData: FormData): P
         }
     }
 
+    const resData = (await response.json()) as LoginResponse;
+
     const cookieStore = await cookies();
 
-    cookieStore.set('accessToken', response.data.data.accessToken, {
+    cookieStore.set('accessToken', resData.data.accessToken, {
         httpOnly: true,
         maxAge: 60 * 1,
         path: '/'
     });
 
     //백에서 보낸 쿠키 헤더 가져오기
-    const setCookieHeader = response.headers['set-cookie'];
+    const setCookieHeaders: string[] =
+        response.headers.getSetCookie?.() ?? [];
 
-    // console.log(setCookieHeader)
-    // [
-    //     'refreshToken=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxOSIsInVzZXJuYW1lIjoic2lldW5AdGVzdC5jb20iLCJpYXQiOjE3ODAxMTA2MzAsImV4cCI6MTc4MTMyMDIzMH0.6wPwgV2PnS8nhq6qyKyrr022gbAyp-cjMH5cHdwNMPU; Path=/; Max-Age=1209600; Expires=Sat, 13 Jun 2026 03:10:31 GMT; HttpOnly; SameSite=Lax'
-    // ]
 
-    //쿠키에서 토큰 찾아서 넣는 부분
-    if (setCookieHeader) {
-        const refreshToken = setCookieHeader.find((cookie) => cookie.startsWith('refreshToken='));
+    const newRefreshToken = setCookieHeaders.find((cookie) => cookie.startsWith("refreshToken="))
+    const newRefreshValue = newRefreshToken?.split(';')[0].replace('refreshToken=', '');
 
-        const refreshValue = refreshToken?.split(';')[0].replace('refreshToken=', '');
-
-        if (refreshValue) {
-            cookieStore.set('refreshToken', refreshValue, {
-                httpOnly: true,
-                maxAge: 60 * 60 * 3,
-                path: '/'
-            });
-        }
-
+    if (newRefreshValue) {
+        cookieStore.set('refreshToken', newRefreshValue, {
+            httpOnly: true,
+            maxAge: 60 * 60 * 3,
+            path: '/'
+        });
     }
 
 
-    if (response.data.data.onboardingCompleted) {
+    if (resData.data.onboardingCompleted) {
         redirect('/');
     } else {
         redirect('/auth/onboarding?page=1');
@@ -107,12 +98,8 @@ export const registerAction = async (payload: SignUpFormData): Promise<ActionSta
     try {
         await register({ username, password, name, nickname, phone });
     } catch (error) {
-        let errorMessage: string = 'Unknown Error';
-        if (axios.isAxiosError(error)) {
-            // Axios 자체 에러인 경우
-            errorMessage = (error.response && error.response.data) ? error.response.data.message : error.message
-        } else if (error instanceof Error) {
-            // 일반적인 JS 에러인 경우
+        let errorMessage: string = '알 수 없는 오류입니다. 재시도해주세요.'
+        if (error instanceof Error) {
             errorMessage = error.message;
         }
 
@@ -133,14 +120,11 @@ export const logoutAction = async () => {
     try {
         await logout();
     } catch (error) {
-        let errorMessage: string = 'Unknown Error';
-        if (axios.isAxiosError(error)) {
-            // Axios 자체 에러인 경우
-            errorMessage = (error.response && error.response.data) ? error.response.data.message : error.message
-        } else if (error instanceof Error) {
-            // 일반적인 JS 에러인 경우
+        let errorMessage: string = '알 수 없는 오류입니다. 재시도해주세요.'
+        if (error instanceof Error) {
             errorMessage = error.message;
         }
+
         return {
             success: false,
             message: errorMessage
@@ -156,14 +140,11 @@ export const onboardingAction = async (payload: onbordingRequest): Promise<Actio
     try {
         await onboarding(payload);
     } catch (error) {
-        let errorMessage: string = 'Unknown Error';
-        if (axios.isAxiosError(error)) {
-            // Axios 자체 에러인 경우
-            errorMessage = (error.response && error.response.data) ? error.response.data.message : error.message
-        } else if (error instanceof Error) {
-            // 일반적인 JS 에러인 경우
+        let errorMessage: string = '알 수 없는 오류입니다. 재시도해주세요.'
+        if (error instanceof Error) {
             errorMessage = error.message;
         }
+
         return {
             success: false,
             message: errorMessage

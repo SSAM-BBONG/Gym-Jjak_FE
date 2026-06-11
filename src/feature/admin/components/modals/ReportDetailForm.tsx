@@ -17,13 +17,14 @@ export default function ReportDetailForm({ report, reportGroupId }: ReportDetail
 
     const handleApprovalReport = async () => {
         const res = await ReportApprovalAction(reportGroupId, report.reportId);
-        setReportState(res.data);
+        setReportState(res);
     }
 
     const handleRejectReport = async () => {
         const res = await ReportRejectAction(reportGroupId, report.reportId);
-        setReportState(res.data);
+        setReportState(res);
     }
+
     return (
         <form>
             <div className="flex justify-between items-center my-4">
