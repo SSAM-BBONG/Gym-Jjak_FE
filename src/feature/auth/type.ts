@@ -4,8 +4,16 @@ export interface LoginRequest {
 }
 
 export interface LoginResponse {
-
+    status: number;
+    code: string;
+    message: string;
+    data: {
+        accessToken: string;
+        role: string;
+        onboardingCompleted: boolean;
+    };
 }
+
 
 export interface RegisterRequest {
     username: string;

@@ -10,8 +10,8 @@ interface paramsProps {
 export default async function Page({ searchParams }: paramsProps) {
     const { page } = await searchParams;
     const response = await getReport('POST', page);
-    const reposts: Reposts[] = response.data.data.reports;
-    const totalPage: number = response.data.data.totalPages
+    const reposts: Reposts[] = response.data.reports;
+    const totalPage: number = response.data.totalPages
 
     return (
         <section className="p-7.5">

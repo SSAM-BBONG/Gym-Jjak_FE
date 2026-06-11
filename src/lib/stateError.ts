@@ -1,50 +1,67 @@
 'use server'
 
-import axios from "axios";
 import { cookies } from "next/headers";
+import { ReissueResponse } from "./refreshType";
 
 export const refreshGet = async () => {
-    const base_url = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8081';
+    const base_url = process.env.NEXT_API_BASE_URL;
+
     try {
         const cookieStore = await cookies();
-
         const refreshToken = cookieStore.get('refreshToken')?.value
-        const res = await axios.post(
-            `${base_url}/api/token/reissue`,
-            {},
-            {
-                headers: {
-                    Cookie: `refreshToken=${refreshToken}`
-                }
-            }
-        );
 
-        cookieStore.set('accessToken', res.data.data.accessToken, {
+        if (!refreshToken) {
+            throw new Error("로그인이 만료되었습니다. 다시 로그인해주세요.");
+        }
+
+        const response = await fetch(`${base_url}/api/token/reissue`, {
+            method: 'POST',
+            body: JSON.stringify({}),
+            headers: {
+                'Content-Type': 'application/json',
+                Cookie: `refreshToken=${refreshToken}`
+            }
+        });
+
+        const resData = (await response.json()) as ReissueResponse;
+
+
+        if (!response.ok) {
+            throw new Error(resData?.message || "로그인이 만료되었습니다. 다시 로그인해주세요.");
+        }
+
+        //어세스 토큰 재발급시 저장
+        cookieStore.set('accessToken', resData.data.accessToken, {
             httpOnly: true,   // 자바스크립트 접근 불가(xss 방지)
             maxAge: 60 * 1,   // 15분
             path: '/'
         })
 
-        const setCookieHeader = res.headers['set-cookie'];
+        //만약 리프레시도 같이 새로 건너온다면 저장
+        //getSetCookie()는 응답 헤더에 들어있는 Set-Cookie 값들을 배열로 꺼내는 함수
+        const setCookieHeaders: string[] =
+            response.headers.getSetCookie?.() ??
+            (response.headers.get("set-cookie")
+                ? [response.headers.get("set-cookie") as string]
+                : []);
 
-        if (setCookieHeader) {
-            const newRefreshToken = setCookieHeader.find((cookie) => cookie.startsWith('refreshToken='));
-            const newRefreshValue = newRefreshToken?.split(';')[0].replace('refreshToken=', '');
 
-            if (newRefreshValue) {
-                cookieStore.set('refreshToken', newRefreshValue, {
-                    httpOnly: true,
-                    maxAge: 60 * 60 * 3,
-                    path: '/'
-                });
-            }
+        const newRefreshToken = setCookieHeaders.find((cookie) => cookie.startsWith("refreshToken="))
+        const newRefreshValue = newRefreshToken?.split(';')[0].replace('refreshToken=', '');
+
+        if (newRefreshValue) {
+            cookieStore.set('refreshToken', newRefreshValue, {
+                httpOnly: true,
+                maxAge: 60 * 60 * 3,
+                path: '/'
+            });
         }
 
-        return res.data.data.accessToken;
+        return resData.data.accessToken;
     } catch (error) {
-        console.log(error);
         const cookieStore = await cookies();
         cookieStore.delete('accessToken');
+        cookieStore.delete('refreshToken');
 
         return null;
     }

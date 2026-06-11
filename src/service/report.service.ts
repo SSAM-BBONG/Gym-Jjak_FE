@@ -1,53 +1,103 @@
 import { axiosFetch } from "@/lib/api"
+import { fetchWithAuth } from "@/lib/feth";
 import { cache } from "react";
 
 export const getReport = cache(async (targetType: string, page: string) => {
-    const response = await axiosFetch(`/api/reportgroup/list?targetType=${targetType}&page=${page}`);
+    const response = await fetchWithAuth(`/api/reportgroup/list?targetType=${targetType}&page=${page}`);
 
-    return response;
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData?.message || '신고 조회에 실패하였습니다.')
+    }
+
+    return response.json();
 })
 
 export const getReportPtbyId = cache(async (reportGroupId: number) => {
-    const response = await axiosFetch(`/api/reportgroup/detail/${reportGroupId}`)
+    const response = await fetchWithAuth(`/api/reportgroup/detail/${reportGroupId}`)
 
-    return response
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData?.message || '신고 상세 조회에 실패하였습니다.')
+    }
+
+    return response.json();
 })
 
 export const approvalReport = async (reportGroupId: number, reportId: number) => {
-    const response = await axiosFetch.patch(`/api/reportgroup/${reportGroupId}/reports/${reportId}/approve`)
+    const response = await fetchWithAuth(`/api/reportgroup/${reportGroupId}/reports/${reportId}/approve`, {
+        method: "PATCH",
+    });
 
-    return response;
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData?.message || '신고 승인에 실패하였습니다.')
+    }
+
+    return response.json();
 }
 
 
 export const rejectReport = async (reportGroupId: number, reportId: number) => {
-    const response = await axiosFetch.patch(`/api/reportgroup/${reportGroupId}/reports/${reportId}/reject`)
+    const response = await fetchWithAuth(`/api/reportgroup/${reportGroupId}/reports/${reportId}/reject`, {
+        method: "PATCH",
+    })
 
-    return response;
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData?.message || '신고 반려에 실패하였습니다.')
+    }
+
+    return response.json();
 }
 
 export const getOrganization = cache(async () => {
-    const response = await axiosFetch('/api/organization-applications');
+    const response = await fetchWithAuth('/api/organization-applications');
 
-    return response;
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData?.message || '기관 조회에 실패하였습니다.')
+    }
+
+    return response.json();
 })
 
 export const getOrganizationbyId = cache(async (applicationId: number) => {
-    const response = await axiosFetch(`/api/organization-applications/${applicationId}`);
+    const response = await fetchWithAuth(`/api/organization-applications/${applicationId}`);
 
-    return response;
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData?.message || '기관 상세 조회에 실패하였습니다.')
+    }
+
+    return response.json();
 })
 
 
 export const approvalOrganization = async (applicationId: number) => {
-    const response = await axiosFetch.patch(`/api/organization-applications/${applicationId}/approve`)
+    const response = await fetchWithAuth(`/api/organization-applications/${applicationId}/approve`, {
+        method: "PATCH",
+    });
 
-    return response;
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData?.message || '기관 승인에 실패하였습니다.')
+    }
+
+    return response.json();
 }
 
 
 export const rejectOrganization = async (applicationId: number, reason: { rejectReason: string }) => {
-    const response = await axiosFetch.patch(`/api/organization-applications/${applicationId}/reject`, reason)
+    const response = await fetchWithAuth(`/api/organization-applications/${applicationId}/reject`, {
+        method: "PATCH",
+        body: JSON.stringify(reason)
+    });
 
-    return response;
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData?.message || '기관 반려에 실패하였습니다.')
+    }
+
+    return response.json();
 }

@@ -1,26 +1,26 @@
 import { NextRequest, NextResponse } from "next/server";
 import { MyTokenPayload } from "./lib/decode";
 import { jwtDecode } from "jwt-decode";
-import axios from "axios";
+import { ReissueResponse } from "./lib/refreshType";
 
 async function getRefreshToken(request: NextRequest) {
     const base_url = process.env.NEXT_API_BASE_URL;
     const refreshToken = request.cookies.get('refreshToken')?.value;
 
     try {
-        const res = await axios.post(
-            `${base_url}/api/token/reissue`,
-            {},
-            {
-                headers: {
-                    Cookie: `refreshToken=${refreshToken}`
-                }
+        const response = await fetch(`${base_url}/api/token/reissue`, {
+            method: 'POST',
+            body: JSON.stringify({}),
+            headers: {
+                'Content-Type': 'application/json',
+                Cookie: `refreshToken=${refreshToken}`
             }
-        );
+        });
 
-        return res.data.data.accessToken;
+        const resData = (await response.json()) as ReissueResponse;
+
+        return resData.data.accessToken;
     } catch (error) {
-        console.log(error);
         return null;
     }
 }
@@ -40,7 +40,7 @@ export async function proxy(request: NextRequest) {
     } else if (!accessToken && refreshToken) {
         //어세스만 없는 경우
         const newToken = await getRefreshToken(request);
-        console.log('token', newToken)
+        console.log('프록시 리프레시 재발급 성공', newToken)
 
         if (!newToken) {
             return NextResponse.redirect(new URL('/auth/login', request.url));

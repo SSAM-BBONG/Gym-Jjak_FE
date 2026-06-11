@@ -2,35 +2,58 @@
   OnboardingResponse, PtCourseCreateResponse, PtDetailResponse, PtListResponse
 } from "@/feature/pt/type";
 import { axiosFetch } from "@/lib/api";
+import { fetchWithAuth } from "@/lib/feth";
 import { cache } from "react";
 
 // PT 상세 조회 API
-export const getPtDetail = cache(async ( ptCourseId: string | number): Promise<PtDetailResponse> => {
-      const response = await axiosFetch.get(`/api/pt-courses/${ptCourseId}`  );
-  return response.data;
+export const getPtDetail = cache(async (ptCourseId: string | number): Promise<PtDetailResponse> => {
+  const response = await fetchWithAuth(`/api/pt-courses/${ptCourseId}`);
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData?.message || 'PT 상세 조회에 실패하였습니다.')
+  }
+
+  return response.json();
 });
 
 // PT 목록 조회 API
 export const getPtLists = cache(async (): Promise<PtListResponse> => {
-      const response = await axiosFetch.get(`/api/pt-courses`);
-  return response.data;
+  const response = await fetchWithAuth(`/api/pt-courses`);
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData?.message || 'PT 목록 조회에 실패하였습니다.')
+  }
+
+  return response.json();
 });
 
 // 온보딩 조회 API (사용자가 작성한 선호지역 위도, 경도)
 export const getOnboarding = cache(async (): Promise<OnboardingResponse> => {
-      const response = await axiosFetch.get(`/api/onboarding/me`);
-  return response.data;
+  const response = await fetchWithAuth(`/api/onboarding/me`);
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData?.message || '온보딩 조회에 실패하였습니다.')
+  }
+
+  return response.json();
 });
 
 // PT 등록 API 
 export const createPtCourse = async (formData: FormData): Promise<PtCourseCreateResponse> => {
-  const response = await axiosFetch.post("/api/pt-courses", formData, {
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
+  const response = await fetchWithAuth("/api/pt-courses", {
+    method: "POST",
+    body: formData,
   });
 
-  return response.data;
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData?.message || 'PT 등록에 실패하였습니다.')
+  }
+
+  return response.json();
 };
 
 
