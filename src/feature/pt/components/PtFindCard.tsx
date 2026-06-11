@@ -1,6 +1,7 @@
-import { CommonLocation, PtfindStar, PtfindTestImg } from "@/components/ui/image";
+import { CommonLocation, MypageOrganization, PtfindStar, PtfindTestImg } from "@/components/ui/image";
 import { PtContent } from "../type";
 import Link from "next/link";
+import Image from "next/image";
 
 interface PtFindCardProps {
   response: PtContent;
@@ -25,6 +26,14 @@ export default function PtFindCard({ response }: PtFindCardProps) {
             <div className="flex flex-col gap-3 p-5">
                 <p className="text-[20px] text-white font-extrabold"> {response.title} </p>
                 <p className="text-[14px] text-[#D1D5DC] font-medium"> {response.trainerName} </p>
+                <div className="flex gap-2 items-center text-[14px] font-normal text-[#99A1AF]">
+                    <Image 
+                        src={MypageOrganization} 
+                        alt="PT 카드 지점"
+                        width={15}
+                        height={15}/>
+                    {response.organizationName}
+                </div>
                 <div className="flex gap-2 items-center">
                     <img src={CommonLocation} alt="PT 카드 위치"/>
                     <p className="text-[14px] font-normal text-[#99A1AF]"> {response.organizationAddress } </p>

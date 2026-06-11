@@ -1,0 +1,204 @@
+language: "ko-KR"
+
+tone_instructions: >
+  모든 리뷰 코멘트, PR 요약, 개선 제안은 반드시 한국어로 작성한다.
+  영어 사용은 코드, 라이브러리명, 에러 메시지, 기술 용어에 한정한다.
+  간결하고 단호하지만 예의바르게 리뷰한다.
+  사용자 경험 저하, 성능 문제, 보안 취약점, 상태 관리 문제를 우선 지적한다.
+  단순 스타일 지적보다 아키텍처, 렌더링 전략, 데이터 흐름, 접근성, 유지보수성을 우선한다.
+  지적 시 반드시 사유와 권장 대안을 함께 제시한다.
+
+reviews:
+  profile: "assertive"
+  high_level_summary: true
+  poem: false
+
+  auto_review:
+    enabled: true
+    drafts: false
+    ignore_title_keywords:
+      - "WIP"
+      - "draft"
+
+  path_filters:
+    - "src/**"
+    - "public/**"
+    - ".github/**"
+    - "next.config.*"
+    - "package.json"
+    - "package-lock.json"
+    - "pnpm-lock.yaml"
+    - "yarn.lock"
+    - "middleware.ts"
+    - "!node_modules/**"
+    - "!.next/**"
+    - "!coverage/**"
+    - "!dist/**"
+    - "!build/**"
+
+  path_instructions:
+    - path: "src/app/**"
+      instructions: |
+        - 모든 리뷰 코멘트는 한국어로 작성한다.
+        - Server Component와 Client Component 구분이 적절한지 확인한다.
+        - 불필요한 "use client" 사용 여부를 확인한다.
+        - metadata, generateStaticParams, revalidate 설정이 적절한지 확인한다.
+        - dynamic rendering이 불필요하게 발생하지 않는지 확인한다.
+        - loading.tsx, error.tsx, not-found.tsx 활용 여부를 확인한다.
+        - 서버 컴포넌트 내부에 window, document, localStorage 같은 브라우저 API 사용 여부를 확인한다.
+
+    - path: "src/components/**"
+      instructions: |
+        - 모든 리뷰 코멘트는 한국어로 작성한다.
+        - 컴포넌트 책임이 과도하지 않은지 확인한다.
+        - Props Drilling이 심하지 않은지 확인한다.
+        - 재사용 가능한 컴포넌트로 분리 가능한지 검토한다.
+        - 불필요한 상태(useState)가 존재하지 않는지 확인한다.
+        - 접근성(aria-label, button, label, form)이 적절한지 확인한다.
+
+    - path: "src/feature/**"
+      instructions: |
+        - 모든 리뷰 코멘트는 한국어로 작성한다.
+        - Feature 단위 구조가 적절한지 확인한다.
+        - UI, service, type, hook 책임이 분리되어 있는지 확인한다.
+        - Feature 간 의존성이 과도하지 않은지 확인한다.
+        - 도메인별 API 호출과 UI 로직이 과도하게 섞이지 않았는지 확인한다.
+
+    - path: "src/features/**"
+      instructions: |
+        - 모든 리뷰 코멘트는 한국어로 작성한다.
+        - Feature 단위 구조가 적절한지 확인한다.
+        - UI, service, type, hook 책임이 분리되어 있는지 확인한다.
+        - Feature 간 의존성이 과도하지 않은지 확인한다.
+
+    - path: "src/service/**"
+      instructions: |
+        - 모든 리뷰 코멘트는 한국어로 작성한다.
+        - API 호출 로직이 일관되게 관리되는지 확인한다.
+        - fetch, axios 사용 방식이 통일되어 있는지 확인한다.
+        - 중복된 API 호출 코드가 존재하는지 확인한다.
+        - 에러 처리 전략이 존재하는지 확인한다.
+        - 인증 토큰 처리 방식이 안전한지 확인한다.
+        - 민감정보가 클라이언트에 노출되지 않는지 확인한다.
+
+    - path: "src/hooks/**"
+      instructions: |
+        - 모든 리뷰 코멘트는 한국어로 작성한다.
+        - 훅의 책임이 명확한지 확인한다.
+        - useEffect 의존성 배열이 올바른지 확인한다.
+        - 메모리 누수 가능성을 확인한다.
+        - 커스텀 훅으로 추출 가능한 중복 로직을 확인한다.
+        - 불필요한 re-render를 유발하지 않는지 확인한다.
+
+    - path: "src/store/**"
+      instructions: |
+        - 모든 리뷰 코멘트는 한국어로 작성한다.
+        - 전역 상태가 필요한 데이터인지 확인한다.
+        - 불필요하게 전역 상태를 사용하지 않는지 확인한다.
+        - 상태 변경 흐름이 예측 가능한지 확인한다.
+        - 서버 상태와 클라이언트 상태를 중복 저장하지 않는지 확인한다.
+
+    - path: "src/types/**"
+      instructions: |
+        - 모든 리뷰 코멘트는 한국어로 작성한다.
+        - any 사용 여부를 확인한다.
+        - API 응답 타입이 명확하게 정의되어 있는지 확인한다.
+        - 중복 타입 정의 여부를 확인한다.
+        - 타입 추론으로 대체 가능한지 검토한다.
+
+    - path: "src/utils/**"
+      instructions: |
+        - 모든 리뷰 코멘트는 한국어로 작성한다.
+        - 순수 함수로 유지되는지 확인한다.
+        - 부수 효과가 존재하지 않는지 확인한다.
+        - 중복 유틸 함수 여부를 확인한다.
+        - 함수명이 역할을 명확하게 표현하는지 확인한다.
+
+    - path: "**/*.tsx"
+      instructions: |
+        - 모든 리뷰 코멘트는 한국어로 작성한다.
+        - key 누락 여부를 확인한다.
+        - 불필요한 re-render 가능성을 확인한다.
+        - inline function 남용 여부를 확인한다.
+        - useMemo/useCallback이 필요한 상황인지 검토한다.
+        - 접근성(a11y)을 확인한다.
+        - 이미지 최적화(next/image) 여부를 확인한다.
+        - 조건부 렌더링이 안전하게 처리되는지 확인한다.
+
+    - path: "**/*.ts"
+      instructions: |
+        - 모든 리뷰 코멘트는 한국어로 작성한다.
+        - any 사용을 지양한다.
+        - 타입 안정성을 우선 검토한다.
+        - 불필요한 type assertion(as)을 확인한다.
+        - nullable 처리 누락 여부를 확인한다.
+        - 중복 로직을 확인한다.
+
+    - path: "**/middleware.ts"
+      instructions: |
+        - 모든 리뷰 코멘트는 한국어로 작성한다.
+        - 인증 로직 우회를 허용하지 않는지 확인한다.
+        - 쿠키 기반 인증이 안전하게 처리되는지 확인한다.
+        - 불필요한 리다이렉트가 발생하지 않는지 확인한다.
+        - matcher 범위가 적절한지 확인한다.
+
+    - path: "package.json"
+      instructions: |
+        - 모든 리뷰 코멘트는 한국어로 작성한다.
+        - 사용하지 않는 라이브러리를 확인한다.
+        - 번들 크기에 영향을 주는 의존성을 확인한다.
+        - 보안 취약점 가능성이 있는 라이브러리를 확인한다.
+        - scripts 명령어가 프로젝트 목적에 맞는지 확인한다.
+
+    - path: "next.config.*"
+      instructions: |
+        - 모든 리뷰 코멘트는 한국어로 작성한다.
+        - 이미지 최적화 설정을 확인한다.
+        - 실험 기능 사용 시 안정성을 검토한다.
+        - 번들 분석 설정 여부를 확인한다.
+        - 보안 헤더 설정 가능성을 검토한다.
+
+    - path: ".github/**"
+      instructions: |
+        - 모든 리뷰 코멘트는 한국어로 작성한다.
+        - PR 템플릿 체크리스트가 실효성 있는지 확인한다.
+        - 브랜치 전략과 충돌하지 않는지 확인한다.
+        - GitHub Actions에 Secret 노출 위험이 없는지 확인한다.
+        - 한글 인코딩 깨짐이 없는지 확인한다.
+
+frontend_focus:
+  priorities:
+    - 렌더링 성능
+    - 사용자 경험
+    - 접근성
+    - 보안
+    - 타입 안정성
+    - 유지보수성
+
+  nextjs:
+    - SSG / ISR / SSR 선택이 적절한가
+    - 불필요한 Client Component가 존재하는가
+    - dynamic rendering이 과도하게 발생하는가
+    - 이미지 최적화가 적용되었는가
+    - Suspense / Streaming 적용 가능성이 있는가
+
+  react:
+    - useEffect 남용 여부
+    - 상태 중복 관리 여부
+    - 불필요한 렌더링 여부
+    - 메모이제이션 필요 여부
+    - 컴포넌트 분리 필요 여부
+
+  security:
+    - localStorage 토큰 저장 여부
+    - XSS 가능성
+    - dangerouslySetInnerHTML 사용 여부
+    - 민감정보 노출 여부
+    - 환경변수 노출 여부
+
+  accessibility:
+    - aria-label
+    - form label 연결
+    - keyboard navigation
+    - semantic HTML
+    - button과 div 클릭 이벤트 구분

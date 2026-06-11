@@ -87,9 +87,8 @@ export interface PtListResponse {
   status: number;
   code: string;
   message: string;
-  data: PtListData;
+  data: PtContent[];
 }
-
 // PT 목록 타입
 export interface PtContent {
   ptCourseId: number;
