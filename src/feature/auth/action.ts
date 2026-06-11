@@ -70,10 +70,7 @@ export const loginAction = async (prevState: ActionState, formData: FormData): P
 
     //백에서 보낸 쿠키 헤더 가져오기
     const setCookieHeaders: string[] =
-        response.headers.getSetCookie?.() ??
-        (response.headers.get("set-cookie")
-            ? [response.headers.get("set-cookie") as string]
-            : []);
+        response.headers.getSetCookie?.() ?? [];
 
 
     const newRefreshToken = setCookieHeaders.find((cookie) => cookie.startsWith("refreshToken="))

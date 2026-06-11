@@ -57,8 +57,9 @@ export async function fetchWithAuth(endpoint: string, options: RequestInit = {})
         ...options,
         headers: {
             ...(!isFormData && { "Content-Type": "application/json" }),
-            Authorization: `Bearer ${newAccessToken}`,
             ...options.headers,
+            Authorization: `Bearer ${newAccessToken}`,
+
         },
     });
 

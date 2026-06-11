@@ -1,13 +1,18 @@
 import { axiosFetch } from "@/lib/api";
 import { fetchWithAuth } from "@/lib/feth";
+import { getErrorMessage } from "@/lib/stateError";
 import { cache } from "react";
 
 export const getCategories = cache(async () => {
     const response = await fetchWithAuth('/api/categories');
 
     if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData?.message || '카테고리 조회에 실패하였습니다.')
+        const message = await getErrorMessage(
+            response,
+            '카테고리 조회에 실패하였습니다.'
+        );
+
+        throw new Error(message);
     }
 
     return response.json();
@@ -21,8 +26,12 @@ export const createCategories = async (payload: { name: string }) => {
     });
 
     if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData?.message || '카테고리 등록에 실패하였습니다.')
+        const message = await getErrorMessage(
+            response,
+            '카테고리 등록에 실패하였습니다.'
+        );
+
+        throw new Error(message);
     }
 
     return response.json();
@@ -35,8 +44,12 @@ export const updateCategories = async (categoryId: number, payload: { name: stri
     });
 
     if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData?.message || '카테고리 수정에 실패하였습니다.')
+        const message = await getErrorMessage(
+            response,
+            '카테고리 수정에 실패하였습니다.'
+        );
+
+        throw new Error(message);
     }
 
     return response.json();
@@ -48,8 +61,12 @@ export const deleteCategories = async (categoryId: number) => {
     });
 
     if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData?.message || '카테고리 삭제에 실패하였습니다.')
+        const message = await getErrorMessage(
+            response,
+            '카테고리 삭제에 실패하였습니다.'
+        );
+
+        throw new Error(message);
     }
 
     return response.json();

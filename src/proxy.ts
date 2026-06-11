@@ -40,7 +40,6 @@ export async function proxy(request: NextRequest) {
     } else if (!accessToken && refreshToken) {
         //어세스만 없는 경우
         const newToken = await getRefreshToken(request);
-        console.log('프록시 리프레시 재발급 성공', newToken)
 
         if (!newToken) {
             return NextResponse.redirect(new URL('/auth/login', request.url));

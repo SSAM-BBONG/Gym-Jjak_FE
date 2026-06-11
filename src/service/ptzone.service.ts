@@ -3,6 +3,7 @@
 } from "@/feature/pt/type";
 import { axiosFetch } from "@/lib/api";
 import { fetchWithAuth } from "@/lib/feth";
+import { getErrorMessage } from "@/lib/stateError";
 import { cache } from "react";
 
 // PT 상세 조회 API
@@ -10,8 +11,12 @@ export const getPtDetail = cache(async (ptCourseId: string | number): Promise<Pt
   const response = await fetchWithAuth(`/api/pt-courses/${ptCourseId}`);
 
   if (!response.ok) {
-    const errorData = await response.json();
-    throw new Error(errorData?.message || 'PT 상세 조회에 실패하였습니다.')
+    const message = await getErrorMessage(
+      response,
+      'PT 상세 조회에 실패하였습니다.'
+    );
+
+    throw new Error(message);
   }
 
   return response.json();
@@ -22,8 +27,12 @@ export const getPtLists = cache(async (): Promise<PtListResponse> => {
   const response = await fetchWithAuth(`/api/pt-courses`);
 
   if (!response.ok) {
-    const errorData = await response.json();
-    throw new Error(errorData?.message || 'PT 목록 조회에 실패하였습니다.')
+    const message = await getErrorMessage(
+      response,
+      'PT 목록 조회에 실패하였습니다.'
+    );
+
+    throw new Error(message);
   }
 
   return response.json();
@@ -34,8 +43,12 @@ export const getOnboarding = cache(async (): Promise<OnboardingResponse> => {
   const response = await fetchWithAuth(`/api/onboarding/me`);
 
   if (!response.ok) {
-    const errorData = await response.json();
-    throw new Error(errorData?.message || '온보딩 조회에 실패하였습니다.')
+    const message = await getErrorMessage(
+      response,
+      '온보딩 조회에 실패하였습니다.'
+    );
+
+    throw new Error(message);
   }
 
   return response.json();
@@ -49,8 +62,12 @@ export const createPtCourse = async (formData: FormData): Promise<PtCourseCreate
   });
 
   if (!response.ok) {
-    const errorData = await response.json();
-    throw new Error(errorData?.message || 'PT 등록에 실패하였습니다.')
+    const message = await getErrorMessage(
+      response,
+      'PT 등록에 실패하였습니다.'
+    );
+
+    throw new Error(message);
   }
 
   return response.json();

@@ -27,23 +27,15 @@ export default function CheckReportModal({ isModal, closeModal, activeModal, non
 
 
     const [reportInfo, setReportInfo] = useState<ReportsDetail[]>([]);
-    let first = true;
     useEffect(() => {
 
         const fetchReport = async () => {
             const res = await ReportPtDetailAction(reportGroupId)
-            console.log(res.reports);
             setReportInfo(res.reports ?? []);
         }
 
         if (isModal) {
-
-            if (!first) {
-                return;
-            }
             fetchReport();
-
-            first = false;
         }
 
 

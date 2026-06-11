@@ -27,7 +27,12 @@ export const refreshGet = async () => {
 
 
         if (!response.ok) {
-            throw new Error(resData?.message || "로그인이 만료되었습니다. 다시 로그인해주세요.");
+            const message = await getErrorMessage(
+                response,
+                '로그인이 만료되었습니다. 다시 로그인해주세요.'
+            );
+
+            throw new Error(message);
         }
 
         //어세스 토큰 재발급시 저장
@@ -40,10 +45,7 @@ export const refreshGet = async () => {
         //만약 리프레시도 같이 새로 건너온다면 저장
         //getSetCookie()는 응답 헤더에 들어있는 Set-Cookie 값들을 배열로 꺼내는 함수
         const setCookieHeaders: string[] =
-            response.headers.getSetCookie?.() ??
-            (response.headers.get("set-cookie")
-                ? [response.headers.get("set-cookie") as string]
-                : []);
+            response.headers.getSetCookie?.() ?? [];
 
 
         const newRefreshToken = setCookieHeaders.find((cookie) => cookie.startsWith("refreshToken="))
@@ -64,5 +66,25 @@ export const refreshGet = async () => {
         cookieStore.delete('refreshToken');
 
         return null;
+    }
+}
+
+//에러 메세지가 json이 아닌 경우를 대비
+export async function getErrorMessage(
+    response: Response,
+    fallbackMessage: string
+) {
+    try {
+        const contentType = response.headers.get("content-type");
+
+        if (contentType?.includes("application/json")) {
+            const errorData = await response.json();
+            return errorData?.message || fallbackMessage;
+        }
+
+        const text = await response.text();
+        return text || fallbackMessage;
+    } catch {
+        return fallbackMessage;
     }
 }
