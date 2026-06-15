@@ -15,21 +15,21 @@ export default function PtFindView({listResponse, onBoardingResponse}: PtFindRes
         organName: "",
     });
 
-    const test = listResponse.data.filter(
+    const filterPtList = listResponse.data.filter(
         (item) => item.organizationName === organizationId.organName
-    )
-
-    console.log(test);
-    
+    )    
 
     return (
     <>  
-        {organizationId.organName &&
+        {organizationId.organName && filterPtList.length > 0 &&
         <PtFindList
-            response={test}/>
+            response={filterPtList}/>
         }
 
-        <div className="flex-10 w-full h-full bg-gray-500">
+    <div 
+        className="flex-10 w-full h-full bg-gray-500"
+        role="region"
+        aria-label="PT 헬스장 위치 지도">
             <KakaoMap
                 latitude={onBoardingResponse.data.preferredRegion.latitude}
                 longitude={onBoardingResponse.data.preferredRegion.longitude}
