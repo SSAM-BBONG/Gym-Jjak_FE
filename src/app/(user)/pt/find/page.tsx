@@ -5,15 +5,15 @@ import { getOnboarding, getPtLists } from "@/service/ptzone.service";
 
 export default async function PtFindPage() {
 
-    const response = await getOnboarding();
+    const onBoardingResponse = await getOnboarding();
 
-    const response2 = await getPtLists();
+    const ptListsResponse = await getPtLists();
 
     return (
         <div className="flex h-[calc(100vh-70px)] overflow-hidden">
             <PtFindView 
-                listResponse={response2}
-                onBoardingResponse={response}    
+                listResponse={ptListsResponse}
+                onBoardingResponse={onBoardingResponse}    
             />
         </div>
     );

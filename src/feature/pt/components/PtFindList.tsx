@@ -19,6 +19,14 @@ export default function PtFindList( {response}: PtFindListProps) {
                 response={item}
             />
         ))}
+
+        {response.length === 0 && (
+            <div className="flex items-center justify-center py-12 text-[`#6A7282`]">
+                <p className="text-[16px] font-medium">
+                    해당 헬스장의 PT 프로그램이 없습니다.
+                </p>
+            </div>
+        )}
         </div>
     );
 }
