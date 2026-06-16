@@ -1,12 +1,13 @@
-import { MypageInbody, TrainerProfileImgUpload } from "@/components/ui/image";
+import { MypageInbody, TrainerProfileEssential, TrainerProfileImgDefault, TrainerProfileImgUpload } from "@/components/ui/image";
 
 export default function TrainerRegistForm () {
     return (
-        <div className="flex flex-col px-40 pt-10">
+        <div className="flex flex-col px-80 pt-10">
             <p className="text-[36px] font-black text-white"> 트레이너 신청</p>
             <p className="text-[14px] font-normal text-[#99A1AF]"> 트레이너로 활동하기 위한 정보를 입력하세요</p>
 
             <div className="flex flex-col gap-6 mt-6">
+            
             <div className="
             flex flex-col gap-4
             p-8
@@ -17,18 +18,50 @@ export default function TrainerRegistForm () {
             ">
                 <p className="text-[20px] font-extrabold text-white"> 프로필 사진 </p>
                 <div className="flex gap-6 items-center">
-                    <div className="flex items-center justify-center size-35 border-[3px] border-[#BFFF0B] rounded-full">
-                        <img className="object-cover" src={MypageInbody} alt="트레이너 프로필 수정 프로필 사진"/>
+                    <div className="flex items-center justify-center size-35 border-[3px] border-[#BFFF0B] rounded-full bg-[#z  1E2939]">
+                        <img className="object-cover" src={TrainerProfileImgDefault} alt="트레이너 프로필 수정 프로필 사진"/>
                     </div>
                     <label 
                         htmlFor="trainer-profile-img-upload"
                         className="flex gap-3 px-6 py-3 bg-[#BFFF0B] rounded-[10px]"
                     > 
                         <img src={TrainerProfileImgUpload} alt="트레이너 프로필 업로드 버튼"/>
-                        <p className="text-[16px] font-extrabold text-black"> 프로필 업로드 </p> 
+                        <p className="text-[16px] font-bold text-black"> 프로필 업로드 </p> 
                     </label>
                     <input id="trainer-profile-img-upload" type="file" className="hidden" />
                 </div>
+            </div>
+
+
+            <div className="
+            flex flex-col gap-4
+            p-8
+            bg-[linear-gradient(135deg,rgba(16,24,40,0.90)0%,rgba(30,41,57,0.90)100%)]
+            border
+            border-[#36415380]
+            rounded-[16px]
+            ">
+                <div className="flex items-center justify-between">
+                    <p className="text-[20px] font-extrabold text-white"> 필수 자격증 </p>
+                    <button className="
+                        flex gap-3 
+                        px-4 py-2
+                        bg-[#BFFF0B] rounded-[10px]
+                        hover:cursor-pointer
+                        ">
+                        <img src={TrainerProfileImgUpload} alt="필수 자격증 업로드 버튼"/>
+                        <p className="text-[14px] font-bold text-black whitespace-nowrap"> 파일 업로드 </p> 
+                    </button>
+                </div>
+
+                <label 
+                    htmlFor="trainer-profile-essential-upload"
+                    className="flex flex-col py-8 gap-3 items-center justify-center rounded-[14px] border border-[#364153] hover:cursor-pointer mt-3">
+                    <img src={TrainerProfileEssential} alt="필수 자격증 업로드 칸"/>
+                    <p className="text-[14px] text-[#99A1AF] font-medium"> 자격증 파일을 업로드하세요 </p>
+                    <p className="text-[12px] text-[#4A5565] font-medium"> PDF, JPG, PNG 파일 지원 </p>
+                </label>
+                <input id="trainer-profile-essential-upload" type="file" className="hidden"/>
             </div>
 
             <div className="
