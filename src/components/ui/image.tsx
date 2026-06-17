@@ -61,6 +61,7 @@ export const MypageOrganApplication = "/images/mypage-organization-application.s
 export const TrainerProfileImgUpload = "/images/trainerprofile-imgUpload.svg"
 export const TrainerProfileImgDefault = "/images/trainerprofile-default.png"
 export const TrainerProfileEssential = "/images/trainerprofile-essential.png"
+export const TrainerEssentialQulificationIcon = "/images/trainer-essential-qulification-icon.png"
 export const PasswordOpenEye = "/images/password-openeye.svg"
 export const PasswordCloseEye = "/images/password-closeeye.svg"
 export const OrganApplicationDanger = "/images/organ-application-danger.svg"

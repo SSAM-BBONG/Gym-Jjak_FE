@@ -12,6 +12,7 @@
 .env
 .env.local
 docker-compose.yml
+docker-compose.deploy.yml
 server/node_modules
 
 # testing
