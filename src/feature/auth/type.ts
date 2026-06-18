@@ -37,6 +37,17 @@ export interface onbordingRequest {
     region: RegionType;
 }
 
+export interface MyOnboardingResponse {
+    onboardingId: number;
+    exerciseGoal: string;
+    exercisePeriod: string;
+    exerciseFrequency: string;
+    preferredExercise: string;
+    height: number;
+    weight: number;
+    preferredRegion: RegionType;
+}
+
 export interface RegionType {
     sido: string;
     sigungu: string;

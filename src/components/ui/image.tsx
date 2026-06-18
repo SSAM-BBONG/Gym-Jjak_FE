@@ -90,4 +90,5 @@ export const PtRecordVideo = "/images/ptrecord-video.svg"
 export const PtFeedBackOnBoard = "/images/ptfreedback-onboard.svg"
 export const PtManageUsers = "/images/ptmanage-users.svg"
 export const PtTrainerRegistPending = "/images/ptzone-trainer-regist-pending.svg"
-export const Complete= "/images/complete.svg"
+export const Complete = "/images/complete.svg"
+export const MyOnboardingPurpose = '/images/mypage-onboarding-purpose.svg'
