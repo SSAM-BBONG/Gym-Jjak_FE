@@ -1,5 +1,4 @@
 import { LoginRequest, onbordingRequest, MyOnboardingResponse, RegisterRequest } from "@/feature/auth/type";
-import { axiosFetch } from "@/lib/api"
 import { fetchWithAuth, fetchWithoutAuth } from "@/lib/feth";
 import { getErrorMessage } from "@/lib/stateError";
 
