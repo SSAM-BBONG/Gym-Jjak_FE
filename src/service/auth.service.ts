@@ -1,4 +1,4 @@
-import { LoginRequest, onbordingRequest, RegisterRequest } from "@/feature/auth/type";
+import { LoginRequest, onbordingRequest, MyOnboardingResponse, RegisterRequest } from "@/feature/auth/type";
 import { axiosFetch } from "@/lib/api"
 import { fetchWithAuth, fetchWithoutAuth } from "@/lib/feth";
 import { getErrorMessage } from "@/lib/stateError";
@@ -66,6 +66,21 @@ export const onboarding = async (onbordingInfo: onbordingRequest) => {
         const message = await getErrorMessage(
             response,
             '온보딩 등록에 실패하였습니다.'
+        );
+
+        throw new Error(message);
+    }
+
+    return response.json();
+}
+
+export const getMyOnboarding = async () => {
+    const response = await fetchWithAuth('/api/onboarding/me')
+
+    if (!response.ok) {
+        const message = await getErrorMessage(
+            response,
+            '온보딩 조회에 실패하였습니다.'
         );
 
         throw new Error(message);
