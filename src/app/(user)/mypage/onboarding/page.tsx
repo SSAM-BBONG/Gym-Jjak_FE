@@ -35,11 +35,11 @@ export default async function Page() {
                     <div className="flex w-full">
                         <div className="w-full">
                             <p className="font-normal text-sm text-[#99A1AF]">키</p>
-                            <p className="font-black text-2xl text-[#BFFF0B]">{myOnboarding.height}</p>
+                            <p className="font-black text-2xl text-[#BFFF0B]">{myOnboarding.height}cm</p>
                         </div>
                         <div className="w-full">
                             <p className="font-normal text-sm text-[#99A1AF]">체중</p>
-                            <p className="font-black text-2xl text-[#BFFF0B]">{myOnboarding.weight}</p>
+                            <p className="font-black text-2xl text-[#BFFF0B]">{myOnboarding.weight}kg</p>
                         </div>
                     </div>
                 </div>
