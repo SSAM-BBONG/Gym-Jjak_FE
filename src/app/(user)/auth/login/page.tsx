@@ -10,7 +10,7 @@ export default function Page() {
             <LoginForm />
             <Link
                 className="w-full mb-8.5 font-normal text-sm text-[#99A1AF]"
-                href='/auth/login/find'>
+                href='/auth/login/find-pw'>
                 비밀번호를 잊으셨나요?
             </Link>
             <div className="flex font-normal text-sm text-[#99A1AF]">
