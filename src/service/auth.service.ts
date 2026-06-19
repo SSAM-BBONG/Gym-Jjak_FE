@@ -116,7 +116,7 @@ export const getTemporaryPw = async (payload: { username: string }) => {
     if (!response.ok) {
         const message = await getErrorMessage(
             response,
-            '온보딩 수정에 실패하였습니다.'
+            '임시 비밀번호 발급에 실패하였습니다.'
         );
 
         throw new Error(message);

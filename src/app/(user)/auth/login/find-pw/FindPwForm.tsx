@@ -38,7 +38,7 @@ export default function FindPwForm() {
             {!ispending && (
                 <OneButtonModal
                     isModal={modal.isModal}
-                    closeModal={() => { modal.closeModal; state.success && router.push('/auth/login') }}
+                    closeModal={() => { modal.closeModal(); state.success && router.push('/auth/login') }}
                     activeModal={modal.activeModal}
                     title='비밀번호 발급'
                     content={ispending ? '비밀번호 발급 중' : state.success ? `임시 비밀번호가 발급되었습니다\n메일을 확인해주세요` : state.message ? state.message : `알 수 없는 오류입니다\n다시 시도해주세요`} />
