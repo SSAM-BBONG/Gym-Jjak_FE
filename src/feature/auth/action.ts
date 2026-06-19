@@ -1,13 +1,14 @@
 'use server'
 
 import { SignUpFormData } from "@/lib/registerSchema";
-import { login, logout, onboarding, register } from "@/service/auth.service";
+import { editMyOnboarding, login, logout, onboarding, register } from "@/service/auth.service";
 import axios from "axios";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { LoginResponse, onbordingRequest } from "./type";
 import { decodeJWT } from "@/lib/decode";
 import { ReissueResponse } from "@/lib/refreshType";
+import { OnboardingType } from "@/lib/onboardingSchema";
 
 interface ActionState {
     success: boolean;
@@ -151,5 +152,23 @@ export const onboardingAction = async (payload: onbordingRequest): Promise<Actio
         }
     }
     redirect('/');
+}
+
+export const onboardingEditAction = async (payload: OnboardingType): Promise<ActionState> => {
+    try {
+        await editMyOnboarding(payload);
+    } catch (error) {
+        let errorMessage: string = '알 수 없는 오류입니다. 재시도해주세요.'
+        if (error instanceof Error) {
+            errorMessage = error.message;
+        }
+
+        return {
+            success: false,
+            message: errorMessage
+        }
+    }
+    redirect('/mypage/onboarding');
+
 }
 
