@@ -11,6 +11,7 @@ import { onboardingSchema, OnboardingType } from "@/lib/onboardingSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { EXERCISE_FREQUENCY_OPTIONS, EXERCISE_GOAL_OPTIONS, EXERCISE_PERIOD_OPTIONS, PREFERRED_EXERCISE_OPTIONS } from "./OnboardingOptions";
 
 interface OnboardingStateType {
     success: boolean;
@@ -53,15 +54,16 @@ export default function OnboardingForm({ myOnboarding }: { myOnboarding: MyOnboa
                 success: false,
                 message: '네트워크 연결이 원활하지 않습니다.'
             })
+            modal.openModal();
         }
     }
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
-            <OnboardingDetailEditCard title="운동 목적" name={'exerciseGoal'} content={myOnboarding.exerciseGoal} options={['다이어트', '벌크업', '체력증진', '재활']} register={register} />
-            <OnboardingDetailEditCard title='운동 경험' name={'exercisePeriod'} content={myOnboarding.exercisePeriod} options={['처음 시작해요', '6개월 미만', '6개월 ~ 1년', '1년 ~ 2년', '2년 이상']} register={register} />
-            <OnboardingDetailEditCard title='운동 빈도' name={'exerciseFrequency'} content={myOnboarding.exerciseFrequency} options={['1회 이하', '2~4회', '5~7회']} register={register} />
-            <OnboardingDetailEditCard title='선호 운동' name={'preferredExercise'} content={myOnboarding.preferredExercise} options={['웨이트 트레이닝', '크로스핏', '요가', '필라테스', '수영', '러닝', '사이클', '복싱', '댄스', '클라이밍']} register={register} />
+            <OnboardingDetailEditCard title="운동 목적" name={'exerciseGoal'} content={myOnboarding.exerciseGoal} options={[...EXERCISE_GOAL_OPTIONS]} register={register} />
+            <OnboardingDetailEditCard title='운동 경험' name={'exercisePeriod'} content={myOnboarding.exercisePeriod} options={[...EXERCISE_PERIOD_OPTIONS]} register={register} />
+            <OnboardingDetailEditCard title='운동 빈도' name={'exerciseFrequency'} content={myOnboarding.exerciseFrequency} options={[...EXERCISE_FREQUENCY_OPTIONS]} register={register} />
+            <OnboardingDetailEditCard title='선호 운동' name={'preferredExercise'} content={myOnboarding.preferredExercise} options={[...PREFERRED_EXERCISE_OPTIONS]} register={register} />
             <div className="
                                 flex gap-3
                                 p-8 
@@ -75,16 +77,18 @@ export default function OnboardingForm({ myOnboarding }: { myOnboarding: MyOnboa
                     <p className="text-xl flex items-center h-10 text-white font-extrabold ">신체 정보</p>
                     <div className="flex w-full gap-4">
                         <div className="w-full">
-                            <p className="font-normal text-sm text-[#99A1AF]">키</p>
+                            <label htmlFor="height" className="font-normal text-sm text-[#99A1AF]">키</label>
                             <input
+                                id='height'
                                 {...register('height', { valueAsNumber: true })}
                                 className="font-normal text-base text-white w-full bg-[#1E2939] border-[#364153] p-3 rounded-[10px]"
                                 defaultValue={myOnboarding.height} />
                             {errors.height?.message && <p className="text-red-400 text-sm m-1 mb-5">{errors.height?.message}</p>}
                         </div>
                         <div className="w-full">
-                            <p className="font-normal text-sm text-[#99A1AF]">체중</p>
+                            <label htmlFor="weight" className="font-normal text-sm text-[#99A1AF]">체중</label>
                             <input
+                                id='weight'
                                 {...register('weight', { valueAsNumber: true })}
                                 className="font-normal text-base text-white w-full bg-[#1E2939] border-[#364153] p-3 rounded-[10px]"
                                 defaultValue={myOnboarding.weight} />
@@ -94,7 +98,7 @@ export default function OnboardingForm({ myOnboarding }: { myOnboarding: MyOnboa
                 </div>
             </div>
             <OnboardingAdressCard title='선호 지역' content={myOnboarding.preferredRegion} setValue={setValue} />
-            <button className="bg-[#BFFF0B] text-xl px-6 py-6 mb-10 mt-5 font-black rounded-[10px] w-full">등록하기</button>
+            <button type="submit" className="bg-[#BFFF0B] text-xl px-6 py-6 mb-10 mt-5 font-black rounded-[10px] w-full">등록하기</button>
             {!isSubmitting && (
                 <OneButtonModal
                     isModal={modal.isModal}

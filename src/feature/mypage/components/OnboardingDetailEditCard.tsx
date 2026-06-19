@@ -1,3 +1,5 @@
+'use client'
+
 import { MyOnboardingPurpose } from "@/components/ui/image";
 import { OnboardingType } from "@/lib/onboardingSchema";
 import { UseFormRegister } from "react-hook-form";
@@ -14,8 +16,9 @@ export default function OnboardingDetailEditCard({ name, title, content, options
                     mb-4">
             <div className="bg-[#BFFF0B1A] w-10 h-10 rounded-[10px] p-2 flex justify-center items-center"><img src={MyOnboardingPurpose} alt="온보딩 개별 사진" /></div>
             <div className=" flex flex-col gap-5 w-full">
-                <p className="text-xl flex items-center h-10 text-white font-extrabold ">{title}</p>
+                <label htmlFor={title} className="text-xl flex items-center h-10 text-white font-extrabold ">{title}</label>
                 <select
+                    id={title}
                     {...register(name)} defaultValue={content}
                     className="font-normal text-base text-white w-full bg-[#1E2939] border-[#364153] p-3 rounded-[10px]"
                 >
