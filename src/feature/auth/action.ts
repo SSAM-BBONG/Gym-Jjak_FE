@@ -1,7 +1,7 @@
 'use server'
 
 import { SignUpFormData } from "@/lib/registerSchema";
-import { editMyOnboarding, login, logout, onboarding, register } from "@/service/auth.service";
+import { editMyOnboarding, getTemporaryPw, login, logout, onboarding, register } from "@/service/auth.service";
 import axios from "axios";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
@@ -172,3 +172,25 @@ export const onboardingEditAction = async (payload: OnboardingType): Promise<Act
 
 }
 
+export const temporaryPwAction = async (prevState: ActionState, formData: FormData): Promise<ActionState> => {
+    const username = formData.get('username') as string;
+    const payload = { username }
+    try {
+        const response = await getTemporaryPw(payload);
+
+        return {
+            success: true,
+            message: response.message || '임시 비밀번호가 발급'
+        }
+    } catch (error) {
+        let errorMessage: string = '알 수 없는 오류입니다. 재시도해주세요.'
+        if (error instanceof Error) {
+            errorMessage = error.message;
+        }
+
+        return {
+            success: false,
+            message: errorMessage
+        }
+    }
+}

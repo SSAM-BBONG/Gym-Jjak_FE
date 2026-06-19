@@ -106,3 +106,21 @@ export const editMyOnboarding = async (onbordingInfo: OnboardingType) => {
 
     return response.json();
 }
+
+export const getTemporaryPw = async (payload: { username: string }) => {
+    const response = await fetchWithoutAuth('/api/auth/password', {
+        method: "POST",
+        body: JSON.stringify(payload)
+    })
+
+    if (!response.ok) {
+        const message = await getErrorMessage(
+            response,
+            '온보딩 수정에 실패하였습니다.'
+        );
+
+        throw new Error(message);
+    }
+
+    return response.json();
+}
