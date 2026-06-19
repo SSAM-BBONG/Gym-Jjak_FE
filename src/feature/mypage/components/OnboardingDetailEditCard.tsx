@@ -1,6 +1,8 @@
 import { MyOnboardingPurpose } from "@/components/ui/image";
+import { OnboardingType } from "@/lib/onboardingSchema";
+import { UseFormRegister } from "react-hook-form";
 
-export default function OnboardingDetailEditCard({ title, content, options }: { title: string, content: string, options: string[] }) {
+export default function OnboardingDetailEditCard({ name, title, content, options, register }: { name: "exerciseGoal" | "exercisePeriod" | "exerciseFrequency" | "preferredExercise", title: string, content: string, options: string[], register: UseFormRegister<OnboardingType> }) {
     return (
         <div className="
                     flex gap-3
@@ -14,8 +16,8 @@ export default function OnboardingDetailEditCard({ title, content, options }: { 
             <div className=" flex flex-col gap-5 w-full">
                 <p className="text-xl flex items-center h-10 text-white font-extrabold ">{title}</p>
                 <select
+                    {...register(name)} defaultValue={content}
                     className="font-normal text-base text-white w-full bg-[#1E2939] border-[#364153] p-3 rounded-[10px]"
-                    defaultValue={content}
                 >
                     {options.map((optionText) =>
                         <option key={optionText}>{optionText}</option>

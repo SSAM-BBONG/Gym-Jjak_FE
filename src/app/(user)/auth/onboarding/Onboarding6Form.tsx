@@ -9,7 +9,6 @@ import { onbordingRequest } from "@/feature/auth/type";
 import SearchAdressModal from "./SearchAdressModal";
 import useModal from "@/components/hooks/useModal";
 import { onboardingAction } from "@/feature/auth/action";
-import { success } from "zod";
 import OneButtonModal from "@/components/ui/OneButtonModal";
 import Link from "next/link";
 

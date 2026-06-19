@@ -43,3 +43,12 @@ export type OnBoarding3Type = z.infer<typeof onBoarding3Schema>;
 export type OnBoarding4Type = z.infer<typeof onBoarding4Schema>;
 export type OnBoarding5Type = z.infer<typeof onBoarding5Schema>;
 export type OnBoarding6Type = z.infer<typeof onBoarding6Schema>;
+
+export const onboardingSchema = onBoarding1Schema
+    .merge(onBoarding2Schema)
+    .merge(onBoarding3Schema)
+    .merge(onBoarding4Schema)
+    .merge(onBoarding5Schema)
+    .merge(onBoarding6Schema);
+
+export type OnboardingType = z.infer<typeof onboardingSchema>;

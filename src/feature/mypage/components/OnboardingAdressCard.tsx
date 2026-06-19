@@ -3,7 +3,10 @@
 import SearchAdressModal from "@/app/(user)/auth/onboarding/SearchAdressModal";
 import useModal from "@/components/hooks/useModal";
 import { MyOnboardingPurpose } from "@/components/ui/image";
+import { RegionType } from "@/feature/auth/type";
+import { OnboardingType } from "@/lib/onboardingSchema";
 import { useState } from "react";
+import { UseFormSetValue } from "react-hook-form";
 
 interface DaumAddressData {
     roadAddress: string;
@@ -18,14 +21,14 @@ interface KakaoAddressResult {
     y: string;
 }
 
-export default function OnboardingAdressCard({ title, content }: { title: string, content: string }) {
+export default function OnboardingAdressCard({ title, content, setValue }: { title: string, content: RegionType, setValue: UseFormSetValue<OnboardingType> }) {
     const [userAdress, setUserAddress] = useState({
-        "sido": "",
-        "sigungu": "",
-        "eupmyeondong": "",
-        "fullName": "",
-        "latitude": 0,
-        "longitude": 0
+        "sido": content.sido,
+        "sigungu": content.sigungu,
+        "eupmyeondong": content.eupmyeondong,
+        "fullName": content.fullName,
+        "latitude": content.latitude,
+        "longitude": content.longitude
     })
 
     const completeHandler = (data: DaumAddressData) => {
@@ -51,6 +54,7 @@ export default function OnboardingAdressCard({ title, content }: { title: string
 
 
                     setUserAddress(newAddress);
+                    setValue('region', newAddress);
                     modal.closeModal();
                 }
             );
@@ -73,7 +77,7 @@ export default function OnboardingAdressCard({ title, content }: { title: string
                 <div
                     onClick={modal.openModal}
                     className="font-normal text-base text-white w-full bg-[#1E2939] border-[#364153] p-3 rounded-[10px]"
-                >{userAdress.fullName ? userAdress.fullName : content}</div>
+                >{userAdress.fullName ? userAdress.fullName : content.fullName}</div>
             </div>
             <SearchAdressModal
                 isModal={modal.isModal} closeModal={modal.closeModal} completeHandler={completeHandler} />

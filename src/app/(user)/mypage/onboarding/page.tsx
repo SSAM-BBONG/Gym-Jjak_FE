@@ -2,6 +2,7 @@ import { MyOnboardingPurpose } from "@/components/ui/image";
 import { MyOnboardingResponse } from "@/feature/auth/type";
 import OnboardingDetailCard from "@/feature/mypage/components/OnboardingDetailCard";
 import { getMyOnboarding } from "@/service/auth.service";
+import Link from "next/link";
 
 export default async function Page() {
     const response = await getMyOnboarding();
@@ -14,7 +15,7 @@ export default async function Page() {
                     <p className="text-[36px] font-black text-white"> 온보딩 정보</p>
                     <p className="text-[14px] font-normal text-[#99A1AF] mb-8"> 나의 운동 프로필을 확인하세요</p>
                 </div>
-                <button className="bg-[#BFFF0B] text-black px-6 py-3 font-bold text-base rounded-[10px]">수정하기</button>
+                <Link href="/mypage/onboarding/edit"><button className="bg-[#BFFF0B] text-black px-6 py-3 font-bold text-base rounded-[10px]">수정하기</button></Link>
             </div>
 
             <OnboardingDetailCard title="운동 목적" content={myOnboarding.exerciseGoal} />

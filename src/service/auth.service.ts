@@ -1,5 +1,6 @@
 import { LoginRequest, onbordingRequest, MyOnboardingResponse, RegisterRequest } from "@/feature/auth/type";
 import { fetchWithAuth, fetchWithoutAuth } from "@/lib/feth";
+import { OnboardingType } from "@/lib/onboardingSchema";
 import { getErrorMessage } from "@/lib/stateError";
 
 export const login = async (user: LoginRequest) => {
@@ -80,6 +81,24 @@ export const getMyOnboarding = async () => {
         const message = await getErrorMessage(
             response,
             '온보딩 조회에 실패하였습니다.'
+        );
+
+        throw new Error(message);
+    }
+
+    return response.json();
+}
+
+export const editMyOnboarding = async (onbordingInfo: OnboardingType) => {
+    const response = await fetchWithAuth('/api/onboarding/me', {
+        method: "PUT",
+        body: JSON.stringify(onbordingInfo)
+    })
+
+    if (!response.ok) {
+        const message = await getErrorMessage(
+            response,
+            '온보딩 수정에 실패하였습니다.'
         );
 
         throw new Error(message);
