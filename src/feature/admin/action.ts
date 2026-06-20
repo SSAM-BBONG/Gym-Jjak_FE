@@ -1,13 +1,13 @@
 ﻿'use server'
 
 import { createCategories, deleteCategories, updateCategories } from "@/service/admin.service";
-import { approvalOrganization, approvalReport, getOrganizationbyId, getReportPtbyId, rejectOrganization, rejectReport } from "@/service/report.service"
+import { approvalOrganization, approvalReport, getOrganizationbyIApplicationAdmin, getReportPtbyId, rejectOrganization, rejectReport } from "@/service/report.service"
 import axios from "axios";
 import { redirect } from "next/navigation";
 
-export const OrganizationDetailAction = async (applicationId: number) => {
+export const OrganizationApplicationAdminDetailAction = async (applicationId: number) => {
     try {
-        const response = await getOrganizationbyId(applicationId);
+        const response = await getOrganizationbyIApplicationAdmin(applicationId);
         return response.data;
     } catch (error) {
         let errorMessage: string = '알 수 없는 오류입니다. 재시도해주세요.'

@@ -71,3 +71,24 @@ export const deleteCategories = async (categoryId: number) => {
 
     return response.json();
 }
+
+//조직 목록 조회
+export const getOrganization = async () => {
+    const response = await fetchWithAuth('/api/organizations');
+
+    if (!response.ok) {
+        const message = await getErrorMessage(
+            response,
+            '기관 조회에 실패했습니다.'
+        );
+
+        throw new Error(message);
+    }
+    return response.json();
+}
+
+//조직 상세 조회
+
+
+//트레이너 신청 목록 조회
+
