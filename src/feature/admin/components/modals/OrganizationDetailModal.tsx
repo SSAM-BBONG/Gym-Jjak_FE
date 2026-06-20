@@ -2,7 +2,7 @@ import { AdminDocument, CloseButton } from "@/components/ui/image";
 import AdminModalP from "./AdminModalP";
 import AdminModalDiv from "./AdminModalDiv";
 import { useEffect, useState } from "react";
-import { OrganizationDetailAction } from "../../action";
+import { OrganizationApplicationAdminDetailAction } from "../../action";
 
 interface OrganizationDetailModalProps {
     isModal: boolean;
@@ -35,12 +35,12 @@ const emptyOrganizationInstance = {
 
 export default function OrganizationDetailModal({ isModal, closeModal, activeModal, noneActiveModal, mode, applicationId }: OrganizationDetailModalProps) {
 
-    const [organizationInfo, setOrganizationInfo] = useState<Organization>(emptyOrganizationInstance);
+    const [organizationInfo, setOrganizationInfo] = useState<OrganizationApplicationsDetail>(emptyOrganizationInstance);
     let first = true;
     useEffect(() => {
 
         const fetchOrganization = async () => {
-            const res = await OrganizationDetailAction(applicationId);
+            const res = await OrganizationApplicationAdminDetailAction(applicationId);
             console.log('조직 확인', res);
             setOrganizationInfo(res ?? emptyOrganizationInstance);
         }

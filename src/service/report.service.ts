@@ -68,7 +68,7 @@ export const rejectReport = async (reportGroupId: number, reportId: number) => {
     return response.json();
 }
 
-export const getOrganization = cache(async () => {
+export const getOrganizationApplicationAdmin = cache(async () => {
     const response = await fetchWithAuth('/api/organization-applications');
 
     if (!response.ok) {
@@ -83,7 +83,7 @@ export const getOrganization = cache(async () => {
     return response.json();
 })
 
-export const getOrganizationbyId = cache(async (applicationId: number) => {
+export const getOrganizationbyIApplicationAdmin = cache(async (applicationId: number) => {
     const response = await fetchWithAuth(`/api/organization-applications/${applicationId}`);
 
     if (!response.ok) {

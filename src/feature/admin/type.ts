@@ -30,7 +30,7 @@ interface ReportsDetail {
 
 
 
-interface Organizations {
+interface OrganizationApplications {
     organizationApplicationId: number,
     requestedLoginId: string,
     businessName: string,
@@ -38,7 +38,7 @@ interface Organizations {
     representativePhone: string
 }
 
-interface Organization {
+interface OrganizationApplicationsDetail {
     organizationApplicationId: number,
     requestedLoginId: string,
     businessRegistrationNumber: string,
@@ -77,3 +77,13 @@ interface tag {
     createdAt: string;
     usageCount: number;
 }
+
+interface Organizations {
+    organizationApplicationId: number;
+    requestedLoginId: string;
+    businessName: string,
+    representativeName: string,
+    representativePhone: string
+}
+
+

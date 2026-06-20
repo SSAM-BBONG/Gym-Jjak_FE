@@ -1,9 +1,9 @@
-import { getOrganization } from "@/service/report.service";
+import { getOrganizationApplicationAdmin } from "@/service/report.service";
 import OrganizationADataList from "./OrganizationADataList";
 
 export default async function Page() {
 
-    const response = await getOrganization();
+    const response = await getOrganizationApplicationAdmin();
     const organizations: Organizations[] = response.data;
 
     return (

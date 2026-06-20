@@ -13,6 +13,8 @@ interface ReportDataListProps {
 
 export default function ReportDataList({ mode, reposts, totalPage, page }: ReportDataListProps) {
 
+    const modeType = { 'TRAINER_REVIEW': 'reviews', 'COMMENT': 'comments', 'PT_COURSE': 'pt', 'FEEDBACK': 'feedbacks', 'POST': 'posts' }
+
     return (
         <div>
             <SearchBar></SearchBar>
@@ -37,7 +39,7 @@ export default function ReportDataList({ mode, reposts, totalPage, page }: Repor
                     </div>
                 )}
             </section>
-            <AdminPagination mode={mode} page={page} totalPage={totalPage} />
+            <AdminPagination url={`reports/${modeType[mode]}`} page={page} totalPage={totalPage} />
         </div>
     );
 }

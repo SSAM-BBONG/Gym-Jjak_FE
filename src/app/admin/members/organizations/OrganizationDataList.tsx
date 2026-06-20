@@ -2,8 +2,15 @@
 
 import SearchBar from "@/feature/admin/components/SearchBar";
 import OrgainzationDataItem from "./OrganizationDataItem";
+import AdminPagination from "@/feature/admin/components/AdminPagination";
 
-export default function OrganizationDataList() {
+interface OrganizationDataListProps {
+    organizations: Organizations[]
+    totalPage: number;
+    page: string;
+}
+
+export default function OrganizationDataList({ organizations, totalPage, page }: OrganizationDataListProps) {
     return (
         <div>
             <SearchBar></SearchBar>
@@ -17,12 +24,19 @@ export default function OrganizationDataList() {
                     <p className="col-span-2">승인일</p>
                     <p className="col-span-2">상세</p>
                 </div>
-                <OrgainzationDataItem />
-                <OrgainzationDataItem />
-                <OrgainzationDataItem />
-                <OrgainzationDataItem />
-                <OrgainzationDataItem />
+
+                {organizations?.map((organization) => (
+                    <OrgainzationDataItem organization={organization} key={organization.organizationApplicationId} />
+                ))}
+
+                {organizations?.length === 0 && (
+                    <div className="px-6 py-10 text-center text-sm text-muted-foreground">
+                        조직이 없습니다.
+                    </div>
+                )}
             </section>
+            <AdminPagination url={'members/organizations'} page={page} totalPage={totalPage} />
+
         </div>
     );
 }
