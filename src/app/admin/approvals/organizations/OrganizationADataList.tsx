@@ -3,7 +3,7 @@
 import SearchBar from "@/feature/admin/components/SearchBar";
 import OrganizationADataItem from "./OrganizationADataItem";
 
-export default function OrganizationADataList({ organizations }: { organizations: Organizations[] }) {
+export default function OrganizationADataList({ organizations }: { organizations: OrganizationApplications[] }) {
     return (
         <div>
             <SearchBar></SearchBar>

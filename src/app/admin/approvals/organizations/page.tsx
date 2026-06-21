@@ -4,7 +4,7 @@ import OrganizationADataList from "./OrganizationADataList";
 export default async function Page() {
 
     const response = await getOrganizationApplicationAdmin();
-    const organizations: Organizations[] = response.data;
+    const organizations: OrganizationApplications[] = response.data.applications;
 
     return (
         <section className="p-7.5">

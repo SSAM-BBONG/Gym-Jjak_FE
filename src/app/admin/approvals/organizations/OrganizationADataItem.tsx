@@ -1,6 +1,6 @@
 import OrganizationDetailButton from "@/feature/admin/components/OrganizationDetailButton";
 
-export default function OrganizationADataItem({ organization }: { organization: Organizations }) {
+export default function OrganizationADataItem({ organization }: { organization: OrganizationApplications }) {
     return (
         <div
             style={{ display: 'grid' }}
