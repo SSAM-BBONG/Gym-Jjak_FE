@@ -1,7 +1,7 @@
 "use client";
 
 import { OrganApplicationUpload} from "@/components/ui/image";
-import { createPtCourseAction } from "@/feature/pt/action";
+import { createPtCourseAction } from "@/feature/pt/actions";
 import { useActionState } from "react";
 
 export default function PtRegistForm() {

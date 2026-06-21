@@ -167,3 +167,36 @@ export interface PtCourseCreateData {
   totalSessionCount: number;
   thumbnailUrl?: string;
 }
+
+// 트레이너 등록 API
+// 트레이너 등록 요청 타입
+export interface TrainerApplicationData {
+  profileImageFile: TrainerFileData | null;
+  certificateFile: TrainerFileData;
+  qualifications: string[] | null;
+  awardHistories: string[] | null;
+  introduction: string;
+}
+
+// 트레이너 이미지 요청 타입
+export interface TrainerFileData {
+    fileKey: string,
+    originalName: string,
+    contentType: string,
+    fileSize: number
+}
+
+// 트레이너 등록 응답 타입
+export interface TrainerApplicationResponse {
+  status: number,
+  code: string,
+  message: string
+  data: {
+        trainerApplicationId: number
+    }
+}
+
+// 트레이너 신청 ID 타입
+export interface TrainerApplicationId {
+  trainerApplicationId: number
+}

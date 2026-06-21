@@ -3,8 +3,9 @@
 import axios from "axios";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { createPtCourse } from "@/service/ptzone.service";
-import { PtActionState } from "./type";
+import { createPtCourse, trainerApplication } from "@/service/ptzone.service";
+import { PtActionState, TrainerApplicationData } from "./type";
+import { uploadFilesPresignedUrl } from "@/service/file.service";
 
 type RequiredField =
   | "title"
@@ -54,7 +55,7 @@ const getNumber = (
 };
 
 export const createPtCourseAction = async (
-  _prevState: PtActionState,
+  prevState: PtActionState,
   formData: FormData
 ): Promise<PtActionState> => {
   const thumbnail = formData.get("thumbnail");
@@ -150,6 +151,66 @@ export const createPtCourseAction = async (
   revalidatePath("/pt");
   revalidatePath("/pt/find");
   revalidatePath("/pt/manage");
+
+  redirect("/pt/manage");
+};
+
+export const trainerApplicationAction = async (formData: FormData) => {
+  const profileImageFile = formData.get("profileImageFile");
+  const certificateFile = formData.get("certificateFile");
+
+  const qualifications = JSON.parse(
+    String(formData.get("qualifications") ?? "[]")
+  ) as string[];
+
+  const awardHistories = JSON.parse(
+    String(formData.get("awardHistories") ?? "[]")
+  ) as string[];
+
+  const introduction = String(formData.get("introduction") ?? "").trim();
+
+  if (!(certificateFile instanceof File) || certificateFile.size === 0) {
+    return {
+      success: false,
+      message: "필수 자격증 파일을 등록해주세요.",
+    };
+  }
+
+  if (!introduction) {
+    return {
+      success: false,
+      message: "자기소개를 입력해주세요.",
+    };
+  }
+
+  const uploadTargets = [];
+
+  const hasProfileImage =
+    profileImageFile instanceof File && profileImageFile.size > 0;
+
+  if (hasProfileImage) {
+    uploadTargets.push({
+      file: profileImageFile,
+      fileType: "PROFILE_IMAGE" as const,
+    });
+  }
+
+  uploadTargets.push({
+    file: certificateFile,
+    fileType: "CERTIFICATION" as const,
+  });
+
+  const uploadedFiles = await uploadFilesPresignedUrl(uploadTargets);
+
+  const payload: TrainerApplicationData = {
+    profileImageFile: hasProfileImage ? uploadedFiles[0] : null,
+    certificateFile: hasProfileImage ? uploadedFiles[1] : uploadedFiles[0],
+    qualifications,
+    awardHistories,
+    introduction,
+  };
+
+  await trainerApplication(payload);
 
   redirect("/pt/manage");
 };

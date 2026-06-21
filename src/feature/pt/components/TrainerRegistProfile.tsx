@@ -1,22 +1,35 @@
 'use client'
 
 import { TrainerProfileImgDefault, TrainerProfileImgUpload } from "@/components/ui/image";
+import { TrainerRegistFormValue } from "@/lib/trainerRegistSchema";
 import { useEffect, useState } from "react";
+import { UseFormSetValue } from "react-hook-form";
 
-export default function TrainerRegistProfile() {
+interface TrainerRegistProfileProps {
+  setValue: UseFormSetValue<TrainerRegistFormValue>;
+  error?: string;
+}
 
-    
+export default function TrainerRegistProfile({
+  setValue,
+  error,
+}: TrainerRegistProfileProps) {
     const [profileImageFile, setProfileImageFile] = useState<File | null>(null);
     const [profileImagePreview, setProfileImagePreview] = useState("");
 
-    const handleProfileChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+  const handleProfileChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     const file = e.target.files?.[0];
 
     if (!file) return;
 
     setProfileImageFile(file);
     setProfileImagePreview(URL.createObjectURL(file));
-    };
+
+    setValue("profileImageFile", file, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+  };
 
     useEffect(() => {
         return () => {
@@ -55,9 +68,11 @@ export default function TrainerRegistProfile() {
                         id="trainer-profile-img-upload"
                         accept=".jpg,.jpeg,.png, image/jpeg,image/png"
                         type="file"
+                        name="profileImg"
                         onChange={(handleProfileChange)}
                         className="hidden" />
                 </div>
+                {error && <p className="text-sm text-red-500">{error}</p>}
             </div>
-    );
+        );
 }

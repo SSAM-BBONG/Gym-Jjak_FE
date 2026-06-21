@@ -1,25 +1,50 @@
 'use client'
 
+import { TrainerRegistFormValue } from "@/lib/trainerRegistSchema";
 import { useState } from "react";
+import { UseFormSetValue } from "react-hook-form";
 
-export default function TrainerRegistAwardHistory() {
+interface TrainerAwardHistoryProps {
+  setValue: UseFormSetValue<TrainerRegistFormValue>;
+  error?: string;
+}
+
+export default function TrainerRegistAwardHistory({
+  setValue,
+  error,
+}: TrainerAwardHistoryProps) {
 
     const [awarHistoryInput, setAwarHistoryInput] = useState("");
     const [awardHistorys, setawardHistorys] = useState<string[]>([]);
 
-    const handleAddQualification = () => {
-        if (awarHistoryInput.trim() === "") return;
+  const handleAddQualification = () => {
+    const trimmedValue = awarHistoryInput.trim();
 
-        setawardHistorys([...awardHistorys, awarHistoryInput]);
-        setAwarHistoryInput("");
-    };
+    if (trimmedValue === "") return;
 
-    const handleRemoveQualification = (removeIndex: number) => {
-        setawardHistorys(
-        awardHistorys.filter((award, index) => index !== removeIndex)
-        );
-    };
+    const nextAwardHistories = [...awardHistorys, trimmedValue];
 
+    setawardHistorys(nextAwardHistories);
+    setAwarHistoryInput("");
+
+    setValue("awardHistories", nextAwardHistories, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+  };
+
+  const handleRemoveQualification = (removeIndex: number) => {
+    const nextAwardHistories = awardHistorys.filter(
+      (_, index) => index !== removeIndex
+    );
+
+    setawardHistorys(nextAwardHistories);
+
+    setValue("awardHistories", nextAwardHistories, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+  };
 
 
     return (
@@ -33,6 +58,7 @@ export default function TrainerRegistAwardHistory() {
             <div className="flex justify-between items-center">
             <p className="text-[20px] font-extrabold text-white"> 대회 경력 </p>
                 <button 
+                    type="button"
                     onClick={handleAddQualification}
                     className="bg-[#364153] px-4 py-2 rounded-[10px] text-[16px] text-white font-medium"> + &nbsp; 추가 </button>
             </div>
@@ -46,11 +72,12 @@ export default function TrainerRegistAwardHistory() {
                 <div key={index} className="flex gap-3">
                     <p className="bg-[#1E2939] px-4 py-3 border border-[#364153] flex-1 rounded-[10px] text-white"> {award} </p>
                     <button 
+                        type="button"
                         onClick={() => handleRemoveQualification(index)}
                         className="px-4 py- bg-[#82181A4D] rounded-[10px] text-[#FF6467] font-extrabold"> ✕ </button>
                 </div>
             ))}   
-        
+              {error && <p className="text-sm text-red-500">{error}</p>}
         </div>
     );
 }

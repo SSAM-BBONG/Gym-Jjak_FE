@@ -1,28 +1,47 @@
 'use client'
 
 import { TrainerEssentialQulificationIcon, TrainerProfileEssential, TrainerProfileImgUpload } from "@/components/ui/image";
+import { TrainerRegistFormValue } from "@/lib/trainerRegistSchema";
 import { useState } from "react";
+import { UseFormSetValue } from "react-hook-form";
 
-export default function TrainerRegistEssentialQulification() {
+interface TrainerEssentialQulificationProps {
+  setValue: UseFormSetValue<TrainerRegistFormValue>;
+  error?: string;
+}
+
+export default function TrainerRegistEssentialQulification({
+  setValue,
+  error,
+}: TrainerEssentialQulificationProps) { 
 
     const [qulification, setQualification] = useState("");
     const [qulificationFile, setQualificationFile] = useState<File | null>(null);
 
     // 자격증 관리
-    const handleQualificationChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+  const handleQualificationChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     const file = e.target.files?.[0];
 
     if (!file) return;
 
     setQualificationFile(file);
     setQualification(file.name);
-    };
 
-    // 자격증 삭제
-    const handleRemoveQualification = () => {
+    setValue("certificateFile", file, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+  };
+
+  const handleRemoveQualification = () => {
     setQualificationFile(null);
     setQualification("");
-    };
+
+    setValue("certificateFile", undefined as unknown as File, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+  };
 
     return (
         <div className="
@@ -38,7 +57,9 @@ export default function TrainerRegistEssentialQulification() {
                         <p className="text-[20px] font-extrabold text-white"> 필수 자격증 </p>
                         <p className="text-[12px] text-[#6A7282] font-medium"> 국가 공인 자격증만 가능합니다. </p>
                     </div>
-                    <button className="
+                    <button 
+                        type="button"
+                        className="
                         flex gap-3 
                         px-4 py-2
                         bg-[#BFFF0B] rounded-[10px]
@@ -66,6 +87,7 @@ export default function TrainerRegistEssentialQulification() {
                 <input 
                     id="trainer-profile-essential-upload" 
                     type="file" 
+                    name="essentialQulification"
                     accept=".jpg,.jpeg,.png,.pdf,image/jpeg,image/png,application/pdf" 
                     onChange={handleQualificationChange}
                     className="hidden"/>
@@ -85,6 +107,7 @@ export default function TrainerRegistEssentialQulification() {
                         </button>
                 </div>
                 }
+                {error && <p className="text-sm text-red-500">{error}</p>}
             </div>
-    );
+        );
 }
