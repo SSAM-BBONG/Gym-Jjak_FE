@@ -1,4 +1,4 @@
-import { MypageInbody, PtTrainerRegistPending } from "@/components/ui/image";
+import { MypageInbody, PtTrainerRegistPending, TrainerAPplicationCancel, TrainerAPplicationEdit } from "@/components/ui/image";
 import TrainerRegistForm from "@/feature/pt/components/TrainerRegistForm";
 
 export default async function PtTrainerRegistPage() {
@@ -29,7 +29,16 @@ export default async function PtTrainerRegistPage() {
                                     <p className="text-[14px] font-normal text-[#99A1AF]"> 신청일: 2026. 5. 17 </p>
                                 </div>
                             </div>
-                            <p className="text-[16px] font-medium text-white rounded-[10px] bg-[#364153] px-4 py-2"> 수정 </p>
+                            <div className="flex gap-3 items-center">
+                                <div className="flex gap-2 items-center text-[16px] font-medium text-white rounded-[10px] bg-[#364153] px-4 py-2"> 
+                                    <img src={TrainerAPplicationEdit} alt="트레이너 신청 수정 버튼"/>
+                                    <p> 수정 </p> 
+                                </div>
+                                <div className="flex gap-2 itemes-center rounded-[10px] bg-[#82181AB2] px-4 py-2 text-[16px] font-medium text-[#FF6467] border border-[#FB2C364D]"> 
+                                    <img src={TrainerAPplicationCancel} alt="트레이너 신청 취소 버튼"/>
+                                    <p> 신청취소 </p>
+                                </div>
+                            </div>
                         </div>
                         <p className="border border-[#F0B1004D] bg-[#733E0A33] px-4 py-4 rounded-[10px] text-[16px] font-normal text-[#FDC700]">관리자의 승인을 기다리고 있습니다. 영업일 기준 3-5일 소요될 수 있습니다.</p>
                     </div>
