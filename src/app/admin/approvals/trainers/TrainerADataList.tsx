@@ -1,9 +1,17 @@
-'use client'
-
 import SearchBar from "@/feature/admin/components/SearchBar";
 import TrainerADataItem from "./TrainerADataItem";
+import AdminPagination from "@/feature/admin/components/AdminPagination";
 
-export default function TrainerADataList() {
+
+interface TrainerApplicationDataListProps {
+    trainers: TrainerApplications[]
+    totalPage: number;
+    page: string;
+    keyword: string | null;
+    status: "PENDING" | "APPROVED" | "REJECTED" | "CANCELED" | null;
+}
+
+export default function TrainerADataList({ trainers, totalPage, page, keyword, status }: TrainerApplicationDataListProps) {
     return (
         <div>
             <SearchBar></SearchBar>
@@ -15,12 +23,18 @@ export default function TrainerADataList() {
                     <p className="col-span-2">상태</p>
                     <p className="col-span-2">상세</p>
                 </div>
-                <TrainerADataItem />
-                <TrainerADataItem />
-                <TrainerADataItem />
-                <TrainerADataItem />
-                <TrainerADataItem />
+                {trainers?.map((trainer) => (
+                    <TrainerADataItem trainer={trainer} key={trainer.trainerApplicationId} />
+                ))}
+
+                {trainers?.length === 0 && (
+                    <div className="px-6 py-10 text-center text-sm text-muted-foreground">
+                        트레이너 신청이 없습니다.
+                    </div>
+                )}
             </section>
+            <AdminPagination url={`approvals/trainers`} page={page} totalPage={totalPage} />
+
         </div>
     );
 }

@@ -58,6 +58,17 @@ interface OrganizationApplicationsDetail {
     businessLicenseFileUrl: string
 }
 
+interface TrainerApplications {
+    trainerApplicationId: number;
+    userId: number;
+    username: string;
+    name: string;
+    nickname: string;
+    status: "PENDING" | "APPROVED" | "REJECTED" | "CANCELED";
+    createdAt: string;
+    reviewedAt: null
+}
+
 interface ReportResponse {
     reports: Reposts[]
 }
