@@ -107,7 +107,12 @@ export const trainerApplication = async (
 export const getTrainerApplication = async (): Promise<TrainerApplicationDetailResponse> => {
   const response = await fetchWithAuth(`/api/trainer-applications/me`);
 
+  const data = await response.json().catch(() => null);
+
   if (!response.ok) {
+    if (data?.code === 'TRAINER_APPLICATION_404_1') {
+      return data;
+    }
     const message = await getErrorMessage(
       response,
       '트레이너 신청 상세 조회에 실패하였습니다.'
@@ -116,5 +121,5 @@ export const getTrainerApplication = async (): Promise<TrainerApplicationDetailR
     throw new Error(message);
   }
 
-  return response.json();
+  return data;
 };

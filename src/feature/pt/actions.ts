@@ -212,5 +212,5 @@ export const trainerApplicationAction = async (formData: FormData) => {
 
   await trainerApplication(payload);
 
-  redirect("/pt/manage");
+  redirect("/pt/trainer");
 };

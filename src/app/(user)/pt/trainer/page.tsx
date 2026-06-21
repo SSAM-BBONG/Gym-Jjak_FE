@@ -1,13 +1,19 @@
-import { MypageInbody, PtTrainerRegistPending, TrainerAPplicationCancel, TrainerAPplicationEdit } from "@/components/ui/image";
+import { MypageInbody, PtTrainerRegistPending, TrainerAPplicationCancel, TrainerAPplicationEdit, TrainerEssentialQulificationIcon, TrainerProfileImgDefault } from "@/components/ui/image";
 import TrainerRegistForm from "@/feature/pt/components/TrainerRegistForm";
+import { getTrainerApplication } from "@/service/ptzone.service";
+import { closestIndexTo } from "date-fns/fp";
 
 export default async function PtTrainerRegistPage() {
 
+    const trainerApplicationData = await getTrainerApplication();
+    console.log(trainerApplicationData)
     return (
         <div>
+            {trainerApplicationData.code === 'TRAINER_APPLICATION_404_1' 
+            ?
             <TrainerRegistForm />
-
-            <div className="flex flex-col px-40 pt-10">
+            : (
+            <div className="flex flex-col px-40 py-10">
                 <p className="text-[36px] font-black text-white"> 트레이너 신청 현황 </p>
                 <p className="text-[14px] font-normal text-[#99A1AF]"> 신청 상태를 확인하세요 </p>
 
@@ -32,11 +38,11 @@ export default async function PtTrainerRegistPage() {
                             <div className="flex gap-3 items-center">
                                 <div className="flex gap-2 items-center text-[16px] font-medium text-white rounded-[10px] bg-[#364153] px-4 py-2"> 
                                     <img src={TrainerAPplicationEdit} alt="트레이너 신청 수정 버튼"/>
-                                    <p> 수정 </p> 
+                                    <button> 수정 </button> 
                                 </div>
                                 <div className="flex gap-2 itemes-center rounded-[10px] bg-[#82181AB2] px-4 py-2 text-[16px] font-medium text-[#FF6467] border border-[#FB2C364D]"> 
                                     <img src={TrainerAPplicationCancel} alt="트레이너 신청 취소 버튼"/>
-                                    <p> 신청취소 </p>
+                                    <button> 신청취소 </button>
                                 </div>
                             </div>
                         </div>
@@ -53,15 +59,35 @@ export default async function PtTrainerRegistPage() {
                         ">
                         <p className="text-[20px] font-extrabold text-white"> 프로필 정보 </p>
                         <div className="flex gap-6 items-start  ">
-                            <div className="flex items-center justify-center size-30 border-[3px] border-[#BFFF0B] rounded-full">
-                                <img className="object-cover" src={MypageInbody} alt="트레이너 프로필 수정 프로필 사진" />
-                            </div>
-                            <div className="flex flex-col gap-3">
-                                <p className="text-[14px] font-normal text-[#99A1AF]"> 강습 장소</p>
-                                <p className="text-[18px] font-extrabold text-white"> 서울체육관</p>
+                            <div className="flex items-center justify-center size-30 border-[3px] border-[#BFFF0B] rounded-full overflow-hidden">
+                                <img 
+                                    className="w-full h-full object-cover" 
+                                    src={trainerApplicationData.data.profileImageUrl ?? TrainerProfileImgDefault} 
+                                    alt="트레이너 프로필 수정 프로필 사진" />
                             </div>
                         </div>
                     </div>
+
+                    <div className="
+                                flex flex-col gap-4
+                                p-8
+                                bg-[linear-gradient(135deg,rgba(16,24,40,0.90)0%,rgba(30,41,57,0.90)100%)]
+                                border
+                                border-[#36415380]
+                                rounded-[16px]
+                                ">
+                                    <div className="flex items-center justify-between">
+                                        <div className="flex flex-col gap-3">
+                                            <p className="text-[20px] font-extrabold text-white"> 필수 자격증 </p>
+                                        </div>
+                                    </div>
+                                    <div className="flex gap-3 justify-between">
+                                        <div className="flex flex-1 gap-2 px-3 py-2 border border-[#364153] bg-[#1E293980] items-center rounded-[10px]"> 
+                                            <img src={TrainerEssentialQulificationIcon} alt="자격증 업로드시 나오는 아이콘"/>
+                                            <p className="text-[#99A1AF] text-[12px] font-medium"> {trainerApplicationData.data.certificateUrl} </p>
+                                        </div>
+                                    </div>
+                                </div>
 
                     <div className="
                         flex flex-col gap-4
@@ -71,7 +97,12 @@ export default async function PtTrainerRegistPage() {
                         border-[#36415380]
                         rounded-[16px]">
                         <p className="text-[20px] font-extrabold text-white"> 자격증 </p>
-                        <p className="flex gap-2 text-[16px] font-normal text-[#D1D5DC]"> <span className="text-[#BFFF0B] font-black ">•</span> 생활체육지도사 2급 </p>
+                        {trainerApplicationData.data.qualifications.map((data, index) => (
+                        <p key={index} className="flex gap-2 text-[16px] font-normal text-[#D1D5DC]"> 
+                            <span className="text-[#BFFF0B] font-black ">•</span> 
+                            {data}
+                        </p>
+                        ))}
                     </div>
 
                     <div className="
@@ -82,7 +113,12 @@ export default async function PtTrainerRegistPage() {
                         border-[#36415380]
                         rounded-[16px]">
                         <p className="text-[20px] font-extrabold text-white"> 대회 경력 </p>
-                        <p className="flex gap-2 text-[16px] font-normal text-[#D1D5DC]"> <span className="text-[#BFFF0B] font-black ">•</span> 2023 대회 </p>
+                            {trainerApplicationData.data.awardHistories.map((data, index) => (
+                                <p key={index} className="flex gap-2 text-[16px] font-normal text-[#D1D5DC]"> 
+                                    <span className="text-[#BFFF0B] font-black ">•</span> 
+                                    {data}
+                                </p>
+                            ))}
                     </div>
 
                     <div className="
@@ -93,10 +129,11 @@ export default async function PtTrainerRegistPage() {
                     border-[#36415380]
                     rounded-[16px]">
                         <p className="text-[20px] font-extrabold text-white"> 자기소개 </p>
-                        <p className="text-[16px] font-normal text-[#D1D5DC]"> xxx입니다. 잘부탁드립니다 </p>
+                        <p className="text-[16px] font-normal text-[#D1D5DC]"> {trainerApplicationData.data.introduction} </p>
                     </div>
                 </div>
             </div>
+            )}
         </div>
     );
 }

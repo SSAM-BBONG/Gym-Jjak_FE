@@ -209,6 +209,7 @@ export interface TrainerApplicationDetailResponse {
   data: TrainerApplicationDetail
 }
 
+// 트레이너 신청 상세 조회 data 타입
 export interface TrainerApplicationDetail {
     trainerApplicationId: number
     userId: number;
