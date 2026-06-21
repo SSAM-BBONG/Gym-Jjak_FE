@@ -5,7 +5,7 @@ export default function AdminPagination({ url, page, totalPage }: { url: string,
     const currentPageGroup = Math.ceil(currentpage / 5);
 
     const arr = [];
-    for (let i = (currentPageGroup - 1) * 5 + 1; i <= Math.min(currentPageGroup * 5, totalPage); i++) {
+    for (let i = (currentPageGroup - 1) * 5 + 1; i <= Math.min(currentPageGroup * 5, totalPage | 1); i++) {
         arr.push(i);
     }
 
@@ -15,7 +15,7 @@ export default function AdminPagination({ url, page, totalPage }: { url: string,
             {
                 arr.map(i => <Link key={i} href={`/admin/${url}?page=${i}`} className={currentpage === i ? 'text-[#BFFF0B]' : ''}>{i}</Link>)
             }
-            <Link href={`/admin/${url}?page=${Math.min(currentpage + 1, totalPage)}`}><img />다음</Link>
+            <Link href={`/admin/${url}?page=${Math.min(currentpage + 1, totalPage | 1)}`}><img />다음</Link>
         </div>
     );
 }

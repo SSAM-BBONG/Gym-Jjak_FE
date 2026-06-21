@@ -22,8 +22,18 @@ export default function ReportDataItem({ mode, repost }: ReportMode) {
             <div className="col-span-3"><ReportCheck reportGroupId={repost.reportGroupId} /></div>
             <p className="col-span-2">날짜</p>
             <p className="col-span-2">{repost.effectiveReportCount}건</p>
-            <div className="col-span-2"><ReportStatus text={repost.status} /></div>
-            <div className="col-span-3"><DetailButton mode={mode} /></div>
+            {repost.status === '처리완료' ? (
+                <div className="col-span-5">
+                    <button className="flex items-center gap-2.5 text-sm font-medium text-red-500 bg-red-500/10 border-red-500/30 border rounded-lg py-2 px-3">
+                        수동 삭제
+                    </button>
+                </div>
+            ) : (
+                <>
+                    <div className="col-span-2"><ReportStatus text={repost.status} /></div>
+                    <div className="col-span-3"><DetailButton mode={mode} /></div>
+                </>
+            )}
         </div>
     );
 }
