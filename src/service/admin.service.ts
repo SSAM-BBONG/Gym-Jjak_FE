@@ -91,4 +91,16 @@ export const getOrganization = async () => {
 
 
 //트레이너 신청 목록 조회
+export const getTrainerApplications = async (page: string = '1', status: string | null, keyword: string | null) => {
+    const response = await fetchWithAuth(`/api/trainer-applications?page=${page}${status ? `&status=${status}` : ""}${keyword ? `&keyword=${keyword}` : ""}`);
 
+    if (!response.ok) {
+        const message = await getErrorMessage(
+            response,
+            '트레이너 신청 목록 조회에 실패했습니다.'
+        );
+
+        throw new Error(message);
+    }
+    return response.json();
+}
