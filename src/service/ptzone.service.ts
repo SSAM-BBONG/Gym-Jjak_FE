@@ -1,6 +1,7 @@
 ﻿import {
   OnboardingResponse, PtCourseCreateResponse, PtDetailResponse, PtListResponse,
   TrainerApplicationData,
+  TrainerApplicationDetailResponse,
   TrainerApplicationResponse
 } from "@/feature/pt/type";
 import { fetchWithAuth } from "@/lib/feth";
@@ -94,6 +95,22 @@ export const trainerApplication = async (
     const message = await getErrorMessage(
       response,
       "트레이너 신청에 실패하였습니다."
+    );
+
+    throw new Error(message);
+  }
+
+  return response.json();
+};
+
+// 트레이너 신청 상세 조회
+export const getTrainerApplication = async (): Promise<TrainerApplicationDetailResponse> => {
+  const response = await fetchWithAuth(`/api/trainer-applications/me`);
+
+  if (!response.ok) {
+    const message = await getErrorMessage(
+      response,
+      '트레이너 신청 상세 조회에 실패하였습니다.'
     );
 
     throw new Error(message);

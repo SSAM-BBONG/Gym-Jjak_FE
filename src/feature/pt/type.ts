@@ -200,3 +200,27 @@ export interface TrainerApplicationResponse {
 export interface TrainerApplicationId {
   trainerApplicationId: number
 }
+
+// 트레이너 신청 상세 조회 응답 타입
+export interface TrainerApplicationDetailResponse {
+  status: number;
+  code: string;
+  message: string;
+  data: TrainerApplicationDetail
+}
+
+export interface TrainerApplicationDetail {
+    trainerApplicationId: number
+    userId: number;
+    profileImageUrl: string | null;
+    certificateUrl: string;
+    qualifications: string[];
+    awardHistories: string[];
+    introduction: string;
+    status: "PENDING" | "APPROVED" | "REJECTED" | "CANCELED";
+    rejectReason: string | null;
+    reviewedBy: number | null;
+    reviewedAt: string | null; 
+    createdAt: string;
+    updatedAt: string;
+}
