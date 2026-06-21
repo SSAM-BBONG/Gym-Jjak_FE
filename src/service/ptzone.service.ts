@@ -1,5 +1,7 @@
 ﻿import {
-  OnboardingResponse, PtCourseCreateResponse, PtDetailResponse, PtListResponse
+  OnboardingResponse, PtCourseCreateResponse, PtDetailResponse, PtListResponse,
+  TrainerApplicationData,
+  TrainerApplicationResponse
 } from "@/feature/pt/type";
 import { fetchWithAuth } from "@/lib/feth";
 import { getErrorMessage } from "@/lib/stateError";
@@ -78,3 +80,24 @@ export const createPtCourse = async (formData: FormData): Promise<PtCourseCreate
 
 //   return response.json();
 // };
+
+// 트레이너 등록 API
+export const trainerApplication = async (
+  payload: TrainerApplicationData
+): Promise<TrainerApplicationResponse> => {
+  const response = await fetchWithAuth("/api/trainer-applications", {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+
+  if (!response.ok) {
+    const message = await getErrorMessage(
+      response,
+      "트레이너 신청에 실패하였습니다."
+    );
+
+    throw new Error(message);
+  }
+
+  return response.json();
+};
