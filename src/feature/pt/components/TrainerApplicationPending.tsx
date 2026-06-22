@@ -1,7 +1,13 @@
+'use client'
+
 import { PtTrainerRegistPending, TrainerAPplicationCancel, TrainerAPplicationEdit } from "@/components/ui/image";
 import { getTrainerCancel } from "@/service/ptzone.service";
+import { deleteTrainerApplication } from "../actions";
 
-export default function TrainerApplicationPending() {
+export const TrainerApplicationPending = ({ trainerApplicationId }: { trainerApplicationId: number }) => {
+    const handleDelteApplication = () => {
+        deleteTrainerApplication(trainerApplicationId);
+    }
 
     return (
         <div className="
@@ -27,7 +33,7 @@ export default function TrainerApplicationPending() {
                     </div>
                     <div className="flex gap-2 itemes-center rounded-[10px] bg-[#82181AB2] px-4 py-2 text-[16px] font-medium text-[#FF6467] border border-[#FB2C364D]"> 
                         <img src={TrainerAPplicationCancel} alt="트레이너 신청 취소 버튼"/>
-                        <button> 신청취소 </button>
+                        <button onClick={handleDelteApplication}> 신청취소 </button>
                     </div>
                 </div>
             </div>
