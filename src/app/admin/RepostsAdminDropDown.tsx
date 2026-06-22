@@ -18,11 +18,11 @@ export default function ReportsAdminDropDown() {
                 <img src={AdminReports} alt='신고 관리' />신고 관리<img src={AdminArrowButton} alt="화살표 버튼" className={dropDownView ? "ml-auto -rotate-90" : "ml-auto"} />
             </div>
             <ul hidden={dropDownView} className="px-4">
-                <li><AdminNavLink href="/admin/reports/comments?page=1">댓글 관리</AdminNavLink></li>
-                <li><AdminNavLink href="/admin/reports/feedbacks?page=1">피드백 관리</AdminNavLink></li>
-                <li><AdminNavLink href="/admin/reports/posts?page=1">게시글 관리</AdminNavLink></li>
-                <li><AdminNavLink href="/admin/reports/pt?page=1">PT 관리</AdminNavLink></li>
-                <li><AdminNavLink href="/admin/reports/reviews?page=1">리뷰 관리</AdminNavLink></li>
+                <li><AdminNavLink href="/admin/reports/comments?page=0">댓글 관리</AdminNavLink></li>
+                <li><AdminNavLink href="/admin/reports/feedbacks?page=0">피드백 관리</AdminNavLink></li>
+                <li><AdminNavLink href="/admin/reports/posts?page=0">게시글 관리</AdminNavLink></li>
+                <li><AdminNavLink href="/admin/reports/pt?page=0">PT 관리</AdminNavLink></li>
+                <li><AdminNavLink href="/admin/reports/reviews?page=0">리뷰 관리</AdminNavLink></li>
             </ul>
         </section>
     );
