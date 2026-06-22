@@ -26,7 +26,7 @@ export default function OrganizationDataList({ organizations, totalPage, page }:
                 </div>
 
                 {organizations?.map((organization) => (
-                    <OrgainzationDataItem organization={organization} key={organization.organizationApplicationId} />
+                    <OrgainzationDataItem organization={organization} key={organization.organizationId} />
                 ))}
 
                 {organizations?.length === 0 && (

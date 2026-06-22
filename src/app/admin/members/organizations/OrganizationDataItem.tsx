@@ -13,7 +13,7 @@ export default function OrgainzationDataItem({ organization }: { organization: O
             <p className="col-span-2">{organization.representativeName}</p>
             <p className="col-span-3">{organization.representativePhone}</p>
             <p className="col-span-2">{organization.trainerCount}명</p>
-            <p className="col-span-2">{`${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`}</p>
+            <p className="col-span-2">{`${date.getFullYear()}-${(date.getMonth() + 1)}-${date.getDate()}`}</p>
             <div className="col-span-2"><DetailButton mode='organizationView' /></div>
         </div>
     );

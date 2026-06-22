@@ -96,7 +96,7 @@ interface Organizations {
     representativeName: string;
     representativePhone: string;
     trainerCount: number;
-    status: 'ETERNAL' | 'ACTIVE' | 'DAY_7' | 'WITHDRAWN'
+    status: 'ETERNAL' | 'ACTIVE' | 'DAY_7' | 'WITHDRAWN';
     createdAt: string;
 
 }
