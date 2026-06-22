@@ -1,24 +1,27 @@
 import { TrainerEssentialQulificationIcon, TrainerProfileImgDefault } from "@/components/ui/image";
-import TrainerApplicationPending from "@/feature/pt/components/TrainerApplicationPending";
+import { TrainerApplicationPending } from "@/feature/pt/components/TrainerApplicationPending";
 import TrainerRegistForm from "@/feature/pt/components/TrainerRegistForm";
-import { getTrainerApplication, getTrainerCancel } from "@/service/ptzone.service";
+import { getTrainerApplication } from "@/service/ptzone.service";
 
 export default async function PtTrainerRegistPage() {
 
     const trainerApplicationData = await getTrainerApplication();
+
     return (
         <div>
             {trainerApplicationData.code === 'TRAINER_APPLICATION_404_1' 
             ?
             <TrainerRegistForm />
             : (
-            <div className="flex flex-col px-40 py-10">
+            <div className="flex flex-col px-80 pt-10">
                 <p className="text-[36px] font-black text-white"> 트레이너 신청 현황 </p>
                 <p className="text-[14px] font-normal text-[#99A1AF]"> 신청 상태를 확인하세요 </p>
 
                 <div className="flex flex-col gap-6 mt-6">
 
-                    <TrainerApplicationPending />
+                    <TrainerApplicationPending
+                        trainerApplicationId={trainerApplicationData.data.trainerApplicationId}
+                    />
 
                     <div className="
                         flex flex-col gap-4

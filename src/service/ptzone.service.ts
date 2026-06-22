@@ -127,8 +127,8 @@ export const getTrainerApplication = async (): Promise<TrainerApplicationDetailR
 
 // 트레이너 신청 취소 API 
 export const getTrainerCancel = async ( trainerApplicationId: number ) => {
-  const response = await fetchWithAuth(`/api/trainer-applications/${trainerApplicationId}/cancel`, {
-    method: "PATCH"
+  const response = await fetchWithAuth(`/api/trainer-applications/${trainerApplicationId}`, {
+    method: "DELETE"
   });
 
   if (!response.ok) {

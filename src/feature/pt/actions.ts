@@ -3,7 +3,7 @@
 import axios from "axios";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { createPtCourse, trainerApplication } from "@/service/ptzone.service";
+import { createPtCourse, getTrainerCancel, trainerApplication } from "@/service/ptzone.service";
 import { PtActionState, TrainerApplicationData } from "./type";
 import { uploadFilesPresignedUrl } from "@/service/file.service";
 
@@ -214,3 +214,10 @@ export const trainerApplicationAction = async (formData: FormData) => {
 
   redirect("/pt/trainer");
 };
+
+export const deleteTrainerApplication = async (id:number) => {
+  await getTrainerCancel(id);
+
+  revalidatePath('/pt/trainer');
+  redirect('/pt/trainer');
+}
