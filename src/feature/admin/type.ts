@@ -97,4 +97,12 @@ interface Organizations {
     representativePhone: string
 }
 
+interface Users {
+    userId: number;
+    username: string;
+    name: string;
+    nickname: string;
+    status: 'ETERNAL' | 'ACTIVE' | 'DAY_7' | 'WITHDRAWN';
+}
+
 

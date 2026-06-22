@@ -104,3 +104,18 @@ export const getTrainerApplications = async (page: string = '1', status: string 
     }
     return response.json();
 }
+
+
+export const getUserList = async (page: string = '0', name: string) => {
+    const response = await fetchWithAuth(`/api/users/all?page=${page}${name ? `&name=${name}` : ''}`);
+
+    if (!response.ok) {
+        const message = await getErrorMessage(
+            response,
+            '유저 목록 조회에 실패했습니다.'
+        );
+
+        throw new Error(message);
+    }
+    return response.json();
+}

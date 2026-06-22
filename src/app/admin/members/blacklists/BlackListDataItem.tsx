@@ -10,7 +10,7 @@ export default function BlackListDataItem() {
             <p className="col-span-3">하이</p>
             <p className="col-span-2">하이</p>
             <p className="col-span-2">하이</p>
-            <div className="col-span-2"><ActiveStatus text='7일 정지' /></div>
+            <div className="col-span-2"><ActiveStatus text='ACTIVE' /></div>
             <p className="col-span-2 text-red-500">누적신고</p>
             <div className="col-span-2"><StatusButton /></div>
         </div>
