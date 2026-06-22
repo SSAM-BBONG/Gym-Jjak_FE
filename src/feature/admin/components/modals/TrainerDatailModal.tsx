@@ -33,7 +33,7 @@ export default function TrainerDetailModal({ isModal, closeModal, activeModal, n
                             <h3 className="font-bold text-xl text-[#E8EAF0] py-2">이름</h3>
                             <p className="font-normal text-base text-[#E8EAF0]">닉네임</p>
                             <p className="font-normal text-base text-[#E8EAF0]">이메일</p>
-                            <ActiveStatus text='활성' />
+                            <ActiveStatus text='ACTIVE' />
                         </div>
                     </div>
                     <section className="flex flex-col gap-6">
