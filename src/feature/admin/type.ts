@@ -90,11 +90,15 @@ interface tag {
 }
 
 interface Organizations {
-    organizationApplicationId: number;
-    requestedLoginId: string;
-    businessName: string,
-    representativeName: string,
-    representativePhone: string
+    organizationId: number;
+    loginId: string;
+    businessName: string;
+    representativeName: string;
+    representativePhone: string;
+    trainerCount: number;
+    status: 'ETERNAL' | 'ACTIVE' | 'DAY_7' | 'WITHDRAWN';
+    createdAt: string;
+
 }
 
 interface Users {

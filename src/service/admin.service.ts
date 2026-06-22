@@ -73,8 +73,8 @@ export const deleteCategories = async (categoryId: number) => {
 }
 
 //조직 목록 조회
-export const getOrganization = async () => {
-    const response = await fetchWithAuth('/api/organizations');
+export const getOrganization = async (page: string = '0') => {
+    const response = await fetchWithAuth(`/api/organizations?page=${page}`);
 
     if (!response.ok) {
         const message = await getErrorMessage(
@@ -91,7 +91,7 @@ export const getOrganization = async () => {
 
 
 //트레이너 신청 목록 조회
-export const getTrainerApplications = async (page: string = '1', status: string | null, keyword: string | null) => {
+export const getTrainerApplications = async (page: string = '0', status: string | null, keyword: string | null) => {
     const response = await fetchWithAuth(`/api/trainer-applications?page=${page}${status ? `&status=${status}` : ""}${keyword ? `&keyword=${keyword}` : ""}`);
 
     if (!response.ok) {
