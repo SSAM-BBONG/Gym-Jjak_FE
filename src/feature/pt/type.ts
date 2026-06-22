@@ -201,6 +201,14 @@ export interface TrainerApplicationId {
   trainerApplicationId: number
 }
 
+// 트레이너 신청 수정 요청 타입
+export interface TrainerApplicationEditData {
+  profileImageFileId: TrainerFileData | null;
+  qualifications: string[] | null;
+  awardHistories: string[] | null;
+  introduction: string;
+}
+
 // 트레이너 신청 상세 조회 응답 타입
 export interface TrainerApplicationDetailResponse {
   status: number;
