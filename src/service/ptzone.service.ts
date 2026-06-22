@@ -123,3 +123,21 @@ export const getTrainerApplication = async (): Promise<TrainerApplicationDetailR
 
   return data;
 };
+
+// 트레이너 신청 취소 API 
+export const getTrainerCancel = async ( trainerApplicationId: number ) => {
+  const response = await fetchWithAuth(`/api/trainer-applications/${trainerApplicationId}/cancel`, {
+    method: "PATCH"
+  });
+
+  if (!response.ok) {
+    const message = await getErrorMessage(
+      response,
+      "트레이너 신청 취소에 실패하였습니다."
+    );
+
+    throw new Error(message);
+  }
+
+  return response.json();
+};
