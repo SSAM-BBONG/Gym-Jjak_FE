@@ -2,6 +2,7 @@
   OnboardingResponse, PtCourseCreateResponse, PtDetailResponse, PtListResponse,
   TrainerApplicationData,
   TrainerApplicationDetailResponse,
+  TrainerApplicationEditData,
   TrainerApplicationResponse
 } from "@/feature/pt/type";
 import { fetchWithAuth } from "@/lib/feth";
@@ -134,6 +135,28 @@ export const getTrainerCancel = async ( trainerApplicationId: number ) => {
     const message = await getErrorMessage(
       response,
       "트레이너 신청 취소에 실패하였습니다."
+    );
+
+    throw new Error(message);
+  }
+
+  return response.json();
+};
+
+// 트레이너 신청 수정 API
+export const updateTrainerApplication = async (
+  trainerApplicationId:number,
+  payload: TrainerApplicationEditData
+): Promise<TrainerApplicationResponse> => {
+  const response = await fetchWithAuth(`/api/trainer-applications/${trainerApplicationId}`, {
+    method: "PATCH",
+    body: JSON.stringify(payload),
+  });
+
+  if (!response.ok) {
+    const message = await getErrorMessage(
+      response,
+      "트레이너 신청에 실패하였습니다."
     );
 
     throw new Error(message);
