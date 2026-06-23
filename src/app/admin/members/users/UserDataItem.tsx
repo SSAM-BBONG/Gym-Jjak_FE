@@ -10,8 +10,8 @@ export default function UserDataItem({ user }: { user: Users }) {
             <p className="col-span-3">{user.username}</p>
             <p className="col-span-2">{user.name}</p>
             <p className="col-span-2">{user.nickname}</p>
-            <div className="col-span-2"><ActiveStatus text={user.status} /></div>
-            <div className="col-span-2"><StatusButton /></div>
+            <div className="col-span-2"><ActiveStatus text={user.status} nickname={user.nickname} /></div>
+            <div className="col-span-2"><StatusButton userId={user.userId} nickname={user.nickname} status={user.status} /></div>
         </div>
     );
 }

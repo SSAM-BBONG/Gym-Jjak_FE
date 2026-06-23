@@ -4,11 +4,12 @@ interface ChangeStateModalProps {
     isModal: boolean;
     closeModal: () => void;
     mode: string;
-    title: string;
+    nickname: string;
+    content: string;
 }
 
 
-export default function CheckViewModal({ isModal, closeModal, mode, title }: ChangeStateModalProps) {
+export default function CheckViewModal({ isModal, closeModal, mode, nickname, content }: ChangeStateModalProps) {
     if (!isModal) return null;
 
     const modalTitle = mode === 'report' ? '신고 사유 확인' : mode === 'review' ? '리뷰 확인' : mode === 'comment' ? '댓글 확인' : ''
@@ -26,12 +27,12 @@ export default function CheckViewModal({ isModal, closeModal, mode, title }: Cha
                         <img src={CloseButton} onClick={closeModal} />
                     </div>
                     <div className="flex justify-between items-center my-4">
-                        <h3 className="font-bold text-xl text-[#E8EAF0] py-2">이름</h3>
+                        <h3 className="font-bold text-xl text-[#E8EAF0] py-2">{nickname}</h3>
                     </div>
                     <div
                         className="border-[#364153] border w-full h-47 p-6 bg-[#1E2939] rounded-2xl resize-none focus:border-[#BFFF0B] text-white focus:outline-none"
                     >
-                        댓글
+                        {content}
                     </div>
                 </article>
             </form>
