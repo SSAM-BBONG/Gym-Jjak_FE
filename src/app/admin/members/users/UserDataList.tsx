@@ -8,10 +8,9 @@ interface UserDataListProps {
     users: Users[];
     totalPage: number;
     page: string;
-    name: string;
 }
 
-export default function UserDataList({ users, totalPage, page, name }: UserDataListProps) {
+export default function UserDataList({ users, totalPage, page }: UserDataListProps) {
     return (
         <div>
             <SearchBar></SearchBar>

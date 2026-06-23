@@ -8,10 +8,9 @@ interface BlackDataListProps {
     blacklists: Blacklists[];
     totalPage: number;
     page: string;
-    name: string;
 }
 
-export default function BlackListDataList({ blacklists, totalPage, page, name }: BlackDataListProps) {
+export default function BlackListDataList({ blacklists, totalPage, page }: BlackDataListProps) {
     return (
         <div>
             <SearchBar></SearchBar>
@@ -33,7 +32,7 @@ export default function BlackListDataList({ blacklists, totalPage, page, name }:
                     </div>
                 )}
             </section>
-            <AdminPagination url={`members/users`} page={page} totalPage={totalPage} />
+            <AdminPagination url={`members/blacklists`} page={page} totalPage={totalPage} />
         </div>
     );
 }

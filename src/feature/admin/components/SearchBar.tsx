@@ -8,7 +8,6 @@ export default function SearchBar() {
     const [searchInput, setSearchInput] = useState<string>('')
     const searchParams = useSearchParams();
     const router = useRouter();
-    const params = new URLSearchParams(searchParams);
 
     const isFirstRender = useRef(true);
     useEffect(() => {
@@ -18,6 +17,8 @@ export default function SearchBar() {
         }
 
         const debounceTimer = setTimeout(() => {
+            const params = new URLSearchParams(searchParams);
+
             if (!searchInput.trim()) {
                 params.delete('keyword');
             } else {

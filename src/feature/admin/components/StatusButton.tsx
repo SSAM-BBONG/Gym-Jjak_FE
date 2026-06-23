@@ -4,8 +4,9 @@ import { AdminManagementImg } from "@/components/ui/image";
 import ChangeStateModal from "./modals/ChangeStateModal";
 import useModal from "@/components/hooks/useModal";
 import OneButtonModal from "@/components/ui/OneButtonModal";
-import { useActionState, useEffect } from "react";
+import { useActionState, useEffect, useMemo } from "react";
 import { changeUserStatusAction } from "../action";
+import { useRouter } from "next/navigation";
 
 interface StatusButtonProps {
     userId: number;
@@ -14,8 +15,14 @@ interface StatusButtonProps {
 }
 
 export default function StatusButton({ userId, nickname, status }: StatusButtonProps) {
+    const router = useRouter();
 
-    const [state, changeUserStatusFormAction] = useActionState(changeUserStatusAction.bind(null, userId), {
+    //bind()는 호출할 때마다 새 함수를 만들기 때문에 예측하기 어려운 동작이 생길 수 있어 useMemo로 작성
+    const changeUserStatusActionWithId = useMemo(() => {
+        return changeUserStatusAction.bind(null, userId);
+    }, [userId]);
+
+    const [state, changeUserStatusFormAction] = useActionState(changeUserStatusActionWithId, {
         success: false,
         message: '',
     })
@@ -26,6 +33,7 @@ export default function StatusButton({ userId, nickname, status }: StatusButtonP
         if (state.success) {
             modal.closeModal();
             checkModal.openModal();
+            router.refresh();
         }
     }, [state.success])
 
