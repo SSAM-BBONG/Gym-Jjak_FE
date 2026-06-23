@@ -71,7 +71,7 @@ export default async function PtZonePage() {
                             title="트레이너 등록"
                             content="트레이너 등록 "
                             movecoment="등록하기"
-                            move="/pt/trainer"
+                            move="/pt/trainer-apply"
                         />
                     </div>
                 )

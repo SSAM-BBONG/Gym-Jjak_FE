@@ -4,18 +4,22 @@ import { TrainerProfileImgDefault, TrainerProfileImgUpload } from "@/components/
 import { TrainerRegistFormValue } from "@/lib/trainerRegistSchema";
 import { useEffect, useState } from "react";
 import { UseFormSetValue } from "react-hook-form";
+import { TrainerApplicationDetail } from "../type";
 
 interface TrainerRegistProfileProps {
   setValue: UseFormSetValue<TrainerRegistFormValue>;
+  initialData?: TrainerApplicationDetail;
   error?: string;
 }
 
 export default function TrainerRegistProfile({
   setValue,
   error,
+  initialData
 }: TrainerRegistProfileProps) {
     const [profileImageFile, setProfileImageFile] = useState<File | null>(null);
-    const [profileImagePreview, setProfileImagePreview] = useState("");
+    const [profileImagePreview, setProfileImagePreview] = useState(
+        initialData?.profileImageUrl ?? "");
 
   const handleProfileChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     const file = e.target.files?.[0];
@@ -52,7 +56,7 @@ export default function TrainerRegistProfile({
                 <div className="flex gap-6 items-center">
                     <div className="flex items-center justify-center size-35 border-[3px] border-[#BFFF0B] rounded-full bg-[#1E2939] overflow-hidden">
                         <img
-                        className="object-cover"
+                        className="w-full h-full object-cover"
                         src={profileImagePreview || TrainerProfileImgDefault}
                         alt="트레이너 프로필 수정 프로필 사진"
                         />

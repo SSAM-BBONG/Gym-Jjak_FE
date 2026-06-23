@@ -65,7 +65,7 @@ export const loginAction = async (prevState: ActionState, formData: FormData): P
 
     cookieStore.set('accessToken', resData.data.accessToken, {
         httpOnly: true,
-        maxAge: 60 * 1,
+        maxAge: 60 * 60,
         path: '/'
     });
 

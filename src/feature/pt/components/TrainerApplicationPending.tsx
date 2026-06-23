@@ -3,6 +3,7 @@
 import { PtTrainerRegistPending, TrainerAPplicationCancel, TrainerAPplicationEdit } from "@/components/ui/image";
 import { getTrainerCancel } from "@/service/ptzone.service";
 import { deleteTrainerApplication } from "../actions";
+import Link from "next/link";
 
 export const TrainerApplicationPending = ({ trainerApplicationId }: { trainerApplicationId: number }) => {
     const handleDelteApplication = () => {
@@ -27,10 +28,12 @@ export const TrainerApplicationPending = ({ trainerApplicationId }: { trainerApp
                     </div>
                 </div>
                 <div className="flex gap-3 items-center">
+                    <Link href="/pt/trainer-apply/edit">
                     <div className="flex gap-2 items-center text-[16px] font-medium text-white rounded-[10px] bg-[#364153] px-4 py-2"> 
                         <img src={TrainerAPplicationEdit} alt="트레이너 신청 수정 버튼"/>
                         <button> 수정 </button> 
                     </div>
+                    </Link>
                     <div className="flex gap-2 itemes-center rounded-[10px] bg-[#82181AB2] px-4 py-2 text-[16px] font-medium text-[#FF6467] border border-[#FB2C364D]"> 
                         <img src={TrainerAPplicationCancel} alt="트레이너 신청 취소 버튼"/>
                         <button onClick={handleDelteApplication}> 신청취소 </button>

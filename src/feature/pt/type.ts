@@ -203,7 +203,7 @@ export interface TrainerApplicationId {
 
 // 트레이너 신청 수정 요청 타입
 export interface TrainerApplicationEditData {
-  profileImageFileId: TrainerFileData | null;
+  profileImageFileId?: TrainerFileData | null;
   qualifications: string[] | null;
   awardHistories: string[] | null;
   introduction: string;
@@ -222,7 +222,9 @@ export interface TrainerApplicationDetail {
     trainerApplicationId: number
     userId: number;
     profileImageUrl: string | null;
+    profileImageOriginalName: string | null,
     certificateUrl: string;
+    certificateOriginalName: string,
     qualifications: string[];
     awardHistories: string[];
     introduction: string;

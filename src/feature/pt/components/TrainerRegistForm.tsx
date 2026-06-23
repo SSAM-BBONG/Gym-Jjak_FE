@@ -4,26 +4,54 @@ import TrainerEssentialQulification from "./TrainerRegistEssentialQulificatoin";
 import TrainerAwardHistory from "./TrainerRegistAwardHistory";
 import TrainerRegistSelfIntroduction from "./TrainerRegistSelfIntroduction";
 import TrainerRegistProfile from "./TrainerRegistProfile";
-import { trainerApplicationAction } from "../actions";
+import { trainerApplicationAction, trainerApplicationEditAction } from "../actions";
 import { useActionState } from "react";
 import TrainerQulification from "./TrainerRegistEssential";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { TrainerRegistFormValue, trainerRegistSchema } from "@/lib/trainerRegistSchema";
+import { trainerRegistCreateSchema, trainerRegistEditSchema, TrainerRegistFormValue, trainerRegistSchema } from "@/lib/trainerRegistSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { TrainerApplicationDetail } from "../type";
 
-export default function TrainerRegistForm() {
+interface TrainerRegistFormProps {
+  mode?: "create" | "edit";
+  initialData?: TrainerApplicationDetail;
+}
+
+export default function   TrainerRegistForm( { mode = "create", initialData = {
+  trainerApplicationId: 0,
+  userId: 0,
+  profileImageUrl: "",
+  profileImageOriginalName: "",
+  certificateUrl: "",
+  certificateOriginalName: "",
+  qualifications: [],
+  awardHistories: [],
+  introduction: "",
+  status: "",
+  rejectReason: "",
+  reviewedBy: 0,
+  reviewedAt: "",
+  createdAt: "",
+  updatedAt: ""
+}}: TrainerRegistFormProps) {
+  
+const schema = mode === "edit"
+? trainerRegistEditSchema
+: trainerRegistCreateSchema;
+
 const {
   register,
   handleSubmit,
   setValue,
   formState: { errors, isSubmitting },
 } = useForm<TrainerRegistFormValue>({
-  resolver: zodResolver(trainerRegistSchema),
+  resolver: zodResolver(schema),
   defaultValues: {
     profileImageFile: null,
-    qualifications: [],
-    awardHistories: [],
-    introduction: "",
+    certificateFile: undefined,
+    qualifications: initialData?.qualifications ?? [],
+    awardHistories: initialData?.awardHistories ?? [],
+    introduction: initialData?.introduction ?? "",
   },
   mode: "onSubmit",
 });
@@ -40,41 +68,57 @@ const onSubmit: SubmitHandler<TrainerRegistFormValue> = async (values) => {
   formData.append("awardHistories", JSON.stringify(values.awardHistories));
   formData.append("introduction", values.introduction);
 
-  const result = await trainerApplicationAction(formData);
-
-  if (result?.success === false) {
-    console.error(result.message);
+  if (mode === "edit") {
+    await trainerApplicationEditAction(initialData.trainerApplicationId, formData);
+  } else {
+    await trainerApplicationAction(formData);
   }
 };
     return (
         <div className="flex flex-col px-80 pt-10">
+          {mode === 'edit' 
+          ?  
+            <>
+            <p className="text-[36px] font-black text-white"> 트레이너 수정</p>
+            <p className="text-[14px] font-normal text-[#99A1AF]"> 트레이너 정보를 수정하세요</p>
+            </>
+          :
+            <>
             <p className="text-[36px] font-black text-white"> 트레이너 신청</p>
             <p className="text-[14px] font-normal text-[#99A1AF]"> 트레이너로 활동하기 위한 정보를 입력하세요</p>
-
+            </>
+          }
             <form  onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6 mt-6">            
             <TrainerRegistProfile
             setValue={setValue}
             error={errors.profileImageFile?.message}
+            initialData = {initialData} 
             />
 
             <TrainerEssentialQulification
             setValue={setValue}
             error={errors.certificateFile?.message}
+            initialData = {initialData}
+            mode={mode}             
             />
 
             <TrainerQulification
             setValue={setValue}
             error={errors.qualifications?.message}
+            initialData = {initialData}  
+            mode={mode}  
             />
 
             <TrainerAwardHistory
             setValue={setValue}
             error={errors.awardHistories?.message}
+            initialData = {initialData}
+            mode={mode}       
             />
 
             <TrainerRegistSelfIntroduction
             register={register}
-            error={errors.introduction?.message}
+            error={errors.introduction?.message}         
             />
 
                 <div className="flex gap-4">

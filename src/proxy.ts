@@ -49,7 +49,7 @@ export async function proxy(request: NextRequest) {
         accessToken = newToken;
         response.cookies.set("accessToken", newToken, {
             httpOnly: true,
-            maxAge: 60 * 1,
+            maxAge: 60 * 60,
             path: "/",
         });
     }

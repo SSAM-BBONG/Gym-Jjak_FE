@@ -3,8 +3,8 @@
 import axios from "axios";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { createPtCourse, getTrainerCancel, trainerApplication } from "@/service/ptzone.service";
-import { PtActionState, TrainerApplicationData } from "./type";
+import { createPtCourse, getTrainerCancel, trainerApplication, updateTrainerApplication } from "@/service/ptzone.service";
+import { PtActionState, TrainerApplicationData, TrainerApplicationEditData } from "./type";
 import { uploadFilesPresignedUrl } from "@/service/file.service";
 
 type RequiredField =
@@ -212,12 +212,65 @@ export const trainerApplicationAction = async (formData: FormData) => {
 
   await trainerApplication(payload);
 
-  redirect("/pt/trainer");
+  revalidatePath("/pt/trainer-apply");
+  redirect("/pt/trainer-apply");
+};
+
+export const trainerApplicationEditAction = async (
+  id: number,
+  formData: FormData
+) => {
+  const profileImageFile = formData.get("profileImageFile");
+
+  const qualifications = JSON.parse(
+    String(formData.get("qualifications") ?? "[]")
+  ) as string[];
+
+  const awardHistories = JSON.parse(
+    String(formData.get("awardHistories") ?? "[]")
+  ) as string[];
+
+  const introduction = String(formData.get("introduction") ?? "").trim();
+
+  if (!introduction) {
+    return {
+      success: false,
+      message: "자기소개를 입력해주세요.",
+    };
+  }
+
+  const payload: TrainerApplicationEditData = {
+    qualifications,
+    awardHistories,
+    introduction,
+  };
+
+  const hasProfileImage =
+    profileImageFile instanceof File && profileImageFile.size > 0;
+
+  if (hasProfileImage) {
+    const uploadedFiles = await uploadFilesPresignedUrl([
+      {
+        file: profileImageFile,
+        fileType: "PROFILE_IMAGE",
+      },
+    ]);
+
+    payload.profileImageFileId = uploadedFiles[0];
+  }
+
+  await updateTrainerApplication(id, payload);
+
+  revalidatePath("/pt/trainer-apply");
+  revalidatePath("/pt/trainer-apply/edit");
+
+  redirect("/pt/trainer-apply");
 };
 
 export const deleteTrainerApplication = async (id:number) => {
   await getTrainerCancel(id);
 
-  revalidatePath('/pt/trainer');
-  redirect('/pt/trainer');
+  revalidatePath('/pt/trainer-apply');
+  revalidatePath('/pt/trainer-apply/edit');
+  redirect('/pt');
 }
