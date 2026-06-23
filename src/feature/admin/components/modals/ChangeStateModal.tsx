@@ -4,12 +4,18 @@ import StatusSelector from "../StatusSelector";
 interface ChangeStateModalProps {
     isModal: boolean;
     closeModal: () => void;
-    activeModal: () => void;
-    title: string;
+    changeUserStatusFormAction: (formData: FormData) => void;
+    status: 'ETERNAL' | 'ACTIVE' | 'DAY_7' | 'WITHDRAWN';
+    name: string;
+    state: {
+        success: boolean;
+        message: string;
+    }
 }
 
 
-export default function ChangeStateModal({ isModal, closeModal, activeModal, title }: ChangeStateModalProps) {
+export default function ChangeStateModal({ isModal, closeModal, changeUserStatusFormAction, status, name, state }: ChangeStateModalProps) {
+
     if (!isModal) return null;
 
     return (
@@ -17,6 +23,7 @@ export default function ChangeStateModal({ isModal, closeModal, activeModal, tit
             className="z-999 bg-black/50 fixed top-0 left-0 w-screen h-screen"
             onClick={closeModal} >
             <form
+                action={changeUserStatusFormAction}
                 className="bg-gradient-to-br from-[#101828] to-[#000] w-md h-114 rounded-2xl border border-[#1E2939] z-1000 fixed top-1/2 left-1/2 p-6 flex -translate-x-1/2 -translate-y-1/2 flex-col justify-between"
                 onClick={(e) => e.stopPropagation()}>
                 <article>
@@ -25,13 +32,15 @@ export default function ChangeStateModal({ isModal, closeModal, activeModal, tit
                         <img src={CloseButton} onClick={closeModal} />
                     </div>
                     <div className="flex justify-between items-center my-4">
-                        <h3 className="font-bold text-xl text-[#E8EAF0]">이름</h3>
-                        <StatusSelector />
+                        <h3 className="font-bold text-xl text-[#E8EAF0]">{name}</h3>
+                        <StatusSelector status={status} />
                     </div>
                     <textarea
-                        placeholder="사유를 입력해주세요"
+                        name="reason"
+                        placeholder={`사유를 입력해주세요(활성으로 변경 시 선택 입력)`}
                         className="border-[#364153] border w-full h-47 p-6 bg-[#1E2939] rounded-2xl resize-none focus:border-[#BFFF0B] text-white focus:outline-none"
                     ></textarea>
+                    {!state.success && <p className="text-red-400 text-sm m-1 mb-5">{state.message}</p>}
                 </article>
                 <article className='flex gap-3'>
                     <button
@@ -42,13 +51,14 @@ export default function ChangeStateModal({ isModal, closeModal, activeModal, tit
                         취소
                     </button>
                     <button
-                        onClick={activeModal}
+                        type="submit"
                         className='w-full flex pt-2 pb-3 justify-center items-center rounded-lg text-black text-center font-semibold text-base bg-[#BFFF0B]'
                     >
                         저장
                     </button>
                 </article>
             </form>
+
         </section>
     );
 }

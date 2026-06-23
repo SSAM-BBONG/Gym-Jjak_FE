@@ -1,9 +1,14 @@
 ﻿'use server'
 
-import { createCategories, deleteCategories, updateCategories } from "@/service/admin.service";
+import { createCategories, deleteCategories, patchUserStatus, updateCategories } from "@/service/admin.service";
 import { approvalOrganization, approvalReport, getOrganizationbyIApplicationAdmin, getReportPtbyId, rejectOrganization, rejectReport } from "@/service/report.service"
 import axios from "axios";
 import { redirect } from "next/navigation";
+
+interface ActionState {
+    success: boolean;
+    message?: string;
+}
 
 export const OrganizationApplicationAdminDetailAction = async (applicationId: number) => {
     try {
@@ -169,5 +174,46 @@ export const updateCategoryAction = async (id: number, formData: FormData) => {
     }
 
     redirect('/admin/systems/categories?page=1')
+
+}
+
+export const changeUserStatusAction = async (
+    applicationId: number,
+    prevState: ActionState,
+    formData: FormData
+) => {
+    const reason = formData.get('reason') as string;
+    const status = formData.get('status') as 'ACTIVE' | 'DAY_7' | 'ETERNAL';
+
+    if (status !== 'ACTIVE' && !reason.trim()) {
+        return {
+            success: false,
+            message: '사유를 입력해주세요',
+        }
+    }
+
+    const payload = {
+        status,
+        reason
+    }
+
+    try {
+        await patchUserStatus(applicationId, payload)
+
+        return {
+            success: true,
+            message: '변경이 완료되었습니다',
+        }
+    } catch (error) {
+        let errorMessage: string = '알 수 없는 오류입니다. 재시도해주세요.'
+        if (error instanceof Error) {
+            errorMessage = error.message;
+        }
+
+        return {
+            success: false,
+            message: errorMessage
+        }
+    }
 
 }

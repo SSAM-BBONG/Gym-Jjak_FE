@@ -109,4 +109,18 @@ interface Users {
     status: 'ETERNAL' | 'ACTIVE' | 'DAY_7' | 'WITHDRAWN';
 }
 
+interface Blacklists {
+    userId: number;
+    username: string;
+    name: string;
+    nickname: string;
+    status: 'ETERNAL' | 'ACTIVE' | 'DAY_7' | 'WITHDRAWN';
+    blacklistType: "DAY_7" | 'ETERNAL';
+    reason: string;
+}
 
+
+interface UserStatusRequest {
+    status: 'ETERNAL' | 'ACTIVE' | 'DAY_7';
+    reason: string;
+}
