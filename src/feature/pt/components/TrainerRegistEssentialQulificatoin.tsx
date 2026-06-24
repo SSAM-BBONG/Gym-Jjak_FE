@@ -4,19 +4,27 @@ import { TrainerEssentialQulificationIcon, TrainerProfileEssential, TrainerProfi
 import { TrainerRegistFormValue } from "@/lib/trainerRegistSchema";
 import { useState } from "react";
 import { UseFormSetValue } from "react-hook-form";
+import { TrainerApplicationDetail } from "../type";
 
 interface TrainerEssentialQulificationProps {
   setValue: UseFormSetValue<TrainerRegistFormValue>;
   error?: string;
+  initialData?: TrainerApplicationDetail;
+  mode?: string;
 }
 
 export default function TrainerRegistEssentialQulification({
   setValue,
   error,
+  initialData,
+  mode="edit"
 }: TrainerEssentialQulificationProps) { 
 
     const [qulification, setQualification] = useState("");
-    const [qulificationFile, setQualificationFile] = useState<File | null>(null);
+    const [qualificationFile, setQualificationFile] = useState<File | null>(null);
+    const [qualificationFileName, setQualificationFileName] = useState(
+    initialData?.certificateOriginalName ?? ""
+    );
 
     // 자격증 관리
   const handleQualificationChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
@@ -25,7 +33,7 @@ export default function TrainerRegistEssentialQulification({
     if (!file) return;
 
     setQualificationFile(file);
-    setQualification(file.name);
+    setQualificationFileName(file.name);
 
     setValue("certificateFile", file, {
       shouldValidate: true,
@@ -35,39 +43,57 @@ export default function TrainerRegistEssentialQulification({
 
   const handleRemoveQualification = () => {
     setQualificationFile(null);
-    setQualification("");
+    setQualificationFileName("");
 
-    setValue("certificateFile", undefined as unknown as File, {
-      shouldValidate: true,
-      shouldDirty: true,
+    setValue("certificateFile", undefined, {
+        shouldValidate: true,
+        shouldDirty: true,
     });
   };
 
     return (
-        <div className="
+        <div className={`
             flex flex-col gap-4
             p-8
             bg-[linear-gradient(135deg,rgba(16,24,40,0.90)0%,rgba(30,41,57,0.90)100%)]
+            ${mode==="edit" && "opacity-50"}
             border
             border-[#36415380]
             rounded-[16px]
-            ">
+            `}>
                 <div className="flex items-center justify-between">
                     <div className="flex flex-col gap-3">
-                        <p className="text-[20px] font-extrabold text-white"> 필수 자격증 </p>
+                        <div className="flex gap-5 items-center">
+                            <p className="text-[20px] font-extrabold text-white"> 필수 자격증 </p>
+                            {mode === "edit" &&
+                            <p className="
+                                flex items-center justify-center
+                                text-[12px] font-normal text-[#99A1AF]
+                                border rounded-full 
+                                px-3 py-1"> 수정 불가</p>
+                            }
+                        </div>
+                        {mode === "edit" 
+                        ?
+                        <p className="text-[12px] text-[#6A7282] font-medium"> 필수 자격증은 수정할 수 없습니다. </p>
+                        :
                         <p className="text-[12px] text-[#6A7282] font-medium"> 국가 공인 자격증만 가능합니다. </p>
+                        }
                     </div>
                     <button 
                         type="button"
-                        className="
+                        disabled={mode==="edit"}
+                        className={`
                         flex gap-3 
                         px-4 py-2
                         bg-[#BFFF0B] rounded-[10px]
-                        hover:cursor-pointer
-                        ">
+                        self-baseline
+                        ${mode !== "edit" && "hover:cursor-pointer" }
+                        `}>
                         <img src={TrainerProfileImgUpload} alt="필수 자격증 업로드 버튼"/>
                         <label htmlFor="trainer-profile-essential-upload-button" className="text-[14px] font-bold text-black whitespace-nowrap"> 파일 업로드 </label> 
                         <input 
+                            disabled={mode==="edit"}
                             id="trainer-profile-essential-upload-button" 
                             type="file" 
                             accept=".jpg,.jpeg,.png,.pdf,image/jpeg,image/png,application/pdf" 
@@ -75,7 +101,7 @@ export default function TrainerRegistEssentialQulification({
                             className="hidden"/>
                     </button>
                 </div>
-                {qulificationFile === null ? (
+                {!qualificationFileName ? (
                 <>
                 <label 
                     htmlFor="trainer-profile-essential-upload"
@@ -93,11 +119,16 @@ export default function TrainerRegistEssentialQulification({
                     className="hidden"/>
                 </>
                 )
-                    :
+                :
                 <div className="flex gap-3 justify-between">
                     <div className="flex flex-1 gap-2 px-3 py-2 border border-[#364153] bg-[#1E293980] items-center rounded-[10px]"> 
                         <img src={TrainerEssentialQulificationIcon} alt="자격증 업로드시 나오는 아이콘"/>
-                        <p className="text-[#99A1AF] text-[12px] font-medium"> {qulification} </p>
+                        {mode==="edit"
+                        ?
+                        <p className="text-[#99A1AF] text-[12px] font-medium"> {initialData?.certificateOriginalName} </p>
+                        :
+                        <p className="text-[#99A1AF] text-[12px] font-medium"> {qualificationFileName} </p>
+                        }        
                     </div>
                         <button 
                             onClick={handleRemoveQualification}

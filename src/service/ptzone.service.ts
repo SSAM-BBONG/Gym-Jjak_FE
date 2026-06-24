@@ -106,7 +106,10 @@ export const trainerApplication = async (
 
 // 트레이너 신청 상세 조회
 export const getTrainerApplication = async (): Promise<TrainerApplicationDetailResponse> => {
-  const response = await fetchWithAuth(`/api/trainer-applications/me`);
+  const response = await fetchWithAuth(`/api/trainer-applications/me`, {
+    // 삭제 후 코드가 변경되면 이전 삭제한 트레이너 정보가 조회되어 SSR로 변경
+    cache: "no-store",
+  });
 
   const data = await response.json().catch(() => null);
 
@@ -156,7 +159,7 @@ export const updateTrainerApplication = async (
   if (!response.ok) {
     const message = await getErrorMessage(
       response,
-      "트레이너 신청에 실패하였습니다."
+      "트레이너 신청 수정에 실패하였습니다."
     );
 
     throw new Error(message);

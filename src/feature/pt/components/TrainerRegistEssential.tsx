@@ -4,19 +4,25 @@
 import { TrainerRegistFormValue } from "@/lib/trainerRegistSchema";
 import { useState } from "react";
 import { UseFormSetValue } from "react-hook-form";
+import { TrainerApplicationDetail } from "../type";
 
 interface TrainerQulificationProps {
   setValue: UseFormSetValue<TrainerRegistFormValue>;
   error?: string;
+  initialData?: TrainerApplicationDetail;
+  mode?: string;
 }
 
 export default function TrainerQulification({
   setValue,
   error,
+  initialData,
+  mode
 }: TrainerQulificationProps) {
     
   const [qualificationInput, setQualificationInput] = useState("");
-  const [qualifications, setQualifications] = useState<string[]>([]);
+  const [qualifications, setQualifications] = useState<string[]>(
+    initialData?.qualifications ?? []);
 
  const handleAddQualification = () => {
     const trimmedValue = qualificationInput.trim();
@@ -46,7 +52,6 @@ export default function TrainerQulification({
       shouldDirty: true,
     });
   };
-
     return (
         <div className="
             flex flex-col gap-4
@@ -73,16 +78,15 @@ export default function TrainerQulification({
             name="qulification"
             className="bg-[#1E2939] px-4 py-3 border border-[#364153] flex-1 rounded-[10px] text-white placeholder:text-[#FFFFFF80]"
           />
-
-      {qualifications.map((qualification, index) => (
-        <div key={index} className="flex gap-3">
-            <p className="bg-[#1E2939] px-4 py-3 border border-[#364153] flex-1 rounded-[10px] text-white"> {qualification} </p>
-            <button 
-                type="button"
-                onClick={() => handleRemoveQualification(index)}
-                className="px-4 py- bg-[#82181A4D] rounded-[10px] text-[#FF6467] font-extrabold"> ✕ </button>
-        </div>
-      ))}   
+          {qualifications.map((qualification, index) => (
+            <div key={index} className="flex gap-3">
+                <p className="bg-[#1E2939] px-4 py-3 border border-[#364153] flex-1 rounded-[10px] text-white"> {qualification} </p>
+                <button 
+                    type="button"
+                    onClick={() => handleRemoveQualification(index)}
+                    className="px-4 py- bg-[#82181A4D] rounded-[10px] text-[#FF6467] font-extrabold"> ✕ </button>
+            </div>
+            ))}
             {error && <p className="text-sm text-red-500">{error}</p>}
     </div>
     );

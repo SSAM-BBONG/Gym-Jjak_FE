@@ -4,32 +4,58 @@ import { TrainerProfileImgDefault, TrainerProfileImgUpload } from "@/components/
 import { TrainerRegistFormValue } from "@/lib/trainerRegistSchema";
 import { useEffect, useState } from "react";
 import { UseFormSetValue } from "react-hook-form";
+import { TrainerApplicationDetail } from "../type";
 
 interface TrainerRegistProfileProps {
   setValue: UseFormSetValue<TrainerRegistFormValue>;
   error?: string;
+  initialData?: TrainerApplicationDetail;
+  mode?: string;
 }
 
 export default function TrainerRegistProfile({
   setValue,
   error,
+  initialData,
+  mode
 }: TrainerRegistProfileProps) {
     const [profileImageFile, setProfileImageFile] = useState<File | null>(null);
-    const [profileImagePreview, setProfileImagePreview] = useState("");
+    const [profileImagePreview, setProfileImagePreview] = useState(
+        initialData?.profileImageUrl ?? "");
 
-  const handleProfileChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-    const file = e.target.files?.[0];
+    const handleProfileChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+        const file = e.target.files?.[0];
 
-    if (!file) return;
+        if (!file) return;
 
-    setProfileImageFile(file);
-    setProfileImagePreview(URL.createObjectURL(file));
+        setProfileImageFile(file);
+        setProfileImagePreview(URL.createObjectURL(file));
 
-    setValue("profileImageFile", file, {
-      shouldValidate: true,
-      shouldDirty: true,
-    });
-  };
+        setValue("profileImageFile", file, {
+            shouldValidate: true,
+            shouldDirty: true,
+        });
+
+        setValue("profileImageAction", "REPLACE", {
+            shouldValidate: true,
+            shouldDirty: true,
+        });
+    };
+
+        const handleProfileDelete = () => {
+        setProfileImageFile(null);
+        setProfileImagePreview("");
+
+        setValue("profileImageFile", null, {
+            shouldValidate: true,
+            shouldDirty: true,
+        });
+
+        setValue("profileImageAction", "DELETE", {
+            shouldValidate: true,
+            shouldDirty: true,
+        });
+    };
 
     useEffect(() => {
         return () => {
@@ -49,13 +75,33 @@ export default function TrainerRegistProfile({
             rounded-[16px]
             ">
                 <p className="text-[20px] font-extrabold text-white"> 프로필 사진 </p>
+                {mode === "edit" && <p className="text-[12px] text-[#6A7282] font-medium"> 프로필 업로드를 통해 프로필 사진을 변경할 수 있습니다. </p> }
                 <div className="flex gap-6 items-center">
-                    <div className="flex items-center justify-center size-35 border-[3px] border-[#BFFF0B] rounded-full bg-[#1E2939] overflow-hidden">
-                        <img
-                        className="object-cover"
-                        src={profileImagePreview || TrainerProfileImgDefault}
-                        alt="트레이너 프로필 수정 프로필 사진"
-                        />
+                    <div className="relative">
+                        <div className="flex items-center justify-center size-35 border-[3px] border-[#BFFF0B] rounded-full bg-[#1E2939] overflow-hidden">
+                            <img
+                            className={`${profileImagePreview && "w-full h-full"} object-cover`}
+                            src={profileImagePreview || TrainerProfileImgDefault}
+                            alt="트레이너 프로필 수정 프로필 사진"
+                            />
+                        </div>
+                        {profileImagePreview &&
+                        <button 
+                            type="button"
+                            onClick={handleProfileDelete}
+                            className="
+                                absolute
+                                top-0
+                                right-0
+                                w-8
+                                h-8
+                                rounded-full
+                                text-[#FF6467]
+                                font-extrabold
+                                "> 
+                            ✕ 
+                        </button>
+                        }
                     </div>
                     <label 
                         htmlFor="trainer-profile-img-upload"
