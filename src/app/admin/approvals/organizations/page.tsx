@@ -4,13 +4,13 @@ import OrganizationADataList from "./OrganizationADataList";
 interface paramsProps {
     searchParams: Promise<{
         page: string;
-        keyword: string | null;
+        keyword: string;
     }>
 }
 
 export default async function Page({ searchParams }: paramsProps) {
     const { page, keyword } = await searchParams;
-    const response = await getOrganizationApplicationAdmin();
+    const response = await getOrganizationApplicationAdmin(page, keyword);
     const organizations: OrganizationApplications[] = response.data.applications;
     const totalPage: number = response.data.totalPages;
 
