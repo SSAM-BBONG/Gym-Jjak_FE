@@ -1,5 +1,5 @@
-import DetailButton from "@/feature/admin/components/DetailButton";
 import TrainerApplicationStatus from "@/feature/admin/components/modals/TrainerApplicationStatus";
+import TrainerDetailButton from "@/feature/admin/components/TrainerDetailButtton";
 
 export default function TrainerADataItem({ trainer }: { trainer: TrainerApplications }) {
     return (
@@ -11,7 +11,7 @@ export default function TrainerADataItem({ trainer }: { trainer: TrainerApplicat
             <p className="col-span-2">{trainer.name}</p>
             <p className="col-span-2">{trainer.nickname}</p>
             <div className="col-span-2"><TrainerApplicationStatus text={trainer.status} /></div>
-            <div className="col-span-2"><DetailButton mode='trainerApprove' /></div>
+            <div className="col-span-2"><TrainerDetailButton mode='trainerApprove' applicationId={trainer.trainerApplicationId} /></div>
         </div>
     );
 }

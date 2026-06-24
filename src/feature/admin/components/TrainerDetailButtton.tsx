@@ -2,17 +2,17 @@
 
 import useModal from "@/components/hooks/useModal";
 import { DetailButtonImg } from "@/components/ui/image";
-import OrganizationDetailModal from "./modals/OrganizationDetailModal";
 import TwoButtonModal from "@/components/ui/TwoButtonModal";
-import { organizationApprovalAction } from "../action";
-import OrganizationRejectModal from "./modals/OrganizationRejectModal";
+import { approvalTrainerApplicationAction } from "../action";
+import TrainerDetailModal from "./modals/TrainerDatailModal";
+import TrainerRejectModal from "./modals/TrainerRejectModal";
 
 interface DetailButtonMode {
-    mode: 'organizationView' | 'organizationApprove';
+    mode: 'trainerView' | 'trainerApprove';
     applicationId: number;
 }
 
-export default function OrganizationDetailButton({ mode, applicationId }: DetailButtonMode) {
+export default function TrainerDetailButton({ mode, applicationId }: DetailButtonMode) {
 
 
     //트레이너, 조직에서 승인 버튼 누름
@@ -27,26 +27,26 @@ export default function OrganizationDetailButton({ mode, applicationId }: Detail
 
     //정말 승인할건지 물어봄
     const handleApproval = async () => {
-        await organizationApprovalAction(applicationId);
+        await approvalTrainerApplicationAction(applicationId);
     }
 
     const approvalModal = useModal(handleApproval);
     const rejectModal = useModal();
-    const organizationModal = useModal(handleClickApprove, handleClickReject);
+    const trainerModal = useModal(handleClickApprove, handleClickReject);
 
     return (
         <>
             <button
-                onClick={organizationModal.openModal}
+                onClick={trainerModal.openModal}
                 className="flex items-center gap-2.5 text-sm font-medium text-white bg-[#1E2939] border-[#364153] border rounded-lg py-2 px-3">
                 <img src={DetailButtonImg} /> 상세보기
             </button>
 
-            <OrganizationDetailModal
-                isModal={organizationModal.isModal}
-                closeModal={organizationModal.closeModal}
-                activeModal={organizationModal.activeModal}
-                noneActiveModal={organizationModal.noneActiveModal}
+            <TrainerDetailModal
+                isModal={trainerModal.isModal}
+                closeModal={trainerModal.closeModal}
+                activeModal={trainerModal.activeModal}
+                noneActiveModal={trainerModal.noneActiveModal}
                 mode={mode}
                 applicationId={applicationId}
             />
@@ -54,10 +54,10 @@ export default function OrganizationDetailButton({ mode, applicationId }: Detail
                 isModal={approvalModal.isModal}
                 closeModal={approvalModal.closeModal}
                 activeModal={approvalModal.activeModal}
-                title='조직 승인'
+                title='트레이너 승인'
                 content='승인하시겠습니까?'
             />
-            <OrganizationRejectModal
+            <TrainerRejectModal
                 isModal={rejectModal.isModal}
                 closeModal={rejectModal.closeModal}
                 activeModal={rejectModal.activeModal}

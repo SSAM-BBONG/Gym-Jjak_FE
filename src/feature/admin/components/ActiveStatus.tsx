@@ -6,7 +6,7 @@ import CheckViewModal from "./modals/CheckViewModal";
 interface ActiveStatusProps {
     text: 'ACTIVE' | 'ETERNAL' | 'DAY_7' | 'WITHDRAWN';
     reason?: string;
-    nickname: string;
+    nickname?: string;
 }
 
 const colorVariants = {
@@ -23,7 +23,7 @@ const textVariants = {
     'WITHDRAWN': '탈퇴'
 }
 
-export default function ActiveStatus({ text, reason = '', nickname }: ActiveStatusProps) {
+export default function ActiveStatus({ text, reason = '', nickname = '' }: ActiveStatusProps) {
     const modal = useModal();
     return (
         <>

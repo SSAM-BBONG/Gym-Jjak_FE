@@ -18,7 +18,6 @@ interface ActionState {
 
 export const getHeaderUserAction = async () => {
     const user = await decodeJWT();
-
     if (!user?.sub) {
         return null;
     }

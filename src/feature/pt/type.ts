@@ -180,10 +180,10 @@ export interface TrainerApplicationData {
 
 // 트레이너 이미지 요청 타입
 export interface TrainerFileData {
-    fileKey: string,
-    originalName: string,
-    contentType: string,
-    fileSize: number
+  fileKey: string,
+  originalName: string,
+  contentType: string,
+  fileSize: number
 }
 
 // 트레이너 등록 응답 타입
@@ -192,8 +192,8 @@ export interface TrainerApplicationResponse {
   code: string,
   message: string
   data: {
-        trainerApplicationId: number
-    }
+    trainerApplicationId: number
+  }
 }
 
 // 트레이너 신청 ID 타입
@@ -219,17 +219,17 @@ export interface TrainerApplicationDetailResponse {
 
 // 트레이너 신청 상세 조회 data 타입
 export interface TrainerApplicationDetail {
-    trainerApplicationId: number
-    userId: number;
-    profileImageUrl: string | null;
-    certificateUrl: string;
-    qualifications: string[];
-    awardHistories: string[];
-    introduction: string;
-    status: "PENDING" | "APPROVED" | "REJECTED" | "CANCELED";
-    rejectReason: string | null;
-    reviewedBy: number | null;
-    reviewedAt: string | null; 
-    createdAt: string;
-    updatedAt: string;
+  trainerApplicationId: number
+  userId: number;
+  profileImageUrl: string | null;
+  certificateUrl: string;
+  qualifications: string[];
+  awardHistories: string[];
+  introduction: string;
+  status: "PENDING" | "APPROVED" | "REJECTED" | "CANCELED";
+  rejectReason: string | null;
+  reviewedBy: number | null;
+  reviewedAt: string | null;
+  createdAt: string;
+  updatedAt: string;
 }

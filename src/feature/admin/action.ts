@@ -1,8 +1,7 @@
 ﻿'use server'
 
-import { createCategories, deleteCategories, patchUserStatus, updateCategories } from "@/service/admin.service";
+import { approvalTrainerApplication, createCategories, deleteCategories, getTrainerApplicationsById, patchUserStatus, rejectTrainerApplication, updateCategories } from "@/service/admin.service";
 import { approvalOrganization, approvalReport, getOrganizationbyIApplicationAdmin, getReportPtbyId, rejectOrganization, rejectReport } from "@/service/report.service"
-import axios from "axios";
 import { redirect } from "next/navigation";
 
 interface ActionState {
@@ -216,4 +215,69 @@ export const changeUserStatusAction = async (
         }
     }
 
+}
+
+
+export const TrainerApplicationAdminDetailAction = async (applicationId: number) => {
+    try {
+        const response = await getTrainerApplicationsById(applicationId);
+        return response.data;
+    } catch (error) {
+        let errorMessage: string = '알 수 없는 오류입니다. 재시도해주세요.'
+        if (error instanceof Error) {
+            errorMessage = error.message;
+        }
+
+        throw new Error(errorMessage)
+    }
+}
+
+export const approvalTrainerApplicationAction = async (trainerApplicationId: number) => {
+    try {
+        await approvalTrainerApplication(trainerApplicationId);
+    } catch (error) {
+        let errorMessage: string = '알 수 없는 오류입니다. 재시도해주세요.'
+        if (error instanceof Error) {
+            errorMessage = error.message;
+        }
+
+        throw new Error(errorMessage)
+    }
+
+    redirect('/admin/approvals/trainers');
+}
+
+
+export const rejectTrainerApplicationAction = async (applicationId: number, prevState: ActionState, formData: FormData) => {
+    const reason = formData.get('reason') as string;
+
+    if (!reason.trim()) {
+        return {
+            success: false,
+            message: '사유를 입력해주세요',
+        }
+    }
+
+    const payload = {
+        rejectReason: reason
+    }
+
+    try {
+        await rejectTrainerApplication(applicationId, payload);
+
+        return {
+            success: true,
+            message: '반려가 완료되었습니다',
+        }
+    } catch (error) {
+        let errorMessage: string = '알 수 없는 오류입니다. 재시도해주세요.'
+        if (error instanceof Error) {
+            errorMessage = error.message;
+        }
+
+        return {
+            success: false,
+            message: errorMessage
+        }
+    }
 }

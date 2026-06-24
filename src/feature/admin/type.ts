@@ -18,7 +18,6 @@ interface categorie {
 }
 
 
-
 interface ReportsDetail {
     reportId: number;
     reporterUsername: string;
@@ -123,4 +122,21 @@ interface Blacklists {
 interface UserStatusRequest {
     status: 'ETERNAL' | 'ACTIVE' | 'DAY_7';
     reason: string;
+}
+
+
+interface TrainerApplication {
+    trainerApplicationId: number;
+    userId: number;
+    profileImageUrl: string;
+    profileImageOriginalName: string;
+    name: string;
+    username: string;
+    nickname: string;
+    introduction: string;
+    qualifications: string[];
+    certificateUrl: string;
+    certificateOriginalName: string;
+    awardHistories: string[];
+    status: 'PENDING' | 'APPROVED' | 'REJECTED' | 'CANCELED';
 }

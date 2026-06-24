@@ -35,7 +35,7 @@ export default function StatusButton({ userId, nickname, status }: StatusButtonP
             checkModal.openModal();
             router.refresh();
         }
-    }, [state.success])
+    }, [state.success, router])
 
     return (
         <>
