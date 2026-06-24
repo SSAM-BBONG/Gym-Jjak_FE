@@ -119,3 +119,34 @@ export const getUserList = async (page: string = '0', name: string) => {
     }
     return response.json();
 }
+
+export const getBlacklist = async (page: string = '0', name: string) => {
+    const response = await fetchWithAuth(`/api/users/blacklist?page=${page}${name ? `&name=${name}` : ''}`);
+
+    if (!response.ok) {
+        const message = await getErrorMessage(
+            response,
+            '블랙리스트 목록 조회에 실패했습니다.'
+        );
+
+        throw new Error(message);
+    }
+    return response.json();
+}
+
+export const patchUserStatus = async (userId: number, reason: UserStatusRequest) => {
+    const response = await fetchWithAuth(`/api/users/${userId}/status`, {
+        method: 'PATCH',
+        body: JSON.stringify(reason)
+    })
+
+    if (!response.ok) {
+        const message = await getErrorMessage(
+            response,
+            '유저 상태 변경에 실패했습니다.'
+        );
+
+        throw new Error(message);
+    }
+    return response.json();
+}
