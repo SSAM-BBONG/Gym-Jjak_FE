@@ -180,10 +180,10 @@ export interface TrainerApplicationData {
 
 // 트레이너 이미지 요청 타입
 export interface TrainerFileData {
-    fileKey: string,
-    originalName: string,
-    contentType: string,
-    fileSize: number
+  fileKey: string,
+  originalName: string,
+  contentType: string,
+  fileSize: number
 }
 
 // 트레이너 등록 응답 타입
@@ -192,8 +192,8 @@ export interface TrainerApplicationResponse {
   code: string,
   message: string
   data: {
-        trainerApplicationId: number
-    }
+    trainerApplicationId: number
+  }
 }
 
 // 트레이너 신청 ID 타입

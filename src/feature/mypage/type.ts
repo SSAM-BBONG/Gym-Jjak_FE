@@ -3,7 +3,7 @@ export interface OrganizationApplication {
   organizationApplicationId: number;
   businessName: string;
   requestedLoginId: string;
-  status: "PENDING" | "ACCEPTED" | "REJECTED";
+  status: "PENDING" | "ACCEPTED" | "REJECTED" | 'CANCELED';
   businessRegistrationNumber: string;
   representativeName: string;
   createdAt: string;

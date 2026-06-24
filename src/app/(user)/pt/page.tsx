@@ -9,6 +9,7 @@ export default async function PtZonePage() {
     // accessToken 디코딩 한 값 저장
     const userinf = await decodeJWT();
 
+
     return (
         <div className="flex flex-col gap-10 px-40">
             <div className="pt-10">
