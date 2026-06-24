@@ -1,4 +1,5 @@
 import DetailButton from "@/feature/admin/components/DetailButton";
+import OrganizationDetailButton from "@/feature/admin/components/OrganizationDetailButton";
 
 export default function OrgainzationDataItem({ organization }: { organization: Organizations }) {
     const date = new Date(organization.createdAt);
@@ -14,7 +15,7 @@ export default function OrgainzationDataItem({ organization }: { organization: O
             <p className="col-span-3">{organization.representativePhone}</p>
             <p className="col-span-2">{organization.trainerCount}명</p>
             <p className="col-span-2">{`${date.getFullYear()}-${(date.getMonth() + 1)}-${date.getDate()}`}</p>
-            <div className="col-span-2"><DetailButton mode='organizationView' /></div>
+            <div className="col-span-2"><OrganizationDetailButton mode='organizationView' organizationId={organization.organizationId} /></div>
         </div>
     );
 }

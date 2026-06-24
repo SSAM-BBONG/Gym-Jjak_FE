@@ -9,16 +9,16 @@ interface TrainerRejectModal {
     isModal: boolean;
     closeModal: () => void;
     activeModal: () => void;
-    applicationId: number;
+    trainerId: number;
 }
 
 
-export default function TrainerRejectModal({ isModal, closeModal, activeModal, applicationId }: TrainerRejectModal) {
+export default function TrainerRejectModal({ isModal, closeModal, activeModal, trainerId }: TrainerRejectModal) {
     const router = useRouter();
 
     const rejectTrainerActionWithId = useMemo(() => {
-        return rejectTrainerApplicationAction.bind(null, applicationId)
-    }, [applicationId]);
+        return rejectTrainerApplicationAction.bind(null, trainerId)
+    }, [trainerId]);
 
     const [state, rejectTrainerApplicationFormAction, ispending] = useActionState(rejectTrainerActionWithId, {
         success: false,

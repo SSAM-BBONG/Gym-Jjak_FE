@@ -2,8 +2,17 @@
 
 import SearchBar from "@/feature/admin/components/SearchBar";
 import TrainerDataItem from "./TrainerDataItem";
+import AdminPagination from "@/feature/admin/components/AdminPagination";
 
-export default function TrainerDataList() {
+
+interface TrainerDataListProps {
+    // trainers: Trainers[]
+    totalPage: number;
+    page: string;
+}
+// trainers, totalPage, page
+
+export default function TrainerDataList({ }: TrainerDataListProps) {
     return (
         <div>
             <SearchBar></SearchBar>
@@ -17,12 +26,18 @@ export default function TrainerDataList() {
                     <p className="col-span-2">관리</p>
                     <p className="col-span-2">상세</p>
                 </div>
-                <TrainerDataItem />
-                <TrainerDataItem />
-                <TrainerDataItem />
-                <TrainerDataItem />
-                <TrainerDataItem />
+                {/* {trainers?.map((trainer) => (
+                    <TrainerDataItem trainer={trainer} key={trainer.trainerId} />
+                ))}
+
+                {trainers?.length === 0 && (
+                    <div className="px-6 py-10 text-center text-sm text-muted-foreground">
+                        트레이너 목록이 없습니다.
+                    </div>
+                )} */}
             </section>
+            {/* <AdminPagination url={`members/trainers`} page={page} totalPage={totalPage} /> */}
+
         </div>
     );
 }

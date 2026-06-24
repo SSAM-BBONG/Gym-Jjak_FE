@@ -13,7 +13,7 @@ interface TrainerDetailModal {
     activeModal: () => void;
     noneActiveModal: () => void;
     mode: string;
-    applicationId: number;
+    trainerId: number;
 }
 
 
@@ -33,19 +33,19 @@ const initTrainerInfo: TrainerApplication = {
     status: 'PENDING'
 }
 
-export default function TrainerDetailModal({ isModal, closeModal, activeModal, noneActiveModal, mode, applicationId }: TrainerDetailModal) {
+export default function TrainerDetailModal({ isModal, closeModal, activeModal, noneActiveModal, mode, trainerId }: TrainerDetailModal) {
 
     const [trainerInfo, setTrainerInfo] = useState<TrainerApplication>(initTrainerInfo)
 
     useEffect(() => {
         if (!isModal) return;
         async function getTrainerInfo() {
-            const response = await TrainerApplicationAdminDetailAction(applicationId);
+            const response = await TrainerApplicationAdminDetailAction(trainerId);
             setTrainerInfo(response);
         }
 
         getTrainerInfo();
-    }, [isModal, applicationId])
+    }, [isModal, trainerId])
 
     if (!isModal) return null;
 

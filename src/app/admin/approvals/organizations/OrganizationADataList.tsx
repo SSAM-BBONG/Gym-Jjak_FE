@@ -2,8 +2,16 @@
 
 import SearchBar from "@/feature/admin/components/SearchBar";
 import OrganizationADataItem from "./OrganizationADataItem";
+import AdminPagination from "@/feature/admin/components/AdminPagination";
+import OrganizationDetailButton from "@/feature/admin/components/OrganizationDetailButton";
 
-export default function OrganizationADataList({ organizations }: { organizations: OrganizationApplications[] }) {
+interface OrganizationApplicationDataListProps {
+    organizations: OrganizationApplications[]
+    totalPage: number;
+    page: string;
+}
+
+export default function OrganizationADataList({ organizations, totalPage, page }: OrganizationApplicationDataListProps) {
     return (
         <div>
             <SearchBar></SearchBar>
@@ -22,6 +30,7 @@ export default function OrganizationADataList({ organizations }: { organizations
                     </div>
                 )}
             </section>
+            <AdminPagination url={`approvals/organizations`} page={page} totalPage={totalPage} />
         </div>
     );
 }

@@ -3,6 +3,7 @@ import AdminModalP from "./AdminModalP";
 import AdminModalDiv from "./AdminModalDiv";
 import { useEffect, useState } from "react";
 import { OrganizationApplicationAdminDetailAction } from "../../action";
+import OrganizationTrainerList from "@/app/admin/members/organizations/OrganizationTrainersList";
 
 interface OrganizationDetailModalProps {
     isModal: boolean;
@@ -10,7 +11,7 @@ interface OrganizationDetailModalProps {
     activeModal: () => void;
     noneActiveModal: () => void;
     mode: string;
-    applicationId: number;
+    organizationId: number;
 }
 
 const emptyOrganizationInstance = {
@@ -33,30 +34,19 @@ const emptyOrganizationInstance = {
     businessLicenseFileUrl: ''
 }
 
-export default function OrganizationDetailModal({ isModal, closeModal, activeModal, noneActiveModal, mode, applicationId }: OrganizationDetailModalProps) {
+export default function OrganizationDetailModal({ isModal, closeModal, activeModal, noneActiveModal, mode, organizationId }: OrganizationDetailModalProps) {
 
     const [organizationInfo, setOrganizationInfo] = useState<OrganizationApplicationsDetail>(emptyOrganizationInstance);
-    let first = true;
+
     useEffect(() => {
-
+        if (!isModal) return;
         const fetchOrganization = async () => {
-            const res = await OrganizationApplicationAdminDetailAction(applicationId);
-            console.log('조직 확인', res);
-            setOrganizationInfo(res ?? emptyOrganizationInstance);
+            const response = await OrganizationApplicationAdminDetailAction(organizationId);
+            setOrganizationInfo(response);
         }
 
-        if (mode === 'organizationApprove') {
-
-            if (!first) {
-                return;
-            }
-            fetchOrganization();
-
-            first = false;
-        }
-
-
-    }, [isModal])
+        fetchOrganization();
+    }, [isModal, organizationId])
 
 
     if (!isModal) return null;
@@ -86,10 +76,9 @@ export default function OrganizationDetailModal({ isModal, closeModal, activeMod
                             >
                                 <img src={AdminDocument} />
                                 <div>
-                                    <p className="text-white">{organizationInfo.businessLicenseFileUrl}</p>
-                                    <p className="text-sm">파일 크기:</p>
+                                    <p className="text-white">이름</p>
                                 </div>
-                                <button type='button' className="px-4.5 py-2 text-black bg-[#BFFF0B] rounded-md font-bold ml-auto">다운로드</button>
+                                <a target="_blank" rel="noopener noreferrer" href={organizationInfo.businessLicenseFileUrl} className="px-4.5 py-2 text-black bg-[#BFFF0B] rounded-md font-bold ml-auto">자세히 보기</a>
 
                             </div>
                         </article>
@@ -147,10 +136,6 @@ export default function OrganizationDetailModal({ isModal, closeModal, activeMod
                                     <a href={organizationInfo.websiteUrl} target="_blank" className="text-[#BFFF0B]">{organizationInfo.websiteUrl}</a>
                                 </div>}
                         </article>
-                        <article>
-                            <AdminModalP title='운동 시설 번호' />
-                            <AdminModalDiv content={organizationInfo.requestedLoginId} />
-                        </article>
                         {mode === 'organizationView' && (
                             <>
                                 <article>
@@ -160,6 +145,10 @@ export default function OrganizationDetailModal({ isModal, closeModal, activeMod
                                 <article>
                                     <AdminModalP title='승인일' />
                                     <AdminModalDiv content="2026-10-04" />
+                                </article>
+                                <article>
+                                    <AdminModalP title='소속 트레이너' />
+                                    <OrganizationTrainerList />
                                 </article>
                             </>
                         )}

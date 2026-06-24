@@ -9,10 +9,10 @@ import OrganizationRejectModal from "./modals/OrganizationRejectModal";
 
 interface DetailButtonMode {
     mode: 'organizationView' | 'organizationApprove';
-    applicationId: number;
+    organizationId: number;
 }
 
-export default function OrganizationDetailButton({ mode, applicationId }: DetailButtonMode) {
+export default function OrganizationDetailButton({ mode, organizationId }: DetailButtonMode) {
 
 
     //트레이너, 조직에서 승인 버튼 누름
@@ -27,7 +27,7 @@ export default function OrganizationDetailButton({ mode, applicationId }: Detail
 
     //정말 승인할건지 물어봄
     const handleApproval = async () => {
-        await organizationApprovalAction(applicationId);
+        await organizationApprovalAction(organizationId);
     }
 
     const approvalModal = useModal(handleApproval);
@@ -48,7 +48,7 @@ export default function OrganizationDetailButton({ mode, applicationId }: Detail
                 activeModal={organizationModal.activeModal}
                 noneActiveModal={organizationModal.noneActiveModal}
                 mode={mode}
-                applicationId={applicationId}
+                organizationId={organizationId}
             />
             <TwoButtonModal
                 isModal={approvalModal.isModal}
@@ -61,7 +61,7 @@ export default function OrganizationDetailButton({ mode, applicationId }: Detail
                 isModal={rejectModal.isModal}
                 closeModal={rejectModal.closeModal}
                 activeModal={rejectModal.activeModal}
-                applicationId={applicationId}
+                organizationId={organizationId}
             />
         </>
     );

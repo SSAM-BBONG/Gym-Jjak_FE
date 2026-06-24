@@ -10,7 +10,7 @@ export default function OrganizationADataItem({ organization }: { organization: 
             <p className="col-span-3">{organization.businessName}</p>
             <p className="col-span-2">{organization.representativeName}</p>
             <p className="col-span-3">{organization.representativePhone}</p>
-            <div className="col-span-2"><OrganizationDetailButton mode='organizationApprove' applicationId={organization.organizationApplicationId} /></div>
+            <div className="col-span-2"><OrganizationDetailButton mode='organizationApprove' organizationId={organization.organizationApplicationId} /></div>
         </div>
     );
 }

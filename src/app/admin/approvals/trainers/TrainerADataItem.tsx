@@ -11,7 +11,7 @@ export default function TrainerADataItem({ trainer }: { trainer: TrainerApplicat
             <p className="col-span-2">{trainer.name}</p>
             <p className="col-span-2">{trainer.nickname}</p>
             <div className="col-span-2"><TrainerApplicationStatus text={trainer.status} /></div>
-            <div className="col-span-2"><TrainerDetailButton mode='trainerApprove' applicationId={trainer.trainerApplicationId} /></div>
+            <div className="col-span-2"><TrainerDetailButton mode='trainerApprove' trainerId={trainer.trainerApplicationId} /></div>
         </div>
     );
 }
