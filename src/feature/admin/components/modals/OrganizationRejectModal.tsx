@@ -1,5 +1,4 @@
 import { CloseButton } from "@/components/ui/image";
-import StatusSelector from "../StatusSelector";
 import { organizationRejectAction } from "../../action";
 
 interface OrganizationRejectModal {

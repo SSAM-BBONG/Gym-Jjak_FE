@@ -1,5 +1,10 @@
+'use client'
+
 import { CloseButton } from "@/components/ui/image";
 import ActiveStatus from "../ActiveStatus";
+import { useEffect, useState } from "react";
+import InfoCard from "../InfoCard";
+import { TrainerApplicationAdminDetailAction } from "../../action";
 
 interface TrainerDetailModal {
     isModal: boolean;
@@ -7,11 +12,41 @@ interface TrainerDetailModal {
     activeModal: () => void;
     noneActiveModal: () => void;
     mode: string;
-    title: string;
+    applicationId: number;
 }
 
 
-export default function TrainerDetailModal({ isModal, closeModal, activeModal, noneActiveModal, mode, title }: TrainerDetailModal) {
+const initTrainerInfo = {
+    trainerApplicationId: 0,
+    userId: 0,
+    profileImageUrl: '',
+    profileImageOriginalName: '',
+    name: '',
+    username: '',
+    nickname: '',
+    introduction: '',
+    qualifications: [],
+    certificateUrl: '',
+    certificateOriginalName: '',
+    awardHistories: [],
+    status: ''
+}
+
+export default function TrainerDetailModal({ isModal, closeModal, activeModal, noneActiveModal, mode, applicationId }: TrainerDetailModal) {
+
+    const [trainerInfo, setTrainerInfo] = useState<TrainerApplication>(initTrainerInfo)
+
+    useEffect(() => {
+        if (!isModal) return;
+        async function getTrainerInfo() {
+            const response = await TrainerApplicationAdminDetailAction(applicationId);
+            setTrainerInfo(response);
+            console.log(response);
+        }
+
+        getTrainerInfo();
+    }, [isModal, applicationId])
+
     if (!isModal) return null;
 
     return (
@@ -28,11 +63,11 @@ export default function TrainerDetailModal({ isModal, closeModal, activeModal, n
                         <img src={CloseButton} onClick={closeModal} />
                     </div>
                     <div className="flex items-center my-4 gap-6">
-                        <img className="w-30 h-30" />
+                        {trainerInfo.profileImageUrl && (<img className="w-30 h-30" src={trainerInfo.profileImageUrl} />)}
                         <div>
-                            <h3 className="font-bold text-xl text-[#E8EAF0] py-2">이름</h3>
-                            <p className="font-normal text-base text-[#E8EAF0]">닉네임</p>
-                            <p className="font-normal text-base text-[#E8EAF0]">이메일</p>
+                            <h3 className="font-bold text-xl text-[#E8EAF0] py-2">{trainerInfo.name}</h3>
+                            <p className="font-normal text-base text-[#E8EAF0]">{trainerInfo.nickname}</p>
+                            <p className="font-normal text-base text-[#E8EAF0]">{trainerInfo.username}</p>
                             <ActiveStatus text='ACTIVE' />
                         </div>
                     </div>
@@ -52,32 +87,29 @@ export default function TrainerDetailModal({ isModal, closeModal, activeModal, n
                             <div
                                 className="flex items-center gap-4 border-[#364153] border w-full p-4 mt-2 bg-[#1E2939] rounded-md text-[#D1D5DC] text-base font-normal"
                             >
-                                <p>안녕하세요</p>
+                                <p>{trainerInfo.introduction}</p>
                             </div>
                         </article>
                         <article>
                             <p className="text-white font-bold text-lg mb-3.5">자격증</p>
-                            <div
-                                className="flex items-center gap-4 border-[#364153] border w-full p-4 mt-2 bg-[#1E2939] rounded-md text-[#D1D5DC] text-base font-normal"
-                            >
-                                <div className="bg-[#BFFF0B] w-2 h-2 rounded-full"></div><p>안녕하세요</p>
-                            </div>
-                            <div
-                                className="flex items-center gap-4 border-[#364153] border w-full p-4 mt-2 bg-[#1E2939] rounded-md text-[#D1D5DC] text-base font-normal"
-                            >
-                                <div className="bg-[#BFFF0B] w-2 h-2 rounded-full"></div><p>안녕하세요</p>
-                            </div>
+                            <InfoCard content={trainerInfo.certificateOriginalName} key={trainerInfo.certificateOriginalName} href={trainerInfo.certificateUrl} />
+
+                            {
+                                trainerInfo.qualifications.map((qualification) => (
+                                    <InfoCard content={qualification} key={qualification} />
+                                ))
+                            }
                         </article>
                         <article>
                             <p className="text-white font-bold text-lg mb-3.5">대회 경력</p>
-                            <div
-                                className="flex items-center gap-4 border-[#364153] border w-full p-4 mt-2 bg-[#1E2939] rounded-md text-[#D1D5DC] text-base font-normal"
-                            >
-                                <div className="bg-[#BFFF0B] w-2 h-2 rounded-full"></div><p>안녕하세요</p>
-                            </div>
+                            {
+                                trainerInfo.awardHistories.map((awardHistory) => (
+                                    <InfoCard content={awardHistory} key={awardHistory} />
+                                ))
+                            }
                         </article>
                     </section>
-                </article>
+                </article >
                 {mode !== 'trainerView' && (
                     <article className='flex gap-3 mt-10'>
                         <button
@@ -94,8 +126,9 @@ export default function TrainerDetailModal({ isModal, closeModal, activeModal, n
                             승인
                         </button>
                     </article>
-                )}
-            </form>
-        </section>
+                )
+                }
+            </form >
+        </section >
     );
 }

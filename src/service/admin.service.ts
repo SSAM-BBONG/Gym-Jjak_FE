@@ -105,6 +105,56 @@ export const getTrainerApplications = async (page: string = '0', status: string 
     return response.json();
 }
 
+export const getTrainerApplicationsById = async (applicationId: number) => {
+    const response = await fetchWithAuth(`/api/trainer-applications/${applicationId}`);
+
+    if (!response.ok) {
+        const message = await getErrorMessage(
+            response,
+            '트레이너 신청 상세 조회에 실패하였습니다.'
+        );
+
+        throw new Error(message);
+    }
+
+    return response.json();
+}
+
+export const approvalTrainerApplication = async (trainerApplicationId: number) => {
+    const response = await fetchWithAuth(`/api/trainer-applications/${trainerApplicationId}/approve`, {
+        method: "PATCH"
+    });
+
+    if (!response.ok) {
+        const message = await getErrorMessage(
+            response,
+            '트레이너 승인에 실패하였습니다.'
+        );
+
+        throw new Error(message);
+    }
+
+    return response.json();
+}
+
+export const rejectTrainerApplication = async (applicationId: number, reason: { rejectReason: string }) => {
+    const response = await fetchWithAuth(`/api/trainer-applications/${applicationId}/reject`, {
+        method: "PATCH",
+        body: JSON.stringify(reason)
+    });
+
+    if (!response.ok) {
+        const message = await getErrorMessage(
+            response,
+            '트레이너 반려에 실패하였습니다.'
+        );
+
+        throw new Error(message);
+    }
+
+    return response.json();
+}
+
 
 export const getUserList = async (page: string = '0', name: string) => {
     const response = await fetchWithAuth(`/api/users/all?page=${page}${name ? `&name=${name}` : ''}`);
@@ -150,3 +200,5 @@ export const patchUserStatus = async (userId: number, reason: UserStatusRequest)
     }
     return response.json();
 }
+
+
