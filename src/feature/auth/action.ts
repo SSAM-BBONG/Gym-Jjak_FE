@@ -18,8 +18,6 @@ interface ActionState {
 
 export const getHeaderUserAction = async () => {
     const user = await decodeJWT();
-    console.log(user?.role);
-
     if (!user?.sub) {
         return null;
     }

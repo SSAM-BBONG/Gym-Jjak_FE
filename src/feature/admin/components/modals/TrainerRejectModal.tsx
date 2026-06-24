@@ -30,7 +30,7 @@ export default function TrainerRejectModal({ isModal, closeModal, activeModal, a
             closeModal();
             router.refresh();
         }
-    }, [state.success])
+    }, [state.success, closeModal, router])
 
     if (!isModal) return null;
 

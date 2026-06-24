@@ -8,7 +8,6 @@ export default async function PtZonePage() {
 
     // accessToken 디코딩 한 값 저장
     const userinf = await decodeJWT();
-    console.log(userinf?.role);
 
 
     return (

@@ -5,6 +5,7 @@ import ActiveStatus from "../ActiveStatus";
 import { useEffect, useState } from "react";
 import InfoCard from "../InfoCard";
 import { TrainerApplicationAdminDetailAction } from "../../action";
+import TrainerApplicationStatus from "./TrainerApplicationStatus";
 
 interface TrainerDetailModal {
     isModal: boolean;
@@ -16,7 +17,7 @@ interface TrainerDetailModal {
 }
 
 
-const initTrainerInfo = {
+const initTrainerInfo: TrainerApplication = {
     trainerApplicationId: 0,
     userId: 0,
     profileImageUrl: '',
@@ -29,7 +30,7 @@ const initTrainerInfo = {
     certificateUrl: '',
     certificateOriginalName: '',
     awardHistories: [],
-    status: ''
+    status: 'PENDING'
 }
 
 export default function TrainerDetailModal({ isModal, closeModal, activeModal, noneActiveModal, mode, applicationId }: TrainerDetailModal) {
@@ -41,7 +42,6 @@ export default function TrainerDetailModal({ isModal, closeModal, activeModal, n
         async function getTrainerInfo() {
             const response = await TrainerApplicationAdminDetailAction(applicationId);
             setTrainerInfo(response);
-            console.log(response);
         }
 
         getTrainerInfo();
@@ -68,7 +68,7 @@ export default function TrainerDetailModal({ isModal, closeModal, activeModal, n
                             <h3 className="font-bold text-xl text-[#E8EAF0] py-2">{trainerInfo.name}</h3>
                             <p className="font-normal text-base text-[#E8EAF0]">{trainerInfo.nickname}</p>
                             <p className="font-normal text-base text-[#E8EAF0]">{trainerInfo.username}</p>
-                            <ActiveStatus text='ACTIVE' />
+                            <TrainerApplicationStatus text={trainerInfo.status} />
                         </div>
                     </div>
                     <section className="flex flex-col gap-6">

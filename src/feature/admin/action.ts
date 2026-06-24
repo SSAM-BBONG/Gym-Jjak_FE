@@ -243,6 +243,8 @@ export const approvalTrainerApplicationAction = async (trainerApplicationId: num
 
         throw new Error(errorMessage)
     }
+
+    redirect('/admin/approvals/trainers');
 }
 
 

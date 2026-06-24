@@ -138,5 +138,5 @@ interface TrainerApplication {
     certificateUrl: string;
     certificateOriginalName: string;
     awardHistories: string[];
-    status: string;
+    status: 'PENDING' | 'APPROVED' | 'REJECTED' | 'CANCELED';
 }
