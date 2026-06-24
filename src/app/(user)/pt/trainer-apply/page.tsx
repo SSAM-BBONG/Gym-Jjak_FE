@@ -35,7 +35,7 @@ export default async function PtTrainerRegistPage() {
                         <div className="flex gap-6 items-start  ">
                             <div className="flex items-center justify-center size-30 border-[3px] border-[#BFFF0B] rounded-full overflow-hidden">
                                 <img 
-                                    className="w-full h-full object-cover" 
+                                    className={`${trainerApplicationData.data.profileImageUrl && "w-full h-full"} object-cover`} 
                                     src={trainerApplicationData.data.profileImageUrl ?? TrainerProfileImgDefault} 
                                     alt="트레이너 프로필 수정 프로필 사진" />
                             </div>

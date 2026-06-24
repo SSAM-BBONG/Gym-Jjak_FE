@@ -201,12 +201,16 @@ export interface TrainerApplicationId {
   trainerApplicationId: number
 }
 
+// 트레이너 이미지 action 타입
+export type ProfileImageAction = "KEEP" | "REPLACE" | "DELETE";
+
 // 트레이너 신청 수정 요청 타입
 export interface TrainerApplicationEditData {
-  profileImageFileId?: TrainerFileData | null;
+  profileImageAction: ProfileImageAction;
+  profileImageFile?: TrainerFileData | null;
   qualifications: string[] | null;
   awardHistories: string[] | null;
-  introduction: string;
+  introduction: string | null;
 }
 
 // 트레이너 신청 상세 조회 응답 타입
@@ -228,7 +232,7 @@ export interface TrainerApplicationDetail {
     qualifications: string[];
     awardHistories: string[];
     introduction: string;
-    status: "PENDING" | "APPROVED" | "REJECTED" | "CANCELED";
+    status: "" | "PENDING" | "APPROVED" | "REJECTED" | "CANCELED";
     rejectReason: string | null;
     reviewedBy: number | null;
     reviewedAt: string | null; 

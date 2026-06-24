@@ -222,6 +222,10 @@ export const trainerApplicationEditAction = async (
 ) => {
   const profileImageFile = formData.get("profileImageFile");
 
+  const profileImageAction = String(
+    formData.get("profileImageAction") ?? "KEEP"
+  ) as "KEEP" | "REPLACE" | "DELETE";
+
   const qualifications = JSON.parse(
     String(formData.get("qualifications") ?? "[]")
   ) as string[];
@@ -239,26 +243,35 @@ export const trainerApplicationEditAction = async (
     };
   }
 
-  const payload: TrainerApplicationEditData = {
-    qualifications,
-    awardHistories,
-    introduction,
-  };
+  let uploadedProfileImage = null;
 
-  const hasProfileImage =
-    profileImageFile instanceof File && profileImageFile.size > 0;
+if (profileImageAction === "REPLACE") {
+  const profileImageFile = formData.get("profileImageFile");
 
-  if (hasProfileImage) {
-    const uploadedFiles = await uploadFilesPresignedUrl([
-      {
-        file: profileImageFile,
-        fileType: "PROFILE_IMAGE",
-      },
-    ]);
-
-    payload.profileImageFileId = uploadedFiles[0];
+  if (!(profileImageFile instanceof File) || profileImageFile.size === 0) {
+    return {
+      success: false,
+      message: "프로필 이미지를 교체하려면 파일이 필요합니다.",
+    };
   }
 
+  const uploadedFiles = await uploadFilesPresignedUrl([
+    {
+      file: profileImageFile,
+      fileType: "PROFILE_IMAGE",
+    },
+  ]);
+
+  uploadedProfileImage = uploadedFiles[0];
+}
+
+const payload: TrainerApplicationEditData = {
+  profileImageAction,
+  profileImageFile: profileImageAction === "REPLACE" ? uploadedProfileImage  : null,
+  qualifications,
+  awardHistories,
+  introduction,
+};
   await updateTrainerApplication(id, payload);
 
   revalidatePath("/pt/trainer-apply");

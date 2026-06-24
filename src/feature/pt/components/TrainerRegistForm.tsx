@@ -5,10 +5,9 @@ import TrainerAwardHistory from "./TrainerRegistAwardHistory";
 import TrainerRegistSelfIntroduction from "./TrainerRegistSelfIntroduction";
 import TrainerRegistProfile from "./TrainerRegistProfile";
 import { trainerApplicationAction, trainerApplicationEditAction } from "../actions";
-import { useActionState } from "react";
 import TrainerQulification from "./TrainerRegistEssential";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { trainerRegistCreateSchema, trainerRegistEditSchema, TrainerRegistFormValue, trainerRegistSchema } from "@/lib/trainerRegistSchema";
+import { Resolver, SubmitHandler, useForm } from "react-hook-form";
+import { trainerRegistCreateSchema, trainerRegistEditSchema, TrainerRegistFormValue } from "@/lib/trainerRegistSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { TrainerApplicationDetail } from "../type";
 
@@ -45,9 +44,10 @@ const {
   setValue,
   formState: { errors, isSubmitting },
 } = useForm<TrainerRegistFormValue>({
-  resolver: zodResolver(schema),
+  resolver: zodResolver(schema) as Resolver<TrainerRegistFormValue>,
   defaultValues: {
     profileImageFile: null,
+    profileImageAction: "KEEP",
     certificateFile: undefined,
     qualifications: initialData?.qualifications ?? [],
     awardHistories: initialData?.awardHistories ?? [],
@@ -63,10 +63,14 @@ const onSubmit: SubmitHandler<TrainerRegistFormValue> = async (values) => {
     formData.append("profileImageFile", values.profileImageFile);
   }
 
-  formData.append("certificateFile", values.certificateFile);
+  formData.append("profileImageAction", values.profileImageAction ?? "KEEP");
   formData.append("qualifications", JSON.stringify(values.qualifications));
   formData.append("awardHistories", JSON.stringify(values.awardHistories));
   formData.append("introduction", values.introduction);
+
+  if (mode !== "edit" && values.certificateFile) {
+    formData.append("certificateFile", values.certificateFile);
+  }
 
   if (mode === "edit") {
     await trainerApplicationEditAction(initialData.trainerApplicationId, formData);
@@ -93,6 +97,7 @@ const onSubmit: SubmitHandler<TrainerRegistFormValue> = async (values) => {
             setValue={setValue}
             error={errors.profileImageFile?.message}
             initialData = {initialData} 
+            mode={mode}
             />
 
             <TrainerEssentialQulification
@@ -123,7 +128,7 @@ const onSubmit: SubmitHandler<TrainerRegistFormValue> = async (values) => {
 
                 <div className="flex gap-4">
                     <button className="flex-1 bg-[#1E2939] text-white text-[16px] font-extrabold py-3 mb-20 rounded-[10px]"> 취소 </button>
-                    <button type="submit" disabled={isSubmitting} className="flex-1 bg-[#BFFF0B] text-black text-[16px] font-extrabold py-3 mb-20 rounded-[10px]"> 신청하기 </button>
+                    <button type="submit" disabled={isSubmitting} className="flex-1 bg-[#BFFF0B] text-black text-[16px] font-extrabold py-3 mb-20 rounded-[10px]"> {mode==="edit" ? "수정하기" : "신청하기"} </button>
                 </div>
             </form>
         </div>

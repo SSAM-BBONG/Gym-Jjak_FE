@@ -40,8 +40,13 @@ const requiredEssentialQualification = z.custom<File> (
 // 자기소개
 const requiredSelfIntroduction = z.string().trim().min(1, "자기소개를 입력해주세요").max(1000, "자기소개는 1,000자까지 입력할 수 있습니다.")
 
+// 트레이너 신청 수정 이미지 action 타입
+const profileImageActionSchema = z.enum(["KEEP", "REPLACE", "DELETE"]);
+
+
 export const trainerRegistCreateSchema = z.object({
   profileImageFile: requiredProfileImg.nullable(),
+  profileImageAction: profileImageActionSchema.default("KEEP"),
   certificateFile: requiredEssentialQualification,
   qualifications: z.array(z.string().trim().min(1, "자격증명을 입력해주세요.")),
   awardHistories: z.array(z.string().trim().min(1, "수상 경력을 입력해주세요.")),
@@ -50,6 +55,7 @@ export const trainerRegistCreateSchema = z.object({
 
 export const trainerRegistEditSchema = trainerRegistCreateSchema.extend({
   certificateFile: requiredEssentialQualification.optional(),
+  profileImageAction: profileImageActionSchema.default("KEEP"),
 });
 
 export type TrainerRegistFormValue = z.infer<typeof trainerRegistEditSchema>;

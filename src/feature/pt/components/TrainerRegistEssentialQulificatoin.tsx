@@ -52,17 +52,27 @@ export default function TrainerRegistEssentialQulification({
   };
 
     return (
-        <div className="
+        <div className={`
             flex flex-col gap-4
             p-8
             bg-[linear-gradient(135deg,rgba(16,24,40,0.90)0%,rgba(30,41,57,0.90)100%)]
+            ${mode==="edit" && "opacity-50"}
             border
             border-[#36415380]
             rounded-[16px]
-            ">
+            `}>
                 <div className="flex items-center justify-between">
                     <div className="flex flex-col gap-3">
-                        <p className="text-[20px] font-extrabold text-white"> 필수 자격증 </p>
+                        <div className="flex gap-5 items-center">
+                            <p className="text-[20px] font-extrabold text-white"> 필수 자격증 </p>
+                            {mode === "edit" &&
+                            <p className="
+                                flex items-center justify-center
+                                text-[12px] font-normal text-[#99A1AF]
+                                border rounded-full 
+                                px-3 py-1"> 수정 불가</p>
+                            }
+                        </div>
                         {mode === "edit" 
                         ?
                         <p className="text-[12px] text-[#6A7282] font-medium"> 필수 자격증은 수정할 수 없습니다. </p>
@@ -72,15 +82,18 @@ export default function TrainerRegistEssentialQulification({
                     </div>
                     <button 
                         type="button"
-                        className="
+                        disabled={mode==="edit"}
+                        className={`
                         flex gap-3 
                         px-4 py-2
                         bg-[#BFFF0B] rounded-[10px]
-                        hover:cursor-pointer
-                        ">
+                        self-baseline
+                        ${mode !== "edit" && "hover:cursor-pointer" }
+                        `}>
                         <img src={TrainerProfileImgUpload} alt="필수 자격증 업로드 버튼"/>
                         <label htmlFor="trainer-profile-essential-upload-button" className="text-[14px] font-bold text-black whitespace-nowrap"> 파일 업로드 </label> 
                         <input 
+                            disabled={mode==="edit"}
                             id="trainer-profile-essential-upload-button" 
                             type="file" 
                             accept=".jpg,.jpeg,.png,.pdf,image/jpeg,image/png,application/pdf" 

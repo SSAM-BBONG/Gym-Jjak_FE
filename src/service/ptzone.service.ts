@@ -159,7 +159,7 @@ export const updateTrainerApplication = async (
   if (!response.ok) {
     const message = await getErrorMessage(
       response,
-      "트레이너 신청에 실패하였습니다."
+      "트레이너 신청 수정에 실패하였습니다."
     );
 
     throw new Error(message);
