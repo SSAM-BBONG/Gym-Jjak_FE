@@ -69,8 +69,13 @@ export const organizationApplicationDupliCationId = async (
   });
   const response = await fetchWithAuth(`/api/organization-applications/login-id/duplicate?${params.toString()}`)
 
-  if(!response.ok) {
-    throw new Error("아이디 중복 확인에 실패하였습니다.")
+  if (!response.ok) {
+    const message = await getErrorMessage(
+      response,
+      '아이디 중복 확인에 실패하였습니다.'
+    );
+
+    throw new Error(message);
   }
 
   return response.json();

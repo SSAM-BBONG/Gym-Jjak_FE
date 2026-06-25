@@ -113,7 +113,6 @@ export const registerAction = async (payload: SignUpFormData): Promise<ActionSta
         success: true,
         message: '회원가입 성공'
     }
-
 }
 
 export const logoutAction = async () => {
