@@ -73,13 +73,12 @@ export default function SocialRegistForm() {
             </label>
             <input
                 id="phone"
-                type="string"
+                type="text"
                 {...register('phone')}
                 placeholder="전화번호를 입력해주세요"
                 className="w-full py-3 px-4 text-base font-normal rounded-md bg-[#101828] border-[#364153] border focus:outline-0 focus:border-[#BFFF0B] text-white" />
             {errors.phone?.message ? <p className="text-red-400 text-sm m-1 mb-11">{errors.phone?.message}</p> : <p className="text-[#99A1AF] text-sm m-1 mb-11">'-'을 포함하여 작성해주세요</p>}
             <button
-                onClick={modal.openModal}
                 className="w-full text-base font-bold mb-6 text-black bg-[#BFFF0B] py-4 rounded-md">
                 회원가입
             </button>

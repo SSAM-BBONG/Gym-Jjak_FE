@@ -1,6 +1,5 @@
 import Link from "next/link";
 import LoginForm from "./LoginForm";
-import SocialButton from "./SocialButton";
 import { GoogleLogo, NaverLogo } from "@/components/ui/image";
 
 
@@ -21,13 +20,11 @@ export default function Page() {
                 <Link href='/auth/register' className="text-[#BFFF0B]">회원가입</Link>
             </div>
             <div className="flex justify-center gap-6 border-t border-[#99A1AF] w-full p-6">
-                {/* <SocialButton social='naver' />
-                <SocialButton social='google' /> */}
                 <a href={`${process.env.NEXT_PUBLIC_API_BASE_URL}/oauth2/authorization/naver`} className="w-15 h-15 rounded-full">
-                    <img src={NaverLogo} />
+                    <img src={NaverLogo} alt="네이버로 계속하기" />
                 </a>
                 <a href={`${process.env.NEXT_PUBLIC_API_BASE_URL}/oauth2/authorization/google`} className="w-15 h-15 rounded-full">
-                    <img src={GoogleLogo} />
+                    <img src={GoogleLogo} alt="구글로 계속하기" />
                 </a>
             </div>
         </div>
