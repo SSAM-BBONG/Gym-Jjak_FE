@@ -124,3 +124,37 @@ export const getTemporaryPw = async (payload: { username: string }) => {
 
     return response.json();
 }
+
+
+export const getSocial = async (provider: 'naver' | 'google') => {
+    const response = await fetchWithoutAuth(`/oauth2/authorization/${provider}`);
+
+    if (!response.ok) {
+        const message = await getErrorMessage(
+            response,
+            '소셜 로그인에 실패했습니다.'
+        );
+
+        throw new Error(message);
+    }
+
+    return response.json();
+}
+
+export const addSocialRegist = async (payload: { nickname: string, phone: string }) => {
+    const response = await fetchWithAuth('/api/auth/social/complete', {
+        method: "PATCH",
+        body: JSON.stringify(payload)
+    })
+
+    if (!response.ok) {
+        const message = await getErrorMessage(
+            response,
+            '소셜 회원가입에 실패했습니다.'
+        );
+
+        throw new Error(message);
+    }
+
+    return response.json();
+}
