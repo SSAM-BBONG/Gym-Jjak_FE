@@ -1,6 +1,10 @@
+'use client'
+
 import { UseFormRegister } from "react-hook-form";
 import { OrganizationApplicationDetail } from "../type";
 import { OrganizationApplicationFormValue } from "@/lib/organizationApplicationSchema";
+import { ChangeEvent, useState } from "react";
+import { organizationIdDuplicationCheckAction } from "../action";
 
 interface OrganizationRegistFormProps {
     // 신청 & 조회 모드
@@ -12,6 +16,17 @@ interface OrganizationRegistFormProps {
 
 
 export default function OrganizationRegistId( {register, application, isReadOnly, error }: OrganizationRegistFormProps) {
+    
+    const [organizationId, setOrganizationId] = useState(" ");
+
+    const handleOragnizationIdChange = (e:ChangeEvent<HTMLInputElement>) => {
+        setOrganizationId(e.target.value);
+    }
+
+    const handleDuplicationIdCheck = (id: string) => {
+        organizationIdDuplicationCheckAction(id);
+    } 
+    
     return (
         <div className="
             flex flex-col gap-4
@@ -24,16 +39,23 @@ export default function OrganizationRegistId( {register, application, isReadOnly
                 <div className="flex gap-3">
                     <input 
                         type="text"
-                        {...register("requestedLoginId")
-                        }
+                        {...register("requestedLoginId")}
+                        onChange={handleOragnizationIdChange}
                         defaultValue={application?.requestedLoginId}
                         disabled={isReadOnly}
+
                         placeholder="ex)organization-id"
                         className="flex-1 border border-[#364153] px-4 py-3 outline-none rounded-[10px] bg-[#1E2939] text-[#FFFFFF80]"    
                     />
                     {/* 일기 전용 아닐때만 중복확인 뜰 수 있게 설정 */}
                     {!isReadOnly && (
-                        <button className="px-7 py-3 text-[16px] font-medium text-white bg-[#364153] opacity-50 rounded-[10px]"> 중복 확인 </button>
+                        <button 
+                            type="button"
+                            className="px-7 py-3 text-[16px] font-medium text-white bg-[#364153] opacity-50 rounded-[10px]"
+                            onClick={() => handleDuplicationIdCheck(organizationId)}
+                        > 
+                        중복 확인
+                        </button>
                     )}
                 </div>
             </div>

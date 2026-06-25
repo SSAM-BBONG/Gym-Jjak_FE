@@ -1,12 +1,12 @@
 "use server";
 
 import axios from "axios";
-import { createOrganizationApplication } from "@/service/mypage.service";
+import { createOrganizationApplication, organizationApplicationDupliCationId } from "@/service/mypage.service";
 import { uploadFilesPresignedUrl } from "@/service/file.service";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
-
+// 조직 신청 액션
 export const createOrganizationApplicationAction = async (
   formData: FormData
 ) => {
@@ -54,3 +54,8 @@ export const createOrganizationApplicationAction = async (
   revalidatePath("/mypage/organization/application");
   redirect("/mypage/organization/application");
 }
+
+// 조직 신청 ID 중복확인 액션
+export const organizationIdDuplicationCheckAction = async (loginId: string) => {
+  const result = await organizationApplicationDupliCationId(loginId);
+} 
