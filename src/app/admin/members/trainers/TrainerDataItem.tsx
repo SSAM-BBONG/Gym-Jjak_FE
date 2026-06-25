@@ -1,5 +1,4 @@
 import ActiveStatus from "@/feature/admin/components/ActiveStatus";
-import DetailButton from "@/feature/admin/components/DetailButton";
 import StatusButton from "@/feature/admin/components/StatusButton";
 import TrainerDetailButton from "@/feature/admin/components/TrainerDetailButtton";
 
@@ -7,7 +6,7 @@ export default function TrainerDataItem() {
     return (
         <div
             style={{ display: 'grid' }}
-            className="!gird grid-cols-15 px-6 text-white font-normal text-sm border-t border-[#364153] h-17.5 items-center"
+            className="gridgrid-cols-15 px-6 text-white font-normal text-sm border-t border-[#364153] h-17.5 items-center"
         >
             <p className="col-span-3">하이</p>
             <p className="col-span-2">하이</p>

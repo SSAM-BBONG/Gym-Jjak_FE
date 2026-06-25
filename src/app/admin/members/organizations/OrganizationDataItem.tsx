@@ -1,4 +1,3 @@
-import DetailButton from "@/feature/admin/components/DetailButton";
 import OrganizationDetailButton from "@/feature/admin/components/OrganizationDetailButton";
 
 export default function OrgainzationDataItem({ organization }: { organization: Organizations }) {

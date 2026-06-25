@@ -14,7 +14,7 @@ export default function ReportDataItem({ mode, repost }: ReportMode) {
     return (
         <div
             style={{ display: 'grid' }}
-            className="!gird grid-cols-21 px-6 text-white font-normal text-sm border-t border-[#364153] h-17.5 items-center"
+            className="gridgrid-cols-21 px-6 text-white font-normal text-sm border-t border-[#364153] h-17.5 items-center"
         >
             <p className="col-span-3">{repost.reportNumber}</p>
             <p className="col-span-3">{repost.targetDisplayText}</p>
