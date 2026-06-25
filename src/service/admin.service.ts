@@ -156,8 +156,8 @@ export const rejectTrainerApplication = async (applicationId: number, reason: { 
 }
 
 
-export const getUserList = async (page: string = '0', name: string) => {
-    const response = await fetchWithAuth(`/api/users/all?page=${page}${name ? `&name=${name}` : ''}`);
+export const getUserList = async (page: string = '0', keyword: string) => {
+    const response = await fetchWithAuth(`/api/users/all?page=${page}${keyword ? `&keyword=${keyword}` : ''}`);
 
     if (!response.ok) {
         const message = await getErrorMessage(
@@ -170,8 +170,8 @@ export const getUserList = async (page: string = '0', name: string) => {
     return response.json();
 }
 
-export const getBlacklist = async (page: string = '0', name: string) => {
-    const response = await fetchWithAuth(`/api/users/blacklist?page=${page}${name ? `&name=${name}` : ''}`);
+export const getBlacklist = async (page: string = '0', keyword: string) => {
+    const response = await fetchWithAuth(`/api/users/blacklist?page=${page}${keyword ? `&keyword=${keyword}` : ''}`);
 
     if (!response.ok) {
         const message = await getErrorMessage(

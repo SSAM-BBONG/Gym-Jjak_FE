@@ -68,8 +68,8 @@ export const rejectReport = async (reportGroupId: number, reportId: number) => {
     return response.json();
 }
 
-export const getOrganizationApplicationAdmin = cache(async () => {
-    const response = await fetchWithAuth('/api/organization-applications');
+export const getOrganizationApplicationAdmin = async (page: string = '0', keyword: string) => {
+    const response = await fetchWithAuth(`/api/organization-applications?page=${page}${keyword ? `&keyword=${keyword}` : ''}`);
 
     if (!response.ok) {
         const message = await getErrorMessage(
@@ -81,7 +81,7 @@ export const getOrganizationApplicationAdmin = cache(async () => {
     }
 
     return response.json();
-})
+}
 
 export const getOrganizationbyIApplicationAdmin = cache(async (applicationId: number) => {
     const response = await fetchWithAuth(`/api/organization-applications/${applicationId}`);

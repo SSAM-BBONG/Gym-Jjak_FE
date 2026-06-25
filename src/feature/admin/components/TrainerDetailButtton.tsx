@@ -9,10 +9,10 @@ import TrainerRejectModal from "./modals/TrainerRejectModal";
 
 interface DetailButtonMode {
     mode: 'trainerView' | 'trainerApprove';
-    applicationId: number;
+    trainerId: number;
 }
 
-export default function TrainerDetailButton({ mode, applicationId }: DetailButtonMode) {
+export default function TrainerDetailButton({ mode, trainerId }: DetailButtonMode) {
 
 
     //트레이너, 조직에서 승인 버튼 누름
@@ -27,7 +27,7 @@ export default function TrainerDetailButton({ mode, applicationId }: DetailButto
 
     //정말 승인할건지 물어봄
     const handleApproval = async () => {
-        await approvalTrainerApplicationAction(applicationId);
+        await approvalTrainerApplicationAction(trainerId);
     }
 
     const approvalModal = useModal(handleApproval);
@@ -48,7 +48,7 @@ export default function TrainerDetailButton({ mode, applicationId }: DetailButto
                 activeModal={trainerModal.activeModal}
                 noneActiveModal={trainerModal.noneActiveModal}
                 mode={mode}
-                applicationId={applicationId}
+                trainerId={trainerId}
             />
             <TwoButtonModal
                 isModal={approvalModal.isModal}
@@ -61,7 +61,7 @@ export default function TrainerDetailButton({ mode, applicationId }: DetailButto
                 isModal={rejectModal.isModal}
                 closeModal={rejectModal.closeModal}
                 activeModal={rejectModal.activeModal}
-                applicationId={applicationId}
+                trainerId={trainerId}
             />
         </>
     );
