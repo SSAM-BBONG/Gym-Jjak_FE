@@ -69,7 +69,7 @@ export default function OrganizationRegistForm({mode = "create", application}: O
         );
         formData.append("businessName", values.businessName);
         formData.append("representativeName", values.representativeName);
-        formData.append("representativePhone", values.representativePhone);
+        formData.append("representativePhone", values.representativePhone ?? "");
         formData.append("openingDate", values.openingDate);
         formData.append("roadAddress", values.roadAddress);
         formData.append("jibunAddress", values.jibunAddress ?? "");
