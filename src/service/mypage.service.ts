@@ -59,3 +59,19 @@ export const createOrganizationApplication = async (
 
   return response.json();
 };
+
+// 조직 계정 신청 아이디 중복 확인 API
+export const organizationApplicationDupliCationId = async ( 
+  loginId : string
+) => {
+  const params = new URLSearchParams({
+    requestedLoginId: loginId,
+  });
+  const response = await fetchWithAuth(`/api/organization-applications/login-id/duplicate?${params.toString()}`)
+
+  if(!response.ok) {
+    throw new Error("아이디 중복 확인에 실패하였습니다.")
+  }
+
+  return response.json();
+}
