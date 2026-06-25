@@ -20,7 +20,6 @@ export default function TrainerRegistEssentialQulification({
   mode="edit"
 }: TrainerEssentialQulificationProps) { 
 
-    const [qulification, setQualification] = useState("");
     const [qualificationFile, setQualificationFile] = useState<File | null>(null);
     const [qualificationFileName, setQualificationFileName] = useState(
     initialData?.certificateOriginalName ?? ""
