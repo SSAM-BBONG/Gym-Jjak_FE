@@ -1,7 +1,7 @@
 'use server'
 
-import { SignUpFormData } from "@/lib/registerSchema";
-import { editMyOnboarding, getTemporaryPw, login, logout, onboarding, register } from "@/service/auth.service";
+import { SignUpFormData, SocialSignUpFormData } from "@/lib/registerSchema";
+import { addSocialRegist, editMyOnboarding, getTemporaryPw, login, logout, onboarding, register } from "@/service/auth.service";
 import axios from "axios";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
@@ -192,4 +192,23 @@ export const temporaryPwAction = async (prevState: ActionState, formData: FormDa
             message: errorMessage
         }
     }
+}
+
+export const addSocialRegistAction = async (payload: SocialSignUpFormData) => {
+    const { nickname, phone } = payload;
+    try {
+        await addSocialRegist({ nickname, phone });
+    } catch (error) {
+        let errorMessage: string = '알 수 없는 오류입니다. 재시도해주세요.'
+        if (error instanceof Error) {
+            errorMessage = error.message;
+        }
+
+        return {
+            success: false,
+            message: errorMessage
+        }
+    }
+
+    redirect('/auth/onboarding?page=1');
 }

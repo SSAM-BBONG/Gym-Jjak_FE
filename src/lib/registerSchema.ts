@@ -27,4 +27,15 @@ export const signUpSchema = z.object({
     message: '비밀번호가 일치하지 않습니다.',
 });
 
+
+export const socialSignUpSchema = z.object({
+    nickname: z
+        .string()
+        .min(1, { message: '닉네임은 최소 1자 이상이어야 합니다.' }),
+    phone: z
+        .string()
+        .regex(/^\d{3}-\d{4}-\d{4}$/, { message: '전화번호 형식이 맞지 않습니다. (예: 010-1234-5678)' }),
+})
+
 export type SignUpFormData = z.infer<typeof signUpSchema>;
+export type SocialSignUpFormData = z.infer<typeof socialSignUpSchema>;

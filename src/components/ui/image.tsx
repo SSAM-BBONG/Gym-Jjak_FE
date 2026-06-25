@@ -94,3 +94,5 @@ export const PtManageUsers = "/images/ptmanage-users.svg"
 export const PtTrainerRegistPending = "/images/ptzone-trainer-regist-pending.svg"
 export const Complete = "/images/complete.svg"
 export const MyOnboardingPurpose = '/images/mypage-onboarding-purpose.svg'
+export const NaverLogo = '/images/naver-logo.png';
+export const GoogleLogo = '/images/google-logo.png';
