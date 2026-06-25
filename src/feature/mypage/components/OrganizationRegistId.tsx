@@ -7,10 +7,11 @@ interface OrganizationRegistFormProps {
     register: UseFormRegister<OrganizationApplicationFormValue>
     isReadOnly: boolean;
     application?: OrganizationApplicationDetail;
+    error?: string
 }
 
 
-export default function OrganizationRegistId( {register, application, isReadOnly }: OrganizationRegistFormProps) {
+export default function OrganizationRegistId( {register, application, isReadOnly, error }: OrganizationRegistFormProps) {
     return (
         <div className="
             flex flex-col gap-4
@@ -23,7 +24,8 @@ export default function OrganizationRegistId( {register, application, isReadOnly
                 <div className="flex gap-3">
                     <input 
                         type="text"
-                        name="requestedLoginId" 
+                        {...register("requestedLoginId")
+                        }
                         defaultValue={application?.requestedLoginId}
                         disabled={isReadOnly}
                         placeholder="ex)organization-id"

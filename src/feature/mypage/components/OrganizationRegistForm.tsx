@@ -36,21 +36,21 @@ export default function OrganizationRegistForm({mode = "create", application}: O
         organizationApplicationSchema
         ) as Resolver<OrganizationApplicationFormValue>,
         defaultValues: {
-        requestedLoginId: application?.requestedLoginId ?? "",
-        businessRegistrationNumber: application?.businessRegistrationNumber ?? "",
-        businessName: application?.businessName ?? "",
-        representativeName: application?.representativeName ?? "",
-        representativePhone: application?.representativePhone ?? "",
-        openingDate: application?.openingDate ?? "",
-        roadAddress: application?.roadAddress ?? "",
-        jibunAddress: application?.jibunAddress ?? "",
-        detailAddress: application?.detailAddress ?? "",
-        latitude: application?.latitude ? String(application.latitude) : "",
-        longitude: application?.longitude ? String(application.longitude) : "",
-        websiteUrl: application?.websiteUrl ?? "",
-        instagramUrl: application?.instagramUrl ?? "",
-        blogUrl: application?.blogUrl ?? "",
-        facilityPhone: application?.facilityPhone ?? "",
+            requestedLoginId: application?.requestedLoginId ?? "",
+            businessRegistrationNumber: application?.businessRegistrationNumber ?? "",
+            businessName: application?.businessName ?? "",
+            representativeName: application?.representativeName ?? "",
+            representativePhone: application?.representativePhone ?? "",
+            openingDate: application?.openingDate ?? "",
+            roadAddress: application?.roadAddress ?? "",
+            jibunAddress: application?.jibunAddress ?? "",
+            detailAddress: application?.detailAddress ?? "",
+            latitude: application?.latitude ? String(application.latitude) : "",
+            longitude: application?.longitude ? String(application.longitude) : "",
+            websiteUrl: application?.websiteUrl ?? "",
+            instagramUrl: application?.instagramUrl ?? "",
+            blogUrl: application?.blogUrl ?? "",
+            facilityPhone: application?.facilityPhone ?? "",
         },
         mode: "onSubmit",
     });
@@ -111,6 +111,7 @@ export default function OrganizationRegistForm({mode = "create", application}: O
                 register={register} 
                 application={application}
                 isReadOnly={isReadOnly}
+                error={errors.requestedLoginId?.message}
             />
 
             <OrganizationRegistBusinessFile

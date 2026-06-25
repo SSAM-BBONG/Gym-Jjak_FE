@@ -24,6 +24,19 @@ const requiredBusinessLicenseFile = z
     message: "사업자등록증은 10MB 이하 파일만 등록할 수 있습니다.",
   });
 
+// 대표자 전화번호, 시설 전화번호 검증 ( - 있는지)
+const requiredPhoneNumber = z
+  .string()
+  .trim()
+  .optional()
+  .or(z.literal(""))
+  .refine(
+    (value) => !value || /^0\d{1,2}-\d{3,4}-\d{4}$/.test(value),
+    {
+      message: "번호는 02-1234-5678 형식으로 입력해주세요.",
+    }
+  );
+
 // URL 검증
 const optionalUrl = z
   .string()
@@ -70,10 +83,10 @@ export const organizationApplicationSchema = z.object({
     }, "개업일자는 오늘 또는 과거 날짜여야 합니다."),
 
   // 대표자 전화번호 검증 
-  representativePhone: z.string().trim().min(1, "대표자 전화번호를 입력해주세요."),
+  representativePhone: requiredPhoneNumber,
 
   // 운동시설번호 검증
-  facilityPhone: z.string().optional(),
+  facilityPhone: requiredPhoneNumber,
 
   // 사업장 주소 검증
   roadAddress: z.string().trim().min(1, "주소를 입력해주세요."),

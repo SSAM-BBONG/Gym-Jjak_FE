@@ -24,21 +24,27 @@ export default function OrganizationRegistBusinessFile({ setValue, resetField, a
     const [businessFile, setBusinessFile] = useState<File | null>(null);    
     const [businessFilePreview, setBusinessFilePreview] = useState("");
 
-    const handleProfileChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+    const handleBusinessFileChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
         const file = e.target.files?.[0];
 
         if (!file) return;
 
         setBusinessFile(file);
         setBusinessFilePreview(file.name);
+
+        setValue("businessLicenseFile", file, {
+            shouldValidate: true,
+            shouldDirty: true,
+        });
     }
 
     const handleProfileDelete = () => {
         setBusinessFile(null);
         setBusinessFilePreview("");
+        resetField("businessLicenseFile");
     }
 
-        useEffect(() => {
+    useEffect(() => {
         return () => {
             if (businessFilePreview) {
             URL.revokeObjectURL(businessFilePreview);
@@ -59,7 +65,13 @@ export default function OrganizationRegistBusinessFile({ setValue, resetField, a
                 ? 
                 (
                 <>
-                <input id="organ-application" onChange={handleProfileChange} name="file" type="file" accept=".pdf,.jpg,.jpeg,.png" required={!isReadOnly} disabled={isReadOnly} className="hidden"/>
+                <input 
+                    id="organ-application" 
+                    onChange={handleBusinessFileChange} 
+                    type="file" 
+                    accept=".pdf,.jpg,.jpeg,.png, .webp" 
+                    disabled={isReadOnly}
+                    className="hidden"/>
                 <label htmlFor="organ-application" className="
                 flex flex-col gap-3 items-center 
                 bg-[#1E2939] border border-[#364153] rounded-[10px]
