@@ -50,9 +50,20 @@ export default function OrganizationRegistBusinessInformation( {register, setVal
                             )}
                         </>
                     ) : (
-                        <OrganizationRegistMap />
+                        <OrganizationRegistMap setValue={setValue}/>
                     )}
                     <p className="text-[12px] font-normal text-[#6A7282]"> 사업자등록증 상 주소와 실제 운영 중인 오프라인 매장 주소를 입력해주세요 </p>
+                </div>
+
+                <div className="flex flex-col gap-2">
+                    <label className="text-[14px] font-medium text-white"> 상세주소(선택) </label>
+                        <input
+                        className="px-4 py-3 bg-[#1E2939] border border-[#364153] rounded-[10px] text-[16px] font-normal text-[#FFFFFF80] outline-none"
+                        type="text"
+                        disabled={isReadOnly}
+                        placeholder="상세 주소 입력"
+                        {...register("detailAddress")}
+                        />
                 </div>
 
                 <div className="flex flex-col gap-2">
@@ -60,21 +71,24 @@ export default function OrganizationRegistBusinessInformation( {register, setVal
                     <input 
                         className="px-4 py-3 bg-[#1E2939] border border-[#364153] rounded-[10px] text-[16px] font-normal text-[#FFFFFF80] outline-none" 
                         type="text"
-                        name="representativePhone"
+                        {...register("representativePhone")}
                         defaultValue={application?.representativePhone}
                         disabled={isReadOnly}
-                        placeholder="ex) 010-0000-0000"/>
+                        placeholder="010-0000-0000"/>
                 </div>
 
                 <div className="flex flex-col gap-2">
-                    <label className="text-[14px] font-medium text-white"> 운동시설 번호 </label>
+                    <label className="text-[14px] font-medium text-white"> 운동시설 번호(선택) </label>
                     <input 
                         className="px-4 py-3 bg-[#1E2939] border border-[#364153] rounded-[10px] text-[16px] font-normal text-[#FFFFFF80] outline-none" 
                         type="text"
-                        name="facilityPhone"
+                        {...register("facilityPhone")}
                         defaultValue={application?.facilityPhone}
                         disabled={isReadOnly}
-                        placeholder="ex) 체육시설업 신고번호 (선택)"/>
+                        placeholder="예: 제2026-000123호"/>
+                    <p className="text-[12px] font-normal text-[#6A7282]">
+                        헬스장, 피트니스센터 등 체육시설업 신고를 완료한 경우 신고증명서 또는 신고필증에 기재된 번호를 입력해주세요.
+                    </p>
                 </div>
             </div>
         </div>

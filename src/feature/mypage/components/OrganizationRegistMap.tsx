@@ -1,7 +1,9 @@
 "use client";
 
+import { OrganizationApplicationFormValue } from "@/lib/organizationApplicationSchema";
 import { useState } from "react";
 import DaumPostcodeEmbed from "react-daum-postcode";
+import { UseFormSetValue } from "react-hook-form";
 
 // Daum 우편번호 검색에서 선택된 주소 데이터 타입
 interface DaumPostcodeData {
@@ -16,10 +18,14 @@ interface KakaoAddressResult {
   address_name: string;
 }
 
+interface OrganizationRegistMapProps {
+  setValue: UseFormSetValue<OrganizationApplicationFormValue>;
+}
+
 // Kakao 주소 검색 API 응답 상태 타입
 type KakaoAddressStatus = "OK" | "ZERO_RESULT" | "ERROR";
 
-export default function OrganizationRegistMap() {
+export default function OrganizationRegistMap({ setValue}: OrganizationRegistMapProps) {
   // 우편번호 검색창 열림/닫힘 상태
   const [isOpen, setIsOpen] = useState(false);
 
@@ -64,6 +70,23 @@ export default function OrganizationRegistMap() {
           if (status === "OK") {
             setLongitude(result[0].x);
             setLatitude(result[0].y);
+
+            setValue("roadAddress", selectedRoadAddress, {
+              shouldValidate: true,
+              shouldDirty: true,
+            });
+
+            setValue("jibunAddress", selectedJibunAddress, {
+              shouldDirty: true,
+            });
+
+            setValue("longitude", result[0].x, {
+              shouldDirty: true,
+            });
+
+            setValue("latitude", result[0].y, {
+              shouldDirty: true,
+            });
           }
         }
       );
@@ -79,17 +102,12 @@ export default function OrganizationRegistMap() {
       <input
         value={roadAddress}
         readOnly
-        onClick={() => setIsOpen(true)}
+        onClick={() => setIsOpen(!isOpen)}
         className="px-4 py-3 bg-[#1E2939] border border-[#364153] rounded-[10px] text-[16px] font-normal text-[#FFFFFF80] outline-none cursor-pointer"
         type="text"
         placeholder="주소를 클릭해서 검색해주세요"
       />
 
-      {/* 조직 등록시 주소/좌표 값을 함께 보내기 위한 input hidden으로 보이지 않고 값만 전달되도록 설정 */}
-      <input type="hidden" name="roadAddress" value={roadAddress} />
-      <input type="hidden" name="jibunAddress" value={jibunAddress} />
-      <input type="hidden" name="latitude" value={latitude} />
-      <input type="hidden" name="longitude" value={longitude} />
 
       {/* 주소 입력창 클릭 시 Daum 우편번호 검색창 표시 */}
       {isOpen && (

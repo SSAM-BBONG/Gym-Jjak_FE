@@ -51,5 +51,6 @@ export const createOrganizationApplicationAction = async (
   await createOrganizationApplication(payload);
 
   revalidatePath("/mypage/organization");
-  redirect("/mypage/organization");
+  revalidatePath("/mypage/organization/application");
+  redirect("/mypage/organization/application");
 }

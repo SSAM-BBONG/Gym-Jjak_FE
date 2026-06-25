@@ -31,7 +31,7 @@ export default function OrganizationRegistLink({ register, errors, application, 
                         <input 
                             className="px-4 py-3 bg-[#1E2939] border border-[#364153] rounded-[10px] text-[16px] font-normal text-[#FFFFFF80] outline-none" 
                             type="text"
-                            name="instagramUrl"
+                            {...register("instagramUrl")}
                             defaultValue={application?.instagramUrl}
                             disabled={isReadOnly}
                             placeholder="ex) https://instagram.com/yourpage"/>
@@ -41,7 +41,7 @@ export default function OrganizationRegistLink({ register, errors, application, 
                         <input 
                             className="px-4 py-3 bg-[#1E2939] border border-[#364153] rounded-[10px] text-[16px] font-normal text-[#FFFFFF80] outline-none" 
                             type="text"
-                            name="blogUrl"
+                            {...register("blogUrl")}
                             defaultValue={application?.blogUrl}
                             disabled={isReadOnly}
                             placeholder="ex) https://blog.naver.com/yourpage"/>
@@ -51,7 +51,7 @@ export default function OrganizationRegistLink({ register, errors, application, 
                         <input 
                             className="px-4 py-3 bg-[#1E2939] border border-[#364153] rounded-[10px] text-[16px] font-normal text-[#FFFFFF80] outline-none" 
                             type="text"
-                            name="websiteUrl"
+                            {...register("websiteUrl")}
                             defaultValue={application?.websiteUrl}
                             disabled={isReadOnly}
                             placeholder="ex) https://yourwebsite.com"/>
