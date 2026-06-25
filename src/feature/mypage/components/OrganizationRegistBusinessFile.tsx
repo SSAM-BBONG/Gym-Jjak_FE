@@ -4,17 +4,22 @@ import { OrganApplicationUpload, TrainerEssentialQulificationIcon } from "@/comp
 import { OrganizationApplicationDetail } from "../type";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { OrganizationApplicationFormValue } from "@/lib/organizationApplicationSchema";
+import { UseFormResetField, UseFormSetValue } from "react-hook-form";
 
 interface OrganizationRegistFormProps {
-    // 신청 & 조회 모드
-    isReadOnly: boolean;
-    application?: OrganizationApplicationDetail;
+  setValue: UseFormSetValue<OrganizationApplicationFormValue>;
+  resetField: UseFormResetField<OrganizationApplicationFormValue>;
+  error?: string;
+  // 신청 & 조회 모드
+  isReadOnly: boolean;
+  application?: OrganizationApplicationDetail;
 }
 
 
 
 
-export default function OrganizationRegistBusinessFile({ application, isReadOnly }: OrganizationRegistFormProps) {
+export default function OrganizationRegistBusinessFile({ setValue, resetField, application, isReadOnly, error }: OrganizationRegistFormProps) {
     
     const [businessFile, setBusinessFile] = useState<File | null>(null);    
     const [businessFilePreview, setBusinessFilePreview] = useState("");

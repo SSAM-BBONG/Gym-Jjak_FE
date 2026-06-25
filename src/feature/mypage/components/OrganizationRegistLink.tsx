@@ -1,12 +1,20 @@
+import { UseFormRegister } from "react-hook-form";
 import { OrganizationApplicationDetail } from "../type";
+import { OrganizationApplicationFormValue } from "@/lib/organizationApplicationSchema";
 
 interface OrganizationRegistFormProps {
+    register: UseFormRegister<OrganizationApplicationFormValue>
+    errors?: {
+        instagramUrl?: string;
+        blogUrl?: string;
+        websiteUrl?: string;
+    };
     // 신청 & 조회 모드
     isReadOnly : boolean;
     application?: OrganizationApplicationDetail;
 }
 
-export default function OrganizationRegistLink({ application, isReadOnly }: OrganizationRegistFormProps) {
+export default function OrganizationRegistLink({ register, errors, application, isReadOnly }: OrganizationRegistFormProps) {
     
     return (
         <div className="

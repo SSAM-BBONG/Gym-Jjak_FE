@@ -1,12 +1,21 @@
+import { UseFormRegister } from "react-hook-form";
 import { OrganizationApplicationDetail } from "../type";
+import { OrganizationApplicationFormValue } from "@/lib/organizationApplicationSchema";
 
 interface OrganizationRegistFormProps {
+    register: UseFormRegister<OrganizationApplicationFormValue>;
+    errors?: {
+    businessRegistrationNumber?: string;
+    businessName?: string;
+    representativeName?: string;
+    openingDate?: string;
+    };
     // 신청 & 조회 모드
     isReadOnly: boolean;
     application?: OrganizationApplicationDetail;
 }
 
-export default function OrganizationRegistBusinessVerification({ application, isReadOnly }: OrganizationRegistFormProps) {
+export default function OrganizationRegistBusinessVerification({ register, application, errors, isReadOnly }: OrganizationRegistFormProps) {
     return (
     <div className="
         flex flex-col gap-6
