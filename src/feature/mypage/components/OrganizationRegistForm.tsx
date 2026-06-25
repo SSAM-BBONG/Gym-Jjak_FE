@@ -1,16 +1,16 @@
 "use client";
 
-import { OrganApplicationDanger, OrganApplicationUpload } from "@/components/ui/image";
-import OrganizationRegistMap from "./OrganizationRegistMap";
+import { OrganApplicationDanger } from "@/components/ui/image";
 import { createOrganizationApplicationAction } from "../action";
-import { useActionState } from "react";
 import { OrganizationApplicationDetail } from "../type";
-import Link from "next/link";
 import OrganizationRegistLink from "./OrganizationRegistLink";
 import OrganizationRegistBusinessInformation from "./OrganizationRegistBusinessInformation";
 import OrganizationRegistId from "./OrganizationRegistId";
 import OrganizationRegistBusinessFile from "./OrganizationRegistBusinessFile";
 import OrganizationRegistBusinessVerification from "./OrganizationRegistBusinessVerification";
+import { Resolver, SubmitHandler, useForm } from "react-hook-form";
+import { OrganizationApplicationFormValue, organizationApplicationSchema } from "@/lib/organizationApplicationSchema";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 // 조직 신청 폼 타입
 interface OrganizationRegistFormProps {
@@ -25,18 +25,68 @@ export default function OrganizationRegistForm({mode = "create", application}: O
     // 읽기전용 모드
     const isReadOnly = mode === "read";
 
-    // 서버 액션 state
-    const [state, formAction, isPending] = useActionState(createOrganizationApplicationAction,
-        {
-        success: false,
-        message: "",
-        errors: {},
-        }
-    );
+    const {
+        register,
+        handleSubmit,
+        setValue,
+        resetField,
+        formState: { errors, isSubmitting },
+    } = useForm<OrganizationApplicationFormValue>({
+        resolver: zodResolver(
+        organizationApplicationSchema
+        ) as Resolver<OrganizationApplicationFormValue>,
+        defaultValues: {
+        requestedLoginId: application?.requestedLoginId ?? "",
+        businessRegistrationNumber: application?.businessRegistrationNumber ?? "",
+        businessName: application?.businessName ?? "",
+        representativeName: application?.representativeName ?? "",
+        representativePhone: application?.representativePhone ?? "",
+        openingDate: application?.openingDate ?? "",
+        roadAddress: application?.roadAddress ?? "",
+        jibunAddress: application?.jibunAddress ?? "",
+        detailAddress: application?.detailAddress ?? "",
+        latitude: application?.latitude ? String(application.latitude) : "",
+        longitude: application?.longitude ? String(application.longitude) : "",
+        websiteUrl: application?.websiteUrl ?? "",
+        instagramUrl: application?.instagramUrl ?? "",
+        blogUrl: application?.blogUrl ?? "",
+        facilityPhone: application?.facilityPhone ?? "",
+        },
+        mode: "onSubmit",
+    });
 
+
+    const onSubmit: SubmitHandler<OrganizationApplicationFormValue> = async (
+        values
+    ) => {
+        const formData = new FormData();
+
+        formData.append("businessLicenseFile", values.businessLicenseFile);
+        formData.append("requestedLoginId", values.requestedLoginId);
+        formData.append(
+        "businessRegistrationNumber",
+        values.businessRegistrationNumber
+        );
+        formData.append("businessName", values.businessName);
+        formData.append("representativeName", values.representativeName);
+        formData.append("representativePhone", values.representativePhone);
+        formData.append("openingDate", values.openingDate);
+        formData.append("roadAddress", values.roadAddress);
+        formData.append("jibunAddress", values.jibunAddress ?? "");
+        formData.append("detailAddress", values.detailAddress ?? "");
+        formData.append("latitude", values.latitude ?? "");
+        formData.append("longitude", values.longitude ?? "");
+        formData.append("websiteUrl", values.websiteUrl ?? "");
+        formData.append("instagramUrl", values.instagramUrl ?? "");
+        formData.append("blogUrl", values.blogUrl ?? "");
+        formData.append("facilityPhone", values.facilityPhone ?? "");
+
+        await createOrganizationApplicationAction(formData);
+    };
+  
     return (
-        // 일기전용에서는 신청되지 않게 설정
-        <form action={isReadOnly ? undefined : formAction}>
+        // 읽기전용에서는 신청되지 않게 설정
+        <form onSubmit={isReadOnly ? undefined : handleSubmit(onSubmit)}>
         <div className="flex flex-col px-60 pt-10 gap-8">
             <div className="flex flex-col gap-2">
                 <p className="text-[36px] font-black text-white"> 조직 계정 신청 </p>
@@ -57,46 +107,64 @@ export default function OrganizationRegistForm({mode = "create", application}: O
                 </div>
             </div>
 
-            <OrganizationRegistId 
+            <OrganizationRegistId
+                register={register} 
                 application={application}
                 isReadOnly={isReadOnly}
             />
 
             <OrganizationRegistBusinessFile
+                setValue={setValue}
+                resetField={resetField}
+                error={errors.businessLicenseFile?.message}
                 application={application}
-                isReadOnly={isReadOnly}            
+                isReadOnly={isReadOnly}           
             />
 
             <OrganizationRegistBusinessVerification
+                register={register}
+                errors={{
+                    businessRegistrationNumber: errors.businessRegistrationNumber?.message,
+                    businessName: errors.businessName?.message,
+                    representativeName: errors.representativeName?.message,
+                    openingDate: errors.openingDate?.message,
+                }}
+                isReadOnly={isReadOnly}
                 application={application}
-                isReadOnly={isReadOnly}   
             />
 
             <OrganizationRegistBusinessInformation 
+                register={register}
+                setValue={setValue}
+                errors={{
+                    roadAddress: errors.roadAddress?.message,
+                    representativePhone: errors.representativePhone?.message,
+                    facilityPhone: errors.facilityPhone?.message,
+                    detailAddress: errors.detailAddress?.message,
+                }}
                 application={application}
                 isReadOnly={isReadOnly}
             />
 
             <OrganizationRegistLink 
-                application={application}
+                register={register}
+                errors={{
+                    instagramUrl: errors.instagramUrl?.message,
+                    blogUrl: errors.blogUrl?.message,
+                    websiteUrl: errors.websiteUrl?.message,
+                }}
                 isReadOnly={isReadOnly}
+                application={application}
             />
             
-            {/* 오류 메시지 출력 - 임시설정 추후 리펙토링 예정 */}
-            {!isReadOnly && state.message && (
-                <div className={state.success ? "text-[#BFFF0B]" : "text-red-400"}>
-                    {state.message}
-                </div>
-            )}
-
             {/* 읽기모드에서는 안보이게 설정 */}
             {!isReadOnly && (
                 <div className="flex gap-3 mb-15">
                     <button className="py-4 text-[16px] font-extrabold text-white flex-1 bg-[#1E2939] rounded-[10px]"> 취소 </button>
                     <button 
                         type="submit"
-                        disabled={isPending}
-                        className="py-4 text-[16px] font-extrabold text-black flex-1 bg-[#BFFF0B] rounded-[10px]"> {isPending ? "신청  중..." : "신청하기"} </button>
+                        disabled={isSubmitting}
+                        className="py-4 text-[16px] font-extrabold text-black flex-1 bg-[#BFFF0B] rounded-[10px]"> {isSubmitting ? "신청  중..." : "신청하기"} </button>
                 </div>
             )}
         </div>
