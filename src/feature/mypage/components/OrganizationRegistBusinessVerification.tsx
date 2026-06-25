@@ -1,6 +1,9 @@
+'use client'
+
 import { UseFormRegister } from "react-hook-form";
 import { OrganizationApplicationDetail } from "../type";
 import { OrganizationApplicationFormValue } from "@/lib/organizationApplicationSchema";
+import { ChangeEvent, useState } from "react";
 
 interface OrganizationRegistFormProps {
     register: UseFormRegister<OrganizationApplicationFormValue>;
@@ -16,6 +19,22 @@ interface OrganizationRegistFormProps {
 }
 
 export default function OrganizationRegistBusinessVerification({ register, application, errors, isReadOnly }: OrganizationRegistFormProps) {
+    const [inputState, setInputState] = useState({
+        businessRegistrationNumber: "",
+        businessName: "",
+        representativeName: "",
+        openingDate:""
+    })
+
+    const handleInputChange = (e:ChangeEvent<HTMLInputElement>) => {
+        setInputState({
+            ...inputState,
+            [e.target.name] : e.target.value
+        })
+    }
+
+    const buttonState = !!inputState.businessName && !!inputState.businessRegistrationNumber && !!inputState.openingDate && !!inputState.representativeName;
+
     return (
     <div className="
         flex flex-col gap-6
@@ -28,34 +47,43 @@ export default function OrganizationRegistBusinessVerification({ register, appli
                 <div className="flex flex-col gap-2">
                     <label className="text-[14px] font-medium text-white"> 사업자등록번호 </label>
                     <input 
-                        className="px-4 py-3 bg-[#1E2939] border border-[#364153] rounded-[10px] text-[16px] font-normal text-[#FFFFFF80] outline-none" 
+                        className="px-4 py-3 bg-[#1E2939] border border-[#364153] rounded-[10px] text-[16px] font-normal text-white outline-none" 
                         type="text"
                         {...register("businessRegistrationNumber")}
                         defaultValue={application?.businessRegistrationNumber}
+                        onChange={handleInputChange}
                         disabled={isReadOnly}
                         maxLength={10}
+                        name="businessRegistrationNumber"
                         placeholder="0000000000 (10자리)"/>
                 </div>
+                {errors?.businessRegistrationNumber && (<p className="text-[#FF6467] text-[12px] font-normal"> {errors?.businessRegistrationNumber} </p>)}
                 <div className="flex flex-col gap-2">
                     <label className="text-[14px] font-medium text-white"> 상호(사업장 이름) </label>
                     <input 
-                        className="px-4 py-3 bg-[#1E2939] border border-[#364153] rounded-[10px] text-[16px] font-normal text-[#FFFFFF80] outline-none" 
+                        className="px-4 py-3 bg-[#1E2939] border border-[#364153] rounded-[10px] text-[16px] font-normal text-white outline-none" 
                         type="text"
                         {...register("businessName")}
                         defaultValue={application?.businessName}
+                        onChange={handleInputChange}
                         disabled={isReadOnly}
+                        name="businessName"
                         placeholder="ex) 엑티브펄스 PT센터"/>
                 </div>
+                {errors?.businessName && (<p className="text-[#FF6467] text-[12px] font-normal"> {errors?.businessName} </p>)}
                 <div className="flex flex-col gap-2">
                     <label className="text-[14px] font-medium text-white"> 대표자 이름 </label>
                     <input 
-                        className="px-4 py-3 bg-[#1E2939] border border-[#364153] rounded-[10px] text-[16px] font-normal text-[#FFFFFF80] outline-none" 
+                        className="px-4 py-3 bg-[#1E2939] border border-[#364153] rounded-[10px] text-[16px] font-normal text-white outline-none" 
                         type="text"
                         {...register("representativeName")} 
                         defaultValue={application?.representativeName}
+                        onChange={handleInputChange}
                         disabled={isReadOnly}
+                        name="representativeName"
                         placeholder="ex) 홍길동"/>
                 </div>
+                {errors?.representativeName && (<p className="text-[#FF6467] text-[12px] font-normal"> {errors?.representativeName} </p>)}
                 <div className="flex flex-col gap-2">
                     <label className="text-[14px] font-medium text-white"> 개업 일자 </label>
                     <input 
@@ -63,14 +91,23 @@ export default function OrganizationRegistBusinessVerification({ register, appli
                         {...register("openingDate")} 
                         type="date"
                         defaultValue={application?.openingDate}
+                        onChange={handleInputChange}
                         disabled={isReadOnly}
+                        name="openingDate"
                         placeholder="ex) 20000000"/>
                 </div>
+                {errors?.openingDate && (<p className="text-[#FF6467] text-[12px] font-normal"> {errors?.openingDate} </p>)}
             </div>
             {/* 읽기모드일때는 검증 버튼 뜨지 않게 설정 */}
             {!isReadOnly && <button 
+                                disabled={buttonState}
                                 type="button"
-                                className="bg-[#BFFF0B] opacity-50 rounded-[10px] py-3 text-[16px] font-extrabold text-black"> 사업자 정보 검증하기 </button>}
+                                className={`
+                                    ${!buttonState && "opacity-50"}
+                                    bg-[#BFFF0B] rounded-[10px] py-3 text-[16px] font-extrabold text-black`}
+                            > 
+                                사업자 정보 검증하기 
+                            </button>}
         </div>
     );
 }

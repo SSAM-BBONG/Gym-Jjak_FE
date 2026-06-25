@@ -14,17 +14,28 @@ interface OrganizationRegistFormProps {
     error?: string
 }
 
+interface registerStateType {
+    success: boolean;
+    message?: string
+}
 
 export default function OrganizationRegistId( {register, application, isReadOnly, error }: OrganizationRegistFormProps) {
     
-    const [organizationId, setOrganizationId] = useState(" ");
+    const [organizationId, setOrganizationId] = useState("");
+
+    const [registerState, setRegisterState] = useState<registerStateType>({
+        success: false,
+        message: ''
+    });
+
 
     const handleOragnizationIdChange = (e:ChangeEvent<HTMLInputElement>) => {
         setOrganizationId(e.target.value);
     }
 
-    const handleDuplicationIdCheck = (id: string) => {
-        organizationIdDuplicationCheckAction(id);
+    const handleDuplicationIdCheck = async (id: string) => {
+        const result = await organizationIdDuplicationCheckAction(id);
+        setRegisterState(result);
     } 
     
     return (
@@ -43,21 +54,29 @@ export default function OrganizationRegistId( {register, application, isReadOnly
                         onChange={handleOragnizationIdChange}
                         defaultValue={application?.requestedLoginId}
                         disabled={isReadOnly}
-
-                        placeholder="ex)organization-id"
-                        className="flex-1 border border-[#364153] px-4 py-3 outline-none rounded-[10px] bg-[#1E2939] text-[#FFFFFF80]"    
+                        placeholder="아이디를 입력해주세요"
+                        className="flex-1 border border-[#364153] px-4 py-3 outline-none rounded-[10px] bg-[#1E2939] text-white"    
                     />
                     {/* 일기 전용 아닐때만 중복확인 뜰 수 있게 설정 */}
                     {!isReadOnly && (
                         <button 
                             type="button"
-                            className="px-7 py-3 text-[16px] font-medium text-white bg-[#364153] opacity-50 rounded-[10px]"
+                                className={`px-7 py-3 text-[16px] rounded-[10px]
+                                    ${organizationId.length===0 ? "text-white bg-[#364153] font-medium opacity-50" : "text-black bg-[#BFFF0B] font-bold"}`
+                                }
                             onClick={() => handleDuplicationIdCheck(organizationId)}
                         > 
                         중복 확인
                         </button>
                     )}
                 </div>
+                {registerState.success 
+                ?
+                (<p className="text-[#BFFF0B] text-[12px] font-normal"> {registerState.message} </p>)
+                :   
+                (<p className="text-[#FF6467] text-[12px] font-normal"> {registerState.message} </p>)
+                }
+                {error && (<p className="text-[#FF6467] text-[12px] font-normal"> {error} </p>)}
             </div>
     );
 }

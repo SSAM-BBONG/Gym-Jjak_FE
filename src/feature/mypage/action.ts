@@ -57,5 +57,22 @@ export const createOrganizationApplicationAction = async (
 
 // 조직 신청 ID 중복확인 액션
 export const organizationIdDuplicationCheckAction = async (loginId: string) => {
-  const result = await organizationApplicationDupliCationId(loginId);
+      try {
+          await organizationApplicationDupliCationId(loginId);
+      } catch (error) {
+          let errorMessage: string = '알 수 없는 오류입니다. 재시도해주세요.'
+          if (error instanceof Error) {
+              errorMessage = error.message;
+          }
+  
+          return {
+              success: false,
+              message: errorMessage
+          }
+      }
+  
+      return {
+          success: true,
+          message: '중복 확인을 완료헀습니다.'
+      }
 } 

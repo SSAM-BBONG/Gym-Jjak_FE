@@ -107,6 +107,7 @@ export default function OrganizationRegistBusinessFile({ setValue, resetField, a
                         사업자등록증 파일 보기
                     </Link>
                 )}
+                {error && (<p className="text-[#FF6467] text-[12px] font-normal"> {error} </p>)}
             </div>
     );
 }
