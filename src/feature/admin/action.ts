@@ -1,7 +1,7 @@
 ﻿'use server'
 
-import { approvalTrainerApplication, createCategories, deleteCategories, getTrainerApplicationsById, getTrainerDetail, patchUserStatus, rejectTrainerApplication, updateCategories } from "@/service/admin.service";
-import { approvalOrganization, approvalReport, getOrganizationbyIApplicationAdmin, getReportPtbyId, rejectOrganization, rejectReport } from "@/service/report.service"
+import { approvalTrainerApplication, createCategories, deleteCategories, getOrganizationDetailAdmin, getTrainerApplicationsById, patchUserStatus, rejectTrainerApplication, updateCategories } from "@/service/admin.service";
+import { approvalOrganization, approvalReport, getOrganizationApplicationDetailAdmin, getReportPtbyId, rejectOrganization, rejectReport } from "@/service/report.service"
 import { redirect } from "next/navigation";
 
 interface ActionState {
@@ -9,9 +9,23 @@ interface ActionState {
     message?: string;
 }
 
-export const OrganizationApplicationAdminDetailAction = async (applicationId: number) => {
+export const OrganizationApplicationAdminDetailAction = async (organizationId: number) => {
     try {
-        const response = await getOrganizationbyIApplicationAdmin(applicationId);
+        const response = await getOrganizationApplicationDetailAdmin(organizationId);
+        return response.data;
+    } catch (error) {
+        let errorMessage: string = '알 수 없는 오류입니다. 재시도해주세요.'
+        if (error instanceof Error) {
+            errorMessage = error.message;
+        }
+
+        throw new Error(errorMessage)
+    }
+}
+
+export const OrganizationAdminDetailAction = async (organizationId: number) => {
+    try {
+        const response = await getOrganizationDetailAdmin(organizationId);
         return response.data;
     } catch (error) {
         let errorMessage: string = '알 수 없는 오류입니다. 재시도해주세요.'
@@ -216,7 +230,6 @@ export const changeUserStatusAction = async (
     }
 
 }
-
 
 export const TrainerApplicationAdminDetailAction = async (applicationId: number) => {
     try {

@@ -54,7 +54,8 @@ interface OrganizationApplicationsDetail {
     instagramUrl: string,
     blogUrl: string,
     facilityPhone: string,
-    businessLicenseFileUrl: string
+    businessLicenseFileUrl: string;
+    businessLicenseOriginalName: string;
 }
 
 interface TrainerApplications {
@@ -98,6 +99,36 @@ interface Organizations {
     status: 'ETERNAL' | 'ACTIVE' | 'DAY_7' | 'WITHDRAWN';
     createdAt: string;
 
+}
+
+interface OrganizationDetail {
+    organizationId: number;
+    requestedLoginId: string;
+    businessLicenseFileUrl: string;
+    businessLicenseOriginalName: string;
+    businessRegistrationNumber: string;
+    businessName: string;
+    representativeName: string;
+    representativePhone: string;
+    openingDate: string;
+    roadAddress: string;
+    detailAddress: string;
+    latitude: number;
+    longitude: number;
+    facilityPhone: string;
+    instagramUrl: string;
+    blogUrl: string;
+    websiteUrl: string;
+    status: 'ETERNAL' | 'ACTIVE' | 'DAY_7' | 'WITHDRAWN';
+    approvedAt: string;
+    trainerCount: number;
+    trainers: OrganizationTrainers[]
+}
+
+interface OrganizationTrainers {
+    trainerName: string;
+    email: string;
+    registeredAt: string;
 }
 
 interface Users {
