@@ -1,6 +1,11 @@
 import { MypageMyActivity } from "@/components/ui/image";
+import { OrganizationManageData } from "../type";
 
-export default function OrganizationManageDefaultInformation() {
+interface OrganizationManageDataProps {
+    data : OrganizationManageData
+}
+
+export default function OrganizationManageDefaultInformation( { data }: OrganizationManageDataProps) {
     return (
             <div className="
             flex flex-col gap-6
@@ -16,41 +21,41 @@ export default function OrganizationManageDefaultInformation() {
                 <div className="flex gap-6">
                     <div className="flex flex-col flex-1 gap-2">
                         <p className="text-[14px] font-medium text-[#99A1AF]"> 아이디 </p>
-                        <div className="bg-[#1E293980] border border-[#364153] rounded-[10px] px-4 py-3 text-[16px] text-white font-normal"> fitgym001 </div>
+                        <div className="bg-[#1E293980] border border-[#364153] rounded-[10px] px-4 py-3 text-[16px] text-white font-normal"> {data.requestedLoginId} </div>
                     </div>
 
                     <div className="flex flex-col flex-1 gap-2">
                         <p className="text-[14px] font-medium text-[#99A1AF]"> 사업자 등록번호 </p>
-                        <div className="bg-[#1E293980] border border-[#364153] rounded-[10px] px-4 py-3 text-[16px] text-white font-normal"> 123-45-67890 </div>
+                        <div className="bg-[#1E293980] border border-[#364153] rounded-[10px] px-4 py-3 text-[16px] text-white font-normal"> {data.businessRegistrationNumber} </div>
                     </div>                    
                 </div>
                 <div className="flex gap-6">
                     <div className="flex flex-col flex-1 gap-2">
                         <p className="text-[14px] font-medium text-[#99A1AF]"> 상호 </p>
-                        <div className="bg-[#1E293980] border border-[#364153] rounded-[10px] px-4 py-3 text-[16px] text-white font-normal"> 피트니스짐 </div>
+                        <div className="bg-[#1E293980] border border-[#364153] rounded-[10px] px-4 py-3 text-[16px] text-white font-normal"> {data.businessName} </div>
                     </div>
 
                     <div className="flex flex-col flex-1 gap-2">
                         <p className="text-[14px] font-medium text-[#99A1AF]"> 대표자 이름 </p>
-                        <div className="bg-[#1E293980] border border-[#364153] rounded-[10px] px-4 py-3 text-[16px] text-white font-normal"> 김대표 </div>
+                        <div className="bg-[#1E293980] border border-[#364153] rounded-[10px] px-4 py-3 text-[16px] text-white font-normal"> {data.representativeName} </div>
                     </div>
                 </div>
 
                 <div className="flex gap-6">
                     <div className="flex flex-col flex-1 gap-2">
                         <p className="text-[14px] font-medium text-[#99A1AF]"> 대표자 전화번호 </p>
-                        <div className="bg-[#1E293980] border border-[#364153] rounded-[10px] px-4 py-3 text-[16px] text-white font-normal"> 010-1234-5678 </div>
+                        <div className="bg-[#1E293980] border border-[#364153] rounded-[10px] px-4 py-3 text-[16px] text-white font-normal"> {data.representativePhone} </div>
                     </div>
 
                     <div className="flex flex-col flex-1 gap-2">
                         <p className="text-[14px] font-medium text-[#99A1AF]"> 개업일자</p>
-                        <div className="bg-[#1E293980] border border-[#364153] rounded-[10px] px-4 py-3 text-[16px] text-white font-normal"> 2021-01-15</div>
+                        <div className="bg-[#1E293980] border border-[#364153] rounded-[10px] px-4 py-3 text-[16px] text-white font-normal"> {data.openingDate} </div>
                     </div>
                 </div>
 
                 <div className="flex flex-col gap-3">
                     <p className="text-[14px] font-medium text-[#99A1AF]"> 사업장 주소 </p>
-                    <div className="bg-[#1E293980] border border-[#364153] rounded-[10px] px-4 py-3 text-[16px] text-white font-normal"> 서울시 강남구 테헤란로 123</div>
+                    <div className="bg-[#1E293980] border border-[#364153] rounded-[10px] px-4 py-3 text-[16px] text-white font-normal"> {data.roadAddress} </div>
                 </div>
 
                 <div className="flex flex-col gap-3">
@@ -59,7 +64,7 @@ export default function OrganizationManageDefaultInformation() {
                         <div className="flex gap-4">
                             <img src={MypageMyActivity} width={32} height={32} alt="조직 계정 신청 사업자 등록증 "/>
                             <div className="flex flex-col">
-                                <p className="text-[16px] font-extrabold text-white"> 사업자등록증.pdf</p>
+                                <p className="text-[16px] font-extrabold text-white"> {data.businessLicenseFileUrl}</p>
                                 <p className="text-[14px] font-normal text-[#99A1AF]"> 파일 크기 1.2MB</p>
                             </div>
                         </div>

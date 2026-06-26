@@ -96,7 +96,7 @@ export interface OrganizationManageResponse {
   status: number;
   code: string;
   message: string;
-  data: OrganizationApplicationListData[];
+  data: OrganizationManageData;
 }
 
 // 내 조직 정보 조회 데이터 응답 타입
@@ -112,7 +112,7 @@ export interface OrganizationManageData {
     detailAddress: string;
     latitude: number;
     longitude: number;
-    businessLicenseFileUr: string;
+    businessLicenseFileUrl: string;
     facilityPhone: string;
     instagramUrl: string;
     blogUrl: string;
