@@ -30,7 +30,17 @@ export interface OrganizationApplicationResponse {
   status: number;
   code: string;
   message: string;
-  data: OrganizationApplicationRequest[];
+  data: OrganizationApplicationListData[];
+}
+
+export interface OrganizationApplicationListData {
+  organizationApplicationId: number;
+  businessName: string;
+  requestedLoginId: string;
+  status: "PENDING" | "ACCEPTED" | "REJECTED" | "CANCELLED";
+  businessRegistrationNumber: string;
+  representativeName: string;
+  createdAt: string;
 }
 
 // 조직 신청 응답 타입
