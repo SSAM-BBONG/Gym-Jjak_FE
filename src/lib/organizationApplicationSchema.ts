@@ -53,7 +53,7 @@ export const organizationApplicationSchema = z.object({
     .string()
     .trim()
     .min(1, "조직 아이디를 입력해주세요.")
-    .regex(/^[a-zA-Z0-9_-]+$/, "영문, 숫자, _, - 만 사용할 수 있습니다."),
+    .regex(/^[a-zA-Z0-9_@-_.]+$/, "영문, 숫자, _, -, @ 만 사용할 수 있습니다."),
 
   // 사업자등록즘 검증
     businessLicenseFile: requiredBusinessLicenseFile,

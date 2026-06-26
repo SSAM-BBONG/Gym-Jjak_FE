@@ -6,8 +6,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <>
             <div className="flex flex-col px-20 pt-10 gap-8">
                 <div className="flex flex-col gap-2">
-                    <p className="text-[36px] font-black text-white"> 조직 계정 신청 </p>
-                    <p className="text-[14px] font-normal text-[#99A1AF]"> 운동시설 정보를 입력하여 조직 계정을 신청하세요 </p>
+                    <p className="text-[36px] font-black text-white"> 내 조직 관리 </p>
+                    <p className="text-[14px] font-normal text-[#99A1AF]"> 운동시설 정보 및 트레이너를 관리하세요 </p>
                 </div>
 
                 <div className="flex gap-5">
