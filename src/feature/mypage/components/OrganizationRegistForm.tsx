@@ -89,8 +89,8 @@ export default function OrganizationRegistForm({mode = "create", application}: O
         <form onSubmit={isReadOnly ? undefined : handleSubmit(onSubmit)}>
         <div className="flex flex-col px-60 pt-10 gap-8">
             <div className="flex flex-col gap-2">
-                <p className="text-[36px] font-black text-white"> 조직 계정 신청 </p>
-                <p className="text-[14px] font-normal text-[#99A1AF]"> 운동시설 정보를 입력하여 조직 계정을 신청하세요 </p>
+                <p className="text-[36px] font-black text-white"> {isReadOnly ? "조직 신청 조회" : "조직 계정 신청"} </p>
+                <p className="text-[14px] font-normal text-[#99A1AF]"> {isReadOnly ? "입력한 조직 신청 정보를 확인하세요" : "운동시설 정보를 입력하여 조직 계정을 신청하세요"} </p>
             </div>
             <div className="
             border border-[#2B7FFF4D] rounded-[16px]

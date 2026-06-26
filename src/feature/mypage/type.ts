@@ -62,6 +62,7 @@ export interface OrganizationApplicationDetail {
   blogUrl: string;
   facilityPhone: string;
   businessLicenseFileUrl: string;
+  businessLicenseOriginalName: string;
 }
 
 // 조직 상세조회 응답 타입

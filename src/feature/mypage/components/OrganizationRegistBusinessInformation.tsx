@@ -39,15 +39,6 @@ export default function OrganizationRegistBusinessInformation( {register, setVal
                                 className="px-4 py-3 bg-[#1E2939] border border-[#364153] rounded-[10px] text-[16px] font-normal text-[#FFFFFF80] outline-none"
                                 type="text"
                             />
-                            {application?.detailAddress && (
-                                <input
-                                    value={application.detailAddress}
-                                    readOnly
-                                    disabled
-                                    className="px-4 py-3 bg-[#1E2939] border border-[#364153] rounded-[10px] text-[16px] font-normal text-[#FFFFFF80] outline-none"
-                                    type="text"
-                                />
-                            )}
                         </>
                     ) : (
                         <OrganizationRegistMap setValue={setValue}/>
