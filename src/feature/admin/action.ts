@@ -1,6 +1,6 @@
 ﻿'use server'
 
-import { approvalTrainerApplication, createCategories, deleteCategories, getOrganizationDetailAdmin, getTrainerApplicationsById, patchUserStatus, rejectTrainerApplication, updateCategories } from "@/service/admin.service";
+import { approvalTrainerApplication, createCategories, deleteCategories, getOrganizationDetailAdmin, getTrainerApplicationsById, getTrainerDetail, patchUserStatus, rejectTrainerApplication, updateCategories } from "@/service/admin.service";
 import { approvalOrganization, approvalReport, getOrganizationApplicationDetailAdmin, getReportPtbyId, rejectOrganization, rejectReport } from "@/service/report.service"
 import { redirect } from "next/navigation";
 
