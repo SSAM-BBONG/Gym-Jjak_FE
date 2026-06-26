@@ -118,6 +118,14 @@ interface Blacklists {
     reason: string;
 }
 
+interface Trainers {
+    trainerId: number;
+    userId: number;
+    username: string;
+    name: string;
+    nickname: string;
+    status: 'ETERNAL' | 'ACTIVE' | 'DAY_7' | 'WITHDRAWN';
+}
 
 interface UserStatusRequest {
     status: 'ETERNAL' | 'ACTIVE' | 'DAY_7';
@@ -139,4 +147,27 @@ interface TrainerApplication {
     certificateOriginalName: string;
     awardHistories: string[];
     status: 'PENDING' | 'APPROVED' | 'REJECTED' | 'CANCELED';
+}
+
+interface Certifications {
+    trainerCertificationId: number;
+    name: string;
+    certificationType: string;
+}
+
+interface Awards {
+    trainerAwardId: number;
+    name: string;
+}
+
+interface Trainer {
+    trainerProfileId: number;
+    profileImageUrl: string;
+    trainerName: string;
+    introduction: string;
+    averageRating: number;
+    reviewCount: number;
+    status: 'ETERNAL' | 'ACTIVE' | 'DAY_7' | 'WITHDRAWN';
+    certifications: Certifications[];
+    awards: Awards[];
 }

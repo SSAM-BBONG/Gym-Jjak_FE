@@ -184,6 +184,34 @@ export const getBlacklist = async (page: string = '0', keyword: string) => {
     return response.json();
 }
 
+export const getTrainer = async (page: string = '0', keyword: string) => {
+    const response = await fetchWithAuth(`/api/users/trainer?page=${page}${keyword ? `&keyword=${keyword}` : ''}`);
+
+    if (!response.ok) {
+        const message = await getErrorMessage(
+            response,
+            '트레이너 목록 조회에 실패했습니다.'
+        );
+
+        throw new Error(message);
+    }
+    return response.json();
+}
+
+export const getTrainerDetail = async (trainerProfileId: number) => {
+    const response = await fetchWithAuth(`/api/trainers/${trainerProfileId}`);
+
+    if (!response.ok) {
+        const message = await getErrorMessage(
+            response,
+            '트레이너 목록 조회에 실패했습니다.'
+        );
+
+        throw new Error(message);
+    }
+    return response.json();
+}
+
 export const patchUserStatus = async (userId: number, reason: UserStatusRequest) => {
     const response = await fetchWithAuth(`/api/users/${userId}/status`, {
         method: 'PATCH',
