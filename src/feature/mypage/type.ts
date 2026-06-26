@@ -33,6 +33,7 @@ export interface OrganizationApplicationResponse {
   data: OrganizationApplicationListData[];
 }
 
+// 조직 신청 목록 조회 데이터 응답 타입
 export interface OrganizationApplicationListData {
   organizationApplicationId: number;
   businessName: string;
@@ -88,4 +89,32 @@ export interface MypageActionState {
   success: boolean;
   message?: string;
   errors?: Record<string, string>;
+}
+
+// 내 조직 정보 조회 응답 타입
+export interface OrganizationManageResponse {
+  status: number;
+  code: string;
+  message: string;
+  data: OrganizationApplicationListData[];
+}
+
+// 내 조직 정보 조회 데이터 응답 타입
+export interface OrganizationManageData {
+    requestedLoginId: string;
+    businessRegistrationNumber: string;
+    businessName: string;
+    representativeName: string;
+    representativePhone: string;
+    openingDate: string;
+    roadAddress: string;
+    jibunAddress: string;
+    detailAddress: string;
+    latitude: number;
+    longitude: number;
+    businessLicenseFileUr: string;
+    facilityPhone: string;
+    instagramUrl: string;
+    blogUrl: string;
+    websiteUrl: string;
 }
