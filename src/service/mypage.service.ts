@@ -3,6 +3,7 @@ import {
   OrganizationApplicationDetailResponse,
   OrganizationApplicationRequest,
   OrganizationApplicationResponse,
+  OrganizationManageResponse,
 } from "@/feature/mypage/type";
 import { fetchWithAuth } from "@/lib/feth";
 import { getErrorMessage } from "@/lib/stateError";
@@ -92,6 +93,22 @@ export const organizationApplicationCancel = async (applicationId: number) => {
     const message = await getErrorMessage(
       response,
       '조직 계정 신청 취소에 실패하였습니다.'
+    );
+
+    throw new Error(message);
+  }
+
+  return response.json();
+}
+
+// 내 조직 정보 조회 API
+export const getOrganizationManageInformation = async (): Promise<OrganizationManageResponse> => {
+  const response = await fetchWithAuth(`/api/organizations/me`);
+
+  if (!response.ok) {
+    const message = await getErrorMessage(
+      response,
+      '내 조직 정보 조회에 실패하였습니다.'
     );
 
     throw new Error(message);
