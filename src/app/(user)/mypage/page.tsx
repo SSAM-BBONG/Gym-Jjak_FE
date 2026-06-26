@@ -346,7 +346,7 @@ export default async function MyPage() {
                 </p>
 
                 <div className="grid grid-cols-2 gap-3">
-                  <Link href="/mypage/organization/application">
+                  <Link href="/mypage/organization">
                     <div className="flex flex-col bg-[#1E2939] rounded-[14px] p-4">
                       <div className="flex justify-between mb-3">
                         <img
@@ -368,7 +368,7 @@ export default async function MyPage() {
                       </p>
                     </div>
                   </Link>
-                  <Link href="/mypage/organization">
+                  <Link href="/mypage/organization/application">
                     <div className="flex flex-col bg-[#BFFF0B] rounded-[14px] p-4">
                       <div className="flex justify-between mb-3">
                         <img
