@@ -1,7 +1,8 @@
-import { Complete, OrganApplicationDate, OrganBusinessInf, OrganUnderReview } from "@/components/ui/image";
+import { Complete, OrganApplicationDanger, OrganApplicationDate, OrganBusinessInf, OrganizationApplicationReject, OrganUnderReview, PtRecordComplete } from "@/components/ui/image";
 import { getOrganizationApplications } from "@/service/mypage.service";
 import Link from "next/link";
 import { OrganizationApplicationListData } from "../type";
+import { StaticImageData } from "next/image";
 
 type ApplicationStatus = "PENDING" | "ACCEPTED" | "REJECTED" | "CANCELLED";
 
@@ -9,21 +10,36 @@ interface OrganizationApplicationCardProps {
   data: OrganizationApplicationListData[];
 }
 
-// 상태값 상수화
-const STATUS: Record<ApplicationStatus, string> = {
-  PENDING: "대기중",
-  ACCEPTED: "승인됨",
-  REJECTED: "거절됨",
-  CANCELLED: "취소됨",
+//  목록 조회시 상태에 따른 값 타입
+interface ListStatus {
+  text: string;
+  className: string;
+  image: string;
+}
+
+const STATUS_VALUE: Record<ApplicationStatus, ListStatus> = {
+  PENDING: {
+    text: "대기중",
+    className: "bg-[#F0B1001A] text-[#F0B100]",
+    image: OrganUnderReview,
+  },
+  ACCEPTED: {
+    text: "승인됨",
+    className: "bg-[#BFFF0B33] text-[#BFFF0B]",
+    image: PtRecordComplete,
+  },
+  REJECTED: {
+    text: "거절됨",
+    className: "bg-[#82181AB2] text-[#FF6467]",
+    image: OrganizationApplicationReject,
+  },
+  CANCELLED: {
+    text: "취소됨",
+    className: "bg-[#2B7FFF33] text-[#51A2FF]",
+    image: OrganApplicationDanger,
+  },
 };
 
-// 상태값에 따른 CSS
-const STATUS_CLASS: Record<ApplicationStatus, string> = {
-  PENDING: "bg-[#F0B1001A] text-[#F0B100]",
-  ACCEPTED: "bg-[#BFFF0B33] text-[#BFFF0B]",
-  REJECTED: "bg-[#82181AB2] text-[#FF6467]",
-  CANCELLED: "bg-[#364153] text-white",
-};
 
 export default async function OrganizationApplicationCard( {data}: OrganizationApplicationCardProps) {
 
@@ -47,9 +63,9 @@ export default async function OrganizationApplicationCard( {data}: OrganizationA
                     <div className="flex gap-3">
                         <p className="text-[20px] font-extrabold text-white"> {item.businessName}</p>
 
-                        <p className={`flex gap-2 px-4 py-1 items-center rounded-full text-[12px] font-extrabold ${STATUS_CLASS[item.status]}`}> 
-                            <img src={OrganUnderReview} alt="조직 승인 내역 검토중"/>
-                            {STATUS[item.status]}
+                        <p className={`flex gap-2 px-4 py-1 items-center rounded-full text-[12px] font-extrabold ${STATUS_VALUE[item.status].className}`}> 
+                            <img src={STATUS_VALUE[item.status].image} alt="조직 승인 내역 검토중"/>
+                            {STATUS_VALUE[item.status].text}
                         </p>
 
                     </div>
