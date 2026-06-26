@@ -17,12 +17,13 @@ interface OrganizationRegistFormProps {
 export default function OrganizationRegistLink({ register, errors, application, isReadOnly }: OrganizationRegistFormProps) {
     
     return (
-        <div className="
+        <div className={`
             flex flex-col gap-6
             bg-[linear-gradient(135deg,rgba(16,24,40,0.90)0%,rgba(30,41,57,0.90)100%)]
             p-8
             rounded-[16px]
-            ">
+            ${isReadOnly && "mb-8"}
+            `}>
                 <p className="text-[20px] text-white font-extrabold"> 웹사이트 & SNS </p>
                 <p className="text-[14px] text-[#99A1AF] font-normal "> 운영 중인 웹사이트나 SNS가 있다면 입력해주세요 (선택) </p>
                 <div className="flex flex-col gap-6">
