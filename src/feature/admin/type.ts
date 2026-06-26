@@ -119,7 +119,7 @@ interface Blacklists {
 }
 
 interface Trainers {
-    trainerId: number;
+    trainerProfileId: number;
     userId: number;
     username: string;
     name: string;

@@ -4,7 +4,7 @@ import { CloseButton } from "@/components/ui/image";
 import ActiveStatus from "../ActiveStatus";
 import { useEffect, useState } from "react";
 import InfoCard from "../InfoCard";
-import { TrainerApplicationAdminDetailAction } from "../../action";
+import { TrainerAdminDetailAction, TrainerApplicationAdminDetailAction } from "../../action";
 import TrainerApplicationStatus from "./TrainerApplicationStatus";
 
 interface TrainerDetailModal {
@@ -57,7 +57,7 @@ export default function TrainerDetailModal({ isModal, closeModal, activeModal, n
         }
 
         async function getTrainerInfo() {
-            const response = await TrainerApplicationAdminDetailAction(trainerId);
+            const response = await TrainerAdminDetailAction(trainerId);
             setTrainerInfo(response);
         }
 

@@ -12,7 +12,6 @@ export default async function Page({ searchParams }: paramsProps) {
     const { page, keyword } = await searchParams;
     const response = await getTrainer(page, keyword);
     const trainers: Trainers[] = response.data.content;
-    console.log(trainers);
 
     const totalPage: number = response.data.totalPages
 

@@ -1,6 +1,6 @@
 ﻿'use server'
 
-import { approvalTrainerApplication, createCategories, deleteCategories, getTrainerApplicationsById, patchUserStatus, rejectTrainerApplication, updateCategories } from "@/service/admin.service";
+import { approvalTrainerApplication, createCategories, deleteCategories, getTrainerApplicationsById, getTrainerDetail, patchUserStatus, rejectTrainerApplication, updateCategories } from "@/service/admin.service";
 import { approvalOrganization, approvalReport, getOrganizationbyIApplicationAdmin, getReportPtbyId, rejectOrganization, rejectReport } from "@/service/report.service"
 import { redirect } from "next/navigation";
 
@@ -279,5 +279,20 @@ export const rejectTrainerApplicationAction = async (applicationId: number, prev
             success: false,
             message: errorMessage
         }
+    }
+}
+
+
+export const TrainerAdminDetailAction = async (trainerId: number) => {
+    try {
+        const response = await getTrainerDetail(trainerId);
+        return response.data;
+    } catch (error) {
+        let errorMessage: string = '알 수 없는 오류입니다. 재시도해주세요.'
+        if (error instanceof Error) {
+            errorMessage = error.message;
+        }
+
+        throw new Error(errorMessage)
     }
 }

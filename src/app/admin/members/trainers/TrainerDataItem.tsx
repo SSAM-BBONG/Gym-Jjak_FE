@@ -13,7 +13,7 @@ export default function TrainerDataItem({ trainer }: { trainer: Trainers }) {
             <p className="col-span-2">{trainer.nickname}</p>
             <div className="col-span-2"><ActiveStatus text={trainer.status} nickname={trainer.nickname} /></div>
             <div className="col-span-2"><StatusButton userId={trainer.userId} nickname={trainer.nickname} status={trainer.status} /></div>
-            <div className="col-span-2"><TrainerDetailButton mode='trainerView' trainerId={trainer.trainerId} /></div>
+            <div className="col-span-2"><TrainerDetailButton mode='trainerView' trainerId={trainer.trainerProfileId} /></div>
         </div>
     );
 }

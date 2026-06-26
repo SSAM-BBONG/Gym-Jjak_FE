@@ -204,7 +204,7 @@ export const getTrainerDetail = async (trainerProfileId: number) => {
     if (!response.ok) {
         const message = await getErrorMessage(
             response,
-            '트레이너 목록 조회에 실패했습니다.'
+            '트레이너 상세 조회에 실패했습니다.'
         );
 
         throw new Error(message);

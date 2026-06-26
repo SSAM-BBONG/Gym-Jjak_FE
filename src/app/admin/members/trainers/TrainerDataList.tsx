@@ -25,7 +25,7 @@ export default function TrainerDataList({ trainers, totalPage, page }: TrainerDa
                     <p className="col-span-2">상세</p>
                 </div>
                 {trainers?.map((trainer) => (
-                    <TrainerDataItem trainer={trainer} key={trainer.trainerId} />
+                    <TrainerDataItem trainer={trainer} key={trainer.trainerProfileId} />
                 ))}
 
                 {trainers?.length === 0 && (
