@@ -80,7 +80,7 @@ export default function TrainerDetailModal({ isModal, closeModal, activeModal, n
                         <img src={CloseButton} onClick={closeModal} />
                     </div>
                     <div className="flex items-center my-4 gap-6">
-                        {trainerInfo.profileImageUrl && (<img className="w-30 h-30" src={trainerApplicationInfo.profileImageUrl || trainerInfo.profileImageUrl} />)}
+                        <img className="w-30 h-30" src={trainerApplicationInfo.profileImageUrl || trainerInfo.profileImageUrl} />
                         <div>
                             <h3 className="font-bold text-xl text-[#E8EAF0] py-2">{trainerApplicationInfo.name || trainerInfo.trainerName}</h3>
                             <p className="font-normal text-base text-[#E8EAF0]">{trainerApplicationInfo.nickname}</p>
