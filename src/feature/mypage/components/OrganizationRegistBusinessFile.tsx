@@ -117,7 +117,7 @@ export default function OrganizationRegistBusinessFile({ setValue, resetField, a
                 <div className="flex gap-3 justify-between items-center">
                     <div className="flex flex-1 gap-2 px-3 py-2 border border-[#364153] bg-[#1E293980] items-center rounded-[10px]"> 
                         <img src={TrainerEssentialQulificationIcon} alt="자격증 업로드시 나오는 아이콘"/>
-                        <p className="text-[#99A1AF] text-[12px] font-medium"> {businessFilePreview} </p>     
+                        <p className="text-[#99A1AF] text-[12px] font-medium"> {businessFileName} </p>     
                     </div>
                     <a
                         href={businessFilePreview}
