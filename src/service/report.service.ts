@@ -83,7 +83,7 @@ export const getOrganizationApplicationAdmin = async (page: string = '0', keywor
     return response.json();
 }
 
-export const getOrganizationbyIApplicationAdmin = cache(async (applicationId: number) => {
+export const getOrganizationApplicationDetailAdmin = cache(async (applicationId: number) => {
     const response = await fetchWithAuth(`/api/organization-applications/${applicationId}`);
 
     if (!response.ok) {

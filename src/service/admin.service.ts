@@ -88,7 +88,19 @@ export const getOrganization = async (page: string = '0') => {
 }
 
 //조직 상세 조회
+export const getOrganizationDetailAdmin = async (organizationId: number) => {
+    const response = await fetchWithAuth(`/api/organizations/${organizationId}`);
 
+    if (!response.ok) {
+        const message = await getErrorMessage(
+            response,
+            '기관 상세 조회에 실패했습니다.'
+        );
+
+        throw new Error(message);
+    }
+    return response.json();
+}
 
 //트레이너 신청 목록 조회
 export const getTrainerApplications = async (page: string = '0', status: string | null, keyword: string | null) => {
