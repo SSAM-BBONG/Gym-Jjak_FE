@@ -80,3 +80,22 @@ export const organizationApplicationDupliCationId = async (
 
   return response.json();
 }
+
+// 조직 신청 취소 API 
+export const organizationApplicationCancel = async (applicationId: string) => {
+  const response = await fetchWithAuth(`/api/organization-applications/${applicationId}/cancel`,{
+    method: "FETCH",
+    }
+  )
+
+  if (!response.ok) {
+    const message = await getErrorMessage(
+      response,
+      '조직 계정 신청 취소에 실패하였습니다.'
+    );
+
+    throw new Error(message);
+  }
+
+  return response.json();
+}
