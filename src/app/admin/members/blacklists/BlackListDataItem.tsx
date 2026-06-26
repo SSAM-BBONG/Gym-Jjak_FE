@@ -5,7 +5,7 @@ export default function BlackListDataItem({ blacklist }: { blacklist: Blacklists
     return (
         <div
             style={{ display: 'grid' }}
-            className="gridgrid-cols-11 px-6 text-white font-normal text-sm border-t border-[#364153] h-17.5 items-center"
+            className="grid grid-cols-11 px-6 text-white font-normal text-sm border-t border-[#364153] h-17.5 items-center"
         >
             <p className="col-span-3">{blacklist.username}</p>
             <p className="col-span-2">{blacklist.name}</p>
