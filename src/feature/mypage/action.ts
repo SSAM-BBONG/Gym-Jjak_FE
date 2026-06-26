@@ -1,7 +1,6 @@
 "use server";
 
-import axios from "axios";
-import { createOrganizationApplication, organizationApplicationDupliCationId } from "@/service/mypage.service";
+import { createOrganizationApplication, organizationApplicationCancel, organizationApplicationDupliCationId } from "@/service/mypage.service";
 import { uploadFilesPresignedUrl } from "@/service/file.service";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
@@ -76,3 +75,24 @@ export const organizationIdDuplicationCheckAction = async (loginId: string) => {
           message: '중복 확인을 완료헀습니다.'
       }
 } 
+
+export const organizationApplicationCancelAction = async (applicationId:string) => {
+  try {
+    await organizationApplicationCancel(applicationId);
+      } catch (error) {
+          let errorMessage: string = '알 수 없는 오류입니다. 재시도해주세요.'
+          if (error instanceof Error) {
+              errorMessage = error.message;
+          }
+  
+          return {
+              success: false,
+              message: errorMessage
+          }
+      }
+  
+      return {
+          success: true,
+          message: '중복 확인을 완료헀습니다.'
+      }
+}
