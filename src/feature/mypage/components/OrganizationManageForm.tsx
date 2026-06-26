@@ -1,6 +1,12 @@
 import { MypageMyActivity, OrganAddInf, OrganAddInfBlog, OrganAddInfInsta, OrganAddInfWebsite, OrganizationManageEditButton } from "@/components/ui/image";
+import { OrganizationManageData } from "../type";
 
-export default function OrganizationManageForm() {
+interface OrganizationManageDataProps {
+    data : OrganizationManageData
+}
+
+
+export default function OrganizationManageForm( { data }: OrganizationManageDataProps) {
     return (
             <div className="
             flex flex-col gap-6
@@ -25,7 +31,7 @@ export default function OrganizationManageForm() {
 
                 <div className="flex flex-col gap-2">
                     <p className="text-[14px] font-medium text-[#99A1AF]"> 운동 시설 전화번호</p>
-                    <div className="bg-[#1E293980] border border-[#364153] rounded-[10px] px-4 py-3 text-[16px] text-white font-normal"> 02-1234-5678 </div>
+                    <div className="bg-[#1E293980] border border-[#364153] rounded-[10px] px-4 py-3 text-[16px] text-white font-normal"> {data.facilityPhone} </div>
                 </div>
 
                 <div className="flex flex-col gap-4 ">
@@ -38,7 +44,8 @@ export default function OrganizationManageForm() {
                         <input 
                             type="text"
                             className="bg-[#1E293980] border border-[#364153] rounded-[10px] px-4 py-3 text-[16px] text-[#BFFF0B] font-normal "
-                            value="https://instagram.com/fitgym"/> 
+                            defaultValue={data.instagramUrl}
+                        />
                     </div>
                     <div className="flex flex-col gap-2">
                         <div className="flex items-center gap-2"> 
@@ -48,7 +55,8 @@ export default function OrganizationManageForm() {
                         <input 
                             type="text"
                             className="bg-[#1E293980] border border-[#364153] rounded-[10px] px-4 py-3 text-[16px] text-[#BFFF0B] font-normal "
-                            value="https://blog.naver.com/fitgym"/> 
+                            defaultValue={data.blogUrl}
+                        />
                     </div>
                     <div className="flex flex-col gap-2">
                         <div className="flex items-center gap-2"> 
@@ -58,7 +66,8 @@ export default function OrganizationManageForm() {
                         <input 
                             type="text"
                             className="bg-[#1E293980] border border-[#364153] rounded-[10px] px-4 py-3 text-[16px] text-[#BFFF0B] font-normal "
-                            value="https://fitgym.com"/> 
+                            defaultValue={data.websiteUrl}
+                        />
                     </div>
                 </div>
             </div>
