@@ -51,7 +51,7 @@ export const createOrganizationApplicationAction = async (
 
   revalidatePath("/mypage/organization");
   revalidatePath("/mypage/organization/application");
-  redirect("/mypage/organization/application");
+  redirect("/mypage/organization");
 }
 
 // 조직 신청 ID 중복확인 액션
@@ -76,9 +76,12 @@ export const organizationIdDuplicationCheckAction = async (loginId: string) => {
       }
 } 
 
-export const organizationApplicationCancelAction = async (applicationId:string) => {
+// 조직 신청 취소 액션
+export const organizationApplicationCancelAction = async (applicationId:number) => {
   try {
     await organizationApplicationCancel(applicationId);
+        revalidatePath("/mypage/organization");
+        revalidatePath("/mypage/organization/application");
       } catch (error) {
           let errorMessage: string = '알 수 없는 오류입니다. 재시도해주세요.'
           if (error instanceof Error) {
@@ -90,7 +93,8 @@ export const organizationApplicationCancelAction = async (applicationId:string) 
               message: errorMessage
           }
       }
-  
+      
+      redirect("/mypage/organization");
       return {
           success: true,
           message: '중복 확인을 완료헀습니다.'

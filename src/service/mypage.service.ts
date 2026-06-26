@@ -82,9 +82,9 @@ export const organizationApplicationDupliCationId = async (
 }
 
 // 조직 신청 취소 API 
-export const organizationApplicationCancel = async (applicationId: string) => {
+export const organizationApplicationCancel = async (applicationId: number) => {
   const response = await fetchWithAuth(`/api/organization-applications/${applicationId}/cancel`,{
-    method: "FETCH",
+    method: "PATCH",
     }
   )
 

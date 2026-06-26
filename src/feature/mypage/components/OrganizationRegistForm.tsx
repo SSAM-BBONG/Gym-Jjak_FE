@@ -1,7 +1,7 @@
 "use client";
 
 import { OrganApplicationDanger } from "@/components/ui/image";
-import { createOrganizationApplicationAction } from "../action";
+import { createOrganizationApplicationAction, organizationApplicationCancelAction } from "../action";
 import { OrganizationApplicationDetail } from "../type";
 import OrganizationRegistLink from "./OrganizationRegistLink";
 import OrganizationRegistBusinessInformation from "./OrganizationRegistBusinessInformation";
@@ -22,6 +22,13 @@ interface OrganizationRegistFormProps {
 
 export default function OrganizationRegistForm({mode = "create", application}: OrganizationRegistFormProps) {
     
+    const handleCancelClick = async () => {
+        const applicationId = application?.organizationApplicationId;
+
+        if (!applicationId) return;
+
+        await organizationApplicationCancelAction(applicationId);
+    };
     // 읽기전용 모드
     const isReadOnly = mode === "read";
 
@@ -88,10 +95,21 @@ export default function OrganizationRegistForm({mode = "create", application}: O
         // 읽기전용에서는 신청되지 않게 설정
         <form onSubmit={isReadOnly ? undefined : handleSubmit(onSubmit)}>
         <div className="flex flex-col px-60 pt-10 gap-8">
-            <div className="flex flex-col gap-2">
-                <p className="text-[36px] font-black text-white"> {isReadOnly ? "조직 신청 조회" : "조직 계정 신청"} </p>
-                <p className="text-[14px] font-normal text-[#99A1AF]"> {isReadOnly ? "입력한 조직 신청 정보를 확인하세요" : "운동시설 정보를 입력하여 조직 계정을 신청하세요"} </p>
-            </div>
+            <div className="flex justify-between items-center">
+                <div className="flex flex-col gap-2">
+                    <p className="text-[36px] font-black text-white"> {isReadOnly ? "조직 신청 조회" : "조직 계정 신청"} </p>
+                    <p className="text-[14px] font-normal text-[#99A1AF]"> {isReadOnly ? "입력한 조직 신청 정보를 확인하세요" : "운동시설 정보를 입력하여 조직 계정을 신청하세요"} </p>
+                </div>
+                {isReadOnly &&
+                <div>
+                    <button
+                        type="button"
+                        className="bg-[#BFFF0B] rounded-[10px] py-2 px-4 text-black font-bold text-[16px] hover:cursor-pointer"
+                        onClick={handleCancelClick}
+                        > 신청 취소 </button>
+                </div>
+                }
+                </div>
             <div className="
             border border-[#2B7FFF4D] rounded-[16px]
             bg-[linear-gradient(135deg,rgba(28,57,142,0.20)0%,rgba(25,60,184,0.10)100%)]
