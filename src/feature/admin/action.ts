@@ -1,12 +1,7 @@
 ﻿'use server'
 
-<<<<<<< Updated upstream
-import { approvalTrainerApplication, createCategories, deleteCategories, getTrainerApplicationsById, getTrainerDetail, patchUserStatus, rejectTrainerApplication, updateCategories } from "@/service/admin.service";
-import { approvalOrganization, approvalReport, getOrganizationbyIApplicationAdmin, getReportPtbyId, rejectOrganization, rejectReport } from "@/service/report.service"
-=======
 import { approvalTrainerApplication, createCategories, deleteCategories, getOrganizationDetailAdmin, getTrainerApplicationsById, patchUserStatus, rejectTrainerApplication, updateCategories } from "@/service/admin.service";
 import { approvalOrganization, approvalReport, getOrganizationApplicationDetailAdmin, getReportPtbyId, rejectOrganization, rejectReport } from "@/service/report.service"
->>>>>>> Stashed changes
 import { redirect } from "next/navigation";
 
 interface ActionState {
@@ -235,7 +230,6 @@ export const changeUserStatusAction = async (
     }
 
 }
-
 
 export const TrainerApplicationAdminDetailAction = async (applicationId: number) => {
     try {
