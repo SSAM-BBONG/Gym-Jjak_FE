@@ -119,9 +119,9 @@ export interface OrganizationManageData {
     websiteUrl: string;
 }
 
-export interface OganizationManageEditRequest {
-  facilityPhone: string;
-  instagramUrl: string;
-  blogUrl: string
-  websiteUrl: string;
+export interface OrganizationManageEditRequest {
+  facilityPhone?: string;
+  instagramUrl?: string;
+  blogUrl?: string;
+  websiteUrl?: string;
 }
