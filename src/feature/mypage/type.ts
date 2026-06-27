@@ -194,3 +194,11 @@ export interface OrganizationManageTrainerListItem {
   trainerName: string;
   registeredAt: string;
 }
+
+// 내 조직 트레이너 삭제 응답 타입 
+export interface OrganizationManageTrainerDeleteResponse {
+  status: number;
+  code: string;
+  message: string;
+  data: null;
+}
