@@ -1,6 +1,6 @@
 "use server";
 
-import { createOrganizationApplication, organizationApplicationCancel, organizationApplicationDupliCationId } from "@/service/mypage.service";
+import { createOrganizationApplication, editOrganizationManageInformation, organizationApplicationCancel, organizationApplicationDupliCationId } from "@/service/mypage.service";
 import { uploadFilesPresignedUrl } from "@/service/file.service";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
@@ -100,3 +100,37 @@ export const organizationApplicationCancelAction = async (applicationId:number) 
           message: '중복 확인을 완료헀습니다.'
       }
 }
+
+// 내 조직 정보 수정 액션
+export const editOrganizationManageInformationAction = async (
+  formData: FormData
+) => {
+  try {
+    const payload = {
+      facilityPhone: String(formData.get("facilityPhone") ?? "").trim() || undefined,
+      instagramUrl: String(formData.get("instagramUrl") ?? "").trim() || undefined,
+      blogUrl: String(formData.get("blogUrl") ?? "").trim() || undefined,
+      websiteUrl: String(formData.get("websiteUrl") ?? "").trim() || undefined,
+    };
+
+    await editOrganizationManageInformation(payload);
+
+    revalidatePath("/mypage/organization/manage");
+
+    return {
+      success: true,
+      message: "조직 정보가 수정되었씁니다.",
+    };
+  } catch (error) {
+    let errorMessage = "알 수 없는 오류입니다. 다시 시도해주세요.";
+
+    if (error instanceof Error) {
+      errorMessage = error.message;
+    }
+
+    return {
+      success: false,
+      message: errorMessage,
+    };
+  }
+};

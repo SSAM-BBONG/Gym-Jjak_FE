@@ -107,6 +107,18 @@ export const organizationApplicationSchema = z.object({
   blogUrl: optionalUrl,
 });
 
+export const organizationManageSchema = z.object({
+  facilityPhone: requiredPhoneNumber,
+  websiteUrl: optionalUrl,
+  instagramUrl: optionalUrl,
+  blogUrl: optionalUrl,
+});
+
+
 export type OrganizationApplicationFormValue = z.infer<
   typeof organizationApplicationSchema
+>;
+
+export type OrganizationManageFormValue = z.infer<
+  typeof organizationManageSchema
 >;

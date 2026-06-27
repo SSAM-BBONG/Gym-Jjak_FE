@@ -1,9 +1,9 @@
 import {
-  OganizationManageEditRequest,
   OrganizationApplicationCreateResponse,
   OrganizationApplicationDetailResponse,
   OrganizationApplicationRequest,
   OrganizationApplicationResponse,
+  OrganizationManageEditRequest,
   OrganizationManageResponse,
 } from "@/feature/mypage/type";
 import { fetchWithAuth } from "@/lib/feth";
@@ -120,7 +120,7 @@ export const getOrganizationManageInformation = async (): Promise<OrganizationMa
 
 // 내 조직 정보 수정 API
 export const editOrganizationManageInformation = async (
-  payload: OganizationManageEditRequest
+  payload: OrganizationManageEditRequest
 ): Promise<OrganizationManageResponse> => {
   const response = await fetchWithAuth(`/api/organizations/me`, {
     method: "PATCH",
