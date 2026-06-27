@@ -65,7 +65,7 @@ export default function TrainerDetailModal({ isModal, closeModal, activeModal, n
     }, [isModal, trainerId])
 
     if (!isModal) return null;
-
+    const profileImageUrl = trainerApplicationInfo.profileImageUrl || trainerInfo.profileImageUrl;
     return (
         <section
             className="z-999 bg-black/50 fixed top-0 left-0 w-screen h-screen"
@@ -80,7 +80,7 @@ export default function TrainerDetailModal({ isModal, closeModal, activeModal, n
                         <img src={CloseButton} onClick={closeModal} />
                     </div>
                     <div className="flex items-center my-4 gap-6">
-                        <img className="w-30 h-30" src={trainerApplicationInfo.profileImageUrl || trainerInfo.profileImageUrl} />
+                        <img className="w-30 h-30" src={profileImageUrl} alt="트레이너 프로필 사진" />
                         <div>
                             <h3 className="font-bold text-xl text-[#E8EAF0] py-2">{trainerApplicationInfo.name || trainerInfo.trainerName}</h3>
                             <p className="font-normal text-base text-[#E8EAF0]">{trainerApplicationInfo.nickname}</p>
