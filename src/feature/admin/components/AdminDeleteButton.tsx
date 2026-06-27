@@ -3,12 +3,16 @@
 import useModal from "@/components/hooks/useModal";
 import { AdminDeleteImg } from "@/components/ui/image";
 import TwoButtonModal from "@/components/ui/TwoButtonModal";
-import { deleteCategoryAction } from "../action";
+import { deleteCategoryAction, deleteTagAction } from "../action";
 
-export default function AdminDeleteButton({ mode, id }: { mode: string, id: number }) {
+export default function AdminDeleteButton({ mode, id }: { mode: '카테고리' | '태그', id: number }) {
 
     const handleDelete = async () => {
-        await deleteCategoryAction(id);
+        if (mode === '카테고리') {
+            await deleteCategoryAction(id);
+        } else {
+            await deleteTagAction(id);
+        }
     }
 
     const modal = useModal(handleDelete);

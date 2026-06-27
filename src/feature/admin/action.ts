@@ -1,6 +1,6 @@
 ﻿'use server'
 
-import { approvalTrainerApplication, createCategories, deleteCategories, getOrganizationDetailAdmin, getTrainerApplicationsById, getTrainerDetail, patchUserStatus, rejectTrainerApplication, updateCategories } from "@/service/admin.service";
+import { approvalTrainerApplication, createCategories, createTags, deleteCategories, deleteTags, getOrganizationDetailAdmin, getTrainerApplicationsById, getTrainerDetail, patchUserStatus, rejectTrainerApplication, updateCategories, updateTags } from "@/service/admin.service";
 import { approvalOrganization, approvalReport, getOrganizationApplicationDetailAdmin, getReportPtbyId, rejectOrganization, rejectReport } from "@/service/report.service"
 import { redirect } from "next/navigation";
 
@@ -187,6 +187,67 @@ export const updateCategoryAction = async (id: number, formData: FormData) => {
     }
 
     redirect('/admin/systems/categories?page=1')
+
+}
+
+
+export const deleteTagAction = async (tagId: number) => {
+    try {
+        await deleteTags(tagId);
+    } catch (error) {
+        let errorMessage: string = '알 수 없는 오류입니다. 재시도해주세요.'
+        if (error instanceof Error) {
+            errorMessage = error.message;
+        }
+
+        throw new Error(errorMessage)
+    }
+
+
+    redirect('/admin/systems/tags?page=1')
+}
+
+
+export const createTagAction = async (formData: FormData) => {
+    const name = formData.get('name') as string;
+    const payload = {
+        name
+    }
+
+    try {
+        await createTags(payload);
+    } catch (error) {
+        let errorMessage: string = '알 수 없는 오류입니다. 재시도해주세요.'
+        if (error instanceof Error) {
+            errorMessage = error.message;
+        }
+
+        throw new Error(errorMessage)
+    }
+
+    redirect('/admin/systems/tags?page=1')
+
+}
+
+
+export const updateTagAction = async (tagId: number, formData: FormData) => {
+    const name = formData.get('name') as string;
+    const payload = {
+        name
+    }
+
+    try {
+        await updateTags(tagId, payload)
+    } catch (error) {
+        let errorMessage: string = '알 수 없는 오류입니다. 재시도해주세요.'
+        if (error instanceof Error) {
+            errorMessage = error.message;
+        }
+
+        throw new Error(errorMessage)
+    }
+
+    redirect('/admin/systems/tags?page=1')
 
 }
 
