@@ -172,3 +172,25 @@ export interface OrganizationManageTrainerSearchReqeust {
   page?: number;
   size?: number;
 }
+
+// 내 조직 트레이너 목록 조회 응답값 타입
+export interface OrganizationManageTrainerListResponse {
+  status: number;
+  code: string;
+  message: string;
+  data: OrganizationManageTrainerListData;
+}
+
+// 내 조직 트레이너 목록 조회 데이터 타입
+export interface OrganizationManageTrainerListData {
+  trainers: OrganizationManageTrainerListItem[];
+}
+
+// 내 조직 트레이너 목록 조회 데이터 트레이너 타입
+export interface OrganizationManageTrainerListItem {
+  organizationTrainerId: number;
+  trainerProfileId: number;
+  username: string;
+  trainerName: string;
+  registeredAt: string;
+}
