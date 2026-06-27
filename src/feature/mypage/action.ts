@@ -1,6 +1,6 @@
 "use server";
 
-import { createOrganizationApplication, editOrganizationManageInformation, organizationApplicationCancel, organizationApplicationDupliCationId } from "@/service/mypage.service";
+import { createOrganizationApplication, editOrganizationManageInformation, getOraganizationsearchTrainers, organizationApplicationCancel, organizationApplicationDupliCationId } from "@/service/mypage.service";
 import { uploadFilesPresignedUrl } from "@/service/file.service";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
@@ -131,6 +131,34 @@ export const editOrganizationManageInformationAction = async (
     return {
       success: false,
       message: errorMessage,
+    };
+  }
+};
+
+// 내 조직 트레이너 검색 액션
+export const organizationTrainerSearchAction = async (keyword: string) => {
+  try {
+    const response = await getOraganizationsearchTrainers({
+      keyword,
+      page: 0,
+      size: 10,
+    });
+
+    return {
+      success: true,
+      data: response.data,
+    };
+  } catch (error) {
+    let errorMessage = "트레이너 검색에 실패했습니다.";
+
+    if (error instanceof Error) {
+      errorMessage = error.message;
+    }
+
+    return {
+      success: false,
+      message: errorMessage,
+      data: null,
     };
   }
 };
