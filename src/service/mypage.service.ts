@@ -7,6 +7,7 @@ import {
   OrganizationManageResponse,
   OrganizationManageTrainerAdd,
   OrganizationManageTrainerAddData,
+  OrganizationManageTrainerDeleteResponse,
   OrganizationManageTrainerSearchReqeust,
   OrgnaizationManageTrainerSearchResponse,
 } from "@/feature/mypage/type";
@@ -201,6 +202,29 @@ export const getOraganizationTrainerLists = async () => {
     const message = await getErrorMessage(
       response,
       '내 조직 정보 조회에 실패하였습니다.'
+    );
+
+    throw new Error(message);
+  }
+
+  return response.json();
+};
+
+// 내 조직 트레이너 목록 조회 API 
+export const deleteOraganizationTrainer = async (
+  organizationTrainerId: number
+): Promise<OrganizationManageTrainerDeleteResponse> => {
+  const response = await fetchWithAuth(
+    `/api/organizations/me/trainers/${organizationTrainerId}/remove`,
+    {
+      method: "PATCH",
+    }
+  );
+
+  if (!response.ok) {
+    const message = await getErrorMessage(
+      response,
+      '트레이너 삭제에 실패하였습니다.'
     );
 
     throw new Error(message);
