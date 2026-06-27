@@ -1,7 +1,17 @@
 import AdminDeleteButton from "@/feature/admin/components/AdminDeleteButton";
 import AdminUpdateButton from "@/feature/admin/components/AdminUpdateButton";
 
-export default function SystemDataItem({ text, data }: { text: string, data: Category | tag }) {
+type SystemDataItemProps =
+    | {
+        text: "카테고리";
+        data: Category;
+    }
+    | {
+        text: "태그";
+        data: Tag;
+    };
+
+export default function SystemDataItem({ text, data }: SystemDataItemProps) {
     const targetId = 'categoryId' in data ? data.categoryId : data.tagId;
     return (
         <div

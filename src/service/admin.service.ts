@@ -1,9 +1,8 @@
-import { axiosFetch } from "@/lib/api";
 import { fetchWithAuth } from "@/lib/feth";
 import { getErrorMessage } from "@/lib/stateError";
-import { cache } from "react";
 
-export const getCategories = cache(async () => {
+//카테고리
+export const getCategories = async () => {
     const response = await fetchWithAuth('/api/categories');
 
     if (!response.ok) {
@@ -16,7 +15,7 @@ export const getCategories = cache(async () => {
     }
 
     return response.json();
-})
+}
 
 
 export const createCategories = async (payload: { name: string }) => {
@@ -64,6 +63,76 @@ export const deleteCategories = async (categoryId: number) => {
         const message = await getErrorMessage(
             response,
             '카테고리 삭제에 실패하였습니다.'
+        );
+
+        throw new Error(message);
+    }
+
+    return response.json();
+}
+
+//태그
+export const getTags = async () => {
+    const response = await fetchWithAuth('/api/tags');
+
+    if (!response.ok) {
+        const message = await getErrorMessage(
+            response,
+            '태그 조회에 실패하였습니다.'
+        );
+
+        throw new Error(message);
+    }
+
+    return response.json();
+}
+
+
+export const createTags = async (payload: { name: string }) => {
+    const response = await fetchWithAuth(`/api/tags`, {
+        method: "POST",
+        body: JSON.stringify(payload)
+    });
+
+    if (!response.ok) {
+        const message = await getErrorMessage(
+            response,
+            '태그 등록에 실패하였습니다.'
+        );
+
+        throw new Error(message);
+    }
+
+    return response.json();
+}
+
+export const updateTags = async (tagId: number, payload: { name: string }) => {
+    const response = await fetchWithAuth(`/api/tags/${tagId}`, {
+        method: "PATCH",
+        body: JSON.stringify(payload)
+    });
+
+    if (!response.ok) {
+        const message = await getErrorMessage(
+            response,
+            '태그 수정에 실패하였습니다.'
+        );
+
+        throw new Error(message);
+    }
+
+    return response.json();
+}
+
+export const deleteTags = async (tagId: number) => {
+    const response = await fetchWithAuth(`/api/tags/${tagId}`, {
+        method: "DELETE"
+    });
+
+    if (!response.ok) {
+        const message = await getErrorMessage(
+            response,
+            '태그 삭제에 실패하였습니다.'
         );
 
         throw new Error(message);
