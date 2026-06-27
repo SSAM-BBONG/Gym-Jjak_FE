@@ -20,7 +20,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                     </div>
                     </Link>
 
-                    <Link href="/mypage/organization/trainer">
+                    <Link href="/mypage/organization/manage/trainer">
                     <div className="flex gap-3 items-center">
                         <img src={OrganManageTrainer} alt="내 조직관리 트레이너"/>
                         <img src={OrganManageTrainerActive} alt="내 조직관리 트레이너"/>

@@ -119,9 +119,56 @@ export interface OrganizationManageData {
     websiteUrl: string;
 }
 
+// 내 조직 정보 수정 요청 타입
 export interface OrganizationManageEditRequest {
   facilityPhone?: string;
   instagramUrl?: string;
   blogUrl?: string;
   websiteUrl?: string;
+}
+
+// 내 조직 트레이너 추가 타입
+export interface OrganizationManageTrainerAdd {
+  status: number;
+  code: string;
+  message: string;
+  data: OrganizationManageTrainerAddData
+}
+
+// 내 조직 트레이너 추가 Request 데이터 타입
+export interface OrganizationManageTrainerAddData {
+  trainerProfileId: number;
+}
+
+// 내 조직 트레이너 검색 데이터 content값 타입
+export interface OrganizationManageTrainerSearchItem {
+  trainerProfileId: number;
+  name: string;
+  username: string;
+  nickname: string;
+}
+
+// 내 조직 트레이너 검색 응답값 데이터 타입
+export interface OrganizationManageTrainerSearchData {
+  content: OrganizationManageTrainerSearchItem[];
+  page: number;
+  size: number;
+  totalElements: number;
+  totalPages: number;
+  hasNext: boolean;
+}
+
+// 내 조직 트레이너 검색 응답값 타입
+export interface OrgnaizationManageTrainerSearchResponse {
+  status: number;
+  code: string;
+  message: string;
+  data: OrganizationManageTrainerSearchData;
+}
+
+// 내 조직 트레이너 검색 요청값
+export interface OrganizationManageTrainerSearchReqeust {
+  keyword?: string | null;
+  page?: number;
+  size?: number;
 }

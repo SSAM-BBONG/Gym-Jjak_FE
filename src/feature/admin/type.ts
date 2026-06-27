@@ -82,7 +82,7 @@ interface Category {
 }
 
 
-interface tag {
+interface Tag {
     tagId: number;
     name: string;
     createdAt: string;

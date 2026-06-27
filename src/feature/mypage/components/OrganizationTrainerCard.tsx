@@ -1,5 +1,4 @@
 'use client'
-// 테스트를 위해 client로 변경했습니다. 기능 구현 진행하면서 컴포넌트로 분리할 예정입니다.-
 import useModal from "@/components/hooks/useModal";
 import OrganizationTrainerAddForm from "./OrganizationTrainerAddForm";
 

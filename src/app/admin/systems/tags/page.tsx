@@ -1,8 +1,10 @@
+import { getTags } from "@/service/admin.service";
 import SystemAddButton from "../SystemAddButton";
 import SystemDataList from "../SystemDataList";
 
-export default function Page() {
-    const tag: tag[] = [];
+export default async function Page() {
+    const response = await getTags();
+    const tag: Tag[] = response.data;
 
     return (
         <section className="p-7.5">

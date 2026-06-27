@@ -5,6 +5,10 @@ import {
   OrganizationApplicationResponse,
   OrganizationManageEditRequest,
   OrganizationManageResponse,
+  OrganizationManageTrainerAdd,
+  OrganizationManageTrainerAddData,
+  OrganizationManageTrainerSearchReqeust,
+  OrgnaizationManageTrainerSearchResponse,
 } from "@/feature/mypage/type";
 import { fetchWithAuth } from "@/lib/feth";
 import { getErrorMessage } from "@/lib/stateError";
@@ -138,3 +142,53 @@ export const editOrganizationManageInformation = async (
 
   return response.json();
 }
+
+// 내 조직 트레이너 추가 API
+export const addOrganizationManageTrainer = async (
+  trainerProfileId: OrganizationManageTrainerAddData
+): Promise<OrganizationManageTrainerAdd> => {
+  const response = await fetchWithAuth(`/api/organizations/me/trainers`, {
+    method: "POST",
+    body: JSON.stringify(trainerProfileId)
+  });
+
+  if (!response.ok) {
+    const message = await getErrorMessage(
+      response,
+      '내 조직 정보 조회에 실패하였습니다.'
+    );
+
+    throw new Error(message);
+  }
+
+  return response.json();
+}
+
+// 내 조직 트레이너 검색 API 
+export const getOraganizationsearchTrainers = async ({
+  keyword,
+  page = 0,
+  size = 10,
+}: OrganizationManageTrainerSearchReqeust = {}): Promise<OrgnaizationManageTrainerSearchResponse> => {
+  const params = new URLSearchParams();
+
+  if (keyword?.trim()) {
+    params.set("keyword", keyword.trim());
+  }
+
+  params.set("page", String(page));
+  params.set("size", String(size));
+
+  const response = await fetchWithAuth(`/api/trainers/search?${params.toString()}`);
+
+  if (!response.ok) {
+    const message = await getErrorMessage(
+      response,
+      "트레이너 검색에 실패했습니다."
+    );
+
+    throw new Error(message);
+  }
+
+  return response.json();
+};
