@@ -1,10 +1,14 @@
 import CalendarCt from "./CalendarCt";
+import CalendarQueryProvider from "./CalendarQueryProvider";
 
-export default function Page() {
+export default async function Page() {
 
     return (
-        <div className="flex mx-30 my-10">
-            <CalendarCt />
-        </div>
+        <CalendarQueryProvider>
+            <div className="flex mx-30 my-10">
+                <CalendarCt />
+            </div>
+        </CalendarQueryProvider>
+
     );
 }

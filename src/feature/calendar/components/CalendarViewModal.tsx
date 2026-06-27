@@ -4,11 +4,11 @@ interface CalendarViewModalProps {
     isModal: boolean;
     closeModal: () => void;
     activeModal: () => void;
-    title: string;
+    data: Diary;
 }
 
 
-export default function CalendarViewModal({ isModal, closeModal, activeModal, title }: CalendarViewModalProps) {
+export default function CalendarViewModal({ isModal, closeModal, activeModal, data }: CalendarViewModalProps) {
     if (!isModal) return null;
 
     return (
@@ -24,12 +24,12 @@ export default function CalendarViewModal({ isModal, closeModal, activeModal, ti
                         <img src={CloseButton} onClick={closeModal} />
                     </div>
                     <div className="flex justify-between items-center my-4">
-                        <h3 className="font-bold text-xl text-[#E8EAF0] py-2">제목</h3>
-                        <div>항목</div>
+                        <h3 className="font-bold text-xl text-[#E8EAF0] py-2">{data?.title}</h3>
+                        <div>{data?.category}</div>
                     </div>
                     <div
                         className="border-[#364153] border w-full h-47 p-6 bg-[#1E2939] rounded-2xl resize-none focus:border-[#BFFF0B] text-white focus:outline-none"
-                    >내용</div>
+                    >{data?.content}</div>
                 </article>
                 <article className='flex gap-3'>
                     <button

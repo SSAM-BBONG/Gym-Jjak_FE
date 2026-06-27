@@ -11,6 +11,7 @@ import {
 import { cn } from "@/lib/utils"
 import { Button, buttonVariants } from "@/components/ui/button"
 import { ChevronLeftIcon, ChevronRightIcon, ChevronDownIcon } from "lucide-react"
+import { CalendarPtImg } from "./image"
 
 function MainCalendar({
   className,
@@ -21,8 +22,10 @@ function MainCalendar({
   locale,
   formatters,
   components,
+  daysData,
   ...props
 }: React.ComponentProps<typeof DayPicker> & {
+  daysData: Days[],
   buttonVariant?: React.ComponentProps<typeof Button>["variant"]
 }) {
   const defaultClassNames = getDefaultClassNames()
@@ -165,7 +168,7 @@ function MainCalendar({
           )
         },
         DayButton: ({ ...props }) => (
-          <CalendarDayButton locale={locale} {...props} />
+          <CalendarDayButton locale={locale} daysData={daysData} {...props} />
         ),
         WeekNumber: ({ children, ...props }) => {
           return (
@@ -188,8 +191,9 @@ function CalendarDayButton({
   day,
   modifiers,
   locale,
+  daysData,
   ...props
-}: React.ComponentProps<typeof DayButton> & { locale?: Partial<Locale> }) {
+}: React.ComponentProps<typeof DayButton> & { daysData: Days[], locale?: Partial<Locale> }) {
   const defaultClassNames = getDefaultClassNames()
   const isCurrentMonthDay = !modifiers.outside;
 
@@ -197,6 +201,15 @@ function CalendarDayButton({
   const dayOfWeek = day.date.getDay();
   const isSunday = dayOfWeek === 0;
   const isSaturday = dayOfWeek === 6;
+  const year = day.date.getFullYear();
+  const month = String(day.date.getMonth() + 1).padStart(2, '0');
+  const date = String(day.date.getDate()).padStart(2, '0');
+
+  const formatDay = `${year}-${month}-${date}`
+
+  const todayData: Days | undefined = daysData?.find((dayData) => {
+    dayData.date === formatDay
+  })
 
   const ref = React.useRef<HTMLButtonElement>(null)
   React.useEffect(() => {
@@ -238,9 +251,9 @@ function CalendarDayButton({
           )}
           {...props}
         />
-        <img ></img>
+        {todayData?.pt && <img alt={'헬스 이미지'} src={CalendarPtImg} className="h-10 w-10" />}
       </div>
-      <div className="bg-[#BFFF0B] w-full p-0.5 text-black mt-auto">복싱</div>
+      {todayData?.diaryTitle && <div className="bg-[#BFFF0B] w-full p-0.5 text-black mt-auto">{todayData?.diaryTitle}</div>}
     </div>
   )
 }
