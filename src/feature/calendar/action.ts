@@ -8,7 +8,7 @@ interface ActionState {
     message?: string;
 }
 
-export const calendarPostAction = async (selectedSettingDate: string, prevState: ActionState, formData: FormData): Promise<ActionState> => {
+export const calendarPostAction = async (selectedSettingDate: string, formData: FormData): Promise<ActionState> => {
     const diaryDate = selectedSettingDate;
     const categoryName = formData.get('category') as string;
     const title = formData.get('title') as string;
@@ -39,5 +39,8 @@ export const calendarPostAction = async (selectedSettingDate: string, prevState:
         }
     }
 
-    redirect('/calendar');
+    return {
+        success: true,
+        message: '등록되었습니다'
+    }
 }

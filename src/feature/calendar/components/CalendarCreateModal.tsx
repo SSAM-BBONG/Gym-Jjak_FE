@@ -1,6 +1,6 @@
 import { CloseButton } from "@/components/ui/image";
 import { getDiaryCategories } from "@/service/calendar.service";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import CalendarCategories from "./CalendarCategories";
 import { calendarPostAction } from "../action";
 import { useActionState, useMemo } from "react";
@@ -15,7 +15,7 @@ interface CalendarCreateModalProps {
 
 export default function CalendarCreateModal({ isModal, closeModal, selectedSettingDate, data, mode = 'create' }: CalendarCreateModalProps) {
 
-    // 리액트 쿼리
+    // 카테고리 조회
     const {
         data: categoryData,
         isLoading: isCategoryLoading,
@@ -26,25 +26,52 @@ export default function CalendarCreateModal({ isModal, closeModal, selectedSetti
         staleTime: Infinity,
     });
 
+    // 일지 등록
+    // 데이터를 변경하는 요청을 관리하는 mutation을 생성
+    const queryClient = useQueryClient();
 
-    // 액션
-    const calendarPostActionWithDate = useMemo(() => {
-        return calendarPostAction.bind(null, selectedSettingDate);
-    }, [selectedSettingDate]);
+    const createMutation = useMutation({
+        // createMutation.mutate(formData)가 호출되면 실행되는 함수 
+        mutationFn: ((formData: FormData) => calendarPostAction(selectedSettingDate, formData)),
+        // 요청이 성공일 때
+        onSuccess: (result) => {
+            // 액션에서 넘어오는 return 값이 result
+            // 리액트 쿼리는 리턴값을 넘겨주면 성공한걸로 생각하기 때문에 따로 if 문으로 false 반환될 시 처리 
+            if (!result.success) {
+                return;
+            }
 
-    const [state, calendarFormAction, ispending] = useActionState(calendarPostActionWithDate, {
-        success: false,
-        message: '',
-    })
+            void queryClient.invalidateQueries({
+                queryKey: ["calendar-month"],
+            });
+            // "calendar-month"로 등록된 캐시 무효화
+
+            void queryClient.invalidateQueries({
+                queryKey: ["calendar-date", selectedSettingDate],
+            });
+            // 지금 날짜 캐시 무효화
+
+            closeModal();
+        },
+    });
+
+    const handleClose = () => {
+        createMutation.reset();
+        closeModal();
+    };
+
 
     if (!isModal) return null;
 
     return (
         <section
             className="z-999 bg-black/50 fixed top-0 left-0 w-screen h-screen"
-            onClick={closeModal} >
+            onClick={handleClose} >
             <form
-                action={calendarFormAction}
+                onSubmit={(event) => {
+                    event.preventDefault();
+                    createMutation.mutate(new FormData(event.currentTarget));
+                }}
                 className="bg-gradient-to-br from-[#101828] to-[#000] w-3xl h-150 rounded-2xl border border-[#1E2939] z-1000 fixed top-1/2 left-1/2 p-6 flex -translate-x-1/2 -translate-y-1/2 flex-col justify-between
                 overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
                 onClick={(e) => e.stopPropagation()}>
@@ -78,12 +105,14 @@ export default function CalendarCreateModal({ isModal, closeModal, selectedSetti
                             })
                         }
                     </div>
-                    {!state.success && <p className="text-red-400 text-sm m-1 mb-5">{state.message}</p>}
+                    {createMutation.data?.success === false && (
+                        <p className="text-red-500 text-md m-2">{createMutation.data.message}</p>
+                    )}
                 </article>
                 <article className='flex gap-3 mt-10'>
                     <button
                         type="button"
-                        onClick={closeModal}
+                        onClick={handleClose}
                         className='w-full flex pt-2 pb-3 justify-center items-center rounded-lg text-white text-center font-semibold text-base bg-[#1E2939]'
                     >
                         취소
