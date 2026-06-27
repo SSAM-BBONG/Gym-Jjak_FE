@@ -16,7 +16,13 @@ export async function GET(request: NextRequest) {
         `/api/calendar/month?year=${year}&month=${month}`
     );
 
-    const data = await response.json();
-
-    return NextResponse.json(data, { status: response.status });
+    try {
+        const data = await response.json();
+        return NextResponse.json(data, { status: response.status });
+    } catch {
+        return NextResponse.json(
+            { message: '캘린더 월별 조회에 실패하였습니다.' },
+            { status: response.status }
+        );
+    }
 }

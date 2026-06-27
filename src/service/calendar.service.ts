@@ -32,7 +32,7 @@ export const getCalendarDate = async (date: string) => {
     return response.json();
 }
 
-export const postCalendar = async (diary: Diary) => {
+export const postCalendar = async (diary: DiaryRequest) => {
     const response = await fetchWithAuth(`/api/calendar/diaries`, {
         method: 'POST',
         body: JSON.stringify(diary)
@@ -81,6 +81,22 @@ export const deleteCalendar = async (diaryId: number) => {
 
         throw new Error(message);
     }
+    return response.json();
+}
+
+
+export const getDiaryCategories = async () => {
+    const response = await fetch('/api/categories');
+
+    if (!response.ok) {
+        const message = await getErrorMessage(
+            response,
+            '카테고리 조회에 실패하였습니다.'
+        );
+
+        throw new Error(message);
+    }
+
     return response.json();
 }
 

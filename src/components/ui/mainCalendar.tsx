@@ -208,7 +208,7 @@ function CalendarDayButton({
   const formatDay = `${year}-${month}-${date}`
 
   const todayData: Days | undefined = daysData?.find((dayData) => {
-    dayData.date === formatDay
+    return dayData.date === formatDay
   })
 
   const ref = React.useRef<HTMLButtonElement>(null)
@@ -253,7 +253,9 @@ function CalendarDayButton({
         />
         {todayData?.pt && <img alt={'헬스 이미지'} src={CalendarPtImg} className="h-10 w-10" />}
       </div>
-      {todayData?.diaryTitle && <div className="bg-[#BFFF0B] w-full p-0.5 text-black mt-auto">{todayData?.diaryTitle}</div>}
+      {todayData?.diaryTitle && <div className="bg-[#BFFF0B] w-full p-0.5 text-black mt-auto">
+        {todayData.diaryTitle.length > 4 ? `${todayData.diaryTitle.slice(0, 4)}...` : `${todayData.diaryTitle}`}
+      </div>}
     </div>
   )
 }
