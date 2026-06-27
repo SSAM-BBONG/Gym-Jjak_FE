@@ -1,6 +1,6 @@
 "use server";
 
-import { addOrganizationManageTrainer, createOrganizationApplication, editOrganizationManageInformation, getOraganizationsearchTrainers, organizationApplicationCancel, organizationApplicationDupliCationId } from "@/service/mypage.service";
+import { addOrganizationManageTrainer, createOrganizationApplication, deleteOraganizationTrainer, editOrganizationManageInformation, getOraganizationsearchTrainers, organizationApplicationCancel, organizationApplicationDupliCationId } from "@/service/mypage.service";
 import { uploadFilesPresignedUrl } from "@/service/file.service";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
@@ -178,6 +178,33 @@ export const addorganizationTrainerAction = async (trainerProfileId: number) => 
     };
   } catch (error) {
     let errorMessage = "트레이너 추가에 실패했습니다.";
+
+    if (error instanceof Error) {
+      errorMessage = error.message;
+    }
+
+    return {
+      success: false,
+      message: errorMessage,
+    };
+  }
+};
+
+// 내 조직 트레니어 삭제 액션
+export const deleteOrganizationTrainerAction = async (
+  organizationTrainerId: number
+) => {
+  try {
+    await deleteOraganizationTrainer(organizationTrainerId);
+
+    revalidatePath("/mypage/organization/manage/trainer");
+
+    return {
+      success: true,
+      message: "트레이너가 삭제되었습니다.",
+    };
+  } catch (error) {
+    let errorMessage = "트레이너 삭제에 실패했습니다.";
 
     if (error instanceof Error) {
       errorMessage = error.message;
