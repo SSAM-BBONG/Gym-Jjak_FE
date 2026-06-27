@@ -118,3 +118,10 @@ export interface OrganizationManageData {
     blogUrl: string;
     websiteUrl: string;
 }
+
+export interface OganizationManageEditRequest {
+  facilityPhone: string;
+  instagramUrl: string;
+  blogUrl: string
+  websiteUrl: string;
+}
