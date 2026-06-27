@@ -1,10 +1,15 @@
-import OrganizationTrainerAddForm from "@/feature/mypage/components/OrganizationTrainerAddForm";
-import OrganTrainerCard from "@/feature/mypage/components/OrganizationTrainerCard";
+import OrganizationTrainerCard from "@/feature/mypage/components/OrganizationTrainerCard";
+import { getOraganizationTrainerLists } from "@/service/mypage.service";
 
-export default function OrganTrainerPage() {
+export default async function OrganTrainerPage() {
+
+    const response = await getOraganizationTrainerLists();
+
     return (
         <div> 
-            <OrganTrainerCard/>
+            <OrganizationTrainerCard
+                data={response.data.trainers}
+            />
         </div>
     );
 }
