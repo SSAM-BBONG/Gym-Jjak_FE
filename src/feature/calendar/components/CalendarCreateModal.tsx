@@ -78,7 +78,7 @@ export default function CalendarCreateModal({ isModal, closeModal, selectedSetti
                 <article>
                     <div className="flex justify-between border-b-[#1E2939] border-b items-center pb-8 pt-2 mb-8">
                         <h3 className="font-bold text-xl text-[#E8EAF0]">{mode === 'create' ? '일지 추가' : '일지 수정'}</h3>
-                        <img src={CloseButton} onClick={closeModal} />
+                        <img src={CloseButton} onClick={handleClose} />
                     </div>
                     <label className="font-bold text-lg text-white ">제목</label>
                     <input
@@ -100,7 +100,7 @@ export default function CalendarCreateModal({ isModal, closeModal, selectedSetti
                             isCategoryLoading && <p>카테고리를 불러오는 중입니다..</p>
                         }
                         {
-                            categoryData?.data.map((category: Category) => {
+                            categoryData?.data?.map((category: Category) => {
                                 return <CalendarCategories category={category} key={category.categoryId} isDefault={data?.category === category.name} />
                             })
                         }
