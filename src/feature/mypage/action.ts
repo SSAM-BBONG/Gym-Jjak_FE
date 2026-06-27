@@ -1,6 +1,6 @@
 "use server";
 
-import { createOrganizationApplication, editOrganizationManageInformation, getOraganizationsearchTrainers, organizationApplicationCancel, organizationApplicationDupliCationId } from "@/service/mypage.service";
+import { addOrganizationManageTrainer, createOrganizationApplication, editOrganizationManageInformation, getOraganizationsearchTrainers, organizationApplicationCancel, organizationApplicationDupliCationId } from "@/service/mypage.service";
 import { uploadFilesPresignedUrl } from "@/service/file.service";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
@@ -158,7 +158,34 @@ export const organizationTrainerSearchAction = async (keyword: string) => {
     return {
       success: false,
       message: errorMessage,
-      data: null,
+    };
+  }
+};
+
+// 내 조직 트레이너 추가 액션
+export const addorganizationTrainerAction = async (trainerProfileId: number) => {
+  try {
+    const response = await addOrganizationManageTrainer({
+      trainerProfileId,
+    });
+
+    revalidatePath("/mypage/organization/manage/trainer");
+
+    return {
+      success: true,
+      data: response.data,
+      message: "트레이너가 추가되었습니다.",
+    };
+  } catch (error) {
+    let errorMessage = "트레이너 추가에 실패했습니다.";
+
+    if (error instanceof Error) {
+      errorMessage = error.message;
+    }
+
+    return {
+      success: false,
+      message: errorMessage,
     };
   }
 };
