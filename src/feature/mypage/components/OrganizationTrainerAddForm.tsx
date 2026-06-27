@@ -3,7 +3,7 @@
 import { CloseButton, OrganizationTrainerDefaultProfile, OrganizationTrainerNotFound, OrganTrainerAdd } from "@/components/ui/image";
 import { useState, useTransition } from "react";
 import { OrganizationManageTrainerSearchItem } from "../type";
-import { organizationTrainerSearchAction } from "../action";
+import { addorganizationTrainerAction, organizationTrainerSearchAction } from "../action";
 
 interface TrainerDetailModal {
     isModal: boolean;
@@ -29,6 +29,12 @@ export default function OrganizationTrainerAddForm({ isModal, closeModal, active
 
             setTrainers(result.data?.content ?? []);
     };
+
+    const handleAddClick = async (trainerProfileId: number) => {
+        const result = await addorganizationTrainerAction(trainerProfileId);
+
+
+    }
 
     return (
        <section
@@ -80,7 +86,10 @@ export default function OrganizationTrainerAddForm({ isModal, closeModal, active
                                     </div>
                                 </div>
                             </div>
-                            <button className="px-5 py-2 text-black text-[16px] font-bold bg-[#BFFF0B] rounded-[10px]"> + 추가</button>
+                            <button 
+                                type="button"
+                                onClick={() => handleAddClick(trainer.trainerProfileId)}
+                                className="px-5 py-2 text-black text-[16px] font-bold bg-[#BFFF0B] rounded-[10px]"> + 추가</button>
                         </div>
                         {!trainers &&
                         <div className="flex gap-3 items-center px-6 py-5 bg-[#182232]">
