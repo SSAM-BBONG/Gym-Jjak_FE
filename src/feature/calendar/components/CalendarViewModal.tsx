@@ -3,12 +3,13 @@ import { CloseButton } from "@/components/ui/image";
 interface CalendarViewModalProps {
     isModal: boolean;
     closeModal: () => void;
+    noneActiveModal: () => void;
     activeModal: () => void;
     data: Diary;
 }
 
 
-export default function CalendarViewModal({ isModal, closeModal, activeModal, data }: CalendarViewModalProps) {
+export default function CalendarViewModal({ isModal, closeModal, noneActiveModal, activeModal, data }: CalendarViewModalProps) {
     if (!isModal) return null;
 
     return (

@@ -208,7 +208,7 @@ function CalendarDayButton({
   const formatDay = `${year}-${month}-${date}`
 
   const todayData: Days | undefined = daysData?.find((dayData) => {
-    dayData.date === formatDay
+    return dayData.date === formatDay
   })
 
   const ref = React.useRef<HTMLButtonElement>(null)

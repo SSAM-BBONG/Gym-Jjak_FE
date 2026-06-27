@@ -3,7 +3,7 @@
 import SearchBar from "@/feature/admin/components/SearchBar";
 import SystemDataItem from "./SystemDataItem";
 
-export default function SystemDataList({ text, datas }: { text: string, datas: category[] | tag[] }) {
+export default function SystemDataList({ text, datas }: { text: string, datas: Category[] | tag[] }) {
     return (
         <div>
             <SearchBar></SearchBar>

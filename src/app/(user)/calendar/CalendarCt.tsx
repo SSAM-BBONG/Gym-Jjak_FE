@@ -16,6 +16,7 @@ export default function CalendarCt() {
     const selectedYear = settingYear(date);
     const selectedMonth = settingMonth(date);
     const selectedDay = settingDay(date);
+    const selectedSettingDate = `${selectedYear}-${selectedMonth.padStart(2, '0')}-${selectedDay.padStart(2, '0')}`
 
     const {
         data: monthData,
@@ -34,8 +35,8 @@ export default function CalendarCt() {
         isError: isDateError,
         error: dateError,
     } = useQuery({
-        queryKey: ['calendar-date', selectedYear, selectedMonth, selectedDay],
-        queryFn: () => getCalendarDate(`${selectedYear}-${selectedMonth.padStart(2, '0')}-${selectedDay.padStart(2, '0')}`),
+        queryKey: ['calendar-date', selectedSettingDate],
+        queryFn: () => getCalendarDate(selectedSettingDate),
         enabled: !!selectedYear && !!selectedMonth && !!selectedDay,
     });
 
@@ -90,7 +91,7 @@ export default function CalendarCt() {
             <section className="text- w-2/5 text-white ml-8">
                 <div className="flex justify-between mb-2">
                     <h1 className="font-black text-5xl">{settingDay(date)}</h1>
-                    {settingDate(currentDate) === settingDate(date) && <CalendarAddButton />}
+                    {settingDate(currentDate) === settingDate(date) && <CalendarAddButton selectedSettingDate={selectedSettingDate} />}
                 </div>
                 <p className="text-[#6A7282] font-normal text-base mb-6">{settingDate(date)}</p>
                 {!isDateLoading && (
