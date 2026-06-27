@@ -15,6 +15,8 @@ interface AdminAddModalProps {
 export default function AdminAddModal({ isModal, closeModal, mode, system, id = 0, name = '' }: AdminAddModalProps) {
     if (!isModal) return null;
 
+    //여기 useAction사용해서 바꿔야함 
+    //그리고 수정이랑 크리에이트 그냥 모달 따로 두는게 좋을 듯
     let systemAction;
     if (mode === '카테고리') {
         if (system === 'update') {

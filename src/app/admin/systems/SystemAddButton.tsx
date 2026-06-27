@@ -4,7 +4,7 @@ import useModal from "@/components/hooks/useModal";
 import { AdminAddButton } from "@/components/ui/image";
 import AdminAddModal from "@/feature/admin/components/modals/AdminAddModal";
 
-export default function SystemAddButton({ text }: { text: string }) {
+export default function SystemAddButton({ text }: { text: '카테고리' | '태그' }) {
     const modal = useModal();
 
     return (
@@ -17,7 +17,6 @@ export default function SystemAddButton({ text }: { text: string }) {
             <AdminAddModal
                 isModal={modal.isModal}
                 closeModal={modal.closeModal}
-                activeModal={modal.activeModal}
                 mode={text}
                 system="create"
             />
