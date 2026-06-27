@@ -1,4 +1,5 @@
 import {
+  OganizationManageEditRequest,
   OrganizationApplicationCreateResponse,
   OrganizationApplicationDetailResponse,
   OrganizationApplicationRequest,
@@ -104,6 +105,27 @@ export const organizationApplicationCancel = async (applicationId: number) => {
 // 내 조직 정보 조회 API
 export const getOrganizationManageInformation = async (): Promise<OrganizationManageResponse> => {
   const response = await fetchWithAuth(`/api/organizations/me`);
+
+  if (!response.ok) {
+    const message = await getErrorMessage(
+      response,
+      '내 조직 정보 조회에 실패하였습니다.'
+    );
+
+    throw new Error(message);
+  }
+
+  return response.json();
+}
+
+// 내 조직 정보 수정 API
+export const editOrganizationManageInformation = async (
+  payload: OganizationManageEditRequest
+): Promise<OrganizationManageResponse> => {
+  const response = await fetchWithAuth(`/api/organizations/me`, {
+    method: "PATCH",
+    body: JSON.stringify(payload)
+  });
 
   if (!response.ok) {
     const message = await getErrorMessage(
