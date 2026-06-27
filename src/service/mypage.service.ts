@@ -215,9 +215,9 @@ export const deleteOraganizationTrainer = async (
   organizationTrainerId: number
 ): Promise<OrganizationManageTrainerDeleteResponse> => {
   const response = await fetchWithAuth(
-    `/api/organizations/me/trainers/${organizationTrainerId}/remove`,
+    `/api/organizations/me/trainers/${organizationTrainerId}`,
     {
-      method: "PATCH",
+      method: "DELETE",
     }
   );
 

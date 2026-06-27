@@ -2,12 +2,17 @@
 import useModal from "@/components/hooks/useModal";
 import OrganizationTrainerAddForm from "./OrganizationTrainerAddForm";
 import { OrganizationManageTrainerListItem } from "../type";
+import { deleteOrganizationTrainerAction } from "../action";
 
 interface OrganTrainerCardProps {
   data: OrganizationManageTrainerListItem[];
 }
 
 export default function OrganizationTrainerCard( {data}: OrganTrainerCardProps) {
+
+const handleDeleteClick = async (trainerProfileId: number) => {
+  const response = await deleteOrganizationTrainerAction(trainerProfileId);
+}
 
 const activefunc =() =>{
   console.log('1');
@@ -49,7 +54,10 @@ const activefunc =() =>{
                 <div>{item.trainerName}</div>
                 <div>{item.registeredAt.split("T")[0]}</div>
                 <div>
-                  <button className="rounded-[10px] border border-[#FB2C364D] px-5 py-2 bg-[#FB2C361A] text-[#FB2C36] font-extrabold">
+                  <button 
+                    type="button"
+                    onClick={() => handleDeleteClick(item.organizationTrainerId)}
+                    className="rounded-[10px] border border-[#FB2C364D] px-5 py-2 bg-[#FB2C361A] text-[#FB2C36] font-extrabold">
                     🗑 삭제
                   </button>
                 </div>
