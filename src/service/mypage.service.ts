@@ -5,6 +5,8 @@ import {
   OrganizationApplicationResponse,
   OrganizationManageEditRequest,
   OrganizationManageResponse,
+  OrganizationManageTrainerAdd,
+  OrganizationManageTrainerAddData,
 } from "@/feature/mypage/type";
 import { fetchWithAuth } from "@/lib/feth";
 import { getErrorMessage } from "@/lib/stateError";
@@ -125,6 +127,27 @@ export const editOrganizationManageInformation = async (
   const response = await fetchWithAuth(`/api/organizations/me`, {
     method: "PATCH",
     body: JSON.stringify(payload)
+  });
+
+  if (!response.ok) {
+    const message = await getErrorMessage(
+      response,
+      '내 조직 정보 조회에 실패하였습니다.'
+    );
+
+    throw new Error(message);
+  }
+
+  return response.json();
+}
+
+// 내 조직 트레이너 추가 API
+export const addOrganizationManageTrainer = async (
+  trainerProfileId: OrganizationManageTrainerAddData
+): Promise<OrganizationManageTrainerAdd> => {
+  const response = await fetchWithAuth(`/api/organizations/me/trainers`, {
+    method: "POST",
+    body: JSON.stringify(trainerProfileId)
   });
 
   if (!response.ok) {
