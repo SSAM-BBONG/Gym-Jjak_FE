@@ -309,7 +309,7 @@ export const getMyProfileInformation = async (): Promise<MyPageUserProfileRespon
   if (!response.ok) {
     const message = await getErrorMessage(
       response,
-      '내 프로필 조회에 성공하였습니다.'
+      '내 프로필 조회에 실패하였습니다.'
     );
 
     throw new Error(message);
