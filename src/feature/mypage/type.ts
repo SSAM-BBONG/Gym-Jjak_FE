@@ -218,3 +218,17 @@ export interface MyPageUserDelection {
   message: string;
   data: null;
 }
+
+// 비밀번호 변경 요청값
+export interface MyPagePasswordChangeRequest {
+  newPassword: string;
+  checkNewPassword: string;
+}
+
+// 비밀번호 변경 응답값
+export interface MyPagePasswordChangeResponse {
+  status: number;
+  code: string;
+  message: string;
+  data: null;
+}
