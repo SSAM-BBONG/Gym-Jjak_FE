@@ -1,9 +1,10 @@
 "use server";
 
-import { addOrganizationManageTrainer, checkPassword, createOrganizationApplication, deleteOraganizationTrainer, editOrganizationManageInformation, getOraganizationsearchTrainers, organizationApplicationCancel, organizationApplicationDupliCationId } from "@/service/mypage.service";
+import { addOrganizationManageTrainer, checkPassword, createOrganizationApplication, deleteMyAccount, deleteOraganizationTrainer, editOrganizationManageInformation, getOraganizationsearchTrainers, organizationApplicationCancel, organizationApplicationDupliCationId } from "@/service/mypage.service";
 import { uploadFilesPresignedUrl } from "@/service/file.service";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
 
 // 조직 신청 액션
 export const createOrganizationApplicationAction = async (
@@ -244,4 +245,29 @@ export const checkPasswordAction = async (password: string) => {
       message: errorMessage,
     };
   }
-}; 
+};
+
+// 마이페이지 회원탈퇴 액션
+export const deleteMyAccountAction = async () => {
+  try {
+    await deleteMyAccount();
+
+    revalidatePath("/");
+  } catch (error) {
+    let errorMessage = "회원탈퇴에 실패하였습니다.";
+
+    if (error instanceof Error) {
+      errorMessage = error.message;
+    }
+
+    return {
+      success: false,
+      message: errorMessage,
+    };
+  }
+
+  const cookieStore = await cookies();
+  cookieStore.delete("accessToken");
+  cookieStore.delete("refreshToken");
+  redirect("/");
+};

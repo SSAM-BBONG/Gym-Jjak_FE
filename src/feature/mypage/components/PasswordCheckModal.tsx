@@ -1,16 +1,17 @@
 'use client'
 
-import { useRouter } from "next/router";
 import { useState } from "react";
 import { checkPasswordAction } from "../action";
+import { useRouter } from "next/navigation";
 
 interface PasswordCheckModalProps {
     isModal: boolean;
     closeModal: () => void;
-    movePath: string;
+    movePath?: string;
+    checkPassword?: () => Promise<void>;
 }
 
-export default function PasswordCheckModal({ isModal, closeModal, movePath}: PasswordCheckModalProps) {
+export default function PasswordCheckModal({ isModal, closeModal, movePath, checkPassword}: PasswordCheckModalProps) {
     const router = useRouter();
     const [password, setPassword] = useState("");
     const [message, setMessage] = useState("");
@@ -18,22 +19,29 @@ export default function PasswordCheckModal({ isModal, closeModal, movePath}: Pas
 
     if (!isModal) return null;
 
-        const handleSubmit = async () => {
-        setIsPending(true);
-        setMessage("");
+    const handleSubmit = async () => {
+    setIsPending(true);
+    setMessage("");
 
-        const result = await checkPasswordAction(password);
+    const result = await checkPasswordAction(password);
 
-        setIsPending(false);
-
-        if (!result.success) {
+    if (!result.success) {
         setMessage(result.message);
+        setIsPending(false);
         return;
-        }
+    }
 
-        closeModal();
-        setPassword("");
+    if (checkPassword) {
+        await checkPassword();
+    }
+
+    closeModal();
+    setPassword("");
+    setIsPending(false);
+
+    if (movePath) {
         router.push(movePath);
+    }
     };
 
 
