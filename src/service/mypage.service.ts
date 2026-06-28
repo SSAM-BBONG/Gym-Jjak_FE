@@ -21,6 +21,7 @@ import {
 } from "@/feature/mypage/type";
 import { fetchWithAuth } from "@/lib/feth";
 import { getErrorMessage } from "@/lib/stateError";
+import { redirect } from "next/navigation";
 
 // 조직 계정 신청 목록 조회 API
 export const getOrganizationApplications = async (): Promise<OrganizationApplicationResponse> => {
@@ -343,17 +344,8 @@ export const editMyProfileInformation = async (
 }
 
 // 내 트레이너 프로필 조회 API
-export const getMyTrainerProfileInformation = async (): Promise<MyTrainerProfileResponse> => {
+export const getMyTrainerProfileInformation = async () => {
   const response = await fetchWithAuth(`/api/trainers/me`);
-
-  if (!response.ok) {
-    const message = await getErrorMessage(
-      response,
-      '내 트레이너 프로필 조회에 실패하였습니다.'
-    );
-
-    throw new Error(message);
-  }
-
+  // 특정 에러 코드일때 페이지를 redirect 시키기 위해 에러처리는 page.tsx에서 진행
   return response.json();
-}
+};
