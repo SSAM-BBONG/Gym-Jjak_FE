@@ -6,6 +6,8 @@ import {
   MyPageUserProfileEditRequest,
   MyPageUserProfileEditResponse,
   MyPageUserProfileResponse,
+  MyTrainerProfileEditRequest,
+  MyTrainerProfileEditResponse,
   MyTrainerProfileResponse,
   OrganizationApplicationCreateResponse,
   OrganizationApplicationDetailResponse,
@@ -347,5 +349,26 @@ export const editMyProfileInformation = async (
 export const getMyTrainerProfileInformation = async () => {
   const response = await fetchWithAuth(`/api/trainers/me`);
   // 특정 에러 코드일때 페이지를 redirect 시키기 위해 에러처리는 page.tsx에서 진행
+  return response.json();
+};
+
+// 내 트레이너 프로필 수정 API 
+export const editMyTrainerProfileInformation = async (
+  payload: MyTrainerProfileEditRequest
+): Promise<MyTrainerProfileEditResponse> => {
+  const response = await fetchWithAuth("/api/trainers/me", {
+    method: "PATCH",
+    body: JSON.stringify(payload),
+  });
+
+  if (!response.ok) {
+    const message = await getErrorMessage(
+      response,
+      "트레이너 프로필 수정에 실패했습니다."
+    );
+
+    throw new Error(message);
+  }
+
   return response.json();
 };

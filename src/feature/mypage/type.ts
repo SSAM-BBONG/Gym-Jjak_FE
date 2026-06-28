@@ -262,7 +262,7 @@ export interface MyPageUserProfileEditResponse {
   data: null;
 }
 
-// 내 트레이너 조회 응답값
+// 내 트레이너 프로필 조회 응답값
 export interface MyTrainerProfileResponse {
   status: number;
   code: string;
@@ -270,7 +270,7 @@ export interface MyTrainerProfileResponse {
   data: MyTrainerProfileData;
 }
 
-// 내 트레이너 조회 데이터 타입
+// 내 트레이너 프로필 조회 데이터 타입
 export interface MyTrainerProfileData {
   trainerProfileId: number;
   profileImageUrl: string | null;
@@ -284,7 +284,7 @@ export interface MyTrainerProfileData {
   awards: MyTrainerAward[];
 }
 
-// 내 트레이너 조회 자격증 타입
+// 내 트레이너 프로필 조회 자격증 타입
 export interface MyTrainerCertification {
   trainerCertificationId: number;
   name: string;
@@ -293,8 +293,35 @@ export interface MyTrainerCertification {
   fileOriginalName: string | null;
 }
 
-// 내 트레이너 조회 수상이역 타입
+// 내 트레이너 프로필 조회 수상이역 타입
 export interface MyTrainerAward {
   trainerAwardId: number;
   name: string;
+}
+
+// 내 트레이너 프로필 수정 파일 타입
+export interface MyTrainerProfileFile {
+  fileKey: string;
+  originalName: string;
+  contentType: string;
+  fileSize: number;
+}
+
+// 내 트레이너 프로필 수정 요청값
+export interface MyTrainerProfileEditRequest {
+  profileImageAction: string;
+  profileImageFile: MyTrainerProfileFile | null;
+  additionalCertifications: string[];
+  awardHistories: string[];
+  introduction: string | null;
+}
+
+// 내 트레이너 프로필 수정 응답값
+export interface MyTrainerProfileEditResponse {
+  status: number;
+  code: string;
+  message: string;
+  data: {
+    trainerProfileId: number;
+  };
 }
