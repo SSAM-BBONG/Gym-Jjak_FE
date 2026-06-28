@@ -5,13 +5,20 @@ import CalendarCategories from "./CalendarCategories";
 import { calendarPatchAction, calendarPostAction } from "../action";
 import { useActionState, useMemo } from "react";
 
-interface CalendarCreateModalProps {
+type CalendarCreateModalProps = {
     isModal: boolean;
     closeModal: () => void;
     selectedSettingDate: string;
-    data?: Diary;
-    mode?: 'update' | 'create'
-}
+} & (
+        | {
+            mode?: "create";
+            data?: never;
+        }
+        | {
+            mode: "update";
+            data: Diary;
+        }
+    );
 
 export default function CalendarCreateModal({ isModal, closeModal, selectedSettingDate, data, mode = 'create' }: CalendarCreateModalProps) {
 
@@ -33,7 +40,7 @@ export default function CalendarCreateModal({ isModal, closeModal, selectedSetti
     const createMutation = useMutation({
         // createMutation.mutate(formData)가 호출되면 실행되는 함수 
         mutationFn: ((formData: FormData) => (
-            mode === 'create' ? calendarPostAction(selectedSettingDate, formData) : calendarPatchAction(diaryId, formData)
+            (mode === 'update' && data) ? calendarPatchAction(data.workoutDiaryId, formData) : calendarPostAction(selectedSettingDate, formData)
         )),
         // 요청이 성공일 때
         onSuccess: (result) => {

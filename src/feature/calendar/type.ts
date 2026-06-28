@@ -24,6 +24,7 @@ interface Pt {
 }
 
 interface Diary {
+    workoutDiaryId: number;
     title: string;
     content: string;
     date: string;

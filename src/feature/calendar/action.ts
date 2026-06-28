@@ -1,6 +1,7 @@
 'use server'
 
-import { patchCalendar, postCalendar } from "@/service/calendar.service";
+import { deleteCalendar, patchCalendar, postCalendar } from "@/service/calendar.service";
+import { redirect } from "next/navigation";
 
 interface ActionState {
     success: boolean;
@@ -77,5 +78,18 @@ export const calendarPatchAction = async (diaryId: number, formData: FormData): 
     return {
         success: true,
         message: '수정되었습니다'
+    }
+}
+
+export const deleteCalendarAction = async (diaryId: number) => {
+    try {
+        await deleteCalendar(diaryId);
+    } catch (error) {
+        let errorMessage: string = '알 수 없는 오류입니다. 재시도해주세요.'
+        if (error instanceof Error) {
+            errorMessage = error.message;
+        }
+
+        throw new Error(errorMessage)
     }
 }
