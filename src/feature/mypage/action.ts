@@ -1,6 +1,6 @@
 "use server";
 
-import { addOrganizationManageTrainer, checkPassword, createOrganizationApplication, deleteMyAccount, deleteOraganizationTrainer, editOrganizationManageInformation, getOraganizationsearchTrainers, organizationApplicationCancel, organizationApplicationDupliCationId } from "@/service/mypage.service";
+import { addOrganizationManageTrainer, checkPassword, createOrganizationApplication, deleteMyAccount, deleteOraganizationTrainer, editOrganizationManageInformation, getOraganizationsearchTrainers, organizationApplicationCancel, organizationApplicationDupliCationId, updatePassword } from "@/service/mypage.service";
 import { uploadFilesPresignedUrl } from "@/service/file.service";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
@@ -270,4 +270,32 @@ export const deleteMyAccountAction = async () => {
   cookieStore.delete("accessToken");
   cookieStore.delete("refreshToken");
   redirect("/");
+};
+
+// 마이페이지 비밀번호 변경 액션
+export const updatePasswordAction = async (formData: FormData) => {
+  try {
+    const payload = {
+      newPassword: String(formData.get("newPassword") ?? "").trim(),
+      checkNewPassword: String(formData.get("checkNewPassword") ?? "").trim(),
+    };
+
+    await updatePassword(payload);
+
+    return {
+      success: true,
+      message: "비밀번호가 변경되었습니다.",
+    };
+  } catch (error) {
+    let errorMessage = "비밀번호 변경에 실패했습니다.";
+
+    if (error instanceof Error) {
+      errorMessage = error.message;
+    }
+
+    return {
+      success: false,
+      message: errorMessage,
+    };
+  }
 };
