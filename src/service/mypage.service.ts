@@ -1,5 +1,6 @@
 import {
   MyPagePasswordCheck,
+  MyPageUserDelection,
   OrganizationApplicationCreateResponse,
   OrganizationApplicationDetailResponse,
   OrganizationApplicationRequest,
@@ -257,7 +258,7 @@ export const checkPassword = async (password: string): Promise<MyPagePasswordChe
 }
 
 // 회원탈퇴 APi
-export const deleteMyAccount = async (): Promise<MyPagePasswordCheck> => {
+export const deleteMyAccount = async (): Promise<MyPageUserDelection> => {
   const response = await fetchWithAuth(
     `/api/users/me`,
     {
