@@ -202,3 +202,11 @@ export interface OrganizationManageTrainerDeleteResponse {
   message: string;
   data: null;
 }
+
+// 비밀번호 확인 응답 타입
+export interface MyPagePasswordCheck {
+  status: number;
+  code: string;
+  message: string;
+  data: null;
+}

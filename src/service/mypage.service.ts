@@ -1,4 +1,5 @@
 import {
+  MyPagePasswordCheck,
   OrganizationApplicationCreateResponse,
   OrganizationApplicationDetailResponse,
   OrganizationApplicationRequest,
@@ -232,3 +233,25 @@ export const deleteOraganizationTrainer = async (
 
   return response.json();
 };
+
+// 비밀번호 확인 API
+export const checkPassword = async (password: string): Promise<MyPagePasswordCheck> => {
+  const response = await fetchWithAuth(
+    `/api/users/me/password-verification`,
+    {
+      method: "POST",
+      body: JSON.stringify(password)
+    }
+  );
+
+  if (!response.ok) {
+  const message = await getErrorMessage(
+    response,
+    '비밀번호 확인에 실패하였습니다.'
+  );
+
+    throw new Error(message);
+  }
+
+  return response.json();
+}
