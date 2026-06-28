@@ -9,6 +9,7 @@ import PasswordCheckModal from "./PasswordCheckModal";
 export default function MypageAccountSettings() {
 
     const [passwordCheckModal, setpasswordCheckModal] = useState(false);
+    const [passwordMoveModal, setPasswordMoveModal] = useState(false);
 
     const handleUserDelectionClick = async () => {
       const result = await deleteMyAccountAction();
@@ -31,14 +32,17 @@ export default function MypageAccountSettings() {
                   </p>
                 </div>
 
-                <Link href="/mypage/password">
-                  <div className=" flex justify-between items-center p-4 bg-[#1E293980] rounded-[10px]">
-                    <p className="text-[14px] font-medium text-[#99A1AF]">
-                      비밀번호 변경
-                    </p>
-                    <p className="text-[12px] font-medium text-[#6A7282]"> 〉 </p>
-                  </div>
-                </Link>
+
+                <div className=" flex justify-between items-center p-4 bg-[#1E293980] rounded-[10px]">
+                  <p className="text-[14px] font-medium text-[#99A1AF]">
+                    비밀번호 변경
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => setPasswordMoveModal(true)}
+                    className="text-[12px] font-medium text-[#6A7282]"> 〉 </button>
+                </div>
+
 
                 <div className=" flex justify-between items-center p-4 bg-[#1E293980] rounded-[10px]">
                   <p className="text-[14px] font-medium text-[#99A1AF]">
@@ -55,6 +59,12 @@ export default function MypageAccountSettings() {
                 isModal={passwordCheckModal}
                 closeModal={() => setpasswordCheckModal(false)}
                 checkPassword={handleUserDelectionClick}
+              />
+
+              <PasswordCheckModal
+                isModal={passwordMoveModal}
+                closeModal={() => setPasswordMoveModal(false)}
+                movePath="/mypage/password"
               />
       </>
     );

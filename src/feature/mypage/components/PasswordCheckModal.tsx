@@ -60,7 +60,7 @@ export default function PasswordCheckModal({ isModal, closeModal, movePath, chec
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         placeholder="현재 비밀번호를 입력하세요"
-                        className="border border-[#3364153] bg-[#1E2939] rounded-[10px]"
+                        className="w-full h-[50px] p-4  text-white border border-[#3364153] bg-[#1E2939] rounded-[10px]"
                     />
 
                     {message && (
