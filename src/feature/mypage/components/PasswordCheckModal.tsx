@@ -1,11 +1,41 @@
+'use client'
+
+import { useRouter } from "next/router";
+import { useState } from "react";
+import { checkPasswordAction } from "../action";
+
 interface PasswordCheckModalProps {
     isModal: boolean;
     closeModal: () => void;
-    activeModal?: () => void;
+    movePath: string;
 }
 
-export default function PasswordCheckModal({ isModal, closeModal, activeModal}: PasswordCheckModalProps) {
+export default function PasswordCheckModal({ isModal, closeModal, movePath}: PasswordCheckModalProps) {
+    const router = useRouter();
+    const [password, setPassword] = useState("");
+    const [message, setMessage] = useState("");
+    const [isPending, setIsPending] = useState(false);
+
     if (!isModal) return null;
+
+        const handleSubmit = async () => {
+        setIsPending(true);
+        setMessage("");
+
+        const result = await checkPasswordAction(password);
+
+        setIsPending(false);
+
+        if (!result.success) {
+        setMessage(result.message);
+        return;
+        }
+
+        closeModal();
+        setPassword("");
+        router.push(movePath);
+    };
+
 
     return (
         <section
@@ -19,17 +49,24 @@ export default function PasswordCheckModal({ isModal, closeModal, activeModal}: 
                     <h3 className="font-bold text-xl mb-4 text-[#E8EAF0]">비밀번호 확인</h3>
                   <input
                         type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
                         placeholder="현재 비밀번호를 입력하세요"
                         className="border border-[#3364153] bg-[#1E2939] rounded-[10px]"
                     />
+
+                    {message && (
+                        <p className="mt-2 text-[12px] text-[#FF6467]">{message}</p>
+                    )}
                 </article>
                 <article className='c-modal-btn-ct'>
                     <button
                         type="button"
-                        onClick={() => { activeModal?.(); closeModal(); }}
+                        onClick={handleSubmit}
+                        disabled={isPending}
                         className='w-full flex pt-2 pb-3 justify-center items-center rounded-lg text-black text-center font-semibold text-base bg-[#BFFF0B]'
                     >
-                        확인
+                        {isPending ? "확인 중..." : "확인"} 
                     </button>
                 </article>
             </div>

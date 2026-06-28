@@ -240,7 +240,7 @@ export const checkPassword = async (password: string): Promise<MyPagePasswordChe
     `/api/users/me/password-verification`,
     {
       method: "POST",
-      body: JSON.stringify(password)
+      body: JSON.stringify({password})
     }
   );
 
