@@ -3,6 +3,7 @@ import {
   MyPagePasswordChangeResponse,
   MyPagePasswordCheck,
   MyPageUserDelection,
+  MyPageUserProfileResponse,
   OrganizationApplicationCreateResponse,
   OrganizationApplicationDetailResponse,
   OrganizationApplicationRequest,
@@ -300,3 +301,19 @@ export const updatePassword = async (
 
   return response.json();
 };
+
+// 내 프로필 조회 API
+export const getMyProfileInformation = async (): Promise<MyPageUserProfileResponse> => {
+  const response = await fetchWithAuth(`/api/users/me`);
+
+  if (!response.ok) {
+    const message = await getErrorMessage(
+      response,
+      '내 프로필 조회에 성공하였습니다.'
+    );
+
+    throw new Error(message);
+  }
+
+  return response.json();
+}

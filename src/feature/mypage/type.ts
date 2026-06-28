@@ -232,3 +232,17 @@ export interface MyPagePasswordChangeResponse {
   message: string;
   data: null;
 }
+
+// 내 프로필 조회 응답값
+export interface MyPageUserProfileResponse {
+  status: number;
+  code: string;
+  message: string;
+  data: MypageUserProfileData;
+}
+
+export interface MypageUserProfileData {
+  name: string;
+  nickname: string;
+  phone: string;
+}
