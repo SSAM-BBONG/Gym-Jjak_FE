@@ -28,11 +28,14 @@ export default function MypageUserProfileEdit() {
                   </p>
                 </div>
                 <div className="grid grid-cols-3 gap-3">
-                  <Link href="/mypage/trainerprofile">
+
                     <div className="p-4 flex flex-col gap-2 bg-[#1E2939] rounded-[14px]">
                       <div className="flex justify-between items-center">
                         <img src={MypageProfile} alt="마이페이지 트레이너 프로필" />
-                        <p className="text-[#6A7282] text-[12px] font-black"> 〉 </p>
+                        <button 
+                            type="button"
+                            onClick={() => setPasswordMoveModal(true)}
+                            className="text-[#6A7282] text-[12px] font-black hover:cursor-pointer"> 〉 </button>
                       </div>
                       <p className="text-[14px] font-extrabold text-white">
                         트레이너 프로필
@@ -41,7 +44,6 @@ export default function MypageUserProfileEdit() {
                         트레이너 프로필 수정
                       </p>
                     </div>
-                  </Link>
                     <div className="p-4 flex flex-col gap-2 bg-[#1E2939] rounded-[14px]">
                       <div className="flex justify-between items-center">
                         <img src={MypageProfile} alt="마이페이지 회원 프로필" />
@@ -78,6 +80,12 @@ export default function MypageUserProfileEdit() {
                 isModal={passwordMoveModal}
                 closeModal={() => setPasswordMoveModal(false)}
                 movePath="/mypage/profile"
+            />
+
+            <PasswordCheckModal
+                isModal={passwordMoveModal}
+                closeModal={() => setPasswordMoveModal(false)}
+                movePath="/mypage/trainerprofile"
             />
         </>
 
