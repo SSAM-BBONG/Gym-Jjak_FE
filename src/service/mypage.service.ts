@@ -6,6 +6,7 @@ import {
   MyPageUserProfileEditRequest,
   MyPageUserProfileEditResponse,
   MyPageUserProfileResponse,
+  MyTrainerProfileResponse,
   OrganizationApplicationCreateResponse,
   OrganizationApplicationDetailResponse,
   OrganizationApplicationRequest,
@@ -333,6 +334,22 @@ export const editMyProfileInformation = async (
     const message = await getErrorMessage(
       response,
       '내 프로필 수정에 실패하였습니다.'
+    );
+
+    throw new Error(message);
+  }
+
+  return response.json();
+}
+
+// 내 트레이너 프로필 조회 API
+export const getMyTrainerProfileInformation = async (): Promise<MyTrainerProfileResponse> => {
+  const response = await fetchWithAuth(`/api/trainers/me`);
+
+  if (!response.ok) {
+    const message = await getErrorMessage(
+      response,
+      '내 트레이너 프로필 조회에 실패하였습니다.'
     );
 
     throw new Error(message);

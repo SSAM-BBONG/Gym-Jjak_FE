@@ -261,3 +261,40 @@ export interface MyPageUserProfileEditResponse {
   message: string;
   data: null;
 }
+
+// 내 트레이너 조회 응답값
+export interface MyTrainerProfileResponse {
+  status: number;
+  code: string;
+  message: string;
+  data: MyTrainerProfileData;
+}
+
+// 내 트레이너 조회 데이터 타입
+export interface MyTrainerProfileData {
+  trainerProfileId: number;
+  profileImageUrl: string | null;
+  profileImageOriginalName: string | null;
+  trainerName: string;
+  introduction: string;
+  averageRating: number;
+  reviewCount: number;
+  status: string;
+  certifications: MyTrainerCertification[];
+  awards: MyTrainerAward[];
+}
+
+// 내 트레이너 조회 자격증 타입
+export interface MyTrainerCertification {
+  trainerCertificationId: number;
+  name: string;
+  certificationType: string;
+  fileUrl: string | null;
+  fileOriginalName: string | null;
+}
+
+// 내 트레이너 조회 수상이역 타입
+export interface MyTrainerAward {
+  trainerAwardId: number;
+  name: string;
+}
