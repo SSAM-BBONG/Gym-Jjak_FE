@@ -255,3 +255,26 @@ export const checkPassword = async (password: string): Promise<MyPagePasswordChe
 
   return response.json();
 }
+
+// 회원탈퇴 APi
+export const deleteMyAccount = async (): Promise<MyPagePasswordCheck> => {
+  const response = await fetchWithAuth(
+    `/api/users/me`,
+    {
+      method: "DELETE",
+    }
+  );
+
+  if (!response.ok) {
+  const message = await getErrorMessage(
+    response,
+    '회원탈퇴에 실패하였습니다..'
+  );
+
+    throw new Error(message);
+  }
+
+  return response.json();
+}
+
+

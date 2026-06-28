@@ -210,3 +210,11 @@ export interface MyPagePasswordCheck {
   message: string;
   data: null;
 }
+
+// 회원 탈퇴 응답 타입
+export interface MyPageUserDelection {
+  status: number;
+  code: string;
+  message: string;
+  data: null;
+}
