@@ -1,6 +1,6 @@
 "use server";
 
-import { addOrganizationManageTrainer, checkPassword, createOrganizationApplication, deleteMyAccount, deleteOraganizationTrainer, editOrganizationManageInformation, getOraganizationsearchTrainers, organizationApplicationCancel, organizationApplicationDupliCationId, updatePassword } from "@/service/mypage.service";
+import { addOrganizationManageTrainer, checkPassword, createOrganizationApplication, deleteMyAccount, deleteOraganizationTrainer, editMyProfileInformation, editOrganizationManageInformation, getOraganizationsearchTrainers, organizationApplicationCancel, organizationApplicationDupliCationId, updatePassword } from "@/service/mypage.service";
 import { uploadFilesPresignedUrl } from "@/service/file.service";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
@@ -288,6 +288,36 @@ export const updatePasswordAction = async (formData: FormData) => {
     };
   } catch (error) {
     let errorMessage = "비밀번호 변경에 실패했습니다.";
+
+    if (error instanceof Error) {
+      errorMessage = error.message;
+    }
+
+    return {
+      success: false,
+      message: errorMessage,
+    };
+  }
+};
+
+// 마이페이지 내 프로필 수정 액션 
+export const editMyProfileInformationAction = async (formData: FormData) => {
+  try {
+    const payload = {
+      name: String(formData.get("name") ?? "").trim(),
+      nickname: String(formData.get("nickname") ?? "").trim(),
+      phone: String(formData.get("phone") ?? "").trim(),
+    };
+
+    await editMyProfileInformation(payload);
+    revalidatePath("/mypage/profile");
+
+    return { 
+      success: true, 
+      message: "프로필 정보가 수정되었습니다." 
+    };
+  } catch (error) {
+    let errorMessage = "내 프로필 수정에 실패하였습니다.";
 
     if (error instanceof Error) {
       errorMessage = error.message;
