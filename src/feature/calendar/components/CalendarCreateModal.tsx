@@ -2,16 +2,23 @@ import { CloseButton } from "@/components/ui/image";
 import { getDiaryCategories } from "@/service/calendar.service";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import CalendarCategories from "./CalendarCategories";
-import { calendarPostAction } from "../action";
+import { calendarPatchAction, calendarPostAction } from "../action";
 import { useActionState, useMemo } from "react";
 
-interface CalendarCreateModalProps {
+type CalendarCreateModalProps = {
     isModal: boolean;
     closeModal: () => void;
     selectedSettingDate: string;
-    data?: Diary;
-    mode?: 'update' | 'create'
-}
+} & (
+        | {
+            mode?: "create";
+            data?: never;
+        }
+        | {
+            mode: "update";
+            data: Diary;
+        }
+    );
 
 export default function CalendarCreateModal({ isModal, closeModal, selectedSettingDate, data, mode = 'create' }: CalendarCreateModalProps) {
 
@@ -32,7 +39,9 @@ export default function CalendarCreateModal({ isModal, closeModal, selectedSetti
 
     const createMutation = useMutation({
         // createMutation.mutate(formData)가 호출되면 실행되는 함수 
-        mutationFn: ((formData: FormData) => calendarPostAction(selectedSettingDate, formData)),
+        mutationFn: ((formData: FormData) => (
+            (mode === 'update' && data) ? calendarPatchAction(data.workoutDiaryId, formData) : calendarPostAction(selectedSettingDate, formData)
+        )),
         // 요청이 성공일 때
         onSuccess: (result) => {
             // 액션에서 넘어오는 return 값이 result

@@ -1,0 +1,2 @@
+2026-06-27 17:21:46.029 [8e286d23] c.s.g.g.i.aop.PerformanceLogAspect - [PERFORMANCE] traceId=8e286d23, method=CalendarService.findCalendarDay, executionTimeMs=55ms
+2026-06-27 17:21:46.029 [4a402821] c.s.g.g.i.aop.PerformanceLogAspect - [PERFORMANCE] traceId=4a402821, method=CalendarService.findCalendarMonth, executionTimeMs=61ms

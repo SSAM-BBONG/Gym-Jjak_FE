@@ -1,15 +1,36 @@
 import { CloseButton } from "@/components/ui/image";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { deleteCalendarAction } from "../action";
 
 interface CalendarViewModalProps {
     isModal: boolean;
     closeModal: () => void;
-    noneActiveModal: () => void;
     activeModal: () => void;
     data: Diary;
 }
 
 
-export default function CalendarViewModal({ isModal, closeModal, noneActiveModal, activeModal, data }: CalendarViewModalProps) {
+export default function CalendarViewModal({ isModal, closeModal, activeModal, data }: CalendarViewModalProps) {
+
+    const queryClient = useQueryClient();
+
+    const createMutation = useMutation({
+        mutationFn: (() =>
+            deleteCalendarAction(data.workoutDiaryId)
+        ),
+        onSuccess: () => {
+            void queryClient.invalidateQueries({
+                queryKey: ["calendar-month"],
+            });
+
+            void queryClient.invalidateQueries({
+                queryKey: ["calendar-date", data.date],
+            });
+
+            closeModal();
+        },
+    });
+
     if (!isModal) return null;
 
     return (
@@ -35,7 +56,7 @@ export default function CalendarViewModal({ isModal, closeModal, noneActiveModal
                 <article className='flex gap-3'>
                     <button
                         type="button"
-                        onClick={closeModal}
+                        onClick={() => createMutation.mutate()}
                         className='w-full flex pt-2 pb-3 justify-center items-center rounded-lg text-white text-center font-semibold text-base bg-[#1E2939]'
                     >
                         삭제하기
