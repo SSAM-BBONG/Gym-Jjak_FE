@@ -31,7 +31,7 @@ export default function ReportDataItem({ mode, repost }: ReportMode) {
             ) : (
                 <>
                     <div className="col-span-2"><ReportStatus text={repost.status} /></div>
-                    <div className="col-span-3"><DetailButton mode={mode} /></div>
+                    <div className="col-span-3"><DetailButton mode={mode} applicationId={0} /></div>
                 </>
             )}
         </div>
