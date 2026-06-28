@@ -1,8 +1,16 @@
+'use client'
+
 import { MypageOnboarding, MypageProfile, MypageUserEdit } from "@/components/ui/image";
 import Link from "next/link";
+import { useState } from "react";
+import PasswordCheckModal from "./PasswordCheckModal";
 
 export default function MypageUserProfileEdit() {
+
+    const [passwordMoveModal, setPasswordMoveModal] = useState(false);
+
     return (
+    <>        
         <div
                 className="
           flex flex-col
@@ -34,11 +42,13 @@ export default function MypageUserProfileEdit() {
                       </p>
                     </div>
                   </Link>
-                  <Link href="/mypage/profile">
                     <div className="p-4 flex flex-col gap-2 bg-[#1E2939] rounded-[14px]">
                       <div className="flex justify-between items-center">
                         <img src={MypageProfile} alt="마이페이지 회원 프로필" />
-                        <p className="text-[#6A7282] text-[12px] font-black"> 〉 </p>
+                        <button
+                            type="button"
+                            onClick={() => setPasswordMoveModal(true)}
+                            className="text-[#6A7282] text-[12px] font-black hover:cursor-pointer"> 〉 </button>
                       </div>
                       <p className="text-[14px] font-extrabold text-white">
                         회원 프로필
@@ -47,7 +57,6 @@ export default function MypageUserProfileEdit() {
                         기본 프로필 수정
                       </p>
                     </div>
-                  </Link>
                   <Link href="/mypage/onboarding">
                     <div className="p-4 flex flex-col gap-2 bg-[#1E2939] rounded-[14px]">
                       <div className="flex justify-between items-center">
@@ -64,6 +73,13 @@ export default function MypageUserProfileEdit() {
                   </Link>
                 </div>
               </div>
+
+            <PasswordCheckModal
+                isModal={passwordMoveModal}
+                closeModal={() => setPasswordMoveModal(false)}
+                movePath="/mypage/profile"
+            />
+        </>
 
     );
 }
