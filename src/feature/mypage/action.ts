@@ -1,6 +1,6 @@
 "use server";
 
-import { addOrganizationManageTrainer, createOrganizationApplication, deleteOraganizationTrainer, editOrganizationManageInformation, getOraganizationsearchTrainers, organizationApplicationCancel, organizationApplicationDupliCationId } from "@/service/mypage.service";
+import { addOrganizationManageTrainer, checkPassword, createOrganizationApplication, deleteOraganizationTrainer, editOrganizationManageInformation, getOraganizationsearchTrainers, organizationApplicationCancel, organizationApplicationDupliCationId } from "@/service/mypage.service";
 import { uploadFilesPresignedUrl } from "@/service/file.service";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
@@ -216,3 +216,32 @@ export const deleteOrganizationTrainerAction = async (
     };
   }
 };
+
+// 마이페이지 비밀번호 확인 액션
+export const checkPasswordAction = async (password: string) => {
+  try {
+    if (!password.trim()) {
+      return {
+        success: false,
+        message: "비밀번호를 입력해주세요.",
+      };
+    }
+
+    await checkPassword(password);
+
+    return {
+      success: true,
+      message: "비밀번호가 확인되었습니다.",
+    };
+  } catch (error) {
+    let errorMessage = "비밀번호 확인을 실패하였습니다.";
+    if (error instanceof Error) {
+      errorMessage = error.message;
+    }
+
+    return {
+      success: false,
+      message: errorMessage,
+    };
+  }
+}; 
