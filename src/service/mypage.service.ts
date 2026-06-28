@@ -3,6 +3,8 @@ import {
   MyPagePasswordChangeResponse,
   MyPagePasswordCheck,
   MyPageUserDelection,
+  MyPageUserProfileEditRequest,
+  MyPageUserProfileEditResponse,
   MyPageUserProfileResponse,
   OrganizationApplicationCreateResponse,
   OrganizationApplicationDetailResponse,
@@ -310,6 +312,27 @@ export const getMyProfileInformation = async (): Promise<MyPageUserProfileRespon
     const message = await getErrorMessage(
       response,
       '내 프로필 조회에 실패하였습니다.'
+    );
+
+    throw new Error(message);
+  }
+
+  return response.json();
+}
+
+// 내 프로필 수정 API 
+export const editMyProfileInformation = async (
+  payload: MyPageUserProfileEditRequest
+): Promise<MyPageUserProfileEditResponse> => {
+  const response = await fetchWithAuth(`/api/users/me`, {
+    method: "PATCH",
+    body: JSON.stringify(payload)
+  });
+
+  if (!response.ok) {
+    const message = await getErrorMessage(
+      response,
+      '내 프로필 수정에 실패하였습니다.'
     );
 
     throw new Error(message);

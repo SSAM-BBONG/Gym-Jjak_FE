@@ -246,3 +246,18 @@ export interface MypageUserProfileData {
   nickname: string;
   phone: string;
 }
+
+// 내 프로필 수정 요청값
+export interface MyPageUserProfileEditRequest {
+  name: string;
+  nickname: string;
+  phone: string;
+}
+
+// 내 프로필 수정 응답값
+export interface MyPageUserProfileEditResponse {
+  status: number;
+  code: string;
+  message: string;
+  data: null;
+}
