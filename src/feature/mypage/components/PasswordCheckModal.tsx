@@ -64,7 +64,7 @@ export default function PasswordCheckModal({ isModal, closeModal, movePath, chec
                     />
 
                     {message && (
-                        <p className="mt-2 text-[12px] text-[#FF6467]">{message}</p>
+                        <p className="my-3 text-[12px] text-[#FF6467]">{message}</p>
                     )}
                 </article>
                 <article className='c-modal-btn-ct'>

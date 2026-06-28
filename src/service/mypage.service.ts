@@ -1,4 +1,6 @@
 import {
+  MyPagePasswordChangeRequest,
+  MyPagePasswordChangeResponse,
   MyPagePasswordCheck,
   MyPageUserDelection,
   OrganizationApplicationCreateResponse,
@@ -278,4 +280,23 @@ export const deleteMyAccount = async (): Promise<MyPageUserDelection> => {
   return response.json();
 }
 
+// 비밀번호 변경 API
+export const updatePassword = async (
+  payload: MyPagePasswordChangeRequest
+): Promise<MyPagePasswordChangeResponse> => {
+  const response = await fetchWithAuth(`/api/users/me/updatePassword`, {
+    method: "PATCH",
+    body: JSON.stringify(payload),
+  });
 
+  if (!response.ok) {
+    const message = await getErrorMessage(
+      response,
+      "비밀번호 변경에 실패하였습니다."
+    );
+
+    throw new Error(message);
+  }
+
+  return response.json();
+};
