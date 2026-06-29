@@ -13,6 +13,7 @@ export default async function PtDetailPage({ params }: PtDetailPageProps) {
     const { id } = await params;
 
     const response = await getPtDetail(id);
+    
     return (
         <div className="flex flex-col gap-8 px-80 py-10">
             <div
@@ -122,20 +123,17 @@ export default async function PtDetailPage({ params }: PtDetailPageProps) {
             ">
                 <p className="text-[18px] font-extrabold text-white"> 커리큘럼 </p>
                 <div className="flex flex-col gap-3">
-                    <div className="flex gap-3 items-start">
-                        <p className="px-3 py-1.5 text-[14px] font-black text-black bg-[#BFFF0B] rounded-full flex items-center justify-centerc"> 1 </p>
-                        <div className="flex flex-col gap-1">
-                            <p className="text-[14px] font-extrabold text-white"> 기초 자세 교정 및 평가 </p>
-                            <p className="text-[12px] font-normal text-[#99A1AF]"> 현재 체형 분석 및 목표 설정, 기초 체력 측정 </p>
+                    {response.data.curriculums.map((item) => (
+                        <div 
+                            key={item.curriculumId}
+                            className="flex gap-3 items-center">
+                            <p className="px-2 py-2 text-[14px] font-black text-black bg-[#BFFF0B] rounded-full flex items-center justify-center"> {item.sessionNo}회차 </p>
+                            <div className="flex flex-col gap-1">
+                                <p className="text-[14px] font-extrabold text-white"> {item.title} </p>
+                                <p className="text-[12px] font-normal text-[#99A1AF]"> {item.content} </p>
+                            </div>
                         </div>
-                    </div>
-                    <div className="flex gap-3 items-start">
-                        <p className="px-3 py-1.5 text-[14px] font-black text-black bg-[#BFFF0B] rounded-full"> 1 </p>
-                        <div className="flex flex-col gap-1">
-                            <p className="text-[14px] font-extrabold text-white"> 기초 자세 교정 및 평가 </p>
-                            <p className="text-[12px] font-normal text-[#99A1AF]"> 현재 체형 분석 및 목표 설정, 기초 체력 측정 </p>
-                        </div>
-                    </div>
+                    ))}
                 </div>
             </div>
 
@@ -147,27 +145,15 @@ export default async function PtDetailPage({ params }: PtDetailPageProps) {
             ">
                 <p className="text-[18px] font-extrabold text-white"> 레슨 시간</p>
                 <div className="flex flex-col gap-3">
-                    <div className="flex gap-4 items-center">
-                        <p className="px-3 py-2 bg-[#BFFF0B1A] rounded-[10px] text-[14px] font-black text-[#BFFF0B]"> 월 </p>
-                        <p className="text-[16px] font-extrabold text-white"> 월요일 </p>
-                        <p className="flex gap-3 items-center border border-[#364153] rounded-[10px] bg-[#1E293980] px-4 py-2 text-[14px] font-normal text-white">
-                            10:00 <span className="text-[16px] font-extrabold text-[#BFFF0B]"> → </span> 11:00
-                        </p>
-                    </div>
-                    <div className="flex gap-4 items-center">
-                        <p className="px-3 py-2 bg-[#BFFF0B1A] rounded-[10px] text-[14px] font-black text-[#BFFF0B]"> 월 </p>
-                        <p className="text-[16px] font-extrabold text-white"> 월요일 </p>
-                        <p className="flex gap-3 items-center border border-[#364153] rounded-[10px] bg-[#1E293980] px-4 py-2 text-[14px] font-normal text-white">
-                            10:00 <span className="text-[16px] font-extrabold text-[#BFFF0B]"> → </span> 11:00
-                        </p>
-                    </div>
-                    <div className="flex gap-4 items-center">
-                        <p className="px-3 py-2 bg-[#BFFF0B1A] rounded-[10px] text-[14px] font-black text-[#BFFF0B]"> 월 </p>
-                        <p className="text-[16px] font-extrabold text-white"> 월요일 </p>
-                        <p className="flex gap-3 items-center border border-[#364153] rounded-[10px] bg-[#1E293980] px-4 py-2 text-[14px] font-normal text-white">
-                            10:00 <span className="text-[16px] font-extrabold text-[#BFFF0B]"> → </span> 11:00
-                        </p>
-                    </div>
+                    {response.data.schedules.map((item) => (
+                        <div className="flex gap-4 items-center">
+                            <p className="px-3 py-2 bg-[#BFFF0B1A] rounded-[10px] text-[14px] font-black text-[#BFFF0B]"> 월 </p>
+                            <p className="text-[16px] font-extrabold text-white"> {item.dayOfWeek} </p>
+                            <p className="flex gap-3 items-center border border-[#364153] rounded-[10px] bg-[#1E293980] px-4 py-2 text-[14px] font-normal text-white">
+                                {item.startTime} <span className="text-[16px] font-extrabold text-[#BFFF0B]"> → </span> {item.endTime}
+                            </p>
+                        </div>
+                    ))}
                 </div>
             </div>
 
@@ -181,30 +167,22 @@ export default async function PtDetailPage({ params }: PtDetailPageProps) {
             ">
                 <p className="text-[18px] font-extrabold text-white"> 강사평 </p>
                 <div>
-                    <div className="flex flex-col gap-1 py-6 border-b border-b-[#364153]">
-                        <div className="flex justify-between">
-                            <p className="text-[14px] font-extrabold text-white"> 운동초보 </p>
-                            <p className="text-[12px] font-normal text-[#6A7282]"> 2026-05-10 </p>
+                    {response.data.recentReviews.map((item) => (
+                        <div
+                            key={item.reviewId} 
+                            className="flex flex-col gap-1 py-6 border-b border-b-[#364153]">
+                            <div className="flex justify-between">
+                                <p className="text-[14px] font-extrabold text-white"> 운동초보 </p>
+                                <p className="text-[12px] font-normal text-[#6A7282]"> {item.createdAt} </p>
+                            </div>
+                            <div className="text-[#BFFF0B]">
+                                ★★★☆☆
+                            </div>
+                            <div className="text-[12px] font-normal text-[#D1D5DC]">
+                                {item.content}
+                            </div>
                         </div>
-                        <div className="text-[#BFFF0B]">
-                            ★★★☆☆
-                        </div>
-                        <div className="text-[12px] font-normal text-[#D1D5DC]">
-                            정말 체계적으로 가르쳐주십니다. 3개월만에 몸이 확실히 달라졌어요! 친절하고 자세 교정을 정말 세심하게 해주셔서 부상 없이 운동할 수 있었습니다.
-                        </div>
-                    </div>
-                    <div className="flex flex-col gap-1 py-6 border-b border-b-[#364153]">
-                        <div className="flex justify-between">
-                            <p className="text-[14px] font-extrabold text-white"> 운동초보 </p>
-                            <p className="text-[12px] font-normal text-[#6A7282]"> 2026-05-10 </p>
-                        </div>
-                        <div className="text-[#BFFF0B]">
-                            ★★★☆☆
-                        </div>
-                        <div className="text-[12px] font-normal text-[#D1D5DC]">
-                            정말 체계적으로 가르쳐주십니다. 3개월만에 몸이 확실히 달라졌어요! 친절하고 자세 교정을 정말 세심하게 해주셔서 부상 없이 운동할 수 있었습니다.
-                        </div>
-                    </div>
+                    ))}
                 </div>
                 <Link href="/pt/1/reviews">
                     <p className="py-6 text-[16px] font-medium text-white text-center"> 전체 리뷰 보기 &nbsp; 〉</p>
