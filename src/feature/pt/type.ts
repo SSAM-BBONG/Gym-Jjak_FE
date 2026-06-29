@@ -239,3 +239,20 @@ export interface TrainerApplicationDetail {
     createdAt: string;
     updatedAt: string;
 }
+
+// PT 통계 조회 응답 타입
+export interface PtStatsResponse {
+  
+  status: number;
+  code: string;
+  message: string;
+  data: PtStats;
+}
+
+// PT 통계 조회 데이터 타입
+export interface PtStats {
+  organizationCount: number;
+  activeTrainerCount: number;
+  inProgressPtCount: number;
+  averageSatisfaction: number;
+}
