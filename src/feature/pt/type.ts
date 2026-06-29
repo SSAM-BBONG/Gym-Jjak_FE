@@ -150,22 +150,50 @@ export interface PtActionState {
   errors?: Record<string, string>;
 }
 
-export interface PtCourseCreateResponse {
+// PT 등록 응답값
+export interface PtRegistResponse {
   status: number;
   code: string;
   message: string;
-  data: PtCourseCreateData;
+  data: PtRegistData;
 }
 
-export interface PtCourseCreateData {
-  ptCourseId: number;
+// PT 등록 데이터 타입
+export interface PtRegistData {
+  ptCourseId: number
+}
+
+// PT 등록 요청값
+export interface PtRegistRequest {
   title: string;
   description: string;
   categoryId: number;
   tagId: number;
   price: number;
-  totalSessionCount: number;
-  thumbnailUrl?: string;
+  thumbnailFile: TrainerFileData;
+  curriculums: PtRegistCurriculum[];
+  schedules: PtRegistSchedule[];
+}
+
+// PT 등록 커리큘럼 타입
+export interface PtRegistCurriculum {
+  sessionNo: number;
+  title: string;
+  content: string;
+}
+
+// PT 등록 시간 타입 
+export interface PtRegistSchedule {
+  dayOfWeek:
+    | "MONDAY"
+    | "TUESDAY"
+    | "WEDNESDAY"
+    | "THURSDAY"
+    | "FRIDAY"
+    | "SATURDAY"
+    | "SUNDAY";
+  startTime: string;
+  endTime: string;
 }
 
 // 트레이너 등록 API

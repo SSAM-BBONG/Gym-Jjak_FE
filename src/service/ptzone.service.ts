@@ -1,5 +1,7 @@
 ﻿import {
-  OnboardingResponse, PtCourseCreateResponse, PtDetailResponse, PtListResponse,
+  OnboardingResponse,PtDetailResponse, PtListResponse,
+  PtRegistRequest,
+  PtRegistResponse,
   PtStatsResponse,
   TrainerApplicationData,
   TrainerApplicationDetailResponse,
@@ -58,10 +60,12 @@ export const getOnboarding = async (): Promise<OnboardingResponse> => {
 };
 
 // PT 등록 API 
-export const createPtCourse = async (formData: FormData): Promise<PtCourseCreateResponse> => {
+export const createPtCourse = async (
+  payload: PtRegistRequest
+): Promise<PtRegistResponse> => {
   const response = await fetchWithAuth("/api/pt-courses", {
     method: "POST",
-    body: formData,
+    body: JSON.stringify(payload),
   });
 
   if (!response.ok) {
