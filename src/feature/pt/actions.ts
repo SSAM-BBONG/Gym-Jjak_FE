@@ -4,149 +4,56 @@ import axios from "axios";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createPtCourse, getTrainerCancel, trainerApplication, updateTrainerApplication } from "@/service/ptzone.service";
-import { PtActionState, TrainerApplicationData, TrainerApplicationEditData } from "./type";
+import { PtActionState, PtRegistCurriculum, PtRegistRequest, PtRegistSchedule, TrainerApplicationData, TrainerApplicationEditData } from "./type";
 import { uploadFilesPresignedUrl } from "@/service/file.service";
 
-type RequiredField =
-  | "title"
-  | "description"
-  | "categoryId"
-  | "tagId"
-  | "price"
-  | "totalSessionCount";
-
-const requiredFields: RequiredField[] = [
-  "title",
-  "description",
-  "categoryId",
-  "tagId",
-  "price",
-  "totalSessionCount",
-] as const;
-
-const getRequiredString = (
-  formData: FormData,
-  field: RequiredField,
-  errors: Record<string, string>
-) => {
-  const value = formData.get(field);
-
-  if (typeof value !== "string" || !value.trim()) {
-    errors[field] = "필수 입력값입니다.";
-    return "";
-  }
-
-  return value.trim();
+type PtRegistCurriculumFormData = {
+  title: string;
+  content: string;
 };
 
-const getNumber = (
-  value: string,
-  field: string,
-  errors: Record<string, string>
-) => {
-  const numberValue = Number(value);
+// PT 등록 액션
+export const createPtRegistAction = async (formData: FormData) => {
+  const thumbnailFile = formData.get("thumbnailFile");
 
-  if (!Number.isFinite(numberValue)) {
-    errors[field] = "숫자로 입력해주세요.";
-    return 0;
-  }
-
-  return numberValue;
-};
-
-export const createPtCourseAction = async (
-  prevState: PtActionState,
-  formData: FormData
-): Promise<PtActionState> => {
-  const thumbnail = formData.get("thumbnail");
-  const errors: Record<string, string> = {};
-
-  const values = requiredFields.reduce((acc, field) => {
-    acc[field] = getRequiredString(formData, field, errors);
-    return acc;
-  }, {} as Record<RequiredField, string>);
-
-  const {
-    title,
-    description,
-    categoryId: categoryIdValue,
-    tagId: tagIdValue,
-    price: priceValue,
-    totalSessionCount: totalSessionCountValue,
-  } = values;
-
-  const categoryId = getNumber(categoryIdValue, "categoryId", errors);
-  const tagId = getNumber(tagIdValue, "tagId", errors);
-  const price = getNumber(priceValue, "price", errors);
-  const totalSessionCount = getNumber(
-    totalSessionCountValue,
-    "totalSessionCount",
-    errors
-  );
-
-  if (categoryId < 1) {
-    errors.categoryId = "카테고리를 선택해주세요.";
-  }
-
-  if (tagId < 1) {
-    errors.tagId = "태그를 선택해주세요.";
-  }
-
-  if (price < 0) {
-    errors.price = "가격은 0 이상이어야 합니다.";
-  }
-
-  if (totalSessionCount < 1) {
-    errors.totalSessionCount = "전체 회차 수는 1 이상이어야 합니다.";
-  }
-
-  if (Object.keys(errors).length > 0) {
+  if (!(thumbnailFile instanceof File) || thumbnailFile.size === 0) {
     return {
       success: false,
-      message: "입력값을 확인해주세요.",
-      errors,
+      message: "썸네일 이미지를 등록해주세요.",
     };
   }
 
-  const request = {
-    title,
-    description,
-    categoryId,
-    tagId,
-    price,
-    totalSessionCount,
+  const [uploadedThumbnailFile] = await uploadFilesPresignedUrl([
+    {
+      file: thumbnailFile,
+      fileType: "PT_THUMBNAIL",
+    },
+  ]);
+
+  const curriculums = JSON.parse(
+    String(formData.get("curriculums") ?? "[]")
+  ) as PtRegistCurriculumFormData[];
+
+  const schedules = JSON.parse(
+    String(formData.get("schedules") ?? "[]")
+  ) as PtRegistSchedule[];
+
+  const payload: PtRegistRequest = {
+    title: String(formData.get("title") ?? "").trim(),
+    description: String(formData.get("description") ?? "").trim(),
+    categoryId: Number(formData.get("categoryId")),
+    tagId: Number(formData.get("tagId")),
+    price: Number(formData.get("price")),
+    thumbnailFile: uploadedThumbnailFile,
+    curriculums: curriculums.map((curriculum, index) => ({
+      sessionNo: index + 1,
+      title: curriculum.title,
+      content: curriculum.content,
+    })),
+    schedules,
   };
 
-  const payload = new FormData();
-
-  if (thumbnail instanceof File && thumbnail.size > 0) {
-    payload.append("thumbnail", thumbnail);
-  }
-
-  payload.append(
-    "data",
-    new Blob([JSON.stringify(request)], {
-      type: "application/json",
-    })
-  );
-
-  try {
-    await createPtCourse(payload);
-  } catch (error) {
-    let message = "PT 강습 등록 중 오류가 발생했습니다.";
-
-    if (axios.isAxiosError(error)) {
-      message = error.response?.data?.message || error.message;
-    } else if (error instanceof Error) {
-      message = error.message;
-    }
-
-    return {
-      success: false,
-      message,
-      errors: {},
-    };
-  }
+  await createPtCourse(payload);
 
   revalidatePath("/pt");
   revalidatePath("/pt/find");

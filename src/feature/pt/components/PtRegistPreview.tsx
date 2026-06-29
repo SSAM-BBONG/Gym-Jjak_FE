@@ -1,9 +1,18 @@
 "use client";
 
 import { OrganApplicationUpload } from "@/components/ui/image";
+import { PtRegistFormValue } from "@/lib/ptRegistSchema";
 import { useEffect, useState } from "react";
+import { UseFormSetValue } from "react-hook-form";
 
-export default function PtRegistPreview() {
+interface PtRegistPreviewProps {
+  setValue: UseFormSetValue<PtRegistFormValue>;
+  error?: string;
+}
+
+export default function PtRegistPreview({
+    setValue, error
+}: PtRegistPreviewProps) {
     const [thumbnailPreview, setThumbnailPreview] = useState("");
 
     const handleThumbnailChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
@@ -12,6 +21,11 @@ export default function PtRegistPreview() {
         if (!file) return;
 
         setThumbnailPreview(URL.createObjectURL(file));
+
+        setValue("thumbnailFile", file, {
+            shouldValidate: true,
+            shouldDirty: true,
+        });
     };
 
     useEffect(() => {
@@ -40,7 +54,10 @@ export default function PtRegistPreview() {
                 </div>
                 <label
                     className="px-7 py-3 rounded-[10px] bg-[#BFFF0B] text-[16px] font-extrabold text-black cursor-pointer" 
-                    htmlFor="ptregist-img-upload"> 이미지 업로드 </label>
+                    htmlFor="ptregist-img-upload"
+                > 
+                    이미지 업로드 
+                </label>
                 <input
                     type="file"
                     name="thumbnail"
@@ -50,6 +67,7 @@ export default function PtRegistPreview() {
                     id="ptregist-img-upload"
                 />
             </div>
+            {error && <p className="text-[14px] text-red-400">{error}</p>}
         </div>
     );
 }

@@ -1,23 +1,70 @@
 "use client";
 
+import { PtRegistFormValue } from "@/lib/ptRegistSchema";
 import { useState } from "react";
+import { UseFormSetValue } from "react-hook-form";
+import { PtRegistSchedule } from "../type";
 
-export default function PtRegistTime() {
-    const [times, setTimes] = useState([
-        { id: 1 },
-    ]);
+interface PtRegistTimeProps {
+  setValue: UseFormSetValue<PtRegistFormValue>;
+  error?: string;
+}
 
-const handleAddTime = () => {
-    setTimes([
-        ...times,
-        { id: times.length + 1 },
-    ]);
+type WeekValue =
+  | "MONDAY"
+  | "TUESDAY"
+  | "WEDNESDAY"
+  | "THURSDAY"
+  | "FRIDAY"
+  | "SATURDAY"
+  | "SUNDAY";
+
+export default function PtRegistTime({
+    setValue, error
+}: PtRegistTimeProps) {
+
+    const [dayOfWeek, setDayOfWeek] = useState<WeekValue>("MONDAY");
+    const [startTime, setStartTime] = useState("10:00");
+    const [endTime, setEndTime] = useState("11:00");
+    const [schedules, setSchedules] = useState<PtRegistSchedule[]>([]);
+
+    const handleAddTime = () => {
+        const nextSchedules = [
+        ...schedules,
+        {
+            dayOfWeek,
+            startTime,
+            endTime,
+        },
+        ];
+
+        setSchedules(nextSchedules);
+
+        setValue("schedules", nextSchedules, {
+        shouldValidate: true,
+        shouldDirty: true,
+        });
     };
 
     const handleRemoveTime = (removeIndex: number) => {
-        const nextTimes = times.filter((_, index) => index !== removeIndex);
+        const nextSchedules = schedules.filter((_, index) => index !== removeIndex);
 
-        setTimes(nextTimes);
+        setSchedules(nextSchedules);
+
+        setValue("schedules", nextSchedules, {
+        shouldValidate: true,
+        shouldDirty: true,
+        });
+    };
+
+    const getDayLabel = (value: WeekValue) => {
+        if (value === "MONDAY") return "월";
+        if (value === "TUESDAY") return "화";
+        if (value === "WEDNESDAY") return "수";
+        if (value === "THURSDAY") return "목";
+        if (value === "FRIDAY") return "금";
+        if (value === "SATURDAY") return "토";
+        return "일";
     };
 
     return (
@@ -38,97 +85,117 @@ const handleAddTime = () => {
                 </button>
             </div>
 
-            {times.map((time, index) => (
-                <div key={time.id} className="flex gap-3 items-center">
-                    <select className="
-                bg-[#1E2939]
-                border border-[#364153] rounded-[10px]
-                py-2
-                px-8
-                text-white
-                ">
-                        <option value="MONDAY"> 월</option>
-                        <option value="TUESDAY"> 화</option>
-                        <option value="WEDNESDAY"> 수</option>
-                        <option value="THURSDAY"> 목</option>
-                        <option value="FRIDAY"> 금</option>
-                        <option value="SATURDAY"> 토</option>
-                        <option value="SUNDAY"> 일</option>
-                    </select>
-                    <select className="
-                    flex-1
-                    bg-[#1E2939]
-                    border border-[#364153] rounded-[10px]
-                    py-2
-                    px-4
-                text-white">
-                        <option> 01:00</option>
-                        <option> 02:00</option>
-                        <option> 03:00</option>
-                        <option> 04:00</option>
-                        <option> 05:00</option>
-                        <option> 06:00</option>
-                        <option> 07:00</option>
-                        <option> 08:00</option>
-                        <option> 09:00</option>
-                        <option> 10:00</option>
-                        <option> 11:00</option>
-                        <option> 12:00</option>
-                        <option> 13:00</option>
-                        <option> 14:00</option>
-                        <option> 15:00</option>
-                        <option> 16:00</option>
-                        <option> 17:00</option>
-                        <option> 18:00</option>
-                        <option> 19:00</option>
-                        <option> 20:00</option>
-                        <option> 21:00</option>
-                        <option> 22:00</option>
-                        <option> 23:00</option>
-                        <option> 24:00</option>
-                    </select>
-                    <p className="text-white text-[20px]"> ~ </p>
-                    <select className="
-                    flex-1
-                    bg-[#1E2939]
-                    border border-[#364153] rounded-[10px]
-                    py-2
-                    px-4
-                text-white">
-                        <option> 01:00</option>
-                        <option> 02:00</option>
-                        <option> 03:00</option>
-                        <option> 04:00</option>
-                        <option> 05:00</option>
-                        <option> 06:00</option>
-                        <option> 07:00</option>
-                        <option> 08:00</option>
-                        <option> 09:00</option>
-                        <option> 10:00</option>
-                        <option> 11:00</option>
-                        <option> 12:00</option>
-                        <option> 13:00</option>
-                        <option> 14:00</option>
-                        <option> 15:00</option>
-                        <option> 16:00</option>
-                        <option> 17:00</option>
-                        <option> 18:00</option>
-                        <option> 19:00</option>
-                        <option> 20:00</option>
-                        <option> 21:00</option>
-                        <option> 22:00</option>
-                        <option> 23:00</option>
-                        <option> 24:00</option>
-                    </select>
-                    <button 
-                        type="button"
-                        onClick={() => handleRemoveTime(index)}
-                        className="px-4 py-2 bg-[#82181A4D] rounded-[10px] text-[#FF6467] font-extrabold"
-                    > 
-                        ✕ 
-                    </button>
+            <div className="flex gap-3 items-center">
+                <select
+                value={dayOfWeek}
+                onChange={(e) => setDayOfWeek(e.target.value as WeekValue)}
+                className="bg-[#1E2939] border border-[#364153] rounded-[10px] py-2 px-8 text-white"
+                >
+                <option value="MONDAY">월</option>
+                <option value="TUESDAY">화</option>
+                <option value="WEDNESDAY">수</option>
+                <option value="THURSDAY">목</option>
+                <option value="FRIDAY">금</option>
+                <option value="SATURDAY">토</option>
+                <option value="SUNDAY">일</option>
+                </select>
+
+                <select
+                value={startTime}
+                onChange={(e) => setStartTime(e.target.value)}
+                className="flex-1 bg-[#1E2939] border border-[#364153] rounded-[10px] py-2 px-4 text-white"
+                >
+                <option value="01:00">01:00</option>
+                <option value="02:00">02:00</option>
+                <option value="03:00">03:00</option>
+                <option value="04:00">04:00</option>
+                <option value="05:00">05:00</option>
+                <option value="06:00">06:00</option>
+                <option value="07:00">07:00</option>
+                <option value="08:00">08:00</option>
+                <option value="09:00">09:00</option>
+                <option value="10:00">10:00</option>
+                <option value="11:00">11:00</option>
+                <option value="12:00">12:00</option>
+                <option value="13:00">13:00</option>
+                <option value="14:00">14:00</option>
+                <option value="15:00">15:00</option>
+                <option value="16:00">16:00</option>
+                <option value="17:00">17:00</option>
+                <option value="18:00">18:00</option>
+                <option value="19:00">19:00</option>
+                <option value="20:00">20:00</option>
+                <option value="21:00">21:00</option>
+                <option value="22:00">22:00</option>
+                <option value="23:00">23:00</option>
+                <option value="24:00">24:00</option>
+                </select>
+
+                <p className="text-white text-[20px]">~</p>
+
+                <select
+                value={endTime}
+                onChange={(e) => setEndTime(e.target.value)}
+                className="flex-1 bg-[#1E2939] border border-[#364153] rounded-[10px] py-2 px-4 text-white"
+                >
+                <option value="01:00">01:00</option>
+                <option value="02:00">02:00</option>
+                <option value="03:00">03:00</option>
+                <option value="04:00">04:00</option>
+                <option value="05:00">05:00</option>
+                <option value="06:00">06:00</option>
+                <option value="07:00">07:00</option>
+                <option value="08:00">08:00</option>
+                <option value="09:00">09:00</option>
+                <option value="10:00">10:00</option>
+                <option value="11:00">11:00</option>
+                <option value="12:00">12:00</option>
+                <option value="13:00">13:00</option>
+                <option value="14:00">14:00</option>
+                <option value="15:00">15:00</option>
+                <option value="16:00">16:00</option>
+                <option value="17:00">17:00</option>
+                <option value="18:00">18:00</option>
+                <option value="19:00">19:00</option>
+                <option value="20:00">20:00</option>
+                <option value="21:00">21:00</option>
+                <option value="22:00">22:00</option>
+                <option value="23:00">23:00</option>
+                <option value="24:00">24:00</option>
+                </select>
+            </div>
+
+
+            {schedules.map((schedule, index) => (
+                <div
+                key={`${schedule.dayOfWeek}-${schedule.startTime}-${schedule.endTime}-${index}`}
+                className="flex gap-3 items-center"
+                >
+                <p className="bg-[#1E2939] border border-[#364153] rounded-[10px] py-2 px-8 text-white">
+                    {getDayLabel(schedule.dayOfWeek)}
+                </p>
+
+                <p className="flex-1 bg-[#1E2939] border border-[#364153] rounded-[10px] py-2 px-4 text-white">
+                    {schedule.startTime}
+                </p>
+
+                <p className="text-white text-[20px]">~</p>
+
+                <p className="flex-1 bg-[#1E2939] border border-[#364153] rounded-[10px] py-2 px-4 text-white">
+                    {schedule.endTime}
+                </p>
+
+                <button
+                    type="button"
+                    onClick={() => handleRemoveTime(index)}
+                    className="px-4 py-2 bg-[#82181A4D] rounded-[10px] text-[#FF6467] font-extrabold"
+                >
+                    ✕
+                </button>
                 </div>
             ))}
+
+            {error && <p className="text-[14px] text-red-400">{error}</p>}
         </div>
     );
 }
