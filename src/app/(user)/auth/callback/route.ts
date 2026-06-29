@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 //route.ts는 화면 없이 요청을 처리하는 파일
 export async function GET(request: NextRequest) {
-    const accessToken = request.nextUrl.searchParams.get("accessToken");
+    const accessToken = request.cookies.get("accessToken")?.value;
     const onboardingCompleted = request.nextUrl.searchParams.get("onboardingCompleted") === "true";
     const socialSignupCompleted = request.nextUrl.searchParams.get("socialSignupCompleted") === "true";
 
@@ -21,7 +21,7 @@ export async function GET(request: NextRequest) {
         redirectPath = "/auth/onboarding?page=1";
     }
 
-    //리다이렉트 응답을 만들고, 거기에 쿠키를 실어서 브라우저에게 보내는 코드
+    //쿠키를 담아서 path로 리다이렉트
     const response = NextResponse.redirect(new URL(redirectPath, request.url));
 
     response.cookies.set("accessToken", accessToken, {
