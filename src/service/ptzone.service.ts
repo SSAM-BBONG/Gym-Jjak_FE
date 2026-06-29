@@ -1,5 +1,6 @@
 ﻿import {
   OnboardingResponse, PtCourseCreateResponse, PtDetailResponse, PtListResponse,
+  PtStatsResponse,
   TrainerApplicationData,
   TrainerApplicationDetailResponse,
   TrainerApplicationEditData,
@@ -160,6 +161,22 @@ export const updateTrainerApplication = async (
     const message = await getErrorMessage(
       response,
       "트레이너 신청 수정에 실패하였습니다."
+    );
+
+    throw new Error(message);
+  }
+
+  return response.json();
+};
+
+// PTZONE - PT 통계 조회
+export const getPtzoneStats = async (): Promise<PtStatsResponse> => {
+  const response = await fetchWithAuth(`/api/pt-courses/stats`);
+
+  if (!response.ok) {
+    const message = await getErrorMessage(
+      response,
+      'PT 통계 조회에 실패하였습니다.'
     );
 
     throw new Error(message);
