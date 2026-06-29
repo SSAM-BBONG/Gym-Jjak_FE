@@ -1,4 +1,5 @@
 ﻿import {
+  MyPtManageListResponse,
   OnboardingResponse,PtDetailResponse, PtListResponse,
   PtRegistCategoryReponse,
   PtRegistRequest,
@@ -224,7 +225,7 @@ export const getPtzoneTag = async (): Promise<PtRegistTagReponse> => {
 };
 
 // PT 강습 관리 목록 조회
-export const getPtzonePtManageList = async (): Promise<PtRegistTagReponse> => {
+export const getPtzonePtManageList = async (): Promise<MyPtManageListResponse> => {
   const response = await fetchWithAuth(`/api/pt-courses/me`);
 
   if (!response.ok) {

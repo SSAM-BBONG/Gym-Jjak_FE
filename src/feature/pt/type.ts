@@ -329,7 +329,7 @@ export interface PtManageListData {
 }
 
 // PT 강습 관리 목록 응답값
-export interface MyPtCourseListResponse {
+export interface MyPtManageListResponse {
   status: number;
   code: string;
   message: string;
