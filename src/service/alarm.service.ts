@@ -1,18 +1,54 @@
-// import { Alarm } from "@/feature/alarm/type";
-// import { fetchSetting } from "@/lib/api";
+import { fetchWithAuth } from "@/lib/feth";
+import { getErrorMessage } from "@/lib/stateError";
 
-// export const getAlarms = async (): Promise<Alarm[]>=> {
-//     const response = await fetchSetting.get('/users/me/notifications');
+export const getAlarms = async () => {
+    const response = await fetchWithAuth('/api/notifications');
 
-//     return response.data;
-// }
+    if (!response.ok) {
+        const message = await getErrorMessage(
+            response,
+            '알림 전체 조회에 실패하였습니다.'
+        );
 
-// export const deleteAlarm = async (id: number): Promise<Alarm> => {
-//     const response = await fetchSetting.delete(`/users/me/notifications/${id}`);
-//     return response.data;
-// }
+        throw new Error(message);
+    }
 
-// export const deleteAllAlarm = async (): Promise<Alarm> => {
-//     const response = await fetchSetting.delete(`/users/me/notifications/delete-read`);
-//     return response.data;
-// }
+    return response.json();
+}
+
+export const patchReadAlarms = async (payload: { notificationIds: number[] }) => {
+    const response = await fetchWithAuth(`/api/notifications/read`, {
+        method: "PATCH",
+        body: JSON.stringify(payload)
+    });
+
+    if (!response.ok) {
+        const message = await getErrorMessage(
+            response,
+            '알림 읽음 처리에 실패하였습니다.'
+        );
+
+        throw new Error(message);
+    }
+
+    return response.json();
+}
+
+
+export const deleteAlarms = async (payload: { notificationIds: number[] }) => {
+    const response = await fetchWithAuth(`/api/notifications`, {
+        method: "DELETE",
+        body: JSON.stringify(payload)
+    });
+
+    if (!response.ok) {
+        const message = await getErrorMessage(
+            response,
+            '알림 삭제에 실패하였습니다.'
+        );
+
+        throw new Error(message);
+    }
+
+    return response.json();
+}
