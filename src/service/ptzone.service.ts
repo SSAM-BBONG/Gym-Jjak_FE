@@ -1,4 +1,5 @@
 ﻿import {
+  MyPtManageListResponse,
   OnboardingResponse,PtDetailResponse, PtListResponse,
   PtRegistCategoryReponse,
   PtRegistRequest,
@@ -215,6 +216,22 @@ export const getPtzoneTag = async (): Promise<PtRegistTagReponse> => {
     const message = await getErrorMessage(
       response,
       '태그 목록 조회에 실패하였습니다.'
+    );
+
+    throw new Error(message);
+  }
+
+  return response.json();
+};
+
+// PT 강습 관리 목록 조회
+export const getPtzonePtManageList = async (): Promise<MyPtManageListResponse> => {
+  const response = await fetchWithAuth(`/api/pt-courses/me`);
+
+  if (!response.ok) {
+    const message = await getErrorMessage(
+      response,
+      'PT 강습 관리 목록 조회에 실패하였습니다.'
     );
 
     throw new Error(message);
