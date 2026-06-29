@@ -6,6 +6,7 @@
   PtRegistResponse,
   PtRegistTagReponse,
   PtStatsResponse,
+  PtStatusChangeResponse,
   TrainerApplicationData,
   TrainerApplicationDetailResponse,
   TrainerApplicationEditData,
@@ -224,7 +225,7 @@ export const getPtzoneTag = async (): Promise<PtRegistTagReponse> => {
   return response.json();
 };
 
-// PT 강습 관리 목록 조회
+// PT 강습 관리 목록 조회 API 
 export const getPtzonePtManageList = async (): Promise<MyPtManageListResponse> => {
   const response = await fetchWithAuth(`/api/pt-courses/me`);
 
@@ -232,6 +233,25 @@ export const getPtzonePtManageList = async (): Promise<MyPtManageListResponse> =
     const message = await getErrorMessage(
       response,
       'PT 강습 관리 목록 조회에 실패하였습니다.'
+    );
+
+    throw new Error(message);
+  }
+
+  return response.json();
+};
+
+// PT 강습 상태 변경 API
+export const chagnePtzoneStatus = async (ptCourseId: number): Promise<PtStatusChangeResponse> => {
+  const response = await fetchWithAuth(`/api/pt-courses/${ptCourseId}/status`, {
+    method: "PATCH",
+    }
+  );
+
+  if (!response.ok) {
+    const message = await getErrorMessage(
+      response,
+      'PT 강습 상태 변경에 실패하였습니다.'
     );
 
     throw new Error(message);
