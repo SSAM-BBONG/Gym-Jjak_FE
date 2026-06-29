@@ -293,6 +293,7 @@ export interface PtRegistCategoryReponse {
   data: PtRegistCategoryData[];
 }
 
+// PT 등록 카테고리 데이터
 export interface PtRegistCategoryData {
   categoryId: number,
   name: string,
@@ -300,6 +301,7 @@ export interface PtRegistCategoryData {
   usageCount: number
 }
 
+// PT 등록 태그 응답값
 export interface PtRegistTagReponse {
   status: number;
   code: string;
@@ -307,9 +309,29 @@ export interface PtRegistTagReponse {
   data: PtRegistTagData[];
 }
 
+// PT 등록 태그 데이터
 export interface PtRegistTagData {
   tagId: number;
   name: string;
   createdAt: string;
   usageCount: number;
+}
+
+// PT 강습 관리 목록 데이터
+export interface PtManageListData {
+  ptCourseId: number;
+  thumbnailFileId: number;
+  title: string;
+  trainerName: string;
+  status: string;
+  activeReservationCount: number;
+  totalReservationCount: number;
+}
+
+// PT 강습 관리 목록 응답값
+export interface MyPtCourseListResponse {
+  status: number;
+  code: string;
+  message: string;
+  data: PtManageListData[];
 }
