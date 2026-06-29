@@ -221,7 +221,7 @@ export const getOraganizationTrainerLists = async () => {
   return response.json();
 };
 
-// 내 조직 트레이너 목록 조회 API 
+// 내 조직 트레이너 삭제 API 
 export const deleteOraganizationTrainer = async (
   organizationTrainerId: number
 ): Promise<OrganizationManageTrainerDeleteResponse> => {

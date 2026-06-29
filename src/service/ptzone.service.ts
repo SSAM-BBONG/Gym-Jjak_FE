@@ -17,7 +17,7 @@ import { fetchWithAuth } from "@/lib/feth";
 import { getErrorMessage } from "@/lib/stateError";
 
 // PT 상세 조회 API
-export const getPtDetail = async (ptCourseId: number): Promise<PtCourseDetailResponse> => {
+export const getPtDetail = async (ptCourseId: string): Promise<PtCourseDetailResponse> => {
   const response = await fetchWithAuth(`/api/pt-courses/${ptCourseId}`);
 
   if (!response.ok) {

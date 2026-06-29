@@ -1,8 +1,8 @@
 import { PtZoneFindCard, PtZonePtManage, PtZonePtRecord, PtZonePtRegist } from "@/components/ui/image";
 import PtCard from "@/feature/pt/components/PtCard";
+import PtDashboard from "@/feature/pt/components/PtDashboard";
 import PtPopularCard from "@/feature/pt/components/PtPopularCard";
 import { decodeJWT } from "@/lib/decode";
-import PtDashboard from "../../../feature/pt/components/PtDashboard";
 
 export default async function PtZonePage() {
 
