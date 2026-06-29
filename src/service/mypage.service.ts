@@ -20,6 +20,7 @@ import {
   OrganizationManageTrainerDeleteResponse,
   OrganizationManageTrainerSearchReqeust,
   OrgnaizationManageTrainerSearchResponse,
+  TrainerProfileDetailResponse,
 } from "@/feature/mypage/type";
 import { fetchWithAuth } from "@/lib/feth";
 import { getErrorMessage } from "@/lib/stateError";
@@ -372,3 +373,18 @@ export const editMyTrainerProfileInformation = async (
 
   return response.json();
 };
+
+export const getTrainerProfileDetail = async (trainerProfileId: string): Promise<TrainerProfileDetailResponse> => {
+  const response = await fetchWithAuth(`/api/trainers/${trainerProfileId}`);
+
+  if (!response.ok) {
+    const message = await getErrorMessage(
+      response,
+      '내 프로필 조회에 실패하였습니다.'
+    );
+
+    throw new Error(message);
+  }
+
+  return response.json();
+}
