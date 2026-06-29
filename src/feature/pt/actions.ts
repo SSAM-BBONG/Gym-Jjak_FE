@@ -3,8 +3,8 @@
 import axios from "axios";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { createPtCourse, getTrainerCancel, trainerApplication, updateTrainerApplication } from "@/service/ptzone.service";
-import { PtActionState, PtRegistCurriculum, PtRegistRequest, PtRegistSchedule, TrainerApplicationData, TrainerApplicationEditData } from "./type";
+import { chagnePtzoneStatus, createPtCourse, getTrainerCancel, trainerApplication, updateTrainerApplication } from "@/service/ptzone.service";
+import { PtActionState, PtRegistCurriculum, PtRegistRequest, PtRegistSchedule, PtStatusChangeRequest, TrainerApplicationData, TrainerApplicationEditData } from "./type";
 import { uploadFilesPresignedUrl } from "@/service/file.service";
 
 type PtRegistCurriculumFormData = {
@@ -195,4 +195,15 @@ export const deleteTrainerApplication = async (id:number) => {
   revalidatePath('/pt/trainer-apply');
   revalidatePath('/pt/trainer-apply/edit');
   redirect('/pt');
+}
+
+export const changePtStatus = async (
+  id:number, 
+  status: "VISIBLE" | "HIDDEN"
+) => {
+  await chagnePtzoneStatus(id, { status });
+
+  revalidatePath('/pt/manage');
+  revalidatePath('/pt/find');
+  redirect('/pt/manage');
 }

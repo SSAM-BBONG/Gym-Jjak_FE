@@ -6,6 +6,7 @@
   PtRegistResponse,
   PtRegistTagReponse,
   PtStatsResponse,
+  PtStatusChangeRequest,
   PtStatusChangeResponse,
   TrainerApplicationData,
   TrainerApplicationDetailResponse,
@@ -242,9 +243,13 @@ export const getPtzonePtManageList = async (): Promise<MyPtManageListResponse> =
 };
 
 // PT 강습 상태 변경 API
-export const chagnePtzoneStatus = async (ptCourseId: number): Promise<PtStatusChangeResponse> => {
+export const chagnePtzoneStatus = async (
+  ptCourseId: number,
+  status: PtStatusChangeRequest
+): Promise<PtStatusChangeResponse> => {
   const response = await fetchWithAuth(`/api/pt-courses/${ptCourseId}/status`, {
     method: "PATCH",
+    body: JSON.stringify(status)
     }
   );
 
