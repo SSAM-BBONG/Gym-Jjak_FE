@@ -1,7 +1,9 @@
 ﻿import {
   OnboardingResponse,PtDetailResponse, PtListResponse,
+  PtRegistCategoryReponse,
   PtRegistRequest,
   PtRegistResponse,
+  PtRegistTagReponse,
   PtStatsResponse,
   TrainerApplicationData,
   TrainerApplicationDetailResponse,
@@ -173,7 +175,7 @@ export const updateTrainerApplication = async (
   return response.json();
 };
 
-// PTZONE - PT 통계 조회
+// PTZONE - PT 통계 조회 API
 export const getPtzoneStats = async (): Promise<PtStatsResponse> => {
   const response = await fetchWithAuth(`/api/pt-courses/stats`);
 
@@ -181,6 +183,38 @@ export const getPtzoneStats = async (): Promise<PtStatsResponse> => {
     const message = await getErrorMessage(
       response,
       'PT 통계 조회에 실패하였습니다.'
+    );
+
+    throw new Error(message);
+  }
+
+  return response.json();
+};
+
+// PT 등록 카테고리 API
+export const getPtzoneCategory = async (): Promise<PtRegistCategoryReponse> => {
+  const response = await fetchWithAuth(`/api/categories`);
+
+  if (!response.ok) {
+    const message = await getErrorMessage(
+      response,
+      '카테고리 목록 조회에 실패하였습니다.'
+    );
+
+    throw new Error(message);
+  }
+
+  return response.json();
+};
+
+// PT 등록 태그 API
+export const getPtzoneTag = async (): Promise<PtRegistTagReponse> => {
+  const response = await fetchWithAuth(`/api/tags`);
+
+  if (!response.ok) {
+    const message = await getErrorMessage(
+      response,
+      '태그 목록 조회에 실패하였습니다.'
     );
 
     throw new Error(message);
