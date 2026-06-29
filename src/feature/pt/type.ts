@@ -335,3 +335,16 @@ export interface MyPtManageListResponse {
   message: string;
   data: PtManageListData[];
 }
+
+// PT 강습 상태 변경 요청값
+export interface PtStatusChangeRequest {
+  status: string;
+}
+
+// PT 강습 상태 변경 응답값
+export interface PtStatusChangeResponse {
+  status: number;
+  code: string;
+  message: string;
+  data: null;
+}
