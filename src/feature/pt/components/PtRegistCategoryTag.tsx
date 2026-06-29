@@ -1,6 +1,7 @@
 import { UseFormRegister } from "react-hook-form";
 import { PtRegistCategoryData, PtRegistTagData } from "../type";
 import { PtRegistFormValue } from "@/lib/ptRegistSchema";
+import CalendarCategories from "@/feature/calendar/components/CalendarCategories";
 
 interface PtRegistCategoryTagProps {
     category: PtRegistCategoryData[];
@@ -27,14 +28,17 @@ export default function PtRegistCategoryTag( {
                 <div className="flex flex-col gap-2">
                     <p className="text-[14px] font-medium text-white"> 카테고리 </p>
                     <div className="flex gap-3">
+                    
                         {category.map((item) => (
                              <label 
+                                htmlFor={String(item.categoryId)}
                                 key={item.categoryId}
-                                className="px-4 py-2 bg-[#1E2939] rounded-[10px] text-[#99A1AF] text-[16px] font-medium cursor-pointer"
+                                className="px-4 py-2 bg-[#1E2939] rounded-[10px] text-[#99A1AF] text-[16px] font-medium cursor-pointer has-checked:bg-[#BFFF0B] has-checked:text-black"
                             >
                                 <input 
-                                    className="hidden" 
-                                    type="checkbox" 
+                                    id={String(item.categoryId)}
+                                    className="acitvie hidden" 
+                                    type="radio" 
                                     value={item.categoryId}
                                     {...register("categoryId")}  /> 
                                 {item.name} 
@@ -48,11 +52,11 @@ export default function PtRegistCategoryTag( {
                         {tag.map((item) => (
                             <label 
                                 key={item.tagId}
-                                className="px-4 py-2 bg-[#1E2939] rounded-[10px] text-[#99A1AF] text-[14px] font-extrabold hover:cursor-pointer"
+                                className="px-4 py-2 bg-[#1E2939] rounded-[10px] text-[#99A1AF] text-[14px] font-extrabold hover:cursor-pointer has-checked:bg-[#BFFF0B] has-checked:text-black"
                             >
                                 <input 
                                     className="hidden"  
-                                    type="checkbox" 
+                                    type="radio" 
                                     value={item.tagId} 
                                     {...register("tagId")}/> 
                                 {item.name} 
