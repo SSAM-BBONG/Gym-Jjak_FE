@@ -1,59 +1,3 @@
-// PT 상세조회 응답 타입
-export interface PtDetailResponse {
-  status: number;
-  code: string;
-  message: string;
-  data: PtDetail;
-}
-
-// PT 상세조회 타입
-export interface PtDetail {
-  ptCourseId: number;
-  categoryName: string;
-  tagId: number;
-  thumbnailUrl: string;
-  title: string;
-  description: string;
-  price: number;
-  totalSessionCount: number;
-  status: "VISIBLE" | "HIDDEN" | "DELETED";
-
-  organizationId: number;
-  organizationName: string;
-  organizationAddress: string;
-  organizationPhone: string;
-  websiteUrl: string;
-  instagramUrl: string;
-
-  trainerProfileId: number;
-  trainerName: string;
-  trainerSpec: string;
-  trainerIntroduction: string;
-  averageRating: number;
-  reviewCount: number;
-
-  certifications: PtTrainerCertification[];
-  awards: PtTrainerAward[];
-  curriculums: PtCourseCurriculum[];
-  recentReviews: PtRecentReview[];
-}
-
-// PT 상세조회 자격증 타입
-export interface PtTrainerCertification {
-  certificationId?: number;
-  name: string;
-  issuer: string;
-  acquiredDate: string;
-}
-
-// PT 상세조회 수상경력 타입
-export interface PtTrainerAward {
-  awardId?: number;
-  competitionName: string;
-  awardName: string;
-  awardDate: string;
-}
-
 // PT 상세조회 커리큘럼 타입
 export interface PtCourseCurriculum {
   curriculumId: number;
@@ -62,14 +6,43 @@ export interface PtCourseCurriculum {
   content: string;
 }
 
+// PT 상세조회 시간(스케쥴) 타입
+export interface PtCourseSchedule {
+  scheduleId: number;
+  dayOfWeek: string;
+  startTime: string; 
+  endTime: string; 
+}
+
 // PT 상세조회 리뷰 타입
-export interface PtRecentReview {
+export interface PtCourseReview {
   reviewId: number;
-  userNickname: string;
-  ptCourseTitle: string;
   rating: number;
   content: string;
   createdAt: string;
+}
+
+// PT 상세조회 데이터 타입
+export interface PtCourseDetailData {
+  ptCourseId: number;
+  thumbnailUrl: string;
+  title: string;
+  description: string;
+  price: number;
+  totalSessionCount: number;
+  organizationId: number;
+  trainerProfileId: number;
+  curriculums: PtCourseCurriculum[];
+  schedules: PtCourseSchedule[];
+  recentReviews: PtCourseReview[];
+}
+
+// PT 상세조회 응답값
+export interface PtCourseDetailResponse {
+  status: number;
+  code: string;
+  message: string;
+  data: PtCourseDetailData;
 }
 
 
