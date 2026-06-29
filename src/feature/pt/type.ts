@@ -284,3 +284,32 @@ export interface PtStats {
   inProgressPtCount: number;
   averageSatisfaction: number;
 }
+
+// PT 등록 카테고리 목록 조회 응답 타입
+export interface PtRegistCategoryReponse {
+  status: number;
+  code: string;
+  message: string;
+  data: PtRegistCategoryData[];
+}
+
+export interface PtRegistCategoryData {
+  categoryId: number,
+  name: string,
+  createdAt: string,
+  usageCount: number
+}
+
+export interface PtRegistTagReponse {
+  status: number;
+  code: string;
+  message: string;
+  data: PtRegistTagData[];
+}
+
+export interface PtRegistTagData {
+  tagId: number;
+  name: string;
+  createdAt: string;
+  usageCount: number;
+}
