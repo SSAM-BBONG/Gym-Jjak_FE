@@ -323,7 +323,7 @@ export interface PtManageListData {
   thumbnailFileId: number;
   title: string;
   trainerName: string;
-  status: string;
+  status: "VISIBLE" | "HIDDEN";
   activeReservationCount: number;
   totalReservationCount: number;
 }
@@ -338,7 +338,7 @@ export interface MyPtManageListResponse {
 
 // PT 강습 상태 변경 요청값
 export interface PtStatusChangeRequest {
-  status: string;
+  status: "VISIBLE" | "HIDDEN";
 }
 
 // PT 강습 상태 변경 응답값
