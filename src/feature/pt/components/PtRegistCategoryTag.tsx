@@ -37,7 +37,7 @@ export default function PtRegistCategoryTag( {category, tag}: PtRegistCategoryTa
                                 key={item.tagId}
                                 className="px-4 py-2 bg-[#1E2939] rounded-[10px] text-[#99A1AF] text-[14px] font-extrabold"
                             >
-                                <input className="hidden" name="tagId" type="radio" value={item.tagId} /> 
+                                <input className="hidden" name="tagId" type="checkbox" value={item.tagId} /> 
                                 {item.name} 
                             </label>                            
                         ))}
