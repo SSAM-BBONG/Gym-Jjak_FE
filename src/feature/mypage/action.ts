@@ -1,6 +1,6 @@
 "use server";
 
-import { addOrganizationManageTrainer, checkPassword, createOrganizationApplication, deleteMyAccount, deleteOraganizationTrainer, editMyProfileInformation, editOrganizationManageInformation, getOraganizationsearchTrainers, organizationApplicationCancel, organizationApplicationDupliCationId, updatePassword } from "@/service/mypage.service";
+import { addOrganizationManageTrainer, checkPassword, createOrganizationApplication, deleteMyAccount, deleteOraganizationTrainer, editMyProfileInformation, editMyTrainerProfileInformation, editOrganizationManageInformation, getOraganizationsearchTrainers, organizationApplicationCancel, organizationApplicationDupliCationId, updatePassword } from "@/service/mypage.service";
 import { uploadFilesPresignedUrl } from "@/service/file.service";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
@@ -318,6 +318,75 @@ export const editMyProfileInformationAction = async (formData: FormData) => {
     };
   } catch (error) {
     let errorMessage = "내 프로필 수정에 실패하였습니다.";
+
+    if (error instanceof Error) {
+      errorMessage = error.message;
+    }
+
+    return {
+      success: false,
+      message: errorMessage,
+    };
+  }
+};
+
+// 내 트레이너 프로필 수정 액션 
+export const editMyTrainerProfileInformationAction = async (
+  formData: FormData
+) => {
+  try {
+    const profileImageAction = String(
+      formData.get("profileImageAction") ?? "KEEP"
+    ) as "KEEP" | "REPLACE" | "DELETE";
+
+    const profileImageFile = formData.get("profileImageFile");
+
+    const introduction = String(formData.get("introduction") ?? "").trim();
+
+    const awardHistories =  JSON.parse(String(formData.get("awardHistories") ?? "[]")
+      ) as string[];
+
+    const additionalCertifications = JSON.parse(String(formData.get("additionalCertifications") ?? "[]")
+      ) as string[];
+
+    let uploadedProfileImage = null;
+
+    if (profileImageAction === "REPLACE") {
+      if (!(profileImageFile instanceof File) || profileImageFile.size === 0) {
+        return {
+          success: false,
+          message: "프로필 이미지를 교체하려면 파일이 필요합니다.",
+        };
+      }
+
+      const uploadedFiles = await uploadFilesPresignedUrl([
+        {
+          file: profileImageFile,
+          fileType: "PROFILE_IMAGE",
+        },
+      ]);
+
+      uploadedProfileImage = uploadedFiles[0];
+    }
+
+    const payload = {
+      profileImageAction,
+      profileImageFile: profileImageAction === "REPLACE" ? uploadedProfileImage : null,
+      additionalCertifications,
+      awardHistories,
+      introduction
+    };
+
+    await editMyTrainerProfileInformation(payload);
+
+    revalidatePath("/mypage/trainerprofile");
+
+    return {
+      success: true,
+      message: "트레이너 프로필이 수정되었습니다.",
+    };
+  } catch (error) {
+    let errorMessage = "트레이너 프로필 수정에 실패하였습니다.";
 
     if (error instanceof Error) {
       errorMessage = error.message;

@@ -155,6 +155,7 @@ export const createPtCourseAction = async (
   redirect("/pt/manage");
 };
 
+// 트레이너 등록 액션
 export const trainerApplicationAction = async (formData: FormData) => {
   const profileImageFile = formData.get("profileImageFile");
   const certificateFile = formData.get("certificateFile");
@@ -216,6 +217,7 @@ export const trainerApplicationAction = async (formData: FormData) => {
   redirect("/pt/trainer-apply");
 };
 
+// 트레이너 등록 수정 액션
 export const trainerApplicationEditAction = async (
   id: number,
   formData: FormData
