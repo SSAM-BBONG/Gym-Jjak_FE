@@ -325,3 +325,42 @@ export interface MyTrainerProfileEditResponse {
     trainerProfileId: number;
   };
 }
+
+// 트레이너 프로필 상세 조회 요청값
+export interface TrainerProfileDetailRequest {
+  trainerProfileId: number;
+}
+
+// 트레이너 프로필 상세 조회 자격증 타입
+export interface TrainerCertification {
+  trainerCertificationId: number;
+  name: string;
+  certificationType: string;
+}
+
+// 트레이너 프로필 상세 조회 대회 경력 타입
+export interface TrainerAward {
+  trainerAwardId: number;
+  name: string;
+}
+
+// 트레이너 프로필 상세 조회 데이터 타입
+export interface TrainerProfileDetailData {
+  trainerProfileId: number;
+  profileImageUrl: string;
+  trainerName: string;
+  introduction: string;
+  averageRating: number;
+  reviewCount: number;
+  status: string;
+  certifications: TrainerCertification[];
+  awards: TrainerAward[];
+}
+
+// 트레이너 프로필 상세 조회 응답값
+export interface TrainerProfileDetailResponse {
+  status: number;
+  code: string;
+  message: string;
+  data: TrainerProfileDetailData;
+}
