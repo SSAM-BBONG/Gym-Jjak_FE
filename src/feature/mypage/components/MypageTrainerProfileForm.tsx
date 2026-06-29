@@ -162,7 +162,7 @@ export default function MypageTrainerProfileForm( {data}: MypageTrainerProfileFo
             />
             <button 
                 type="submit"
-                disabled={isSubmitting}
+                disabled={isReadOnly}
                 className="bg-[#BFFF0B] text-black text-[16px] font-extrabold py-3 mb-20 rounded-[10px]"> 수정하기 </button>
             </div>
         </form>
