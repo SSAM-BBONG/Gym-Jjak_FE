@@ -1,6 +1,5 @@
 "use client";
 
-import { OrganApplicationUpload} from "@/components/ui/image";
 import { createPtCourseAction } from "@/feature/pt/actions";
 import { useActionState } from "react";
 import PtRegistCurriculum from "./PtRegistCurriculum";
@@ -8,8 +7,14 @@ import PtRegistTime from "./PtRegistTime";
 import PtRegistCategoryTag from "./PtRegistCategoryTag";
 import PtRegistBasicInformation from "./PtRegistBasicInformation";
 import PtRegistPreview from "./PtRegistPreview";
+import { PtRegistCategoryData, PtRegistTagData } from "../type";
 
-export default function PtRegistForm() {
+interface PtRegistFormProps {
+    category: PtRegistCategoryData[];
+    tag: PtRegistTagData[];
+}
+
+export default function PtRegistForm({ category, tag}: PtRegistFormProps) {
     const [state, formAction, isPending] = useActionState(createPtCourseAction, {
         success: false,
         message: "",
@@ -23,7 +28,10 @@ export default function PtRegistForm() {
 
             <PtRegistBasicInformation/>
 
-            <PtRegistCategoryTag />
+            <PtRegistCategoryTag 
+                category={category}
+                tag={tag}
+            />
 
             <PtRegistCurriculum />
             

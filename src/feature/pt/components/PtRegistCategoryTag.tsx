@@ -1,4 +1,12 @@
-export default function PtRegistCategoryTag() {
+import { PtRegistCategoryData, PtRegistTagData } from "../type";
+
+interface PtRegistCategoryTagProps {
+    category: PtRegistCategoryData[];
+    tag: PtRegistTagData[]
+}
+
+export default function PtRegistCategoryTag( {category, tag}: PtRegistCategoryTagProps) {
+    
     return (
         <div className="
             flex flex-col gap-6
@@ -10,25 +18,29 @@ export default function PtRegistCategoryTag() {
                 <div className="flex flex-col gap-2">
                     <p className="text-[14px] font-medium text-white"> 카테고리 </p>
                     <div className="flex gap-3">
-                        <label className="px-4 py-2 bg-[#BFFF0B] rounded-[10px] text-black text-[16px] font-extrabold"><input className="hidden" name="categoryId" type="radio" value="1" defaultChecked /> 다이어트 </label>
-                        <label className="px-4 py-2 bg-[#1E2939] rounded-[10px] text-[#99A1AF] text-[16px] font-medium"><input className="hidden" name="categoryId" type="radio" value="2" /> 벌크업 </label>
-                        <label className="px-4 py-2 bg-[#1E2939] rounded-[10px] text-[#99A1AF] text-[16px] font-medium"><input className="hidden" name="categoryId" type="radio" value="3" /> 체력증진 </label>
-                        <label className="px-4 py-2 bg-[#1E2939] rounded-[10px] text-[#99A1AF] text-[16px] font-medium"><input className="hidden" name="categoryId" type="radio" value="4" /> 재활 </label>
+                        {category.map((item) => (
+                             <label 
+                                key={item.categoryId}
+                                className="px-4 py-2 bg-[#1E2939] rounded-[10px] text-[#99A1AF] text-[16px] font-medium"
+                            >
+                                <input className="hidden" name="categoryId" type="checkbox" value={item.categoryId} /> 
+                                {item.name} 
+                            </label>
+                        ))}
                     </div>
                 </div>
                 <div className="flex flex-col gap-2">
                     <p className="text-[14px] font-medium text-white"> 태그 (복수 선택) </p>
-                    <div className="flex gap-1">
-                        <label className="px-4 py-2 bg-[#BFFF0B] rounded-[10px] text-black text-[14px] font-extrabold"><input className="hidden" name="tagId" type="radio" value="1" defaultChecked /> 어깨 </label>
-                        <label className="px-4 py-2 bg-[#1E2939] rounded-[10px] text-[#99A1AF] text-[14px] font-medium"><input className="hidden" name="tagId" type="radio" value="2" /> 가슴 </label>
-                        <button className="px-4 py-2 bg-[#1E2939] rounded-[10px] text-[#99A1AF] text-[14px] font-medium"> 등 </button>
-                        <button className="px-4 py-2 bg-[#1E2939] rounded-[10px] text-[#99A1AF] text-[14px] font-medium"> 하체 </button>
-                        <button className="px-4 py-2 bg-[#1E2939] rounded-[10px] text-[#99A1AF] text-[14px] font-medium"> 허벅지 </button>
-                        <button className="px-4 py-2 bg-[#1E2939] rounded-[10px] text-[#99A1AF] text-[14px] font-medium"> 팔 </button>
-                        <button className="px-4 py-2 bg-[#1E2939] rounded-[10px] text-[#99A1AF] text-[14px] font-medium"> 복근 </button>
-                        <button className="px-4 py-2 bg-[#1E2939] rounded-[10px] text-[#99A1AF] text-[14px] font-medium"> 전신 </button>
-                        <button className="px-4 py-2 bg-[#1E2939] rounded-[10px] text-[#99A1AF] text-[14px] font-medium"> 유산소 </button>
-                        <button className="px-4 py-2 bg-[#1E2939] rounded-[10px] text-[#99A1AF] text-[14px] font-medium"> 전체 </button>
+                    <div className="flex gap-3">
+                        {tag.map((item) => (
+                            <label 
+                                key={item.tagId}
+                                className="px-4 py-2 bg-[#1E2939] rounded-[10px] text-[#99A1AF] text-[14px] font-extrabold"
+                            >
+                                <input className="hidden" name="tagId" type="radio" value={item.tagId} /> 
+                                {item.name} 
+                            </label>                            
+                        ))}
                     </div>
                 </div>
             </div>
