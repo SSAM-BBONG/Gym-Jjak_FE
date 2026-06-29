@@ -1,5 +1,5 @@
 import OnlienPtFindCard from "@/feature/onlinept/OnlinePtFindCard";
-import PtDashboard from "../pt/PtDashboard";
+import PtDashboard from "../../../feature/pt/components/PtDashboard";
 import OnlinePtCardCt from "./OnlinePtCartCt";
 
 export default function Page() {

@@ -2,7 +2,7 @@ import { PtZoneFindCard, PtZonePtManage, PtZonePtRecord, PtZonePtRegist } from "
 import PtCard from "@/feature/pt/components/PtCard";
 import PtPopularCard from "@/feature/pt/components/PtPopularCard";
 import { decodeJWT } from "@/lib/decode";
-import PtDashboard from "./PtDashboard";
+import PtDashboard from "../../../feature/pt/components/PtDashboard";
 
 export default async function PtZonePage() {
 
