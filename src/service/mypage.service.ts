@@ -20,6 +20,7 @@ import {
   OrganizationManageTrainerDeleteResponse,
   OrganizationManageTrainerSearchReqeust,
   OrgnaizationManageTrainerSearchResponse,
+  TrainerProfileDetailResponse,
 } from "@/feature/mypage/type";
 import { fetchWithAuth } from "@/lib/feth";
 import { getErrorMessage } from "@/lib/stateError";
@@ -373,7 +374,7 @@ export const editMyTrainerProfileInformation = async (
   return response.json();
 };
 
-export const getTrainerProfileDetail = async (trainerProfileId: string): Promise<MyPageUserProfileResponse> => {
+export const getTrainerProfileDetail = async (trainerProfileId: string): Promise<TrainerProfileDetailResponse> => {
   const response = await fetchWithAuth(`/api/trainers/${trainerProfileId}`);
 
   if (!response.ok) {
