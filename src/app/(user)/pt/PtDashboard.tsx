@@ -23,7 +23,7 @@ export default async function PtDashboard({ mode }: { mode: 'PT' | '온라인 PT
                 <p className="text-[14px] font-normal text-[#99A1AF]"> 진행 중인 {mode} </p>
             </div>
             <div className="flex flex-col items-center">
-                <p className="text-[30px] font-black text-[#BFFF0B]"> {response.data.organizationCount} </p>
+                <p className="text-[30px] font-black text-[#BFFF0B]"> {response.data.averageSatisfaction} </p>
                 <p className="text-[14px] font-normal text-[#99A1AF]"> 평균 만족도 </p>
             </div>
         </div>
