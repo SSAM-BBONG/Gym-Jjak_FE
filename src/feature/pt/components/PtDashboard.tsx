@@ -1,4 +1,8 @@
-export default function PtDashboard({ mode }: { mode: 'PT' | '온라인 PT' }) {
+import { getPtzoneStats } from "@/service/ptzone.service";
+
+export default async function PtDashboard({ mode }: { mode: 'PT' | '온라인 PT' }) {
+    const response = await getPtzoneStats();
+
     return (
         <div className="
             flex justify-around
@@ -7,19 +11,19 @@ export default function PtDashboard({ mode }: { mode: 'PT' | '온라인 PT' }) {
             p-8
             ">
             <div className="flex flex-col items-center">
-                <p className="text-[30px] font-black text-[#BFFF0B]"> 1,234 </p>
+                <p className="text-[30px] font-black text-[#BFFF0B]"> {response.data.organizationCount} </p>
                 <p className="text-[14px] font-normal text-[#99A1AF]"> 등록된 헬스장 </p>
             </div>
             <div className="flex flex-col items-center">
-                <p className="text-[30px] font-black text-[#BFFF0B]"> 892 </p>
+                <p className="text-[30px] font-black text-[#BFFF0B]"> {response.data.activeTrainerCount} </p>
                 <p className="text-[14px] font-normal text-[#99A1AF]"> 활동 중인 트레이너 </p>
             </div>
             <div className="flex flex-col items-center">
-                <p className="text-[30px] font-black text-[#BFFF0B]"> 15,678 </p>
+                <p className="text-[30px] font-black text-[#BFFF0B]"> {response.data.inProgressPtCount} </p>
                 <p className="text-[14px] font-normal text-[#99A1AF]"> 진행 중인 {mode} </p>
             </div>
             <div className="flex flex-col items-center">
-                <p className="text-[30px] font-black text-[#BFFF0B]"> 4.8 </p>
+                <p className="text-[30px] font-black text-[#BFFF0B]"> {response.data.averageSatisfaction} </p>
                 <p className="text-[14px] font-normal text-[#99A1AF]"> 평균 만족도 </p>
             </div>
         </div>
