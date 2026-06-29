@@ -6,6 +6,7 @@ import { Alarm } from "../ui/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import AlarmSocket from "@/feature/alarm/components/AlarmSocket";
 
 type HeaderUser = Awaited<ReturnType<typeof getHeaderUserAction>>;
 
@@ -42,6 +43,7 @@ export default function HeaderAuthArea() {
 
     return (
         <div className="flex gap-5 items-center justify-end">
+            {user && <AlarmSocket />}
             {user?.role === 'ADMIN' && (
                 <Link href="/admin/approvals/organizations?page=1">
                     <button className="text-[#BFFF0B] border-[#BFFF0B] border px-4 py-2 rounded-[10px] text-[14px] font-extrabold bg-black cursor-pointer"> 관리자 </button>
