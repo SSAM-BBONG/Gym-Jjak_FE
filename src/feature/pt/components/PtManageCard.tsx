@@ -1,6 +1,11 @@
-import { PtfindTestImg, PtManageUsers } from "@/components/ui/image";
+import { PtfindTestImg, PtManageUsers, PtZonePtListsActivate, PtZonePtListsDeactivate } from "@/components/ui/image";
+import { PtManageListData } from "../type";
 
-export default function PtManageCard() {
+interface PtManageCardProps {
+    data: PtManageListData
+}
+
+export default function PtManageCard( {data}: PtManageCardProps) {
     return (
         <div className="
         overflow-hidden
@@ -9,13 +14,16 @@ export default function PtManageCard() {
         bg-[#101828]
         border border-[#1E2939] rounded-[16px]
         ">
-            <div className="absolute right-3 top-3 bg-[#BFFF0B] px-3 py-1 rounded-full text-[12px] font-extrabold text-black"> 활성화 </div>
+            <div className={`absolute right-3 top-3 px-3 py-1 rounded-full text-[12px] font-extrabold 
+                    ${data.status==="VISIBLE" ? "bg-[#BFFF0B] text-black" : "bg-[#FB2C361A] text-[#FB2C36]"}`}> 
+                {data.status==="VISIBLE" ? "활성화" : "비활성화"}  
+            </div>
             <div
                 style={{ backgroundImage: `url(${PtfindTestImg})` }} 
                 className="h-40 bg-no-repeat bg-cover bg-center"></div>
             <div className="flex flex-col p-5 gap-2">
-                <p className="text-[18px] font-black text-white"> 체계적인 가슴 집중 PT </p>
-                <p className="text-[14px] font-normal text-[#99A1AF]"> 김철수 트레이너 </p>
+                <p className="text-[18px] font-black text-white"> {data.title} </p>
+                <p className="text-[14px] font-normal text-[#99A1AF]"> {data.trainerName} </p>
                 <div className="
                 flex flex-col gap-3
                 bg-[#1E293980]
@@ -28,12 +36,30 @@ export default function PtManageCard() {
                             <img src={PtManageUsers} alt="PT 관리 수강생"/>
                             <p className="text-[12px] font-normal text-[#99A1AF]"> 수강생 </p>
                         </div>
-                        <p className="text-[14px] font-extrabold text-[#6A7282]"> <span className="text-[#BFFF0B]">8</span> /10</p>
-                    </div>
-                    <div className="flex h-2 rounded-full bg-[#364153]">
-                        <p className="w-[30%] rounded-full bg-[#BFFF0B]"></p>
+                        <p className="text-[14px] font-extrabold text-[#6A7282]"> <span className="text-[#BFFF0B]">{data.activeReservationCount} </span> /{data.totalReservationCount}</p>
                     </div>
                 </div>
+                    <button 
+                        type="button"
+                        className={`flex justify-center items-center gap-3 py-3 rounded-[14px] mt-1
+                            ${data.status==="VISIBLE" ? "bg-[#1E2939]" : "bg-[#BFFF0B1A] "}`}
+                    >
+                        {data.status === "VISIBLE"
+                        ?
+                        (
+                        <>
+                            <img src={PtZonePtListsDeactivate} /> 
+                            <p className="text-[14px] text-[#D1D5DC] font-bold"> 비활성화로 전환 </p>
+                        </>
+                        )
+                        :
+                        (
+                        <>
+                            <img src={PtZonePtListsActivate} /> 
+                            <p className="text-[14px] text-[#BFFF0B] font-bold"> 활성화로 전환 </p>
+                        </>
+                        )}
+                    </button>
             </div>
         </div>
     );
