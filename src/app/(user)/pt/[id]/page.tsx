@@ -1,4 +1,5 @@
 import { PtDetailHistory, PtDetailQualification, PtfindTestImg } from "@/components/ui/image";
+import { getTrainerProfileDetail } from "@/service/mypage.service";
 import { getPtDetail } from "@/service/ptzone.service";
 import Link from "next/link";
 
@@ -13,7 +14,8 @@ export default async function PtDetailPage({ params }: PtDetailPageProps) {
     const { id } = await params;
 
     const response = await getPtDetail(id);
-    
+    const trainerInformation = await getTrainerProfileDetail(response.data.trainer.trainerProfileId);
+
     return (
         <div className="flex flex-col gap-8 px-80 py-10">
             <div
@@ -34,7 +36,7 @@ export default async function PtDetailPage({ params }: PtDetailPageProps) {
                     <div className="flex gap-3 items-center">
                         <div className="text-[#BFFF0B] text-[20px]"> ★ </div>
                         <p className="text-[18px] font-extrabold text-white">
-                            {response.data.averageRating}  <span className="text-[14px] font-normal text-[#99A1AF]">({response.data.reviewCount}개)</span>
+                            {trainerInformation.data.averageRating}  <span className="text-[14px] font-normal text-[#99A1AF]">({trainerInformation.data.reviewCount}개)</span>
                         </p>
                     </div>
                     <div className="flex flex-col gap-1">
@@ -73,14 +75,13 @@ export default async function PtDetailPage({ params }: PtDetailPageProps) {
                 <p className="text-[18px] font-extrabold text-white"> 강사 정보 </p>
                 <div className="flex gap-4">
                     <div
-                        style={{ backgroundImage: `url(${response.data.thumbnailUrl})` }}
+                        style={{ backgroundImage: `url(${trainerInformation.data.profileImageUrl})` }}
                         className="bg-cover size-15 border border-[#BFFF0B] rounded-full">
                     </div>
 
                     <div className="flex flex-col flex-8 gap-2">
-                        <p className="text-[18px] font-extrabold text-white"> {response.data.trainerName} 트레이너 </p>
-                        <p className="text-[14px] font-normal text-[#99A1AF]"> {response.data.trainerSpec} </p>
-                        <p className="text-[14px] font-normal text-[#D1D5DC]"> {response.data.trainerIntroduction} </p>
+                        <p className="text-[18px] font-extrabold text-white"> {trainerInformation.data.trainerName} 트레이너 </p>
+                        <p className="text-[14px] font-normal text-[#D1D5DC]"> {trainerInformation.data.introduction} </p>
                     </div>
                 </div>
                 <div className="flex">
@@ -89,18 +90,23 @@ export default async function PtDetailPage({ params }: PtDetailPageProps) {
                             <img src={PtDetailQualification} alt="PT 상세조회 자격증" />
                             <p className="text-[14px] font-extrabold text-white"> 자격증 </p>
                         </div>
-                        <p className="text-[12px] font-normal text-[#D1D5DC] flex gap-2"><span className="text-[#BFFF0B] text-[12px]">•</span> 생활체육지도사 2급 </p>
-                        <p className="text-[12px] font-normal text-[#D1D5DC] flex gap-2"><span className="text-[#BFFF0B] text-[12px]">•</span>  NSCA-CPT </p>
-                        <p className="text-[12px] font-normal text-[#D1D5DC] flex gap-2"><span className="text-[#BFFF0B] text-[12px]">•</span>  ACSM 인증 트레이너 </p>
+                        {trainerInformation.data.certifications.map((item) => (
+                            <p 
+                                key={item.trainerCertificationId}
+                                className="text-[12px] font-normal text-[#D1D5DC] flex gap-2"><span className="text-[#BFFF0B] text-[12px]">•</span> {item.name} </p>
+                        ))}
                     </div>
                     <div className="flex flex-1 flex-col gap-2">
                         <div className="flex gap-2 items-center">
                             <img src={PtDetailHistory} alt="PT 상세조회 대회경력" />
                             <p className="text-[14px] font-extrabold text-white"> 대회 경력 </p>
                         </div>
-                        <p className="text-[12px] font-normal text-[#D1D5DC] flex gap-2"><span className="text-[#BFFF0B] text-[12px]">•</span>  2023 피지크 대회 입상 </p>
-                        <p className="text-[12px] font-normal text-[#D1D5DC] flex gap-2"><span className="text-[#BFFF0B] text-[12px]">•</span>  보디빌딩 선수권 3위 </p>
-                        <p className="text-[12px] font-normal text-[#D1D5DC] flex gap-2"><span className="text-[#BFFF0B] text-[12px]">•</span>  2024 체육인 대회 우승 </p>
+                        {trainerInformation.data.awards.map((item) => (
+                            <p 
+                                key={item.trainerAwardId}
+                                className="text-[12px] font-normal text-[#D1D5DC] flex gap-2"><span className="text-[#BFFF0B] text-[12px]">•</span>  {item.name} </p>
+
+                        ))}
                     </div>
                 </div>
             </div>

@@ -374,7 +374,7 @@ export const editMyTrainerProfileInformation = async (
   return response.json();
 };
 
-export const getTrainerProfileDetail = async (trainerProfileId: string): Promise<TrainerProfileDetailResponse> => {
+export const getTrainerProfileDetail = async (trainerProfileId: number): Promise<TrainerProfileDetailResponse> => {
   const response = await fetchWithAuth(`/api/trainers/${trainerProfileId}`);
 
   if (!response.ok) {
