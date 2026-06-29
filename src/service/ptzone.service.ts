@@ -1,6 +1,7 @@
 ﻿import {
   MyPtManageListResponse,
-  OnboardingResponse, PtCourseDetailResponse, PtListResponse,
+  OnboardingResponse, PtCourseDetailResponse,
+  PtCourseListResponse,
   PtRegistCategoryReponse,
   PtRegistRequest,
   PtRegistResponse,
@@ -33,7 +34,7 @@ export const getPtDetail = async (ptCourseId: string): Promise<PtCourseDetailRes
 };
 
 // PT 목록 조회 API
-export const getPtLists = async (): Promise<PtListResponse> => {
+export const getPtLists = async (): Promise<PtCourseListResponse> => {
   const response = await fetchWithAuth(`/api/pt-courses`);
 
   if (!response.ok) {

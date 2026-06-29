@@ -45,45 +45,31 @@ export interface PtCourseDetailResponse {
   data: PtCourseDetailData;
 }
 
-
-// PT 목록 조회
-export interface PtListData {
-  content: PtContent[];
-  totalElements: number;
-  totalPages: number;
-  page: number;
-  size: number;
-}
-
-// PT 목록 응답 타입
-export interface PtListResponse {
-  status: number;
-  code: string;
-  message: string;
-  data: PtContent[];
-}
-// PT 목록 타입
-export interface PtContent {
+// PT 목록 데이터 타입
+export interface PtCourseListData {
   ptCourseId: number;
   title: string;
   thumbnailUrl: string;
   price: number;
-  totalSessionCount: number;
-
+  tagId: number;
+  tagName: string;
+  categoryId: number;
   categoryName: string;
-  tag: string;
-
-  organizationName: string;
-  organizationAddress: string;
+  trainerName: string;
+  organizationId: number;
+  businessName: string;
+  roadAddress: string;
   latitude: number;
   longitude: number;
-
-  trainerName: string;
-
-  averageRating: number;
   reviewCount: number;
+}
 
-  status: "VISIBLE" | "HIDDEN" | "DELETED";
+// PT 목록 응답 타입
+export interface PtCourseListResponse {
+  status: number;
+  code: string;
+  message: string;
+  data: PtCourseListData[];
 }
 
 // 온보딩 응답 타입

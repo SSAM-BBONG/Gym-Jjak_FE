@@ -1,6 +1,6 @@
 "use client";
 
-import { PtContent } from "@/feature/pt/type";
+import { PtCourseListData } from "@/feature/pt/type";
 import { useState } from "react";
 import { CustomOverlayMap, Map, MapMarker } from "react-kakao-maps-sdk";
 
@@ -12,7 +12,7 @@ interface OrganizationId {
 interface PtFindProps {
   latitude: number;
   longitude: number;
-  ptList: PtContent[];
+  ptList: PtCourseListData[];
   setOrganizationId: (value: OrganizationId) => void;
 }
 
@@ -48,7 +48,7 @@ export default function KakaoMap({latitude, longitude, ptList, setOrganizationId
 
     {/* 맵에 나타나는 마커 관련 */}
     {ptList.map((item) => {
-      const isSelected = selectedOrganizationName === item.organizationName;
+      const isSelected = selectedOrganizationName === item.businessName;
 
       return (
         <CustomOverlayMap
@@ -68,7 +68,7 @@ export default function KakaoMap({latitude, longitude, ptList, setOrganizationId
                 "> 
               </div>
              <button
-                 onClick={() => handleMarkerClick(item.organizationName)} 
+                 onClick={() => handleMarkerClick(item.businessName)} 
                  className={`
                   absolute bottom-full left-1/2 -translate-x-1/2
                   max-w-25 px-3 py-2 border-2 bg-[#1e293994]  rounded-[10px] text-[12px]
@@ -77,7 +77,7 @@ export default function KakaoMap({latitude, longitude, ptList, setOrganizationId
                   `}
               >
                   <span className="break-keep whitespace-normal text-center block">
-                  {item.organizationName}
+                  {item.businessName}
                 </span>
               </button>
         </div>

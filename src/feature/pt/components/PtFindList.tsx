@@ -1,8 +1,8 @@
-import { PtContent } from "../type";
+import { PtCourseListData } from "../type";
 import PtFindCard from "./PtFindCard";
 
 interface PtFindListProps {
-  response: PtContent[];
+  response: PtCourseListData[];
 }
 
 export default function PtFindList( {response}: PtFindListProps) {

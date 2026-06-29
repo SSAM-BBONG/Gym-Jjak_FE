@@ -1,12 +1,12 @@
 'use client'
 
 import { useState } from "react";
-import { OnboardingResponse, PtListResponse } from "../type";
+import { OnboardingResponse, PtCourseListResponse } from "../type";
 import PtFindList from "./PtFindList";
 import KakaoMap from "@/components/ui/Map";
 
 interface PtFindResponse {
-    listResponse: PtListResponse;
+    listResponse: PtCourseListResponse;
     onBoardingResponse: OnboardingResponse
 }
 
@@ -16,7 +16,7 @@ export default function PtFindView({listResponse, onBoardingResponse}: PtFindRes
     });
 
     const filterPtList = listResponse.data.filter(
-        (item) => item.organizationName === organizationId.organName
+        (item) => item.businessName === organizationId.organName
     )    
 
     return (
