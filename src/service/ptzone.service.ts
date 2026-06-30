@@ -1,4 +1,6 @@
 ﻿import {
+  FeedbackCreateRequest,
+  FeedbackCreateResponse,
   FeedbackListsResponse,
   MyPtManageListResponse,
   MyPtResrvationDetailResponse,
@@ -442,6 +444,27 @@ export const getFeedBackLists = async (reservationId: string) : Promise<Feedback
     );
 
     throw new Error(message);
+  }
+
+  return response.json();
+};
+
+// 피드백 등록 
+export const createFeedback = async (
+  reservationId: string,
+  payload: FeedbackCreateRequest
+): Promise<FeedbackCreateResponse> => {
+  const response = await fetchWithAuth(`/api/reservations/${reservationId}/feedbacks`, {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+
+  if (!response.ok) {
+    const message = await getErrorMessage(
+      response,
+      "피드백 등록에 실패하였습니다.");
+    
+      throw new Error(message);
   }
 
   return response.json();
