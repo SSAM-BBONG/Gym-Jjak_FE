@@ -62,6 +62,7 @@ export interface PtCourseListData {
   latitude: number;
   longitude: number;
   reviewCount: number;
+  averageRating: number;
 }
 
 // PT 목록 응답 타입
@@ -342,4 +343,24 @@ export interface PtResrvationAvailableTimesResponse {
   code: string;
   message: string;
   data: PtResrvationAvailableTimeData;
+}
+
+// PT 예약하기 요청값
+export interface PtReservationRequest {
+  reservedStartAt: string;
+  reservedEndAt: string;
+}
+
+// PT 예약하기 응답값
+export interface PtReservationResponse {
+  status: number;
+  code: string;
+  message: string;
+  data: PtReservationData
+}
+
+// PT 예약하기 데이터값 
+export interface PtReservationData {
+  ptReservationId: number;
+  status: string;
 }

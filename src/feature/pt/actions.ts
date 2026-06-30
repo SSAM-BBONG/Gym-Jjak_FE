@@ -2,8 +2,8 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { chagnePtzoneStatus, createPtCourse, getPtResrvationAvailableDates, getPtResrvationAvailableTimes, getTrainerCancel, trainerApplication, updateTrainerApplication } from "@/service/ptzone.service";
-import { PtRegistRequest, PtRegistSchedule, TrainerApplicationData, TrainerApplicationEditData } from "./type";
+import { chagnePtzoneStatus, createPtCourse, createPtReservation, getPtResrvationAvailableDates, getPtResrvationAvailableTimes, getTrainerCancel, trainerApplication, updateTrainerApplication } from "@/service/ptzone.service";
+import { PtRegistRequest, PtRegistSchedule, PtReservationRequest, TrainerApplicationData, TrainerApplicationEditData } from "./type";
 import { uploadFilesPresignedUrl } from "@/service/file.service";
 
 type PtRegistCurriculumFormData = {
@@ -216,4 +216,12 @@ export const getPtAvailableTimesAction = async (
   date: string
 ) => {
   return getPtResrvationAvailableTimes(ptCourseId, date);
+};
+
+// PT 예약하기 액션
+export const createPtReservationAction = async (
+  ptCourseId: number,
+  payload: PtReservationRequest
+) => {
+  return createPtReservation(ptCourseId, payload);
 };

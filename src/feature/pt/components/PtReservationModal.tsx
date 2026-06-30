@@ -5,7 +5,7 @@ import { CloseButton } from "@/components/ui/image";
 import { ko } from "date-fns/locale"
 import { useEffect, useState } from "react";
 import { PtResrvationAvailableTimeSlot } from "../type";
-import { getPtAvailableDatesAction, getPtAvailableTimesAction } from "../actions";
+import { createPtReservationAction, getPtAvailableDatesAction, getPtAvailableTimesAction } from "../actions";
 import { format } from "date-fns";
 
 interface PtReservationModalProps {
@@ -22,7 +22,9 @@ export default function PtReservationModal({ isModal, closeModal, activeModal, n
     const [date, setDate] = useState<Date | undefined>(new Date())
     const [availableDates, setAvailableDates] = useState<string[]>([]);
     const [timeSlots, setTimeSlots] = useState<PtResrvationAvailableTimeSlot[]>([]);
-    const [selectedTime, setSelectedTime] = useState<string>("");
+    const [selectedTimeSlot, setSelectedTimeSlot] =  useState<PtResrvationAvailableTimeSlot | null>(null);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
 
     useEffect(() => {
 
@@ -32,7 +34,7 @@ export default function PtReservationModal({ isModal, closeModal, activeModal, n
         };
 
         fetchDates();
-        }, [isModal, ptCourseId]);
+    }, [isModal, ptCourseId]);
 
         const handleSelectDate = async (selectedDate?: Date) => {
         if (!selectedDate) return;
@@ -42,11 +44,44 @@ export default function PtReservationModal({ isModal, closeModal, activeModal, n
         if (!availableDates.includes(formattedDate)) return;
 
         setDate(selectedDate);
-        setSelectedTime("");
+        setSelectedTimeSlot(null);
+        setErrorMessage("");
 
         const response = await getPtAvailableTimesAction(ptCourseId, formattedDate);
         setTimeSlots(response.data.timeSlots.filter((slot) => slot.available));
     };
+
+        const toDateTime = (selectedDate: Date, time: string) => {
+        const formattedDate = format(selectedDate, "yyyy-MM-dd");
+        const normalizedTime = time.length === 5 ? `${time}:00` : time;
+
+        return `${formattedDate}T${normalizedTime}`;
+    };
+
+        const handleCreateReservation = async () => {
+        if (!date || !selectedTimeSlot) {
+            setErrorMessage("예약 날짜와 시간을 선택해주세요.");
+            return;
+        }
+
+        try {
+            setIsSubmitting(true);
+            setErrorMessage("");
+
+            await createPtReservationAction(ptCourseId, {
+            reservedStartAt: toDateTime(date, selectedTimeSlot.startTime),
+            reservedEndAt: toDateTime(date, selectedTimeSlot.endTime),
+            });
+
+            activeModal();
+        } catch (error) {
+            setErrorMessage(
+            error instanceof Error ? error.message : "예약에 실패하였습니다."
+            );
+        } finally {
+            setIsSubmitting(false);
+        }
+        };
 
     if (!isModal) return;
     return (
@@ -85,13 +120,15 @@ export default function PtReservationModal({ isModal, closeModal, activeModal, n
                     <div className="grid grid-cols-3 gap-3 mt-3">
                         {timeSlots.map((slot) => {
                         const value = `${slot.startTime}-${slot.endTime}`;
-                        const isSelected = selectedTime === value;
+                        const isSelected =
+                            selectedTimeSlot?.startTime === slot.startTime &&
+                            selectedTimeSlot?.endTime === slot.endTime;
 
                         return (
                             <button
                             key={value}
                             type="button"
-                            onClick={() => setSelectedTime(value)}
+                            onClick={() => setSelectedTimeSlot(slot)}
                             className={`rounded-lg py-3 font-semibold ${
                                 isSelected
                                 ? "bg-[#BFFF0B] text-black"
@@ -115,10 +152,10 @@ export default function PtReservationModal({ isModal, closeModal, activeModal, n
                         취소
                     </button>
                     <button
-                        onClick={activeModal}
+                        onClick={handleCreateReservation}
                         className='w-full flex pt-2 pb-3 justify-center items-center rounded-lg text-black text-center font-semibold text-base bg-[#BFFF0B]'
                     >
-                        시간 확정
+                        {isSubmitting ? "예약 중..." : "예약 하기"}
                     </button>
                 </article>
 
