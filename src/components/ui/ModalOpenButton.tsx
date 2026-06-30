@@ -128,13 +128,13 @@ export default function ModalOpenButton() {
                 noneActiveModal={modal7.noneActiveModal}
                 title='모달입니다'
             /> */}
-            <PtReservationModal
+            {/* <PtReservationModal
                 isModal={modal8.isModal}
                 closeModal={modal8.closeModal}
                 activeModal={modal8.activeModal}
                 noneActiveModal={modal8.noneActiveModal}
                 title='모달입니다'
-            />
+            /> */}
         </div>
     );
 }
