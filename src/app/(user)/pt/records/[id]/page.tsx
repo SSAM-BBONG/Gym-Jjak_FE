@@ -22,7 +22,7 @@ export default async function PtRecordDetailPage( {params}: PtRecordDetailPagePr
             border border-[#1E2939] rounded-[16px]
             ">
                 <div
-                    style={{ backgroundImage: `url(${PtfindTestImg})` }}
+                    style={{ backgroundImage: `url(${response.data.thumbnailUrl})` }}
                     className="flex-3 bg-no-repeat bg-cover">
                 </div>
                 <div className="flex flex-col gap-2 flex-7 p-6">
