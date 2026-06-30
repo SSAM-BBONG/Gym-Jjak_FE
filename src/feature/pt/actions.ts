@@ -1,10 +1,9 @@
 "use server";
 
-import axios from "axios";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { chagnePtzoneStatus, createPtCourse, getTrainerCancel, trainerApplication, updateTrainerApplication } from "@/service/ptzone.service";
-import { PtActionState, PtRegistCurriculum, PtRegistRequest, PtRegistSchedule, PtStatusChangeRequest, TrainerApplicationData, TrainerApplicationEditData } from "./type";
+import { chagnePtzoneStatus, createPtCourse, getPtResrvationAvailableDates, getPtResrvationAvailableTimes, getTrainerCancel, trainerApplication, updateTrainerApplication } from "@/service/ptzone.service";
+import { PtRegistRequest, PtRegistSchedule, TrainerApplicationData, TrainerApplicationEditData } from "./type";
 import { uploadFilesPresignedUrl } from "@/service/file.service";
 
 type PtRegistCurriculumFormData = {
@@ -207,3 +206,14 @@ export const changePtStatus = async (
   revalidatePath('/pt/find');
   redirect('/pt/manage');
 }
+
+export const getPtAvailableDatesAction = async (ptCourseId: number) => {
+  return getPtResrvationAvailableDates(ptCourseId);
+};
+
+export const getPtAvailableTimesAction = async (
+  ptCourseId: number,
+  date: string
+) => {
+  return getPtResrvationAvailableTimes(ptCourseId, date);
+};

@@ -21,7 +21,7 @@ export default async function PtDetailPage({ params }: PtDetailPageProps) {
     const { id } = await params;
 
     const response = await getPtDetail(id);
-
+    console.log(response);
     const trainerProfileId = response.data.trainer.trainerProfileId;
 
     if (!trainerProfileId) {
@@ -38,6 +38,7 @@ export default async function PtDetailPage({ params }: PtDetailPageProps) {
             />
 
             <PtDetailButton 
+                ptCourseId={response.data.ptCourseId}
                 title={response.data.title}/>
 
             <PtDetailTrainer 

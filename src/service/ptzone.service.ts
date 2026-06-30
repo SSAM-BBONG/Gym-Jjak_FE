@@ -6,6 +6,8 @@
   PtRegistRequest,
   PtRegistResponse,
   PtRegistTagReponse,
+  PtReservationAvailableDatesResponse,
+  PtResrvationAvailableTimesResponse,
   PtStatsResponse,
   PtStatusChangeRequest,
   PtStatusChangeResponse,
@@ -260,6 +262,44 @@ export const chagnePtzoneStatus = async (
       'PT 강습 상태 변경에 실패하였습니다.'
     );
 
+    throw new Error(message);
+  }
+
+  return response.json();
+};
+
+// PT 예약 가능 날짜 API
+export const getPtResrvationAvailableDates = async (
+  ptCourseId: number
+): Promise<PtReservationAvailableDatesResponse> => {
+  const response = await fetchWithAuth(`/api/pt-courses/${ptCourseId}/available-dates`);
+
+  if (!response.ok) {
+    const message = await getErrorMessage(
+      response,
+      "예약 가능 날짜 조회에 실패하였습니다."
+    );
+
+    throw new Error(message);
+  }
+
+  return response.json();
+};
+
+// PT 예약 가능 시간 API
+export const getPtResrvationAvailableTimes = async (
+  ptCourseId: number,
+  date: string
+): Promise<PtResrvationAvailableTimesResponse> => {
+  const response = await fetchWithAuth(
+    `/api/pt-courses/${ptCourseId}/available-time-slots?date=${date}`
+  );
+
+  if (!response.ok) {
+    const message = await getErrorMessage(
+      response, "예약 가능 시간 조회에 실패하였습니다."
+    );
+    
     throw new Error(message);
   }
 

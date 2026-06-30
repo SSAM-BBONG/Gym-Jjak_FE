@@ -103,3 +103,5 @@ export const Complete = "/images/complete.svg"
 export const MyOnboardingPurpose = '/images/mypage-onboarding-purpose.svg'
 export const NaverLogo = '/images/naver-logo.png';
 export const GoogleLogo = '/images/google-logo.png';
+export const chat = '/images/chat.svg';
+export const chatAddOption = '/images/chat-add-option.svg';

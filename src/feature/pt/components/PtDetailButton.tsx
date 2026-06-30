@@ -4,10 +4,11 @@ import useModal from "@/components/hooks/useModal";
 import PtReservationModal from "./PtReservationModal";
 
 interface PtDetailReservationButtonProps {
-    title: string;
+  ptCourseId: number;
+  title: string;
 }
 
-export default function PtDetailButton({ title }: PtDetailReservationButtonProps) {
+export default function PtDetailButton({ title, ptCourseId }: PtDetailReservationButtonProps) {
 
     const modal = useModal();
 
@@ -27,13 +28,14 @@ export default function PtDetailButton({ title }: PtDetailReservationButtonProps
                 예약하기
             </button>
 
-            <PtReservationModal
+            {modal.isModal && <PtReservationModal
+                ptCourseId={ptCourseId}
                 isModal={modal.isModal}
                 closeModal={modal.closeModal}
                 activeModal={modal.activeModal}
                 noneActiveModal={modal.noneActiveModal}
                 title={title}
-            />
+            />}
             <button className="
             py-4 
             rounded-[14px] 

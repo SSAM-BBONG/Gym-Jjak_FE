@@ -1,9 +1,12 @@
 'use client'
 
 import { Calendar } from "@/components/ui/calendar";
-import { AdminDocument, CloseButton } from "@/components/ui/image";
+import { CloseButton } from "@/components/ui/image";
 import { ko } from "date-fns/locale"
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { PtResrvationAvailableTimeSlot } from "../type";
+import { getPtAvailableDatesAction, getPtAvailableTimesAction } from "../actions";
+import { format } from "date-fns";
 
 interface PtReservationModalProps {
     isModal: boolean;
@@ -11,14 +14,41 @@ interface PtReservationModalProps {
     activeModal: () => void;
     noneActiveModal: () => void;
     title: string;
+    ptCourseId: number;
 }
 
 
-export default function PtReservationModal({ isModal, closeModal, activeModal, noneActiveModal, title }: PtReservationModalProps) {
-    if (!isModal) return null;
+export default function PtReservationModal({ isModal, closeModal, activeModal, noneActiveModal, title, ptCourseId }: PtReservationModalProps) {
     const [date, setDate] = useState<Date | undefined>(new Date())
+    const [availableDates, setAvailableDates] = useState<string[]>([]);
+    const [timeSlots, setTimeSlots] = useState<PtResrvationAvailableTimeSlot[]>([]);
+    const [selectedTime, setSelectedTime] = useState<string>("");
 
+    useEffect(() => {
 
+        const fetchDates = async () => {
+            const response = await getPtAvailableDatesAction(ptCourseId);
+            setAvailableDates(response.data.availableDates);
+        };
+
+        fetchDates();
+        }, [isModal, ptCourseId]);
+
+        const handleSelectDate = async (selectedDate?: Date) => {
+        if (!selectedDate) return;
+
+        const formattedDate = format(selectedDate, "yyyy-MM-dd");
+
+        if (!availableDates.includes(formattedDate)) return;
+
+        setDate(selectedDate);
+        setSelectedTime("");
+
+        const response = await getPtAvailableTimesAction(ptCourseId, formattedDate);
+        setTimeSlots(response.data.timeSlots.filter((slot) => slot.available));
+    };
+
+    if (!isModal) return;
     return (
         <section
             className="z-999 bg-black/50 fixed top-0 left-0 w-screen h-screen"
@@ -36,18 +66,43 @@ export default function PtReservationModal({ isModal, closeModal, activeModal, n
                     <div className="flex justify-between items-center my-4">
                         <h3 className="font-bold text-xl text-[#E8EAF0] py-2">{title}</h3>
                     </div>
-                    <Calendar
+                        <Calendar
                         mode="single"
-                        disabled={{ before: new Date() }}
                         locale={ko}
                         selected={date}
-                        onSelect={setDate}
-                        className="rounded-lg border"
-                    />
+                        onSelect={handleSelectDate}
+                        disabled={(day) => {
+                            const formattedDate = format(day, "yyyy-MM-dd");
+                            return !availableDates.includes(formattedDate);
+                        }}
+                        className="rounded-lg border text-white"
+                        />
+                    
 
                     <div className="w-full bg-[#1E2939] rounded-md border-[#364153] border mt-6 p-6">
-                        <h3 className="font-bold text-xl text-[#E8EAF0] py-2">시간 선택</h3>
-                        <p>{date?.toLocaleDateString('ko-KR')}</p>
+                    <h3 className="font-bold text-xl text-[#E8EAF0] py-2">시간 선택</h3>
+
+                    <div className="grid grid-cols-3 gap-3 mt-3">
+                        {timeSlots.map((slot) => {
+                        const value = `${slot.startTime}-${slot.endTime}`;
+                        const isSelected = selectedTime === value;
+
+                        return (
+                            <button
+                            key={value}
+                            type="button"
+                            onClick={() => setSelectedTime(value)}
+                            className={`rounded-lg py-3 font-semibold ${
+                                isSelected
+                                ? "bg-[#BFFF0B] text-black"
+                                : "bg-[#0B0F19] text-white border border-[#364153]"
+                            }`}
+                            >
+                            {slot.startTime} - {slot.endTime}
+                            </button>
+                        );
+                        })}
+                        </div>
                     </div>
 
                 </article>
