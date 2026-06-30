@@ -37,7 +37,8 @@ export default async function PtDetailPage({ params }: PtDetailPageProps) {
                 trainerInformation={trainerInformation.data}
             />
 
-            <PtDetailButton />
+            <PtDetailButton 
+                title={response.data.title}/>
 
             <PtDetailTrainer 
                 data={trainerInformation.data}

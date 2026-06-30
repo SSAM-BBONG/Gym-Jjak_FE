@@ -34,7 +34,7 @@ export default function PtReservationModal({ isModal, closeModal, activeModal, n
                     </div>
 
                     <div className="flex justify-between items-center my-4">
-                        <h3 className="font-bold text-xl text-[#E8EAF0] py-2">pt이름</h3>
+                        <h3 className="font-bold text-xl text-[#E8EAF0] py-2">{title}</h3>
                     </div>
                     <Calendar
                         mode="single"
