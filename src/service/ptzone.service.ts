@@ -370,6 +370,7 @@ export const getPtStudentDetail = async (
   return response.json();
 };
 
+// PT 예약 수강 상태 변경
 export const chagnePtzoneResrvationStatus = async (
   reservationId: number,
   status: PtReservationStatusChangeRequest

@@ -426,3 +426,26 @@ export interface PtReservationStatusChangeData {
 export interface PtReservationStatusChangeRequest {
   status: string
 }
+
+// 내 예약 기록 목록 조회 응답값
+export interface MyPtResrvationListsResponse{
+  status: number;
+  code: string;
+  message: string;
+  data: MyPtResrvationListsData;
+}
+
+export interface MyPtResrvationListsData {
+  ptReservations: MyPtReservationList[] 
+}
+
+export interface MyPtReservationList {
+    ptReservationId: number,
+    thumbnailUrl: string,
+    title: string,
+    trainerName: string,
+    status: string,
+    lastPtDate: string,
+    progressCount: number,
+    totalSessionCount: number
+}
