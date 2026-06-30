@@ -423,6 +423,7 @@ export interface PtReservationStatusChangeData {
     totalSessionCount: number
 }
 
+// PT 예약 수강 상태 변경 요청값
 export interface PtReservationStatusChangeRequest {
   status: string
 }
@@ -435,10 +436,12 @@ export interface MyPtResrvationListsResponse{
   data: MyPtResrvationListsData;
 }
 
+// 내 예약 기록 목록 조회 데이터
 export interface MyPtResrvationListsData {
   ptReservations: MyPtReservationList[] 
 }
 
+// 내 예약 기록 목록
 export interface MyPtReservationList {
     ptReservationId: number,
     thumbnailUrl: string,
@@ -450,7 +453,7 @@ export interface MyPtReservationList {
     totalSessionCount: number
 }
 
-
+// 내 예약 기록 상세 조회 커리큘럼
 export interface MyPtRecordDetailCurriculum {
   id: number;
   sessionNo: number;
@@ -458,6 +461,7 @@ export interface MyPtRecordDetailCurriculum {
   feedbackId: number | null;
 }
 
+// 내 예약 기록 상세 조회 데이터
 export interface MyPtRecordDetailData {
   thumbnailUrl: string;
   title: string;
@@ -468,9 +472,33 @@ export interface MyPtRecordDetailData {
   curriculums: MyPtRecordDetailCurriculum[];
 }
 
+// 내 예약 기록 상세 조회 응답값
 export interface MyPtResrvationDetailResponse {
   status: number;
   code: string;
   message: string;
   data: MyPtRecordDetailData;
+}
+
+// 피드백 목록
+export interface Feedback {
+  feedbackId: number;
+  content: string;
+  createdAt: string; 
+}
+
+// 피드백 목록 조회 커리큘럼
+export interface StudentFeedbackCurriculum {
+  ptCurriculumId: number;
+  sessionNo: number;
+  title: string;
+  feedbacks: Feedback | null;
+}
+
+// 피드백 목록 조회 응답값
+export interface FeedbackListsResponse {
+  status: number;
+  code: string;
+  message: string;
+  data: StudentFeedbackCurriculum[];
 }

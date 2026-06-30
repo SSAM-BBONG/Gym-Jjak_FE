@@ -1,4 +1,5 @@
 ﻿import {
+  FeedbackListsResponse,
   MyPtManageListResponse,
   MyPtResrvationDetailResponse,
   MyPtResrvationListsResponse,
@@ -422,6 +423,22 @@ export const getMyPtReservationDetail = async (
     const message = await getErrorMessage(
       response,
       "내 예약 기록 상세 조회에 실패하였습니다."
+    );
+
+    throw new Error(message);
+  }
+
+  return response.json();
+};
+
+// 피드백 목록 조회
+export const getFeedBackLists = async (reservationId: number) : Promise<FeedbackListsResponse> => {
+  const response = await fetchWithAuth(`/api/reservations/${reservationId}/feedbacks`);
+
+  if (!response.ok) {
+    const message = await getErrorMessage(
+      response,
+      "피드백 목록 조회르 실패하였습니다.."
     );
 
     throw new Error(message);
