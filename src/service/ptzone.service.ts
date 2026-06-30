@@ -432,7 +432,7 @@ export const getMyPtReservationDetail = async (
 };
 
 // 피드백 목록 조회
-export const getFeedBackLists = async (reservationId: number) : Promise<FeedbackListsResponse> => {
+export const getFeedBackLists = async (reservationId: string) : Promise<FeedbackListsResponse> => {
   const response = await fetchWithAuth(`/api/reservations/${reservationId}/feedbacks`);
 
   if (!response.ok) {
