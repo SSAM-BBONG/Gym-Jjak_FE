@@ -4,7 +4,7 @@ import { jwtDecode } from "jwt-decode";
 import { ReissueResponse } from "./lib/refreshType";
 
 async function getRefreshToken(request: NextRequest) {
-    const base_url = process.env.NEXT_API_BASE_URL;
+    const base_url = process.env.NEXT_PUBLIC_API_BASE_URL;
     const refreshToken = request.cookies.get('refreshToken')?.value;
 
     try {

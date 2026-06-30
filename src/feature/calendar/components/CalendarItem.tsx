@@ -1,8 +1,8 @@
 'use client'
 
 import useModal from "@/components/hooks/useModal";
-import CalendarViewModal from "./CalendarViewModal";
-import CalendarCreateModal from "./CalendarCreateModal";
+import CalendarViewModal from "@/feature/calendar/components/CalendarViewModal";
+import CalendarCreateModal from "@/feature/calendar/components/CalendarCreateModal"
 
 export default function CalendarItem({ data }: { data: Diary }) {
     const updateModal = useModal();
@@ -16,19 +16,19 @@ export default function CalendarItem({ data }: { data: Diary }) {
                 <p>{data?.title}</p>
                 <div className="bg-[#1E2939] text-[#BFFF0B] py-1 px-2 rounded-[4px]">{data?.category}</div>
             </button>
-            <CalendarViewModal
+            {modal.isModal && <CalendarViewModal
                 isModal={modal.isModal}
                 closeModal={modal.closeModal}
                 activeModal={modal.activeModal}
                 data={data}
-            />
-            <CalendarCreateModal
+            />}
+            {updateModal.isModal && <CalendarCreateModal
                 isModal={updateModal.isModal}
                 closeModal={updateModal.closeModal}
                 selectedSettingDate={data.date}
                 data={data}
                 mode='update'
-            />
+            />}
         </>
     );
 }
