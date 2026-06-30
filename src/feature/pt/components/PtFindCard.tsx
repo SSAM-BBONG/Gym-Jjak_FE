@@ -19,9 +19,13 @@ export default function PtFindCard({ response }: PtFindCardProps) {
         border border-[#36415380] rounded-[14px]
         ">  
             <Link href={`/pt/${response.ptCourseId}`}>
-            <div 
-                className="w-full h-40 object-cover"
-                style={{ backgroundImage: `url(${PtfindTestImg})` }} >
+            <div>
+                <div className="size-80 overflow-hidden">
+                    <img 
+                        className="w-full h-full object-cover"
+                        src={response.thumbnailUrl}
+                    />
+                </div>    
 
             </div>
             <div className="flex flex-col gap-3 p-5">
