@@ -364,3 +364,28 @@ export interface PtReservationData {
   ptReservationId: number;
   status: string;
 }
+
+// PT 강습별 수강생 목록 조회 응답값
+export interface PtReservationStudentsResponse {
+  status: number;
+  code: string;
+  message: string;
+  data: PtReservationStudentsData;
+}
+
+// PT 강습별 수강생 목록 데이터
+export interface PtReservationStudentsData {
+  title: string;
+  ptReservations: PtReservationStudent[];
+}
+
+// PT 강습별 수강생 목록 ptReservations 데이터
+export interface PtReservationStudent {
+  ptReservationId: number;
+  nickname: string;
+  status: string;
+  lastPtDate: string | null;
+  progressCount: number;
+  totalSessionCount: number;
+}
+

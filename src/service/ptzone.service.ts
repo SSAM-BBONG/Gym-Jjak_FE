@@ -329,3 +329,21 @@ export const createPtReservation = async (
 
   return response.json();
 };
+
+// PT 깅습 수강생 목록 조회
+export const getPtStudentsList = async (
+  ptCourseId: number
+) : Promise<PtReservationAvailableDatesResponse> => {
+  const response = await fetchWithAuth(`/api/pt-courses/${ptCourseId}/reservations`);
+
+  if (!response.ok) {
+    const message = await getErrorMessage(
+      response,
+      "PT 강습 수강생 목록 조회에 실패하였습니다"
+    );
+
+    throw new Error(message);
+  }
+
+  return response.json();
+};

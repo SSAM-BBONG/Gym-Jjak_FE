@@ -22,7 +22,7 @@ export default async function PtDetailPage({ params }: PtDetailPageProps) {
 
     const response = await getPtDetail(id);
     console.log(response);
-    const trainerProfileId = response.data.trainer.trainerProfileId;
+    const trainerProfileId = response.data.trainerProfileId;
 
     if (!trainerProfileId) {
     throw new Error("트레이너 정보를 찾을 수 없습니다.");
