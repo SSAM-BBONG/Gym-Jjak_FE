@@ -449,3 +449,28 @@ export interface MyPtReservationList {
     progressCount: number,
     totalSessionCount: number
 }
+
+
+export interface MyPtRecordDetailCurriculum {
+  id: number;
+  sessionNo: number;
+  title: string;
+  feedbackId: number | null;
+}
+
+export interface MyPtRecordDetailData {
+  thumbnailUrl: string;
+  title: string;
+  trainerName: string;
+  status: string;
+  progressCount: number;
+  totalSessionCount: number;
+  curriculums: MyPtRecordDetailCurriculum[];
+}
+
+export interface MyPtResrvationDetailResponse {
+  status: number;
+  code: string;
+  message: string;
+  data: MyPtRecordDetailData;
+}
