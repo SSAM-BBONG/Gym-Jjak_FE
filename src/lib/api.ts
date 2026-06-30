@@ -12,7 +12,7 @@ declare module 'axios' {
 
 // 공통 설정
 export const axiosFetch = axios.create({
-    baseURL: process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8081',
+    baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
     timeout: 5000,// 백엔드의 응답을 기다리는 시간(경과되면 오류터짐), 없으면 서버의 응답을 무한으로 기다림(무한 로딩)
     headers: {
         'Content-Type': 'application/json',
@@ -63,7 +63,7 @@ axiosFetch.interceptors.response.use(
                     error.config._retry = true;
 
                     try {
-                        const base_url = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8081';
+                        const base_url = process.env.NEXT_PUBLIC_API_BASE_URL;
 
                         const refreshToken = cookieStore.get('refreshToken')?.value
                         const res = await axios.post(

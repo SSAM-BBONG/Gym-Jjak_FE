@@ -4,7 +4,7 @@
 import { cookies } from "next/headers";
 import { refreshGet } from "./stateError";
 
-const BASE_URL = process.env.NEXT_API_BASE_URL;
+const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 
 export async function fetchWithoutAuth(endpoint: string, options: RequestInit = {}): Promise<Response> {

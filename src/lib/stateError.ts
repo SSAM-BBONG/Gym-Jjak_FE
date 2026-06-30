@@ -4,7 +4,7 @@ import { cookies } from "next/headers";
 import { ReissueResponse } from "./refreshType";
 
 export const refreshGet = async () => {
-    const base_url = process.env.NEXT_API_BASE_URL;
+    const base_url = process.env.NEXT_PUBLIC_API_BASE_URL;
 
     try {
         const cookieStore = await cookies();
