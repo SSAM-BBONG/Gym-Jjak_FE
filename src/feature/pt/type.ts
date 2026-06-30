@@ -407,3 +407,22 @@ export interface PtReservationStudentDetailData {
     totalSessionCount: number,
     title: string
 }
+
+// PT 예약 수강 상태 변경 응답값
+export interface PtReservationStatusChangeResponse{
+  status: number;
+  code: string;
+  message: string;
+  data: PtReservationStatusChangeData;
+}
+
+// PT 예약 수강 상태 변경 데이터
+export interface PtReservationStatusChangeData {
+    status: "IN_PROGRESS" | "COMPLETED" | "CANCELLED" | "RESERVED"
+    progressCount: number,
+    totalSessionCount: number
+}
+
+export interface PtReservationStatusChangeRequest {
+  status: "IN_PROGRESS" | "COMPLETED" | "CANCELLED" | "RESERVED"
+}

@@ -367,3 +367,26 @@ export const getPtStudentDetail = async (
 
   return response.json();
 };
+
+export const chagnePtzoneResrvationStatus = async (
+  reservationId: number,
+  status: PtStatusChangeRequest
+): Promise<PtStatusChangeResponse> => {
+  const response = await fetchWithAuth(`/api/reservations/${reservationId}/status
+`, {
+    method: "PATCH",
+    body: JSON.stringify(status)
+    }
+  );
+
+  if (!response.ok) {
+    const message = await getErrorMessage(
+      response,
+      'PT 예약 수강 상태 변경에 실패하였습니다.'
+    );
+
+    throw new Error(message);
+  }
+
+  return response.json();
+};
