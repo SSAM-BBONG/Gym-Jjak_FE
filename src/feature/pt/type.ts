@@ -394,7 +394,7 @@ export interface PtReservationStudentDetailResponse{
   status: number;
   code: string;
   message: string;
-  data: PtReservationStudentsData;
+  data: PtReservationStudentDetailData;
 }
 
 // PT 수강생 상세조회 데이터

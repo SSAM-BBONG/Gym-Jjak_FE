@@ -332,7 +332,7 @@ export const createPtReservation = async (
   return response.json();
 };
 
-// PT 깅습 수강생 목록 조회
+// PT 깅습 수강생 목록 조회 API 
 export const getPtStudentsList = async (
   ptCourseId: number
 ) : Promise<PtReservationStudentsResponse> => {
@@ -350,11 +350,11 @@ export const getPtStudentsList = async (
   return response.json();
 };
 
+// PT 강습 수강생 상세 조회 API 
 export const getPtStudentDetail = async (
-  ptCourseId: number,
-  reservationId: number
+  reservationId: string
 ) : Promise<PtReservationStudentDetailResponse> => {
-  const response = await fetchWithAuth(`/api/pt-courses/${ptCourseId}/reservations/${reservationId}`);
+  const response = await fetchWithAuth(`/api/pt-courses/reservations/${reservationId}`);
 
   if (!response.ok) {
     const message = await getErrorMessage(
