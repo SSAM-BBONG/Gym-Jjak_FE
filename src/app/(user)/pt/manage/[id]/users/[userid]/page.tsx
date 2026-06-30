@@ -1,6 +1,18 @@
 import PtManageFeedBackCard from "@/feature/pt/components/PtManageFeedBackCard";
+import { getPtStudentDetail } from "@/service/ptzone.service";
 
-export default function PtManageUserFeedBackPage() {
+interface PtManageUserFeedBackPageProps {
+  params: Promise<{
+    userid: string;
+  }>;
+}
+
+export default async function PtManageUserFeedBackPage( { params }: PtManageUserFeedBackPageProps) {
+    const { userid } = await params
+
+    const response = await getPtStudentDetail(userid);
+
+
     return (
         <div className="flex flex-col gap-5 px-70 py-10">
             <div className="
@@ -12,16 +24,16 @@ export default function PtManageUserFeedBackPage() {
                 <div className="flex gap-6 items-start">
                     <div className="size-20 flex-1 rounded-full border-[2px] border-[#BFFF0B]"></div>
                     <div className="flex flex-9 flex-col gap-2 items-start">
-                        <p className="text-[24px] font-black text-white"> 운동초보</p>
-                        <p className="text-[14px] font-normal text-[#99A1AF]"> student@test.com </p>
-                        <p className="px-3 py-1 border border-[#BFFF0B4D] rounded-full bg-[#BFFF0B33] text-[12px] font-extrabold text-[#BFFF0B]"> 수강중</p>
+                        <p className="text-[24px] font-black text-white"> {response.data.nickname}</p>
+                        <p className="text-[14px] font-normal text-[#99A1AF]"> {response.data.email} </p>
+                        <p className="px-3 py-1 border border-[#BFFF0B4D] rounded-full bg-[#BFFF0B33] text-[12px] font-extrabold text-[#BFFF0B]"> {response.data.status} </p>
                     </div>
                 </div>
 
                 <div className="flex flex-col gap-3">
                     <div className="flex justify-between">
                         <p className="text-[14px] font-normal text-[#99A1AF]"> 진행도 </p>
-                        <p className="text-[14px] font-extrabold text-[#BFFF0B]"> 3/12회 </p>
+                        <p className="text-[14px] font-extrabold text-[#BFFF0B]"> {response.data.progressCount}/{response.data.totalSessionCount}회 </p>
                     </div>
                     <div className="flex h-2 rounded-full bg-[#364153]">
                         <p className="w-[30%] rounded-full bg-[#BFFF0B]"></p>
@@ -29,8 +41,8 @@ export default function PtManageUserFeedBackPage() {
                 </div>
 
                 <div className="flex flex-col">
-                    <p className="text-[14px] font-normal text-[#6A7282]"> 강습 : <span className="text-[#99A1AF]"> 체계적인 강습 집중 PT </span></p>
-                    <p className="text-[14px] font-normal text-[#6A7282]"> 연락처 : <span className="text-[#99A1AF]"> 010-1234-5678 </span></p>
+                    <p className="text-[14px] font-normal text-[#6A7282]"> 강습 : <span className="text-[#99A1AF]"> {response.data.title} </span></p>
+                    <p className="text-[14px] font-normal text-[#6A7282]"> 연락처 : <span className="text-[#99A1AF]"> {response.data.phone} </span></p>
                 </div>
             </div>
 
