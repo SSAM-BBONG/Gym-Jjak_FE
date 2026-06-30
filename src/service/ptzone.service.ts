@@ -9,6 +9,8 @@
   PtReservationAvailableDatesResponse,
   PtReservationRequest,
   PtReservationResponse,
+  PtReservationStatusChangeRequest,
+  PtReservationStatusChangeResponse,
   PtReservationStudentDetailResponse,
   PtReservationStudentsResponse,
   PtResrvationAvailableTimesResponse,
@@ -370,8 +372,8 @@ export const getPtStudentDetail = async (
 
 export const chagnePtzoneResrvationStatus = async (
   reservationId: number,
-  status: PtStatusChangeRequest
-): Promise<PtStatusChangeResponse> => {
+  status: PtReservationStatusChangeRequest
+): Promise<PtReservationStatusChangeResponse> => {
   const response = await fetchWithAuth(`/api/reservations/${reservationId}/status
 `, {
     method: "PATCH",

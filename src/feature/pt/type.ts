@@ -424,5 +424,5 @@ export interface PtReservationStatusChangeData {
 }
 
 export interface PtReservationStatusChangeRequest {
-  status: "IN_PROGRESS" | "COMPLETED" | "CANCELLED" | "RESERVED"
+  status: string
 }
