@@ -1,59 +1,3 @@
-// PT 상세조회 응답 타입
-export interface PtDetailResponse {
-  status: number;
-  code: string;
-  message: string;
-  data: PtDetail;
-}
-
-// PT 상세조회 타입
-export interface PtDetail {
-  ptCourseId: number;
-  categoryName: string;
-  tagId: number;
-  thumbnailUrl: string;
-  title: string;
-  description: string;
-  price: number;
-  totalSessionCount: number;
-  status: "VISIBLE" | "HIDDEN" | "DELETED";
-
-  organizationId: number;
-  organizationName: string;
-  organizationAddress: string;
-  organizationPhone: string;
-  websiteUrl: string;
-  instagramUrl: string;
-
-  trainerProfileId: number;
-  trainerName: string;
-  trainerSpec: string;
-  trainerIntroduction: string;
-  averageRating: number;
-  reviewCount: number;
-
-  certifications: PtTrainerCertification[];
-  awards: PtTrainerAward[];
-  curriculums: PtCourseCurriculum[];
-  recentReviews: PtRecentReview[];
-}
-
-// PT 상세조회 자격증 타입
-export interface PtTrainerCertification {
-  certificationId?: number;
-  name: string;
-  issuer: string;
-  acquiredDate: string;
-}
-
-// PT 상세조회 수상경력 타입
-export interface PtTrainerAward {
-  awardId?: number;
-  competitionName: string;
-  awardName: string;
-  awardDate: string;
-}
-
 // PT 상세조회 커리큘럼 타입
 export interface PtCourseCurriculum {
   curriculumId: number;
@@ -62,56 +6,71 @@ export interface PtCourseCurriculum {
   content: string;
 }
 
+// PT 상세조회 시간(스케쥴) 타입
+export interface PtCourseSchedule {
+  scheduleId: number;
+  dayOfWeek: string;
+  startTime: string; 
+  endTime: string; 
+}
+
 // PT 상세조회 리뷰 타입
-export interface PtRecentReview {
+export interface PtCourseReview {
   reviewId: number;
-  userNickname: string;
-  ptCourseTitle: string;
   rating: number;
   content: string;
   createdAt: string;
 }
 
-
-// PT 목록 조회
-export interface PtListData {
-  content: PtContent[];
-  totalElements: number;
-  totalPages: number;
-  page: number;
-  size: number;
+// PT 상세조회 데이터 타입
+export interface PtCourseDetailData {
+  ptCourseId: number;
+  thumbnailUrl: string;
+  title: string;
+  description: string;
+  price: number;
+  totalSessionCount: number;
+  organizationId: number;
+  trainerProfileId: number;
+  curriculums: PtCourseCurriculum[];
+  schedules: PtCourseSchedule[];
+  recentReviews: PtCourseReview[];
 }
 
-// PT 목록 응답 타입
-export interface PtListResponse {
+// PT 상세조회 응답값
+export interface PtCourseDetailResponse {
   status: number;
   code: string;
   message: string;
-  data: PtListData;
+  data: PtCourseDetailData;
 }
 
-// PT 목록 타입
-export interface PtContent {
+// PT 목록 데이터 타입
+export interface PtCourseListData {
   ptCourseId: number;
   title: string;
   thumbnailUrl: string;
   price: number;
-  totalSessionCount: number;
-
+  tagId: number;
+  tagName: string;
+  categoryId: number;
   categoryName: string;
-  tag: string;
-
-  organizationName: string;
-  organizationAddress: string;
+  trainerName: string;
+  organizationId: number;
+  businessName: string;
+  roadAddress: string;
   latitude: number;
   longitude: number;
-
-  trainerName: string;
-
-  averageRating: number;
   reviewCount: number;
+  averageRating: number;
+}
 
-  status: "VISIBLE" | "HIDDEN" | "DELETED";
+// PT 목록 응답 타입
+export interface PtCourseListResponse {
+  status: number;
+  code: string;
+  message: string;
+  data: PtCourseListData[];
 }
 
 // 온보딩 응답 타입
@@ -151,20 +110,282 @@ export interface PtActionState {
   errors?: Record<string, string>;
 }
 
-export interface PtCourseCreateResponse {
+// PT 등록 응답값
+export interface PtRegistResponse {
   status: number;
   code: string;
   message: string;
-  data: PtCourseCreateData;
+  data: PtRegistData;
 }
 
-export interface PtCourseCreateData {
-  ptCourseId: number;
+// PT 등록 데이터 타입
+export interface PtRegistData {
+  ptCourseId: number
+}
+
+// PT 등록 요청값
+export interface PtRegistRequest {
   title: string;
   description: string;
   categoryId: number;
   tagId: number;
   price: number;
-  totalSessionCount: number;
-  thumbnailUrl?: string;
+  thumbnailFile: TrainerFileData;
+  curriculums: PtRegistCurriculum[];
+  schedules: PtRegistSchedule[];
 }
+
+// PT 등록 커리큘럼 타입
+export interface PtRegistCurriculum {
+  sessionNo: number;
+  title: string;
+  content: string;
+}
+
+// PT 등록 시간 타입 
+export interface PtRegistSchedule {
+  dayOfWeek:
+    | "MONDAY"
+    | "TUESDAY"
+    | "WEDNESDAY"
+    | "THURSDAY"
+    | "FRIDAY"
+    | "SATURDAY"
+    | "SUNDAY";
+  startTime: string;
+  endTime: string;
+}
+
+// 트레이너 등록 API
+// 트레이너 등록 요청 타입
+export interface TrainerApplicationData {
+  profileImageFile: TrainerFileData | null;
+  certificateFile: TrainerFileData;
+  qualifications: string[] | null;
+  awardHistories: string[] | null;
+  introduction: string;
+}
+
+// 트레이너 이미지 요청 타입
+export interface TrainerFileData {
+  fileKey: string,
+  originalName: string,
+  contentType: string,
+  fileSize: number
+}
+
+// 트레이너 등록 응답 타입
+export interface TrainerApplicationResponse {
+  status: number,
+  code: string,
+  message: string
+  data: {
+    trainerApplicationId: number
+  }
+}
+
+// 트레이너 신청 ID 타입
+export interface TrainerApplicationId {
+  trainerApplicationId: number
+}
+
+// 트레이너 이미지 action 타입
+export type ProfileImageAction = "KEEP" | "REPLACE" | "DELETE";
+
+// 트레이너 신청 수정 요청 타입
+export interface TrainerApplicationEditData {
+  profileImageAction: ProfileImageAction;
+  profileImageFile?: TrainerFileData | null;
+  qualifications: string[] | null;
+  awardHistories: string[] | null;
+  introduction: string | null;
+}
+
+// 트레이너 신청 상세 조회 응답 타입
+export interface TrainerApplicationDetailResponse {
+  status: number;
+  code: string;
+  message: string;
+  data: TrainerApplicationDetail
+}
+
+// 트레이너 신청 상세 조회 data 타입
+export interface TrainerApplicationDetail {
+    trainerApplicationId: number
+    userId: number;
+    profileImageUrl: string | null;
+    profileImageOriginalName: string | null,
+    certificateUrl: string;
+    certificateOriginalName: string,
+    qualifications: string[];
+    awardHistories: string[];
+    introduction: string;
+    status: "" | "PENDING" | "APPROVED" | "REJECTED" | "CANCELED";
+    rejectReason: string | null;
+    reviewedBy: number | null;
+    reviewedAt: string | null; 
+    createdAt: string;
+    updatedAt: string;
+}
+
+// PT 통계 조회 응답 타입
+export interface PtStatsResponse {
+  
+  status: number;
+  code: string;
+  message: string;
+  data: PtStats;
+}
+
+// PT 통계 조회 데이터 타입
+export interface PtStats {
+  organizationCount: number;
+  activeTrainerCount: number;
+  inProgressPtCount: number;
+  averageSatisfaction: number;
+}
+
+// PT 등록 카테고리 목록 조회 응답 타입
+export interface PtRegistCategoryReponse {
+  status: number;
+  code: string;
+  message: string;
+  data: PtRegistCategoryData[];
+}
+
+// PT 등록 카테고리 데이터
+export interface PtRegistCategoryData {
+  categoryId: number,
+  name: string,
+  createdAt: string,
+  usageCount: number
+}
+
+// PT 등록 태그 응답값
+export interface PtRegistTagReponse {
+  status: number;
+  code: string;
+  message: string;
+  data: PtRegistTagData[];
+}
+
+// PT 등록 태그 데이터
+export interface PtRegistTagData {
+  tagId: number;
+  name: string;
+  createdAt: string;
+  usageCount: number;
+}
+
+// PT 강습 관리 목록 데이터
+export interface PtManageListData {
+  ptCourseId: number;
+  thumbnailFileId: number;
+  title: string;
+  trainerName: string;
+  status: "VISIBLE" | "HIDDEN";
+  activeReservationCount: number;
+  totalReservationCount: number;
+}
+
+// PT 강습 관리 목록 응답값
+export interface MyPtManageListResponse {
+  status: number;
+  code: string;
+  message: string;
+  data: PtManageListData[];
+}
+
+// PT 강습 상태 변경 요청값
+export interface PtStatusChangeRequest {
+  status: "VISIBLE" | "HIDDEN";
+}
+
+// PT 강습 상태 변경 응답값
+export interface PtStatusChangeResponse {
+  status: number;
+  code: string;
+  message: string;
+  data: null;
+}
+
+// PT 예약 가능 날짜 조회 응답값
+export interface PtReservationAvailableDatesResponse {
+  status: number;
+  code: string;
+  message: string;
+  data: PtReservationAvailableDateData
+
+
+}
+
+// PT 예약 가능 날짜 조회 데이터
+export interface PtReservationAvailableDateData {
+  availableDates: string[];
+}
+
+// PT 예약 가능 시간 조회 데이터
+export interface PtResrvationAvailableTimeData {
+  data: string;
+  timeSlots: PtResrvationAvailableTimeSlot[]
+}
+
+// PT 예약 가능 시간 조회 timeslot 타입
+export interface PtResrvationAvailableTimeSlot {
+  startTime: string;
+  endTime: string;
+  available: boolean;
+}
+
+// PT 예약 가능 시간 조회 응답값
+export interface PtResrvationAvailableTimesResponse {
+  status: number;
+  code: string;
+  message: string;
+  data: PtResrvationAvailableTimeData;
+}
+
+// PT 예약하기 요청값
+export interface PtReservationRequest {
+  reservedStartAt: string;
+  reservedEndAt: string;
+}
+
+// PT 예약하기 응답값
+export interface PtReservationResponse {
+  status: number;
+  code: string;
+  message: string;
+  data: PtReservationData
+}
+
+// PT 예약하기 데이터값 
+export interface PtReservationData {
+  ptReservationId: number;
+  status: string;
+}
+
+// PT 강습별 수강생 목록 조회 응답값
+export interface PtReservationStudentsResponse {
+  status: number;
+  code: string;
+  message: string;
+  data: PtReservationStudentsData;
+}
+
+// PT 강습별 수강생 목록 데이터
+export interface PtReservationStudentsData {
+  title: string;
+  ptReservations: PtReservationStudent[];
+}
+
+// PT 강습별 수강생 목록 ptReservations 데이터
+export interface PtReservationStudent {
+  ptReservationId: number;
+  nickname: string;
+  status: string;
+  lastPtDate: string | null;
+  progressCount: number;
+  totalSessionCount: number;
+}
+

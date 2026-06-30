@@ -1,12 +1,22 @@
 import AdminDeleteButton from "@/feature/admin/components/AdminDeleteButton";
 import AdminUpdateButton from "@/feature/admin/components/AdminUpdateButton";
 
-export default function SystemDataItem({ text, data }: { text: string, data: category | tag }) {
+type SystemDataItemProps =
+    | {
+        text: "카테고리";
+        data: Category;
+    }
+    | {
+        text: "태그";
+        data: Tag;
+    };
+
+export default function SystemDataItem({ text, data }: SystemDataItemProps) {
     const targetId = 'categoryId' in data ? data.categoryId : data.tagId;
     return (
         <div
             style={{ display: 'grid' }}
-            className="!gird grid-cols-14 px-6 text-white font-normal text-sm border-t border-[#364153] h-17.5 items-center"
+            className="grid grid-cols-14 px-6 text-white font-normal text-sm border-t border-[#364153] h-17.5 items-center"
         >
             <p className="col-span-4">{data.name}</p>
             <p className="col-span-3">{data.createdAt}</p>

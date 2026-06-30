@@ -1,30 +1,19 @@
 'use client'
-// 테스트를 위해 client로 변경했습니다. 기능 구현 진행하면서 컴포넌트로 분리할 예정입니다.-
 import useModal from "@/components/hooks/useModal";
 import OrganizationTrainerAddForm from "./OrganizationTrainerAddForm";
+import { OrganizationManageTrainerListItem } from "../type";
+import { deleteOrganizationTrainerAction } from "../action";
 
-export default function OrganTrainerCard() {
-  const trainers = [
-    {
-      id: "trainer001",
-      name: "김트레이너",
-      email: "trainer1@example.com",
-      date: "2023-01-15",
-    },
-    {
-      id: "trainer002",
-      name: "이트레이너",
-      email: "trainer2@example.com",
-      date: "2023-03-20",
-    },
-    {
-      id: "trainer003",
-      name: "박트레이너",
-      email: "trainer3@example.com",
-      date: "2023-06-10",
-    },
-  ];
-  
+interface OrganTrainerCardProps {
+  data: OrganizationManageTrainerListItem[];
+}
+
+export default function OrganizationTrainerCard( {data}: OrganTrainerCardProps) {
+
+const handleDeleteClick = async (trainerProfileId: number) => {
+  const response = await deleteOrganizationTrainerAction(trainerProfileId);
+}
+
 const activefunc =() =>{
   console.log('1');
 }
@@ -47,43 +36,33 @@ const activefunc =() =>{
             border border-[#364153] rounded-[16px]
             "
       >
-          <div className="grid grid-cols-[1fr_1fr_1.8fr_1fr_0.7fr] border-b border-[#364153] px-6 py-4 text-[#99A1AF] font-extrabold">
-            <div>사용자 ID</div>
-            <div>이름</div>
+          <div className="grid grid-cols-[1.5fr_1fr_1fr_1fr_0.7fr] border-b border-[#364153] px-6 py-4 text-[#99A1AF] font-extrabold">
             <div>이메일</div>
+            <div>이름</div>
+            <div>닉네임</div>
             <div>등록일</div>
             <div>관리</div>
           </div>
-
+            
+            {data.map((item) => (           
             <div
-              className="grid grid-cols-[1fr_1fr_1.8fr_1fr_0.7fr] border-b border-[#1E2939] px-6 py-4 items-center text-white"
+              key={item.trainerProfileId}
+              className="grid grid-cols-[1.5fr_1fr_1fr_1fr_0.7fr] border-b border-[#1E2939] px-6 py-4 items-center text-white"
             >
-              <div>trainer001</div>
-              <div>김트레이너</div>
-              <div>trainer1@example.com</div>
-              <div>2023-01-15</div>
-              <div>
-                <button className="rounded-[10px] border border-[#FB2C364D] px-3 py-2 bg-[#FB2C361A] text-[#FB2C36] font-extrabold">
-                  🗑 삭제
-                </button>
-              </div>
-
-              
+                <div>{item.username}</div>
+                <div>{item.trainerName}</div>
+                <div>{item.trainerName}</div>
+                <div>{item.registeredAt.split("T")[0]}</div>
+                <div>
+                  <button 
+                    type="button"
+                    onClick={() => handleDeleteClick(item.organizationTrainerId)}
+                    className="rounded-[10px] border border-[#FB2C364D] px-5 py-2 bg-[#FB2C361A] text-[#FB2C36] font-extrabold">
+                    🗑 삭제
+                  </button>
+                </div>
             </div>
-
-                        <div
-              className="grid grid-cols-[1fr_1fr_1.8fr_1fr_0.7fr] border-b border-[#1E2939] px-6 py-4 items-center text-white"
-            >
-              <div>trainer001</div>
-              <div>김트레이너</div>
-              <div>trainer1@example.com</div>
-              <div>2023-01-15</div>
-              <div>
-                <button className="rounded-[10px] border border-[#FB2C364D] px-3 py-2 bg-[#FB2C361A] text-[#FB2C36] font-extrabold">
-                  🗑 삭제
-                </button>
-              </div>
-            </div>
+            ))}
         </div>
     </div>
   );

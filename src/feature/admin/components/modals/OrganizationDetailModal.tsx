@@ -1,9 +1,12 @@
+'use client'
+
 import { AdminDocument, CloseButton } from "@/components/ui/image";
 import AdminModalP from "./AdminModalP";
 import AdminModalDiv from "./AdminModalDiv";
 import { useEffect, useState } from "react";
-import { OrganizationDetailAction } from "../../action";
-import { approvalOrganization } from "@/service/report.service";
+import { OrganizationAdminDetailAction, OrganizationApplicationAdminDetailAction } from "../../action";
+import OrganizationTrainerList from "@/app/admin/members/organizations/OrganizationTrainersList";
+import UrlCt from "../UrlCt";
 
 interface OrganizationDetailModalProps {
     isModal: boolean;
@@ -11,10 +14,10 @@ interface OrganizationDetailModalProps {
     activeModal: () => void;
     noneActiveModal: () => void;
     mode: string;
-    applicationId: number;
+    organizationId: number;
 }
 
-const emptyOrganizationInstance = {
+const emptyOrganizationApplicationInstance: OrganizationApplicationsDetail = {
     organizationApplicationId: 0,
     requestedLoginId: '',
     businessRegistrationNumber: '',
@@ -31,33 +34,59 @@ const emptyOrganizationInstance = {
     instagramUrl: '',
     blogUrl: '',
     facilityPhone: '',
-    businessLicenseFileUrl: ''
+    businessLicenseFileUrl: '',
+    businessLicenseOriginalName: ''
 }
 
-export default function OrganizationDetailModal({ isModal, closeModal, activeModal, noneActiveModal, mode, applicationId }: OrganizationDetailModalProps) {
+const emptyOrganizationInstance: OrganizationDetail = {
+    organizationId: 0,
+    requestedLoginId: '',
+    businessLicenseFileUrl: '',
+    businessLicenseOriginalName: '',
+    businessRegistrationNumber: '',
+    businessName: '',
+    representativeName: '',
+    representativePhone: '',
+    openingDate: '',
+    roadAddress: '',
+    detailAddress: '',
+    latitude: 0,
+    longitude: 0,
+    facilityPhone: '',
+    instagramUrl: '',
+    blogUrl: '',
+    websiteUrl: '',
+    status: 'ACTIVE',
+    approvedAt: '',
+    trainerCount: 0,
+    trainers: []
+}
 
-    const [organizationInfo, setOrganizationInfo] = useState<Organization>(emptyOrganizationInstance);
-    let first = true;
+
+export default function OrganizationDetailModal({ isModal, closeModal, activeModal, noneActiveModal, mode, organizationId }: OrganizationDetailModalProps) {
+
+    const [organizationInfo, setOrganizationInfo] = useState<OrganizationDetail>(emptyOrganizationInstance);
+    const [organizationApplicationInfo, setOrganizationApplicationInfo] = useState<OrganizationApplicationsDetail>(emptyOrganizationApplicationInstance);
+
     useEffect(() => {
+        if (!isModal) return;
+        const fetchOrganizationApplication = async () => {
+            const response = await OrganizationApplicationAdminDetailAction(organizationId);
+            setOrganizationApplicationInfo(response);
+            console.log(response);
+        }
 
         const fetchOrganization = async () => {
-            const res = await OrganizationDetailAction(applicationId);
-            console.log(res);
-            setOrganizationInfo(res?.data ?? emptyOrganizationInstance);
+            const response = await OrganizationAdminDetailAction(organizationId);
+            setOrganizationInfo(response);
         }
 
-        if (mode === 'organizationApprove') {
-
-            if (!first) {
-                return;
-            }
+        if (mode === 'organizationView') {
             fetchOrganization();
-
-            first = false;
+        } else {
+            fetchOrganizationApplication();
         }
-
-
-    }, [isModal])
+    }, [isModal, organizationId])
 
 
     if (!isModal) return null;
@@ -66,7 +95,7 @@ export default function OrganizationDetailModal({ isModal, closeModal, activeMod
         <section
             className="z-999 bg-black/50 fixed top-0 left-0 w-screen h-screen"
             onClick={closeModal} >
-            <form
+            <div
                 className="bg-gradient-to-br from-[#101828] to-[#000] w-3xl h-150 rounded-2xl border border-[#1E2939] z-1000 fixed top-1/2 left-1/2 p-6 flex -translate-x-1/2 -translate-y-1/2 flex-col justify-between
                 overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
                 onClick={(e) => e.stopPropagation()}>
@@ -78,7 +107,7 @@ export default function OrganizationDetailModal({ isModal, closeModal, activeMod
                     <section className="flex flex-col gap-6">
                         <article>
                             <AdminModalP title='아이디' />
-                            <AdminModalDiv content={organizationInfo.requestedLoginId} />
+                            <AdminModalDiv content={organizationApplicationInfo.requestedLoginId || organizationInfo.requestedLoginId} />
                         </article>
                         <article>
                             <AdminModalP title='사업자 등록증' />
@@ -87,80 +116,79 @@ export default function OrganizationDetailModal({ isModal, closeModal, activeMod
                             >
                                 <img src={AdminDocument} />
                                 <div>
-                                    <p className="text-white">{organizationInfo.businessLicenseFileUrl}</p>
-                                    <p className="text-sm">파일 크기:</p>
+                                    <p className="text-white">{organizationApplicationInfo.businessLicenseOriginalName || organizationInfo.businessLicenseOriginalName}</p>
                                 </div>
-                                <button type='button' className="px-4.5 py-2 text-black bg-[#BFFF0B] rounded-md font-bold ml-auto">다운로드</button>
+                                <a target="_blank" rel="noopener noreferrer" href={organizationApplicationInfo.businessLicenseFileUrl || organizationInfo.businessLicenseFileUrl} className="px-4.5 py-2 text-black bg-[#BFFF0B] rounded-md font-bold ml-auto">자세히 보기</a>
 
                             </div>
                         </article>
                         <article>
                             <AdminModalP title='사업자 등록 번호' />
-                            <AdminModalDiv content={organizationInfo.businessRegistrationNumber} />
+                            <AdminModalDiv content={organizationApplicationInfo.businessRegistrationNumber || organizationInfo.businessRegistrationNumber} />
                         </article>
                         <article>
                             <AdminModalP title='사업장 주소' />
-                            <AdminModalDiv content={organizationInfo.roadAddress} />
+                            <AdminModalDiv content={organizationApplicationInfo.roadAddress || organizationInfo.roadAddress} />
                         </article>
                         <article>
                             <AdminModalP title='상호' />
-                            <AdminModalDiv content={organizationInfo.businessName} />
+                            <AdminModalDiv content={organizationApplicationInfo.businessName || organizationInfo.businessName} />
                         </article>
                         <div className="flex gap-4">
                             <article className="w-full">
                                 <AdminModalP title='대표자 이름' />
-                                <AdminModalDiv content={organizationInfo.representativeName} />
+                                <AdminModalDiv content={organizationApplicationInfo.representativeName || organizationInfo.representativeName} />
                             </article>
                             <article className="w-full">
                                 <AdminModalP title='대표자 전화번호' />
-                                <AdminModalDiv content={organizationInfo.representativePhone} />
+                                <AdminModalDiv content={organizationApplicationInfo.representativePhone || organizationInfo.representativePhone} />
                             </article>
                         </div>
                         <article>
                             <AdminModalP title='운동시설 전화번호' />
-                            <AdminModalDiv content={organizationInfo.facilityPhone} />
+                            <AdminModalDiv content={organizationApplicationInfo.facilityPhone || organizationInfo.facilityPhone} />
                         </article>
                         <article>
                             <AdminModalP title='개업일자' />
-                            <AdminModalDiv content={organizationInfo.openingDate} />
+                            <AdminModalDiv content={organizationApplicationInfo.openingDate || organizationInfo.openingDate} />
                         </article>
                         <article>
                             <AdminModalP title='웹사이트 링크' />
-                            {organizationInfo.instagramUrl &&
-                                <div
-                                    className="flex flex-col justify-center border-[#364153] border w-full p-4 mt-2 bg-[#1E2939] rounded-md text-[#D1D5DC] text-base font-normal"
-                                >
-                                    <p className="text-sm">인스타그램</p>
-                                    <a href={organizationInfo.instagramUrl} target="_blank" className="text-[#BFFF0B]">{organizationInfo.instagramUrl}</a>
-                                </div>}
-                            {organizationInfo.blogUrl &&
-                                <div
-                                    className="flex flex-col justify-center border-[#364153] border w-full p-4 mt-2 bg-[#1E2939] rounded-md text-[#D1D5DC] text-base font-normal"
-                                >
-                                    <p className="text-sm">블로그</p>
-                                    <a href={organizationInfo.blogUrl} target="_blank" className="text-[#BFFF0B]">{organizationInfo.blogUrl}</a>
-                                </div>}
-                            {organizationInfo.websiteUrl &&
-                                <div
-                                    className="flex flex-col justify-center border-[#364153] border w-full p-4 mt-2 bg-[#1E2939] rounded-md text-[#D1D5DC] text-base font-normal"
-                                >
-                                    <p className="text-sm">웹사이트</p>
-                                    <a href={organizationInfo.websiteUrl} target="_blank" className="text-[#BFFF0B]">{organizationInfo.websiteUrl}</a>
-                                </div>}
-                        </article>
-                        <article>
-                            <AdminModalP title='운동 시설 번호' />
-                            <AdminModalDiv content={organizationInfo.requestedLoginId} />
+                            {mode === 'organizationView' && (
+                                <>
+                                    {(organizationInfo.instagramUrl &&
+                                        <UrlCt text='인스타그램' url={organizationInfo.instagramUrl} />)}
+                                    {(organizationInfo.blogUrl &&
+                                        <UrlCt text='블로그' url={organizationInfo.blogUrl} />)}
+                                    {(organizationInfo.websiteUrl &&
+                                        <UrlCt text='웹사이트' url={organizationInfo.websiteUrl} />)}
+                                </>
+                            )}
+                            {mode !== 'organizationView' && (
+                                <>
+                                    {(organizationApplicationInfo.instagramUrl &&
+                                        <UrlCt text='인스타그램' url={organizationApplicationInfo.instagramUrl} />)}
+                                    {(organizationApplicationInfo.blogUrl &&
+                                        <UrlCt text='블로그' url={organizationApplicationInfo.blogUrl} />)}
+                                    {(organizationApplicationInfo.websiteUrl &&
+                                        <UrlCt text='웹사이트' url={organizationApplicationInfo.websiteUrl} />)}
+                                </>
+                            )}
+
                         </article>
                         {mode === 'organizationView' && (
                             <>
                                 <article>
                                     <AdminModalP title='소속 트레이너 수' />
-                                    <AdminModalDiv content="5명" />
+                                    <AdminModalDiv content={`${organizationInfo.trainerCount}명`} />
                                 </article>
                                 <article>
                                     <AdminModalP title='승인일' />
-                                    <AdminModalDiv content="2026-10-04" />
+                                    <AdminModalDiv content={organizationInfo.approvedAt} />
+                                </article>
+                                <article>
+                                    <AdminModalP title='소속 트레이너' />
+                                    <OrganizationTrainerList trainers={organizationInfo.trainers} />
                                 </article>
                             </>
                         )}
@@ -183,7 +211,7 @@ export default function OrganizationDetailModal({ isModal, closeModal, activeMod
                         </button>
                     </article>
                 )}
-            </form>
+            </div>
         </section>
     );
 }

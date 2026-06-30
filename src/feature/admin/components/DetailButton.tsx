@@ -2,18 +2,17 @@
 
 import useModal from "@/components/hooks/useModal";
 import { DetailButtonImg } from "@/components/ui/image";
-import TrainerDetailModal from "./modals/TrainerDatailModal";
-import OrganizationDetailModal from "./modals/OrganizationDetailModal";
 import CheckViewModal from "./modals/CheckViewModal";
 import TwoButtonModal from "@/components/ui/TwoButtonModal";
-import TrainerRejectModal from "./modals/TrainerRejectModal";
 
 interface DetailButtonMode {
-    mode: 'trainerView' | 'organizationView' | 'trainerApprove' | 'organizationApprove' | 'TRAINER_REVIEW' | 'COMMENT' | 'PT_COURSE' | 'FEEDBACK' | 'POST'
+    mode: 'trainerView' | 'organizationView' | 'trainerApprove' | 'organizationApprove' | 'TRAINER_REVIEW' | 'COMMENT' | 'PT_COURSE' | 'FEEDBACK' | 'POST';
+    applicationId: number
 }
 
 
-export default function DetailButton({ mode }: DetailButtonMode) {
+export default function DetailButton({ mode, applicationId }: DetailButtonMode) {
+
 
     //트레이너, 조직에서 승인 버튼 누름
     const handleClickApprove = (): void => {
@@ -61,27 +60,12 @@ export default function DetailButton({ mode }: DetailButtonMode) {
                 className="flex items-center gap-2.5 text-sm font-medium text-white bg-[#1E2939] border-[#364153] border rounded-lg py-2 px-3">
                 <img src={DetailButtonImg} /> 상세보기
             </button>
-            <TrainerDetailModal
-                isModal={trainerModal.isModal}
-                closeModal={trainerModal.closeModal}
-                activeModal={trainerModal.activeModal}
-                noneActiveModal={trainerModal.noneActiveModal}
-                mode={mode}
-                title='모달입니다'
-            />
-            <OrganizationDetailModal
-                isModal={organizationModal.isModal}
-                closeModal={organizationModal.closeModal}
-                activeModal={organizationModal.activeModal}
-                noneActiveModal={organizationModal.noneActiveModal}
-                mode={mode}
-                applicationId={0}
-            />
             <CheckViewModal
                 isModal={viewModal.isModal}
                 closeModal={viewModal.closeModal}
                 mode={mode}
-                title='모달입니다'
+                nickname='모달입니다'
+                content=""
             />
             <TwoButtonModal
                 isModal={approvalModal.isModal}
@@ -90,12 +74,7 @@ export default function DetailButton({ mode }: DetailButtonMode) {
                 title={mode === 'trainerApprove' || mode === 'trainerView' ? '트레이너 승인' : '조직 승인'}
                 content={`승인하시겠습니까?`}
             />
-            <TrainerRejectModal
-                isModal={rejectModal.isModal}
-                closeModal={rejectModal.closeModal}
-                activeModal={rejectModal.activeModal}
-                title='모달입니다'
-            />
+
         </>
     );
 }

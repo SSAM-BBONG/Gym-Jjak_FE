@@ -1,33 +1,390 @@
 import {
+  MyPagePasswordChangeRequest,
+  MyPagePasswordChangeResponse,
+  MyPagePasswordCheck,
+  MyPageUserDelection,
+  MyPageUserProfileEditRequest,
+  MyPageUserProfileEditResponse,
+  MyPageUserProfileResponse,
+  MyTrainerProfileEditRequest,
+  MyTrainerProfileEditResponse,
+  MyTrainerProfileResponse,
   OrganizationApplicationCreateResponse,
   OrganizationApplicationDetailResponse,
+  OrganizationApplicationRequest,
   OrganizationApplicationResponse,
+  OrganizationManageEditRequest,
+  OrganizationManageResponse,
+  OrganizationManageTrainerAdd,
+  OrganizationManageTrainerAddData,
+  OrganizationManageTrainerDeleteResponse,
+  OrganizationManageTrainerSearchReqeust,
+  OrgnaizationManageTrainerSearchResponse,
+  TrainerProfileDetailResponse,
 } from "@/feature/mypage/type";
-import { axiosFetch } from "@/lib/api";
-import { cache } from "react";
+import { fetchWithAuth } from "@/lib/feth";
+import { getErrorMessage } from "@/lib/stateError";
+import { redirect } from "next/navigation";
 
 // 조직 계정 신청 목록 조회 API
-export const getOrganizationApplications = cache(async (): Promise<OrganizationApplicationResponse> => {
-    const response = await axiosFetch.get("/api/organization-applications/me");
-    return response.data;
-  });
+export const getOrganizationApplications = async (): Promise<OrganizationApplicationResponse> => {
+  const response = await fetchWithAuth("/api/organization-applications/me");
+
+  if (!response.ok) {
+    const message = await getErrorMessage(
+      response,
+      '조직 계정 신청 목록 조회에 실패하였습니다.'
+    );
+
+    throw new Error(message);
+  }
+
+  return response.json();
+};
 
 // 조직 계정 신청 상세 조회 API
-export const getOrganizationApplication = cache(async (applicationId: string): Promise<OrganizationApplicationDetailResponse> => {
-  const response = await axiosFetch.get(`/api/organization-applications/${applicationId}`);
-  return response.data;
-});
+export const getOrganizationApplication = async (applicationId: string): Promise<OrganizationApplicationDetailResponse> => {
+  const response = await fetchWithAuth(`/api/organization-applications/${applicationId}`);
+
+  if (!response.ok) {
+    const message = await getErrorMessage(
+      response,
+      '조직 계정 신청 상세 조회에 실패하였습니다.'
+    );
+
+    throw new Error(message);
+  }
+
+  return response.json();
+};
 
 // 조직 계정 신청 등록 API
-export const createOrganizationApplication = async (formData: FormData): Promise<OrganizationApplicationCreateResponse> => {
-  const response = await axiosFetch.post( "/api/organization-applications",
-    formData,
+export const createOrganizationApplication = async (
+  payload: OrganizationApplicationRequest
+): Promise<OrganizationApplicationCreateResponse> => {
+  const response = await fetchWithAuth("/api/organization-applications", {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+
+  if (!response.ok) {
+    const message = await getErrorMessage(
+      response,
+      '조직 계정 신청 등록에 실패하였습니다.'
+    );
+
+    throw new Error(message);
+  }
+
+  return response.json();
+};
+
+// 조직 계정 신청 아이디 중복 확인 API
+export const organizationApplicationDupliCationId = async ( 
+  loginId : string
+) => {
+  const params = new URLSearchParams({
+    requestedLoginId: loginId,
+  });
+  const response = await fetchWithAuth(`/api/organization-applications/login-id/duplicate?${params.toString()}`)
+
+  if (!response.ok) {
+    const message = await getErrorMessage(
+      response,
+      '아이디 중복 확인에 실패하였습니다.'
+    );
+
+    throw new Error(message);
+  }
+
+  return response.json();
+}
+
+// 조직 신청 취소 API 
+export const organizationApplicationCancel = async (applicationId: number) => {
+  const response = await fetchWithAuth(`/api/organization-applications/${applicationId}/cancel`,{
+    method: "PATCH",
+    }
+  )
+
+  if (!response.ok) {
+    const message = await getErrorMessage(
+      response,
+      '조직 계정 신청 취소에 실패하였습니다.'
+    );
+
+    throw new Error(message);
+  }
+
+  return response.json();
+}
+
+// 내 조직 정보 조회 API
+export const getOrganizationManageInformation = async (): Promise<OrganizationManageResponse> => {
+  const response = await fetchWithAuth(`/api/organizations/me`);
+
+  if (!response.ok) {
+    const message = await getErrorMessage(
+      response,
+      '내 조직 정보 조회에 실패하였습니다.'
+    );
+
+    throw new Error(message);
+  }
+
+  return response.json();
+}
+
+// 내 조직 정보 수정 API
+export const editOrganizationManageInformation = async (
+  payload: OrganizationManageEditRequest
+): Promise<OrganizationManageResponse> => {
+  const response = await fetchWithAuth(`/api/organizations/me`, {
+    method: "PATCH",
+    body: JSON.stringify(payload)
+  });
+
+  if (!response.ok) {
+    const message = await getErrorMessage(
+      response,
+      '내 조직 정보 조회에 실패하였습니다.'
+    );
+
+    throw new Error(message);
+  }
+
+  return response.json();
+}
+
+// 내 조직 트레이너 추가 API
+export const addOrganizationManageTrainer = async (
+  trainerProfileId: OrganizationManageTrainerAddData
+): Promise<OrganizationManageTrainerAdd> => {
+  const response = await fetchWithAuth(`/api/organizations/me/trainers`, {
+    method: "POST",
+    body: JSON.stringify(trainerProfileId)
+  });
+
+  if (!response.ok) {
+    const message = await getErrorMessage(
+      response,
+      '내 조직 정보 조회에 실패하였습니다.'
+    );
+
+    throw new Error(message);
+  }
+
+  return response.json();
+}
+
+// 내 조직 트레이너 검색 API 
+export const getOraganizationsearchTrainers = async ({
+  keyword,
+  page = 0,
+  size = 10,
+}: OrganizationManageTrainerSearchReqeust = {}): Promise<OrgnaizationManageTrainerSearchResponse> => {
+  const params = new URLSearchParams();
+
+  if (keyword?.trim()) {
+    params.set("keyword", keyword.trim());
+  }
+
+  params.set("page", String(page));
+  params.set("size", String(size));
+
+  const response = await fetchWithAuth(`/api/trainers/search?${params.toString()}`);
+
+  if (!response.ok) {
+    const message = await getErrorMessage(
+      response,
+      "트레이너 검색에 실패했습니다."
+    );
+
+    throw new Error(message);
+  }
+
+  return response.json();
+};
+
+// 내 조직 트레이너 목록 조회 API 
+export const getOraganizationTrainerLists = async () => {
+  const response = await fetchWithAuth(`/api/organizations/me/trainers`);
+
+  if (!response.ok) {
+    const message = await getErrorMessage(
+      response,
+      '내 조직 정보 조회에 실패하였습니다.'
+    );
+
+    throw new Error(message);
+  }
+
+  return response.json();
+};
+
+// 내 조직 트레이너 삭제 API 
+export const deleteOraganizationTrainer = async (
+  organizationTrainerId: number
+): Promise<OrganizationManageTrainerDeleteResponse> => {
+  const response = await fetchWithAuth(
+    `/api/organizations/me/trainers/${organizationTrainerId}`,
     {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
+      method: "DELETE",
     }
   );
 
-  return response.data;
+  if (!response.ok) {
+    const message = await getErrorMessage(
+      response,
+      '트레이너 삭제에 실패하였습니다.'
+    );
+
+    throw new Error(message);
+  }
+
+  return response.json();
 };
+
+// 비밀번호 확인 API
+export const checkPassword = async (password: string): Promise<MyPagePasswordCheck> => {
+  const response = await fetchWithAuth(
+    `/api/users/me/password-verification`,
+    {
+      method: "POST",
+      body: JSON.stringify({password})
+    }
+  );
+
+  if (!response.ok) {
+  const message = await getErrorMessage(
+    response,
+    '비밀번호 확인에 실패하였습니다.'
+  );
+
+    throw new Error(message);
+  }
+
+  return response.json();
+}
+
+// 회원탈퇴 APi
+export const deleteMyAccount = async (): Promise<MyPageUserDelection> => {
+  const response = await fetchWithAuth(
+    `/api/users/me`,
+    {
+      method: "DELETE",
+    }
+  );
+
+  if (!response.ok) {
+  const message = await getErrorMessage(
+    response,
+    '회원탈퇴에 실패하였습니다..'
+  );
+
+    throw new Error(message);
+  }
+
+  return response.json();
+}
+
+// 비밀번호 변경 API
+export const updatePassword = async (
+  payload: MyPagePasswordChangeRequest
+): Promise<MyPagePasswordChangeResponse> => {
+  const response = await fetchWithAuth(`/api/users/me/updatePassword`, {
+    method: "PATCH",
+    body: JSON.stringify(payload),
+  });
+
+  if (!response.ok) {
+    const message = await getErrorMessage(
+      response,
+      "비밀번호 변경에 실패하였습니다."
+    );
+
+    throw new Error(message);
+  }
+
+  return response.json();
+};
+
+// 내 프로필 조회 API
+export const getMyProfileInformation = async (): Promise<MyPageUserProfileResponse> => {
+  const response = await fetchWithAuth(`/api/users/me`);
+
+  if (!response.ok) {
+    const message = await getErrorMessage(
+      response,
+      '내 프로필 조회에 실패하였습니다.'
+    );
+
+    throw new Error(message);
+  }
+
+  return response.json();
+}
+
+// 내 프로필 수정 API 
+export const editMyProfileInformation = async (
+  payload: MyPageUserProfileEditRequest
+): Promise<MyPageUserProfileEditResponse> => {
+  const response = await fetchWithAuth(`/api/users/me`, {
+    method: "PATCH",
+    body: JSON.stringify(payload)
+  });
+
+  if (!response.ok) {
+    const message = await getErrorMessage(
+      response,
+      '내 프로필 수정에 실패하였습니다.'
+    );
+
+    throw new Error(message);
+  }
+
+  return response.json();
+}
+
+// 내 트레이너 프로필 조회 API
+export const getMyTrainerProfileInformation = async () => {
+  const response = await fetchWithAuth(`/api/trainers/me`);
+  // 특정 에러 코드일때 페이지를 redirect 시키기 위해 에러처리는 page.tsx에서 진행
+  return response.json();
+};
+
+// 내 트레이너 프로필 수정 API 
+export const editMyTrainerProfileInformation = async (
+  payload: MyTrainerProfileEditRequest
+): Promise<MyTrainerProfileEditResponse> => {
+  const response = await fetchWithAuth("/api/trainers/me", {
+    method: "PATCH",
+    body: JSON.stringify(payload),
+  });
+
+  if (!response.ok) {
+    const message = await getErrorMessage(
+      response,
+      "트레이너 프로필 수정에 실패했습니다."
+    );
+
+    throw new Error(message);
+  }
+
+  return response.json();
+};
+
+export const getTrainerProfileDetail = async (trainerProfileId: number): Promise<TrainerProfileDetailResponse> => {
+  const response = await fetchWithAuth(`/api/trainers/${trainerProfileId}`);
+
+  if (!response.ok) {
+    const message = await getErrorMessage(
+      response,
+      '내 프로필 조회에 실패하였습니다.'
+    );
+
+    throw new Error(message);
+  }
+
+  return response.json();
+}

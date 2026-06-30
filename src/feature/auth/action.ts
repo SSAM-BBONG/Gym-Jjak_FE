@@ -1,12 +1,14 @@
 'use server'
 
-import { SignUpFormData } from "@/lib/registerSchema";
-import { login, logout, onboarding, register } from "@/service/auth.service";
+import { SignUpFormData, SocialSignUpFormData } from "@/lib/registerSchema";
+import { addSocialRegist, editMyOnboarding, getTemporaryPw, login, logout, onboarding, register } from "@/service/auth.service";
 import axios from "axios";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { onbordingRequest } from "./type";
+import { LoginResponse, onbordingRequest } from "./type";
 import { decodeJWT } from "@/lib/decode";
+import { ReissueResponse } from "@/lib/refreshType";
+import { OnboardingType } from "@/lib/onboardingSchema";
 
 interface ActionState {
     success: boolean;
@@ -16,7 +18,6 @@ interface ActionState {
 
 export const getHeaderUserAction = async () => {
     const user = await decodeJWT();
-
     if (!user?.sub) {
         return null;
     }
@@ -46,12 +47,8 @@ export const loginAction = async (prevState: ActionState, formData: FormData): P
     try {
         response = await login(payload);
     } catch (error) {
-        let errorMessage: string = 'Unknown Error';
-        if (axios.isAxiosError(error)) {
-            // Axios 자체 에러인 경우
-            errorMessage = (error.response && error.response.data) ? error.response.data.message : error.message
-        } else if (error instanceof Error) {
-            // 일반적인 JS 에러인 경우
+        let errorMessage: string = '알 수 없는 오류입니다. 재시도해주세요.'
+        if (error instanceof Error) {
             errorMessage = error.message;
         }
 
@@ -61,107 +58,48 @@ export const loginAction = async (prevState: ActionState, formData: FormData): P
         }
     }
 
+    const resData = (await response.json()) as LoginResponse;
+
     const cookieStore = await cookies();
 
-    cookieStore.set('accessToken', response.data.data.accessToken, {
+    cookieStore.set('accessToken', resData.data.accessToken, {
         httpOnly: true,
         maxAge: 60 * 60,
         path: '/'
     });
 
     //백에서 보낸 쿠키 헤더 가져오기
-    const setCookieHeader = response.headers['set-cookie'];
+    const setCookieHeaders: string[] =
+        response.headers.getSetCookie?.() ?? [];
 
-    // console.log(setCookieHeader)
-    // [
-    //     'refreshToken=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxOSIsInVzZXJuYW1lIjoic2lldW5AdGVzdC5jb20iLCJpYXQiOjE3ODAxMTA2MzAsImV4cCI6MTc4MTMyMDIzMH0.6wPwgV2PnS8nhq6qyKyrr022gbAyp-cjMH5cHdwNMPU; Path=/; Max-Age=1209600; Expires=Sat, 13 Jun 2026 03:10:31 GMT; HttpOnly; SameSite=Lax'
-    // ]
 
-    //쿠키에서 토큰 찾아서 넣는 부분
-    if (setCookieHeader) {
-        const refreshToken = setCookieHeader.find((cookie) => cookie.startsWith('refreshToken='));
+    const newRefreshToken = setCookieHeaders.find((cookie) => cookie.startsWith("refreshToken="))
+    const newRefreshValue = newRefreshToken?.split(';')[0].replace('refreshToken=', '');
 
-        const refreshValue = refreshToken?.split(';')[0].replace('refreshToken=', '');
-
-        if (refreshValue) {
-            cookieStore.set('refreshToken', refreshValue, {
-                httpOnly: true,
-                maxAge: 60 * 60 * 3,
-                path: '/'
-            });
-        }
-
+    if (newRefreshValue) {
+        cookieStore.set('refreshToken', newRefreshValue, {
+            httpOnly: true,
+            maxAge: 60 * 60 * 3,
+            path: '/'
+        });
     }
 
 
-    if (response.data.data.onboardingCompleted) {
+    if (resData.data.onboardingCompleted) {
         redirect('/');
     } else {
         redirect('/auth/onboarding?page=1');
     }
-
-
-    return {
-        success: true,
-        message: '로그인 성공'
-    }
 }
 
 export const registerAction = async (payload: SignUpFormData): Promise<ActionState> => {
-    const { username, password, passwordCheck, name, nickname, phone } = payload;
-
-
-    if (!username.trim() || !password.trim() || !passwordCheck.trim() || !name.trim() || !nickname.trim() || !phone.trim()) {
-        return {
-            success: false,
-            message: '값을 입력해주세요'
-        }
-    }
-    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*()_+=\-[\]{}|;':",./<>?~`]).+$/;
-    if (password.length < 8 || password.length > 16) {
-        return {
-            success: false,
-            message: '비밀번호는 8자 이상 16자 이하여야 합니다.'
-        }
-    }
-    if (!passwordRegex.test(password)) {
-        return {
-            success: false,
-            message: '비밀번호는 영어, 숫자, 특수문자가 하나씩 포함되어야 합니다.'
-        }
-    }
-    if (password !== passwordCheck) {
-        return {
-            success: false,
-            message: '비밀번호가 일치하지 않습니다.'
-        }
-    }
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(username)) {
-        return {
-            success: false,
-            message: '이메일 형식이 맞지 않습니다.'
-        }
-    }
-    const phoneRegex = /^\d{3}-\d{4}-\d{4}$/
-    if (!phoneRegex.test(phone)) {
-        return {
-            success: false,
-            message: '전화번호 형식이 맞지 않습니다.'
-        }
-    }
-
-
+    const { username, password, name, nickname, phone } = payload;
 
     try {
         await register({ username, password, name, nickname, phone });
     } catch (error) {
-        let errorMessage: string = 'Unknown Error';
-        if (axios.isAxiosError(error)) {
-            // Axios 자체 에러인 경우
-            errorMessage = (error.response && error.response.data) ? error.response.data.message : error.message
-        } else if (error instanceof Error) {
-            // 일반적인 JS 에러인 경우
+        let errorMessage: string = '알 수 없는 오류입니다. 재시도해주세요.'
+        if (error instanceof Error) {
             errorMessage = error.message;
         }
 
@@ -175,13 +113,21 @@ export const registerAction = async (payload: SignUpFormData): Promise<ActionSta
         success: true,
         message: '회원가입 성공'
     }
-
 }
 
 export const logoutAction = async () => {
     try {
         await logout();
     } catch (error) {
+        let errorMessage: string = '알 수 없는 오류입니다. 재시도해주세요.'
+        if (error instanceof Error) {
+            errorMessage = error.message;
+        }
+
+        return {
+            success: false,
+            message: errorMessage
+        }
     }
     const cookieStore = await cookies();
     cookieStore.delete('accessToken');
@@ -193,24 +139,75 @@ export const onboardingAction = async (payload: onbordingRequest): Promise<Actio
     try {
         await onboarding(payload);
     } catch (error) {
-        let errorMessage: string = 'Unknown Error';
-        if (axios.isAxiosError(error)) {
-            // Axios 자체 에러인 경우
-            errorMessage = (error.response && error.response.data) ? error.response.data.message : error.message
-        } else if (error instanceof Error) {
-            // 일반적인 JS 에러인 경우
+        let errorMessage: string = '알 수 없는 오류입니다. 재시도해주세요.'
+        if (error instanceof Error) {
             errorMessage = error.message;
         }
+
         return {
             success: false,
             message: errorMessage
         }
     }
     redirect('/');
+}
 
-    return {
-        success: true,
-        message: '로그인 성공'
+export const onboardingEditAction = async (payload: OnboardingType): Promise<ActionState> => {
+    try {
+        await editMyOnboarding(payload);
+    } catch (error) {
+        let errorMessage: string = '알 수 없는 오류입니다. 재시도해주세요.'
+        if (error instanceof Error) {
+            errorMessage = error.message;
+        }
+
+        return {
+            success: false,
+            message: errorMessage
+        }
+    }
+    redirect('/mypage/onboarding');
+
+}
+
+export const temporaryPwAction = async (prevState: ActionState, formData: FormData): Promise<ActionState> => {
+    const username = formData.get('username') as string;
+    const payload = { username }
+    try {
+        const response = await getTemporaryPw(payload);
+
+        return {
+            success: true,
+            message: response.message || '임시 비밀번호가 발급'
+        }
+    } catch (error) {
+        let errorMessage: string = '알 수 없는 오류입니다. 재시도해주세요.'
+        if (error instanceof Error) {
+            errorMessage = error.message;
+        }
+
+        return {
+            success: false,
+            message: errorMessage
+        }
     }
 }
 
+export const addSocialRegistAction = async (payload: SocialSignUpFormData) => {
+    const { nickname, phone } = payload;
+    try {
+        await addSocialRegist({ nickname, phone });
+    } catch (error) {
+        let errorMessage: string = '알 수 없는 오류입니다. 재시도해주세요.'
+        if (error instanceof Error) {
+            errorMessage = error.message;
+        }
+
+        return {
+            success: false,
+            message: errorMessage
+        }
+    }
+
+    redirect('/auth/onboarding?page=1');
+}

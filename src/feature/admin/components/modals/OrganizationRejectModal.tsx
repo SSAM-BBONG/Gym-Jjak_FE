@@ -1,16 +1,15 @@
 import { CloseButton } from "@/components/ui/image";
-import StatusSelector from "../StatusSelector";
 import { organizationRejectAction } from "../../action";
 
 interface OrganizationRejectModal {
     isModal: boolean;
     closeModal: () => void;
     activeModal: () => void;
-    applicationId: number;
+    organizationId: number;
 }
 
 
-export default function OrganizationRejectModal({ isModal, closeModal, activeModal, applicationId }: OrganizationRejectModal) {
+export default function OrganizationRejectModal({ isModal, closeModal, activeModal, organizationId }: OrganizationRejectModal) {
     if (!isModal) return null;
 
     return (
@@ -18,7 +17,7 @@ export default function OrganizationRejectModal({ isModal, closeModal, activeMod
             className="z-999 bg-black/50 fixed top-0 left-0 w-screen h-screen"
             onClick={closeModal} >
             <form
-                action={organizationRejectAction.bind(null, applicationId)}
+                action={organizationRejectAction.bind(null, organizationId)}
                 className="bg-gradient-to-br from-[#101828] to-[#000] w-md rounded-2xl border border-[#1E2939] z-1000 fixed top-1/2 left-1/2 p-6 flex -translate-x-1/2 -translate-y-1/2 flex-col justify-between"
                 onClick={(e) => e.stopPropagation()}>
                 <article>

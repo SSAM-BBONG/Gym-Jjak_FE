@@ -4,8 +4,16 @@ export interface LoginRequest {
 }
 
 export interface LoginResponse {
-
+    status: number;
+    code: string;
+    message: string;
+    data: {
+        accessToken: string;
+        role: string;
+        onboardingCompleted: boolean;
+    };
 }
+
 
 export interface RegisterRequest {
     username: string;
@@ -27,6 +35,17 @@ export interface onbordingRequest {
     height: number;
     weight: number;
     region: RegionType;
+}
+
+export interface MyOnboardingResponse {
+    onboardingId: number;
+    exerciseGoal: string;
+    exercisePeriod: string;
+    exerciseFrequency: string;
+    preferredExercise: string;
+    height: number;
+    weight: number;
+    preferredRegion: RegionType;
 }
 
 export interface RegionType {

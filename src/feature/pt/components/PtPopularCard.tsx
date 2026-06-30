@@ -8,6 +8,7 @@ export default function PtPopularCard() {
         border border-[#1E2939] rounded-[14px]
         bg-[#101828]
         overflow-hidden
+        cursor-pointer
         ">
             <p className="absolute rounded-[4px] bg-[#BFFF0B] px-2 py-1 text-[12px] font-extrabold text-black top-2 left-2"> 태그 </p>
             <img src={PtfindTestImg} width={320} height={160} alt="PT ZONE 인기강습 이미지"/>

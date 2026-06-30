@@ -2,7 +2,6 @@
 
 import { loginAction } from "@/feature/auth/action";
 import { useActionState } from "react";
-import LoginButton from "./LoginButton";
 import OneButtonModal from "@/components/ui/OneButtonModal";
 import useModal from "@/components/hooks/useModal";
 
@@ -15,8 +14,6 @@ export default function LoginForm() {
     })
 
     const modal = useModal();
-
-
 
     return (
         <form action={loginFormAction} className="w-md">

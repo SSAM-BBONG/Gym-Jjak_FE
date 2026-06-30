@@ -1,4 +1,5 @@
-'use server'
+// use server를 쓰면 서버 액션으로 판단될 수 있어 next 규칙과 충돌할 수 있음
+import 'server-only';
 
 import axios, { AxiosResponse, InternalAxiosRequestConfig } from "axios";
 import { cookies } from "next/headers";

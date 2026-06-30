@@ -9,7 +9,6 @@ import TrainerDetailModal from "@/feature/admin/components/modals/TrainerDatailM
 import OrganizationDetailModal from "@/feature/admin/components/modals/OrganizationDetailModal";
 import CheckReportModal from "@/feature/admin/components/modals/CheckReportModal";
 import CheckViewModal from "@/feature/admin/components/modals/CheckViewModal";
-import AdminPagination from "@/feature/admin/components/AdminPagination";
 import PtReservationModal from "@/feature/pt/components/PtReservationModal";
 import { decodeJWT } from "@/lib/decode";
 
@@ -88,7 +87,7 @@ export default function ModalOpenButton() {
                 title='모달입니다'
                 content={`안녕하세요\n안녕히계세요`}
             />
-            <ChangeStateModal
+            {/* <ChangeStateModal
                 isModal={modal2.isModal}
                 closeModal={modal2.closeModal}
                 activeModal={modal2.activeModal}
@@ -107,7 +106,7 @@ export default function ModalOpenButton() {
                 noneActiveModal={modal4.noneActiveModal}
                 mode="trainerView"
                 title='모달입니다'
-            />
+            /> */}
             {/* <OrganizationDetailModal
                 isModal={modal5.isModal}
                 closeModal={modal5.closeModal}
@@ -116,12 +115,12 @@ export default function ModalOpenButton() {
                 mode='organizationApprove'
                 title='모달입니다'
             /> */}
-            <CheckViewModal
+            {/* <CheckViewModal
                 isModal={modal6.isModal}
                 closeModal={modal6.closeModal}
                 mode='comment'
                 title='모달입니다'
-            />
+            /> */}
             {/* <CheckReportModal
                 isModal={modal7.isModal}
                 closeModal={modal7.closeModal}

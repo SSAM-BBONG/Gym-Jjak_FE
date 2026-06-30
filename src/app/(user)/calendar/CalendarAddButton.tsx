@@ -4,7 +4,7 @@ import useModal from "@/components/hooks/useModal";
 import { AdminAddButton } from "@/components/ui/image";
 import CalendarCreateModal from "@/feature/calendar/components/CalendarCreateModal";
 
-export default function CalendarAddButton() {
+export default function CalendarAddButton({ selectedSettingDate }: { selectedSettingDate: string }) {
     const modal = useModal();
 
     return (
@@ -17,8 +17,7 @@ export default function CalendarAddButton() {
             <CalendarCreateModal
                 isModal={modal.isModal}
                 closeModal={modal.closeModal}
-                activeModal={modal.activeModal}
-                title='모달입니다'
+                selectedSettingDate={selectedSettingDate}
             />
         </>
     );

@@ -13,11 +13,13 @@ interface ReportDataListProps {
 
 export default function ReportDataList({ mode, reposts, totalPage, page }: ReportDataListProps) {
 
+    const modeType = { 'TRAINER_REVIEW': 'reviews', 'COMMENT': 'comments', 'PT_COURSE': 'pt', 'FEEDBACK': 'feedbacks', 'POST': 'posts' }
+
     return (
         <div>
             <SearchBar></SearchBar>
             <section className="bg-[#1E2939] border-[#364153] border-separate border-spacing-0 border mt-6 rounded-md w-full ">
-                <div style={{ display: 'grid' }} className="!gird grid-cols-21 px-6 text-[#99A1AF] font-bold text-sm border-0 h-13 items-center">
+                <div style={{ display: 'grid' }} className="grid grid-cols-21 px-6 text-[#99A1AF] font-bold text-sm border-0 h-13 items-center">
                     <p className="col-span-3">신고 번호</p>
                     <p className="col-span-3">신고 대상</p>
                     <p className="col-span-3">신고자</p>
@@ -37,7 +39,7 @@ export default function ReportDataList({ mode, reposts, totalPage, page }: Repor
                     </div>
                 )}
             </section>
-            <AdminPagination mode={mode} page={page} totalPage={totalPage} />
+            <AdminPagination url={`reports/${modeType[mode]}`} page={page} totalPage={totalPage} />
         </div>
     );
 }

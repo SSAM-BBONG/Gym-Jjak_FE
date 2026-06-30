@@ -1,4 +1,10 @@
-export default function PtManageUserCard() {
+import { PtReservationStudent } from "../type";
+
+interface PtManageUserCardProps {
+    data: PtReservationStudent
+}
+
+export default function PtManageUserCard( {data}: PtManageUserCardProps) {
     return (
         <div className="
         flex gap-4 items-start
@@ -10,16 +16,16 @@ export default function PtManageUserCard() {
             <div className="flex flex-col gap-4 flex-9">
                 <div className="flex justify-between items-start">
                     <div className="flex flex-col gap-2">
-                        <p className="text-[20px] font-black text-white"> 운동초보 </p>
-                        <p className="text-[14px] font-normal text-[#99A1AF]"> 최근 강습: 2026-05-15 </p>
+                        <p className="text-[20px] font-black text-white"> {data.nickname} </p>
+                        <p className="text-[14px] font-normal text-[#99A1AF]"> 최근 강습: {data.lastPtDate} </p>
                     </div>
-                    <div className="px-4 py-1 border border-[#BFFF0B4D] bg-[#BFFF0B4D] rounded-full text-[12px] font-extrabold text-[#BFFF0B]"> 수강중 </div>
+                    <div className="px-4 py-1 border border-[#BFFF0B4D] bg-[#BFFF0B4D] rounded-full text-[12px] font-extrabold text-[#BFFF0B]"> {data.status} </div>
                 </div>
 
                 <div className="flex gap-6">
                     <div className="flex flex-3 flex-col gap-1 p-4 rounded-[10px] bg-[#1E293980]"> 
                         <p className="text-[12px] font-normal text-[#6A7282]"> 진척도 </p>
-                        <p className="text-[14px] font-extrabold text-[#BFFF0B]"> 3/12 </p>
+                        <p className="text-[14px] font-extrabold text-[#BFFF0B]"> {data.progressCount}/{data.totalSessionCount} </p>
                     </div>
                     <div className="flex flex-7 flex-col gap-1 p-4 rounded-[10px] bg-[#1E293980]"> 
                         <p className="text-[12px] font-normal text-[#6A7282]"> 완료율 </p>

@@ -1,5 +1,11 @@
+'use client'
+
 import { CloseButton } from "@/components/ui/image";
 import ActiveStatus from "../ActiveStatus";
+import { useEffect, useState } from "react";
+import InfoCard from "../InfoCard";
+import { TrainerAdminDetailAction, TrainerApplicationAdminDetailAction } from "../../action";
+import TrainerApplicationStatus from "./TrainerApplicationStatus";
 
 interface TrainerDetailModal {
     isModal: boolean;
@@ -7,13 +13,59 @@ interface TrainerDetailModal {
     activeModal: () => void;
     noneActiveModal: () => void;
     mode: string;
-    title: string;
+    trainerId: number;
 }
 
+const initTrainerApplicationInfo: TrainerApplication = {
+    trainerApplicationId: 0,
+    userId: 0,
+    profileImageUrl: '',
+    profileImageOriginalName: '',
+    name: '',
+    username: '',
+    nickname: '',
+    introduction: '',
+    qualifications: [],
+    certificateUrl: '',
+    certificateOriginalName: '',
+    awardHistories: [],
+    status: 'PENDING'
+}
 
-export default function TrainerDetailModal({ isModal, closeModal, activeModal, noneActiveModal, mode, title }: TrainerDetailModal) {
+const initTrainerInfo: Trainer = {
+    trainerProfileId: 0,
+    profileImageUrl: '',
+    trainerName: '',
+    introduction: '',
+    averageRating: 0,
+    reviewCount: 0,
+    status: 'ACTIVE',
+    certifications: [],
+    awards: []
+}
+
+export default function TrainerDetailModal({ isModal, closeModal, activeModal, noneActiveModal, mode, trainerId }: TrainerDetailModal) {
+
+    const [trainerApplicationInfo, setTrainerApplicationInfo] = useState<TrainerApplication>(initTrainerApplicationInfo)
+    const [trainerInfo, setTrainerInfo] = useState<Trainer>(initTrainerInfo)
+
+    useEffect(() => {
+        if (!isModal) return;
+        async function getTrainerApplicationInfo() {
+            const response = await TrainerApplicationAdminDetailAction(trainerId);
+            setTrainerApplicationInfo(response);
+        }
+
+        async function getTrainerInfo() {
+            const response = await TrainerAdminDetailAction(trainerId);
+            setTrainerInfo(response);
+        }
+
+        mode === 'trainerView' ? getTrainerInfo() : getTrainerApplicationInfo();
+    }, [isModal, trainerId])
+
     if (!isModal) return null;
-
+    const profileImageUrl = trainerApplicationInfo.profileImageUrl || trainerInfo.profileImageUrl;
     return (
         <section
             className="z-999 bg-black/50 fixed top-0 left-0 w-screen h-screen"
@@ -28,56 +80,73 @@ export default function TrainerDetailModal({ isModal, closeModal, activeModal, n
                         <img src={CloseButton} onClick={closeModal} />
                     </div>
                     <div className="flex items-center my-4 gap-6">
-                        <img className="w-30 h-30" />
+                        <img className="w-30 h-30" src={profileImageUrl} alt="트레이너 프로필 사진" />
                         <div>
-                            <h3 className="font-bold text-xl text-[#E8EAF0] py-2">이름</h3>
-                            <p className="font-normal text-base text-[#E8EAF0]">닉네임</p>
-                            <p className="font-normal text-base text-[#E8EAF0]">이메일</p>
-                            <ActiveStatus text='활성' />
+                            <h3 className="font-bold text-xl text-[#E8EAF0] py-2">{trainerApplicationInfo.name || trainerInfo.trainerName}</h3>
+                            <p className="font-normal text-base text-[#E8EAF0]">{trainerApplicationInfo.nickname}</p>
+                            <p className="font-normal text-base text-[#E8EAF0]">{trainerApplicationInfo.username}</p>
+                            {mode === 'trainerView' ? (
+                                <ActiveStatus text={trainerInfo.status} />
+                            ) : (
+                                <TrainerApplicationStatus text={trainerApplicationInfo.status} />
+                            )}
                         </div>
                     </div>
                     <section className="flex flex-col gap-6">
-                        {mode === 'trainerView' && (
-                            <article>
-                                <p className="text-white font-bold text-lg mb-3.5">소속 조직</p>
-                                <div
-                                    className="flex items-center gap-4 border-[#364153] border w-full p-4 mt-2 bg-[#1E2939] rounded-md text-[#D1D5DC] text-base font-normal"
-                                >
-                                    <p>안녕하세요</p>
-                                </div>
-                            </article>
-                        )}
                         <article>
                             <p className="text-white font-bold text-lg mb-3.5">자기소개</p>
                             <div
                                 className="flex items-center gap-4 border-[#364153] border w-full p-4 mt-2 bg-[#1E2939] rounded-md text-[#D1D5DC] text-base font-normal"
                             >
-                                <p>안녕하세요</p>
+                                <p>{trainerApplicationInfo.introduction || trainerInfo.introduction}</p>
                             </div>
                         </article>
                         <article>
                             <p className="text-white font-bold text-lg mb-3.5">자격증</p>
-                            <div
-                                className="flex items-center gap-4 border-[#364153] border w-full p-4 mt-2 bg-[#1E2939] rounded-md text-[#D1D5DC] text-base font-normal"
-                            >
-                                <div className="bg-[#BFFF0B] w-2 h-2 rounded-full"></div><p>안녕하세요</p>
-                            </div>
-                            <div
-                                className="flex items-center gap-4 border-[#364153] border w-full p-4 mt-2 bg-[#1E2939] rounded-md text-[#D1D5DC] text-base font-normal"
-                            >
-                                <div className="bg-[#BFFF0B] w-2 h-2 rounded-full"></div><p>안녕하세요</p>
-                            </div>
+                            {mode === 'trainerView' && (
+                                <>
+                                    {
+                                        trainerInfo.certifications.map((certification) => (
+                                            <InfoCard content={certification.name} key={certification.trainerCertificationId} />
+                                        ))
+                                    }
+                                </>
+                            )}
+                            {mode !== 'trainerView' && (
+                                <>
+                                    <InfoCard content={trainerApplicationInfo.certificateOriginalName} key={trainerApplicationInfo.certificateOriginalName} href={trainerApplicationInfo.certificateUrl} />
+
+                                    {
+                                        trainerApplicationInfo.qualifications.map((qualification) => (
+                                            <InfoCard content={qualification} key={qualification} />
+                                        ))
+                                    }
+                                </>
+                            )}
                         </article>
                         <article>
                             <p className="text-white font-bold text-lg mb-3.5">대회 경력</p>
-                            <div
-                                className="flex items-center gap-4 border-[#364153] border w-full p-4 mt-2 bg-[#1E2939] rounded-md text-[#D1D5DC] text-base font-normal"
-                            >
-                                <div className="bg-[#BFFF0B] w-2 h-2 rounded-full"></div><p>안녕하세요</p>
-                            </div>
+                            {mode === 'trainerView' && (
+                                <>
+                                    {
+                                        trainerInfo.awards.map((award) => (
+                                            <InfoCard content={award.name} key={award.trainerAwardId} />
+                                        ))
+                                    }
+                                </>
+                            )}
+                            {mode !== 'trainerView' && (
+                                <>
+                                    {
+                                        trainerApplicationInfo.awardHistories.map((awardHistory) => (
+                                            <InfoCard content={awardHistory} key={awardHistory} />
+                                        ))
+                                    }
+                                </>
+                            )}
                         </article>
                     </section>
-                </article>
+                </article >
                 {mode !== 'trainerView' && (
                     <article className='flex gap-3 mt-10'>
                         <button
@@ -94,8 +163,9 @@ export default function TrainerDetailModal({ isModal, closeModal, activeModal, n
                             승인
                         </button>
                     </article>
-                )}
-            </form>
-        </section>
+                )
+                }
+            </form >
+        </section >
     );
 }

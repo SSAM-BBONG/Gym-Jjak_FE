@@ -1,143 +1,400 @@
 "use server";
 
-import axios from "axios";
-import { createOrganizationApplication } from "@/service/mypage.service";
-import { MypageActionState } from "./type";
+import { addOrganizationManageTrainer, checkPassword, createOrganizationApplication, deleteMyAccount, deleteOraganizationTrainer, editMyProfileInformation, editMyTrainerProfileInformation, editOrganizationManageInformation, getOraganizationsearchTrainers, organizationApplicationCancel, organizationApplicationDupliCationId, updatePassword } from "@/service/mypage.service";
+import { uploadFilesPresignedUrl } from "@/service/file.service";
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
 
-// 필수 입력값 설정
-const requiredFields = [
-  "requestedLoginId",
-  "businessRegistrationNumber",
-  "businessName",
-  "representativeName",
-  "representativePhone",
-  "openingDate",
-  "roadAddress",
-] as const; //정확한 문자열 리터럴 목록으로 고정하기 위해 사용
+// 조직 신청 액션
+export const createOrganizationApplicationAction = async (
+  formData: FormData
+) => {
+  const businessLicenseFile = formData.get("businessLicenseFile");
 
-export const createOrganizationApplicationAction = async (prevState: MypageActionState, formData: FormData): Promise<MypageActionState> => {
-  const file = formData.get("file");
-  const requestedLoginId = formData.get("requestedLoginId") as string;
-  const businessRegistrationNumber = formData.get("businessRegistrationNumber") as string;
-  const businessName = formData.get("businessName") as string;
-  const representativeName = formData.get("representativeName") as string;
-  const representativePhone = formData.get("representativePhone") as string;
-  const openingDate = formData.get("openingDate") as string;
-  const roadAddress = formData.get("roadAddress") as string;
-  const jibunAddress = formData.get("jibunAddress") as string;
-  const latitude = formData.get("latitude") as string;
-  const longitude = formData.get("longitude") as string;
-  const facilityPhone = formData.get("facilityPhone") as string;
-  const instagramUrl = formData.get("instagramUrl") as string;
-  const blogUrl = formData.get("blogUrl") as string;
-  const websiteUrl = formData.get("websiteUrl") as string;
-
-  // 유효성 검사 ( 대부분 AI 작성 코드 )
-  // 에러 저장할 객체
-  const errors: Record<string, string> = {};
-
-  // 파일 X && 크기 0 일때 오류 발생하도록 설정
-  if (!(file instanceof File) || file.size === 0) {
-    errors.file = "사업자등록증 파일을 첨부해주세요.";
-  }
-
-  // 위에서 작성한 필수 배열값 forEach로 반복
-  requiredFields.forEach((field) => {
-    const value = formData.get(field);
-
-    // 필수 값들이 문자열이 아니면 에러처리
-    if (typeof value !== "string" || !value.trim()) {
-      errors[field] = "필수 입력값입니다.";
-    }
-  });
-
-  // 사업자 번호 숫자 10자리 아닐경우 에러처리
-  if (
-    businessRegistrationNumber &&
-    !/^\d{10}$/.test(businessRegistrationNumber)
-  ) {
-    errors.businessRegistrationNumber =
-      "사업자등록번호는 숫자 10자리여야 합니다.";
-  }
-
-  // 개업일자 입력시 검사하도록 설정
-  if (openingDate) {
-    // 개업일자가 현재 날짜보다 지난날짜면 에러처리
-    const today = new Date();
-    today.setHours(23, 59, 59, 999);
-
-    const inputDate = new Date(openingDate);
-
-    if (Number.isNaN(inputDate.getTime()) || inputDate > today) {
-      errors.openingDate = "개업일자는 오늘 또는 과거 날짜여야 합니다.";
-    }
-  }
-
-  // 에러객체가 하나라도 있으면 에러처리
-  if (Object.keys(errors).length > 0) {
+  if (!(businessLicenseFile instanceof File) || businessLicenseFile.size === 0) {
     return {
       success: false,
-      message: "입력값을 확인해주세요.",
-      errors,
+      message: "사업자등록증 파일을 등록해주세요.",
     };
   }
 
-  // 데이터 가공, 백엔드에 보낼 데이터 생성
-  const request = {
-    requestedLoginId: requestedLoginId.trim(),
-    businessRegistrationNumber: businessRegistrationNumber.trim(),
-    businessName: businessName.trim(),
-    representativeName: representativeName.trim(),
-    representativePhone: representativePhone.trim(),
-    openingDate: openingDate.trim(),
-    roadAddress: roadAddress.trim(),
-    jibunAddress: jibunAddress?.trim() ?? "", // 선택
-    latitude: Number(latitude),
-    longitude: Number(longitude),
-    facilityPhone: facilityPhone?.trim() ?? "", // 선택
-    instagramUrl: instagramUrl?.trim() ?? "", // 선택
-    blogUrl: blogUrl?.trim() ?? "", // 선택
-    websiteUrl: websiteUrl?.trim() ?? "", // 선택
-  };
+  const [uploadedBusinessLicenseFile] = await uploadFilesPresignedUrl([
+    {
+      file: businessLicenseFile,
+      fileType: "BUSINESS_LICENSE",
+    },
+  ]);
 
-
-  // AI 도움 코드
-  // 파일과 JSON을 같이 보내기 위해 ForMData() 생성
-  const payload = new FormData();
-
-  // 사업자등록증 파일 fileㅣ 이름으로 추가
-  payload.append("file", file as File);
+  const latitude = String(formData.get("latitude") ?? "");
+  const longitude = String(formData.get("longitude") ?? "");
   
-  payload.append(
-    "request",
-    // 백엔드에 보낼 JSON 데이터 이름
-    new Blob([JSON.stringify(request)], {
-      type: "application/json",
-    })
-  );
+  const payload = {
+    businessLicenseFile: uploadedBusinessLicenseFile,
+    requestedLoginId: String(formData.get("requestedLoginId") ?? "").trim(),
+    businessRegistrationNumber: String(formData.get("businessRegistrationNumber") ?? "").trim(),
+    businessName: String(formData.get("businessName") ?? "").trim(),
+    representativeName: String(formData.get("representativeName") ?? "").trim(),
+    representativePhone: String(formData.get("representativePhone") ?? "").trim(),
+    openingDate: String(formData.get("openingDate") ?? "").trim(),
+    roadAddress: String(formData.get("roadAddress") ?? "").trim(),
+    jibunAddress: String(formData.get("jibunAddress") ?? "").trim() || undefined,
+    detailAddress: String(formData.get("detailAddress") ?? "").trim() || undefined,
+    latitude: latitude ? Number(latitude) : undefined,
+    longitude: longitude ? Number(longitude) : undefined,
+    websiteUrl: String(formData.get("websiteUrl") ?? "").trim() || undefined,
+    instagramUrl: String(formData.get("instagramUrl") ?? "").trim() || undefined,
+    blogUrl: String(formData.get("blogUrl") ?? "").trim() || undefined,
+    facilityPhone: String(formData.get("facilityPhone") ?? "").trim() || undefined,
+  };
 
-  // API 요청
+  await createOrganizationApplication(payload);
+
+  revalidatePath("/mypage/organization");
+  revalidatePath("/mypage/organization/application");
+  redirect("/mypage/organization");
+}
+
+// 조직 신청 ID 중복확인 액션
+export const organizationIdDuplicationCheckAction = async (loginId: string) => {
+      try {
+          await organizationApplicationDupliCationId(loginId);
+      } catch (error) {
+          let errorMessage: string = '알 수 없는 오류입니다. 재시도해주세요.'
+          if (error instanceof Error) {
+              errorMessage = error.message;
+          }
+  
+          return {
+              success: false,
+              message: errorMessage
+          }
+      }
+  
+      return {
+          success: true,
+          message: '중복 확인을 완료헀습니다.'
+      }
+} 
+
+// 조직 신청 취소 액션
+export const organizationApplicationCancelAction = async (applicationId:number) => {
   try {
-    await createOrganizationApplication(payload);
-  } catch (error) {
-    let message = "조직 계정 신청 중 오류가 발생했습니다.";
+    await organizationApplicationCancel(applicationId);
+        revalidatePath("/mypage/organization");
+        revalidatePath("/mypage/organization/application");
+      } catch (error) {
+          let errorMessage: string = '알 수 없는 오류입니다. 재시도해주세요.'
+          if (error instanceof Error) {
+              errorMessage = error.message;
+          }
+  
+          return {
+              success: false,
+              message: errorMessage
+          }
+      }
+      
+      redirect("/mypage/organization");
+      return {
+          success: true,
+          message: '중복 확인을 완료헀습니다.'
+      }
+}
 
-    if (axios.isAxiosError(error)) {
-      message = error.response?.data?.message || error.message;
-    } else if (error instanceof Error) {
-      message = error.message;
+// 내 조직 정보 수정 액션
+export const editOrganizationManageInformationAction = async (
+  formData: FormData
+) => {
+  try {
+    const payload = {
+      facilityPhone: String(formData.get("facilityPhone") ?? "").trim() || undefined,
+      instagramUrl: String(formData.get("instagramUrl") ?? "").trim() || undefined,
+      blogUrl: String(formData.get("blogUrl") ?? "").trim() || undefined,
+      websiteUrl: String(formData.get("websiteUrl") ?? "").trim() || undefined,
+    };
+
+    await editOrganizationManageInformation(payload);
+
+    revalidatePath("/mypage/organization/manage");
+
+    return {
+      success: true,
+      message: "조직 정보가 수정되었씁니다.",
+    };
+  } catch (error) {
+    let errorMessage = "알 수 없는 오류입니다. 다시 시도해주세요.";
+
+    if (error instanceof Error) {
+      errorMessage = error.message;
     }
 
     return {
       success: false,
-      message,
-      errors: {},
+      message: errorMessage,
+    };
+  }
+};
+
+// 내 조직 트레이너 검색 액션
+export const organizationTrainerSearchAction = async (keyword: string) => {
+  try {
+    const response = await getOraganizationsearchTrainers({
+      keyword,
+      page: 0,
+      size: 10,
+    });
+
+    return {
+      success: true,
+      data: response.data,
+    };
+  } catch (error) {
+    let errorMessage = "트레이너 검색에 실패했습니다.";
+
+    if (error instanceof Error) {
+      errorMessage = error.message;
+    }
+
+    return {
+      success: false,
+      message: errorMessage,
+    };
+  }
+};
+
+// 내 조직 트레이너 추가 액션
+export const addorganizationTrainerAction = async (trainerProfileId: number) => {
+  try {
+    const response = await addOrganizationManageTrainer({
+      trainerProfileId,
+    });
+
+    revalidatePath("/mypage/organization/manage/trainer");
+
+    return {
+      success: true,
+      data: response.data,
+      message: "트레이너가 추가되었습니다.",
+    };
+  } catch (error) {
+    let errorMessage = "트레이너 추가에 실패했습니다.";
+
+    if (error instanceof Error) {
+      errorMessage = error.message;
+    }
+
+    return {
+      success: false,
+      message: errorMessage,
+    };
+  }
+};
+
+// 내 조직 트레니어 삭제 액션
+export const deleteOrganizationTrainerAction = async (
+  organizationTrainerId: number
+) => {
+  try {
+    await deleteOraganizationTrainer(organizationTrainerId);
+
+    revalidatePath("/mypage/organization/manage/trainer");
+
+    return {
+      success: true,
+      message: "트레이너가 삭제되었습니다.",
+    };
+  } catch (error) {
+    let errorMessage = "트레이너 삭제에 실패했습니다.";
+
+    if (error instanceof Error) {
+      errorMessage = error.message;
+    }
+
+    return {
+      success: false,
+      message: errorMessage,
+    };
+  }
+};
+
+// 마이페이지 비밀번호 확인 액션
+export const checkPasswordAction = async (password: string) => {
+  try {
+    if (!password.trim()) {
+      return {
+        success: false,
+        message: "비밀번호를 입력해주세요.",
+      };
+    }
+
+    await checkPassword(password);
+
+    return {
+      success: true,
+      message: "비밀번호가 확인되었습니다.",
+    };
+  } catch (error) {
+    let errorMessage = "비밀번호 확인을 실패하였습니다.";
+    if (error instanceof Error) {
+      errorMessage = error.message;
+    }
+
+    return {
+      success: false,
+      message: errorMessage,
+    };
+  }
+};
+
+// 마이페이지 회원탈퇴 액션
+export const deleteMyAccountAction = async () => {
+  try {
+    await deleteMyAccount();
+
+    revalidatePath("/");
+  } catch (error) {
+    let errorMessage = "회원탈퇴에 실패하였습니다.";
+
+    if (error instanceof Error) {
+      errorMessage = error.message;
+    }
+
+    return {
+      success: false,
+      message: errorMessage,
     };
   }
 
-  return {
-    success: true,
-    message: "조직 계정 신청이 완료되었습니다.",
-    errors: {},
-  };
+  const cookieStore = await cookies();
+  cookieStore.delete("accessToken");
+  cookieStore.delete("refreshToken");
+  redirect("/");
+};
+
+// 마이페이지 비밀번호 변경 액션
+export const updatePasswordAction = async (formData: FormData) => {
+  try {
+    const payload = {
+      newPassword: String(formData.get("newPassword") ?? "").trim(),
+      checkNewPassword: String(formData.get("checkNewPassword") ?? "").trim(),
+    };
+
+    await updatePassword(payload);
+
+    return {
+      success: true,
+      message: "비밀번호가 변경되었습니다.",
+    };
+  } catch (error) {
+    let errorMessage = "비밀번호 변경에 실패했습니다.";
+
+    if (error instanceof Error) {
+      errorMessage = error.message;
+    }
+
+    return {
+      success: false,
+      message: errorMessage,
+    };
+  }
+};
+
+// 마이페이지 내 프로필 수정 액션 
+export const editMyProfileInformationAction = async (formData: FormData) => {
+  try {
+    const payload = {
+      name: String(formData.get("name") ?? "").trim(),
+      nickname: String(formData.get("nickname") ?? "").trim(),
+      phone: String(formData.get("phone") ?? "").trim(),
+    };
+
+    await editMyProfileInformation(payload);
+    revalidatePath("/mypage/profile");
+
+    return { 
+      success: true, 
+      message: "프로필 정보가 수정되었습니다." 
+    };
+  } catch (error) {
+    let errorMessage = "내 프로필 수정에 실패하였습니다.";
+
+    if (error instanceof Error) {
+      errorMessage = error.message;
+    }
+
+    return {
+      success: false,
+      message: errorMessage,
+    };
+  }
+};
+
+// 내 트레이너 프로필 수정 액션 
+export const editMyTrainerProfileInformationAction = async (
+  formData: FormData
+) => {
+  try {
+    const profileImageAction = String(
+      formData.get("profileImageAction") ?? "KEEP"
+    ) as "KEEP" | "REPLACE" | "DELETE";
+
+    const profileImageFile = formData.get("profileImageFile");
+
+    const introduction = String(formData.get("introduction") ?? "").trim();
+
+    const awardHistories =  JSON.parse(String(formData.get("awardHistories") ?? "[]")
+      ) as string[];
+
+    const additionalCertifications = JSON.parse(String(formData.get("additionalCertifications") ?? "[]")
+      ) as string[];
+
+    let uploadedProfileImage = null;
+
+    if (profileImageAction === "REPLACE") {
+      if (!(profileImageFile instanceof File) || profileImageFile.size === 0) {
+        return {
+          success: false,
+          message: "프로필 이미지를 교체하려면 파일이 필요합니다.",
+        };
+      }
+
+      const uploadedFiles = await uploadFilesPresignedUrl([
+        {
+          file: profileImageFile,
+          fileType: "PROFILE_IMAGE",
+        },
+      ]);
+
+      uploadedProfileImage = uploadedFiles[0];
+    }
+
+    const payload = {
+      profileImageAction,
+      profileImageFile: profileImageAction === "REPLACE" ? uploadedProfileImage : null,
+      additionalCertifications,
+      awardHistories,
+      introduction
+    };
+
+    await editMyTrainerProfileInformation(payload);
+
+    revalidatePath("/mypage/trainerprofile");
+
+    return {
+      success: true,
+      message: "트레이너 프로필이 수정되었습니다.",
+    };
+  } catch (error) {
+    let errorMessage = "트레이너 프로필 수정에 실패하였습니다.";
+
+    if (error instanceof Error) {
+      errorMessage = error.message;
+    }
+
+    return {
+      success: false,
+      message: errorMessage,
+    };
+  }
 };

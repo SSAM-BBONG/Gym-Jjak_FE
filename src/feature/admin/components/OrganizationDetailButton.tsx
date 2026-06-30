@@ -4,15 +4,15 @@ import useModal from "@/components/hooks/useModal";
 import { DetailButtonImg } from "@/components/ui/image";
 import OrganizationDetailModal from "./modals/OrganizationDetailModal";
 import TwoButtonModal from "@/components/ui/TwoButtonModal";
-import { organizationApprovalAction, OrganizationDetailAction, organizationRejectAction } from "../action";
+import { organizationApprovalAction } from "../action";
 import OrganizationRejectModal from "./modals/OrganizationRejectModal";
 
 interface DetailButtonMode {
     mode: 'organizationView' | 'organizationApprove';
-    applicationId: number;
+    organizationId: number;
 }
 
-export default function OrganizationDetailButton({ mode, applicationId }: DetailButtonMode) {
+export default function OrganizationDetailButton({ mode, organizationId }: DetailButtonMode) {
 
 
     //트레이너, 조직에서 승인 버튼 누름
@@ -27,41 +27,12 @@ export default function OrganizationDetailButton({ mode, applicationId }: Detail
 
     //정말 승인할건지 물어봄
     const handleApproval = async () => {
-        await organizationApprovalAction(applicationId);
+        await organizationApprovalAction(organizationId);
     }
-
-    //반려되었습니다. 모달
-
-    //승인되었습니다. 모달
-
-    //취소되었습니다. 모달
-
-
 
     const approvalModal = useModal(handleApproval);
     const rejectModal = useModal();
     const organizationModal = useModal(handleClickApprove, handleClickReject);
-
-    let organizationInfo: Organization = {
-        organizationApplicationId: 0,
-        requestedLoginId: '',
-        businessRegistrationNumber: '',
-        businessName: '',
-        representativeName: '',
-        representativePhone: '',
-        openingDate: '',
-        roadAddress: '',
-        jibunAddress: '',
-        detailAddress: '',
-        latitude: 0,
-        longitude: 0,
-        websiteUrl: '',
-        instagramUrl: '',
-        blogUrl: '',
-        facilityPhone: '',
-        businessLicenseFileUrl: ''
-    };
-
 
     return (
         <>
@@ -77,7 +48,7 @@ export default function OrganizationDetailButton({ mode, applicationId }: Detail
                 activeModal={organizationModal.activeModal}
                 noneActiveModal={organizationModal.noneActiveModal}
                 mode={mode}
-                applicationId={applicationId}
+                organizationId={organizationId}
             />
             <TwoButtonModal
                 isModal={approvalModal.isModal}
@@ -90,7 +61,7 @@ export default function OrganizationDetailButton({ mode, applicationId }: Detail
                 isModal={rejectModal.isModal}
                 closeModal={rejectModal.closeModal}
                 activeModal={rejectModal.activeModal}
-                applicationId={applicationId}
+                organizationId={organizationId}
             />
         </>
     );

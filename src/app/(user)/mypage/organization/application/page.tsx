@@ -1,9 +1,9 @@
-import OrganizationApplicationCard from "@/feature/mypage/components/OrganizationApplicationCard";
+import OrganizationRegistForm from "@/feature/mypage/components/OrganizationRegistForm";
 
-export default function MyPageApplicationCheckPage() {
+export default function OrganizationPage() {
     return (
         <div>
-            <OrganizationApplicationCard/>
+            <OrganizationRegistForm />
         </div>
     );
 }

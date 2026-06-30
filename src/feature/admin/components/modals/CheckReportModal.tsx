@@ -13,37 +13,29 @@ interface CheckReportModalProps {
     reportGroupId: number;
 }
 
-const empthReportInstance = {
+const empthReportInstance = [{
     reportId: 0,
     reporterUsername: '',
     reason: '',
     detail: '',
     reportedAt: '',
     status: ''
-}
+}]
 
 
 export default function CheckReportModal({ isModal, closeModal, activeModal, noneActiveModal, reportGroupId }: CheckReportModalProps) {
 
 
     const [reportInfo, setReportInfo] = useState<ReportsDetail[]>([]);
-    let first = true;
     useEffect(() => {
 
         const fetchReport = async () => {
             const res = await ReportPtDetailAction(reportGroupId)
-            console.log(res.data.reports);
-            setReportInfo(res.data.reports ?? empthReportInstance);
+            setReportInfo(res.reports ?? []);
         }
 
         if (isModal) {
-
-            if (!first) {
-                return;
-            }
             fetchReport();
-
-            first = false;
         }
 
 
