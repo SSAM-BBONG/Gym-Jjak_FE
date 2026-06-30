@@ -1,6 +1,11 @@
 import { PtfindTestImg } from "@/components/ui/image";
+import { MyPtReservationList } from "../type";
 
-export default function PtRecordCard( { data }) {
+interface PtRecordCardProps {
+    data: MyPtReservationList
+}PtRecordCard
+
+export default function PtRecordCard( { data }: PtRecordCardProps) {
     return (
         <div className="
             overflow-hidden

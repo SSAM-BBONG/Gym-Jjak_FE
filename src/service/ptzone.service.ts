@@ -410,3 +410,21 @@ export const getMyPtReservationLists = async () : Promise<MyPtResrvationListsRes
 
   return response.json();
 };
+
+// 내 예약 기록 상세 조회
+export const getMyPtReservationDetail = async (
+  reservationId: string
+) : Promise<MyPtResrvationListsResponse> => {
+  const response = await fetchWithAuth(`/api/reservations/me/${reservationId}`);
+
+  if (!response.ok) {
+    const message = await getErrorMessage(
+      response,
+      "내 예약 기록 상세 조회에 실패하였습니다."
+    );
+
+    throw new Error(message);
+  }
+
+  return response.json();
+};
