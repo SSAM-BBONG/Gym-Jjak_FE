@@ -62,6 +62,7 @@ export interface PtCourseListData {
   latitude: number;
   longitude: number;
   reviewCount: number;
+  averageRating: number;
 }
 
 // PT 목록 응답 타입
@@ -307,3 +308,84 @@ export interface PtStatusChangeResponse {
   message: string;
   data: null;
 }
+
+// PT 예약 가능 날짜 조회 응답값
+export interface PtReservationAvailableDatesResponse {
+  status: number;
+  code: string;
+  message: string;
+  data: PtReservationAvailableDateData
+
+
+}
+
+// PT 예약 가능 날짜 조회 데이터
+export interface PtReservationAvailableDateData {
+  availableDates: string[];
+}
+
+// PT 예약 가능 시간 조회 데이터
+export interface PtResrvationAvailableTimeData {
+  data: string;
+  timeSlots: PtResrvationAvailableTimeSlot[]
+}
+
+// PT 예약 가능 시간 조회 timeslot 타입
+export interface PtResrvationAvailableTimeSlot {
+  startTime: string;
+  endTime: string;
+  available: boolean;
+}
+
+// PT 예약 가능 시간 조회 응답값
+export interface PtResrvationAvailableTimesResponse {
+  status: number;
+  code: string;
+  message: string;
+  data: PtResrvationAvailableTimeData;
+}
+
+// PT 예약하기 요청값
+export interface PtReservationRequest {
+  reservedStartAt: string;
+  reservedEndAt: string;
+}
+
+// PT 예약하기 응답값
+export interface PtReservationResponse {
+  status: number;
+  code: string;
+  message: string;
+  data: PtReservationData
+}
+
+// PT 예약하기 데이터값 
+export interface PtReservationData {
+  ptReservationId: number;
+  status: string;
+}
+
+// PT 강습별 수강생 목록 조회 응답값
+export interface PtReservationStudentsResponse {
+  status: number;
+  code: string;
+  message: string;
+  data: PtReservationStudentsData;
+}
+
+// PT 강습별 수강생 목록 데이터
+export interface PtReservationStudentsData {
+  title: string;
+  ptReservations: PtReservationStudent[];
+}
+
+// PT 강습별 수강생 목록 ptReservations 데이터
+export interface PtReservationStudent {
+  ptReservationId: number;
+  nickname: string;
+  status: string;
+  lastPtDate: string | null;
+  progressCount: number;
+  totalSessionCount: number;
+}
+

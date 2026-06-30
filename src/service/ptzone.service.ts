@@ -6,6 +6,11 @@
   PtRegistRequest,
   PtRegistResponse,
   PtRegistTagReponse,
+  PtReservationAvailableDatesResponse,
+  PtReservationRequest,
+  PtReservationResponse,
+  PtReservationStudentsResponse,
+  PtResrvationAvailableTimesResponse,
   PtStatsResponse,
   PtStatusChangeRequest,
   PtStatusChangeResponse,
@@ -258,6 +263,84 @@ export const chagnePtzoneStatus = async (
     const message = await getErrorMessage(
       response,
       'PT 강습 상태 변경에 실패하였습니다.'
+    );
+
+    throw new Error(message);
+  }
+
+  return response.json();
+};
+
+// PT 예약 가능 날짜 API
+export const getPtResrvationAvailableDates = async (
+  ptCourseId: number
+): Promise<PtReservationAvailableDatesResponse> => {
+  const response = await fetchWithAuth(`/api/pt-courses/${ptCourseId}/available-dates`);
+
+  if (!response.ok) {
+    const message = await getErrorMessage(
+      response,
+      "예약 가능 날짜 조회에 실패하였습니다."
+    );
+
+    throw new Error(message);
+  }
+
+  return response.json();
+};
+
+// PT 예약 가능 시간 API
+export const getPtResrvationAvailableTimes = async (
+  ptCourseId: number,
+  date: string
+): Promise<PtResrvationAvailableTimesResponse> => {
+  const response = await fetchWithAuth(
+    `/api/pt-courses/${ptCourseId}/available-time-slots?date=${date}`
+  );
+
+  if (!response.ok) {
+    const message = await getErrorMessage(
+      response, "예약 가능 시간 조회에 실패하였습니다."
+    );
+    
+    throw new Error(message);
+  }
+
+  return response.json();
+};
+
+// PT 예약하기 API
+export const createPtReservation = async (
+  ptCourseId: number,
+  payload: PtReservationRequest
+): Promise<PtReservationResponse> => {
+  const response = await fetchWithAuth(`/api/pt-courses/${ptCourseId}/reservations`, {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+
+  if (!response.ok) {
+    const message = await getErrorMessage(
+      response,
+      "PT 예약에 실패하였습니다."
+    );
+
+    throw new Error(message);
+  }
+
+  return response.json();
+};
+
+// PT 깅습 수강생 목록 조회
+export const getPtStudentsList = async (
+  ptCourseId: number
+) : Promise<PtReservationStudentsResponse> => {
+  const response = await fetchWithAuth(`/api/pt-courses/${ptCourseId}/reservations`);
+
+  if (!response.ok) {
+    const message = await getErrorMessage(
+      response,
+      "PT 강습 수강생 목록 조회에 실패하였습니다"
     );
 
     throw new Error(message);

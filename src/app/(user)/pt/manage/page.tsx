@@ -1,5 +1,6 @@
 import PtManageCard from "@/feature/pt/components/PtManageCard";
 import { getPtzonePtManageList } from "@/service/ptzone.service";
+import Link from "next/link";
 
 export default async function PtManagePage() {
     
@@ -18,10 +19,14 @@ export default async function PtManagePage() {
 
             <div className="grid grid-cols-3 gap-4">
                 {response.data.map((item) => (
+                    <Link 
+                    key={item.ptCourseId}
+                    href={`/pt/manage/${item.ptCourseId}`}>
                     <PtManageCard 
                         key={item.ptCourseId}
                         data={item}
                     />
+                    </Link>
                 ))}
             </div>
         </div>
