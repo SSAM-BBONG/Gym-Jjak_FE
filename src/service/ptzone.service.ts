@@ -9,6 +9,7 @@
   PtReservationAvailableDatesResponse,
   PtReservationRequest,
   PtReservationResponse,
+  PtReservationStudentDetailResponse,
   PtReservationStudentsResponse,
   PtResrvationAvailableTimesResponse,
   PtStatsResponse,
@@ -336,6 +337,24 @@ export const getPtStudentsList = async (
   ptCourseId: number
 ) : Promise<PtReservationStudentsResponse> => {
   const response = await fetchWithAuth(`/api/pt-courses/${ptCourseId}/reservations`);
+
+  if (!response.ok) {
+    const message = await getErrorMessage(
+      response,
+      "PT 강습 수강생 목록 조회에 실패하였습니다"
+    );
+
+    throw new Error(message);
+  }
+
+  return response.json();
+};
+
+export const getPtStudentDetail = async (
+  ptCourseId: number,
+  reservationId: number
+) : Promise<PtReservationStudentDetailResponse> => {
+  const response = await fetchWithAuth(`/api/pt-courses/${ptCourseId}/reservations/${reservationId}`);
 
   if (!response.ok) {
     const message = await getErrorMessage(

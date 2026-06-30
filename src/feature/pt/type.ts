@@ -389,3 +389,21 @@ export interface PtReservationStudent {
   totalSessionCount: number;
 }
 
+// PT 수강생 상세조회 응답값
+export interface PtReservationStudentDetailResponse{
+  status: number;
+  code: string;
+  message: string;
+  data: PtReservationStudentsData;
+}
+
+// PT 수강생 상세조회 데이터
+export interface PtReservationStudentDetailData {
+    nickname: string,
+    email: string,
+    phone: string,
+    status: string,
+    progressCount: number,
+    totalSessionCount: number,
+    title: string
+}
