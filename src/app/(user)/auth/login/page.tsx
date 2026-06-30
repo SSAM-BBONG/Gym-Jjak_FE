@@ -1,6 +1,7 @@
 import Link from "next/link";
 import LoginForm from "./LoginForm";
 import { GoogleLogo, NaverLogo } from "@/components/ui/image";
+import Image from "next/image";
 
 
 export default function Page() {
@@ -20,11 +21,25 @@ export default function Page() {
                 <Link href='/auth/register' className="text-[#BFFF0B]">회원가입</Link>
             </div>
             <div className="flex justify-center gap-6 border-t border-[#99A1AF] w-full p-6">
-                <a href={`${process.env.NEXT_PUBLIC_API_BASE_URL}/oauth2/authorization/naver`} className="w-15 h-15 rounded-full">
-                    <img src={NaverLogo} alt="네이버로 계속하기" />
+                <a href={`${process.env.NEXT_PUBLIC_API_BASE_URL}/oauth2/authorization/naver`} className="relative w-15 h-15 rounded-full">
+                    <Image
+                        src={NaverLogo}
+                        alt="네이버로 계속하기"
+                        fill
+                        priority
+                        sizes="w-20 h-20"
+                        className="object-cover"
+                    />
                 </a>
-                <a href={`${process.env.NEXT_PUBLIC_API_BASE_URL}/oauth2/authorization/google`} className="w-15 h-15 rounded-full">
-                    <img src={GoogleLogo} alt="구글로 계속하기" />
+                <a href={`${process.env.NEXT_PUBLIC_API_BASE_URL}/oauth2/authorization/google`} className="relative w-15 h-15 rounded-full">
+                    <Image
+                        src={GoogleLogo}
+                        alt="구글로 계속하기"
+                        fill
+                        priority
+                        sizes="w-20 h-20"
+                        className="object-cover"
+                    />
                 </a>
             </div>
         </div>

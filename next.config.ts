@@ -2,13 +2,16 @@ import type { NextConfig } from "next";
 import withBundleAnalyzer from '@next/bundle-analyzer'
 
 const nextConfig: NextConfig = {
-    experimental: {
+  experimental: {
     serverActions: {
       bodySizeLimit: "20mb",
     },
   },
   /* config options here */
-  output: 'standalone'
+  output: 'standalone',
+  env: {
+    NEXT_KAKAO_MAP_KEY: process.env.KAKAO_MAP_KEY,
+  },
 };
 
 const bundleAnalyzer = withBundleAnalyzer({
