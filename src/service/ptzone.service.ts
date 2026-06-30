@@ -1,6 +1,7 @@
 ﻿import {
   FeedbackCreateRequest,
   FeedbackCreateResponse,
+  FeedbackDetailResponse,
   FeedbackListsResponse,
   MyPtManageListResponse,
   MyPtResrvationDetailResponse,
@@ -474,7 +475,7 @@ export const createFeedback = async (
 export const getFeedbackDetail = async (
   reservationId: string,
   feedbackId: string
-) : Promise<MyPtResrvationDetailResponse> => {
+) : Promise<FeedbackDetailResponse> => {
   const response = await fetchWithAuth(`/api/reservations/${reservationId}/feedbacks/${feedbackId}`);
 
   if (!response.ok) {
