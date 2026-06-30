@@ -527,3 +527,25 @@ export interface FeedbackCreateResponse {
 export interface FeedbackCreateData {
   feedbackId: number;
 }
+
+// 피드백 상세조회 
+export interface FeedbackDetailResponse {
+  status: number;
+  code: string;
+  message: string;
+  data: FeedbackDetailData
+}
+
+export interface FeedbackDetailData {
+    sessionNo: number,
+    curriculumTitle: string,
+    content: string,
+    mediaList: FeedbackDetailMedia[]; 
+    createdAt: string
+}
+
+interface FeedbackDetailMedia {
+  mediaType: string;
+  fileUrl: string;
+}
+
