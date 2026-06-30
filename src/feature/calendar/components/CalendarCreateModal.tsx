@@ -1,9 +1,7 @@
 import { CloseButton } from "@/components/ui/image";
-import { getDiaryCategories } from "@/service/calendar.service";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import CalendarCategories from "./CalendarCategories";
-import { calendarPatchAction, calendarPostAction } from "../action";
-import { useActionState, useMemo } from "react";
+import { calendarPatchAction, calendarPostAction, getCalendarCategory } from "../action";
 
 type CalendarCreateModalProps = {
     isModal: boolean;
@@ -29,7 +27,7 @@ export default function CalendarCreateModal({ isModal, closeModal, selectedSetti
         isError: isCategoryError,
     } = useQuery({
         queryKey: ["calendar", "diary-categories"],
-        queryFn: getDiaryCategories,
+        queryFn: getCalendarCategory,
         staleTime: Infinity,
     });
 

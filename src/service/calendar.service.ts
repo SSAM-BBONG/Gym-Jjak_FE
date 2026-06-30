@@ -2,9 +2,8 @@ import { fetchWithAuth } from "@/lib/feth";
 import { getErrorMessage } from "@/lib/stateError";
 
 export const getCalendarMonth = async (year: string, month: string) => {
-    const response = await fetch(
-        `/api/calendar/month?year=${year}&month=${month}`
-    );
+    const response = await fetchWithAuth(`/api/calendar/month?year=${year}&month=${month}`);
+
     if (!response.ok) {
         const message = await getErrorMessage(
             response,
@@ -19,7 +18,7 @@ export const getCalendarMonth = async (year: string, month: string) => {
 
 
 export const getCalendarDate = async (date: string) => {
-    const response = await fetch(`/api/calendar/day?date=${date}`);
+    const response = await fetchWithAuth(`/api/calendar/day?date=${date}`);
 
     if (!response.ok) {
         const message = await getErrorMessage(
@@ -86,7 +85,7 @@ export const deleteCalendar = async (diaryId: number) => {
 
 
 export const getDiaryCategories = async () => {
-    const response = await fetch('/api/categories');
+    const response = await fetchWithAuth(`/api/categories`);
 
     if (!response.ok) {
         const message = await getErrorMessage(
