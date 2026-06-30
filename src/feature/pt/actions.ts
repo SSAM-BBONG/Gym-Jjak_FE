@@ -2,8 +2,8 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { chagnePtzoneStatus, createPtCourse, createPtReservation, getPtResrvationAvailableDates, getPtResrvationAvailableTimes, getTrainerCancel, trainerApplication, updateTrainerApplication } from "@/service/ptzone.service";
-import { PtRegistRequest, PtRegistSchedule, PtReservationRequest, TrainerApplicationData, TrainerApplicationEditData } from "./type";
+import { chagnePtzoneResrvationStatus, chagnePtzoneStatus, createPtCourse, createPtReservation, getPtResrvationAvailableDates, getPtResrvationAvailableTimes, getTrainerCancel, trainerApplication, updateTrainerApplication } from "@/service/ptzone.service";
+import { PtRegistRequest, PtRegistSchedule, PtReservationRequest, PtReservationStatusChangeRequest, TrainerApplicationData, TrainerApplicationEditData } from "./type";
 import { uploadFilesPresignedUrl } from "@/service/file.service";
 
 type PtRegistCurriculumFormData = {
@@ -224,4 +224,15 @@ export const createPtReservationAction = async (
   payload: PtReservationRequest
 ) => {
   return createPtReservation(ptCourseId, payload);
+};
+
+// PT 예약 수강 상태 변경
+export const changePtReservationStatus = async (
+  ptCourseId: number,
+  reservationId: number,
+  status: PtReservationStatusChangeRequest["status"]
+) => {
+  await chagnePtzoneResrvationStatus(reservationId, { status });
+
+  revalidatePath(`/pt/manage/${ptCourseId}`);
 };
