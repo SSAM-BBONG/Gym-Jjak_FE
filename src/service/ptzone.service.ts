@@ -9,6 +9,7 @@
   PtReservationAvailableDatesResponse,
   PtReservationRequest,
   PtReservationResponse,
+  PtReservationStudentsResponse,
   PtResrvationAvailableTimesResponse,
   PtStatsResponse,
   PtStatusChangeRequest,
@@ -333,7 +334,7 @@ export const createPtReservation = async (
 // PT 깅습 수강생 목록 조회
 export const getPtStudentsList = async (
   ptCourseId: number
-) : Promise<PtReservationAvailableDatesResponse> => {
+) : Promise<PtReservationStudentsResponse> => {
   const response = await fetchWithAuth(`/api/pt-courses/${ptCourseId}/reservations`);
 
   if (!response.ok) {
