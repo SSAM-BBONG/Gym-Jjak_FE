@@ -29,8 +29,8 @@ export default function PtManageCard( {data}: PtManageCardProps) {
                 {data.status==="VISIBLE" ? "활성화" : "비활성화"}  
             </div>
             <div
-                style={{ backgroundImage: `url(${PtfindTestImg})` }} 
-                className="h-40 bg-no-repeat bg-cover bg-center"></div>
+                style={{ backgroundImage: `url(${data.thumbnailUrl})` }} 
+                className="w-full h-50 bg-no-repeat bg-cover bg-center"></div>
             <div className="flex flex-col p-5 gap-2">
                 <p className="text-[18px] font-black text-white"> {data.title} </p>
                 <p className="text-[14px] font-normal text-[#99A1AF]"> {data.trainerName} </p>
