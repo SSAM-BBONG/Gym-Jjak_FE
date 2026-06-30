@@ -8,15 +8,17 @@ import { MainCalendar } from "@/components/ui/mainCalendar";
 import { useQuery } from "@tanstack/react-query";
 import { getCalendarDate, getCalendarMonth } from "@/service/calendar.service";
 import CalendarPtItem from "@/feature/calendar/components/CalendarPtItem";
+import dayjs from "dayjs";
+import "dayjs/locale/ko";
 
 
 export default function CalendarCt() {
     const [date, setDate] = useState<Date | undefined>(new Date())
 
-    const selectedYear = settingYear(date);
-    const selectedMonth = settingMonth(date);
-    const selectedDay = settingDay(date);
-    const selectedSettingDate = `${selectedYear}-${selectedMonth.padStart(2, '0')}-${selectedDay.padStart(2, '0')}`
+    const selectedYear = dayjs(date).format('YYYY')
+    const selectedMonth = dayjs(date).format('M')
+    const selectedDay = dayjs(date).format('D')
+    const selectedSettingDate = dayjs(date).format('YYYY-MM-DD');
 
     const {
         data: monthData,
@@ -42,41 +44,8 @@ export default function CalendarCt() {
 
     const currentDate = new Date();
 
-    function settingYear(beforeDate: Date | undefined) {
-        if (beforeDate instanceof Date) {
-            const dateFormat: Date = new Date(beforeDate);
-            const year = String(dateFormat.getFullYear());
-            return year
-        }
-        return ''
-    }
-
-    function settingMonth(beforeDate: Date | undefined) {
-        if (beforeDate instanceof Date) {
-            const dateFormat: Date = new Date(beforeDate);
-            const month = String(dateFormat.getMonth() + 1);
-            return month
-        }
-        return ''
-    }
-
-    function settingDay(beforeDate: Date | undefined) {
-        if (beforeDate instanceof Date) {
-            const dateFormat: Date = new Date(beforeDate);
-            const day = String(dateFormat.getDate());
-            return day
-        }
-        return ''
-    }
-
-    function settingDate(beforeDate: Date | undefined) {
-        const year = settingYear(beforeDate)
-        const month = settingMonth(beforeDate);
-        const day = settingDay(beforeDate)
-        return `${year}년 ${month}월 ${day}일`
-    }
-
-    if (isMonthLoading) return null;
+    const settingDate = dayjs(date).format('YYYY년 MM월 DD일');
+    const settingCurrentDate = dayjs(currentDate).format('YYYY년 MM월 DD일');
 
     return (
         <>
@@ -90,10 +59,10 @@ export default function CalendarCt() {
             />
             <section className="text- w-2/5 text-white ml-8">
                 <div className="flex justify-between mb-2">
-                    <h1 className="font-black text-5xl">{settingDay(date)}</h1>
-                    {settingDate(currentDate) === settingDate(date) && <CalendarAddButton selectedSettingDate={selectedSettingDate} />}
+                    <h1 className="font-black text-5xl">{selectedDay}</h1>
+                    {settingCurrentDate === settingDate && <CalendarAddButton selectedSettingDate={selectedSettingDate} />}
                 </div>
-                <p className="text-[#6A7282] font-normal text-base mb-6">{settingDate(date)}</p>
+                <p className="text-[#6A7282] font-normal text-base mb-6">{settingDate}</p>
                 {!isDateLoading && (
                     <>
                         {dateData?.data?.pts.map((pt: Pt) => <CalendarPtItem data={pt} key={pt.ptId} />)}
