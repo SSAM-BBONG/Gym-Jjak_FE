@@ -1,119 +1,301 @@
-import { CloseButton, MypageMyActivity, PtFeedBackOnBoard, PtRecordVideo } from "@/components/ui/image";
+"use client";
 
-interface TrainerRejectModal {
-    isModal: boolean;
-    closeModal: () => void;
-    activeModal: () => void;
+import { useEffect, useState } from "react";
+import { Resolver, SubmitHandler, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { CloseButton, MypageMyActivity, PtFeedBackOnBoard, PtRecordVideo } from "@/components/ui/image";
+import { createPtFeedbackAction } from "../actions";
+import type { StudentFeedbackCurriculum } from "../type";
+import { ptFeedbackSchema, PtFeedbackFormValue } from "@/lib/ptFeedbackSchema";
+
+interface PtFeeBackRegistModalProps {
+  isModal: boolean;
+  closeModal: () => void;
+  reservationId: string;
+  ptCourseId: string;
+  curriculum: StudentFeedbackCurriculum | null;
 }
 
+export default function PtFeeBackRegistModal({
+    isModal,
+  closeModal,
+  reservationId,
+  ptCourseId,
+  curriculum,
+}: PtFeeBackRegistModalProps) {
+    // AI의 작성 코드
+  const [submitError, setSubmitError] = useState("");
 
-export default function PtFeeBackRegistModal({ isModal, closeModal, activeModal}: TrainerRejectModal) {
-    if (!isModal) return null;
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    watch,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm<PtFeedbackFormValue>({
+    resolver: zodResolver(ptFeedbackSchema) as Resolver<PtFeedbackFormValue>,
+    defaultValues: {
+      beforeFile: undefined,
+      afterFile: undefined,
+      content: "",
+    },
+    mode: "onSubmit",
+  });
 
-    return (
-        <section
-            className="z-999 bg-black/50 fixed top-0 left-0 w-screen h-screen"
-            onClick={closeModal} >
-            <form
-                className="bg-gradient-to-br from-[#101828] to-[#000] h-150 w-2xl rounded-2xl border border-[#1E2939] z-1000 fixed top-1/2 left-1/2 p-6 flex -translate-x-1/2 -translate-y-1/2 flex-col justify-between
-                overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
-                onClick={(e) => e.stopPropagation()}>
-                <article>
-                    <div className="flex flex-col gap-2 ">
-                        <div className="flex justify-between items-center pt-2">
-                            <h3 className="font-bold text-xl text-[#E8EAF0]">트레이너 반려 사유 입력</h3>
-                            <img src={CloseButton} onClick={closeModal} />
-                        </div>
-                        <p className="text-[14px] font-normal text-[#99A1AF] border-b-[#1E2939] border-b pb-8"> 2회차 - 벤치프레스 기초 </p>
-                    </div>
-                    <div className="flex flex-col gap-6 mt-6">
-                        <div className="flex justify-between items-center">
-                            <div className="flex gap-2 items-center">
-                                <img src={PtRecordVideo} alt="피드백 동영상"/>
-                                <p className="text-[14px] font-extrabold text-[#BFFF0B]"> 동영상 피드백 </p>
-                            </div>
-                            <p className="text-[12px] font-normal text-[#6A7282]"> 2026-05-08 </p>
-                        </div>
-                        <div className="grid grid-cols-2 gap-5">
-                            <div className="
-                            flex flex-col gap-3
-                            bg-[#1E293980]
-                            border border-[#364153] rounded-[10px]
-                            p-6 ">
-                                <div className="flex gap-3">
-                                    <img src={PtFeedBackOnBoard} alt="피드백 녹화"/>
-                                    <p className="text-[14px] font-extrabold text-[#D1D5DC]"> Before 영상 </p>
-                                </div>
-                                <div className="flex flex-col items-center gap-3">
-                                    <img src={PtRecordVideo} width={65} height={65} alt="피드백 동영상"/>
-                                    <p className="text-[12px] font-normal text-[#99A1AF]"> Before 영상을 업로드해주세요 </p>
-                                    <label 
-                                    htmlFor="ptmanage-feedback-regist"
-                                    className="
-                                    px-5 py-2 bg-[#BFFF0B] rounded-[10px] text-[14px] font-extrabold text-black">
-                                        업로드
-                                    </label>
-                                    <input id="ptmanage-feedback-regist" type="file" className="hidden"/>  
-                                </div>
-                            </div>
-                            <div className="
-                            flex flex-col gap-3
-                            bg-[#1E293980]
-                            border border-[#364153] rounded-[10px]
-                            p-6 ">
-                                <div className="flex gap-3">
-                                    <img src={PtFeedBackOnBoard} alt="피드백 녹화"/>
-                                    <p className="text-[14px] font-extrabold text-[#D1D5DC]"> After 영상 </p>
-                                </div>
-                                <div className="flex flex-col items-center gap-3">
-                                    <img src={PtRecordVideo} width={65} height={65} alt="피드백 동영상"/>
-                                    <p className="text-[12px] font-normal text-[#99A1AF]"> After 영상을 업로드해주세요 </p>
-                                    <label 
-                                    htmlFor="ptmanage-feedback-regist"
-                                    className="
-                                    px-5 py-2 bg-[#BFFF0B] rounded-[10px] text-[14px] font-extrabold text-black">
-                                        업로드
-                                    </label>
-                                    <input id="ptmanage-feedback-regist" type="file" className="hidden"/>  
-                                </div>
-                            </div>
-                        </div>
-                        <div className="flex flex-col gap-4 mb-6">
-                            <div className="flex gap-2 items-center">
-                                <img src={MypageMyActivity} width={20} height={20} alt="피드백 텍스트 피드백"/>
-                                <p className="text-[14px] font-extrabold text-[#BFFF0B]"> 텍스트 피드백 </p>
-                            </div>
-                            <div className="
-                            flex
-                            border border-[#364153] rounded-[10px]
-                            bg-[#1E293980]
-                            p-6
-                            ">
-                                <textarea 
-                                    className="flex-1 text-[14px] font-normal text-[#D1D5DC]" 
-                                    placeholder="텍스트 피드백을 작성해주세요"
-                                    rows={10}
-                                    /> 
-                            </div>
-                        </div>
-                    </div>
-                </article>
-                <article className='flex gap-3'>
-                    <button
-                        type="button"
-                        onClick={closeModal}
-                        className='w-full flex pt-2 pb-3 justify-center items-center rounded-lg text-white text-center font-semibold text-base bg-[#1E2939]'
-                    >
-                        취소
-                    </button>
-                    <button
-                        onClick={activeModal}
-                        className='w-full flex pt-2 pb-3 justify-center items-center rounded-lg text-black text-center font-semibold text-base bg-[#BFFF0B]'
-                        >
-                        등록
-                    </button>
-                </article>
-            </form>
-        </section>
-    );
+  const beforeFile = watch("beforeFile");
+  const afterFile = watch("afterFile");
+
+  useEffect(() => {
+    if (!isModal) return;
+
+    reset({
+      beforeFile: undefined,
+      afterFile: undefined,
+      content: "",
+    });
+    setSubmitError("");
+  }, [isModal, curriculum?.ptCurriculumId, reset]);
+
+  if (!isModal || !curriculum) return null;
+
+  const onSubmit: SubmitHandler<PtFeedbackFormValue> = async (values) => {
+    const formData = new FormData();
+
+    formData.append("ptCurriculumId", String(curriculum.ptCurriculumId));
+    formData.append("beforeFile", values.beforeFile);
+    formData.append("afterFile", values.afterFile);
+    formData.append("content", values.content);
+
+    try {
+      const result = await createPtFeedbackAction(
+        reservationId,
+        ptCourseId,
+        formData
+      );
+
+      if (result?.success === false) {
+        setSubmitError(result.message ?? "피드백 등록에 실패하였습니다.");
+        return;
+      }
+
+      closeModal();
+    } catch (error) {
+      setSubmitError(
+        error instanceof Error
+          ? error.message
+          : "피드백 등록에 실패하였습니다."
+      );
+    }
+  };
+
+  return (
+    <section
+      className="z-999 bg-black/50 fixed top-0 left-0 w-screen h-screen"
+      onClick={closeModal}
+    >
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="
+        bg-gradient-to-br from-[#101828] to-[#000]
+        h-150 w-2xl rounded-2xl border border-[#1E2939]
+        z-1000 fixed top-1/2 left-1/2 p-6
+        flex -translate-x-1/2 -translate-y-1/2 flex-col justify-between
+        overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden
+        "
+        onClick={(e) => e.stopPropagation()}
+      >
+        <article>
+          <div className="flex flex-col gap-2">
+            <div className="flex justify-between items-center pt-2">
+              <h3 className="font-bold text-xl text-[#E8EAF0]">
+                피드백 등록
+              </h3>
+
+              <button type="button" onClick={closeModal}>
+                <img src={CloseButton} alt="닫기" />
+              </button>
+            </div>
+
+            <p className="text-[14px] font-normal text-[#99A1AF] border-b-[#1E2939] border-b pb-8">
+              {curriculum.sessionNo}회차 - {curriculum.title}
+            </p>
+          </div>
+
+          <div className="flex flex-col gap-6 mt-6">
+            <div className="flex gap-2 items-center">
+              <img src={PtRecordVideo} alt="영상 피드백" />
+              <p className="text-[14px] font-extrabold text-[#BFFF0B]">
+                영상 피드백
+              </p>
+            </div>
+
+            <div className="grid grid-cols-2 gap-5">
+              <div
+                className="
+                flex flex-col gap-3
+                bg-[#1E293980]
+                border border-[#364153] rounded-[10px]
+                p-6
+                "
+              >
+                <div className="flex gap-3">
+                  <img src={PtFeedBackOnBoard} alt="Before 영상" />
+                  <p className="text-[14px] font-extrabold text-[#D1D5DC]">
+                    Before 영상
+                  </p>
+                </div>
+
+                <div className="flex flex-col items-center gap-3">
+                  <img src={PtRecordVideo} width={65} height={65} alt="Before 영상 업로드" />
+
+                  <p className="text-[12px] font-normal text-[#99A1AF] text-center">
+                    {beforeFile ? beforeFile.name : "Before 영상을 업로드해주세요."}
+                  </p>
+
+                  <label
+                    htmlFor="ptmanage-feedback-before"
+                    className="px-5 py-2 bg-[#BFFF0B] rounded-[10px] text-[14px] font-extrabold text-black cursor-pointer"
+                  >
+                    업로드
+                  </label>
+
+                  <input
+                    id="ptmanage-feedback-before"
+                    type="file"
+                    accept="video/*"
+                    className="hidden"
+                    onChange={(event) => {
+                      const file = event.target.files?.[0];
+                      if (!file) return;
+
+                      setValue("beforeFile", file, {
+                        shouldValidate: true,
+                        shouldDirty: true,
+                      });
+                    }}
+                  />
+
+                  {errors.beforeFile?.message && (
+                    <p className="text-[12px] font-medium text-red-400">
+                      {errors.beforeFile.message}
+                    </p>
+                  )}
+                </div>
+              </div>
+
+              <div
+                className="
+                flex flex-col gap-3
+                bg-[#1E293980]
+                border border-[#364153] rounded-[10px]
+                p-6
+                "
+              >
+                <div className="flex gap-3">
+                  <img src={PtFeedBackOnBoard} alt="After 영상" />
+                  <p className="text-[14px] font-extrabold text-[#D1D5DC]">
+                    After 영상
+                  </p>
+                </div>
+
+                <div className="flex flex-col items-center gap-3">
+                  <img src={PtRecordVideo} width={65} height={65} alt="After 영상 업로드" />
+
+                  <p className="text-[12px] font-normal text-[#99A1AF] text-center">
+                    {afterFile ? afterFile.name : "After 영상을 업로드해주세요."}
+                  </p>
+
+                  <label
+                    htmlFor="ptmanage-feedback-after"
+                    className="px-5 py-2 bg-[#BFFF0B] rounded-[10px] text-[14px] font-extrabold text-black cursor-pointer"
+                  >
+                    업로드
+                  </label>
+
+                  <input
+                    id="ptmanage-feedback-after"
+                    type="file"
+                    accept="video/*"
+                    className="hidden"
+                    onChange={(event) => {
+                      const file = event.target.files?.[0];
+                      if (!file) return;
+
+                      setValue("afterFile", file, {
+                        shouldValidate: true,
+                        shouldDirty: true,
+                      });
+                    }}
+                  />
+
+                  {errors.afterFile?.message && (
+                    <p className="text-[12px] font-medium text-red-400">
+                      {errors.afterFile.message}
+                    </p>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-4 mb-6">
+              <div className="flex gap-2 items-center">
+                <img src={MypageMyActivity} width={20} height={20} alt="텍스트 피드백" />
+                <p className="text-[14px] font-extrabold text-[#BFFF0B]">
+                  텍스트 피드백
+                </p>
+              </div>
+
+              <div
+                className="
+                flex
+                border border-[#364153] rounded-[10px]
+                bg-[#1E293980]
+                p-6
+                "
+              >
+                <textarea
+                  {...register("content")}
+                  className="flex-1 text-[14px] font-normal text-[#D1D5DC] bg-transparent outline-none resize-none"
+                  placeholder="텍스트 피드백을 작성해주세요."
+                  rows={10}
+                />
+              </div>
+
+              {errors.content?.message && (
+                <p className="text-[12px] font-medium text-red-400">
+                  {errors.content.message}
+                </p>
+              )}
+
+              {submitError && (
+                <p className="text-[12px] font-medium text-red-400">
+                  {submitError}
+                </p>
+              )}
+            </div>
+          </div>
+        </article>
+
+        <article className="flex gap-3">
+          <button
+            type="button"
+            onClick={closeModal}
+            disabled={isSubmitting}
+            className="w-full flex pt-2 pb-3 justify-center items-center rounded-lg text-white text-center font-semibold text-base bg-[#1E2939] disabled:opacity-60"
+          >
+            취소
+          </button>
+
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className="w-full flex pt-2 pb-3 justify-center items-center rounded-lg text-black text-center font-semibold text-base bg-[#BFFF0B] disabled:opacity-60"
+          >
+            {isSubmitting ? "등록 중" : "등록"}
+          </button>
+        </article>
+      </form>
+    </section>
+  );
 }

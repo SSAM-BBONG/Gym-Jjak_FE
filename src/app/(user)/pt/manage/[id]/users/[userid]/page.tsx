@@ -3,12 +3,13 @@ import { getFeedBackLists, getPtStudentDetail } from "@/service/ptzone.service";
 
 interface PtManageUserFeedBackPageProps {
   params: Promise<{
+    id:string
     userid: string;
   }>;
 }
 
 export default async function PtManageUserFeedBackPage( { params }: PtManageUserFeedBackPageProps) {
-    const { userid } = await params
+    const { id, userid } = await params
 
     const response = await getPtStudentDetail(userid);
     const feedbackResponse = await getFeedBackLists(userid);
@@ -58,8 +59,10 @@ export default async function PtManageUserFeedBackPage( { params }: PtManageUser
                 <p className="py-3 text-[16px] font-extrabold text-[#99A1AF] rounded-[10px] text-center"> 식단 관리 </p>
             </div>
 
-            <PtManageFeedBackCard 
-                data={feedbackResponse.data}
+            <PtManageFeedBackCard
+            data={feedbackResponse.data}
+            reservationId={userid}
+            ptCourseId={id}
             />
 
         </div>

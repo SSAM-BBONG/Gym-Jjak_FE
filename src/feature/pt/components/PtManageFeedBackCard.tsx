@@ -9,13 +9,26 @@ import type { StudentFeedbackCurriculum } from "../type";
 
 interface PtManageFeedBackCardProps {
   data: StudentFeedbackCurriculum[];
+  reservationId: string;
+  ptCourseId: string;
 }
 
-export default function PtManageFeedBackCard( { data }: PtManageFeedBackCardProps) {
+export default function PtManageFeedBackCard( { data, reservationId, ptCourseId }: PtManageFeedBackCardProps) {
     const checkModal = useModal();
-    const registModal = useModal(() => {
-        console.log("피드백 등록 또는 수정 완료");
-    });
+    const registModal = useModal();
+
+    const [selectedCurriculum, setSelectedCurriculum] =
+        useState<StudentFeedbackCurriculum | null>(null);
+
+    const openRegistModal = (item: StudentFeedbackCurriculum) => {
+        setSelectedCurriculum(item);
+        registModal.openModal();
+    };
+
+    const closeRegistModal = () => {
+        registModal.closeModal();
+        setSelectedCurriculum(null);
+    };
 
     return (
         <>
@@ -32,7 +45,7 @@ export default function PtManageFeedBackCard( { data }: PtManageFeedBackCardProp
                 (
             <div className="flex items-start gap-3 border border-[#BFFF0B4D] bg-[#1E293980] p-4 rounded-[14px]">
                 <img src={PtRecordComplete} alt="피드백 등록 완료"/>
-                <div className="flex flex-col gap-3">
+                <div className="flex flex-col gap-3 w-full">
                     <div className="flex flex-1 justify-between items-start">
                         <div className="flex flex-col gap-1">
                             <p className="text-[16px] font-extrabold text-white"> {item.sessionNo}회차: {item.title} </p>
@@ -44,7 +57,7 @@ export default function PtManageFeedBackCard( { data }: PtManageFeedBackCardProp
                             className="px-4 py-2 rounded-[10px] bg-[#BFFF0B] text-[14px] font-extrabold text-black"> 수정 </button>
                     </div>   
                     <div className="
-                    flex flex-col gap-1
+                    flex flex-col gap-1 w-full
                     border border-[#36415380] rounded-[10px]
                     bg-[#10182880]
                     p-4"
@@ -87,7 +100,7 @@ export default function PtManageFeedBackCard( { data }: PtManageFeedBackCardProp
             </div>
             <button
                 type="button"
-                onClick={registModal.openModal} 
+                onClick={() => openRegistModal(item)}
                 className="px-4 py-2 rounded-[10px] bg-[#BFFF0B] text-[14px] font-extrabold text-black"> 
                 등록하기 
             </button>
@@ -101,9 +114,11 @@ export default function PtManageFeedBackCard( { data }: PtManageFeedBackCardProp
 
       <PtFeeBackRegistModal
         isModal={registModal.isModal}
-        closeModal={registModal.closeModal}
-        activeModal={registModal.activeModal}
-        />
+        closeModal={closeRegistModal}
+        reservationId={reservationId}
+        ptCourseId={ptCourseId}
+        curriculum={selectedCurriculum}
+      />
         </>
     );
 }
