@@ -502,3 +502,28 @@ export interface FeedbackListsResponse {
   message: string;
   data: StudentFeedbackCurriculum[];
 }
+
+// 피드백 등록 요청값
+export interface FeedbackCreateRequest {
+  ptCurriculumId: number;
+  media: FeedbackCreateMedia[]
+  content: string;
+}
+
+// 피드백 등록 media 
+export interface FeedbackCreateMedia {
+  file : TrainerFileData;
+  mediaType: "BEFORE" | "AFTER";
+}
+// 피드백 등록 응답값
+export interface FeedbackCreateResponse {
+  status: number;
+  code: string;
+  message: string;
+  data: FeedbackCreateData
+}
+
+// 피드백 등록 데이터
+export interface FeedbackCreateData {
+  feedbackId: number;
+}
