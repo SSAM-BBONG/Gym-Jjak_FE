@@ -21,7 +21,7 @@ export default async function PtManageDetailPage( {params}: PtManageDetailPagePr
             <div className="flex flex-col gap-4 mt-6">
                 
                 {response.data.ptReservations.map((item) => (
-    
+
                     <PtManageUserCard 
                         key={item.ptReservationId}
                         data={item}

@@ -1,5 +1,5 @@
 import PtManageFeedBackCard from "@/feature/pt/components/PtManageFeedBackCard";
-import { getPtStudentDetail } from "@/service/ptzone.service";
+import { getFeedBackLists, getPtStudentDetail } from "@/service/ptzone.service";
 
 interface PtManageUserFeedBackPageProps {
   params: Promise<{
@@ -11,6 +11,7 @@ export default async function PtManageUserFeedBackPage( { params }: PtManageUser
     const { userid } = await params
 
     const response = await getPtStudentDetail(userid);
+    const feedbackResponse = await getFeedBackLists(userid);
 
 
     return (
@@ -57,8 +58,9 @@ export default async function PtManageUserFeedBackPage( { params }: PtManageUser
                 <p className="py-3 text-[16px] font-extrabold text-[#99A1AF] rounded-[10px] text-center"> 식단 관리 </p>
             </div>
 
-            <PtManageFeedBackCard />
-
+            <PtManageFeedBackCard 
+                data={feedbackResponse.data}
+            />
 
         </div>
     );
