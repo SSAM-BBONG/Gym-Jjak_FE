@@ -6,10 +6,10 @@ import CalendarAddButton from "./CalendarAddButton";
 import CalendarItem from "@/feature/calendar/components/CalendarItem";
 import { MainCalendar } from "@/components/ui/mainCalendar";
 import { useQuery } from "@tanstack/react-query";
-import { getCalendarDate, getCalendarMonth } from "@/service/calendar.service";
 import CalendarPtItem from "@/feature/calendar/components/CalendarPtItem";
 import dayjs from "dayjs";
 import "dayjs/locale/ko";
+import { calendargetDateAction, calendargetMonthAction } from "@/feature/calendar/action";
 
 
 export default function CalendarCt() {
@@ -27,7 +27,7 @@ export default function CalendarCt() {
         error: monthError,
     } = useQuery({
         queryKey: ['calendar-month', selectedYear, selectedMonth],
-        queryFn: () => getCalendarMonth(selectedYear, selectedMonth),
+        queryFn: () => calendargetMonthAction(selectedYear, selectedMonth),
         enabled: !!selectedYear && !!selectedMonth,
     });
 
@@ -38,7 +38,7 @@ export default function CalendarCt() {
         error: dateError,
     } = useQuery({
         queryKey: ['calendar-date', selectedSettingDate],
-        queryFn: () => getCalendarDate(selectedSettingDate),
+        queryFn: () => calendargetDateAction(selectedSettingDate),
         enabled: !!selectedYear && !!selectedMonth && !!selectedDay,
     });
 

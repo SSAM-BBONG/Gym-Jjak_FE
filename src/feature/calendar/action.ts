@@ -1,11 +1,42 @@
 'use server'
 
-import { deleteCalendar, patchCalendar, postCalendar } from "@/service/calendar.service";
-import { redirect } from "next/navigation";
+import { deleteCalendar, getCalendarDate, getCalendarMonth, getDiaryCategories, patchCalendar, postCalendar } from "@/service/calendar.service";
 
 interface ActionState {
     success: boolean;
     message?: string;
+}
+
+export const calendargetMonthAction = async (year: string, month: string) => {
+    if (!year || !month) {
+
+    }
+
+    try {
+        const response = await getCalendarMonth(year, month);
+        return response;
+    } catch (error) {
+        let errorMessage: string = '알 수 없는 오류입니다. 재시도해주세요.'
+        if (error instanceof Error) {
+            errorMessage = error.message;
+        }
+
+        throw new Error(errorMessage)
+    }
+}
+
+export const calendargetDateAction = async (date: string) => {
+    try {
+        const response = await getCalendarDate(date);
+        return response;
+    } catch (error) {
+        let errorMessage: string = '알 수 없는 오류입니다. 재시도해주세요.'
+        if (error instanceof Error) {
+            errorMessage = error.message;
+        }
+
+        throw new Error(errorMessage)
+    }
 }
 
 export const calendarPostAction = async (selectedSettingDate: string, formData: FormData): Promise<ActionState> => {
@@ -84,6 +115,20 @@ export const calendarPatchAction = async (diaryId: number, formData: FormData): 
 export const deleteCalendarAction = async (diaryId: number) => {
     try {
         await deleteCalendar(diaryId);
+    } catch (error) {
+        let errorMessage: string = '알 수 없는 오류입니다. 재시도해주세요.'
+        if (error instanceof Error) {
+            errorMessage = error.message;
+        }
+
+        throw new Error(errorMessage)
+    }
+}
+
+export const getCalendarCategory = async () => {
+    try {
+        const response = await getDiaryCategories();
+        return response;
     } catch (error) {
         let errorMessage: string = '알 수 없는 오류입니다. 재시도해주세요.'
         if (error instanceof Error) {
