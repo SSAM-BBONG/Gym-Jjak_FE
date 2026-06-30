@@ -359,7 +359,7 @@ export const getPtStudentDetail = async (
   if (!response.ok) {
     const message = await getErrorMessage(
       response,
-      "PT 강습 수강생 목록 조회에 실패하였습니다"
+      "PT 강습 수강생 상세 조회에 실패하였습니다"
     );
 
     throw new Error(message);
