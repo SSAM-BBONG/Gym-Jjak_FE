@@ -1,5 +1,6 @@
 ﻿import {
   MyPtManageListResponse,
+  MyPtResrvationDetailResponse,
   MyPtResrvationListsResponse,
   OnboardingResponse, PtCourseDetailResponse,
   PtCourseListResponse,
@@ -414,7 +415,7 @@ export const getMyPtReservationLists = async () : Promise<MyPtResrvationListsRes
 // 내 예약 기록 상세 조회
 export const getMyPtReservationDetail = async (
   reservationId: string
-) : Promise<MyPtResrvationListsResponse> => {
+) : Promise<MyPtResrvationDetailResponse> => {
   const response = await fetchWithAuth(`/api/reservations/me/${reservationId}`);
 
   if (!response.ok) {
