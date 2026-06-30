@@ -23,7 +23,7 @@ export default async function PtRecordsPage() {
                 {response.data.ptReservations.map((item) => (
                 <Link
                     key={item.ptReservationId}
-                    href={`/pt/regist/${item.ptReservationId}`}
+                    href={`/pt/records/${item.ptReservationId}`}
                 >
                 <PtRecordCard 
                     key={item.ptReservationId}
