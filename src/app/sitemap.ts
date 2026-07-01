@@ -3,7 +3,7 @@ import { MetadataRoute } from "next";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
-    const baseUrl = 'https://13.124.200.97.sslip.io';
+    const baseUrl = 'https://gymjjak.com';
 
     const staticPages = [
         {
