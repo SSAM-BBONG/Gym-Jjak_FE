@@ -39,7 +39,6 @@ export default function CommuDetailPage() {
                 src={CommuDetailLike}
                 alt="커뮤니티 상세조회 좋아요"
                 fill
-                priority
                 sizes="w-8 h-8"
                 className="object-cover hover:cursor-pointer"
               />
@@ -53,7 +52,6 @@ export default function CommuDetailPage() {
                 src={CommuDetailEdit}
                 alt="게시글 수정"
                 fill
-                priority
                 sizes="w-8 h-8"
                 className="object-cover hover:cursor-pointer"
               />
@@ -66,7 +64,6 @@ export default function CommuDetailPage() {
                 src={CommuDetailRemove}
                 alt="게시글 삭제"
                 fill
-                priority
                 sizes="w-8 h-8"
                 className="object-cover hover:cursor-pointer"
               />
@@ -79,7 +76,6 @@ export default function CommuDetailPage() {
                 src={CommuDetailDeclaration}
                 alt="게시글 신고"
                 fill
-                priority
                 sizes="w-8 h-8"
                 className="object-cover hover:cursor-pointer"
               />

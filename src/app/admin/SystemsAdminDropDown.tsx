@@ -22,7 +22,6 @@ export default function SystemsAdminDropDown() {
                         src={AdminSystems}
                         alt="시스템 관리"
                         fill
-                        priority
                         sizes="w-10 h-10"
                     />
                 </div>
@@ -32,7 +31,6 @@ export default function SystemsAdminDropDown() {
                         src={AdminArrowButton}
                         alt="화살표 버튼"
                         fill
-                        priority
                         sizes="w-4 h-4"
                         className={dropDownView ? "-rotate-90" : ""}
                     />

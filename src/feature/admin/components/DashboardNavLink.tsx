@@ -23,7 +23,6 @@ export default function DashboardNavLink({ href, children }: AdminNavLinkProps) 
                     src={isActive ? AdminActiveDashboard : AdminDashboard}
                     alt="대시보드"
                     fill
-                    priority
                     sizes="w-10 h-10"
                 />
             </div>

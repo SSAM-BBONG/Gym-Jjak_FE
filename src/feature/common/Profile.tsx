@@ -54,7 +54,6 @@ export default function UserProfile() {
                             src={Profile}
                             alt="프로필 이미지"
                             fill
-                            priority
                             sizes="w-16 h-16"
                             className="object-cover"
                         />
@@ -76,7 +75,6 @@ export default function UserProfile() {
                                     src={HeaderProfile}
                                     alt="마이페이지"
                                     fill
-                                    priority
                                     sizes="w-10 h-10"
                                     className="object-cover"
                                 />
@@ -94,7 +92,6 @@ export default function UserProfile() {
                                     src={HeaderLogout}
                                     alt="로그아웃"
                                     fill
-                                    priority
                                     sizes="w-10 h-10"
                                     className="object-cover"
                                 />

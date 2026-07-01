@@ -18,7 +18,6 @@ export default function CalendarAddButton({ selectedSettingDate }: { selectedSet
                         src={AdminAddButton}
                         alt="일정 추가 버튼"
                         fill
-                        priority
                         sizes="w-12 h-12"
                     />
                 </div>

@@ -19,7 +19,6 @@ export default function AdminUpdateButton({ mode, id, name }: { mode: '카테고
                         src={AdminUpdateImg}
                         alt="수정 버튼"
                         fill
-                        priority
                         sizes="w-4 h-4"
                     />
                 </div> 수정하기

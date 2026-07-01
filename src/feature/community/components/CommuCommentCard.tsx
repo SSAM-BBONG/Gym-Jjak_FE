@@ -15,7 +15,6 @@ export default function CommuCommentCard() {
               src={CommuCommentDeclaration}
               alt="댓글 신고"
               fill
-              priority
               sizes="w-8 h-8"
               className="object-cover"
             />
@@ -25,7 +24,6 @@ export default function CommuCommentCard() {
               src={CommuCommentEdit}
               alt="댓글 수정"
               fill
-              priority
               sizes="w-8 h-8"
               className="object-cover"
             />
@@ -35,7 +33,6 @@ export default function CommuCommentCard() {
               src={CommuCommentRemove}
               alt="댓글 삭제"
               fill
-              priority
               sizes="w-8 h-8"
               className="object-cover"
             />

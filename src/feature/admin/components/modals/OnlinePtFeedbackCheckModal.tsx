@@ -27,7 +27,6 @@ export default function OnlinePtFeeBackCheckModal({ isModal, closeModal, type }:
                                     src={CloseButton}
                                     alt="모달 닫기 버튼"
                                     fill
-                                    priority
                                     sizes="w-4 h-4"
                                 />
                             </button>

@@ -34,6 +34,7 @@ export default function Page() {
               alt="메인페이지 설명이미지"
               fill
               priority
+              placeholder="blur"
               sizes="w-200 h-200"
               className="object-cover"
             />
@@ -99,7 +100,6 @@ export default function Page() {
                 src={MainCommunity}
                 alt="메인페이지 커뮤니티"
                 fill
-                priority
                 sizes="w-26 h-26"
                 className="object-cover"
               />
@@ -136,7 +136,6 @@ export default function Page() {
                   src={MainHomeTraining}
                   alt="메인페이지 홈트"
                   fill
-                  priority
                   sizes="w-16 h-16"
                   className="object-cover"
                 />
@@ -163,7 +162,6 @@ export default function Page() {
                   src={MainCalender}
                   alt="메인페이지 캘린더"
                   fill
-                  priority
                   sizes="w-16 h-16"
                   className="object-cover"
                 />
@@ -193,7 +191,6 @@ export default function Page() {
                   src={MainCrewDefender}
                   alt="메인페이지 길드 대항전"
                   fill
-                  priority
                   sizes="w-16 h-16"
                   className="object-cover"
                 />

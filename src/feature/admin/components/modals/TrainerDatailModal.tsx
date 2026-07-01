@@ -82,7 +82,6 @@ export default function TrainerDetailModal({ isModal, closeModal, activeModal, n
                             src={CloseButton}
                             alt="모달 닫기 버튼"
                             fill
-                            priority
                             sizes="w-4 h-4"
                         />
                     </div>
@@ -92,7 +91,6 @@ export default function TrainerDetailModal({ isModal, closeModal, activeModal, n
                                 src={profileImageUrl}
                                 alt="트레이너 프로필 사진"
                                 fill
-                                priority
                                 sizes="w-30 h-30"
                             />
                         </div>

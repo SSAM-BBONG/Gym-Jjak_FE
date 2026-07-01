@@ -28,7 +28,6 @@ export default function MypageUserProfileEdit() {
               src={MypageUserEdit}
               alt="마이페이지 회원 프로필 수정"
               fill
-              priority
               sizes="w-10 h-10"
               className="object-cover"
             />
@@ -46,7 +45,6 @@ export default function MypageUserProfileEdit() {
                   src={MypageProfile}
                   alt="마이페이지 트레이너 프로필"
                   fill
-                  priority
                   sizes="w-10 h-10"
                   className="object-cover"
                 />
@@ -70,7 +68,6 @@ export default function MypageUserProfileEdit() {
                   src={MypageProfile}
                   alt="마이페이지 회원 프로필"
                   fill
-                  priority
                   sizes="w-10 h-10"
                   className="object-cover"
                 />
@@ -95,7 +92,6 @@ export default function MypageUserProfileEdit() {
                     src={MypageOnboarding}
                     alt="마이페이지 온보딩 정보"
                     fill
-                    priority
                     sizes="w-10 h-10"
                     className="object-cover"
                   />

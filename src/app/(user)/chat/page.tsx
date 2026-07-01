@@ -58,7 +58,6 @@ export default function Page() {
                                     src={chatAddOption}
                                     alt="채팅 기능 이미지"
                                     fill
-                                    priority
                                     sizes="w-20 h-20"
                                     className="object-cover"
                                 />

@@ -108,7 +108,6 @@ export default function OrganizationDetailModal({ isModal, closeModal, activeMod
                                 src={CloseButton}
                                 alt="모달 닫기 버튼"
                                 fill
-                                priority
                                 sizes="w-4 h-4"
                             />
                         </button>                    </div>
@@ -127,7 +126,6 @@ export default function OrganizationDetailModal({ isModal, closeModal, activeMod
                                         src={AdminDocument}
                                         alt="문서 버튼"
                                         fill
-                                        priority
                                         sizes="w-4 h-4"
                                     />
                                 </div>

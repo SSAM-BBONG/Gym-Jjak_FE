@@ -19,7 +19,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                                     src={MypageOrganization}
                                     alt="내 조직관리 운동시설"
                                     fill
-                                    priority
                                     sizes="w-10 h-10"
                                     className="object-cover"
                                 />
@@ -29,7 +28,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                                     src={OrganManageActive}
                                     alt="내 조직관리 운동시설"
                                     fill
-                                    priority
                                     sizes="w-10 h-10"
                                     className="object-cover"
                                 />
@@ -46,7 +44,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                                     src={OrganManageTrainer}
                                     alt="내 조직관리 트레이너"
                                     fill
-                                    priority
                                     sizes="w-10 h-10"
                                     className="object-cover"
                                 />
@@ -56,7 +53,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                                     src={OrganManageTrainerActive}
                                     alt="내 조직관리 트레이너"
                                     fill
-                                    priority
                                     sizes="w-10 h-10"
                                     className="object-cover"
                                 />

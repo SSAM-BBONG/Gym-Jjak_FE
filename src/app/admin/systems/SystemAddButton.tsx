@@ -18,7 +18,6 @@ export default function SystemAddButton({ text }: { text: '카테고리' | '태�
                         src={AdminAddButton}
                         alt="추가 버튼"
                         fill
-                        priority
                         sizes="w-4 h-4"
                     />
                 </div>

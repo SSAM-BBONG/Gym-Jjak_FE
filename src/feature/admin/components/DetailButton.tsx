@@ -64,7 +64,6 @@ export default function DetailButton({ mode, applicationId }: DetailButtonMode) 
                         src={DetailButtonImg}
                         alt="상세보기 버튼"
                         fill
-                        priority
                         sizes="w-4 h-4"
                     />
                 </div> 상세보기

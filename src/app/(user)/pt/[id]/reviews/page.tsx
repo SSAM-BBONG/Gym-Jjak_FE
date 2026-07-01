@@ -23,7 +23,6 @@ export default async function TrainerReviewPage() {
                                 src={PtDetailQualification}
                                 alt="트레이너평 상세조회 자격증"
                                 fill
-                                priority
                                 sizes="w-8 h-8"
                                 className="object-cover"
                             />

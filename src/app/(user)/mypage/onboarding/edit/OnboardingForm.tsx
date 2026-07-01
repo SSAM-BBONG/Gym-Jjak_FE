@@ -79,7 +79,6 @@ export default function OnboardingForm({ myOnboarding }: { myOnboarding: MyOnboa
                             src={MyOnboardingPurpose}
                             alt="온보딩 개별 사진"
                             fill
-                            priority
                             sizes="w-10 h-10"
                             className="object-cover hover:cursor-pointer"
                         />

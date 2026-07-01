@@ -21,7 +21,6 @@ export default function MypageMyOrganizationApplication() {
             src={MypageOrganization}
             alt="마이페이지 조직 계정 신청"
             fill
-            priority
             sizes="w-10 h-10"
             className="object-cover"
           />
@@ -48,7 +47,6 @@ export default function MypageMyOrganizationApplication() {
                   src={MypageApplication}
                   alt="마이페이지 조직 계정 신청 내역"
                   fill
-                  priority
                   sizes="w-10 h-10"
                   className="object-cover"
                 />
@@ -76,7 +74,6 @@ export default function MypageMyOrganizationApplication() {
                   src={MypageOrganApplication}
                   alt="마이페이지 조직 신청하기"
                   fill
-                  priority
                   sizes="w-10 h-10"
                   className="object-cover"
                 />

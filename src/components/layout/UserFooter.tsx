@@ -14,7 +14,6 @@ export default function UserFooter() {
                   src={Logo}
                   alt="하단바 로고"
                   fill
-                  priority
                   sizes="w-20 h-20"
                   className="object-cover"
                 />
@@ -36,7 +35,6 @@ export default function UserFooter() {
                   src={FooterEmail}
                   alt="하단바 이메일 로고"
                   fill
-                  priority
                   sizes="w-8 h-8"
                   className="object-cover"
                 />
@@ -49,7 +47,6 @@ export default function UserFooter() {
                   src={FooterNumber}
                   alt="하단바 전화번호 로고"
                   fill
-                  priority
                   sizes="w-8 h-8"
                   className="object-cover"
                 />
@@ -62,7 +59,6 @@ export default function UserFooter() {
                   src={CommonLocation}
                   alt="하단바 위치 로고"
                   fill
-                  priority
                   sizes="w-8 h-8"
                   className="object-cover"
                 />
@@ -77,7 +73,6 @@ export default function UserFooter() {
                   src={FooterBlog}
                   alt="하단바 블로그 로고"
                   fill
-                  priority
                   sizes="w-8 h-8"
                   className="object-cover"
                 />
@@ -89,7 +84,6 @@ export default function UserFooter() {
                   src={FooterInsta}
                   alt="하단바 인스타 로고"
                   fill
-                  priority
                   sizes="w-8 h-8"
                   className="object-cover"
                 />
@@ -101,7 +95,6 @@ export default function UserFooter() {
                   src={FooterYoutube}
                   alt="하단바 유튜브 로고"
                   fill
-                  priority
                   sizes="w-8 h-8"
                   className="object-cover"
                 />
