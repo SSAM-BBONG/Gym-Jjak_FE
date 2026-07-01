@@ -11,9 +11,9 @@ import Link from "next/link";
 
 export default function Page() {
   return (
-    <div className="flex flex-col gap-6 px-40">
-      <div className="flex justify-between mt-20 mb-22.5">
-        <div className="flex flex-col gap-8">
+    <main className="flex flex-col gap-6 px-40">
+      <section className="flex justify-between mt-20 mb-22.5">
+        <header className="flex flex-col gap-8">
           <p className="font-normal text-[14px] text-[#99A1AF]"> 전문적인 PT를 원하는 사람들</p>
           <p className="font-black text-white text-[56px] leading-17.5"> 당신의 잠재력을 <br />
             <span className="text-[#BFFF0B]"> 폭발시켜라 </span> <br />
@@ -25,7 +25,7 @@ export default function Page() {
           <Link href="/pt">
             <button className="bg-[#BFFF0B] text-black font-extrabold text-[16px] px-9 py-3.5 rounded-[10px] cursor-pointer hover:opacity-80"> 지금 바로 체험하기</button>
           </Link>
-        </div>
+        </header>
 
         <div>
           <div className="relative w-165 h-100">
@@ -39,10 +39,10 @@ export default function Page() {
             />
           </div>
         </div>
-      </div>
+      </section>
 
-      <div className="flex flex-wrap gap-6 justify-between">
-        <div
+      <section className="flex flex-wrap gap-6 justify-between">
+        <article
           className="
         bg-[linear-gradient(135deg,rgba(16,24,40,0.90)_0%,rgba(30,41,57,0.90)_100%)]
         border border-[#BFFF0B66] rounded-[24px]
@@ -51,10 +51,10 @@ export default function Page() {
         flex flex-col gap-6
         "
         >
-          <div className="text-white text-[48px]">
+          <header className="text-white text-[48px]">
             <p className="leading-12 font-black">전문 트레이너와</p>
             <p className="leading-12 font-black"> 1:1 PT 매칭 </p>
-          </div>
+          </header>
           <p className="text-[#D1D5DC] text-[18px]">
             전국의 검증된 트레이너를 찾아보세요. <br />내 위치 기반으로 가까운
             PT 센터를 쉽게 찾을 수 있습니다.
@@ -81,7 +81,7 @@ export default function Page() {
           hover:cursor-pointer hover:opacity-80">
             PT 센터 찾기
           </button>
-        </div>
+        </article>
         <div
           className="
         flex-1
@@ -93,7 +93,7 @@ export default function Page() {
         justify-between
         "
         >
-          <div className="flex flex-col gap-6 items-baseline">
+          <article className="flex flex-col gap-6 items-baseline">
             <div className="relative w-13 h-13">
               <Image
                 src={MainCommunity}
@@ -110,7 +110,7 @@ export default function Page() {
 
               운동 팁을 공유하고 <br /> 동기부여를 받으세요
             </p>
-          </div>
+          </article>
           <Link href="/community">
             <button className="w-full bg-[#1E2939] text-white px-2 py-2.5 text-center rounded-[10px] font-extrabold
           hover:bg-[#BFFF0B] hover:text-black hover:cursor-pointer">
@@ -118,7 +118,7 @@ export default function Page() {
             </button>
           </Link>
         </div>
-        <div
+        <article
           className="
         w-[31%]
         bg-[linear-gradient(135deg,rgba(16,24,40,0.90)_0%,rgba(30,41,57,0.90)_100%)]
@@ -152,8 +152,8 @@ export default function Page() {
           hover:bg-[#BFFF0B] hover:text-black hover:cursor-pointer">
             홈트 ZONE 가기
           </button>
-        </div>
-        <div className="w-[31%] bg-[linear-gradient(135deg,rgba(16,24,40,0.90)_0%,rgba(30,41,57,0.90)_100%)] rounded-[24px] p-7">
+        </article>
+        <article className="w-[31%] bg-[linear-gradient(135deg,rgba(16,24,40,0.90)_0%,rgba(30,41,57,0.90)_100%)] rounded-[24px] p-7">
           <div className="flex flex-col gap-6 items-baseline">
             <div className="bg-[#1E2939] rounded-[16px] border border-[#364153] p-3.5">
               <div className="relative w-8 h-8">
@@ -181,8 +181,8 @@ export default function Page() {
               캘린더 가기
             </button>
           </Link>
-        </div>
-        <div className="w-[31%] bg-[linear-gradient(135deg,rgba(16,24,40,0.90)_0%,rgba(30,41,57,0.90)_100%)] rounded-[24px] p-7">
+        </article>
+        <article className="w-[31%] bg-[linear-gradient(135deg,rgba(16,24,40,0.90)_0%,rgba(30,41,57,0.90)_100%)] rounded-[24px] p-7">
           <div className="flex flex-col gap-6 items-baseline">
             <div className="bg-[#1E2939] rounded-[16px] border border-[#364153] p-3.5">
               <div className="relative w-8 h-8">
@@ -208,10 +208,10 @@ export default function Page() {
                     hover:bg-[#BFFF0B] hover:text-black hover:cursor-pointer">
             길드 대항전 참여하기
           </button>
-        </div>
-      </div>
+        </article>
+      </section>
 
-      <div
+      <section
         className="flex justify-around 
             bg-[linear-gradient(90deg,rgba(16,24,40,0.90)_100%,rgba(30,41,57,0.90)_100%)]
             border
@@ -245,10 +245,10 @@ export default function Page() {
           </p>
           <p className="text-[#99A1AF] text-center"> 평균 만족도</p>
         </div>
-      </div>
+      </section>
       <footer className="w-auto -mx-40">
         <UserFooter />
       </footer>
-    </div>
+    </main>
   );
 }
