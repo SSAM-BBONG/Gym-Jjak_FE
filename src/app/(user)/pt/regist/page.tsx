@@ -1,7 +1,7 @@
 import PtRegistForm from "@/feature/pt/components/PtRegistForm";
 import { getPtzoneCategory, getPtzoneTag } from "@/service/ptzone.service";
 
-export default async function Page() {
+export default async function PtRegistPage() {
 
     const categoryResponse = await getPtzoneCategory();
     const TagResponse = await getPtzoneTag();

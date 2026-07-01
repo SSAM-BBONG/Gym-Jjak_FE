@@ -18,7 +18,9 @@ export default function PtFindCard({ response }: PtFindCardProps) {
         bg-[linear-gradient(135deg,rgba(16,24,40,0.90)0%,rgba(30,41,57,0.90)100%)]
         border border-[#36415380] rounded-[14px]
         ">  
-            <Link href={`/pt/${response.ptCourseId}`}>
+            <Link 
+                data-testid="pt-card-link"
+                href={`/pt/${response.ptCourseId}`}>
             <div>
                 <div className="size-80 overflow-hidden">
                     <img 

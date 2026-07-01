@@ -5,12 +5,15 @@ interface PtCardProps {
     title : string,
     content : string,
     movecoment : string,
-    move : string
+    move : string,
+    testId?: string;
 }
 
-export default function PtCard({imgsrc, title, content, movecoment, move}: PtCardProps) {
+export default function PtCard({imgsrc, title, content, movecoment, move, testId}: PtCardProps) {
     return (
-        <Link href={move}>
+        <Link 
+        data-testid={testId}
+        href={move}>
         <div className="
         flex flex-col gap-3 
         items-start
