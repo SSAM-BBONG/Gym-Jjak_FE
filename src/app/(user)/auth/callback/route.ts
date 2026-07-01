@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 //route.ts는 화면 없이 요청을 처리하는 파일
 export async function GET(request: NextRequest) {
+    const frontendUrl = process.env.NEXT_PUBLIC_PRONT_URL;
     const accessToken = request.cookies.get("accessToken")?.value;
     const onboardingCompleted = request.nextUrl.searchParams.get("onboardingCompleted") === "true";
     const socialSignupCompleted = request.nextUrl.searchParams.get("socialSignupCompleted") === "true";
@@ -10,7 +11,7 @@ export async function GET(request: NextRequest) {
     const refreshToken = request.cookies.get("refreshToken")?.value;
 
     if (!accessToken || !refreshToken) {
-        return NextResponse.redirect(new URL("/auth/login", request.url));
+        return NextResponse.redirect(new URL("/auth/login", frontendUrl));
     }
 
     let redirectPath = "/";
@@ -22,7 +23,7 @@ export async function GET(request: NextRequest) {
     }
 
     //쿠키를 담아서 path로 리다이렉트
-    const response = NextResponse.redirect(new URL(redirectPath, request.url));
+    const response = NextResponse.redirect(new URL(redirectPath, frontendUrl));
 
     response.cookies.set("accessToken", accessToken, {
         httpOnly: true,
