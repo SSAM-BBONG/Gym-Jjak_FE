@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 //route.ts는 화면 없이 요청을 처리하는 파일
 export async function GET(request: NextRequest) {
-    const frontendUrl = process.env.NEXT_PUBLIC_PRONT_URL;
+    const frontendUrl = process.env.FRONTEND_URL;
     const accessToken = request.cookies.get("accessToken")?.value;
     const onboardingCompleted = request.nextUrl.searchParams.get("onboardingCompleted") === "true";
     const socialSignupCompleted = request.nextUrl.searchParams.get("socialSignupCompleted") === "true";
