@@ -30,8 +30,15 @@ export default function PtManageCard({ data }: PtManageCardProps) {
                 {data.status === "VISIBLE" ? "활성화" : "비활성화"}
             </div>
             <div
-                style={{ backgroundImage: `url(${data.thumbnailUrl})` }}
-                className="w-full h-50 bg-no-repeat bg-cover bg-center"></div>
+                className="relative w-full h-40">
+                    <Image
+                        src={data.thumbnailUrl}
+                        alt="피드백 등록 완료"
+                        fill
+                        sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
+                        className="object-cover"
+                    />
+                </div>
             <div className="flex flex-col p-5 gap-2">
                 <p className="text-[18px] font-black text-white"> {data.title} </p>
                 <p className="text-[14px] font-normal text-[#99A1AF]"> {data.trainerName} </p>
@@ -49,7 +56,6 @@ export default function PtManageCard({ data }: PtManageCardProps) {
                                     src={PtManageUsers}
                                     alt="피드백 등록 완료"
                                     fill
-                                    priority
                                     sizes="w-8 h-8"
                                     className="object-cover"
                                 />
@@ -74,7 +80,6 @@ export default function PtManageCard({ data }: PtManageCardProps) {
                                         src={PtZonePtListsDeactivate}
                                         alt="피드백 등록 완료"
                                         fill
-                                        priority
                                         sizes="w-8 h-8"
                                         className="object-cover"
                                     />
@@ -90,7 +95,6 @@ export default function PtManageCard({ data }: PtManageCardProps) {
                                         src={PtZonePtListsActivate}
                                         alt="피드백 등록 완료"
                                         fill
-                                        priority
                                         sizes="w-8 h-8"
                                         className="object-cover"
                                     />

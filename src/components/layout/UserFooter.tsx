@@ -67,8 +67,8 @@ export default function UserFooter() {
             </div>
           </div>
           <div className="flex items-center gap-3">
-            <p className="flex items-center justify-center size-10 rounded-full bg-[#1E2939]">
-              <div className="relative w-4 h-4">
+            <div className="flex items-center justify-center size-10 rounded-full bg-[#1E2939]">
+              <p className="relative w-4 h-4">
                 <Image
                   src={FooterBlog}
                   alt="하단바 블로그 로고"
@@ -76,10 +76,10 @@ export default function UserFooter() {
                   sizes="w-8 h-8"
                   className="object-cover"
                 />
-              </div>
-            </p>
-            <p className="flex items-center justify-center size-10 rounded-full bg-[#1E2939]">
-              <div className="relative w-4 h-4">
+              </p>
+            </div>
+            <div className="flex items-center justify-center size-10 rounded-full bg-[#1E2939]">
+              <p className="relative w-4 h-4">
                 <Image
                   src={FooterInsta}
                   alt="하단바 인스타 로고"
@@ -87,10 +87,10 @@ export default function UserFooter() {
                   sizes="w-8 h-8"
                   className="object-cover"
                 />
-              </div>
-            </p>
-            <p className="flex items-center justify-center size-10 rounded-full bg-[#1E2939]">
-              <div className="relative w-4 h-4">
+              </p>
+            </div>
+            <div className="flex items-center justify-center size-10 rounded-full bg-[#1E2939]">
+              <p className="relative w-4 h-4">
                 <Image
                   src={FooterYoutube}
                   alt="하단바 유튜브 로고"
@@ -98,8 +98,8 @@ export default function UserFooter() {
                   sizes="w-8 h-8"
                   className="object-cover"
                 />
-              </div>
-            </p>
+              </p>
+            </div>
           </div>
         </div>
         <div className="flex flex-col gap-3.5">

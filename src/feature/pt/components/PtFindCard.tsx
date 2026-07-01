@@ -9,7 +9,6 @@ interface PtFindCardProps {
 
 
 export default function PtFindCard({ response }: PtFindCardProps) {
-    console.log(response);
     return (
         <div className="
         flex flex-col
@@ -31,7 +30,6 @@ export default function PtFindCard({ response }: PtFindCardProps) {
                         className="object-cover"
                     />
                 </div>    
-
             </div>
             <div className="flex flex-col gap-3 p-5">
                 <p className="text-[20px] text-white font-extrabold"> {response.title} </p>

@@ -34,7 +34,6 @@ export default function Page() {
               alt="메인페이지 설명이미지"
               fill
               priority
-              placeholder="blur"
               sizes="w-200 h-200"
               className="object-cover"
             />
