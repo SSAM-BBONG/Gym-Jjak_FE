@@ -49,7 +49,7 @@ export const metadata: Metadata = {
       "트레이너 검색부터 PT 예약, 운동 기록과 피드백까지 한곳에서 관리하세요.",
     images: [
       {
-        url: "이미지",
+        url: '/images/open-graph-img.png',
         width: 1200,
         height: 630,
         alt: "GYMJJAK 서비스 소개",
@@ -62,13 +62,9 @@ export const metadata: Metadata = {
     title: "GYMJJAK - 나에게 맞는 PT 파트너",
     description:
       "트레이너 검색부터 PT 예약, 운동 기록과 피드백까지 한곳에서 관리하세요.",
-    images: ["이미지"],
+    images: ['/images/open-graph-img.png'],
     creator: 'SSAMBBONG'
 
-  },
-
-  icons: {
-    icon: "이미지",
   },
 };
 
