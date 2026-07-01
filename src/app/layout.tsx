@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     "온라인 PT",
   ],
 
-  authors: [{ name: "SSAMBBONG", url: '링크' }],
+  authors: [{ name: "SSAMBBONG", url: 'https://13.124.200.97.sslip.io' }],
   creator: "SSAMBBONG",
   publisher: "SSAMBBONG",
 
