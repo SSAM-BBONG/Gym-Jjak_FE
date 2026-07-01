@@ -1,4 +1,5 @@
 import { MypageOrganization, OrganManageActive, OrganManageTrainer, OrganManageTrainerActive } from "@/components/ui/image";
+import Image from "next/image";
 import Link from "next/link";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
@@ -12,28 +13,60 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
                 <div className="flex gap-5">
                     <Link href="/mypage/organization/manage">
-                    <div className="flex gap-3 items-center border-[2px] border-b-[#BFFF0B]">
-                        <img src={MypageOrganization} width={20} height={20} alt="내 조직관리 운동시설"/>
-                        <img src={OrganManageActive} alt="내 조직관리 운동시설"/>
-                        <p className="text-[18px] font-extrabold text-[#BFFF0B]"> 운동시설 관리</p>
-                        <p className="text-[18px] font-extrabold text-[#99A1AF]"> 운동시설 관리</p>
-                    </div>
+                        <div className="flex gap-3 items-center border-[2px] border-b-[#BFFF0B]">
+                            <div className="relative w-5 h-5">
+                                <Image
+                                    src={MypageOrganization}
+                                    alt="내 조직관리 운동시설"
+                                    fill
+                                    sizes="w-10 h-10"
+                                    className="object-cover"
+                                />
+                            </div>
+                            <div className="relative w-5 h-5">
+                                <Image
+                                    src={OrganManageActive}
+                                    alt="내 조직관리 운동시설"
+                                    fill
+                                    sizes="w-10 h-10"
+                                    className="object-cover"
+                                />
+                            </div>
+                            <p className="text-[18px] font-extrabold text-[#BFFF0B]"> 운동시설 관리</p>
+                            <p className="text-[18px] font-extrabold text-[#99A1AF]"> 운동시설 관리</p>
+                        </div>
                     </Link>
 
                     <Link href="/mypage/organization/manage/trainer">
-                    <div className="flex gap-3 items-center">
-                        <img src={OrganManageTrainer} alt="내 조직관리 트레이너"/>
-                        <img src={OrganManageTrainerActive} alt="내 조직관리 트레이너"/>
-                        <p className="text-[18px] font-extrabold text-[#BFFF0B]">  트레이너 관리 </p>
-                        <p className="text-[18px] font-extrabold text-[#99A1AF]">  트레이너 관리 </p>
-                    </div>
+                        <div className="flex gap-3 items-center">
+                            <div className="relative w-5 h-5">
+                                <Image
+                                    src={OrganManageTrainer}
+                                    alt="내 조직관리 트레이너"
+                                    fill
+                                    sizes="w-10 h-10"
+                                    className="object-cover"
+                                />
+                            </div>
+                            <div className="relative w-5 h-5">
+                                <Image
+                                    src={OrganManageTrainerActive}
+                                    alt="내 조직관리 트레이너"
+                                    fill
+                                    sizes="w-10 h-10"
+                                    className="object-cover"
+                                />
+                            </div>
+                            <p className="text-[18px] font-extrabold text-[#BFFF0B]">  트레이너 관리 </p>
+                            <p className="text-[18px] font-extrabold text-[#99A1AF]">  트레이너 관리 </p>
+                        </div>
                     </Link>
                 </div>
-                <hr className="border-[#1E2939]"/>
-                </div>
-        <section className="pt-5 bg-[#0B0F19] px-20 min-h-screen">
-            {children}
-        </section>
+                <hr className="border-[#1E2939]" />
+            </div>
+            <section className="pt-5 bg-[#0B0F19] px-20 min-h-screen">
+                {children}
+            </section>
         </>
     );
 }

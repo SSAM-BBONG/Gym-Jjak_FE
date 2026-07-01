@@ -5,16 +5,17 @@ import { MypageTrainerProfileFormValue } from "@/lib/mypageTrainerProfileEditSch
 import { UseFormSetValue } from "react-hook-form";
 import { MyTrainerProfileData } from "../type";
 import { useEffect, useState } from "react";
+import Image from "next/image";
 
 interface MypageTrainerProfileProps {
-  data: MyTrainerProfileData;
-  mode: string;
-  setValue: UseFormSetValue<MypageTrainerProfileFormValue>;
-  error?: string;
+    data: MyTrainerProfileData;
+    mode: string;
+    setValue: UseFormSetValue<MypageTrainerProfileFormValue>;
+    error?: string;
 }
 
-export default function MypageTrainerProfile( {data, mode, setValue, error}: MypageTrainerProfileProps) {
-    
+export default function MypageTrainerProfile({ data, mode, setValue, error }: MypageTrainerProfileProps) {
+
     const [profileImageFile, setProfileImageFile] = useState<File | null>(null);
     const [profileImagePreview, setProfileImagePreview] = useState(
         data.profileImageUrl ?? ""
@@ -31,29 +32,29 @@ export default function MypageTrainerProfile( {data, mode, setValue, error}: Myp
         setProfileImagePreview(URL.createObjectURL(file));
 
         setValue("profileImageFile", file, {
-        shouldValidate: true,
-        shouldDirty: true,
+            shouldValidate: true,
+            shouldDirty: true,
         });
 
         setValue("profileImageAction", "REPLACE", {
-        shouldValidate: true,
-        shouldDirty: true,
+            shouldValidate: true,
+            shouldDirty: true,
         });
     };
 
     useEffect(() => {
         if (mode === "read") {
-        setProfileImageFile(null);
-        setProfileImagePreview(data.profileImageUrl ?? "");
-        setValue("profileImageFile", null);
-        setValue("profileImageAction", "KEEP");
+            setProfileImageFile(null);
+            setProfileImagePreview(data.profileImageUrl ?? "");
+            setValue("profileImageFile", null);
+            setValue("profileImageAction", "KEEP");
         }
     }, [mode, data.profileImageUrl, setValue]);
 
     useEffect(() => {
         return () => {
             if (profileImagePreview) {
-            URL.revokeObjectURL(profileImagePreview);
+                URL.revokeObjectURL(profileImagePreview);
             }
         };
     }, [profileImagePreview]);
@@ -67,35 +68,43 @@ export default function MypageTrainerProfile( {data, mode, setValue, error}: Myp
             border-[#36415380]
             rounded-[16px]
             ">
-                <p className="text-[20px] font-extrabold text-white"> 프로필 사진 </p>
-                <div className="flex gap-6 items-center">
-                    <div className="flex items-center justify-center size-35 border-[3px] border-[#BFFF0B] rounded-full overflow-hidden">
-                        <img 
-                            className="w-full h-full object-cover" 
-                            src={profileImagePreview} 
-                            alt="트레이너 프로필 수정 프로필 사진"/>
-                    </div>
-                    {!isReadOnly &&
-                    <>
-                    <label 
-                        htmlFor="trainer-profile-img-upload"
-                        className="flex gap-3 px-6 py-3 bg-[#BFFF0B] rounded-[10px] hover:cursor-pointer"
-                    > 
-                        <img src={TrainerProfileImgUpload} alt="트레이너 프로필 업로드 버튼"/>
-                        <p className="text-[16px] font-extrabold text-black"> 프로필 업로드 </p> 
-                    </label>
-                    <input 
-                        id="trainer-profile-img-upload" 
-                        type="file" 
-                        disabled={isReadOnly}
-                        name="profileImg"
-                        accept=".jpg,.jpeg,.png, image/jpeg,image/png"
-                        onChange={handleProfileChange}
-                        className="hidden" />
-                    </> 
-                    }
+            <p className="text-[20px] font-extrabold text-white"> 프로필 사진 </p>
+            <div className="flex gap-6 items-center">
+                <div className="flex items-center justify-center size-35 border-[3px] border-[#BFFF0B] rounded-full overflow-hidden">
+                    {/* <img
+                        className="w-full h-full object-cover"
+                        src={profileImagePreview}
+                        alt="트레이너 프로필 수정 프로필 사진" /> */}
                 </div>
-                {error && <p className="text-sm text-red-500">{error}</p>}
+                {!isReadOnly &&
+                    <>
+                        <label
+                            htmlFor="trainer-profile-img-upload"
+                            className="flex gap-3 px-6 py-3 bg-[#BFFF0B] rounded-[10px] hover:cursor-pointer"
+                        >
+                            <div className="relative w-4 h-4">
+                                <Image
+                                    src={TrainerProfileImgUpload}
+                                    alt="트레이너 프로필 업로드 버튼"
+                                    fill
+                                    sizes="w-8 h-8"
+                                    className="object-cover"
+                                />
+                            </div>
+                            <p className="text-[16px] font-extrabold text-black"> 프로필 업로드 </p>
+                        </label>
+                        <input
+                            id="trainer-profile-img-upload"
+                            type="file"
+                            disabled={isReadOnly}
+                            name="profileImg"
+                            accept=".jpg,.jpeg,.png, image/jpeg,image/png"
+                            onChange={handleProfileChange}
+                            className="hidden" />
+                    </>
+                }
+            </div>
+            {error && <p className="text-sm text-red-500">{error}</p>}
         </div>
     );
 }

@@ -4,6 +4,7 @@ import { CloseButton, OrganizationTrainerDefaultProfile, OrganizationTrainerNotF
 import { useState, useTransition } from "react";
 import { OrganizationManageTrainerSearchItem } from "../type";
 import { addorganizationTrainerAction, organizationTrainerSearchAction } from "../action";
+import Image from "next/image";
 
 interface TrainerDetailModal {
     isModal: boolean;
@@ -12,7 +13,7 @@ interface TrainerDetailModal {
 }
 
 
-export default function OrganizationTrainerAddForm({ isModal, closeModal, activeModal}: TrainerDetailModal) {
+export default function OrganizationTrainerAddForm({ isModal, closeModal, activeModal }: TrainerDetailModal) {
     if (!isModal) return null;
 
     const [keyword, setKeyword] = useState("");
@@ -22,12 +23,12 @@ export default function OrganizationTrainerAddForm({ isModal, closeModal, active
     const handleSearchClick = async () => {
         const result = await organizationTrainerSearchAction(keyword);
 
-            if (!result.success) {
+        if (!result.success) {
             setTrainers([]);
             return;
-            }
+        }
 
-            setTrainers(result.data?.content ?? []);
+        setTrainers(result.data?.content ?? []);
     };
 
     const handleAddClick = async (trainerProfileId: number) => {
@@ -37,7 +38,7 @@ export default function OrganizationTrainerAddForm({ isModal, closeModal, active
     }
 
     return (
-       <section
+        <section
             className="z-999 bg-black/50 fixed top-0 left-0 w-screen h-screen"
             onClick={closeModal} >
             <form
@@ -46,61 +47,92 @@ export default function OrganizationTrainerAddForm({ isModal, closeModal, active
                 <article>
                     <div className="flex justify-between border-b-[#1E2939] border-b items-center pb-6 pt-2">
                         <h3 className="font-bold text-xl text-[#E8EAF0]">트레이너 추가</h3>
-                        <img src={CloseButton} onClick={closeModal} />
-                    </div>
-
-                    <div className="flex flex-col gap-3 py-6">   
-                        <p className="text-[18px] font-extrabold text-white"> 사용자 ID 검색</p>
-                    <div className="flex gap-2">
-                        <input 
-                            type="text" 
-                            value={keyword}
-                            onChange={(e) => setKeyword(e.target.value)}
-                            placeholder="사용자 ID를 입력하세요"
-                            className="flex-1 border border-[#364153] rounded-[10px] px-4 py-3 bg-[#1E2939] text-[16px] text-white font-normal"
+                        <button onClick={closeModal} className="relative ml-auto w-5 h-5">
+                            <Image
+                                src={CloseButton}
+                                alt="모달 닫기 버튼"
+                                fill
+                                sizes="w-4 h-4"
                             />
-                        <button 
-                            type="button"
-                            onClick={handleSearchClick}
-                            className="flex gap-3 items-center px-6 py-3 rounded-[10px] bg-[#BFFF0B]"> 
-                            <img src={OrganTrainerAdd} alt="조직 트레이너 검색"/>
-                            <p className="text-black font-semibold">  검색 </p> 
                         </button>
                     </div>
+
+                    <div className="flex flex-col gap-3 py-6">
+                        <p className="text-[18px] font-extrabold text-white"> 사용자 ID 검색</p>
+                        <div className="flex gap-2">
+                            <input
+                                type="text"
+                                value={keyword}
+                                onChange={(e) => setKeyword(e.target.value)}
+                                placeholder="사용자 ID를 입력하세요"
+                                className="flex-1 border border-[#364153] rounded-[10px] px-4 py-3 bg-[#1E2939] text-[16px] text-white font-normal"
+                            />
+                            <button
+                                type="button"
+                                onClick={handleSearchClick}
+                                className="flex gap-3 items-center px-6 py-3 rounded-[10px] bg-[#BFFF0B]">
+                                <div className="relative w-5 h-5">
+                                    <Image
+                                        src={OrganTrainerAdd}
+                                        alt="조직 트레이너 검색"
+                                        fill
+                                        sizes="w-10 h-10"
+                                        className="object-cover hover:cursor-pointer"
+                                    />
+                                </div>
+                                <p className="text-black font-semibold">  검색 </p>
+                            </button>
+                        </div>
                     </div>
 
                     <div className="flex flex-col border border-[#364153] rounded-[20px] overflow-hidden mb-5">
                         <p className="w-full text-[14px] text-[#99A1AF] font-semibold px-5 py-3 border-b border-[#364153] bg-[#1E293999]"> 검색 결과</p>
                         {trainers.map((trainer) => (
-                        <>
-                        <div
-                            key={trainer.trainerProfileId} 
-                            className="flex justify-between items-center px-6 py-5 bg-[#182232]">
-                            <div className="flex gap-3 items-center">
-                                <img src={OrganizationTrainerDefaultProfile}/>
-                                <div className="flex flex-col gap-1">
-                                    <p className="text-[18px] text-white font-bold"> {trainer.name}</p>
-                                    <div className="flex gap-5">
-                                        <p className="text-[14px] font-normal text-[#6A7282]"> {trainer.nickname} </p>
-                                        <p className="text-[14px] font-normal text-[#6A7282]"> {trainer.username}</p>
+                            <>
+                                <div
+                                    key={trainer.trainerProfileId}
+                                    className="flex justify-between items-center px-6 py-5 bg-[#182232]">
+                                    <div className="flex gap-3 items-center">
+                                        <div className="relative w-12.5 h-12.5">
+                                            <Image
+                                                src={OrganizationTrainerDefaultProfile}
+                                                alt="트레이너 프로필"
+                                                fill
+                                                sizes="w-25 h-25"
+                                                className="object-cover hover:cursor-pointer"
+                                            />
+                                        </div>
+                                        <div className="flex flex-col gap-1">
+                                            <p className="text-[18px] text-white font-bold"> {trainer.name}</p>
+                                            <div className="flex gap-5">
+                                                <p className="text-[14px] font-normal text-[#6A7282]"> {trainer.nickname} </p>
+                                                <p className="text-[14px] font-normal text-[#6A7282]"> {trainer.username}</p>
+                                            </div>
+                                        </div>
                                     </div>
+                                    <button
+                                        type="button"
+                                        onClick={() => handleAddClick(trainer.trainerProfileId)}
+                                        className="px-5 py-2 text-black text-[16px] font-bold bg-[#BFFF0B] rounded-[10px]"> + 추가</button>
                                 </div>
-                            </div>
-                            <button 
-                                type="button"
-                                onClick={() => handleAddClick(trainer.trainerProfileId)}
-                                className="px-5 py-2 text-black text-[16px] font-bold bg-[#BFFF0B] rounded-[10px]"> + 추가</button>
-                        </div>
-                        {!trainers &&
-                        <div className="flex gap-3 items-center px-6 py-5 bg-[#182232]">
-                            <img src={OrganizationTrainerNotFound}/>
-                            <div className="flex flex-col gap-1">
-                                <p className="text-[16px] text-[#FF6467] font-bold"> 사용자를 찾을 수 없습니다</p>
-                                <p className="text-[12px] font-normal text-[#6A7282]"> 트레이너ID와 일치하는 사용자가 없습니다. ID를 다시 확인해주세요 </p>
-                            </div>
-                        </div> 
-                        }   
-                        </>
+                                {!trainers &&
+                                    <div className="flex gap-3 items-center px-6 py-5 bg-[#182232]">
+                                        <div className="relative w-5 h-5">
+                                            <Image
+                                                src={OrganizationTrainerNotFound}
+                                                alt="조직 트레이너 검색 없음"
+                                                fill
+                                                sizes="w-10 h-10"
+                                                className="object-cover hover:cursor-pointer"
+                                            />
+                                        </div>
+                                        <div className="flex flex-col gap-1">
+                                            <p className="text-[16px] text-[#FF6467] font-bold"> 사용자를 찾을 수 없습니다</p>
+                                            <p className="text-[12px] font-normal text-[#6A7282]"> 트레이너ID와 일치하는 사용자가 없습니다. ID를 다시 확인해주세요 </p>
+                                        </div>
+                                    </div>
+                                }
+                            </>
                         ))}
                     </div>
 

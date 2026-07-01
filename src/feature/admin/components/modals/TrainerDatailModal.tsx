@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import InfoCard from "../InfoCard";
 import { TrainerAdminDetailAction, TrainerApplicationAdminDetailAction } from "../../action";
 import TrainerApplicationStatus from "./TrainerApplicationStatus";
+import Image from "next/image";
 
 interface TrainerDetailModal {
     isModal: boolean;
@@ -77,10 +78,22 @@ export default function TrainerDetailModal({ isModal, closeModal, activeModal, n
                 <article>
                     <div className="flex justify-between border-b-[#1E2939] border-b items-center pb-8 pt-2">
                         <h3 className="font-bold text-xl text-[#E8EAF0]">트레이너 상세 정보</h3>
-                        <img src={CloseButton} onClick={closeModal} />
+                        <Image
+                            src={CloseButton}
+                            alt="모달 닫기 버튼"
+                            fill
+                            sizes="w-4 h-4"
+                        />
                     </div>
                     <div className="flex items-center my-4 gap-6">
-                        <img className="w-30 h-30" src={profileImageUrl} alt="트레이너 프로필 사진" />
+                        <div className="w-30 h-30">
+                            <Image
+                                src={profileImageUrl}
+                                alt="트레이너 프로필 사진"
+                                fill
+                                sizes="w-30 h-30"
+                            />
+                        </div>
                         <div>
                             <h3 className="font-bold text-xl text-[#E8EAF0] py-2">{trainerApplicationInfo.name || trainerInfo.trainerName}</h3>
                             <p className="font-normal text-base text-[#E8EAF0]">{trainerApplicationInfo.nickname}</p>

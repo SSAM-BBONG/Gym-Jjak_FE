@@ -6,6 +6,7 @@ import OrganizationDetailModal from "./modals/OrganizationDetailModal";
 import TwoButtonModal from "@/components/ui/TwoButtonModal";
 import { organizationApprovalAction } from "../action";
 import OrganizationRejectModal from "./modals/OrganizationRejectModal";
+import Image from "next/image";
 
 interface DetailButtonMode {
     mode: 'organizationView' | 'organizationApprove';
@@ -39,7 +40,14 @@ export default function OrganizationDetailButton({ mode, organizationId }: Detai
             <button
                 onClick={organizationModal.openModal}
                 className="flex items-center gap-2.5 text-sm font-medium text-white bg-[#1E2939] border-[#364153] border rounded-lg py-2 px-3">
-                <img src={DetailButtonImg} /> 상세보기
+                <div className="relative ml-auto w-5 h-5">
+                    <Image
+                        src={DetailButtonImg}
+                        alt="상세보기 버튼"
+                        fill
+                        sizes="w-4 h-4"
+                    />
+                </div> 상세보기
             </button>
 
             <OrganizationDetailModal

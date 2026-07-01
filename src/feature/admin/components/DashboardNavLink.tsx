@@ -1,6 +1,7 @@
 'use client'
 
 import { AdminActiveDashboard, AdminDashboard } from "@/components/ui/image";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -17,7 +18,15 @@ export default function DashboardNavLink({ href, children }: AdminNavLinkProps) 
 
     return (
         <Link href={href} className={isActive ? active : noneActive}>
-            <img src={isActive ? AdminActiveDashboard : AdminDashboard} />{children}
+            <div className="relative w-5 h-5">
+                <Image
+                    src={isActive ? AdminActiveDashboard : AdminDashboard}
+                    alt="대시보드"
+                    fill
+                    sizes="w-10 h-10"
+                />
+            </div>
+            {children}
         </Link>
     );
 }

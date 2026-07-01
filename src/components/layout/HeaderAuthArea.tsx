@@ -7,6 +7,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import AlarmSocket from "@/feature/alarm/components/AlarmSocket";
+import Image from "next/image";
 
 type HeaderUser = Awaited<ReturnType<typeof getHeaderUserAction>>;
 
@@ -51,13 +52,29 @@ export default function HeaderAuthArea() {
             )}
             <Link href="/alarm">
                 <div className="relative">
-                    <img src={Alarm} alt="알림" />
+                    <div className="relative w-5 h-5">
+                        <Image
+                            src={Alarm}
+                            alt="알림"
+                            fill
+                            sizes="w-10 h-10"
+                            className="object-cover"
+                        />
+                    </div>
                     <div className="absolute left-2 font-extrabold text-[10px] top-[-4] size-4 flex items-center justify-center bg-[#BFFF0B] text-black rounded-full"> 5 </div>
                 </div>
             </Link>
             <Link href="/chat">
                 <div className="relative">
-                    <img src={chat} alt="채팅" />
+                    <div className="relative w-5 h-5">
+                        <Image
+                            src={chat}
+                            alt="채팅"
+                            fill
+                            sizes="w-10 h-10"
+                            className="object-cover"
+                        />
+                    </div>
                     <div className="absolute left-2 font-extrabold text-[10px] top-[-4] size-4 flex items-center justify-center bg-[#BFFF0B] text-black rounded-full"> 5 </div>
                 </div>
             </Link>

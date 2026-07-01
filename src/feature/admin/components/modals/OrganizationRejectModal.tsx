@@ -1,5 +1,6 @@
 import { CloseButton } from "@/components/ui/image";
 import { organizationRejectAction } from "../../action";
+import Image from "next/image";
 
 interface OrganizationRejectModal {
     isModal: boolean;
@@ -23,7 +24,12 @@ export default function OrganizationRejectModal({ isModal, closeModal, activeMod
                 <article>
                     <div className="flex justify-between border-b-[#1E2939] border-b items-center pb-8 pt-2">
                         <h3 className="font-bold text-xl text-[#E8EAF0]">조직 반려 사유 입력</h3>
-                        <img src={CloseButton} onClick={closeModal} />
+                        <Image
+                            src={CloseButton}
+                            alt="모달 닫기 버튼"
+                            fill
+                            sizes="w-4 h-4"
+                        />
                     </div>
 
                     <textarea

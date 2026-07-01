@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { OrganizationAdminDetailAction, OrganizationApplicationAdminDetailAction } from "../../action";
 import OrganizationTrainerList from "@/app/admin/members/organizations/OrganizationTrainersList";
 import UrlCt from "../UrlCt";
+import Image from "next/image";
 
 interface OrganizationDetailModalProps {
     isModal: boolean;
@@ -102,8 +103,14 @@ export default function OrganizationDetailModal({ isModal, closeModal, activeMod
                 <article>
                     <div className="flex justify-between border-b-[#1E2939] border-b items-center pb-8 pt-2">
                         <h3 className="font-bold text-xl text-[#E8EAF0]">조직 상세 정보</h3>
-                        <img src={CloseButton} onClick={closeModal} />
-                    </div>
+                        <button onClick={closeModal} className="relative ml-auto w-5 h-5">
+                            <Image
+                                src={CloseButton}
+                                alt="모달 닫기 버튼"
+                                fill
+                                sizes="w-4 h-4"
+                            />
+                        </button>                    </div>
                     <section className="flex flex-col gap-6">
                         <article>
                             <AdminModalP title='아이디' />
@@ -114,7 +121,14 @@ export default function OrganizationDetailModal({ isModal, closeModal, activeMod
                             <div
                                 className="flex items-center gap-4 border-[#364153] border w-full p-4 mt-2 bg-[#1E2939] rounded-md text-[#D1D5DC] text-base font-normal"
                             >
-                                <img src={AdminDocument} />
+                                <div className="relative ml-auto w-5 h-5">
+                                    <Image
+                                        src={AdminDocument}
+                                        alt="문서 버튼"
+                                        fill
+                                        sizes="w-4 h-4"
+                                    />
+                                </div>
                                 <div>
                                     <p className="text-white">{organizationApplicationInfo.businessLicenseOriginalName || organizationInfo.businessLicenseOriginalName}</p>
                                 </div>

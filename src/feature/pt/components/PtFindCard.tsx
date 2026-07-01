@@ -9,7 +9,6 @@ interface PtFindCardProps {
 
 
 export default function PtFindCard({ response }: PtFindCardProps) {
-    console.log(response);
     return (
         <div className="
         flex flex-col
@@ -18,15 +17,19 @@ export default function PtFindCard({ response }: PtFindCardProps) {
         bg-[linear-gradient(135deg,rgba(16,24,40,0.90)0%,rgba(30,41,57,0.90)100%)]
         border border-[#36415380] rounded-[14px]
         ">  
-            <Link href={`/pt/${response.ptCourseId}`}>
+            <Link 
+                data-testid="pt-card-link"
+                href={`/pt/${response.ptCourseId}`}>
             <div>
-                <div className="size-80 overflow-hidden">
-                    <img 
-                        className="w-full h-full object-cover"
+                <div className="relative size-80 overflow-hidden">
+                    <Image
                         src={response.thumbnailUrl}
+                        alt={`${response.title} 썸네일`}
+                        fill
+                        sizes="320px"
+                        className="object-cover"
                     />
                 </div>    
-
             </div>
             <div className="flex flex-col gap-3 p-5">
                 <p className="text-[20px] text-white font-extrabold"> {response.title} </p>
@@ -44,7 +47,12 @@ export default function PtFindCard({ response }: PtFindCardProps) {
                     <p className="text-[14px] font-normal text-[#99A1AF]"> {response.roadAddress } </p>
                 </div>
                 <div className="flex gap-2 items-center text-[14px]">
-                    <img src={PtfindStar} alt="PT 카드 별점"/>
+                    <Image
+                        src={PtfindStar}
+                        alt="PT 카드 별점"
+                        width={15}
+                        height={15}    
+                    />
                     <p className="font-extrabold text-[#BFFF0B]"> 
                         {response.averageRating}<span className="text-[#6A7282] font-normal">({response.reviewCount}개의 리뷰)</span> </p>
                 </div>

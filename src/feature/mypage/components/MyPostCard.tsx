@@ -3,6 +3,7 @@ import {
   CommunityLike,
   CommunityView,
 } from "@/components/ui/image";
+import Image from "next/image";
 
 export default function MyPostCard() {
   return (
@@ -26,15 +27,39 @@ export default function MyPostCard() {
       </p>
       <div className="flex gap-3 mt-2">
         <div className="flex gap-1 items-center">
-          <img src={CommunityLike} alt="커뮤니티 좋아요수" />
+          <div className="relative w-4 h-4">
+            <Image
+              src={CommunityLike}
+              alt="커뮤니티 좋아요수"
+              fill
+              sizes="w-8 h-8"
+              className="object-cover"
+            />
+          </div>
           <p className="text-[12px] font-normal text-[#6A7282]"> 24</p>
         </div>
         <div className="flex gap-1 items-center">
-          <img src={CommunityComment} alt="커뮤니티 댓글수" />
+          <div className="relative w-4 h-4">
+            <Image
+              src={CommunityComment}
+              alt="커뮤니티 댓글수"
+              fill
+              sizes="w-8 h-8"
+              className="object-cover"
+            />
+          </div>
           <p className="text-[12px] font-normal text-[#6A7282]"> 12</p>
         </div>
         <div className="flex gap-1 items-center">
-          <img src={CommunityView} alt="커뮤니티 조회수" />
+          <div className="relative w-4 h-4">
+            <Image
+              src={CommunityView}
+              alt="커뮤니티 조회수"
+              fill
+              sizes="w-8 h-8"
+              className="object-cover"
+            />
+          </div>
           <p className="text-[12px] font-normal text-[#6A7282]"> 255</p>
         </div>
       </div>

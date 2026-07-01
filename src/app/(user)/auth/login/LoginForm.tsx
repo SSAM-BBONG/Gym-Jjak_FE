@@ -41,9 +41,10 @@ export default function LoginForm() {
                     type="password"
                     placeholder="비밀번호를 입력해주세요"
                     className="w-full focus:outline-0"
-                /><img />
+                />
             </div>
             <button
+                data-testid="login-submit-button"
                 onClick={modal.openModal}
                 className="w-full text-base font-bold mb-6 text-black bg-[#BFFF0B] py-4 rounded-md">
                 로그인

@@ -7,6 +7,7 @@ import { CloseButton, MypageMyActivity, PtFeedBackOnBoard, PtRecordVideo } from 
 import { createPtFeedbackAction } from "../actions";
 import type { StudentFeedbackCurriculum } from "../type";
 import { ptFeedbackSchema, PtFeedbackFormValue } from "@/lib/ptFeedbackSchema";
+import Image from "next/image";
 
 interface PtFeeBackRegistModalProps {
   isModal: boolean;
@@ -17,13 +18,13 @@ interface PtFeeBackRegistModalProps {
 }
 
 export default function PtFeeBackRegistModal({
-    isModal,
+  isModal,
   closeModal,
   reservationId,
   ptCourseId,
   curriculum,
 }: PtFeeBackRegistModalProps) {
-    // AI의 작성 코드
+  // AI의 작성 코드
   const [submitError, setSubmitError] = useState("");
 
   const {
@@ -112,8 +113,14 @@ export default function PtFeeBackRegistModal({
                 피드백 등록
               </h3>
 
-              <button type="button" onClick={closeModal}>
-                <img src={CloseButton} alt="닫기" />
+              <button onClick={closeModal} className="relative ml-auto w-5 h-5">
+                <Image
+                  src={CloseButton}
+                  alt="모달 닫기 버튼"
+                  fill
+                  priority
+                  sizes="w-4 h-4"
+                />
               </button>
             </div>
 
@@ -124,7 +131,16 @@ export default function PtFeeBackRegistModal({
 
           <div className="flex flex-col gap-6 mt-6">
             <div className="flex gap-2 items-center">
-              <img src={PtRecordVideo} alt="영상 피드백" />
+              <div className="relative w-4 h-4">
+                <Image
+                  src={PtRecordVideo}
+                  alt="피드백 동영상"
+                  fill
+                  priority
+                  sizes="w-8 h-8"
+                  className="object-cover"
+                />
+              </div>
               <p className="text-[14px] font-extrabold text-[#BFFF0B]">
                 영상 피드백
               </p>
@@ -140,15 +156,32 @@ export default function PtFeeBackRegistModal({
                 "
               >
                 <div className="flex gap-3">
-                  <img src={PtFeedBackOnBoard} alt="Before 영상" />
+                  <div className="relative w-6 h-6">
+                    <Image
+                      src={PtFeedBackOnBoard}
+                      alt="피드백 녹화"
+                      fill
+                      priority
+                      sizes="w-12 h-12"
+                      className="object-cover"
+                    />
+                  </div>
                   <p className="text-[14px] font-extrabold text-[#D1D5DC]">
                     Before 영상
                   </p>
                 </div>
 
                 <div className="flex flex-col items-center gap-3">
-                  <img src={PtRecordVideo} width={65} height={65} alt="Before 영상 업로드" />
-
+                  <div className="relative w-15 h-15">
+                    <Image
+                      src={PtRecordVideo}
+                      alt="BEFORE 영상 업로드"
+                      fill
+                      priority
+                      sizes="w-30 h-30"
+                      className="object-cover"
+                    />
+                  </div>
                   <p className="text-[12px] font-normal text-[#99A1AF] text-center">
                     {beforeFile ? beforeFile.name : "Before 영상을 업로드해주세요."}
                   </p>
@@ -193,15 +226,32 @@ export default function PtFeeBackRegistModal({
                 "
               >
                 <div className="flex gap-3">
-                  <img src={PtFeedBackOnBoard} alt="After 영상" />
+                  <div className="relative w-6 h-6">
+                    <Image
+                      src={PtFeedBackOnBoard}
+                      alt="피드백 녹화"
+                      fill
+                      priority
+                      sizes="w-12 h-12"
+                      className="object-cover"
+                    />
+                  </div>
                   <p className="text-[14px] font-extrabold text-[#D1D5DC]">
                     After 영상
                   </p>
                 </div>
 
                 <div className="flex flex-col items-center gap-3">
-                  <img src={PtRecordVideo} width={65} height={65} alt="After 영상 업로드" />
-
+                  <div className="relative w-15 h-15">
+                    <Image
+                      src={PtRecordVideo}
+                      alt=" AFTER 영상 업로드"
+                      fill
+                      priority
+                      sizes="w-30 h-30"
+                      className="object-cover"
+                    />
+                  </div>
                   <p className="text-[12px] font-normal text-[#99A1AF] text-center">
                     {afterFile ? afterFile.name : "After 영상을 업로드해주세요."}
                   </p>
@@ -240,8 +290,16 @@ export default function PtFeeBackRegistModal({
 
             <div className="flex flex-col gap-4 mb-6">
               <div className="flex gap-2 items-center">
-                <img src={MypageMyActivity} width={20} height={20} alt="텍스트 피드백" />
-                <p className="text-[14px] font-extrabold text-[#BFFF0B]">
+                <div className="relative w-5 h-5">
+                  <Image
+                    src={MypageMyActivity}
+                    alt="피드백 텍스트 피드백"
+                    fill
+                    priority
+                    sizes="w-10 h-10"
+                    className="object-cover"
+                  />
+                </div>                <p className="text-[14px] font-extrabold text-[#BFFF0B]">
                   텍스트 피드백
                 </p>
               </div>

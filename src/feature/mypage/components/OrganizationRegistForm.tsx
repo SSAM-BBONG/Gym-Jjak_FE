@@ -11,6 +11,7 @@ import OrganizationRegistBusinessVerification from "./OrganizationRegistBusiness
 import { Resolver, SubmitHandler, useForm } from "react-hook-form";
 import { OrganizationApplicationFormValue, organizationApplicationSchema } from "@/lib/organizationApplicationSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import Image from "next/image";
 
 // 조직 신청 폼 타입
 interface OrganizationRegistFormProps {
@@ -20,8 +21,8 @@ interface OrganizationRegistFormProps {
 }
 
 
-export default function OrganizationRegistForm({mode = "create", application}: OrganizationRegistFormProps) {
-    
+export default function OrganizationRegistForm({ mode = "create", application }: OrganizationRegistFormProps) {
+
     const handleCancelClick = async () => {
         const applicationId = application?.organizationApplicationId;
 
@@ -40,7 +41,7 @@ export default function OrganizationRegistForm({mode = "create", application}: O
         formState: { errors, isSubmitting },
     } = useForm<OrganizationApplicationFormValue>({
         resolver: zodResolver(
-        organizationApplicationSchema
+            organizationApplicationSchema
         ) as Resolver<OrganizationApplicationFormValue>,
         defaultValues: {
             requestedLoginId: application?.requestedLoginId ?? "",
@@ -71,8 +72,8 @@ export default function OrganizationRegistForm({mode = "create", application}: O
         formData.append("businessLicenseFile", values.businessLicenseFile);
         formData.append("requestedLoginId", values.requestedLoginId);
         formData.append(
-        "businessRegistrationNumber",
-        values.businessRegistrationNumber
+            "businessRegistrationNumber",
+            values.businessRegistrationNumber
         );
         formData.append("businessName", values.businessName);
         formData.append("representativeName", values.representativeName);
@@ -90,103 +91,111 @@ export default function OrganizationRegistForm({mode = "create", application}: O
 
         await createOrganizationApplicationAction(formData);
     };
-  
+
     return (
         // 읽기전용에서는 신청되지 않게 설정
         <form onSubmit={isReadOnly ? undefined : handleSubmit(onSubmit)}>
-        <div className="flex flex-col px-60 pt-10 gap-8">
-            <div className="flex justify-between items-center">
-                <div className="flex flex-col gap-2">
-                    <p className="text-[36px] font-black text-white"> {isReadOnly ? "조직 신청 조회" : "조직 계정 신청"} </p>
-                    <p className="text-[14px] font-normal text-[#99A1AF]"> {isReadOnly ? "입력한 조직 신청 정보를 확인하세요" : "운동시설 정보를 입력하여 조직 계정을 신청하세요"} </p>
+            <div className="flex flex-col px-60 pt-10 gap-8">
+                <div className="flex justify-between items-center">
+                    <div className="flex flex-col gap-2">
+                        <p className="text-[36px] font-black text-white"> {isReadOnly ? "조직 신청 조회" : "조직 계정 신청"} </p>
+                        <p className="text-[14px] font-normal text-[#99A1AF]"> {isReadOnly ? "입력한 조직 신청 정보를 확인하세요" : "운동시설 정보를 입력하여 조직 계정을 신청하세요"} </p>
+                    </div>
+                    {isReadOnly &&
+                        <div>
+                            <button
+                                type="button"
+                                className="bg-[#BFFF0B] rounded-[10px] py-2 px-4 text-black font-bold text-[16px] hover:cursor-pointer"
+                                onClick={handleCancelClick}
+                            > 신청 취소 </button>
+                        </div>
+                    }
                 </div>
-                {isReadOnly &&
-                <div>
-                    <button
-                        type="button"
-                        className="bg-[#BFFF0B] rounded-[10px] py-2 px-4 text-black font-bold text-[16px] hover:cursor-pointer"
-                        onClick={handleCancelClick}
-                        > 신청 취소 </button>
-                </div>
-                }
-                </div>
-            <div className="
+                <div className="
             border border-[#2B7FFF4D] rounded-[16px]
             bg-[linear-gradient(135deg,rgba(28,57,142,0.20)0%,rgba(25,60,184,0.10)100%)]
             p-6">
-                <div className="flex gap-3 items-start">
-                    <img src={OrganApplicationDanger} alt="조직 계정 신청 절차"/>
-                    <div className="flex flex-col">
-                        <p className="text-[18px] font-extrabold text-[#51A2FF] self-start"> 신청 절차 안내</p>
-                        <p className="text-[14px] font-normal text-[#D1D5DC]"> 1. 아래 정보를 입력하고 신청 </p>
-                        <p className="text-[14px] font-normal text-[#D1D5DC]"> 2. 관리자가 제출된 정보 검증 (영업일 기준 2-3일) </p>
-                        <p className="text-[14px] font-normal text-[#D1D5DC]"> 3. 승인 시 신청자 이메일로 조직 계정 정보 발송 </p>
+                    <div className="flex gap-3 items-start">
+                        <div className="relative w-5 h-5">
+                            <Image
+                                src={OrganApplicationDanger}
+                                alt="조직 계정 신청 절차"
+                                fill
+                                sizes="w-10 h-10"
+                                className="object-cover hover:cursor-pointer"
+                            />
+                        </div>
+                        <div className="flex flex-col">
+                            <p className="text-[18px] font-extrabold text-[#51A2FF] self-start"> 신청 절차 안내</p>
+                            <p className="text-[14px] font-normal text-[#D1D5DC]"> 1. 아래 정보를 입력하고 신청 </p>
+                            <p className="text-[14px] font-normal text-[#D1D5DC]"> 2. 관리자가 제출된 정보 검증 (영업일 기준 2-3일) </p>
+                            <p className="text-[14px] font-normal text-[#D1D5DC]"> 3. 승인 시 신청자 이메일로 조직 계정 정보 발송 </p>
+                        </div>
                     </div>
                 </div>
+
+                <OrganizationRegistId
+                    register={register}
+                    application={application}
+                    isReadOnly={isReadOnly}
+                    error={errors.requestedLoginId?.message}
+                />
+
+                <OrganizationRegistBusinessFile
+                    setValue={setValue}
+                    resetField={resetField}
+                    error={errors.businessLicenseFile?.message}
+                    application={application}
+                    isReadOnly={isReadOnly}
+                />
+
+                <OrganizationRegistBusinessVerification
+                    register={register}
+                    errors={{
+                        businessRegistrationNumber: errors.businessRegistrationNumber?.message,
+                        businessName: errors.businessName?.message,
+                        representativeName: errors.representativeName?.message,
+                        openingDate: errors.openingDate?.message,
+                    }}
+                    isReadOnly={isReadOnly}
+                    application={application}
+                />
+
+                <OrganizationRegistBusinessInformation
+                    register={register}
+                    setValue={setValue}
+                    errors={{
+                        roadAddress: errors.roadAddress?.message,
+                        representativePhone: errors.representativePhone?.message,
+                        facilityPhone: errors.facilityPhone?.message,
+                        detailAddress: errors.detailAddress?.message,
+                    }}
+                    application={application}
+                    isReadOnly={isReadOnly}
+                />
+
+                <OrganizationRegistLink
+                    register={register}
+                    errors={{
+                        instagramUrl: errors.instagramUrl?.message,
+                        blogUrl: errors.blogUrl?.message,
+                        websiteUrl: errors.websiteUrl?.message,
+                    }}
+                    isReadOnly={isReadOnly}
+                    application={application}
+                />
+
+                {/* 읽기모드에서는 안보이게 설정 */}
+                {!isReadOnly && (
+                    <div className="flex gap-3 mb-15">
+                        <button className="py-4 text-[16px] font-extrabold text-white flex-1 bg-[#1E2939] rounded-[10px]"> 취소 </button>
+                        <button
+                            type="submit"
+                            disabled={isSubmitting}
+                            className="py-4 text-[16px] font-extrabold text-black flex-1 bg-[#BFFF0B] rounded-[10px]"> {isSubmitting ? "신청  중..." : "신청하기"} </button>
+                    </div>
+                )}
             </div>
-
-            <OrganizationRegistId
-                register={register} 
-                application={application}
-                isReadOnly={isReadOnly}
-                error={errors.requestedLoginId?.message}
-            />
-
-            <OrganizationRegistBusinessFile
-                setValue={setValue}
-                resetField={resetField}
-                error={errors.businessLicenseFile?.message}
-                application={application}
-                isReadOnly={isReadOnly}           
-            />
-
-            <OrganizationRegistBusinessVerification
-                register={register}
-                errors={{
-                    businessRegistrationNumber: errors.businessRegistrationNumber?.message,
-                    businessName: errors.businessName?.message,
-                    representativeName: errors.representativeName?.message,
-                    openingDate: errors.openingDate?.message,
-                }}
-                isReadOnly={isReadOnly}
-                application={application}
-            />
-
-            <OrganizationRegistBusinessInformation 
-                register={register}
-                setValue={setValue}
-                errors={{
-                    roadAddress: errors.roadAddress?.message,
-                    representativePhone: errors.representativePhone?.message,
-                    facilityPhone: errors.facilityPhone?.message,
-                    detailAddress: errors.detailAddress?.message,
-                }}
-                application={application}
-                isReadOnly={isReadOnly}
-            />
-
-            <OrganizationRegistLink 
-                register={register}
-                errors={{
-                    instagramUrl: errors.instagramUrl?.message,
-                    blogUrl: errors.blogUrl?.message,
-                    websiteUrl: errors.websiteUrl?.message,
-                }}
-                isReadOnly={isReadOnly}
-                application={application}
-            />
-            
-            {/* 읽기모드에서는 안보이게 설정 */}
-            {!isReadOnly && (
-                <div className="flex gap-3 mb-15">
-                    <button className="py-4 text-[16px] font-extrabold text-white flex-1 bg-[#1E2939] rounded-[10px]"> 취소 </button>
-                    <button 
-                        type="submit"
-                        disabled={isSubmitting}
-                        className="py-4 text-[16px] font-extrabold text-black flex-1 bg-[#BFFF0B] rounded-[10px]"> {isSubmitting ? "신청  중..." : "신청하기"} </button>
-                </div>
-            )}
-        </div>
         </form>
     );
 }

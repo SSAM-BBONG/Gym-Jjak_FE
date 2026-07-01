@@ -78,7 +78,7 @@ export default function RegisterForm() {
                     {...register('password')}
                     placeholder="비밀번호를 입력해주세요"
                     className="w-full focus:outline-0"
-                /><img />
+                />
             </div>
             {errors.password?.message ? <p className="text-red-400 text-sm m-1 mb-5">{errors.password?.message}</p> : <p className="text-[#99A1AF] text-sm m-1 mb-5">숫자, 영어, 특수문자를 포함하여 8~16자로 작성해주세요</p>}
             <label
@@ -94,7 +94,7 @@ export default function RegisterForm() {
                     {...register('passwordCheck')}
                     placeholder="비밀번호를 다시 입력해주세요"
                     className="w-full focus:outline-0"
-                /><img />
+                />
             </div>
             {errors.passwordCheck?.message ? <p className="text-red-400 text-sm m-1 mb-5">{errors.passwordCheck?.message}</p> : <p className="text-[#99A1AF] text-sm m-1 mb-5"> </p>}
             <label

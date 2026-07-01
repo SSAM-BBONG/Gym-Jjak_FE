@@ -1,4 +1,5 @@
 import { PtDetailHistory, PtDetailQualification } from "@/components/ui/image";
+import Image from "next/image";
 
 export default function DetailTrainer() {
     return (
@@ -24,7 +25,17 @@ export default function DetailTrainer() {
             <div className="flex">
                 <div className="flex flex-1 flex-col gap-2">
                     <div className="flex gap-2 items-center">
-                        <img src={PtDetailQualification} alt="PT 상세조회 자격증" />
+                        {/* <img src={PtDetailQualification} alt="PT 상세조회 자격증" /> */}
+                        <div className="relative w-5 h-5">
+                            <Image
+                                src={PtDetailQualification}
+                                alt="PT 상세조회 자격증"
+                                fill
+                                sizes="w-10 h-10"
+                                className="object-cover"
+                            />
+                        </div>
+
                         <p className="text-[14px] font-extrabold text-white"> 자격증 </p>
                     </div>
                     <p className="text-[12px] font-normal text-[#D1D5DC] flex gap-2"><span className="text-[#BFFF0B] text-[12px]">•</span> 생활체육지도사 2급 </p>
@@ -33,7 +44,16 @@ export default function DetailTrainer() {
                 </div>
                 <div className="flex flex-1 flex-col gap-2">
                     <div className="flex gap-2 items-center">
-                        <img src={PtDetailHistory} alt="PT 상세조회 대회경력" />
+                        {/* <img src={PtDetailHistory} alt="PT 상세조회 대회경력" /> */}
+                        <div className="relative w-5 h-5">
+                            <Image
+                                src={PtDetailHistory}
+                                alt="PT 상세조회 대회경력"
+                                fill
+                                sizes="w-10 h-10"
+                                className="object-cover"
+                            />
+                        </div>
                         <p className="text-[14px] font-extrabold text-white"> 대회 경력 </p>
                     </div>
                     <p className="text-[12px] font-normal text-[#D1D5DC] flex gap-2"><span className="text-[#BFFF0B] text-[12px]">•</span>  2023 피지크 대회 입상 </p>

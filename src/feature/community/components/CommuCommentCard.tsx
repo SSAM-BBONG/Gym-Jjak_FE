@@ -1,4 +1,5 @@
 import { CommuCommentDeclaration, CommuCommentEdit, CommuCommentRemove } from "@/components/ui/image";
+import Image from "next/image";
 
 export default function CommuCommentCard() {
   return (
@@ -9,9 +10,33 @@ export default function CommuCommentCard() {
           <p className="text-[12px] font-normal text-[#99A1AF]"> 2026-05-13 15:00</p>
         </div>
         <div className="flex gap-2 items-center">
-          <img src={CommuCommentDeclaration} alt="댓글 신고" />
-          <img src={CommuCommentEdit} alt="댓글 수정" />
-          <img src={CommuCommentRemove} alt="댓글 삭제" />
+          <div className="relative w-4 h-4">
+            <Image
+              src={CommuCommentDeclaration}
+              alt="댓글 신고"
+              fill
+              sizes="w-8 h-8"
+              className="object-cover"
+            />
+          </div>
+          <div className="relative w-4 h-4">
+            <Image
+              src={CommuCommentEdit}
+              alt="댓글 수정"
+              fill
+              sizes="w-8 h-8"
+              className="object-cover"
+            />
+          </div>
+          <div className="relative w-4 h-4">
+            <Image
+              src={CommuCommentRemove}
+              alt="댓글 삭제"
+              fill
+              sizes="w-8 h-8"
+              className="object-cover"
+            />
+          </div>
         </div>
       </div>
       <p className="text-[14px] font-normal text-[#D1D5DC]"> 댓글 내용</p>

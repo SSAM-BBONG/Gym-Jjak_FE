@@ -2,6 +2,7 @@ import { CloseButton } from "@/components/ui/image";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import CalendarCategories from "./CalendarCategories";
 import { calendarPatchAction, calendarPostAction, getCalendarCategory } from "../action";
+import Image from "next/image";
 
 type CalendarCreateModalProps = {
     isModal: boolean;
@@ -85,7 +86,14 @@ export default function CalendarCreateModal({ isModal, closeModal, selectedSetti
                 <article>
                     <div className="flex justify-between border-b-[#1E2939] border-b items-center pb-8 pt-2 mb-8">
                         <h3 className="font-bold text-xl text-[#E8EAF0]">{mode === 'create' ? '일지 추가' : '일지 수정'}</h3>
-                        <img src={CloseButton} onClick={handleClose} />
+                        <button onClick={handleClose} className="relative ml-auto w-5 h-5">
+                            <Image
+                                src={CloseButton}
+                                alt="모달 닫기 버튼"
+                                fill
+                                sizes="w-4 h-4"
+                            />
+                        </button>
                     </div>
                     <label className="font-bold text-lg text-white ">제목</label>
                     <input

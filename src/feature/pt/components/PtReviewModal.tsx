@@ -1,4 +1,5 @@
 import { CloseButton } from "@/components/ui/image";
+import Image from "next/image";
 
 
 interface TrainerRejectModal {
@@ -8,7 +9,7 @@ interface TrainerRejectModal {
 }
 
 
-export default function PtReviewModal({ isModal, closeModal, activeModal}: TrainerRejectModal) {
+export default function PtReviewModal({ isModal, closeModal, activeModal }: TrainerRejectModal) {
     if (!isModal) return null;
 
     return (
@@ -22,8 +23,15 @@ export default function PtReviewModal({ isModal, closeModal, activeModal}: Train
                     <div className="flex flex-col gap-2 ">
                         <div className="flex justify-between items-center pt-2">
                             <h3 className="font-bold text-xl text-[#E8EAF0]"> 수강평 작성 </h3>
-                            <img src={CloseButton} onClick={closeModal} />
-                        </div>
+                            <button onClick={closeModal} className="relative ml-auto w-5 h-5">
+                                <Image
+                                    src={CloseButton}
+                                    alt="모달 닫기 버튼"
+                                    fill
+                                    priority
+                                    sizes="w-4 h-4"
+                                />
+                            </button>                        </div>
                         <p className="text-[14px] font-normal text-[#99A1AF] border-b-[#1E2939] border-b pb-8"> 체계적인 가슴 집중 PT </p>
                     </div>
                     <div className="flex flex-col gap-4 my-8">
@@ -35,9 +43,9 @@ export default function PtReviewModal({ isModal, closeModal, activeModal}: Train
                         <div className="flex flex-col gap-3">
                             <p className="text-[14px] font-medium text-white"> 수강평</p>
                             <textarea
-                            placeholder="트레이너와 커리큘럼에 대한 솔직한 후기를 남겨주세요."
-                            className="border-[#364153] border w-full h-47 p-6 bg-[#1E2939] rounded-2xl resize-none focus:border-[#BFFF0B] text-white focus:outline-none"
-                        ></textarea>
+                                placeholder="트레이너와 커리큘럼에 대한 솔직한 후기를 남겨주세요."
+                                className="border-[#364153] border w-full h-47 p-6 bg-[#1E2939] rounded-2xl resize-none focus:border-[#BFFF0B] text-white focus:outline-none"
+                            ></textarea>
                         </div>
                     </div>
                 </article>

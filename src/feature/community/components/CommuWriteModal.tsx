@@ -1,4 +1,5 @@
 import { CloseButton } from "@/components/ui/image";
+import Image from "next/image";
 
 interface TrainerDetailModal {
     isModal: boolean;
@@ -21,25 +22,31 @@ export default function CommuWriteModal({ isModal, closeModal, activeModal }: Tr
                 <article>
                     <div className="flex justify-between border-b-[#1E2939] border-b items-center pb-8 pt-2">
                         <h3 className="font-bold text-xl text-[#E8EAF0]"> 새 게시글 작성 </h3>
-                        <img src={CloseButton} onClick={closeModal} />
-                    </div>
+                        <button onClick={closeModal} className="relative ml-auto w-5 h-5">
+                            <Image
+                                src={CloseButton}
+                                alt="모달 닫기 버튼"
+                                fill
+                                sizes="w-4 h-4"
+                            />
+                        </button>                    </div>
                 </article>
                 <div className="flex flex-col gap-2 items-baseline p-6">
                     <label className="text-[14px] font-medium text-white"> 카테고리</label>
                     <button className="text-black text-[14px] font-extrabold bg-[#BFFF0B] px-4 py-2 rounded-[10px] mb-3"> 자유게시판 </button>
                     <div className="flex flex-col w-full gap-3">
                         <label className="text-[14px] font-medium text-white"> 제목</label>
-                        <input 
-                            type="text" 
-                            className="px-4 py-3 text-white text-[16px] flex-1 font-normal bg-[#1E2939] border-[1px] border-[#364153] rounded-[10px] outline-none" 
-                            placeholder="제목을 입력하세요"/>
+                        <input
+                            type="text"
+                            className="px-4 py-3 text-white text-[16px] flex-1 font-normal bg-[#1E2939] border-[1px] border-[#364153] rounded-[10px] outline-none"
+                            placeholder="제목을 입력하세요" />
                     </div>
                     <div className="flex flex-col w-full gap-2 mt-2">
                         <label className="text-[14px] font-medium text-white"> 내용 </label>
-                        <textarea 
-                            placeholder="내용을 입력하세요" 
-                            className="bg-[#1E2939] px-4 py-3 rounded-[10px] border-[1px] border-[#364153] text-white outline-none" 
-                            rows={15} cols={50}/>
+                        <textarea
+                            placeholder="내용을 입력하세요"
+                            className="bg-[#1E2939] px-4 py-3 rounded-[10px] border-[1px] border-[#364153] text-white outline-none"
+                            rows={15} cols={50} />
                     </div>
                     <div className="mt-4 flex items-center justify-center">
                         <p className="text-[14px] text-[#99A1AF] font-normal"> 작성자: <span className="text-white font-medium">작성자이름</span></p>

@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { PtResrvationAvailableTimeSlot } from "../type";
 import { createPtReservationAction, getPtAvailableDatesAction, getPtAvailableTimesAction } from "../actions";
 import { format } from "date-fns";
+import Image from "next/image";
 
 interface PtReservationModalProps {
     isModal: boolean;
@@ -22,7 +23,7 @@ export default function PtReservationModal({ isModal, closeModal, activeModal, n
     const [date, setDate] = useState<Date | undefined>(new Date())
     const [availableDates, setAvailableDates] = useState<string[]>([]);
     const [timeSlots, setTimeSlots] = useState<PtResrvationAvailableTimeSlot[]>([]);
-    const [selectedTimeSlot, setSelectedTimeSlot] =  useState<PtResrvationAvailableTimeSlot | null>(null);
+    const [selectedTimeSlot, setSelectedTimeSlot] = useState<PtResrvationAvailableTimeSlot | null>(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
 
@@ -36,7 +37,7 @@ export default function PtReservationModal({ isModal, closeModal, activeModal, n
         fetchDates();
     }, [isModal, ptCourseId]);
 
-        const handleSelectDate = async (selectedDate?: Date) => {
+    const handleSelectDate = async (selectedDate?: Date) => {
         if (!selectedDate) return;
 
         const formattedDate = format(selectedDate, "yyyy-MM-dd");
@@ -51,14 +52,14 @@ export default function PtReservationModal({ isModal, closeModal, activeModal, n
         setTimeSlots(response.data.timeSlots.filter((slot) => slot.available));
     };
 
-        const toDateTime = (selectedDate: Date, time: string) => {
+    const toDateTime = (selectedDate: Date, time: string) => {
         const formattedDate = format(selectedDate, "yyyy-MM-dd");
         const normalizedTime = time.length === 5 ? `${time}:00` : time;
 
         return `${formattedDate}T${normalizedTime}`;
     };
 
-        const handleCreateReservation = async () => {
+    const handleCreateReservation = async () => {
         if (!date || !selectedTimeSlot) {
             setErrorMessage("예약 날짜와 시간을 선택해주세요.");
             return;
@@ -69,23 +70,24 @@ export default function PtReservationModal({ isModal, closeModal, activeModal, n
             setErrorMessage("");
 
             await createPtReservationAction(ptCourseId, {
-            reservedStartAt: toDateTime(date, selectedTimeSlot.startTime),
-            reservedEndAt: toDateTime(date, selectedTimeSlot.endTime),
+                reservedStartAt: toDateTime(date, selectedTimeSlot.startTime),
+                reservedEndAt: toDateTime(date, selectedTimeSlot.endTime),
             });
 
             activeModal();
         } catch (error) {
             setErrorMessage(
-            error instanceof Error ? error.message : "예약에 실패하였습니다."
+                error instanceof Error ? error.message : "예약에 실패하였습니다."
             );
         } finally {
             setIsSubmitting(false);
         }
-        };
+    };
 
     if (!isModal) return;
     return (
         <section
+            data-testid="reservation-modal"
             className="z-999 bg-black/50 fixed top-0 left-0 w-screen h-screen"
             onClick={closeModal} >
             <form
@@ -95,12 +97,20 @@ export default function PtReservationModal({ isModal, closeModal, activeModal, n
                 <article>
                     <div className="flex justify-between border-b-[#1E2939] border-b items-center pb-8 pt-2">
                         <h3 className="font-bold text-xl text-[#E8EAF0]">PT 예약하기</h3>
-                        <img src={CloseButton} onClick={closeModal} />
-                    </div>
+                        <button onClick={closeModal} className="relative ml-auto w-5 h-5">
+                            <Image
+                                src={CloseButton}
+                                alt="모달 닫기 버튼"
+                                fill
+                                priority
+                                sizes="w-4 h-4"
+                            />
+                        </button>                    </div>
 
                     <div className="flex justify-between items-center my-4">
                         <h3 className="font-bold text-xl text-[#E8EAF0] py-2">{title}</h3>
                     </div>
+                    <div data-testid="reservation-calendar">
                         <Calendar
                         mode="single"
                         locale={ko}
@@ -112,7 +122,7 @@ export default function PtReservationModal({ isModal, closeModal, activeModal, n
                         }}
                         className="rounded-lg border text-white"
                         />
-                    
+                    </div>
 
                     <div className="w-full bg-[#1E2939] rounded-md border-[#364153] border mt-6 p-6">
                     <h3 className="font-bold text-xl text-[#E8EAF0] py-2">시간 선택</h3>
@@ -127,6 +137,7 @@ export default function PtReservationModal({ isModal, closeModal, activeModal, n
                         return (
                             <button
                             key={value}
+                            data-testid="reservation-time-slot"
                             type="button"
                             onClick={() => setSelectedTimeSlot(slot)}
                             className={`rounded-lg py-3 font-semibold ${
@@ -145,6 +156,7 @@ export default function PtReservationModal({ isModal, closeModal, activeModal, n
                 </article>
                 <article className='flex gap-3 mt-10'>
                     <button
+                        data-testid="reservation-cancel-button"
                         type="button"
                         onClick={noneActiveModal}
                         className='w-full flex pt-2 pb-3 justify-center items-center rounded-lg text-white text-center font-semibold text-base bg-[#1E2939]'
@@ -152,6 +164,7 @@ export default function PtReservationModal({ isModal, closeModal, activeModal, n
                         취소
                     </button>
                     <button
+                        data-testid="reservation-submit-button"
                         onClick={handleCreateReservation}
                         className='w-full flex pt-2 pb-3 justify-center items-center rounded-lg text-black text-center font-semibold text-base bg-[#BFFF0B]'
                     >

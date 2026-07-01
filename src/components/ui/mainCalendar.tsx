@@ -12,6 +12,7 @@ import { cn } from "@/lib/utils"
 import { Button, buttonVariants } from "@/components/ui/button"
 import { ChevronLeftIcon, ChevronRightIcon, ChevronDownIcon } from "lucide-react"
 import { CalendarPtImg } from "./image"
+import Image from "next/image"
 
 function MainCalendar({
   className,
@@ -251,7 +252,16 @@ function CalendarDayButton({
           )}
           {...props}
         />
-        {todayData?.pt && <img alt={'헬스 이미지'} src={CalendarPtImg} className="h-10 w-10" />}
+        {todayData?.pt && (
+          <div className="relative w-5 h-5">
+            <Image
+              src={CalendarPtImg}
+              alt="헬스 이미지"
+              fill
+              sizes="w-10 h-10"
+              className="object-cover"
+            />
+          </div>)}
       </div>
       {todayData?.diaryTitle && <div className="bg-[#BFFF0B] w-full p-0.5 text-black mt-auto">
         {todayData.diaryTitle.length > 4 ? `${todayData.diaryTitle.slice(0, 4)}...` : `${todayData.diaryTitle}`}

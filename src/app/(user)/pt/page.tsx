@@ -23,11 +23,11 @@ export default async function PtZonePage() {
 
 
     return (
-        <div className="flex flex-col gap-10 px-40">
-            <div className="pt-10">
+        <main className="flex flex-col gap-10 px-40">
+            <header className="pt-10">
                 <p className="text-[40px] font-black text-white"> PT ZONE </p>
                 <p className="text-[16px] font-normal text-[#99A1AF]"> 전문 트레이너와 함께하는 1:1 맞춤 PT </p>
-            </div>
+            </header>
             {/* 역할에 따라 서로 다른 UI 분기 설정 */}
             {userinf?.role === "TRAINER" ?
                 (
@@ -38,6 +38,7 @@ export default async function PtZonePage() {
                             content="내 주변 PT 찾기"
                             movecoment="찾아보기"
                             move="/pt/find"
+                            testId="pt-find-link"
                         />
                         <PtCard
                             imgsrc={PtZonePtRecord}
@@ -71,6 +72,8 @@ export default async function PtZonePage() {
                             content="내 주변 PT 찾기"
                             movecoment="찾아보기"
                             move="/pt/find"
+                            testId="pt-find-link"
+                            
                         />
                         <PtCard
                             imgsrc={PtZonePtRecord}
@@ -90,10 +93,11 @@ export default async function PtZonePage() {
                 )
             }
 
-
-            <PtDashboard mode="PT" />
-
-            <div className="flex flex-col gap-3 pb-15">
+            <section>
+                <PtDashboard mode="PT" />
+            </section>    
+            
+            <section className="flex flex-col gap-3 pb-15">
                 <p className="text-[24px] font-black text-white"> 인기 강습 </p>
                 <div className="grid grid-cols-4 gap-4">
                     <PtPopularCard />
@@ -101,7 +105,7 @@ export default async function PtZonePage() {
                     <PtPopularCard />
                     <PtPopularCard />
                 </div>
-            </div>
-        </div>
+            </section>
+        </main>
     );
 }

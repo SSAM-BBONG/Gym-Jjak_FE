@@ -2,13 +2,13 @@ import PtManageFeedBackCard from "@/feature/pt/components/PtManageFeedBackCard";
 import { getFeedBackLists, getPtStudentDetail } from "@/service/ptzone.service";
 
 interface PtManageUserFeedBackPageProps {
-  params: Promise<{
-    id:string
-    userid: string;
-  }>;
+    params: Promise<{
+        id: string
+        userid: string;
+    }>;
 }
 
-export default async function PtManageUserFeedBackPage( { params }: PtManageUserFeedBackPageProps) {
+export default async function PtManageUserFeedBackPage({ params }: PtManageUserFeedBackPageProps) {
     const { id, userid } = await params
 
     const response = await getPtStudentDetail(userid);
@@ -60,9 +60,9 @@ export default async function PtManageUserFeedBackPage( { params }: PtManageUser
             </div>
 
             <PtManageFeedBackCard
-            data={feedbackResponse.data}
-            reservationId={userid}
-            ptCourseId={id}
+                data={feedbackResponse.data}
+                reservationId={userid}
+                ptCourseId={id}
             />
 
         </div>
