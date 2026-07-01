@@ -44,6 +44,7 @@ export default function LoginForm() {
                 /><img />
             </div>
             <button
+                data-testid="login-submit-button"
                 onClick={modal.openModal}
                 className="w-full text-base font-bold mb-6 text-black bg-[#BFFF0B] py-4 rounded-md">
                 로그인
