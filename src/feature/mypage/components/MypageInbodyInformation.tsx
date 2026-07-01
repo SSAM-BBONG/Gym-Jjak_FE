@@ -19,7 +19,6 @@ export default function MypageInbodyInformation() {
             src={MypageOnboarding}
             alt="마이페이지 인바디 정보"
             fill
-            priority
             sizes="w-10 h-10"
             className="object-cover"
           />
@@ -36,7 +35,6 @@ export default function MypageInbodyInformation() {
               src={MypageInbody}
               alt="마이페이지 인바디 입력하기"
               fill
-              priority
               sizes="w-10 h-10"
               className="object-cover"
             />

@@ -87,7 +87,6 @@ export default function OrganizationManageForm({ data }: OrganizationManageDataP
                             src={OrganAddInf}
                             alt="내 조직 관리 추가 정보"
                             fill
-                            priority
                             sizes="w-12 h-12"
                             className="object-cover hover:cursor-pointer"
                         />
@@ -106,7 +105,6 @@ export default function OrganizationManageForm({ data }: OrganizationManageDataP
                                     src={OrganizationManageEditButton}
                                     alt="내 조직 관리 - 수정하기 버튼"
                                     fill
-                                    priority
                                     sizes="w-12 h-12"
                                     className="object-cover hover:cursor-pointer"
                                 />
@@ -158,7 +156,6 @@ export default function OrganizationManageForm({ data }: OrganizationManageDataP
                                 src={OrganAddInfInsta}
                                 alt="내 조직 관리 인스타"
                                 fill
-                                priority
                                 sizes="w-8 h-8"
                                 className="object-cover hover:cursor-pointer"
                             />
@@ -184,7 +181,6 @@ export default function OrganizationManageForm({ data }: OrganizationManageDataP
                                 src={OrganAddInfBlog}
                                 alt="내 조직 관리 블로그"
                                 fill
-                                priority
                                 sizes="w-8 h-8"
                                 className="object-cover hover:cursor-pointer"
                             />
@@ -210,7 +206,6 @@ export default function OrganizationManageForm({ data }: OrganizationManageDataP
                                 src={OrganAddInfWebsite}
                                 alt="내 조직 관리 웹사이트"
                                 fill
-                                priority
                                 sizes="w-8 h-8"
                                 className="object-cover hover:cursor-pointer"
                             />

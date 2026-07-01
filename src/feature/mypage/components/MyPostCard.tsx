@@ -32,7 +32,6 @@ export default function MyPostCard() {
               src={CommunityLike}
               alt="커뮤니티 좋아요수"
               fill
-              priority
               sizes="w-8 h-8"
               className="object-cover"
             />
@@ -45,7 +44,6 @@ export default function MyPostCard() {
               src={CommunityComment}
               alt="커뮤니티 댓글수"
               fill
-              priority
               sizes="w-8 h-8"
               className="object-cover"
             />
@@ -58,7 +56,6 @@ export default function MyPostCard() {
               src={CommunityView}
               alt="커뮤니티 조회수"
               fill
-              priority
               sizes="w-8 h-8"
               className="object-cover"
             />

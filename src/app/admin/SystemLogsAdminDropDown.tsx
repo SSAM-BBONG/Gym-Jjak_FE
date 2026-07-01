@@ -28,7 +28,6 @@ export default function SystemLogsAdminDropDown() {
                         src={AdminLogs}
                         alt="시스템 로그 관리"
                         fill
-                        priority
                         sizes="w-10 h-10"
                     />
                 </div>
@@ -38,7 +37,6 @@ export default function SystemLogsAdminDropDown() {
                         src={AdminArrowButton}
                         alt="화살표 버튼"
                         fill
-                        priority
                         sizes="w-4 h-4"
                         className={dropDownView ? "-rotate-90" : ""}
                     />

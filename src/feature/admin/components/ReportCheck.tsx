@@ -21,7 +21,6 @@ export default function ReportCheck({ reportGroupId }: { reportGroupId: number }
                         src={DetailButtonImg}
                         alt="사유확인 버튼"
                         fill
-                        priority
                         sizes="w-4 h-4"
                     />
                 </div> 사유확인

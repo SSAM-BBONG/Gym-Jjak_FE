@@ -59,7 +59,6 @@ export default async function MyPage() {
                       src={MypageStyle}
                       alt="마이페이지 칭호"
                       fill
-                      priority
                       sizes="w-10 h-10"
                       className="object-cover"
                     />

@@ -20,7 +20,6 @@ export default function MypageMyActivities() {
             src={MypageMyActivity}
             alt="마이페이지 나의 활동"
             fill
-            priority
             sizes="w-10 h-10"
             className="object-cover"
           />

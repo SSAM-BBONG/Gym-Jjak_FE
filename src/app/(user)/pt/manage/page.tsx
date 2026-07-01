@@ -3,9 +3,9 @@ import { getPtzonePtManageList } from "@/service/ptzone.service";
 import Link from "next/link";
 
 export default async function PtManagePage() {
-    
+
     const response = await getPtzonePtManageList();
-    
+
     return (
         <div className="flex flex-col gap-1 px-60 py-10">
             <p className="text-[36px] font-black text-white"> PT 관리 </p>
@@ -19,13 +19,13 @@ export default async function PtManagePage() {
 
             <div className="grid grid-cols-3 gap-4">
                 {response.data.map((item) => (
-                    <Link 
-                    key={item.ptCourseId}
-                    href={`/pt/manage/${item.ptCourseId}`}>
-                    <PtManageCard 
+                    <Link
                         key={item.ptCourseId}
-                        data={item}
-                    />
+                        href={`/pt/manage/${item.ptCourseId}`}>
+                        <PtManageCard
+                            key={item.ptCourseId}
+                            data={item}
+                        />
                     </Link>
                 ))}
             </div>

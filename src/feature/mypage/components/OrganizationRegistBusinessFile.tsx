@@ -79,7 +79,6 @@ export default function OrganizationRegistBusinessFile({ setValue, resetField, a
                                         src={TrainerEssentialQulificationIcon}
                                         alt="사업자등록증 파일"
                                         fill
-                                        priority
                                         sizes="w-8 h-8"
                                         className="object-cover hover:cursor-pointer"
                                     />
@@ -122,7 +121,6 @@ export default function OrganizationRegistBusinessFile({ setValue, resetField, a
                                         src={OrganApplicationUpload}
                                         alt="조직 계정 신청 사업자 등록증"
                                         fill
-                                        priority
                                         sizes="w-28 h-28"
                                         className="object-cover hover:cursor-pointer"
                                     />
@@ -141,7 +139,6 @@ export default function OrganizationRegistBusinessFile({ setValue, resetField, a
                                         src={TrainerEssentialQulificationIcon}
                                         alt="자격증 업로드시 나오는 아이콘"
                                         fill
-                                        priority
                                         sizes="w-8 h-8"
                                         className="object-cover hover:cursor-pointer"
                                     />

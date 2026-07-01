@@ -66,7 +66,6 @@ export default function PasswordChangeForm() {
               src={PasswordCloseEye}
               alt="비밀번호 보이기"
               fill
-              priority
               sizes="w-10 h-10"
               className="object-cover hover:cursor-pointer"
             />
@@ -76,7 +75,6 @@ export default function PasswordChangeForm() {
               src={PasswordOpenEye}
               alt="비밀번호 숨기기"
               fill
-              priority
               sizes="w-10 h-10"
               className="object-cover hover:cursor-pointer"
             />
@@ -115,7 +113,6 @@ export default function PasswordChangeForm() {
               src={PasswordCloseEye}
               alt="비밀번호 보이기"
               fill
-              priority
               sizes="w-10 h-10"
               className="object-cover hover:cursor-pointer"
             />
@@ -125,7 +122,7 @@ export default function PasswordChangeForm() {
               src={PasswordOpenEye}
               alt="비밀번호 숨기기"
               fill
-              priority
+
               sizes="w-10 h-10"
               className="object-cover hover:cursor-pointer"
             />

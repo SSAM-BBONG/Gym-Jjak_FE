@@ -10,7 +10,6 @@ export default function CommuSearchBar() {
                         src={CommunitySearchBar}
                         alt="커뮤니티 검색바"
                         fill
-                        priority
                         sizes="w-8 h-8"
                         className="object-cover"
                     />

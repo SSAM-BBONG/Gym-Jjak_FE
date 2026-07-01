@@ -28,7 +28,6 @@ export default function AdminDeleteButton({ mode, id }: { mode: '카테고리' |
                         src={AdminDeleteImg}
                         alt="식제 버튼"
                         fill
-                        priority
                         sizes="w-4 h-4"
                     />
                 </div> 삭제하기

@@ -48,7 +48,6 @@ export default function StatusButton({ userId, nickname, status }: StatusButtonP
                         src={AdminManagementImg}
                         alt="상태 변경 버튼"
                         fill
-                        priority
                         sizes="w-4 h-4"
                     />
                 </div> 상태 변경

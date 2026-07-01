@@ -50,7 +50,6 @@ export default function TrainerRejectModal({ isModal, closeModal, activeModal, t
                             src={CloseButton}
                             alt="모달 닫기 버튼"
                             fill
-                            priority
                             sizes="w-4 h-4"
                         />                    </div>
                     <div className="flex justify-between items-center my-4">

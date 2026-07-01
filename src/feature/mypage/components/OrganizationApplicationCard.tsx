@@ -70,7 +70,6 @@ export default async function OrganizationApplicationCard({ data }: Organization
                                             src={STATUS_VALUE[item.status].image}
                                             alt="조직 승인 내역 검토중"
                                             fill
-                                            priority
                                             sizes="w-10 h-10"
                                             className="object-cover hover:cursor-pointer"
                                         />
@@ -97,7 +96,6 @@ export default async function OrganizationApplicationCard({ data }: Organization
                                             src={OrganBusinessInf}
                                             alt="조직 신청 내역 사업자 정보"
                                             fill
-                                            priority
                                             sizes="w-10 h-10"
                                             className="object-cover hover:cursor-pointer"
                                         />
@@ -116,7 +114,6 @@ export default async function OrganizationApplicationCard({ data }: Organization
                                             src={OrganApplicationDate}
                                             alt="조직 신청 내역 신청 일시"
                                             fill
-                                            priority
                                             sizes="w-10 h-10"
                                             className="object-cover hover:cursor-pointer"
                                         />
@@ -135,7 +132,6 @@ export default async function OrganizationApplicationCard({ data }: Organization
                                         src={OrganUnderReview}
                                         alt="조직 신청 내역 검토중"
                                         fill
-                                        priority
                                         sizes="w-10 h-10"
                                         className="object-cover hover:cursor-pointer"
                                     />

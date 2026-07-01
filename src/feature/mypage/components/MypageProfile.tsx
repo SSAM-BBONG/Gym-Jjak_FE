@@ -14,7 +14,6 @@ export default function MyPageProfile() {
               src={Profile}
               alt="마이페이지 프로필 이미지"
               fill
-              priority
               sizes="w-10 h-10"
               className="object-cover"
             />
@@ -47,7 +46,6 @@ export default function MyPageProfile() {
               src={MypageWritePost}
               alt="마이페이지 작성한 글"
               fill
-              priority
               sizes="w-8 h-8"
               className="object-cover"
             />
@@ -66,7 +64,6 @@ export default function MyPageProfile() {
               src={MypageContinuosDeclaration}
               alt="마이페이지 작성한 글"
               fill
-              priority
               sizes="w-6 h-8"
               className="object-cover"
             />

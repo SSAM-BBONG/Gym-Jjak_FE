@@ -20,7 +20,6 @@ export default function MembersAdminDropDown() {
                         src={AdminMembers}
                         alt="회원 관리"
                         fill
-                        priority
                         sizes="w-10 h-10"
                     />
                 </div>
@@ -30,7 +29,6 @@ export default function MembersAdminDropDown() {
                         src={AdminArrowButton}
                         alt="화살표 버튼"
                         fill
-                        priority
                         sizes="w-4 h-4"
                         className={dropDownView ? "-rotate-90" : ""}
                     />

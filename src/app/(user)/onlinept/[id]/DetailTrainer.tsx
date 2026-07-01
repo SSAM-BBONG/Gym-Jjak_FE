@@ -31,7 +31,6 @@ export default function DetailTrainer() {
                                 src={PtDetailQualification}
                                 alt="PT 상세조회 자격증"
                                 fill
-                                priority
                                 sizes="w-10 h-10"
                                 className="object-cover"
                             />
@@ -51,7 +50,6 @@ export default function DetailTrainer() {
                                 src={PtDetailHistory}
                                 alt="PT 상세조회 대회경력"
                                 fill
-                                priority
                                 sizes="w-10 h-10"
                                 className="object-cover"
                             />

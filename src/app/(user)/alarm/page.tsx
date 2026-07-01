@@ -21,7 +21,6 @@ export default async function AlarmPage() {
             src={AlarmAlarm}
             alt="알람 상단 알람 표시"
             fill
-            priority
             sizes="w-20 h-20"
             className="object-cover"
           />

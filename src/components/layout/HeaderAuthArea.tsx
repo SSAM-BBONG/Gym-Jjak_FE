@@ -57,7 +57,6 @@ export default function HeaderAuthArea() {
                             src={Alarm}
                             alt="알림"
                             fill
-                            priority
                             sizes="w-10 h-10"
                             className="object-cover"
                         />
@@ -72,7 +71,6 @@ export default function HeaderAuthArea() {
                             src={chat}
                             alt="채팅"
                             fill
-                            priority
                             sizes="w-10 h-10"
                             className="object-cover"
                         />

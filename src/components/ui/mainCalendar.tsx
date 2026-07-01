@@ -258,7 +258,6 @@ function CalendarDayButton({
               src={CalendarPtImg}
               alt="헬스 이미지"
               fill
-              priority
               sizes="w-10 h-10"
               className="object-cover"
             />

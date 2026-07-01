@@ -45,7 +45,6 @@ export default function SearchBar() {
                         src={AdminSearchImg}
                         alt="검색"
                         fill
-                        priority
                         sizes="w-4 h-4"
                     />
                 </button>

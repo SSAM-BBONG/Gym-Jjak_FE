@@ -32,7 +32,6 @@ export default function MypageAccountSettings() {
               src={MypageAccountSetting}
               alt="마이페이지 계정 설정"
               fill
-              priority
               sizes="w-10 h-10"
               className="object-cover"
             />

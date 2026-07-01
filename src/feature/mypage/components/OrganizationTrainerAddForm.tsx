@@ -52,7 +52,6 @@ export default function OrganizationTrainerAddForm({ isModal, closeModal, active
                                 src={CloseButton}
                                 alt="모달 닫기 버튼"
                                 fill
-                                priority
                                 sizes="w-4 h-4"
                             />
                         </button>
@@ -77,7 +76,6 @@ export default function OrganizationTrainerAddForm({ isModal, closeModal, active
                                         src={OrganTrainerAdd}
                                         alt="조직 트레이너 검색"
                                         fill
-                                        priority
                                         sizes="w-10 h-10"
                                         className="object-cover hover:cursor-pointer"
                                     />
@@ -100,7 +98,6 @@ export default function OrganizationTrainerAddForm({ isModal, closeModal, active
                                                 src={OrganizationTrainerDefaultProfile}
                                                 alt="트레이너 프로필"
                                                 fill
-                                                priority
                                                 sizes="w-25 h-25"
                                                 className="object-cover hover:cursor-pointer"
                                             />
@@ -125,7 +122,6 @@ export default function OrganizationTrainerAddForm({ isModal, closeModal, active
                                                 src={OrganizationTrainerNotFound}
                                                 alt="조직 트레이너 검색 없음"
                                                 fill
-                                                priority
                                                 sizes="w-10 h-10"
                                                 className="object-cover hover:cursor-pointer"
                                             />

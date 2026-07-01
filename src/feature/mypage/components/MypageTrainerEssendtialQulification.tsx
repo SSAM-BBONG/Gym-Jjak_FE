@@ -31,7 +31,6 @@ export default function MypageTrainerEssentialQUlification({ data, isReadOnly }:
                             src={TrainerEssentialQulificationIcon}
                             alt="자격증 업로드시 나오는 아이콘"
                             fill
-                            priority
                             sizes="w-8 h-8"
                             className="object-cover"
                         />

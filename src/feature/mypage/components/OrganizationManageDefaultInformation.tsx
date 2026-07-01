@@ -21,7 +21,6 @@ export default function OrganizationManageDefaultInformation({ data }: Organizat
                         src={MypageMyActivity}
                         alt="내 조직 관리 기본정보"
                         fill
-                        priority
                         sizes="w-12 h-12"
                         className="object-cover hover:cursor-pointer"
                     />
@@ -77,7 +76,6 @@ export default function OrganizationManageDefaultInformation({ data }: Organizat
                                 src={MypageMyActivity}
                                 alt="조직 계정 신청 사업자 등록증"
                                 fill
-                                priority
                                 sizes="w-12 h-10"
                                 className="object-cover hover:cursor-pointer"
                             />

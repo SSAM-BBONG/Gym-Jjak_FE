@@ -121,7 +121,6 @@ export default function OrganizationRegistForm({ mode = "create", application }:
                                 src={OrganApplicationDanger}
                                 alt="조직 계정 신청 절차"
                                 fill
-                                priority
                                 sizes="w-10 h-10"
                                 className="object-cover hover:cursor-pointer"
                             />

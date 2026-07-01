@@ -14,7 +14,6 @@ export default function AlarmReadDeleteButton({ text, alarm }: { text: '읽음' 
                     src={text === '읽음' ? AlarmRead : AlarmRemove}
                     alt={`알람 ${text} 표시`}
                     fill
-                    priority
                     sizes="w-8 h-8"
                     className="object-cover"
                 />

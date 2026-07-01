@@ -21,7 +21,6 @@ export default function ReportsAdminDropDown() {
                         src={AdminReports}
                         alt="신고 관리"
                         fill
-                        priority
                         sizes="w-10 h-10"
                     />
                 </div>
@@ -31,7 +30,6 @@ export default function ReportsAdminDropDown() {
                         src={AdminArrowButton}
                         alt="화살표 버튼"
                         fill
-                        priority
                         sizes="w-4 h-4"
                         className={dropDownView ? "-rotate-90" : ""}
                     />

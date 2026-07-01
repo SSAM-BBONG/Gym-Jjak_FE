@@ -87,7 +87,6 @@ export default function MypageTrainerProfile({ data, mode, setValue, error }: My
                                     src={TrainerProfileImgUpload}
                                     alt="트레이너 프로필 업로드 버튼"
                                     fill
-                                    priority
                                     sizes="w-8 h-8"
                                     className="object-cover"
                                 />
