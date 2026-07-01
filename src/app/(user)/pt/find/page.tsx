@@ -2,6 +2,18 @@
 // import PtFindList from "@/feature/pt/components/PtFindList";
 import PtFindView from "@/feature/pt/components/PtFindView";
 import { getOnboarding, getPtLists } from "@/service/ptzone.service";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: 'pt',
+    description: 'pt 트레이닝 목록페이지입니다.',
+
+    openGraph: {
+        title: 'pt | GYMJJAK',
+        description: 'pt 트레이닝 목록페이지입니다.',
+        url: '/pt/find'
+    }
+}
 
 export default async function PtFindPage() {
 
@@ -11,9 +23,9 @@ export default async function PtFindPage() {
 
     return (
         <div className="flex h-[calc(100vh-70px)] overflow-hidden">
-            <PtFindView 
+            <PtFindView
                 listResponse={ptListsResponse}
-                onBoardingResponse={onBoardingResponse}    
+                onBoardingResponse={onBoardingResponse}
             />
         </div>
     );

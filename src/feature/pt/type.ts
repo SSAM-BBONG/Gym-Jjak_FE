@@ -10,8 +10,8 @@ export interface PtCourseCurriculum {
 export interface PtCourseSchedule {
   scheduleId: number;
   dayOfWeek: string;
-  startTime: string; 
-  endTime: string; 
+  startTime: string;
+  endTime: string;
 }
 
 // PT 상세조회 리뷰 타입
@@ -145,13 +145,13 @@ export interface PtRegistCurriculum {
 // PT 등록 시간 타입 
 export interface PtRegistSchedule {
   dayOfWeek:
-    | "MONDAY"
-    | "TUESDAY"
-    | "WEDNESDAY"
-    | "THURSDAY"
-    | "FRIDAY"
-    | "SATURDAY"
-    | "SUNDAY";
+  | "MONDAY"
+  | "TUESDAY"
+  | "WEDNESDAY"
+  | "THURSDAY"
+  | "FRIDAY"
+  | "SATURDAY"
+  | "SUNDAY";
   startTime: string;
   endTime: string;
 }
@@ -211,26 +211,26 @@ export interface TrainerApplicationDetailResponse {
 
 // 트레이너 신청 상세 조회 data 타입
 export interface TrainerApplicationDetail {
-    trainerApplicationId: number
-    userId: number;
-    profileImageUrl: string | null;
-    profileImageOriginalName: string | null,
-    certificateUrl: string;
-    certificateOriginalName: string,
-    qualifications: string[];
-    awardHistories: string[];
-    introduction: string;
-    status: "" | "PENDING" | "APPROVED" | "REJECTED" | "CANCELED";
-    rejectReason: string | null;
-    reviewedBy: number | null;
-    reviewedAt: string | null; 
-    createdAt: string;
-    updatedAt: string;
+  trainerApplicationId: number
+  userId: number;
+  profileImageUrl: string | null;
+  profileImageOriginalName: string | null,
+  certificateUrl: string;
+  certificateOriginalName: string,
+  qualifications: string[];
+  awardHistories: string[];
+  introduction: string;
+  status: "" | "PENDING" | "APPROVED" | "REJECTED" | "CANCELED";
+  rejectReason: string | null;
+  reviewedBy: number | null;
+  reviewedAt: string | null;
+  createdAt: string;
+  updatedAt: string;
 }
 
 // PT 통계 조회 응답 타입
 export interface PtStatsResponse {
-  
+
   status: number;
   code: string;
   message: string;
@@ -390,7 +390,7 @@ export interface PtReservationStudent {
 }
 
 // PT 수강생 상세조회 응답값
-export interface PtReservationStudentDetailResponse{
+export interface PtReservationStudentDetailResponse {
   status: number;
   code: string;
   message: string;
@@ -399,17 +399,17 @@ export interface PtReservationStudentDetailResponse{
 
 // PT 수강생 상세조회 데이터
 export interface PtReservationStudentDetailData {
-    nickname: string,
-    email: string,
-    phone: string,
-    status: string,
-    progressCount: number,
-    totalSessionCount: number,
-    title: string
+  nickname: string,
+  email: string,
+  phone: string,
+  status: string,
+  progressCount: number,
+  totalSessionCount: number,
+  title: string
 }
 
 // PT 예약 수강 상태 변경 응답값
-export interface PtReservationStatusChangeResponse{
+export interface PtReservationStatusChangeResponse {
   status: number;
   code: string;
   message: string;
@@ -418,9 +418,9 @@ export interface PtReservationStatusChangeResponse{
 
 // PT 예약 수강 상태 변경 데이터
 export interface PtReservationStatusChangeData {
-    status: "IN_PROGRESS" | "COMPLETED" | "CANCELLED" | "RESERVED"
-    progressCount: number,
-    totalSessionCount: number
+  status: "IN_PROGRESS" | "COMPLETED" | "CANCELLED" | "RESERVED"
+  progressCount: number,
+  totalSessionCount: number
 }
 
 // PT 예약 수강 상태 변경 요청값
@@ -429,7 +429,7 @@ export interface PtReservationStatusChangeRequest {
 }
 
 // 내 예약 기록 목록 조회 응답값
-export interface MyPtResrvationListsResponse{
+export interface MyPtResrvationListsResponse {
   status: number;
   code: string;
   message: string;
@@ -438,19 +438,19 @@ export interface MyPtResrvationListsResponse{
 
 // 내 예약 기록 목록 조회 데이터
 export interface MyPtResrvationListsData {
-  ptReservations: MyPtReservationList[] 
+  ptReservations: MyPtReservationList[]
 }
 
 // 내 예약 기록 목록
 export interface MyPtReservationList {
-    ptReservationId: number,
-    thumbnailUrl: string,
-    title: string,
-    trainerName: string,
-    status: string,
-    lastPtDate: string,
-    progressCount: number,
-    totalSessionCount: number
+  ptReservationId: number,
+  thumbnailUrl: string,
+  title: string,
+  trainerName: string,
+  status: string,
+  lastPtDate: string,
+  progressCount: number,
+  totalSessionCount: number
 }
 
 // 내 예약 기록 상세 조회 커리큘럼
@@ -484,7 +484,7 @@ export interface MyPtResrvationDetailResponse {
 export interface Feedback {
   feedbackId: number;
   content: string;
-  createdAt: string; 
+  createdAt: string;
 }
 
 // 피드백 목록 조회 커리큘럼
@@ -512,7 +512,7 @@ export interface FeedbackCreateRequest {
 
 // 피드백 등록 media 
 export interface FeedbackCreateMedia {
-  file : TrainerFileData;
+  file: TrainerFileData;
   mediaType: "BEFORE" | "AFTER";
 }
 // 피드백 등록 응답값
@@ -537,11 +537,11 @@ export interface FeedbackDetailResponse {
 }
 
 export interface FeedbackDetailData {
-    sessionNo: number,
-    curriculumTitle: string,
-    content: string,
-    mediaList: FeedbackDetailMedia[]; 
-    createdAt: string
+  sessionNo: number,
+  curriculumTitle: string,
+  content: string,
+  mediaList: FeedbackDetailMedia[];
+  createdAt: string
 }
 
 interface FeedbackDetailMedia {
