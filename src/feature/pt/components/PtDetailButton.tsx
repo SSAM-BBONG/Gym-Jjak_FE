@@ -16,6 +16,7 @@ export default function PtDetailButton({ title, ptCourseId }: PtDetailReservatio
         <div className="grid grid-cols-3 gap-3">
 
             <button
+                data-testid="reservation-open-button"
                 type="button"
                 onClick={modal.openModal}
                 className="

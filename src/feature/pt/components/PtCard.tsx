@@ -2,17 +2,20 @@ import Image from "next/image";
 import Link from "next/link";
 
 interface PtCardProps {
-    imgsrc: string,
-    title: string,
-    content: string,
-    movecoment: string,
-    move: string
+    imgsrc : string,
+    title : string,
+    content : string,
+    movecoment : string,
+    move : string,
+    testId?: string;
 }
 
-export default function PtCard({ imgsrc, title, content, movecoment, move }: PtCardProps) {
+export default function PtCard({imgsrc, title, content, movecoment, move, testId}: PtCardProps) {
     return (
-        <Link href={move}>
-            <div className="
+        <Link 
+        data-testid={testId}
+        href={move}>
+        <div className="
         flex flex-col gap-3 
         items-start
         border border-[#36415380] rounded-[16px]

@@ -87,6 +87,7 @@ export default function PtReservationModal({ isModal, closeModal, activeModal, n
     if (!isModal) return;
     return (
         <section
+            data-testid="reservation-modal"
             className="z-999 bg-black/50 fixed top-0 left-0 w-screen h-screen"
             onClick={closeModal} >
             <form
@@ -109,7 +110,8 @@ export default function PtReservationModal({ isModal, closeModal, activeModal, n
                     <div className="flex justify-between items-center my-4">
                         <h3 className="font-bold text-xl text-[#E8EAF0] py-2">{title}</h3>
                     </div>
-                    <Calendar
+                    <div data-testid="reservation-calendar">
+                        <Calendar
                         mode="single"
                         locale={ko}
                         selected={date}
@@ -119,39 +121,42 @@ export default function PtReservationModal({ isModal, closeModal, activeModal, n
                             return !availableDates.includes(formattedDate);
                         }}
                         className="rounded-lg border text-white"
-                    />
-
+                        />
+                    </div>
 
                     <div className="w-full bg-[#1E2939] rounded-md border-[#364153] border mt-6 p-6">
-                        <h3 className="font-bold text-xl text-[#E8EAF0] py-2">시간 선택</h3>
+                    <h3 className="font-bold text-xl text-[#E8EAF0] py-2">시간 선택</h3>
 
-                        <div className="grid grid-cols-3 gap-3 mt-3">
-                            {timeSlots.map((slot) => {
-                                const value = `${slot.startTime}-${slot.endTime}`;
-                                const isSelected =
-                                    selectedTimeSlot?.startTime === slot.startTime &&
-                                    selectedTimeSlot?.endTime === slot.endTime;
+                    <div className="grid grid-cols-3 gap-3 mt-3">
+                        {timeSlots.map((slot) => {
+                        const value = `${slot.startTime}-${slot.endTime}`;
+                        const isSelected =
+                            selectedTimeSlot?.startTime === slot.startTime &&
+                            selectedTimeSlot?.endTime === slot.endTime;
 
-                                return (
-                                    <button
-                                        key={value}
-                                        type="button"
-                                        onClick={() => setSelectedTimeSlot(slot)}
-                                        className={`rounded-lg py-3 font-semibold ${isSelected
-                                            ? "bg-[#BFFF0B] text-black"
-                                            : "bg-[#0B0F19] text-white border border-[#364153]"
-                                            }`}
-                                    >
-                                        {slot.startTime} - {slot.endTime}
-                                    </button>
-                                );
-                            })}
+                        return (
+                            <button
+                            key={value}
+                            data-testid="reservation-time-slot"
+                            type="button"
+                            onClick={() => setSelectedTimeSlot(slot)}
+                            className={`rounded-lg py-3 font-semibold ${
+                                isSelected
+                                ? "bg-[#BFFF0B] text-black"
+                                : "bg-[#0B0F19] text-white border border-[#364153]"
+                            }`}
+                            >
+                            {slot.startTime} - {slot.endTime}
+                            </button>
+                        );
+                        })}
                         </div>
                     </div>
 
                 </article>
                 <article className='flex gap-3 mt-10'>
                     <button
+                        data-testid="reservation-cancel-button"
                         type="button"
                         onClick={noneActiveModal}
                         className='w-full flex pt-2 pb-3 justify-center items-center rounded-lg text-white text-center font-semibold text-base bg-[#1E2939]'
@@ -159,6 +164,7 @@ export default function PtReservationModal({ isModal, closeModal, activeModal, n
                         취소
                     </button>
                     <button
+                        data-testid="reservation-submit-button"
                         onClick={handleCreateReservation}
                         className='w-full flex pt-2 pb-3 justify-center items-center rounded-lg text-black text-center font-semibold text-base bg-[#BFFF0B]'
                     >

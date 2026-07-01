@@ -38,6 +38,7 @@ export default async function PtZonePage() {
                             content="내 주변 PT 찾기"
                             movecoment="찾아보기"
                             move="/pt/find"
+                            testId="pt-find-link"
                         />
                         <PtCard
                             imgsrc={PtZonePtRecord}
@@ -71,6 +72,8 @@ export default async function PtZonePage() {
                             content="내 주변 PT 찾기"
                             movecoment="찾아보기"
                             move="/pt/find"
+                            testId="pt-find-link"
+                            
                         />
                         <PtCard
                             imgsrc={PtZonePtRecord}

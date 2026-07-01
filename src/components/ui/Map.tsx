@@ -33,7 +33,7 @@ export default function KakaoMap({latitude, longitude, ptList, setOrganizationId
         lat: latitude,
         lng: longitude,
       }}
-      level={3}
+      level={5}
       className="h-full"
       draggable={true}
       scrollwheel={true}
@@ -68,6 +68,7 @@ export default function KakaoMap({latitude, longitude, ptList, setOrganizationId
                 "> 
               </div>
              <button
+                 data-testid="organization-marker"
                  onClick={() => handleMarkerClick(item.businessName)} 
                  className={`
                   absolute bottom-full left-1/2 -translate-x-1/2
@@ -76,7 +77,7 @@ export default function KakaoMap({latitude, longitude, ptList, setOrganizationId
                   ${isSelected ? "bg-[#beff0b] text-gray-700 font-medium" : "text-white border-[#99A1AF]"}
                   `}
               >
-                  <span className="break-keep whitespace-normal text-center block">
+                  <span className="pointer-events-none break-keep whitespace-normal text-center block">
                   {item.businessName}
                 </span>
               </button>

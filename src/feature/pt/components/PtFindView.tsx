@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { OnboardingResponse, PtCourseListResponse } from "../type";
 import PtFindList from "./PtFindList";
 import KakaoMap from "@/components/ui/Map";
@@ -15,9 +15,13 @@ export default function PtFindView({listResponse, onBoardingResponse}: PtFindRes
         organName: "",
     });
 
-    const filterPtList = listResponse.data.filter(
-        (item) => item.businessName === organizationId.organName
-    )    
+    const filterPtList = useMemo(() => {
+        if (!organizationId.organName) return [];
+
+        return listResponse.data.filter(
+            (item) => item.businessName === organizationId.organName
+        );
+    }, [listResponse.data, organizationId.organName]);
 
     return (
     <>  
