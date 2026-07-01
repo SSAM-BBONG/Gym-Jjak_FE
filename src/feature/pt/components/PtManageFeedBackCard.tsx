@@ -17,8 +17,11 @@ export default function PtManageFeedBackCard( { data, reservationId, ptCourseId 
     const checkModal = useModal();
     const registModal = useModal();
 
+    console.log(data[0].feedbacks);
+
     const [selectedCurriculum, setSelectedCurriculum] =
         useState<StudentFeedbackCurriculum | null>(null);
+    const [selectedFeedbackId, setSelectedFeedbackId] = useState<number | null>(null);
 
     const openRegistModal = (item: StudentFeedbackCurriculum) => {
         setSelectedCurriculum(item);
@@ -28,6 +31,16 @@ export default function PtManageFeedBackCard( { data, reservationId, ptCourseId 
     const closeRegistModal = () => {
         registModal.closeModal();
         setSelectedCurriculum(null);
+    };
+
+    const openCheckModal = (feedbackId: number | null) => {
+        setSelectedFeedbackId(feedbackId);
+        checkModal.openModal();
+    };
+
+    const closeCheckModal = () => {
+        checkModal.closeModal();
+        setSelectedFeedbackId(null);
     };
 
     return (
@@ -43,7 +56,9 @@ export default function PtManageFeedBackCard( { data, reservationId, ptCourseId 
             {data.map((item) => 
                 item.feedbacks ?
                 (
-            <div className="flex items-start gap-3 border border-[#BFFF0B4D] bg-[#1E293980] p-4 rounded-[14px]">
+            <div 
+                key={item.ptCurriculumId}
+                className="flex items-start gap-3 border border-[#BFFF0B4D] bg-[#1E293980] p-4 rounded-[14px]">
                 <img src={PtRecordComplete} alt="피드백 등록 완료"/>
                 <div className="flex flex-col gap-3 w-full">
                     <div className="flex flex-1 justify-between items-start">
@@ -61,7 +76,7 @@ export default function PtManageFeedBackCard( { data, reservationId, ptCourseId 
                     border border-[#36415380] rounded-[10px]
                     bg-[#10182880]
                     p-4"
-                    onClick={checkModal.openModal}>
+                    onClick={() => openCheckModal(item.feedbacks?.feedbackId ?? null)}>
                         <div className="flex flex-col gap-2 pb-2 border-b border-b-[#364153]">
                             <div className="flex justify-between">
                                 <p className="flex gap-3 text-[14px] font-extrabold text-[#BFFF0B] whitespace-nowrap items-center">
@@ -102,7 +117,7 @@ export default function PtManageFeedBackCard( { data, reservationId, ptCourseId 
                 type="button"
                 onClick={() => openRegistModal(item)}
                 className="px-4 py-2 rounded-[10px] bg-[#BFFF0B] text-[14px] font-extrabold text-black"> 
-                등록하기 
+                등록하기
             </button>
         </div>
         ))}
@@ -110,6 +125,8 @@ export default function PtManageFeedBackCard( { data, reservationId, ptCourseId 
       <PtFeeBackCheckModal
         isModal={checkModal.isModal}
         closeModal={checkModal.closeModal}
+        reservationId={reservationId}
+        feedbackId={selectedFeedbackId}
       />
 
       <PtFeeBackRegistModal

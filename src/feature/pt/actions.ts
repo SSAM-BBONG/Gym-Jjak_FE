@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { chagnePtzoneResrvationStatus, chagnePtzoneStatus, createFeedback, createPtCourse, createPtReservation, getPtResrvationAvailableDates, getPtResrvationAvailableTimes, getTrainerCancel, trainerApplication, updateTrainerApplication } from "@/service/ptzone.service";
+import { chagnePtzoneResrvationStatus, chagnePtzoneStatus, createFeedback, createPtCourse, createPtReservation, getFeedbackDetail, getPtResrvationAvailableDates, getPtResrvationAvailableTimes, getTrainerCancel, trainerApplication, updateTrainerApplication } from "@/service/ptzone.service";
 import { PtRegistRequest, PtRegistSchedule, PtReservationRequest, PtReservationStatusChangeRequest, TrainerApplicationData, TrainerApplicationEditData } from "./type";
 import { uploadFilesPresignedUrl } from "@/service/file.service";
 
@@ -271,4 +271,12 @@ export const createPtFeedbackAction = async (
   revalidatePath(`/pt/manage/${ptCourseId}/users/${reservationId}`);
 
   return { success: true };
+};
+
+// 피드백 상세조회 액션
+export const getFeedbackDetailAction = async (
+  reservationId: string,
+  feedbackId: number
+) => {
+  return getFeedbackDetail(reservationId, String(feedbackId));
 };

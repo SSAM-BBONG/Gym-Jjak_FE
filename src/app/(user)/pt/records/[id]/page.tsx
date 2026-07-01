@@ -55,7 +55,10 @@ export default async function PtRecordDetailPage( {params}: PtRecordDetailPagePr
                 <p className="py-3 text-[16px] font-extrabold text-black bg-[#BFFF0B] rounded-[10px] text-center"> 트레이너 피드백 </p>
             </div>
 
-            <PfFeebBackCard/>
+            <PfFeebBackCard
+            data={response.data.curriculums}
+            reservationId={id}
+            />
 
         </div>
     );
