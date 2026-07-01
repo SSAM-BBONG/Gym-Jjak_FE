@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     google: 'nZEMBE-gaUgMx2Yx8lmVxPp50HvKZqcQU69mtiOLGA8',
   },
 
-  metadataBase: new URL('https://13.124.200.97.sslip.io'),
+  metadataBase: new URL('https://gymjjak.com'),
 
   applicationName: "GYMJJAK",
 
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     "온라인 PT",
   ],
 
-  authors: [{ name: "SSAMBBONG", url: 'https://13.124.200.97.sslip.io' }],
+  authors: [{ name: "SSAMBBONG", url: 'https://gymjjak.com' }],
   creator: "SSAMBBONG",
   publisher: "SSAMBBONG",
 

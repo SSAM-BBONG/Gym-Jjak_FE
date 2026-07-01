@@ -40,7 +40,7 @@ export function useAlarmSocket({
         }
 
         // SockJS는 ws://가 아닌 http:// 주소를 전달
-        const socketUrl = `${httpUrl.replace(/\/$/, "")}/ws`;
+        const socketUrl = `${window.location.origin}/ws`;
 
         const client = new Client({
             // 재연결할 때마다 새로운 SockJS 연결 객체가 생성됨

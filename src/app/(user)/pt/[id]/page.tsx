@@ -83,7 +83,7 @@ export default async function PtDetailPage({ params }: PtDetailPageProps) {
 
         offers: {
             "@type": "Offer",
-            url: `https://13.124.200.97.sslip.io/pt/${response.data.ptCourseId}`,
+            url: `https://gymjjak.com/pt/${response.data.ptCourseId}`,
             priceCurrency: "KRW",
             price: response.data.price.toString(),
             seller: {
