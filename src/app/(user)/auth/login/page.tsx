@@ -20,10 +20,10 @@ export default function Page() {
                 <Link href='/auth/register' className="text-[#BFFF0B]">회원가입</Link>
             </div>
             <div className="flex justify-center gap-6 border-t border-[#99A1AF] w-full p-6">
-                <a href={`${process.env.NEXT_PUBLIC_API_BASE_URL}/oauth2/authorization/naver`} className="w-15 h-15 rounded-full">
+                <a href={`/oauth2/authorization/naver`} className="w-15 h-15 rounded-full">
                     <img src={NaverLogo} alt="네이버로 계속하기" />
                 </a>
-                <a href={`${process.env.NEXT_PUBLIC_API_BASE_URL}/oauth2/authorization/google`} className="w-15 h-15 rounded-full">
+                <a href={`/oauth2/authorization/google`} className="w-15 h-15 rounded-full">
                     <img src={GoogleLogo} alt="구글로 계속하기" />
                 </a>
             </div>

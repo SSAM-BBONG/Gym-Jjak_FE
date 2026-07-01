@@ -9,6 +9,6 @@ export default function robots(): MetadataRoute.Robots {
                 disallow: ['/admin/', '/api/', '/mypage/']
             }
         ],
-        sitemap: `https://13.124.200.97.sslip.io/sitemap.xml`
+        sitemap: `https://gymjjak.com/sitemap.xml`
     }
 }
