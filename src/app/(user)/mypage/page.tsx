@@ -24,24 +24,24 @@ export default async function MyPage() {
         ?
         (
           <>
-            <MypageMyOrganization/>  
+            <MypageMyOrganization />
 
-            <MypageAccountSettings/>
+            <MypageAccountSettings />
           </>
         ) : (
           <div className="flex gap-6 items-start mt-8">
 
-            <MyPageProfile/>
+            <MyPageProfile />
 
             <div className="flex flex-col gap-6 flex-[7.5]">
-              <MypageUserProfileEdit/>
+              <MypageUserProfileEdit />
 
-              <MypageInbodyInformation/>
-              
-              <MypageMyActivities/>
-              
-             <MypageAccountSettings/>
-             
+              <MypageInbodyInformation />
+
+              <MypageMyActivities />
+
+              <MypageAccountSettings />
+
               <div
                 className="
                       flex flex-col
@@ -65,8 +65,8 @@ export default async function MyPage() {
                 </div>
               </div>
 
-            <MypageMyOrganizationApplication/>
-              
+              <MypageMyOrganizationApplication />
+
             </div>
           </div>
         )}
