@@ -280,7 +280,7 @@ export interface PtRegistTagData {
 // PT 강습 관리 목록 데이터
 export interface PtManageListData {
   ptCourseId: number;
-  thumbnailUrl: number;
+  thumbnailUrl: string;
   title: string;
   trainerName: string;
   status: "VISIBLE" | "HIDDEN";
