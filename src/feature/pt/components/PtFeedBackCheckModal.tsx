@@ -1,13 +1,58 @@
 import { CloseButton, MypageMyActivity, PtFeedBackOnBoard, PtRecordVideo } from "@/components/ui/image";
+import { useEffect, useState } from "react";
+import { getFeedbackDetailAction } from "../actions";
+import { FeedbackDetailData } from "../type";
 
 interface TrainerRejectModal {
-    isModal: boolean;
-    closeModal: () => void;
+  isModal: boolean;
+  closeModal: () => void;
+  reservationId: string;
+  feedbackId: number | null;
 }
 
 
-export default function PtFeeBackCheckModal({ isModal, closeModal}: TrainerRejectModal) {
+export default function PtFeeBackCheckModal({ isModal, closeModal, reservationId, feedbackId}: TrainerRejectModal) {
+    const [feedbackDetail, setFeedbackDetail] = useState<FeedbackDetailData | null>(null);
+    const [isLoading, setIsLoading] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
+
+    useEffect(() => {
+    if (!isModal || feedbackId === null) return;
+
+    const fetchFeedbackDetail = async () => {
+      try {
+        setIsLoading(true);
+        setErrorMessage("");
+
+        const response = await getFeedbackDetailAction(
+          reservationId,
+          feedbackId
+        );
+
+        setFeedbackDetail(response.data);
+      } catch (error) {
+        setErrorMessage(
+          error instanceof Error
+            ? error.message
+            : "피드백 상세 조회에 실패했습니다."
+        );
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchFeedbackDetail();
+  }, [isModal, reservationId, feedbackId]);
     if (!isModal) return null;
+
+    const beforeMedia = feedbackDetail?.mediaList.find(
+        (media) => media.mediaType === "BEFORE"
+    );
+
+    const afterMedia = feedbackDetail?.mediaList.find(
+        (media) => media.mediaType === "AFTER"
+    );
+
 
     return (
         <section
@@ -19,10 +64,10 @@ export default function PtFeeBackCheckModal({ isModal, closeModal}: TrainerRejec
                 <article>
                     <div className="flex flex-col gap-2 ">
                         <div className="flex justify-between items-center pt-2">
-                            <h3 className="font-bold text-xl text-[#E8EAF0]">트레이너 반려 사유 입력</h3>
+                            <h3 className="font-bold text-xl text-[#E8EAF0]"> 피드백 확인</h3>
                             <img src={CloseButton} onClick={closeModal} />
                         </div>
-                        <p className="text-[14px] font-normal text-[#99A1AF] border-b-[#1E2939] border-b pb-8"> 2회차 - 벤치프레스 기초 </p>
+                        <p className="text-[14px] font-normal text-[#99A1AF] border-b-[#1E2939] border-b pb-8"> {feedbackDetail?.sessionNo}회차 - {feedbackDetail?.curriculumTitle} </p>
                     </div>
                     <div className="flex flex-col gap-6 mt-6">
                         <div className="flex justify-between items-center">
@@ -30,7 +75,7 @@ export default function PtFeeBackCheckModal({ isModal, closeModal}: TrainerRejec
                                 <img src={PtRecordVideo} alt="피드백 동영상"/>
                                 <p className="text-[14px] font-extrabold text-[#BFFF0B]"> 동영상 피드백 </p>
                             </div>
-                            <p className="text-[12px] font-normal text-[#6A7282]"> 2026-05-08 </p>
+                            <p className="text-[12px] font-normal text-[#6A7282]"> {feedbackDetail?.createdAt} </p>
                         </div>
                         <div className="grid grid-cols-2 gap-5">
                             <div className="
@@ -45,7 +90,13 @@ export default function PtFeeBackCheckModal({ isModal, closeModal}: TrainerRejec
                                 <div className="flex flex-col items-center gap-3">
                                     <img src={PtRecordVideo} width={65} height={65} alt="피드백 동영상"/>
                                     <p className="text-[12px] font-normal text-[#99A1AF]"> 영상 피드백이 등록되었습니다. </p>
-                                    <button className="px-5 py-2 bg-[#BFFF0B] rounded-[10px] text-[14px] font-extrabold text-black"> 동영상 보기 </button>
+                                    <a
+                                        href={beforeMedia?.fileUrl}
+                                        target="_blank"
+                                        className="px-5 py-2 bg-[#BFFF0B] rounded-[10px] text-[14px] font-extrabold text-black text-center"
+                                    >
+                                    영상 보기
+                                    </a>
                                 </div>
                             </div>
                             <div className="
@@ -60,7 +111,15 @@ export default function PtFeeBackCheckModal({ isModal, closeModal}: TrainerRejec
                                 <div className="flex flex-col items-center gap-3">
                                     <img src={PtRecordVideo} width={65} height={65} alt="피드백 동영상"/>
                                     <p className="text-[12px] font-normal text-[#99A1AF]"> 영상 피드백이 등록되었습니다. </p>
-                                    <button className="px-5 py-2 bg-[#BFFF0B] rounded-[10px] text-[14px] font-extrabold text-black"> 동영상 보기 </button>
+
+                                    <a
+                                        href={afterMedia?.fileUrl}
+                                        target="_blank"
+                                        className="px-5 py-2 bg-[#BFFF0B] rounded-[10px] text-[14px] font-extrabold text-black text-center"
+                                    >
+                                    영상 보기
+                                    </a>
+
                                 </div>
                             </div>
                         </div>
@@ -74,7 +133,7 @@ export default function PtFeeBackCheckModal({ isModal, closeModal}: TrainerRejec
                             bg-[#1E293980]
                             p-6
                             ">
-                                <p className="text-[14px] font-normal text-[#D1D5DC]"> 벤치프레스 자세가 많이 좋아졌습니다. 동영상을 참고하셔서 집에서도 연습해보세요. </p>
+                                <p className="text-[14px] font-normal text-[#D1D5DC]"> {feedbackDetail?.content} </p>
                             </div>
                         </div>
                     </div>
