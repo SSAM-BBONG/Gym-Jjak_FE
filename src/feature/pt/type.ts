@@ -394,7 +394,7 @@ export interface PtReservationStudentDetailResponse{
   status: number;
   code: string;
   message: string;
-  data: PtReservationStudentsData;
+  data: PtReservationStudentDetailData;
 }
 
 // PT 수강생 상세조회 데이터
@@ -407,3 +407,145 @@ export interface PtReservationStudentDetailData {
     totalSessionCount: number,
     title: string
 }
+
+// PT 예약 수강 상태 변경 응답값
+export interface PtReservationStatusChangeResponse{
+  status: number;
+  code: string;
+  message: string;
+  data: PtReservationStatusChangeData;
+}
+
+// PT 예약 수강 상태 변경 데이터
+export interface PtReservationStatusChangeData {
+    status: "IN_PROGRESS" | "COMPLETED" | "CANCELLED" | "RESERVED"
+    progressCount: number,
+    totalSessionCount: number
+}
+
+// PT 예약 수강 상태 변경 요청값
+export interface PtReservationStatusChangeRequest {
+  status: string
+}
+
+// 내 예약 기록 목록 조회 응답값
+export interface MyPtResrvationListsResponse{
+  status: number;
+  code: string;
+  message: string;
+  data: MyPtResrvationListsData;
+}
+
+// 내 예약 기록 목록 조회 데이터
+export interface MyPtResrvationListsData {
+  ptReservations: MyPtReservationList[] 
+}
+
+// 내 예약 기록 목록
+export interface MyPtReservationList {
+    ptReservationId: number,
+    thumbnailUrl: string,
+    title: string,
+    trainerName: string,
+    status: string,
+    lastPtDate: string,
+    progressCount: number,
+    totalSessionCount: number
+}
+
+// 내 예약 기록 상세 조회 커리큘럼
+export interface MyPtRecordDetailCurriculum {
+  id: number;
+  sessionNo: number;
+  title: string;
+  feedbackId: number | null;
+}
+
+// 내 예약 기록 상세 조회 데이터
+export interface MyPtRecordDetailData {
+  thumbnailUrl: string;
+  title: string;
+  trainerName: string;
+  status: string;
+  progressCount: number;
+  totalSessionCount: number;
+  curriculums: MyPtRecordDetailCurriculum[];
+}
+
+// 내 예약 기록 상세 조회 응답값
+export interface MyPtResrvationDetailResponse {
+  status: number;
+  code: string;
+  message: string;
+  data: MyPtRecordDetailData;
+}
+
+// 피드백 목록
+export interface Feedback {
+  feedbackId: number;
+  content: string;
+  createdAt: string; 
+}
+
+// 피드백 목록 조회 커리큘럼
+export interface StudentFeedbackCurriculum {
+  ptCurriculumId: number;
+  sessionNo: number;
+  title: string;
+  feedbacks: Feedback | null;
+}
+
+// 피드백 목록 조회 응답값
+export interface FeedbackListsResponse {
+  status: number;
+  code: string;
+  message: string;
+  data: StudentFeedbackCurriculum[];
+}
+
+// 피드백 등록 요청값
+export interface FeedbackCreateRequest {
+  ptCurriculumId: number;
+  media: FeedbackCreateMedia[]
+  content: string;
+}
+
+// 피드백 등록 media 
+export interface FeedbackCreateMedia {
+  file : TrainerFileData;
+  mediaType: "BEFORE" | "AFTER";
+}
+// 피드백 등록 응답값
+export interface FeedbackCreateResponse {
+  status: number;
+  code: string;
+  message: string;
+  data: FeedbackCreateData
+}
+
+// 피드백 등록 데이터
+export interface FeedbackCreateData {
+  feedbackId: number;
+}
+
+// 피드백 상세조회 
+export interface FeedbackDetailResponse {
+  status: number;
+  code: string;
+  message: string;
+  data: FeedbackDetailData
+}
+
+export interface FeedbackDetailData {
+    sessionNo: number,
+    curriculumTitle: string,
+    content: string,
+    mediaList: FeedbackDetailMedia[]; 
+    createdAt: string
+}
+
+interface FeedbackDetailMedia {
+  mediaType: string;
+  fileUrl: string;
+}
+

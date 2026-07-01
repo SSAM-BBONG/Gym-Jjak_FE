@@ -1,5 +1,11 @@
 ﻿import {
+  FeedbackCreateRequest,
+  FeedbackCreateResponse,
+  FeedbackDetailResponse,
+  FeedbackListsResponse,
   MyPtManageListResponse,
+  MyPtResrvationDetailResponse,
+  MyPtResrvationListsResponse,
   OnboardingResponse, PtCourseDetailResponse,
   PtCourseListResponse,
   PtRegistCategoryReponse,
@@ -9,6 +15,8 @@
   PtReservationAvailableDatesResponse,
   PtReservationRequest,
   PtReservationResponse,
+  PtReservationStatusChangeRequest,
+  PtReservationStatusChangeResponse,
   PtReservationStudentDetailResponse,
   PtReservationStudentsResponse,
   PtResrvationAvailableTimesResponse,
@@ -332,7 +340,7 @@ export const createPtReservation = async (
   return response.json();
 };
 
-// PT 깅습 수강생 목록 조회
+// PT 깅습 수강생 목록 조회 API 
 export const getPtStudentsList = async (
   ptCourseId: number
 ) : Promise<PtReservationStudentsResponse> => {
@@ -350,16 +358,130 @@ export const getPtStudentsList = async (
   return response.json();
 };
 
+// PT 강습 수강생 상세 조회 API 
 export const getPtStudentDetail = async (
-  ptCourseId: number,
-  reservationId: number
+  reservationId: string
 ) : Promise<PtReservationStudentDetailResponse> => {
-  const response = await fetchWithAuth(`/api/pt-courses/${ptCourseId}/reservations/${reservationId}`);
+  const response = await fetchWithAuth(`/api/pt-courses/reservations/${reservationId}`);
 
   if (!response.ok) {
     const message = await getErrorMessage(
       response,
       "PT 강습 수강생 상세 조회에 실패하였습니다"
+    );
+
+    throw new Error(message);
+  }
+
+  return response.json();
+};
+
+// PT 예약 수강 상태 변경
+export const chagnePtzoneResrvationStatus = async (
+  reservationId: number,
+  status: PtReservationStatusChangeRequest
+): Promise<PtReservationStatusChangeResponse> => {
+  const response = await fetchWithAuth(`/api/reservations/${reservationId}/status
+`, {
+    method: "PATCH",
+    body: JSON.stringify(status)
+    }
+  );
+
+  if (!response.ok) {
+    const message = await getErrorMessage(
+      response,
+      'PT 예약 수강 상태 변경에 실패하였습니다.'
+    );
+
+    throw new Error(message);
+  }
+
+  return response.json();
+};
+
+// 내 예약 기록 목록 조회
+export const getMyPtReservationLists = async () : Promise<MyPtResrvationListsResponse> => {
+  const response = await fetchWithAuth(`/api/reservations/me`);
+
+  if (!response.ok) {
+    const message = await getErrorMessage(
+      response,
+      "내 예약 기록 목록 조회에 실패하였습니다."
+    );
+
+    throw new Error(message);
+  }
+
+  return response.json();
+};
+
+// 내 예약 기록 상세 조회
+export const getMyPtReservationDetail = async (
+  reservationId: string
+) : Promise<MyPtResrvationDetailResponse> => {
+  const response = await fetchWithAuth(`/api/reservations/me/${reservationId}`);
+
+  if (!response.ok) {
+    const message = await getErrorMessage(
+      response,
+      "내 예약 기록 상세 조회에 실패하였습니다."
+    );
+
+    throw new Error(message);
+  }
+
+  return response.json();
+};
+
+// 피드백 목록 조회
+export const getFeedBackLists = async (reservationId: string) : Promise<FeedbackListsResponse> => {
+  const response = await fetchWithAuth(`/api/reservations/${reservationId}/feedbacks`);
+
+  if (!response.ok) {
+    const message = await getErrorMessage(
+      response,
+      "피드백 목록 조회르 실패하였습니다.."
+    );
+
+    throw new Error(message);
+  }
+
+  return response.json();
+};
+
+// 피드백 등록 
+export const createFeedback = async (
+  reservationId: string,
+  payload: FeedbackCreateRequest
+): Promise<FeedbackCreateResponse> => {
+  const response = await fetchWithAuth(`/api/reservations/${reservationId}/feedbacks`, {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+
+  if (!response.ok) {
+    const message = await getErrorMessage(
+      response,
+      "피드백 등록에 실패하였습니다.");
+    
+      throw new Error(message);
+  }
+
+  return response.json();
+};
+
+// 피드백 상세 조회
+export const getFeedbackDetail = async (
+  reservationId: string,
+  feedbackId: string
+) : Promise<FeedbackDetailResponse> => {
+  const response = await fetchWithAuth(`/api/reservations/${reservationId}/feedbacks/${feedbackId}`);
+
+  if (!response.ok) {
+    const message = await getErrorMessage(
+      response,
+      "피드백 상세 조회에 실패하였습니다."
     );
 
     throw new Error(message);

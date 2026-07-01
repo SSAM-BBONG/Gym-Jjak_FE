@@ -2,8 +2,8 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { chagnePtzoneStatus, createPtCourse, createPtReservation, getPtResrvationAvailableDates, getPtResrvationAvailableTimes, getTrainerCancel, trainerApplication, updateTrainerApplication } from "@/service/ptzone.service";
-import { PtRegistRequest, PtRegistSchedule, PtReservationRequest, TrainerApplicationData, TrainerApplicationEditData } from "./type";
+import { chagnePtzoneResrvationStatus, chagnePtzoneStatus, createFeedback, createPtCourse, createPtReservation, getPtResrvationAvailableDates, getPtResrvationAvailableTimes, getTrainerCancel, trainerApplication, updateTrainerApplication } from "@/service/ptzone.service";
+import { PtRegistRequest, PtRegistSchedule, PtReservationRequest, PtReservationStatusChangeRequest, TrainerApplicationData, TrainerApplicationEditData } from "./type";
 import { uploadFilesPresignedUrl } from "@/service/file.service";
 
 type PtRegistCurriculumFormData = {
@@ -224,4 +224,51 @@ export const createPtReservationAction = async (
   payload: PtReservationRequest
 ) => {
   return createPtReservation(ptCourseId, payload);
+};
+
+// PT 예약 수강 상태 변경
+export const changePtReservationStatus = async (
+  ptCourseId: number,
+  reservationId: number,
+  status: PtReservationStatusChangeRequest["status"]
+) => {
+  await chagnePtzoneResrvationStatus(reservationId, { status });
+
+  revalidatePath(`/pt/manage/${ptCourseId}`);
+};
+
+// 피드백 등록
+export const createPtFeedbackAction = async (
+  reservationId: string,
+  ptCourseId: string,
+  formData: FormData
+) => {
+  const beforeFile = formData.get("beforeFile");
+  const afterFile = formData.get("afterFile");
+
+  if (!(beforeFile instanceof File) || beforeFile.size === 0) {
+    return { success: false, message: "Before 영상을 업로드해주세요." };
+  }
+
+  if (!(afterFile instanceof File) || afterFile.size === 0) {
+    return { success: false, message: "After 영상을 업로드해주세요." };
+  }
+
+  const uploadedFiles = await uploadFilesPresignedUrl([
+    { file: beforeFile, fileType: "FEEDBACK_VIDEO" },
+    { file: afterFile, fileType: "FEEDBACK_VIDEO" },
+  ]);
+
+  await createFeedback(reservationId, {
+    ptCurriculumId: Number(formData.get("ptCurriculumId")),
+    content: String(formData.get("content") ?? "").trim(),
+    media: [
+      { file: uploadedFiles[0], mediaType: "BEFORE" },
+      { file: uploadedFiles[1], mediaType: "AFTER" },
+    ],
+  });
+
+  revalidatePath(`/pt/manage/${ptCourseId}/users/${reservationId}`);
+
+  return { success: true };
 };

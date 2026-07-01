@@ -23,9 +23,7 @@ jobs:
         with:
           context: .
           file: ./Dockerfile
-          build-args: | 
-            NEXT_PUBLIC_API_BASE_URL=${{ vars.NEXT_PUBLIC_API_BASE_URL }}
-            KAKAO_MAP_KEY=${{ secrets.KAKAO_MAP_KEY }}
+          build-args: NEXT_PUBLIC_API_BASE_URL=${{ vars.NEXT_PUBLIC_API_BASE_URL }}
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/${{ vars.APP_NAME }}
           
@@ -45,7 +43,8 @@ jobs:
             docker pull ${{ secrets.DOCKER_USERNAME }}/${{ vars.APP_NAME }}
             docker run -d \
             --name ${{ vars.APP_NAME }} \
-            -p 80:3000 \
+            -p 3000:3000 \
+            -e KAKAO_MAP_KEY="${{ secrets.KAKAO_MAP_KEY }}" \
             ${{ secrets.DOCKER_USERNAME }}/${{ vars.APP_NAME }}
             docker image prune -f      
     

@@ -1,6 +1,11 @@
 import PtRecordCard from "@/feature/pt/components/PtRecordCard";
+import { getMyPtReservationLists } from "@/service/ptzone.service";
+import Link from "next/link";
 
-export default function PtRecordsPage() {
+export default async function PtRecordsPage() {
+
+    const response = await getMyPtReservationLists();
+
     return (
         <div className="flex flex-col gap-1 px-40 py-10">
             <p className="text-[36px] font-black text-white"> PT 기록 </p>
@@ -15,9 +20,17 @@ export default function PtRecordsPage() {
             </div>
 
             <div className="flex flex-col gap-5">
-                <PtRecordCard />
-                <PtRecordCard />
-                <PtRecordCard />
+                {response.data.ptReservations.map((item) => (
+                <Link
+                    key={item.ptReservationId}
+                    href={`/pt/records/${item.ptReservationId}`}
+                >
+                <PtRecordCard 
+                    key={item.ptReservationId}
+                    data={item}
+                />
+                </Link>
+                ))}
             </div>
         </div>
     );
