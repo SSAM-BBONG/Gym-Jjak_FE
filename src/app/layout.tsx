@@ -6,6 +6,10 @@ import { Metadata } from "next";
 const geist = Geist({ subsets: ['latin'], variable: '--font-sans' });
 
 export const metadata: Metadata = {
+  verification: {
+    google: 'nZEMBE-gaUgMx2Yx8lmVxPp50HvKZqcQU69mtiOLGA8',
+  },
+
   metadataBase: new URL('https://13.124.200.97.sslip.io'),
 
   applicationName: "GYMJJAK",
