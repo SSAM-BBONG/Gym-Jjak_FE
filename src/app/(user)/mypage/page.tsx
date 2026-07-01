@@ -7,6 +7,7 @@ import MypageMyOrganizationApplication from "@/feature/mypage/components/MypageM
 import MyPageProfile from "@/feature/mypage/components/MypageProfile";
 import MypageUserProfileEdit from "@/feature/mypage/components/MyPageUserProfileEdit";
 import { decodeJWT } from "@/lib/decode";
+import Image from "next/image";
 
 export default async function MyPage() {
 
@@ -53,7 +54,16 @@ export default async function MyPage() {
             opacity-50"
               >
                 <div className="flex gap-2 items-center">
-                  <img src={MypageStyle} alt="마이페이지 칭호" />
+                  <div className="relative w-5 h-5">
+                    <Image
+                      src={MypageStyle}
+                      alt="마이페이지 칭호"
+                      fill
+                      priority
+                      sizes="w-10 h-10"
+                      className="object-cover"
+                    />
+                  </div>
                   <p className="text-[18px] font-extrabold text-white"> 칭호</p>
                 </div>
 

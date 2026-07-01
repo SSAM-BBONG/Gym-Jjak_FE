@@ -1,4 +1,5 @@
 import { CloseButton, MypageMyActivity, PtFeedBackOnBoard, PtRecordVideo } from "@/components/ui/image";
+import Image from "next/image";
 
 interface TrainerRejectModal {
     isModal: boolean;
@@ -23,8 +24,15 @@ export default function OnlinePtFeeBackRegistModal({ isModal, closeModal, active
                     <div className="flex flex-col gap-2 ">
                         <div className="flex justify-between items-center pt-2">
                             <h3 className="font-bold text-xl text-[#E8EAF0]">{type} 확인</h3>
-                            <img src={CloseButton} onClick={closeModal} />
-                        </div>
+                            <button onClick={closeModal} className="relative ml-auto w-5 h-5">
+                                <Image
+                                    src={CloseButton}
+                                    alt="모달 닫기 버튼"
+                                    fill
+                                    priority
+                                    sizes="w-4 h-4"
+                                />
+                            </button>                        </div>
                         <p className="text-[14px] font-normal text-[#99A1AF] border-b-[#1E2939] border-b pb-8"> 1주차 </p>
                     </div>
                     <div className="flex flex-col gap-6 mt-6">

@@ -1,4 +1,5 @@
 import { PtfindTestImg } from "@/components/ui/image";
+import Image from "next/image";
 
 export default function PtPopularCard() {
     return (
@@ -11,12 +12,21 @@ export default function PtPopularCard() {
         cursor-pointer
         ">
             <p className="absolute rounded-[4px] bg-[#BFFF0B] px-2 py-1 text-[12px] font-extrabold text-black top-2 left-2"> 태그 </p>
-            <img src={PtfindTestImg} width={320} height={160} alt="PT ZONE 인기강습 이미지"/>
+            <div className="relative w-80 h-40">
+                <Image
+                    src={PtfindTestImg}
+                    alt="PT ZONE 인기강습 이미지"
+                    fill
+                    priority
+                    sizes="w-160 h-80"
+                    className="object-cover"
+                />
+            </div>
             <div className="flex flex-col p-4">
                 <div className="flex justify-between">
                     <p className="text-[18px] font-extrabold text-white"> 가슴 집중 PT</p>
                     <p className="text-[12px] font-extrabold text-black p-1 rounded-[4px] bg-[#BFFF0B]"> 카테고리 </p>
-                </div> 
+                </div>
                 <p className="text-[12px] font-normal text-[#99A1AF]"> 김철수 트레이너 </p>
                 <div className="flex justify-between">
                     <p className="text-[12px] font-normal text-[#6A7282]"> 헬스장 주소 </p>

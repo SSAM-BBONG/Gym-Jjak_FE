@@ -1,4 +1,5 @@
 import { CloseButton } from "@/components/ui/image";
+import Image from "next/image";
 
 interface ChangeStateModalProps {
     isModal: boolean;
@@ -24,7 +25,15 @@ export default function CheckViewModal({ isModal, closeModal, mode, nickname, co
                 <article>
                     <div className="flex justify-between border-b-[#1E2939] border-b items-center pb-8 pt-2">
                         <h3 className="font-bold text-xl text-[#E8EAF0]">{modalTitle}</h3>
-                        <img src={CloseButton} onClick={closeModal} />
+                        <button onClick={closeModal} className="relative ml-auto w-5 h-5">
+                            <Image
+                                src={CloseButton}
+                                alt="모달 닫기 버튼"
+                                fill
+                                priority
+                                sizes="w-4 h-4"
+                            />
+                        </button>
                     </div>
                     <div className="flex justify-between items-center my-4">
                         <h3 className="font-bold text-xl text-[#E8EAF0] py-2">{nickname}</h3>

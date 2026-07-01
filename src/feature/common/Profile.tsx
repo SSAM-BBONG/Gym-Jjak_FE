@@ -7,6 +7,7 @@ import { logoutAction } from "../auth/action";
 import TwoButtonModal from "@/components/ui/TwoButtonModal";
 import OneButtonModal from "@/components/ui/OneButtonModal";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 export default function UserProfile() {
     const router = useRouter();
@@ -48,7 +49,16 @@ export default function UserProfile() {
                     className="rounded-full size-8 border-gray-700 border-2 overflow-hidden flex items-center justify-center
                     hover:cursor-pointer hover:border-[#BFFF0B]"
                 >
-                    <img src={Profile} alt="프로필 이미지" />
+                    <div className="relative w-8 h-8">
+                        <Image
+                            src={Profile}
+                            alt="프로필 이미지"
+                            fill
+                            priority
+                            sizes="w-16 h-16"
+                            className="object-cover"
+                        />
+                    </div>
                 </div>
 
                 {visible && (
@@ -61,7 +71,16 @@ export default function UserProfile() {
                         <hr className="border-t-[#1E2939]" />
 
                         <div className="flex gap-3 items-center">
-                            <img src={HeaderProfile} alt="마이페이지" />
+                            <div className="relative w-5 h-5">
+                                <Image
+                                    src={HeaderProfile}
+                                    alt="마이페이지"
+                                    fill
+                                    priority
+                                    sizes="w-10 h-10"
+                                    className="object-cover"
+                                />
+                            </div>
                             <Link href="/mypage">
                                 <p className="text-[#D1D5DC] text-[14px] hover:text-[#BFFF0B] cursor-pointer">
                                     마이페이지
@@ -70,7 +89,16 @@ export default function UserProfile() {
                         </div>
 
                         <div className="flex gap-3 items-center">
-                            <img src={HeaderLogout} alt="로그아웃" />
+                            <div className="relative w-5 h-5">
+                                <Image
+                                    src={HeaderLogout}
+                                    alt="로그아웃"
+                                    fill
+                                    priority
+                                    sizes="w-10 h-10"
+                                    className="object-cover"
+                                />
+                            </div>
                             <p
                                 onClick={handleLogoutClick}
                                 className="text-[#D1D5DC] text-[14px] hover:text-[#BFFF0B] cursor-pointer"

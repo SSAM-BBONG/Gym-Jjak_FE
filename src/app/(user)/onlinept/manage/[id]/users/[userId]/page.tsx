@@ -37,7 +37,9 @@ export default function PtManageUserFeedBackPage() {
             </div>
 
             <div className="flex gap-3">
-                <button className="bg-[#1E2939] text-white rounded-[10px] h-12 hover:bg-[#BFFF0B] hover:text-black w-full text-base font-bold"><img />채팅</button>
+                <button className="bg-[#1E2939] text-white rounded-[10px] h-12 hover:bg-[#BFFF0B] hover:text-black w-full text-base font-bold">
+                    {/* <img /> */}
+                    채팅</button>
                 <button className="bg-[#1E2939] text-white rounded-[10px] h-12 hover:bg-[#BFFF0B] hover:text-black w-full text-base font-bold">신고</button>
                 <button className="bg-[#1E2939] text-white rounded-[10px] h-12 hover:bg-[#BFFF0B] hover:text-black w-full text-base font-bold">취소</button>
             </div>

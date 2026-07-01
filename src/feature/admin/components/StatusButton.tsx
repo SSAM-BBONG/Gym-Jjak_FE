@@ -7,6 +7,7 @@ import OneButtonModal from "@/components/ui/OneButtonModal";
 import { useActionState, useEffect, useMemo } from "react";
 import { changeUserStatusAction } from "../action";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 interface StatusButtonProps {
     userId: number;
@@ -42,7 +43,15 @@ export default function StatusButton({ userId, nickname, status }: StatusButtonP
             <button
                 onClick={modal.openModal}
                 className="flex items-center gap-2.5 text-sm font-medium text-white bg-[#1E2939] border-[#364153] border rounded-lg py-2 px-3">
-                <img src={AdminManagementImg} /> 상태 변경
+                <div className="relative ml-auto w-4 h-4">
+                    <Image
+                        src={AdminManagementImg}
+                        alt="상태 변경 버튼"
+                        fill
+                        priority
+                        sizes="w-4 h-4"
+                    />
+                </div> 상태 변경
             </button>
             <ChangeStateModal
                 isModal={modal.isModal}

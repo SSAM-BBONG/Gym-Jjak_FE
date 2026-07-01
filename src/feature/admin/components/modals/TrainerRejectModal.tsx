@@ -4,6 +4,7 @@ import { CloseButton } from "@/components/ui/image";
 import { rejectTrainerApplicationAction } from "../../action";
 import { useActionState, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 interface TrainerRejectModal {
     isModal: boolean;
@@ -45,8 +46,13 @@ export default function TrainerRejectModal({ isModal, closeModal, activeModal, t
                 <article>
                     <div className="flex justify-between border-b-[#1E2939] border-b items-center pb-8 pt-2">
                         <h3 className="font-bold text-xl text-[#E8EAF0]">트레이너 반려 사유 입력</h3>
-                        <img src={CloseButton} onClick={closeModal} />
-                    </div>
+                        <Image
+                            src={CloseButton}
+                            alt="모달 닫기 버튼"
+                            fill
+                            priority
+                            sizes="w-4 h-4"
+                        />                    </div>
                     <div className="flex justify-between items-center my-4">
                         <h3 className="font-bold text-xl text-[#E8EAF0] py-2">이름</h3>
                     </div>

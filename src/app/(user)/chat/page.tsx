@@ -1,5 +1,6 @@
 import { chatAddOption } from "@/components/ui/image";
 import type { Metadata } from "next";
+import Image from "next/image";
 
 export const metadata: Metadata = {
     robots: {
@@ -37,7 +38,7 @@ export default function Page() {
 
                 <div className="flex gap-4 px-4 items-center py-5 px-2 rounded-[16px] bg-[#101828] border border-[#1E2939]">
                     <div className="border border-[#364153] rounded-full w-[55px] h-[55px]">
-                        <img />
+                        {/* <img /> */}
                     </div>
                     <div className="flex flex-1 justify-between items-center">
                         <div className="flex flex-col gap-3 justify-center">
@@ -52,7 +53,16 @@ export default function Page() {
                                 <p className="text-[#6A7282] text-[11px] font-normal"> 날짜</p>
                                 <p className="bg-[#BFFF0B] rounded-full p-1 text-[10px] text-black font-bold"> 12 </p>
                             </div>
-                            <img src={chatAddOption} />
+                            <div className="relative w-4 h-4">
+                                <Image
+                                    src={chatAddOption}
+                                    alt="채팅 기능 이미지"
+                                    fill
+                                    priority
+                                    sizes="w-20 h-20"
+                                    className="object-cover"
+                                />
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -1,15 +1,14 @@
-import { PtfindTestImg } from "@/components/ui/image";
 import PfFeebBackCard from "@/feature/pt/components/PtFeebBackCard";
 import PtRecordDetailButton from "@/feature/pt/components/PtRecordDetailButton";
 import { getMyPtReservationDetail } from "@/service/ptzone.service";
 
 interface PtRecordDetailPageProps {
-  params: Promise<{
-    id: string;
-  }>;
+    params: Promise<{
+        id: string;
+    }>;
 }
 
-export default async function PtRecordDetailPage( {params}: PtRecordDetailPageProps) {
+export default async function PtRecordDetailPage({ params }: PtRecordDetailPageProps) {
 
     const { id } = await params
     const response = await getMyPtReservationDetail(id);
@@ -56,8 +55,8 @@ export default async function PtRecordDetailPage( {params}: PtRecordDetailPagePr
             </div>
 
             <PfFeebBackCard
-            data={response.data.curriculums}
-            reservationId={id}
+                data={response.data.curriculums}
+                reservationId={id}
             />
 
         </div>

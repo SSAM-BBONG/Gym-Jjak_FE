@@ -1,14 +1,13 @@
 import PtManageUserCard from "@/feature/pt/components/PtManageUserCard";
 import { getPtStudentsList } from "@/service/ptzone.service";
-import Link from "next/link";
 
 interface PtManageDetailPageProps {
-  params: Promise<{
-    id: number;
-  }>;
+    params: Promise<{
+        id: number;
+    }>;
 }
 
-export default async function PtManageDetailPage( {params}: PtManageDetailPageProps) {
+export default async function PtManageDetailPage({ params }: PtManageDetailPageProps) {
     const { id } = await params;
 
     const response = await getPtStudentsList(id);
@@ -19,10 +18,10 @@ export default async function PtManageDetailPage( {params}: PtManageDetailPagePr
             <p className="text-[14px] font-normal text-[#99A1AF]"> 신청자 관리 및 피드백 제공 </p>
 
             <div className="flex flex-col gap-4 mt-6">
-                
+
                 {response.data.ptReservations.map((item) => (
 
-                    <PtManageUserCard 
+                    <PtManageUserCard
                         key={item.ptReservationId}
                         data={item}
                         id={id}

@@ -1,6 +1,5 @@
 'use client'
 
-import { MypageInbody, TrainerEssentialQulificationIcon, TrainerProfileImgUpload } from "@/components/ui/image";
 import { MyTrainerProfileData } from "../type";
 import MypageTrainerProfile from "./MypageTrainerProfile";
 import MypageTrainerEssentialQUlification from "./MypageTrainerEssendtialQulification";
@@ -14,10 +13,10 @@ import { MypageTrainerProfileFormValue, mypageTrainerProfileSchema } from "@/lib
 import { zodResolver } from "@hookform/resolvers/zod";
 
 interface MypageTrainerProfileFormProps {
-    data : MyTrainerProfileData
+    data: MyTrainerProfileData
 }
 
-export default function MypageTrainerProfileForm( {data}: MypageTrainerProfileFormProps) {
+export default function MypageTrainerProfileForm({ data }: MypageTrainerProfileFormProps) {
     const [mode, setMode] = useState("read");
     const isReadOnly = mode === "read";
 
@@ -31,16 +30,16 @@ export default function MypageTrainerProfileForm( {data}: MypageTrainerProfileFo
         formState: { errors, isSubmitting },
     } = useForm<MypageTrainerProfileFormValue>({
         resolver: zodResolver(
-        mypageTrainerProfileSchema
+            mypageTrainerProfileSchema
         ) as Resolver<MypageTrainerProfileFormValue>,
         defaultValues: {
-        profileImageFile: null,
-        profileImageAction: "KEEP",
-        additionalCertifications: data.certifications
-            .filter((item) => item.certificationType !== "ESSENTIAL")
-            .map((item) => item.name),
-        awardHistories: data.awards.map((item) => item.name),
-        introduction: data.introduction ?? "",
+            profileImageFile: null,
+            profileImageAction: "KEEP",
+            additionalCertifications: data.certifications
+                .filter((item) => item.certificationType !== "ESSENTIAL")
+                .map((item) => item.name),
+            awardHistories: data.awards.map((item) => item.name),
+            introduction: data.introduction ?? "",
         },
         mode: "onSubmit",
     });
@@ -51,13 +50,13 @@ export default function MypageTrainerProfileForm( {data}: MypageTrainerProfileFo
 
     const handleCancelClick = () => {
         reset({
-        profileImageFile: null,
-        profileImageAction: "KEEP",
-        additionalCertifications: data.certifications
-            .filter((item) => item.certificationType !== "ESSENTIAL")
-            .map((item) => item.name),
-        awardHistories: data.awards.map((item) => item.name),
-        introduction: data.introduction ?? "",
+            profileImageFile: null,
+            profileImageAction: "KEEP",
+            additionalCertifications: data.certifications
+                .filter((item) => item.certificationType !== "ESSENTIAL")
+                .map((item) => item.name),
+            awardHistories: data.awards.map((item) => item.name),
+            introduction: data.introduction ?? "",
         });
 
         setMode("read");
@@ -69,7 +68,7 @@ export default function MypageTrainerProfileForm( {data}: MypageTrainerProfileFo
         const formData = new FormData();
 
         if (values.profileImageFile) {
-        formData.append("profileImageFile", values.profileImageFile);
+            formData.append("profileImageFile", values.profileImageFile);
         }
 
         formData.append("profileImageAction", values.profileImageAction);
@@ -80,13 +79,13 @@ export default function MypageTrainerProfileForm( {data}: MypageTrainerProfileFo
         const result = await editMyTrainerProfileInformationAction(formData);
 
         if (!result.success) {
-        return;
+            return;
         }
 
         setMode("read");
     };
 
-    
+
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col px-40 pt-10">
             <div className="flex justify-between items-center">
@@ -96,74 +95,74 @@ export default function MypageTrainerProfileForm( {data}: MypageTrainerProfileFo
                 </div>
 
                 {isReadOnly
-                    ? 
+                    ?
                     (
-                    <button 
-                        className="bg-[#BFFF0B] text-black text-[16px] px-4 py-2 rounded-[10px] font-bold"
-                        type="button" 
-                        onClick={handleEditClick}
-                    >
-                        수정하기
-                    </button>
-                    ) 
-                    : 
-                    (
-                    <div className="flex gap-3">
-                        <button 
-                            className="bg-[#1E2939] text-white text-[16px] px-4 py-2 rounded-[10px] font-bold"
-                            type="button" 
-                            onClick={handleCancelClick} 
-                            disabled={isSubmitting}>
-                            취소
-                        </button>
-                        <button 
+                        <button
                             className="bg-[#BFFF0B] text-black text-[16px] px-4 py-2 rounded-[10px] font-bold"
-                            type="submit" 
-                            disabled={isSubmitting}>
-                            {isSubmitting ? "수정 중..." : "수정하기"}
+                            type="button"
+                            onClick={handleEditClick}
+                        >
+                            수정하기
                         </button>
-                    </div>
+                    )
+                    :
+                    (
+                        <div className="flex gap-3">
+                            <button
+                                className="bg-[#1E2939] text-white text-[16px] px-4 py-2 rounded-[10px] font-bold"
+                                type="button"
+                                onClick={handleCancelClick}
+                                disabled={isSubmitting}>
+                                취소
+                            </button>
+                            <button
+                                className="bg-[#BFFF0B] text-black text-[16px] px-4 py-2 rounded-[10px] font-bold"
+                                type="submit"
+                                disabled={isSubmitting}>
+                                {isSubmitting ? "수정 중..." : "수정하기"}
+                            </button>
+                        </div>
                     )}
             </div>
 
             <div className="flex flex-col gap-6 mt-6">
-    
-            <MypageTrainerProfile 
-                data={data}
-                mode={mode}
-                setValue={setValue}
-                error={errors.profileImageFile?.message}
-            />
 
-            <MypageTrainerEssentialQUlification
-                data={data}
-                isReadOnly={true}
-            />
+                <MypageTrainerProfile
+                    data={data}
+                    mode={mode}
+                    setValue={setValue}
+                    error={errors.profileImageFile?.message}
+                />
 
-            <MypageTrainerQulification
-                data={data}
-                mode={mode}
-                setValue={setValue}
-                error={errors.additionalCertifications?.message}
-            />
+                <MypageTrainerEssentialQUlification
+                    data={data}
+                    isReadOnly={true}
+                />
 
-            <MypageTrainerProfileAwardHistory
-                data={data}
-                mode={mode}
-                setValue={setValue}
-                error={errors.awardHistories?.message}
-            />
+                <MypageTrainerQulification
+                    data={data}
+                    mode={mode}
+                    setValue={setValue}
+                    error={errors.additionalCertifications?.message}
+                />
 
-            <MypageTrainerProfileSelfIntroduction
-                data={data}
-                mode={mode}
-                register={register}
-                error={errors.introduction?.message}
-            />
-            <button 
-                type="submit"
-                disabled={isReadOnly}
-                className="bg-[#BFFF0B] text-black text-[16px] font-extrabold py-3 mb-20 rounded-[10px]"> 수정하기 </button>
+                <MypageTrainerProfileAwardHistory
+                    data={data}
+                    mode={mode}
+                    setValue={setValue}
+                    error={errors.awardHistories?.message}
+                />
+
+                <MypageTrainerProfileSelfIntroduction
+                    data={data}
+                    mode={mode}
+                    register={register}
+                    error={errors.introduction?.message}
+                />
+                <button
+                    type="submit"
+                    disabled={isReadOnly}
+                    className="bg-[#BFFF0B] text-black text-[16px] font-extrabold py-3 mb-20 rounded-[10px]"> 수정하기 </button>
             </div>
         </form>
     );

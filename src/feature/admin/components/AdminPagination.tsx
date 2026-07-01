@@ -11,11 +11,11 @@ export default function AdminPagination({ url, page, totalPage }: { url: string,
 
     return (
         <div className="flex gap-3 text-white font-semibold text-base justify-center mt-5">
-            <Link href={`/admin/${url}?page=${Math.max(currentpage - 1, 0)}`}><img />이전</Link>
+            <Link href={`/admin/${url}?page=${Math.max(currentpage - 1, 0)}`}>이전</Link>
             {
                 arr.map(i => <Link key={i} href={`/admin/${url}?page=${i}`} className={currentpage + 1 === i ? 'text-[#BFFF0B]' : ''}>{i}</Link>)
             }
-            <Link href={`/admin/${url}?page=${Math.min(currentpage + 1, Math.max(totalPage, 1) - 1)}`}><img />다음</Link>
+            <Link href={`/admin/${url}?page=${Math.min(currentpage + 1, Math.max(totalPage, 1) - 1)}`}>다음</Link>
         </div>
     );
 } 

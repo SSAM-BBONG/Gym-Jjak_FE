@@ -41,7 +41,7 @@ export default function LoginForm() {
                     type="password"
                     placeholder="비밀번호를 입력해주세요"
                     className="w-full focus:outline-0"
-                /><img />
+                />
             </div>
             <button
                 onClick={modal.openModal}

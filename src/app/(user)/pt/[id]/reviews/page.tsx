@@ -1,5 +1,6 @@
 import { PtDetailQualification, PtfindTestImg } from "@/components/ui/image";
 import TrainerReviewCard from "@/feature/pt/components/TrainerReviewCard";
+import Image from "next/image";
 
 export default async function TrainerReviewPage() {
 
@@ -16,8 +17,17 @@ export default async function TrainerReviewPage() {
                 <div className="flex flex-col gap-2">
                     <p className="text-[30px] font-black text-white"> 김철수 트레이너</p>
                     <p className="text-[16px] font-normal text-[#99A1AF]"> 경력 10년 </p>
-                    <div className="flex gap-2">
-                        <img src={PtDetailQualification} width={16} height={16} alt="트레이너평 상세조회 자격증" />
+                    <div className="flex gap-2 items-center">
+                        <div className="relative w-4 h-4">
+                            <Image
+                                src={PtDetailQualification}
+                                alt="트레이너평 상세조회 자격증"
+                                fill
+                                priority
+                                sizes="w-8 h-8"
+                                className="object-cover"
+                            />
+                        </div>
                         <p className="px-3 py-1 rounded-full bg-[#1E2939] text-[12px] font-normal text-[#D1D5DC] whitespace-nowrap"> 생활체육지도사 2급 </p>
                         <p className="px-3 py-1 rounded-full bg-[#1E2939] text-[12px] font-normal text-[#D1D5DC] whitespace-nowrap"> NSCA-CPT </p>
                         <p className="px-3 py-1 rounded-full bg-[#1E2939] text-[12px] font-normal text-[#D1D5DC] whitespace-nowrap"> ACSM 인증 트레이너 </p>
