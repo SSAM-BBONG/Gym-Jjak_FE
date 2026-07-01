@@ -59,7 +59,6 @@ export default async function PtDetailPage({ params }: PtDetailPageProps) {
     const { id } = await params;
 
     const response = await getPtDetail(id);
-    console.log(response);
     const trainerProfileId = response.data.trainerProfileId;
 
     if (!trainerProfileId) {
@@ -107,36 +106,51 @@ export default async function PtDetailPage({ params }: PtDetailPageProps) {
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-            <div className="flex flex-col gap-8 px-80 py-10">
-                <PtDetailInformation
-                    response={response.data}
-                    trainerInformation={trainerInformation.data}
-                />
+            <main className="flex flex-col gap-8 px-80 py-10">
+                
+                <section>
+                    <PtDetailInformation
+                        response={response.data}
+                        trainerInformation={trainerInformation.data}
+                    />
+                </section>
 
-                <PtDetailButton
-                    ptCourseId={response.data.ptCourseId}
-                    title={response.data.title} />
+                <nav>
+                    <PtDetailButton
+                        ptCourseId={response.data.ptCourseId}
+                        title={response.data.title} />
+                </nav>
 
-                <PtDetailTrainer
-                    data={trainerInformation.data}
-                />
+                <section>
+                    <PtDetailTrainer
+                        data={trainerInformation.data}
+                    />
+                </section>
 
-                <PtDetailPtIntroduce
-                    data={response.data}
-                />
+                <section>
+                    <PtDetailPtIntroduce
+                        data={response.data}
+                    />
+                </section>
 
-                <PtDetailCurriculums
-                    data={response.data}
-                />
+                <section>
+                    <PtDetailCurriculums
+                        data={response.data}
+                    />
+                </section>
 
-                <PtDetailSchedule
-                    data={response.data}
-                />
+                <section>
+                    <PtDetailSchedule
+                        data={response.data}
+                    />
+                </section>
 
-                <PtDetailReviews
-                    data={response.data}
-                />
-            </div>
+                <section>
+                    <PtDetailReviews
+                        data={response.data}
+                    />
+                </section>
+            </main>
         </>
     );
 }
