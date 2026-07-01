@@ -3,6 +3,18 @@ import PtCard from "@/feature/pt/components/PtCard";
 import PtDashboard from "@/feature/pt/components/PtDashboard";
 import PtPopularCard from "@/feature/pt/components/PtPopularCard";
 import { decodeJWT } from "@/lib/decode";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: 'pt',
+    description: 'pt 트레이닝 메인 페이지입니다.',
+
+    openGraph: {
+        title: 'pt | GYMJJAK',
+        description: 'pt 트레이닝 메인',
+        url: '/pt'
+    }
+}
 
 export default async function PtZonePage() {
 
