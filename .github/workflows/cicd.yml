@@ -45,6 +45,7 @@ jobs:
             --name ${{ vars.APP_NAME }} \
             -p 3000:3000 \
             -e KAKAO_MAP_KEY="${{ secrets.KAKAO_MAP_KEY }}" \
+            -e FRONTEND_URL="${{ vars.FRONTEND_URL }}" \
             ${{ secrets.DOCKER_USERNAME }}/${{ vars.APP_NAME }}
             docker image prune -f      
     
