@@ -1,5 +1,11 @@
 import type { NextConfig } from "next";
-import withBundleAnalyzer from '@next/bundle-analyzer'
+import bundleAnalyzer from '@next/bundle-analyzer';
+
+// 환경 변수 ANALYZE가 'true'일 때만 플러그인 활성화
+const withBundleAnalyzer = bundleAnalyzer({
+  enabled: process.env.ANALYZE === 'true',
+  openAnalyzer: true, // 빌드 완료 시 자동으로 브라우저 탭 열기
+});
 
 const nextConfig: NextConfig = {
     experimental: {
@@ -7,16 +13,16 @@ const nextConfig: NextConfig = {
       bodySizeLimit: "20mb",
     },
   },
+images: {
+  remotePatterns: [
+    {
+      protocol: "https",
+      hostname: "gymjjak-prod.s3.ap-northeast-2.amazonaws.com",
+      pathname: "/uploads/**",
+    },
+  ],
+},
   /* config options here */
   output: 'standalone'
 };
-
-const bundleAnalyzer = withBundleAnalyzer({
-  enabled: process.env.ANALYZE === 'true',
-  openAnalyzer: true
-})
-
-
-module.exports = nextConfig;
-
-export default bundleAnalyzer(nextConfig);
+export default withBundleAnalyzer(nextConfig);
