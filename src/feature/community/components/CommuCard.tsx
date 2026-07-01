@@ -1,4 +1,5 @@
 import { CommunityComment, CommunityLike, CommunityView } from "@/components/ui/image";
+import Image from "next/image";
 
 export default function CommuCard() {
   return (
@@ -14,7 +15,7 @@ export default function CommuCard() {
         gap-3
         mt-6
         hover:cursor-pointer">
-            
+
       <p className="
         flex items-center justify-center
         self-baseline
@@ -22,9 +23,9 @@ export default function CommuCard() {
         text-[#D1D5DC] bg-[#364153]
         text-[12px]
         font-extrabold"> 자유게시판 </p>
-      
+
       <p className="text-[18px] font-extrabold text-white"> 게시글 제목 </p>
-      
+
       <p className="text-[14px] font-normal text-[#99A1AF]"> 게시글 내용 </p>
 
 
@@ -35,15 +36,42 @@ export default function CommuCard() {
         </div>
         <div className="flex gap-2">
           <div className="flex gap-1 items-center">
-            <img src={CommunityView} alt="커뮤니티 조회수" />
+            <div className="relative w-4 h-4">
+              <Image
+                src={CommunityView}
+                alt="커뮤니티 조회수"
+                fill
+                priority
+                sizes="w-8 h-8"
+                className="object-cover"
+              />
+            </div>
             <p className="text-[12px] font-normal text-[#6A7282]"> 255</p>
           </div>
           <div className="flex gap-1 items-center">
-            <img src={CommunityLike} alt="커뮤니티 좋아요수" />
+            <div className="relative w-4 h-4">
+              <Image
+                src={CommunityLike}
+                alt="커뮤니티 좋아요수"
+                fill
+                priority
+                sizes="w-8 h-8"
+                className="object-cover"
+              />
+            </div>
             <p className="text-[12px] font-normal text-[#6A7282]"> 24</p>
           </div>
           <div className="flex gap-1 items-center">
-            <img src={CommunityComment} alt="커뮤니티 댓글수" />
+            <div className="relative w-4 h-4">
+              <Image
+                src={CommunityComment}
+                alt="커뮤니티 댓글수"
+                fill
+                priority
+                sizes="w-8 h-8"
+                className="object-cover"
+              />
+            </div>
             <p className="text-[12px] font-normal text-[#6A7282]"> 12</p>
           </div>
         </div>

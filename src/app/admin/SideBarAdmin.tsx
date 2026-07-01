@@ -2,8 +2,6 @@ import DashboardNavLink from "@/feature/admin/components/DashboardNavLink";
 import MembersAdminDropDown from "./MembersAdminDropDown";
 import ApprovalsAdminDropDown from "./ApprovalsAdminDropDown";
 import ReportsAdminDropDown from "./RepostsAdminDropDown";
-import LogsAdminDropDown from "./LogsAdminDropDown";
-import SystemLogsAdminDropDown from "./SystemLogsAdminDropDown";
 import SystemsAdminDropDown from "./SystemsAdminDropDown";
 
 export default function SideBarAdmin() {
@@ -19,8 +17,6 @@ export default function SideBarAdmin() {
             <MembersAdminDropDown />
             <ApprovalsAdminDropDown />
             <ReportsAdminDropDown />
-            <LogsAdminDropDown />
-            <SystemLogsAdminDropDown />
             <SystemsAdminDropDown />
         </aside>
     );

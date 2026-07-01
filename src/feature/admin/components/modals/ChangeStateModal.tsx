@@ -1,5 +1,6 @@
 import { CloseButton } from "@/components/ui/image";
 import StatusSelector from "../StatusSelector";
+import Image from "next/image";
 
 interface ChangeStateModalProps {
     isModal: boolean;
@@ -29,7 +30,15 @@ export default function ChangeStateModal({ isModal, closeModal, changeUserStatus
                 <article>
                     <div className="flex justify-between border-b-[#1E2939] border-b items-center pb-8 pt-2">
                         <h3 className="font-bold text-xl text-[#E8EAF0]">회원 관리 사유 입력</h3>
-                        <img src={CloseButton} onClick={closeModal} />
+                        <button onClick={closeModal} className="relative ml-auto w-5 h-5">
+                            <Image
+                                src={CloseButton}
+                                alt="모달 닫기 버튼"
+                                fill
+                                priority
+                                sizes="w-4 h-4"
+                            />
+                        </button>
                     </div>
                     <div className="flex justify-between items-center my-4">
                         <h3 className="font-bold text-xl text-[#E8EAF0]">{name}</h3>

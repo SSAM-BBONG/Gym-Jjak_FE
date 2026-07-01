@@ -2,47 +2,48 @@ import { CloseButton, MypageMyActivity, PtFeedBackOnBoard, PtRecordVideo } from 
 import { useEffect, useState } from "react";
 import { getFeedbackDetailAction } from "../actions";
 import { FeedbackDetailData } from "../type";
+import Image from "next/image";
 
 interface TrainerRejectModal {
-  isModal: boolean;
-  closeModal: () => void;
-  reservationId: string;
-  feedbackId: number | null;
+    isModal: boolean;
+    closeModal: () => void;
+    reservationId: string;
+    feedbackId: number | null;
 }
 
 
-export default function PtFeeBackCheckModal({ isModal, closeModal, reservationId, feedbackId}: TrainerRejectModal) {
+export default function PtFeeBackCheckModal({ isModal, closeModal, reservationId, feedbackId }: TrainerRejectModal) {
     const [feedbackDetail, setFeedbackDetail] = useState<FeedbackDetailData | null>(null);
     const [isLoading, setIsLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
 
     useEffect(() => {
-    if (!isModal || feedbackId === null) return;
+        if (!isModal || feedbackId === null) return;
 
-    const fetchFeedbackDetail = async () => {
-      try {
-        setIsLoading(true);
-        setErrorMessage("");
+        const fetchFeedbackDetail = async () => {
+            try {
+                setIsLoading(true);
+                setErrorMessage("");
 
-        const response = await getFeedbackDetailAction(
-          reservationId,
-          feedbackId
-        );
+                const response = await getFeedbackDetailAction(
+                    reservationId,
+                    feedbackId
+                );
 
-        setFeedbackDetail(response.data);
-      } catch (error) {
-        setErrorMessage(
-          error instanceof Error
-            ? error.message
-            : "피드백 상세 조회에 실패했습니다."
-        );
-      } finally {
-        setIsLoading(false);
-      }
-    };
+                setFeedbackDetail(response.data);
+            } catch (error) {
+                setErrorMessage(
+                    error instanceof Error
+                        ? error.message
+                        : "피드백 상세 조회에 실패했습니다."
+                );
+            } finally {
+                setIsLoading(false);
+            }
+        };
 
-    fetchFeedbackDetail();
-  }, [isModal, reservationId, feedbackId]);
+        fetchFeedbackDetail();
+    }, [isModal, reservationId, feedbackId]);
     if (!isModal) return null;
 
     const beforeMedia = feedbackDetail?.mediaList.find(
@@ -65,14 +66,30 @@ export default function PtFeeBackCheckModal({ isModal, closeModal, reservationId
                     <div className="flex flex-col gap-2 ">
                         <div className="flex justify-between items-center pt-2">
                             <h3 className="font-bold text-xl text-[#E8EAF0]"> 피드백 확인</h3>
-                            <img src={CloseButton} onClick={closeModal} />
-                        </div>
+                            <button onClick={closeModal} className="relative ml-auto w-5 h-5">
+                                <Image
+                                    src={CloseButton}
+                                    alt="모달 닫기 버튼"
+                                    fill
+                                    priority
+                                    sizes="w-4 h-4"
+                                />
+                            </button>                        </div>
                         <p className="text-[14px] font-normal text-[#99A1AF] border-b-[#1E2939] border-b pb-8"> {feedbackDetail?.sessionNo}회차 - {feedbackDetail?.curriculumTitle} </p>
                     </div>
                     <div className="flex flex-col gap-6 mt-6">
                         <div className="flex justify-between items-center">
                             <div className="flex gap-2 items-center">
-                                <img src={PtRecordVideo} alt="피드백 동영상"/>
+                                <div className="relative w-4 h-4">
+                                    <Image
+                                        src={PtRecordVideo}
+                                        alt="피드백 동영상"
+                                        fill
+                                        priority
+                                        sizes="w-8 h-8"
+                                        className="object-cover"
+                                    />
+                                </div>
                                 <p className="text-[14px] font-extrabold text-[#BFFF0B]"> 동영상 피드백 </p>
                             </div>
                             <p className="text-[12px] font-normal text-[#6A7282]"> {feedbackDetail?.createdAt} </p>
@@ -84,18 +101,36 @@ export default function PtFeeBackCheckModal({ isModal, closeModal, reservationId
                             border border-[#364153] rounded-[10px]
                             p-6 ">
                                 <div className="flex gap-3">
-                                    <img src={PtFeedBackOnBoard} alt="피드백 녹화"/>
+                                    <div className="relative w-6 h-6">
+                                        <Image
+                                            src={PtFeedBackOnBoard}
+                                            alt="피드백 녹화"
+                                            fill
+                                            priority
+                                            sizes="w-12 h-12"
+                                            className="object-cover"
+                                        />
+                                    </div>
                                     <p className="text-[14px] font-extrabold text-[#D1D5DC]"> Before 영상 </p>
                                 </div>
                                 <div className="flex flex-col items-center gap-3">
-                                    <img src={PtRecordVideo} width={65} height={65} alt="피드백 동영상"/>
+                                    <div className="relative w-15 h-15">
+                                        <Image
+                                            src={PtRecordVideo}
+                                            alt="피드백 동영상"
+                                            fill
+                                            priority
+                                            sizes="w-30 h-30"
+                                            className="object-cover"
+                                        />
+                                    </div>
                                     <p className="text-[12px] font-normal text-[#99A1AF]"> 영상 피드백이 등록되었습니다. </p>
                                     <a
                                         href={beforeMedia?.fileUrl}
                                         target="_blank"
                                         className="px-5 py-2 bg-[#BFFF0B] rounded-[10px] text-[14px] font-extrabold text-black text-center"
                                     >
-                                    영상 보기
+                                        영상 보기
                                     </a>
                                 </div>
                             </div>
@@ -105,11 +140,29 @@ export default function PtFeeBackCheckModal({ isModal, closeModal, reservationId
                             border border-[#364153] rounded-[10px]
                             p-6 ">
                                 <div className="flex gap-3">
-                                    <img src={PtFeedBackOnBoard} alt="피드백 녹화"/>
+                                    <div className="relative w-6 h-6">
+                                        <Image
+                                            src={PtFeedBackOnBoard}
+                                            alt="피드백 녹화"
+                                            fill
+                                            priority
+                                            sizes="w-12 h-12"
+                                            className="object-cover"
+                                        />
+                                    </div>
                                     <p className="text-[14px] font-extrabold text-[#D1D5DC]"> After 영상 </p>
                                 </div>
                                 <div className="flex flex-col items-center gap-3">
-                                    <img src={PtRecordVideo} width={65} height={65} alt="피드백 동영상"/>
+                                    <div className="relative w-15 h-15">
+                                        <Image
+                                            src={PtRecordVideo}
+                                            alt="피드백 동영상"
+                                            fill
+                                            priority
+                                            sizes="w-30 h-30"
+                                            className="object-cover"
+                                        />
+                                    </div>
                                     <p className="text-[12px] font-normal text-[#99A1AF]"> 영상 피드백이 등록되었습니다. </p>
 
                                     <a
@@ -117,7 +170,7 @@ export default function PtFeeBackCheckModal({ isModal, closeModal, reservationId
                                         target="_blank"
                                         className="px-5 py-2 bg-[#BFFF0B] rounded-[10px] text-[14px] font-extrabold text-black text-center"
                                     >
-                                    영상 보기
+                                        영상 보기
                                     </a>
 
                                 </div>
@@ -125,7 +178,16 @@ export default function PtFeeBackCheckModal({ isModal, closeModal, reservationId
                         </div>
                         <div className="flex flex-col gap-4 mb-6">
                             <div className="flex gap-2 items-center">
-                                <img src={MypageMyActivity} width={20} height={20} alt="피드백 텍스트 피드백"/>
+                                <div className="relative w-5 h-5">
+                                    <Image
+                                        src={MypageMyActivity}
+                                        alt="피드백 텍스트 피드백"
+                                        fill
+                                        priority
+                                        sizes="w-10 h-10"
+                                        className="object-cover"
+                                    />
+                                </div>
                                 <p className="text-[14px] font-extrabold text-[#BFFF0B]"> 텍스트 피드백 </p>
                             </div>
                             <div className="

@@ -1,5 +1,6 @@
 import { CommuDetailDeclaration, CommuDetailEdit, CommuDetailLike, CommuDetailRemove } from "@/components/ui/image";
 import CommuCommentCard from "@/feature/community/components/CommuCommentCard";
+import Image from "next/image";
 
 export default function CommuDetailPage() {
   return (
@@ -33,34 +34,70 @@ export default function CommuDetailPage() {
         </div>
         <div className="flex gap-3 items-center">
           <div className=" flex gap-2 items-center self-center px-4 py-2 bg-[#1E2939] rounded-[10px] font-extrabold text-[16px] text-white">
-            <img className="hover:cursor-pointer" src={CommuDetailLike} alt="커뮤니티 상세조회 좋아요" />
+            <div className="relative w-4 h-4">
+              <Image
+                src={CommuDetailLike}
+                alt="커뮤니티 상세조회 좋아요"
+                fill
+                priority
+                sizes="w-8 h-8"
+                className="object-cover hover:cursor-pointer"
+              />
+            </div>
             <p> 24 </p>
           </div>
 
           <div className="px-2 py-2 bg-[#1E2939] rounded-[10px]">
-            <img className="hover:cursor-pointer" src={CommuDetailEdit} alt="게시글 수정" />
+            <div className="relative w-4 h-4">
+              <Image
+                src={CommuDetailEdit}
+                alt="게시글 수정"
+                fill
+                priority
+                sizes="w-8 h-8"
+                className="object-cover hover:cursor-pointer"
+              />
+            </div>
           </div>
 
           <div className="px-2 py-2 bg-[#1E2939] rounded-[10px]">
-            <img className="hover:cursor-pointer" src={CommuDetailRemove} alt="게시글 삭제" />
+            <div className="relative w-4 h-4">
+              <Image
+                src={CommuDetailRemove}
+                alt="게시글 삭제"
+                fill
+                priority
+                sizes="w-8 h-8"
+                className="object-cover hover:cursor-pointer"
+              />
+            </div>
           </div>
 
           <div className="px-2 py-2 bg-[#1E2939] rounded-[10px]">
-            <img className="hover:cursor-pointer" src={CommuDetailDeclaration} alt="게시글 신고" />
+            <div className="relative w-4 h-4">
+              <Image
+                src={CommuDetailDeclaration}
+                alt="게시글 신고"
+                fill
+                priority
+                sizes="w-8 h-8"
+                className="object-cover hover:cursor-pointer"
+              />
+            </div>
           </div>
         </div>
       </div>
-      <hr className="border-[#1E2939]"/>
+      <hr className="border-[#1E2939]" />
 
       <p className="text-[16px] font-normal text-[#D1D5DC] py-8"> 게시글 내용 </p>
 
-      <hr className="border-[#1E2939]"/>
+      <hr className="border-[#1E2939]" />
 
       <div className="flex gap-3 items-center">
         <p className="text-[18px] text-white font-extrabold"> 댓글</p>
         <p className="text-[18px] text-[#BFFF0B] font-extrabold"> 3</p>
       </div>
-      <CommuCommentCard/>
+      <CommuCommentCard />
     </div>
   );
 }

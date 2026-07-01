@@ -6,6 +6,7 @@ import {
   MainHomeTraining,
   MainImg,
 } from "@/components/ui/image";
+import Image from "next/image";
 import Link from "next/link";
 
 export default function Page() {
@@ -27,7 +28,16 @@ export default function Page() {
         </div>
 
         <div>
-          <img src={MainImg} alt="메인페이지 설명이미지" />
+          <div className="relative w-165 h-100">
+            <Image
+              src={MainImg}
+              alt="메인페이지 설명이미지"
+              fill
+              priority
+              sizes="w-200 h-200"
+              className="object-cover"
+            />
+          </div>
         </div>
       </div>
 
@@ -84,7 +94,16 @@ export default function Page() {
         "
         >
           <div className="flex flex-col gap-6 items-baseline">
-            <img src={MainCommunity} alt="메인페이지 커뮤니티" />
+            <div className="relative w-13 h-13">
+              <Image
+                src={MainCommunity}
+                alt="메인페이지 커뮤니티"
+                fill
+                priority
+                sizes="w-26 h-26"
+                className="object-cover"
+              />
+            </div>
             <p className="text-[30px] font-black text-white">
               함께하는 <br /> 커뮤니티
             </p>
@@ -112,7 +131,16 @@ export default function Page() {
         >
           <div className="flex flex-col gap-6 items-baseline">
             <div className="bg-[#1E2939] rounded-[16px] border border-[#364153] p-3.5">
-              <img src={MainHomeTraining} alt="메인페이지 홈트" />
+              <div className="relative w-8 h-8">
+                <Image
+                  src={MainHomeTraining}
+                  alt="메인페이지 홈트"
+                  fill
+                  priority
+                  sizes="w-16 h-16"
+                  className="object-cover"
+                />
+              </div>
             </div>
             <p className="text-[30px] font-black text-white">
               홈트 <br /> 프로그램
@@ -130,7 +158,16 @@ export default function Page() {
         <div className="w-[31%] bg-[linear-gradient(135deg,rgba(16,24,40,0.90)_0%,rgba(30,41,57,0.90)_100%)] rounded-[24px] p-7">
           <div className="flex flex-col gap-6 items-baseline">
             <div className="bg-[#1E2939] rounded-[16px] border border-[#364153] p-3.5">
-              <img src={MainCalender} alt="메인페이지 캘린더" />
+              <div className="relative w-8 h-8">
+                <Image
+                  src={MainCalender}
+                  alt="메인페이지 캘린더"
+                  fill
+                  priority
+                  sizes="w-16 h-16"
+                  className="object-cover"
+                />
+              </div>
             </div>
             <p className="text-[30px] font-black text-white">
 
@@ -151,7 +188,16 @@ export default function Page() {
         <div className="w-[31%] bg-[linear-gradient(135deg,rgba(16,24,40,0.90)_0%,rgba(30,41,57,0.90)_100%)] rounded-[24px] p-7">
           <div className="flex flex-col gap-6 items-baseline">
             <div className="bg-[#1E2939] rounded-[16px] border border-[#364153] p-3.5">
-              <img src={MainCrewDefender} alt="메인페이지 길드 대항전" />
+              <div className="relative w-8 h-8">
+                <Image
+                  src={MainCrewDefender}
+                  alt="메인페이지 길드 대항전"
+                  fill
+                  priority
+                  sizes="w-16 h-16"
+                  className="object-cover"
+                />
+              </div>
             </div>
             <p className="text-[30px] font-black text-white">
 

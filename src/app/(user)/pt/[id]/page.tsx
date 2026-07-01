@@ -1,4 +1,3 @@
-import { PtDetailHistory, PtDetailQualification, PtfindTestImg } from "@/components/ui/image";
 import PtDetailButton from "@/feature/pt/components/PtDetailButton";
 import PtDetailCurriculums from "@/feature/pt/components/PtDetailCurriculums";
 import PtDetailInformation from "@/feature/pt/components/PtDetailInformation";
@@ -9,7 +8,6 @@ import PtDetailTrainer from "@/feature/pt/components/PtDetailTrainer";
 import { getTrainerProfileDetail } from "@/service/mypage.service";
 import { getPtDetail } from "@/service/ptzone.service";
 import { Metadata } from "next";
-import Link from "next/link";
 
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {

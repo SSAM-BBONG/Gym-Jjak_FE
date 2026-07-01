@@ -1,11 +1,10 @@
-import { PtfindTestImg } from "@/components/ui/image";
 import { MyPtReservationList } from "../type";
 
 interface PtRecordCardProps {
     data: MyPtReservationList
 }PtRecordCard
 
-export default function PtRecordCard( { data }: PtRecordCardProps) {
+export default function PtRecordCard({ data }: PtRecordCardProps) {
     return (
         <div className="
             overflow-hidden
@@ -14,7 +13,7 @@ export default function PtRecordCard( { data }: PtRecordCardProps) {
             border border-[#1E2939] rounded-[16px]
             ">
             <div
-                style={{ backgroundImage: `url(${data.thumbnailUrl})` }} 
+                style={{ backgroundImage: `url(${data.thumbnailUrl})` }}
                 className="flex-2 bg-no-repeat bg-cover"></div>
             <div className="
             flex flex-col gap-1 flex-8
