@@ -55,6 +55,7 @@ type PtDetailPageProps = {
     }>;
 };
 
+
 export default async function PtDetailPage({ params }: PtDetailPageProps) {
     const { id } = await params;
 

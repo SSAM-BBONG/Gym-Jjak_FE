@@ -75,13 +75,13 @@ export default function HeaderAuthArea() {
               className="object-cover"
             />
           </div>
-          <div className="absolute top-[-4px] left-2 flex size-4 items-center justify-center rounded-full bg-[#BFFF0B] text-[10px] font-extrabold text-black">
+          {/* <div className="absolute top-[-4px] left-2 flex size-4 items-center justify-center rounded-full bg-[#BFFF0B] text-[10px] font-extrabold text-black">
             5
-          </div>
+          </div> */}
         </div>
       </Link>
 
-      <Link href="/chat">
+      {/* <Link href="/chat">
         <div className="relative">
           <div className="relative h-5 w-5">
             <Image
@@ -96,7 +96,7 @@ export default function HeaderAuthArea() {
             5
           </div>
         </div>
-      </Link>
+      </Link> */}
 
       {isLoading ? (
         <div className="h-9 w-17" />
