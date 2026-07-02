@@ -71,10 +71,10 @@ export default function MypageTrainerProfile({ data, mode, setValue, error }: My
             <p className="text-[20px] font-extrabold text-white"> 프로필 사진 </p>
             <div className="flex gap-6 items-center">
                 <div className="flex items-center justify-center size-35 border-[3px] border-[#BFFF0B] rounded-full overflow-hidden">
-                    {/* <img
+                    <img
                         className="w-full h-full object-cover"
                         src={profileImagePreview}
-                        alt="트레이너 프로필 수정 프로필 사진" /> */}
+                        alt="트레이너 프로필 수정 프로필 사진" />
                 </div>
                 {!isReadOnly &&
                     <>

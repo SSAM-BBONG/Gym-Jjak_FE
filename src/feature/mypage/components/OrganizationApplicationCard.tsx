@@ -64,8 +64,8 @@ export default async function OrganizationApplicationCard({ data }: Organization
                                 <p className="text-[20px] font-extrabold text-white"> {item.businessName}</p>
 
                                 <p className={`flex gap-2 px-4 py-1 items-center rounded-full text-[12px] font-extrabold ${STATUS_VALUE[item.status].className}`}>
-                                    {/* <img src={STATUS_VALUE[item.status].image} alt="조직 승인 내역 검토중" /> */}
-                                    <div className="relative w-5 h-5">
+                                    <img src={STATUS_VALUE[item.status].image} alt="조직 승인 내역 검토중" />
+                                    {/* <div className="relative w-5 h-5">
                                         <Image
                                             src={STATUS_VALUE[item.status].image}
                                             alt="조직 승인 내역 검토중"
@@ -73,7 +73,7 @@ export default async function OrganizationApplicationCard({ data }: Organization
                                             sizes="w-10 h-10"
                                             className="object-cover hover:cursor-pointer"
                                         />
-                                    </div>
+                                    </div> */}
                                     {STATUS_VALUE[item.status].text}
                                 </p>
 
@@ -90,8 +90,8 @@ export default async function OrganizationApplicationCard({ data }: Organization
                         <div className="grid grid-cols-2 gap-6">
                             <div className="flex flex-col gap-2 bg-[#1E293980] rounded-[10px] p-4">
                                 <div className="flex gap-2 items-center">
-                                    {/* <img src={OrganBusinessInf} alt="조직 신청 내역 사업자 정보" /> */}
-                                    <div className="relative w-5 h-5">
+                                    <img src={OrganBusinessInf} alt="조직 신청 내역 사업자 정보" />
+                                    {/* <div className="relative w-5 h-5">
                                         <Image
                                             src={OrganBusinessInf}
                                             alt="조직 신청 내역 사업자 정보"
@@ -99,7 +99,7 @@ export default async function OrganizationApplicationCard({ data }: Organization
                                             sizes="w-10 h-10"
                                             className="object-cover hover:cursor-pointer"
                                         />
-                                    </div>
+                                    </div> */}
                                     <p className="text-[12px] font-normal text-[#99A1AF]"> 사업자 정보 </p>
                                 </div>
                                 <p className="text-[14px] font-extrabold text-white"> {item.businessRegistrationNumber} </p>
@@ -108,8 +108,8 @@ export default async function OrganizationApplicationCard({ data }: Organization
 
                             <div className="flex flex-col gap-2 bg-[#1E293980] rounded-[10px] p-4">
                                 <div className="flex gap-2 items-center">
-                                    {/* <img src={OrganApplicationDate} alt="조직 신청 내역 신청 일시" /> */}
-                                    <div className="relative w-5 h-5">
+                                    <img src={OrganApplicationDate} alt="조직 신청 내역 신청 일시" />
+                                    {/* <div className="relative w-5 h-5">
                                         <Image
                                             src={OrganApplicationDate}
                                             alt="조직 신청 내역 신청 일시"
@@ -117,7 +117,7 @@ export default async function OrganizationApplicationCard({ data }: Organization
                                             sizes="w-10 h-10"
                                             className="object-cover hover:cursor-pointer"
                                         />
-                                    </div>
+                                    </div> */}
                                     <p className="text-[12px] font-normal text-[#99A1AF]"> 신청 일시</p>
                                 </div>
                                 <p className="text-[14px] font-extrabold text-white"> {item.createdAt}</p>
@@ -126,8 +126,8 @@ export default async function OrganizationApplicationCard({ data }: Organization
 
                         {item.status === "PENDING" &&
                             <div className="flex items-baseline gap-4 bg-[#F0B1001A] border border-[#F0B1004D] p-4 rounded-[10px]">
-                                {/* <img src={OrganUnderReview} alt="조직 신청 내역 검토중" /> */}
-                                <div className="relative w-5 h-5">
+                                <img src={OrganUnderReview} alt="조직 신청 내역 검토중" />
+                                {/* <div className="relative w-5 h-5">
                                     <Image
                                         src={OrganUnderReview}
                                         alt="조직 신청 내역 검토중"
@@ -135,7 +135,7 @@ export default async function OrganizationApplicationCard({ data }: Organization
                                         sizes="w-10 h-10"
                                         className="object-cover hover:cursor-pointer"
                                     />
-                                </div>
+                                </div> */}
                                 <div>
                                     <p className="text-[14px] text-[#FDC700] font-normal"> 검토 중</p>
                                     <p className="text-[12px] text-[#D1D5DC] font-normal"> 영업일 기준 2~3일 소요되며, 결과는 이메일로 안내됩니다.</p>
