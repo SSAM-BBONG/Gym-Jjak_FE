@@ -21,7 +21,10 @@ export default function PtRecordCard({ data }: PtRecordCardProps) {
             ">
                 <div className="flex justify-between items-center">
                     <p className="text-[20px] font-black text-white"> {data.title} </p>
-                    <p className="px-4 py-1 text-[12px] font-extrabold border border-[#BFFF0B4D] bg-[#BFFF0B33] text-[#BFFF0B] rounded-full"> {data.status} </p>
+                    <p className="px-4 py-1 text-[12px] font-extrabold border border-[#BFFF0B4D] bg-[#BFFF0B33] text-[#BFFF0B] rounded-full"> 
+                        {data.status==="COMPLETED" ? "수강완료" : data.status==="RESERVED" ? "예약완료" : data.status==="IN_PROGRESS" ? "예약 중" : "취소" } 
+
+                    </p>
                     {/* <p className="px-4 py-1 text-[12px] font-extrabold border border-[#6A72824D] bg-[#6A728233] text-[#99A1AF] rounded-full"> 완료 </p>
                     <p className="px-4 py-1 text-[12px] font-extrabold border border-[#2B7FFF4D] bg-[#2B7FFF33] text-[#51A2FF] rounded-full"> 예약됨 </p>
                     <p className="px-4 py-1 text-[12px] font-extrabold border border-[#FB2C364D] bg-[#FB2C3633] text-[#FF6467] rounded-full"> 취소 </p> */}

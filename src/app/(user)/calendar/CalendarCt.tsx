@@ -7,18 +7,22 @@ import CalendarItem from "@/feature/calendar/components/CalendarItem";
 import { MainCalendar } from "@/components/ui/mainCalendar";
 import { useQuery } from "@tanstack/react-query";
 import CalendarPtItem from "@/feature/calendar/components/CalendarPtItem";
-import dayjs from "dayjs";
-import "dayjs/locale/ko";
+import { format } from "date-fns/format";
+import { isSameDay } from "date-fns/isSameDay";
+
 import { calendargetDateAction, calendargetMonthAction } from "@/feature/calendar/action";
 
 
 export default function CalendarCt() {
     const [date, setDate] = useState<Date | undefined>(new Date())
 
-    const selectedYear = dayjs(date).format('YYYY')
-    const selectedMonth = dayjs(date).format('M')
-    const selectedDay = dayjs(date).format('D')
-    const selectedSettingDate = dayjs(date).format('YYYY-MM-DD');
+    const selectedDate = date ?? new Date();
+
+
+    const selectedYear = format(selectedDate, "yyyy");
+    const selectedMonth = format(selectedDate, "M");
+    const selectedDay = format(selectedDate, "d");
+    const selectedSettingDate = format(selectedDate, "yyyy-MM-dd");
 
     const {
         data: monthData,
@@ -44,8 +48,11 @@ export default function CalendarCt() {
 
     const currentDate = new Date();
 
-    const settingDate = dayjs(date).format('YYYY년 MM월 DD일');
-    const settingCurrentDate = dayjs(currentDate).format('YYYY년 MM월 DD일');
+    const settingDate = format(selectedDate, "yyyy년 MM월 dd일", {
+        locale: ko,
+    });
+
+    const isToday = isSameDay(selectedDate, currentDate);
 
     return (
         <>
@@ -60,7 +67,9 @@ export default function CalendarCt() {
             <section className="text- w-2/5 text-white ml-8">
                 <div className="flex justify-between mb-2">
                     <h1 className="font-black text-5xl">{selectedDay}</h1>
-                    {settingCurrentDate === settingDate && <CalendarAddButton selectedSettingDate={selectedSettingDate} />}
+                    {isToday && (
+                        <CalendarAddButton selectedSettingDate={selectedSettingDate} />
+                    )}
                 </div>
                 <p className="text-[#6A7282] font-normal text-base mb-6">{settingDate}</p>
                 {!isDateLoading && (

@@ -23,7 +23,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                                     className="object-cover"
                                 />
                             </div>
-                            <div className="relative w-5 h-5">
+                            {/* <div className="relative w-5 h-5">
                                 <Image
                                     src={OrganManageActive}
                                     alt="내 조직관리 운동시설"
@@ -31,9 +31,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                                     sizes="w-10 h-10"
                                     className="object-cover"
                                 />
-                            </div>
+                            </div> */}
                             <p className="text-[18px] font-extrabold text-[#BFFF0B]"> 운동시설 관리</p>
-                            <p className="text-[18px] font-extrabold text-[#99A1AF]"> 운동시설 관리</p>
+                            {/* <p className="text-[18px] font-extrabold text-[#99A1AF]"> 운동시설 관리</p> */}
                         </div>
                     </Link>
 
@@ -48,7 +48,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                                     className="object-cover"
                                 />
                             </div>
-                            <div className="relative w-5 h-5">
+                            {/* <div className="relative w-5 h-5">
                                 <Image
                                     src={OrganManageTrainerActive}
                                     alt="내 조직관리 트레이너"
@@ -56,8 +56,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                                     sizes="w-10 h-10"
                                     className="object-cover"
                                 />
-                            </div>
-                            <p className="text-[18px] font-extrabold text-[#BFFF0B]">  트레이너 관리 </p>
+                            </div> */}
+                            {/* <p className="text-[18px] font-extrabold text-[#BFFF0B]">  트레이너 관리 </p> */}
                             <p className="text-[18px] font-extrabold text-[#99A1AF]">  트레이너 관리 </p>
                         </div>
                     </Link>

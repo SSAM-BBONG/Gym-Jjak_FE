@@ -49,8 +49,8 @@ export default function PfFeebBackCard({ data, reservationId }: PfFeebBackCardPr
                                     <p className="text-[12px] font-normal text-[#99A1AF]"> 2026-05-01 </p>
                                 </div>
                                 <div className="flex gap-2">
-                                    {/* <img src={PtRecordComplete} alt="PT 신청기록 완료" /> */}
-                                    <div className="relative w-4 h-4">
+                                    <img src={PtRecordComplete} alt="PT 신청기록 완료" />
+                                    {/* <div className="relative w-4 h-4">
                                         <Image
                                             src={PtRecordComplete}
                                             alt="PT 신청기록 완료"
@@ -59,7 +59,7 @@ export default function PfFeebBackCard({ data, reservationId }: PfFeebBackCardPr
                                             sizes="w-8 h-8"
                                             className="object-cover"
                                         />
-                                    </div>
+                                    </div> */}
                                     <p className="px-3 py-1 bg-[#BFFF0B33] rounded-full text-[12px] font-extrabold text-[#BFFF0B]"> 완료 </p>
                                 </div>
                             </div>
@@ -72,8 +72,8 @@ export default function PfFeebBackCard({ data, reservationId }: PfFeebBackCardPr
             p-4"
                             onClick={() => openFeedbackModal(item.feedbackId)}>
                             <p className="flex gap-3 text-[14px] font-extrabold text-[#BFFF0B]">
-                                {/* <img src={PtRecordVideo} alt="PT 상세 신청기록 동영상" /> */}
-                                <div className="relative w-4 h-4">
+                                <img src={PtRecordVideo} alt="PT 상세 신청기록 동영상" />
+                                {/* <div className="relative w-4 h-4">
                                     <Image
                                         src={PtRecordVideo}
                                         alt="PT 상세 신청기록 동영상"
@@ -82,7 +82,7 @@ export default function PfFeebBackCard({ data, reservationId }: PfFeebBackCardPr
                                         sizes="w-8 h-8"
                                         className="object-cover"
                                     />
-                                </div>
+                                </div> */}
                                 트레이너 피드백
                             </p>
                             <p className="text-[12px] font-medium text-[#99A1AF]"> 클릭하여 확인하기 </p>

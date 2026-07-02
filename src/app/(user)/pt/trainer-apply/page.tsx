@@ -35,11 +35,11 @@ export default async function PtTrainerRegistPage() {
                                 <p className="text-[20px] font-extrabold text-white"> 프로필 정보 </p>
                                 <div className="flex gap-6 items-start  ">
                                     <div className="flex items-center justify-center size-30 border-[3px] border-[#BFFF0B] rounded-full overflow-hidden">
-                                        {/* <img
+                                        <img
                                             className={`${trainerApplicationData.data.profileImageUrl && "w-full h-full"} object-cover`}
                                             src={trainerApplicationData.data.profileImageUrl ?? TrainerProfileImgDefault}
-                                            alt="트레이너 프로필 수정 프로필 사진" /> */}
-                                        <div className="relative w-4 h-4">
+                                            alt="트레이너 프로필 수정 프로필 사진" />
+                                        {/* <div className="relative w-4 h-4">
                                             <Image
                                                 src={trainerApplicationData.data.profileImageUrl ?? TrainerProfileImgDefault}
                                                 alt="트레이너 프로필 수정 프로필 사진"
@@ -48,7 +48,7 @@ export default async function PtTrainerRegistPage() {
                                                 sizes="w-8 h-8"
                                                 className={`${trainerApplicationData.data.profileImageUrl && "w-full h-full"} object-cover`}
                                             />
-                                        </div>
+                                        </div> */}
                                     </div>
                                 </div>
                             </div>
@@ -68,8 +68,8 @@ export default async function PtTrainerRegistPage() {
                                 </div>
                                 <div className="flex gap-3 justify-between">
                                     <div className="flex flex-1 gap-2 px-3 py-2 border border-[#364153] bg-[#1E293980] items-center rounded-[10px]">
-                                        {/* <img src={TrainerEssentialQulificationIcon} alt="자격증 업로드시 나오는 아이콘" /> */}
-                                        <div className="relative w-4 h-4">
+                                        <img src={TrainerEssentialQulificationIcon} alt="자격증 업로드시 나오는 아이콘" />
+                                        {/* <div className="relative w-4 h-4">
                                             <Image
                                                 src={TrainerEssentialQulificationIcon}
                                                 alt="자격증 업로드시 나오는 아이콘"
@@ -78,7 +78,7 @@ export default async function PtTrainerRegistPage() {
                                                 sizes="w-8 h-8"
                                                 className="object-cover"
                                             />
-                                        </div>
+                                        </div> */}
                                         <p className="text-[#99A1AF] text-[12px] font-medium"> {trainerApplicationData.data.certificateOriginalName} </p>
                                     </div>
                                 </div>
