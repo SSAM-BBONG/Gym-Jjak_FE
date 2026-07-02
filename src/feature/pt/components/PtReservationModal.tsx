@@ -112,44 +112,43 @@ export default function PtReservationModal({ isModal, closeModal, activeModal, n
                     </div>
                     <div data-testid="reservation-calendar">
                         <Calendar
-                        mode="single"
-                        locale={ko}
-                        selected={date}
-                        onSelect={handleSelectDate}
-                        disabled={(day) => {
-                            const formattedDate = format(day, "yyyy-MM-dd");
-                            return !availableDates.includes(formattedDate);
-                        }}
-                        className="rounded-lg border text-white"
+                            mode="single"
+                            locale={ko}
+                            selected={date}
+                            onSelect={handleSelectDate}
+                            disabled={(day) => {
+                                const formattedDate = format(day, "yyyy-MM-dd");
+                                return !availableDates.includes(formattedDate);
+                            }}
+                            className="rounded-lg border text-white"
                         />
                     </div>
 
                     <div className="w-full bg-[#1E2939] rounded-md border-[#364153] border mt-6 p-6">
-                    <h3 className="font-bold text-xl text-[#E8EAF0] py-2">시간 선택</h3>
+                        <h3 className="font-bold text-xl text-[#E8EAF0] py-2">시간 선택</h3>
 
-                    <div className="grid grid-cols-3 gap-3 mt-3">
-                        {timeSlots.map((slot) => {
-                        const value = `${slot.startTime}-${slot.endTime}`;
-                        const isSelected =
-                            selectedTimeSlot?.startTime === slot.startTime &&
-                            selectedTimeSlot?.endTime === slot.endTime;
+                        <div className="grid grid-cols-3 gap-3 mt-3">
+                            {timeSlots.map((slot) => {
+                                const value = `${slot.startTime}-${slot.endTime}`;
+                                const isSelected =
+                                    selectedTimeSlot?.startTime === slot.startTime &&
+                                    selectedTimeSlot?.endTime === slot.endTime;
 
-                        return (
-                            <button
-                            key={value}
-                            data-testid="reservation-time-slot"
-                            type="button"
-                            onClick={() => setSelectedTimeSlot(slot)}
-                            className={`rounded-lg py-3 font-semibold ${
-                                isSelected
-                                ? "bg-[#BFFF0B] text-black"
-                                : "bg-[#0B0F19] text-white border border-[#364153]"
-                            }`}
-                            >
-                            {slot.startTime} - {slot.endTime}
-                            </button>
-                        );
-                        })}
+                                return (
+                                    <button
+                                        key={value}
+                                        data-testid="reservation-time-slot"
+                                        type="button"
+                                        onClick={() => setSelectedTimeSlot(slot)}
+                                        className={`rounded-lg py-3 font-semibold ${isSelected
+                                                ? "bg-[#BFFF0B] text-black"
+                                                : "bg-[#0B0F19] text-white border border-[#364153]"
+                                            }`}
+                                    >
+                                        {slot.startTime} - {slot.endTime}
+                                    </button>
+                                );
+                            })}
                         </div>
                     </div>
 

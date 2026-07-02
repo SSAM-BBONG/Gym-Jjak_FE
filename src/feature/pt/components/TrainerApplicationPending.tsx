@@ -21,8 +21,8 @@ export const TrainerApplicationPending = ({ trainerApplicationId }: { trainerApp
             <div className="flex justify-between items-center">
                 <div className="flex gap-3 items-center">
                     <div className="p-3 rounded-[14px] bg-[#F0B10033]">
-                        {/* <img src={PtTrainerRegistPending} alt="트레이너 신청 현황 대기중" /> */}
-                        <div className="relative w-5 h-5">
+                        <img src={PtTrainerRegistPending} alt="트레이너 신청 현황 대기중" />
+                        {/* <div className="relative w-5 h-5">
                             <Image
                                 src={PtTrainerRegistPending}
                                 alt="트레이너 신청 현황 대기중"
@@ -31,7 +31,7 @@ export const TrainerApplicationPending = ({ trainerApplicationId }: { trainerApp
                                 sizes="w-10 h-10"
                                 className="object-cover"
                             />
-                        </div>
+                        </div> */}
                     </div>
                     <div className="flex flex-col">
                         <p className="text-[24px] font-extrabold text-white"> 대기중</p>
@@ -41,8 +41,8 @@ export const TrainerApplicationPending = ({ trainerApplicationId }: { trainerApp
                 <div className="flex gap-3 items-center">
                     <Link href="/pt/trainer-apply/edit">
                         <div className="flex gap-2 items-center text-[16px] font-medium text-white rounded-[10px] bg-[#364153] px-4 py-2">
-                            {/* <img src={TrainerAPplicationEdit} alt="트레이너 신청 수정 버튼" /> */}
-                            <div className="relative w-5 h-5">
+                            <img src={TrainerAPplicationEdit} alt="트레이너 신청 수정 버튼" />
+                            {/* <div className="relative w-5 h-5">
                                 <Image
                                     src={TrainerAPplicationEdit}
                                     alt="트레이너 신청 수정 버튼"
@@ -51,13 +51,13 @@ export const TrainerApplicationPending = ({ trainerApplicationId }: { trainerApp
                                     sizes="w-10 h-10"
                                     className="object-cover"
                                 />
-                            </div>
+                            </div> */}
                             <button> 수정 </button>
                         </div>
                     </Link>
                     <div className="flex gap-2 itemes-center rounded-[10px] bg-[#82181AB2] px-4 py-2 text-[16px] font-medium text-[#FF6467] border border-[#FB2C364D]">
-                        {/* <img src={TrainerAPplicationCancel} alt="트레이너 신청 취소 버튼" /> */}
-                        <div className="relative w-5 h-5">
+                        <img src={TrainerAPplicationCancel} alt="트레이너 신청 취소 버튼" />
+                        {/* <div className="relative w-5 h-5">
                             <Image
                                 src={TrainerAPplicationCancel}
                                 alt="트레이너 신청 취소 버튼"
@@ -66,7 +66,7 @@ export const TrainerApplicationPending = ({ trainerApplicationId }: { trainerApp
                                 sizes="w-10 h-10"
                                 className="object-cover"
                             />
-                        </div>
+                        </div> */}
                         <button onClick={handleDelteApplication}> 신청취소 </button>
                     </div>
                 </div>

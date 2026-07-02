@@ -25,8 +25,8 @@ export default function DetailTrainer() {
             <div className="flex">
                 <div className="flex flex-1 flex-col gap-2">
                     <div className="flex gap-2 items-center">
-                        {/* <img src={PtDetailQualification} alt="PT 상세조회 자격증" /> */}
-                        <div className="relative w-5 h-5">
+                        <img src={PtDetailQualification} alt="PT 상세조회 자격증" />
+                        {/* <div className="relative w-5 h-5">
                             <Image
                                 src={PtDetailQualification}
                                 alt="PT 상세조회 자격증"
@@ -34,18 +34,18 @@ export default function DetailTrainer() {
                                 sizes="w-10 h-10"
                                 className="object-cover"
                             />
-                        </div>
+                        </div> */}
 
                         <p className="text-[14px] font-extrabold text-white"> 자격증 </p>
                     </div>
-                    <p className="text-[12px] font-normal text-[#D1D5DC] flex gap-2"><span className="text-[#BFFF0B] text-[12px]">•</span> 생활체육지도사 2급 </p>
+                    <p className="text-[12px] font-normal text-[#0f0f10] flex gap-2"><span className="text-[#BFFF0B] text-[12px]">•</span> 생활체육지도사 2급 </p>
                     <p className="text-[12px] font-normal text-[#D1D5DC] flex gap-2"><span className="text-[#BFFF0B] text-[12px]">•</span>  NSCA-CPT </p>
                     <p className="text-[12px] font-normal text-[#D1D5DC] flex gap-2"><span className="text-[#BFFF0B] text-[12px]">•</span>  ACSM 인증 트레이너 </p>
                 </div>
                 <div className="flex flex-1 flex-col gap-2">
                     <div className="flex gap-2 items-center">
-                        {/* <img src={PtDetailHistory} alt="PT 상세조회 대회경력" /> */}
-                        <div className="relative w-5 h-5">
+                        <img src={PtDetailHistory} alt="PT 상세조회 대회경력" />
+                        {/* <div className="relative w-5 h-5">
                             <Image
                                 src={PtDetailHistory}
                                 alt="PT 상세조회 대회경력"
@@ -53,7 +53,7 @@ export default function DetailTrainer() {
                                 sizes="w-10 h-10"
                                 className="object-cover"
                             />
-                        </div>
+                        </div> */}
                         <p className="text-[14px] font-extrabold text-white"> 대회 경력 </p>
                     </div>
                     <p className="text-[12px] font-normal text-[#D1D5DC] flex gap-2"><span className="text-[#BFFF0B] text-[12px]">•</span>  2023 피지크 대회 입상 </p>

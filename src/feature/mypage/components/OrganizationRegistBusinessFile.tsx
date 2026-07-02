@@ -73,8 +73,8 @@ export default function OrganizationRegistBusinessFile({ setValue, resetField, a
                     application?.businessLicenseFileUrl && (
                         <div className="flex gap-8 justify-between items-center">
                             <div className="flex flex-1 gap-2 px-3 py-2 border border-[#364153] bg-[#1E293980] items-center rounded-[10px]">
-                                {/* <img src={TrainerEssentialQulificationIcon} alt="사업자등록증 파일" /> */}
-                                <div className="relative w-4 h-4">
+                                <img src={TrainerEssentialQulificationIcon} alt="사업자등록증 파일" />
+                                {/* <div className="relative w-4 h-4">
                                     <Image
                                         src={TrainerEssentialQulificationIcon}
                                         alt="사업자등록증 파일"
@@ -82,7 +82,7 @@ export default function OrganizationRegistBusinessFile({ setValue, resetField, a
                                         sizes="w-8 h-8"
                                         className="object-cover hover:cursor-pointer"
                                     />
-                                </div>
+                                </div> */}
                                 <p className="text-[#99A1AF] text-[12px] font-medium">
                                     {application.businessLicenseOriginalName}
                                 </p>
