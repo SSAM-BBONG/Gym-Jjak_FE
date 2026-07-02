@@ -23,8 +23,6 @@ export default function TrainerRegistAwardHistory({
     const [awardHistorys, setawardHistorys] = useState<string[]>(
       initialData?.awardHistories ?? []);
 
-      console.log();
-
   const handleAddQualification = () => {
     const trimmedValue = awarHistoryInput.trim();
     

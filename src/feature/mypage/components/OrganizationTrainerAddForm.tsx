@@ -18,7 +18,6 @@ export default function OrganizationTrainerAddForm({ isModal, closeModal, active
 
     const [keyword, setKeyword] = useState("");
     const [trainers, setTrainers] = useState<OrganizationManageTrainerSearchItem[]>([]);
-    console.log(trainers);
 
     const handleSearchClick = async () => {
         const result = await organizationTrainerSearchAction(keyword);

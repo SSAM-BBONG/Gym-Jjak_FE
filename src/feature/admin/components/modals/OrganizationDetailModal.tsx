@@ -74,7 +74,6 @@ export default function OrganizationDetailModal({ isModal, closeModal, activeMod
         const fetchOrganizationApplication = async () => {
             const response = await OrganizationApplicationAdminDetailAction(organizationId);
             setOrganizationApplicationInfo(response);
-            console.log(response);
         }
 
         const fetchOrganization = async () => {
