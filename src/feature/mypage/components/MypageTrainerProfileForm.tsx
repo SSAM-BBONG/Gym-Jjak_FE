@@ -20,8 +20,6 @@ export default function MypageTrainerProfileForm({ data }: MypageTrainerProfileF
     const [mode, setMode] = useState("read");
     const isReadOnly = mode === "read";
 
-    console.log(isReadOnly)
-
     const {
         register,
         handleSubmit,

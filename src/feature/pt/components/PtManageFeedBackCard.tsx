@@ -18,8 +18,6 @@ export default function PtManageFeedBackCard({ data, reservationId, ptCourseId }
     const checkModal = useModal();
     const registModal = useModal();
 
-    console.log(data[0].feedbacks);
-
     const [selectedCurriculum, setSelectedCurriculum] =
         useState<StudentFeedbackCurriculum | null>(null);
     const [selectedFeedbackId, setSelectedFeedbackId] = useState<number | null>(null);

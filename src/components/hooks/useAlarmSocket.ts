@@ -41,7 +41,7 @@ export function useAlarmSocket({
     let reconnectAttempts = 0;
     let isUnmounting = false;
 
-    const socketUrl = `${apiBaseUrl.replace(/\/$/, "")}/ws`;
+    const socketUrl = `${window.location.origin}/ws`;
 
     const client = new Client({
       webSocketFactory: () => new SockJS(socketUrl),

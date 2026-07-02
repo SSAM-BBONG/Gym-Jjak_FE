@@ -24,7 +24,6 @@ export default function Onboarding4Form({ totalData, setTotalData }: { totalData
     })
 
     const handleNext = (data: OnBoarding4Type) => {
-        console.log("부모가 준 setTotalData의 정체:", setTotalData);
         setTotalData({
             ...totalData,
             ...data

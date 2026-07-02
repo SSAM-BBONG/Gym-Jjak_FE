@@ -31,7 +31,6 @@ export default function ModalOpenButton() {
 
     const deco = async () => {
         const user = await decodeJWT();
-        console.log(user?.role);
     }
     return (
         <div className="text-white">
