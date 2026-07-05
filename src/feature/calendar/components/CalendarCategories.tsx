@@ -2,7 +2,7 @@ export default function CalendarCategories({ category, isDefault = false }: { ca
     return (
         <label
             htmlFor={String(category.categoryId)}
-            className="py-3 px-6.5 bg-[#1E2939] text-[#99A1AF] text-base font-bold rounded-md has-checked:bg-[#BFFF0B] has-checked:text-black">
+            className="py-3 px-6.5 bg-[#1E2939] text-[#99A1AF] text-sm md:text-base font-bold rounded-md has-checked:bg-[#BFFF0B] has-checked:text-black">
             <input
                 defaultChecked={isDefault}
                 hidden
