@@ -28,7 +28,7 @@
   TrainerApplicationEditData,
   TrainerApplicationResponse
 } from "@/feature/pt/type";
-import { fetchWithAuth } from "@/lib/feth";
+import { fetchWithAuth, fetchWithoutAuth } from "@/lib/feth";
 import { getErrorMessage } from "@/lib/stateError";
 
 // PT 상세 조회 API
@@ -49,7 +49,7 @@ export const getPtDetail = async (ptCourseId: string): Promise<PtCourseDetailRes
 
 // PT 목록 조회 API
 export const getPtLists = async (): Promise<PtCourseListResponse> => {
-  const response = await fetchWithAuth(`/api/pt-courses`);
+  const response = await fetchWithoutAuth(`/api/pt-courses`);
 
   if (!response.ok) {
     const message = await getErrorMessage(
@@ -65,7 +65,7 @@ export const getPtLists = async (): Promise<PtCourseListResponse> => {
 
 // 온보딩 조회 API (사용자가 작성한 선호지역 위도, 경도)
 export const getOnboarding = async (): Promise<OnboardingResponse> => {
-  const response = await fetchWithAuth(`/api/onboarding/me`);
+  const response = await fetchWithoutAuth(`/api/onboarding/me`);
 
   if (!response.ok) {
     const message = await getErrorMessage(
