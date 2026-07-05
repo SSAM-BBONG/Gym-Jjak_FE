@@ -5,7 +5,7 @@ export default async function Page() {
 
     return (
         <CalendarQueryProvider>
-            <div className="flex mx-30 my-10">
+            <div className="flex flex-col mx-10 md:mx-20 lg:mx-30 my-10 xs:flex-col md:flex-row">
                 <CalendarCt />
             </div>
         </CalendarQueryProvider>

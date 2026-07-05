@@ -64,7 +64,7 @@ export default function CalendarCt() {
                 className="rounded-lg border"
                 daysData={monthData?.data?.days}
             />
-            <section className="text- w-2/5 text-white ml-8">
+            <section className="w-full md:w-2/5 text-white md:ml-8">
                 <div className="flex justify-between mb-2">
                     <h1 className="font-black text-5xl">{selectedDay}</h1>
                     {isToday && (

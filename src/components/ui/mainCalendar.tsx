@@ -48,7 +48,7 @@ function MainCalendar({
         ...formatters,
       }}
       classNames={{
-        root: cn("w-3/5 bg-[#0B0F19]  border-[#0B0F19]", defaultClassNames.root),
+        root: cn("kw-full md:w-3/5 xs:w-full bg-[#0B0F19]  border-[#0B0F19]", defaultClassNames.root),
         months: cn(
           "relative flex flex-col gap-4 md:flex-row  bg-[#0B0F19]",
           defaultClassNames.months
@@ -261,7 +261,7 @@ function CalendarDayButton({
           </div>)}
       </div>
       {todayData?.diaryTitle && <div className="bg-[#BFFF0B] w-full p-0.5 text-black mt-auto">
-        {todayData.diaryTitle.length > 4 ? `${todayData.diaryTitle.slice(0, 4)}...` : `${todayData.diaryTitle}`}
+        <p className="hidden md:block">{todayData.diaryTitle.length > 4 ? `${todayData.diaryTitle.slice(0, 4)}...` : `${todayData.diaryTitle}`}</p>
       </div>}
     </Button>
   )
