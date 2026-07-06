@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { chagnePtzoneResrvationStatus, chagnePtzoneStatus, createFeedback, createPtCourse, createPtReservation, getFeedbackDetail, getOnboarding, getPtResrvationAvailableDates, getPtResrvationAvailableTimes, getTrainerCancel, trainerApplication, updateTrainerApplication } from "@/service/ptzone.service";
+import { chagnePtzoneResrvationStatus, chagnePtzoneStatus, createFeedback, createPtCourse, createPtReservation, getFeedbackDetail, getOnboarding, getPtResrvationAvailableDates, getPtResrvationAvailableTimes, getTrainerCancel, getWithoutOnboarding, trainerApplication, updateTrainerApplication } from "@/service/ptzone.service";
 import { PtRegistRequest, PtRegistSchedule, PtReservationRequest, PtReservationStatusChangeRequest, TrainerApplicationData, TrainerApplicationEditData } from "./type";
 import { uploadFilesPresignedUrl } from "@/service/file.service";
 import { cookies } from "next/headers";
@@ -289,6 +289,7 @@ export const getOnboardingAction = async () => {
 
     if(!accessToken) {
       return null;
+    } else {
+      return getOnboarding();
     }
-    return getOnboarding();
 }
