@@ -39,11 +39,12 @@ export default function CalendarViewModal({ isModal, closeModal, activeModal, da
             className="z-999 bg-black/50 fixed top-0 left-0 w-screen h-screen"
             onClick={closeModal} >
             <form
-                className="bg-gradient-to-br from-[#101828] to-[#000] w-3xl min-h-130 rounded-2xl border border-[#1E2939] z-1000 fixed top-1/2 left-1/2 p-6 flex -translate-x-1/2 -translate-y-1/2 flex-col justify-between"
+                className="bg-gradient-to-br from-[#101828] to-[#000] w-4/5 h-80 sm:w-md sm:h-100 md:w-lg md:h-100 lg:w-3xl lg:h-150 rounded-2xl border border-[#1E2939] z-1000 fixed top-1/2 left-1/2 p-6 flex -translate-x-1/2 -translate-y-1/2 flex-col justify-between 
+                overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
                 onClick={(e) => e.stopPropagation()}>
                 <article>
-                    <div className="flex justify-between border-b-[#1E2939] border-b items-center pb-8 pt-2">
-                        <h3 className="font-bold text-xl text-[#E8EAF0]">일지 상세</h3>
+                    <div className="flex justify-between border-b-[#1E2939] border-b items-center pb-6 md:pb-8 md:pt-2">
+                        <h3 className="font-bold  text-base md:text-lg text-[#E8EAF0]">일지 상세</h3>
                         <button onClick={closeModal} className="relative ml-auto w-5 h-5">
                             <Image
                                 src={CloseButton}
@@ -53,24 +54,24 @@ export default function CalendarViewModal({ isModal, closeModal, activeModal, da
                             />
                         </button>                    </div>
                     <div className="flex justify-between items-center my-4">
-                        <h3 className="font-bold text-xl text-[#E8EAF0] py-2">{data?.title}</h3>
+                        <h3 className="font-bold text-base md:text-xl text-[#E8EAF0] py-2">{data?.title}</h3>
                         <div className="w-10">{data?.category}</div>
                     </div>
                     <div
-                        className="border-[#364153] border w-full h-65 p-6 bg-[#1E2939] rounded-2xl resize-none focus:border-[#BFFF0B] text-white focus:outline-none"
+                        className="border-[#364153] border w-full h-65 p-6 bg-[#1E2939] rounded-2xl resize-none focus:border-[#BFFF0B] text-white  text-sm md:text-base focus:outline-none"
                     >{data?.content}</div>
                 </article>
-                <article className='flex gap-3'>
+                <article className='flex gap-3 mt-3'>
                     <button
                         type="button"
                         onClick={() => createMutation.mutate()}
-                        className='w-full flex pt-2 pb-3 justify-center items-center rounded-lg text-white text-center font-semibold text-base bg-[#1E2939]'
+                        className='w-full flex pt-2 pb-3 justify-center items-center rounded-lg text-white text-center font-semibold  text-s md:text-base bg-[#1E2939]'
                     >
                         삭제하기
                     </button>
                     <button
                         onClick={activeModal}
-                        className='w-full flex pt-2 pb-3 justify-center items-center rounded-lg text-black text-center font-semibold text-base bg-[#BFFF0B]'
+                        className='w-full flex pt-2 pb-3 justify-center items-center rounded-lg text-black text-center font-semibold  text-s md:text-base bg-[#BFFF0B]'
                     >
                         수정하기
                     </button>

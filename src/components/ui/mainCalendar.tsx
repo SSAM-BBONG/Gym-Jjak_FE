@@ -35,7 +35,6 @@ function MainCalendar({
     <DayPicker
       showOutsideDays={showOutsideDays}
       className={cn(
-        // shadow, border, outline을 강제로 무력화하고 배경을 덮어씁니다.
         "group/calendar p-2 border-0 border-none shadow-none outline-none bg-[#0B0F19]",
         String.raw`rtl:**:[.rdp-button\_next>svg]:rotate-180`,
         String.raw`rtl:**:[.rdp-button\_previous>svg]:rotate-180`,
@@ -49,7 +48,7 @@ function MainCalendar({
         ...formatters,
       }}
       classNames={{
-        root: cn("w-3/5 bg-[#0B0F19]  border-[#0B0F19]", defaultClassNames.root),
+        root: cn("kw-full md:w-3/5 xs:w-full bg-[#0B0F19]  border-[#0B0F19]", defaultClassNames.root),
         months: cn(
           "relative flex flex-col gap-4 md:flex-row  bg-[#0B0F19]",
           defaultClassNames.months
@@ -110,19 +109,16 @@ function MainCalendar({
           defaultClassNames.week_number
         ),
         day: cn(
-          "group/day relative aspect-square h-full w-full rounded-(--cell-radius) p-0 text-center select-none [&:last-child[data-selected=true]_button]:rounded-r-[50%]",
-          props.showWeekNumber
-            ? "[&:nth-child(2)[data-selected=true]_button]:rounded-l-[50%]"
-            : "[&:first-child[data-selected=true]_button]:rounded-l-[50%]",
+          "group/day relative aspect-square h-full w-full rounded-(--cell-radius) p-0 text-center select-none",
           defaultClassNames.day
         ),
         range_start: cn(
-          "relative isolate z-0 rounded-l-[50%] bg-muted after:absolute after:inset-y-0 after:right-0 after:w-4 after:bg-muted",
+          "relative isolate z-0  bg-muted after:absolute after:inset-y-0 after:right-0 after:w-4 after:bg-muted",
           defaultClassNames.range_start
         ),
         range_middle: cn("rounded-none", defaultClassNames.range_middle),
         range_end: cn(
-          "text-red-500 relative isolate z-0 rounded-r-[50%] bg-muted after:absolute after:inset-y-0 after:left-0 after:w-4 after:bg-muted",
+          "text-red-500 relative isolate z-0 bg-muted after:absolute after:inset-y-0 after:left-0 after:w-4 after:bg-muted",
           defaultClassNames.range_end
         ),
         today: cn(
@@ -218,40 +214,41 @@ function CalendarDayButton({
   }, [modifiers.focused])
 
   return (
-    <div
+    <Button
+      ref={ref}
+      variant="ghost"
+      size="icon"
+      data-day={day.date.toLocaleDateString(locale?.code)}
+      data-selected-single={
+        modifiers.selected &&
+        !modifiers.range_start &&
+        !modifiers.range_end &&
+        !modifiers.range_middle
+      }
+      data-range-start={modifiers.range_start}
+      data-range-end={modifiers.range_end}
+      data-range-middle={modifiers.range_middle}
       className={cn(
-        "flex justify-start relative isolate z-10 p-1 aspect-square size-auto w-full min-w-(--cell-size) flex-col gap-1 border-0 leading-none font-normal data-[range-end=true]:rounded-(--cell-radius) data-[range-end=true]:rounded-r-[50%] data-[range-end=true]:bg-primary data-[range-end=true]:text-primary-foreground data-[range-middle=true]:rounded-none data-[range-middle=true]:bg-muted data-[range-middle=true]:text-foreground data-[range-start=true]:rounded-(--cell-radius) data-[range-start=true]:rounded-l-[50%] data-[range-start=true]:bg-primary data-[range-start=true]:text-primary-foreground data-[selected-single=true]:bg-primary data-[selected-single=true]:text-primary-foreground dark:hover:text-foreground [&>span]:text-xs [&>span]:opacity-70",
+        "flex justify-start relative isolate z-10 p-1 aspect-square size-auto w-full min-w-(--cell-size) flex-col gap-1 border-0 leading-none font-normal data-[range-end=true]:rounded-(--cell-radius) data-[range-end=true]:rounded-r-[50%] data-[range-end=true] data-[range-end=true]:text-primary-foreground data-[range-middle=true]:rounded-none data-[range-middle=true]:bg-muted data-[range-middle=true]:text-foreground data-[range-start=true]:rounded-(--cell-radius) data-[range-start=true]:rounded-l-[50%] data-[range-start=true]:text-primary-foreground data-[selected-single=true]:border data-[selected-single=true]:border-[#BFFF0B] data-[selected-single=true]:text-primary-foreground dark:hover:text-foreground [&>span]:text-xs [&>span]:opacity-70",
         defaultClassNames.day,
         className
-      )}>
+      )}
+      {...props}
+    >
       <div className="w-full flex justify-between items-center">
-        <Button
-          ref={ref}
-          variant="ghost"
-          size="icon"
-          data-day={day.date.toLocaleDateString(locale?.code)}
-          data-selected-single={
-            modifiers.selected &&
-            !modifiers.range_start &&
-            !modifiers.range_end &&
-            !modifiers.range_middle
-          }
-          data-range-start={modifiers.range_start}
-          data-range-end={modifiers.range_end}
-          data-range-middle={modifiers.range_middle}
+        <div
           className={cn(
-            " border-0 rounded-[50%] leading-none font-medium text-sm data-[range-end=true]:rounded-(--cell-radius) data-[range-end=true]:rounded-r-[50%] data-[range-end=true]:bg-primary data-[range-end=true]:text-primary-foreground data-[range-middle=true]:rounded-none data-[range-middle=true]:bg-muted data-[range-middle=true]:text-foreground data-[range-start=true]:rounded-(--cell-radius) data-[range-start=true]:rounded-l-[50%] data-[range-start=true]:bg-primary data-[range-start=true]:text-primary-foreground data-[selected-single=true]:bg-primary data-[selected-single=true]:text-primary-foreground dark:hover:text-foreground [&>span]:text-xs [&>span]:opacity-70",
+            " border-0 rounded-[50%] w-5 h-5 leading-none font-medium text-sm data-[selected-single=true]:border-primary data-[selected-single=true]:text-primary-foreground dark:hover:text-foreground [&>span]:text-xs [&>span]:opacity-70",
             "data-[selected-single=true]:border-[#BFFF0B] data-[selected-single=true]:border data-[selected-single=true]:text-[#BFFF0B]",
             isCurrentMonthDay && 'text-white',
-            modifiers.today && "bg-white text-black",
             isSunday && "text-red-500",
             isSaturday && "text-blue-400",
             !isCurrentMonthDay && 'text-gray-500',
+            modifiers.today && "bg-[#BFFF0B] text-black",
             defaultClassNames.day,
             className
           )}
-          {...props}
-        />
+        >{day.date.getDate()}</div>
         {todayData?.pt && (
           <div className="relative w-5 h-5">
             <Image
@@ -264,9 +261,9 @@ function CalendarDayButton({
           </div>)}
       </div>
       {todayData?.diaryTitle && <div className="bg-[#BFFF0B] w-full p-0.5 text-black mt-auto">
-        {todayData.diaryTitle.length > 4 ? `${todayData.diaryTitle.slice(0, 4)}...` : `${todayData.diaryTitle}`}
+        <p className="hidden md:block">{todayData.diaryTitle.length > 4 ? `${todayData.diaryTitle.slice(0, 4)}...` : `${todayData.diaryTitle}`}</p>
       </div>}
-    </div>
+    </Button>
   )
 }
 

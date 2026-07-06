@@ -10,8 +10,8 @@ interface OrganizationId {
 
 
 interface PtFindProps {
-  latitude: number;
-  longitude: number;
+  latitude?: number ;
+  longitude?: number ;
   ptList: PtCourseListData[];
   setOrganizationId: (value: OrganizationId) => void;
 }
@@ -30,8 +30,8 @@ export default function KakaoMap({latitude, longitude, ptList, setOrganizationId
     // 지도 출력 컴포넌트 
     <Map
       center={{
-        lat: latitude,
-        lng: longitude,
+        lat: latitude || 37.46100271829629,
+        lng: longitude || 127.1651323818218,
       }}
       level={5}
       className="h-full"
@@ -41,8 +41,8 @@ export default function KakaoMap({latitude, longitude, ptList, setOrganizationId
 
     <MapMarker 
     position={{
-      lat: latitude,
-      lng: longitude,
+      lat: latitude || 37.46100271829629,
+      lng: longitude || 127.1651323818218,
       }}
     />
 
