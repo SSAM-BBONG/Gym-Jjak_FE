@@ -64,8 +64,23 @@ export const getPtLists = async (): Promise<PtCourseListResponse> => {
 };
 
 // 온보딩 조회 API (사용자가 작성한 선호지역 위도, 경도)
-export const getOnboarding = async (): Promise<OnboardingResponse> => {
+export const getWithoutOnboarding = async (): Promise<OnboardingResponse> => {
   const response = await fetchWithoutAuth(`/api/onboarding/me`);
+
+  if (!response.ok) {
+    const message = await getErrorMessage(
+      response,
+      '온보딩 조회에 실패하였습니다.'
+    );
+
+    throw new Error(message);
+  }
+
+  return response.json();
+};
+
+export const getOnboarding = async (): Promise<OnboardingResponse> => {
+  const response = await fetchWithAuth(`/api/onboarding/me`);
 
   if (!response.ok) {
     const message = await getErrorMessage(
