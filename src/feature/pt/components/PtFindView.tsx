@@ -7,7 +7,7 @@ import KakaoMap from "@/components/ui/Map";
 
 interface PtFindResponse {
     listResponse: PtCourseListResponse;
-    onBoardingResponse: OnboardingResponse
+    onBoardingResponse: OnboardingResponse | null;
 }
 
 export default function PtFindView({listResponse, onBoardingResponse}: PtFindResponse) {
@@ -35,8 +35,8 @@ export default function PtFindView({listResponse, onBoardingResponse}: PtFindRes
         role="region"
         aria-label="PT 헬스장 위치 지도">
             <KakaoMap
-                latitude={onBoardingResponse.data.preferredRegion.latitude}
-                longitude={onBoardingResponse.data.preferredRegion.longitude}
+                latitude={onBoardingResponse?.data.preferredRegion.latitude}
+                longitude={onBoardingResponse?.data.preferredRegion.longitude}
                 ptList={listResponse.data}
                 setOrganizationId={setOrganizationId}
             />
