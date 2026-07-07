@@ -70,18 +70,17 @@ export default function OrganizationManageDefaultInformation({ data }: Organizat
             <div className="flex flex-col gap-3">
                 <p className="text-[14px] font-medium text-[#99A1AF]"> 사업자 등록증 </p>
                 <div className="p-4 border border-[#364153] bg-[#1E293980] rounded-[10px] flex items-center justify-between">
-                    <div className="flex gap-4 items-center">
-                        <div className="relative w-17 h-5">
+                    <div className="flex gap-4 items-center justify-start">
+                        <div className="relative w-6 h-6">
                             <Image
                                 src={MypageMyActivity}
                                 alt="조직 계정 신청 사업자 등록증"
                                 fill
-                                sizes="w-12 h-10"
                                 className="object-cover hover:cursor-pointer"
                             />
                         </div>
                         <div className="flex flex-col">
-                            <p className="text-[16px] font-extrabold text-white"> {data.businessLicenseFileUrl}</p>
+                            <p className="text-[16px] font-extrabold text-white"> {data.businessLicenseOriginalName}</p>
                             <p className="text-[14px] font-normal text-[#99A1AF]"> 파일 크기 1.2MB</p>
                         </div>
                     </div>
