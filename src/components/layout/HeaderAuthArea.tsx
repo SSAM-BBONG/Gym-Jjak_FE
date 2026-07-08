@@ -53,7 +53,7 @@ export default function HeaderAuthArea() {
   }, [pathname]);
 
   return (
-    <div className="flex items-center justify-end gap-5">
+    <div className="grid grid-cols-[20px_20px_80px] items-center justify-end gap-5 min-w-32">
       {user && <AlarmSocket enabled={isAlarmSocketEnabled} />}
 
       {user?.role === "ADMIN" && (
@@ -65,7 +65,7 @@ export default function HeaderAuthArea() {
       )}
 
       <Link href="/alarm">
-        <div className="relative">
+        <div className="relative min-w-5">
           <div className="relative h-5 w-5">
             <Image
               src={Alarm}
@@ -81,7 +81,7 @@ export default function HeaderAuthArea() {
         </div>
       </Link>
 
-      {/* <Link href="/chat">
+      <Link href="/chat">
         <div className="relative">
           <div className="relative h-5 w-5">
             <Image
@@ -96,15 +96,15 @@ export default function HeaderAuthArea() {
             5
           </div>
         </div>
-      </Link> */}
+      </Link>
 
       {isLoading ? (
-        <div className="h-9 w-17" />
+        <div className="h-9 w-17 min-w-5" />
       ) : user ? (
         <UserProfile />
       ) : (
         <Link href="/auth/login">
-          <button className="cursor-pointer rounded-[10px] bg-[#BFFF0B] px-4 py-2 text-[14px] font-extrabold text-black">
+          <button className="min-w-4 cursor-pointer rounded-[10px] bg-[#BFFF0B] px-4 py-2 text-[14px] font-extrabold text-black">
             로그인
           </button>
         </Link>

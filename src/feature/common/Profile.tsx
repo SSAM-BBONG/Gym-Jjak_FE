@@ -44,7 +44,7 @@ export default function UserProfile() {
 
     return (
         <>
-            <div className="relative">
+            <div className="relative min-w-5">
                 <div
                     onClick={handleProfileClick}
                     className="rounded-full size-8 border-gray-700 border-2 overflow-hidden flex items-center justify-center
