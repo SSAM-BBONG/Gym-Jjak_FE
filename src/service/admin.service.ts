@@ -311,3 +311,47 @@ export const patchUserStatus = async (userId: number, reason: UserStatusRequest)
 }
 
 
+
+export const getUserDashboard = async () => {
+    const response = await fetchWithAuth(`/api/dashboard/admin/members`);
+
+    if (!response.ok) {
+        const message = await getErrorMessage(
+            response,
+            '대시보드 조회에 실패했습니다.'
+        );
+
+        throw new Error(message);
+    }
+    return response.json();
+}
+
+export const getContentDashboard = async () => {
+    const response = await fetchWithAuth(`/api/dashboard/admin/contents`);
+
+    if (!response.ok) {
+        const message = await getErrorMessage(
+            response,
+            '대시보드 조회에 실패했습니다.'
+        );
+
+        throw new Error(message);
+    }
+    return response.json();
+}
+
+export const getReservationDashboard = async () => {
+    const response = await fetchWithAuth(`/api/dashboard/admin/reservations`);
+
+    if (!response.ok) {
+        const message = await getErrorMessage(
+            response,
+            '대시보드 조회에 실패했습니다.'
+        );
+
+        throw new Error(message);
+    }
+    return response.json();
+}
+
+

@@ -202,3 +202,15 @@ interface Trainer {
     certifications: Certifications[];
     awards: Awards[];
 }
+
+interface UserSituation {
+    totalUserCount: number;
+    totalTrainerCount: number;
+    totalOrganizationCount: number;
+    monthlyUserSignups: MonthlyCount[];
+}
+
+interface MonthlyCount {
+    month: string;
+    count: number;
+}
