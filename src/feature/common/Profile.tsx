@@ -9,7 +9,9 @@ import OneButtonModal from "@/components/ui/OneButtonModal";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 
+
 export default function UserProfile() {
+
     const router = useRouter();
     const [visible, setVisible] = useState<boolean>(false);
 
@@ -27,15 +29,14 @@ export default function UserProfile() {
     }
 
     // TwoButtonModal에서 확인 클릭 시 OneButtonModal 열기
-    const handleLogoutConfirmClick = async () => {
+    const handleLogoutConfirmClick = () => {
         setLogoutConfirmModal(false);
         setLogoutCheckModal(true);
-        await logoutAction();
-        window.dispatchEvent(new Event('auth-changed'));
     }
 
     // OneButtonModal에서 확인 클릭 시 기존 로그아웃 로직 실행
-    const handleLogoutFinalClick = () => {
+    const handleLogoutFinalClick = async () => {
+        await logoutAction();
         router.push("/");
         router.refresh();
         window.dispatchEvent(new Event('auth-changed'));
@@ -64,7 +65,7 @@ export default function UserProfile() {
                     <div className="absolute top-11 right-0 w-47.5 h-40 border border-[#364153] bg-[#101828] px-3 py-4 flex flex-col gap-3 rounded-[10px]">
                         <div className="flex flex-col gap-2">
                             <p className="text-white text-[14px]">사용자 이름</p>
-                            <p className="text-[#99A1AF] text-[12px]">사용자 이메일</p>
+                            <p className="text-[#99A1AF] text-[12px]">사용자 내용</p>
                         </div>
 
                         <hr className="border-t-[#1E2939]" />
