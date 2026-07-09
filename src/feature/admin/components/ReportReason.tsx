@@ -18,7 +18,7 @@ export default function ReportReason({ text }: ActiveStatusProps) {
     return (
         <>
             <div
-                className={`py-1 px-3 font-medium text-xs rounded-lg border inline ${colorVariants[text]}`}>
+                className={`py-1 px-2 lg:px-3 font-medium text-[10px] sm:text-xs rounded-lg border inline ${colorVariants[text]}`}>
                 {text}
 
             </div>
