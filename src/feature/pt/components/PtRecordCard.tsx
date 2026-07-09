@@ -48,8 +48,8 @@ export default function PtRecordCard({ data }: PtRecordCardProps) {
                     </div>
                 </div>
                 <div className="flex gap-3 mt-2">
-                    <button className="px-8 py-2 bg-[#1E2939] rounded-[10px] text-[14px] font-extrabold text-white"> 채팅하기 </button>
-                    <button className="px-8 py-2 bg-[#1E2939] rounded-[10px] text-[14px] font-extrabold text-white"> 상세보기 </button>
+                    <button className="px-8 py-2 bg-[#1E2939] rounded-[10px] text-[14px] font-extrabold text-white hover:cursor-pointer"> 채팅하기 </button>
+                    <button className="px-8 py-2 bg-[#1E2939] rounded-[10px] text-[14px] font-extrabold text-white hover:cursor-pointer"> 상세보기 </button>
                 </div>
             </div>
         </div>

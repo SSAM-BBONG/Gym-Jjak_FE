@@ -66,7 +66,7 @@ export default function TrainerRegistAwardHistory({
                 <button 
                     type="button"
                     onClick={handleAddQualification}
-                    className="bg-[#364153] px-4 py-2 rounded-[10px] text-[16px] text-white font-medium"> + &nbsp; 추가 </button>
+                    className="bg-[#364153] px-4 py-2 rounded-[10px] text-[16px] text-white font-medium hover:cursor-pointer"> + &nbsp; 추가 </button>
             </div>
             <input 
                 value={awarHistoryInput}
@@ -79,7 +79,7 @@ export default function TrainerRegistAwardHistory({
                   <button 
                       type="button"
                       onClick={() => handleRemoveQualification(index)}
-                      className="px-4 py- bg-[#82181A4D] rounded-[10px] text-[#FF6467] font-extrabold"> ✕ </button>
+                      className="px-4 py- bg-[#82181A4D] rounded-[10px] text-[#FF6467] font-extrabold hover:cursor-pointer"> ✕ </button>
               </div>
             ))}  
               {error && <p className="text-sm text-red-500">{error}</p>}

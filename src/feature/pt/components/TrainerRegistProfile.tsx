@@ -104,6 +104,7 @@ export default function TrainerRegistProfile({
                                 rounded-full
                                 text-[#FF6467]
                                 font-extrabold
+                                hover:cursor-pointer
                                 ">
                             ✕
                         </button>

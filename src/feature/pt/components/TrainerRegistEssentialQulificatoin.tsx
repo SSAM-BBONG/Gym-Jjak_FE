@@ -100,7 +100,7 @@ export default function TrainerRegistEssentialQulification({
                             className="object-cover"
                         />
                     </div>
-                    <label htmlFor="trainer-profile-essential-upload-button" className="text-[14px] font-bold text-black whitespace-nowrap"> 파일 업로드 </label>
+                    <label htmlFor="trainer-profile-essential-upload-button" className="text-[14px] font-bold text-black whitespace-nowrap hover:cursor-pointer"> 파일 업로드 </label>
                     <input
                         disabled={mode === "edit"}
                         id="trainer-profile-essential-upload-button"
@@ -160,7 +160,7 @@ export default function TrainerRegistEssentialQulification({
                     <button
                         onClick={handleRemoveQualification}
                         type="button"
-                        className="px-4 py-3 bg-[#82181A4D] rounded-[10px] text-[#FF6467] font-extrabold">
+                        className="px-4 py-3 bg-[#82181A4D] rounded-[10px] text-[#FF6467] font-extrabold hover:cursor-pointer">
                         ✕
                     </button>
                 </div>
