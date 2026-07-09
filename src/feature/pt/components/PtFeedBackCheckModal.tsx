@@ -66,7 +66,7 @@ export default function PtFeeBackCheckModal({ isModal, closeModal, reservationId
                     <div className="flex flex-col gap-2 ">
                         <div className="flex justify-between items-center pt-2">
                             <h3 className="font-bold text-xl text-[#E8EAF0]"> 피드백 확인</h3>
-                            <button onClick={closeModal} className="relative ml-auto w-5 h-5">
+                            <button onClick={closeModal} className="relative ml-auto w-5 h-5 hover:cursor-pointer">
                                 <Image
                                     src={CloseButton}
                                     alt="모달 닫기 버튼"
@@ -204,7 +204,7 @@ export default function PtFeeBackCheckModal({ isModal, closeModal, reservationId
                     <button
                         type="button"
                         onClick={closeModal}
-                        className='w-full flex pt-2 pb-3 justify-center items-center rounded-lg text-white text-center font-semibold text-base bg-[#1E2939]'
+                        className='w-full flex pt-2 pb-3 justify-center items-center rounded-lg text-white text-center font-semibold text-base bg-[#1E2939] hover:cursor-pointer'
                     >
                         닫기
                     </button>

@@ -52,7 +52,7 @@ export const TrainerApplicationPending = ({ trainerApplicationId }: { trainerApp
                                     className="object-cover"
                                 />
                             </div> */}
-                            <button> 수정 </button>
+                            <button className="hover:cursor-pointer"> 수정 </button>
                         </div>
                     </Link>
                     <div className="flex gap-2 itemes-center rounded-[10px] bg-[#82181AB2] px-4 py-2 text-[16px] font-medium text-[#FF6467] border border-[#FB2C364D]">
@@ -67,7 +67,7 @@ export const TrainerApplicationPending = ({ trainerApplicationId }: { trainerApp
                                 className="object-cover"
                             />
                         </div> */}
-                        <button onClick={handleDelteApplication}> 신청취소 </button>
+                        <button onClick={handleDelteApplication} className="hover:cursor-pointer"> 신청취소 </button>
                     </div>
                 </div>
             </div>

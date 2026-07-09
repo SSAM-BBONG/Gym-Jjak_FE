@@ -127,8 +127,8 @@ const onSubmit: SubmitHandler<TrainerRegistFormValue> = async (values) => {
             />
 
                 <div className="flex gap-4">
-                    <button className="flex-1 bg-[#1E2939] text-white text-[16px] font-extrabold py-3 mb-20 rounded-[10px]"> 취소 </button>
-                    <button type="submit" disabled={isSubmitting} className="flex-1 bg-[#BFFF0B] text-black text-[16px] font-extrabold py-3 mb-20 rounded-[10px]"> {mode==="edit" ? "수정하기" : "신청하기"} </button>
+                    <button className="flex-1 bg-[#1E2939] text-white text-[16px] font-extrabold py-3 mb-20 rounded-[10px] hover:cursor-pointer"> 취소 </button>
+                    <button type="submit" disabled={isSubmitting} className="flex-1 bg-[#BFFF0B] text-black text-[16px] font-extrabold py-3 mb-20 rounded-[10px] hover:cursor-pointer"> {mode==="edit" ? "수정하기" : "신청하기"} </button>
                 </div>
             </form>
         </div>
