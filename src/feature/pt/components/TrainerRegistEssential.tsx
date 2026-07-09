@@ -5,6 +5,9 @@ import { TrainerRegistFormValue } from "@/lib/trainerRegistSchema";
 import { useState } from "react";
 import { UseFormSetValue } from "react-hook-form";
 import { TrainerApplicationDetail } from "../type";
+import TwoButtonModal from "@/components/ui/TwoButtonModal";
+import OneButtonModal from "@/components/ui/OneButtonModal";
+import useModal from "@/components/hooks/useModal";
 
 interface TrainerQulificationProps {
   setValue: UseFormSetValue<TrainerRegistFormValue>;
@@ -52,6 +55,9 @@ export default function TrainerQulification({
       shouldDirty: true,
     });
   };
+
+  const confirmModal = useModal();
+  const checkModal = useModal(confirmModal.openModal);
     return (
         <div className="
             flex flex-col gap-4
@@ -83,8 +89,25 @@ export default function TrainerQulification({
                 <p className="bg-[#1E2939] px-4 py-3 border border-[#364153] flex-1 rounded-[10px] text-white"> {qualification} </p>
                 <button 
                     type="button"
-                    onClick={() => handleRemoveQualification(index)}
-                    className="px-4 py- bg-[#82181A4D] rounded-[10px] text-[#FF6467] font-extrabold hover:cursor-pointer"> ✕ </button>
+                    onClick={checkModal.openModal}
+                    className="px-4 py- bg-[#82181A4D] rounded-[10px] text-[#FF6467] font-extrabold hover:cursor-pointer"> 
+                  ✕ 
+                </button>
+                <TwoButtonModal
+                    isModal={checkModal.isModal}
+                    closeModal={checkModal.closeModal} 
+                    activeModal={checkModal.activeModal}
+                    content="자격증을 삭제하시겠습니까?"
+                    title='자격증 삭제' 
+                />
+
+                <OneButtonModal 
+                    isModal={confirmModal.isModal}
+                    closeModal={confirmModal.closeModal}
+                    activeModal={()=>{ handleRemoveQualification(index);}} 
+                    title='자격증 삭제'
+                    content='자격증이 삭제되었습니다.' 
+                />
             </div>
             ))}
             {error && <p className="text-sm text-red-500">{error}</p>}
