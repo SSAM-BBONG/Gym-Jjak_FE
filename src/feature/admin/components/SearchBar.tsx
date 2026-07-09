@@ -37,10 +37,10 @@ export default function SearchBar() {
 
     return (
         <form
-            className="rounded-md border-[#364153] w-full p-6 bg-gradient-to-br from-[#101828] to-[#1E2939] flex gap-4">
+            className="rounded-md border-[#364153] w-full p-3 sm:p-4 md:p-5 lg:p-6 bg-gradient-to-br from-[#101828] to-[#1E2939] flex gap-2 sm:gap-3 lg:gap-4">
             <div
-                className="flex items-center gap-3 bg-[#1E2939] border border-[#364153] rounded-md w-full p-3.5">
-                <button className="relative w-5 h-5">
+                className="flex items-center gap-2 sm:gap-3 bg-[#1E2939] border border-[#364153] rounded-md w-full p-2.5 sm:p-3 lg:p-3.5">
+                <button className="relative w-4 h-4 lg:w-5 lg:h-5">
                     <Image
                         src={AdminSearchImg}
                         alt="검색"
@@ -49,7 +49,7 @@ export default function SearchBar() {
                     />
                 </button>
                 <input
-                    className="font-normal text-[#6A7282] text-base focus:outline-0 w-full"
+                    className="font-normal text-[#6A7282] text-sm md:text-base focus:outline-0 w-full"
                     placeholder="검색어를 입력해주세요."
                     type="text"
                     name="search"
@@ -57,7 +57,7 @@ export default function SearchBar() {
                     value={searchInput}
                 />
             </div>
-            <button type='button' className="px-4 py-3 text-[#99A1AF] rounded-md text-base font-medium w-23 bg-[#1E2939]">필터</button>
+            <button type='button' className="px-3 lg:px-4 py-2.5 lg:py-3 text-[#99A1AF] rounded-md text-sm md:text-base font-medium w-18 sm:w-20 lg:w-23 bg-[#1E2939]">필터</button>
         </form>
     );
 }
