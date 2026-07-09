@@ -29,7 +29,7 @@ export default function ActiveStatus({ text, reason = '', nickname = '' }: Activ
         <>
             <div
                 onClick={(text === 'ETERNAL' || text === 'DAY_7') ? modal.openModal : () => { }}
-                className={`py-1 px-3 font-medium text-xs rounded-lg border inline ${colorVariants[text]}`}>
+                className={`py-1 px-2 lg:px-3 font-medium text-[10px] sm:text-xs rounded-lg border inline ${colorVariants[text]}`}>
                 {textVariants[text]}
             </div>
             <CheckViewModal
