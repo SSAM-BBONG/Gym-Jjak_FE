@@ -6,6 +6,9 @@ import { useState } from "react";
 import { UseFormSetValue } from "react-hook-form";
 import { TrainerApplicationDetail } from "../type";
 import Image from "next/image";
+import useModal from "@/components/hooks/useModal";
+import OneButtonModal from "@/components/ui/OneButtonModal";
+import TwoButtonModal from "@/components/ui/TwoButtonModal";
 
 interface TrainerEssentialQulificationProps {
     setValue: UseFormSetValue<TrainerRegistFormValue>;
@@ -25,6 +28,7 @@ export default function TrainerRegistEssentialQulification({
     const [qualificationFileName, setQualificationFileName] = useState(
         initialData?.certificateOriginalName ?? ""
     );
+    console.log();
 
     // 자격증 관리
     const handleQualificationChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
@@ -50,6 +54,9 @@ export default function TrainerRegistEssentialQulification({
             shouldDirty: true,
         });
     };
+
+    const confirmModal = useModal(handleRemoveQualification);
+    const checkModal = useModal(confirmModal.openModal);
 
     return (
         <div className={`
@@ -158,11 +165,27 @@ export default function TrainerRegistEssentialQulification({
                         }
                     </div>
                     <button
-                        onClick={handleRemoveQualification}
+                        onClick={checkModal.openModal}
                         type="button"
                         className="px-4 py-3 bg-[#82181A4D] rounded-[10px] text-[#FF6467] font-extrabold hover:cursor-pointer">
                         ✕
                     </button>
+
+                    <TwoButtonModal
+                        isModal={checkModal.isModal}
+                        closeModal={checkModal.closeModal}
+                        activeModal={checkModal.activeModal}
+                        content="필수 자격증을 삭제하시겠습니까?"
+                        title='필수 자격증 삭제' 
+                    />
+
+                    <OneButtonModal 
+                        isModal={confirmModal.isModal}
+                        closeModal={confirmModal.closeModal}
+                        activeModal={confirmModal.activeModal} 
+                        title='필수 자격증 삭제'
+                        content='필수 자격증이 삭제되었습니다.' 
+                    />
                 </div>
             }
             {error && <p className="text-sm text-red-500">{error}</p>}
