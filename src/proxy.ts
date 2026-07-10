@@ -36,7 +36,11 @@ export async function proxy(request: NextRequest) {
 
     if ((!accessToken && !refreshToken) || (accessToken && !refreshToken)) {
         //어세스랑 리프레시 둘다 없는경우
-        return NextResponse.redirect(new URL('/auth/login', request.url));
+        if (pathname === '/pt' || pathname.startsWith('/pt/find') || /^\/pt\/\d+$/.test(pathname)) {
+            return response
+        } else {
+            return NextResponse.redirect(new URL('/auth/login', request.url));
+        }
     } else if (!accessToken && refreshToken) {
         //어세스만 없는 경우
         const newToken = await getRefreshToken(request);
@@ -55,26 +59,29 @@ export async function proxy(request: NextRequest) {
     }
 
     let user: MyTokenPayload;
-
-    try {
-        if (!accessToken) {
-            return NextResponse.redirect(new URL('/auth/login', request.url));
+    if (pathname === '/pt' || pathname.startsWith('/pt/find') || /^\/pt\/\d+$/.test(pathname)) {
+        return response;
+    } else {
+        try {
+            if (!accessToken) {
+                return NextResponse.redirect(new URL('/auth/login', request.url));
+            }
+            user = jwtDecode<MyTokenPayload>(accessToken);
+        } catch {
+            return NextResponse.redirect(new URL("/auth/login", request.url));
         }
-        user = jwtDecode<MyTokenPayload>(accessToken);
-    } catch {
-        return NextResponse.redirect(new URL("/auth/login", request.url));
-    }
 
-    if (pathname.startsWith('/admin') && user?.role !== 'ADMIN') {
-        return NextResponse.redirect(new URL('/nopermission', request.url));
-    }
+        if (pathname.startsWith('/admin') && user?.role !== 'ADMIN') {
+            return NextResponse.redirect(new URL('/nopermission', request.url));
+        }
 
-    if ((pathname.startsWith('/pt/manage') || pathname.startsWith('/pt/regist')) && user?.role === 'USER') {
-        return NextResponse.redirect(new URL('/nopermission', request.url));
-    }
+        if ((pathname.startsWith('/pt/manage') || pathname.startsWith('/pt/regist')) && user?.role === 'USER') {
+            return NextResponse.redirect(new URL('/nopermission', request.url));
+        }
 
-    //세팅해놓은 응답 반환
-    return response;
+        //세팅해놓은 응답 반환
+        return response;
+    }
 }
 // 어디로 가려는지: request.nextUrl.pathname
 // 쿠키를 들고 왔는지: request.cookies

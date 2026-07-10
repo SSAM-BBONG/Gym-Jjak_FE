@@ -28,12 +28,12 @@
   TrainerApplicationEditData,
   TrainerApplicationResponse
 } from "@/feature/pt/type";
-import { fetchWithAuth, fetchWithoutAuth } from "@/lib/feth";
+import { fetchWithAuth, fetchWithAuthGet, fetchWithoutAuth } from "@/lib/feth";
 import { getErrorMessage } from "@/lib/stateError";
 
 // PT 상세 조회 API
 export const getPtDetail = async (ptCourseId: string): Promise<PtCourseDetailResponse> => {
-  const response = await fetchWithAuth(`/api/pt-courses/${ptCourseId}`);
+  const response = await fetchWithAuthGet(`/api/pt-courses/${ptCourseId}`);
 
   if (!response.ok) {
     const message = await getErrorMessage(
@@ -80,7 +80,7 @@ export const getWithoutOnboarding = async (): Promise<OnboardingResponse> => {
 };
 
 export const getOnboarding = async (): Promise<OnboardingResponse> => {
-  const response = await fetchWithAuth(`/api/onboarding/me`);
+  const response = await fetchWithAuthGet(`/api/onboarding/me`);
 
   if (!response.ok) {
     const message = await getErrorMessage(
@@ -169,7 +169,7 @@ export const getTrainerApplication = async (): Promise<TrainerApplicationDetailR
 };
 
 // 트레이너 신청 취소 API 
-export const getTrainerCancel = async ( trainerApplicationId: number ) => {
+export const getTrainerCancel = async (trainerApplicationId: number) => {
   const response = await fetchWithAuth(`/api/trainer-applications/${trainerApplicationId}`, {
     method: "DELETE"
   });
@@ -188,7 +188,7 @@ export const getTrainerCancel = async ( trainerApplicationId: number ) => {
 
 // 트레이너 신청 수정 API
 export const updateTrainerApplication = async (
-  trainerApplicationId:number,
+  trainerApplicationId: number,
   payload: TrainerApplicationEditData
 ): Promise<TrainerApplicationResponse> => {
   const response = await fetchWithAuth(`/api/trainer-applications/${trainerApplicationId}`, {
@@ -280,7 +280,7 @@ export const chagnePtzoneStatus = async (
   const response = await fetchWithAuth(`/api/pt-courses/${ptCourseId}/status`, {
     method: "PATCH",
     body: JSON.stringify(status)
-    }
+  }
   );
 
   if (!response.ok) {
@@ -326,7 +326,7 @@ export const getPtResrvationAvailableTimes = async (
     const message = await getErrorMessage(
       response, "예약 가능 시간 조회에 실패하였습니다."
     );
-    
+
     throw new Error(message);
   }
 
@@ -358,7 +358,7 @@ export const createPtReservation = async (
 // PT 깅습 수강생 목록 조회 API 
 export const getPtStudentsList = async (
   ptCourseId: number
-) : Promise<PtReservationStudentsResponse> => {
+): Promise<PtReservationStudentsResponse> => {
   const response = await fetchWithAuth(`/api/pt-courses/${ptCourseId}/reservations`);
 
   if (!response.ok) {
@@ -376,7 +376,7 @@ export const getPtStudentsList = async (
 // PT 강습 수강생 상세 조회 API 
 export const getPtStudentDetail = async (
   reservationId: string
-) : Promise<PtReservationStudentDetailResponse> => {
+): Promise<PtReservationStudentDetailResponse> => {
   const response = await fetchWithAuth(`/api/pt-courses/reservations/${reservationId}`);
 
   if (!response.ok) {
@@ -400,7 +400,7 @@ export const chagnePtzoneResrvationStatus = async (
 `, {
     method: "PATCH",
     body: JSON.stringify(status)
-    }
+  }
   );
 
   if (!response.ok) {
@@ -416,7 +416,7 @@ export const chagnePtzoneResrvationStatus = async (
 };
 
 // 내 예약 기록 목록 조회
-export const getMyPtReservationLists = async () : Promise<MyPtResrvationListsResponse> => {
+export const getMyPtReservationLists = async (): Promise<MyPtResrvationListsResponse> => {
   const response = await fetchWithAuth(`/api/reservations/me`);
 
   if (!response.ok) {
@@ -434,7 +434,7 @@ export const getMyPtReservationLists = async () : Promise<MyPtResrvationListsRes
 // 내 예약 기록 상세 조회
 export const getMyPtReservationDetail = async (
   reservationId: string
-) : Promise<MyPtResrvationDetailResponse> => {
+): Promise<MyPtResrvationDetailResponse> => {
   const response = await fetchWithAuth(`/api/reservations/me/${reservationId}`);
 
   if (!response.ok) {
@@ -450,7 +450,7 @@ export const getMyPtReservationDetail = async (
 };
 
 // 피드백 목록 조회
-export const getFeedBackLists = async (reservationId: string) : Promise<FeedbackListsResponse> => {
+export const getFeedBackLists = async (reservationId: string): Promise<FeedbackListsResponse> => {
   const response = await fetchWithAuth(`/api/reservations/${reservationId}/feedbacks`);
 
   if (!response.ok) {
@@ -479,8 +479,8 @@ export const createFeedback = async (
     const message = await getErrorMessage(
       response,
       "피드백 등록에 실패하였습니다.");
-    
-      throw new Error(message);
+
+    throw new Error(message);
   }
 
   return response.json();
@@ -490,7 +490,7 @@ export const createFeedback = async (
 export const getFeedbackDetail = async (
   reservationId: string,
   feedbackId: string
-) : Promise<FeedbackDetailResponse> => {
+): Promise<FeedbackDetailResponse> => {
   const response = await fetchWithAuth(`/api/reservations/${reservationId}/feedbacks/${feedbackId}`);
 
   if (!response.ok) {

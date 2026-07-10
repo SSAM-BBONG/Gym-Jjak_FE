@@ -66,3 +66,21 @@ export async function fetchWithAuth(endpoint: string, options: RequestInit = {})
 
     return newResponse;
 }
+
+export async function fetchWithAuthGet(endpoint: string, options: RequestInit = {}): Promise<Response> {
+    const cookieStore = await cookies();
+    const accessToken = cookieStore.get('accessToken')?.value;
+
+    const headers = {
+        'Content-Type': 'application/json',
+        ...(accessToken && { 'Authorization': `Bearer ${accessToken}` }),
+        ...options.headers
+    }
+
+    const response = await fetch(`${BASE_URL}${endpoint}`, {
+        ...options,
+        headers,
+    });
+
+    return response;
+}
