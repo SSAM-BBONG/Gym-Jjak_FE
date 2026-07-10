@@ -13,8 +13,8 @@ export default function AdminUpdateButton({ mode, id, name }: { mode: '카테고
         <>
             <button
                 onClick={modal.openModal}
-                className="flex items-center gap-2.5 text-sm font-medium text-white bg-[#1E2939] border-[#364153] border rounded-lg py-2 px-3">
-                <div className="relative w-5 h-5">
+                className="flex items-center gap-1 sm:gap-1.5 lg:gap-2.5 text-[10px] sm:text-xs lg:text-sm font-medium text-white bg-[#1E2939] border-[#364153] border rounded-lg py-1.5 sm:py-2 px-2 lg:px-3">
+                <div className="relative w-3 h-3 sm:w-4 sm:h-4 lg:w-5 lg:h-5">
                     <Image
                         src={AdminUpdateImg}
                         alt="수정 버튼"

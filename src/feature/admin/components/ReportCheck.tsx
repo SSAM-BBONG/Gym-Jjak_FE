@@ -15,8 +15,8 @@ export default function ReportCheck({ reportGroupId }: { reportGroupId: number }
         <>
             <button
                 onClick={modal.openModal}
-                className="flex items-center gap-2.5 text-sm font-medium text-white bg-[#1E2939] border-[#364153] border rounded-lg py-2 px-3">
-                <div className="relative ml-auto w-4 h-4">
+                className="flex items-center gap-1 sm:gap-1.5 lg:gap-2.5 text-[10px] sm:text-xs lg:text-sm font-medium text-white bg-[#1E2939] border-[#364153] border rounded-lg py-1.5 sm:py-2 px-2 lg:px-3">
+                <div className="relative ml-auto w-3 h-3 sm:w-4 sm:h-4 lg:w-4 lg:h-4">
                     <Image
                         src={DetailButtonImg}
                         alt="사유확인 버튼"

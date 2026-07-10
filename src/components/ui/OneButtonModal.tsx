@@ -20,7 +20,7 @@ export default function OneButtonModal({ isModal, closeModal, activeModal, title
                     <h3 className="font-bold md:text-xl text-lg mb-4 text-[#E8EAF0]">{title}</h3>
                     <p className="font-normal mb-auto whitespace-pre-wrap md:text-base text-sm text-[#E8EAF0]">{content}</p>
                 </article>
-                <article className='c-modal-btn-ct'>
+                <article className='flex gap-3'>
                     <button
                         onClick={() => { activeModal?.(); closeModal(); }}
                         className='w-full flex pt-2 pb-3 justify-center items-center rounded-lg text-black text-center font-semibold text-base bg-[#BFFF0B]'

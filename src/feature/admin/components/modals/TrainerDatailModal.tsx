@@ -89,12 +89,12 @@ export default function TrainerDetailModal({ isModal, closeModal, activeModal, n
                     </div>
                     <div className="flex items-center my-4 gap-6">
                         <div className="w-20 h-20 md:w-24 md:h-24 lg:w-30 lg:h-30">
-                            <Image
+                            {profileImageUrl && (<Image
                                 src={profileImageUrl}
                                 alt="트레이너 프로필 사진"
                                 fill
                                 sizes="w-30 h-30"
-                            />
+                            />)}
                         </div>
                         <div>
                             <h3 className="font-bold text-base md:text-lg lg:text-xl text-[#E8EAF0] py-2">{trainerApplicationInfo.name || trainerInfo.trainerName}</h3>
@@ -167,13 +167,13 @@ export default function TrainerDetailModal({ isModal, closeModal, activeModal, n
                         <button
                             type="button"
                             onClick={noneActiveModal}
-                            className='w-full flex pt-2 pb-3 justify-center items-center rounded-lg text-white text-center font-semibold text-base bg-[#1E2939]'
+                            className='w-full flex pt-2 pb-3 justify-center items-center rounded-lg text-white text-center font-semibold text-sm md:text-base bg-[#1E2939]'
                         >
                             반려
                         </button>
                         <button
                             onClick={activeModal}
-                            className='w-full flex pt-2 pb-3 justify-center items-center rounded-lg text-black text-center font-semibold text-base bg-[#BFFF0B]'
+                            className='w-full flex pt-2 pb-3 justify-center items-center rounded-lg text-black text-center font-semibold text-sm md:text-base bg-[#BFFF0B]'
                         >
                             승인
                         </button>
