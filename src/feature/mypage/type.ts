@@ -113,6 +113,7 @@ export interface OrganizationManageData {
     latitude: number;
     longitude: number;
     businessLicenseFileUrl: string;
+    businessLicenseOriginalName: string;
     facilityPhone: string;
     instagramUrl: string;
     blogUrl: string;

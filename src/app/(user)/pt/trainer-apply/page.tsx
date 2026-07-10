@@ -21,7 +21,7 @@ export default async function PtTrainerRegistPage() {
                         <div className="flex flex-col gap-6 mt-6">
 
                             <TrainerApplicationPending
-                                trainerApplicationId={trainerApplicationData.data.trainerApplicationId}
+                                trainerApplicationData={trainerApplicationData.data}
                             />
 
                             <div className="

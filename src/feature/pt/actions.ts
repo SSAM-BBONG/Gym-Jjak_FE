@@ -118,7 +118,19 @@ export const trainerApplicationAction = async (formData: FormData) => {
     introduction,
   };
 
-  await trainerApplication(payload);
+  try {
+    await trainerApplication(payload);
+    } catch (error) {
+        let errorMessage: string = '알 수 없는 오류입니다. 재시도해주세요.'
+        if (error instanceof Error) {
+            errorMessage = error.message;
+        }
+
+        return {
+            success: false,
+            message: errorMessage
+        }
+    }
 
   revalidatePath("/pt/trainer-apply");
   redirect("/pt/trainer-apply");
@@ -181,7 +193,19 @@ const payload: TrainerApplicationEditData = {
   awardHistories,
   introduction,
 };
-  await updateTrainerApplication(id, payload);
+  try {
+    await updateTrainerApplication(id, payload);
+    } catch (error) {
+        let errorMessage: string = '알 수 없는 오류입니다. 재시도해주세요.'
+        if (error instanceof Error) {
+            errorMessage = error.message;
+        }
+
+        return {
+            success: false,
+            message: errorMessage
+        }
+    }
 
   revalidatePath("/pt/trainer-apply");
   revalidatePath("/pt/trainer-apply/edit");
@@ -189,9 +213,22 @@ const payload: TrainerApplicationEditData = {
   redirect("/pt/trainer-apply");
 };
 
+// 트레이너 삭제 액션
 export const deleteTrainerApplication = async (id:number) => {
-  await getTrainerCancel(id);
+    try {
+      await getTrainerCancel(id);
+    } catch (error) {
+        let errorMessage: string = '알 수 없는 오류입니다. 재시도해주세요.'
+        if (error instanceof Error) {
+            errorMessage = error.message;
+        }
 
+        return {
+            success: false,
+            message: errorMessage
+        }
+    }
+  
   revalidatePath('/pt/trainer-apply');
   revalidatePath('/pt/trainer-apply/edit');
   redirect('/pt');

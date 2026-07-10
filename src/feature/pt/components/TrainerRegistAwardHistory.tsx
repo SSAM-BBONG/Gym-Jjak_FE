@@ -4,6 +4,9 @@ import { TrainerRegistFormValue } from "@/lib/trainerRegistSchema";
 import { useState } from "react";
 import { UseFormSetValue } from "react-hook-form";
 import { TrainerApplicationDetail } from "../type";
+import OneButtonModal from "@/components/ui/OneButtonModal";
+import TwoButtonModal from "@/components/ui/TwoButtonModal";
+import useModal from "@/components/hooks/useModal";
 
 interface TrainerAwardHistoryProps {
   setValue: UseFormSetValue<TrainerRegistFormValue>;
@@ -52,6 +55,8 @@ export default function TrainerRegistAwardHistory({
     });
   };
 
+  const confirmModal = useModal();
+  const checkModal = useModal(confirmModal.openModal);
 
     return (
         <div className="
@@ -66,7 +71,7 @@ export default function TrainerRegistAwardHistory({
                 <button 
                     type="button"
                     onClick={handleAddQualification}
-                    className="bg-[#364153] px-4 py-2 rounded-[10px] text-[16px] text-white font-medium"> + &nbsp; 추가 </button>
+                    className="bg-[#364153] px-4 py-2 rounded-[10px] text-[16px] text-white font-medium hover:cursor-pointer"> + &nbsp; 추가 </button>
             </div>
             <input 
                 value={awarHistoryInput}
@@ -78,8 +83,25 @@ export default function TrainerRegistAwardHistory({
                   <p className="bg-[#1E2939] px-4 py-3 border border-[#364153] flex-1 rounded-[10px] text-white"> {award} </p>
                   <button 
                       type="button"
-                      onClick={() => handleRemoveQualification(index)}
-                      className="px-4 py- bg-[#82181A4D] rounded-[10px] text-[#FF6467] font-extrabold"> ✕ </button>
+                      onClick={checkModal.openModal}
+                      className="px-4 py- bg-[#82181A4D] rounded-[10px] text-[#FF6467] font-extrabold hover:cursor-pointer"> 
+                    ✕ 
+                  </button>
+                  <TwoButtonModal
+                      isModal={checkModal.isModal}
+                      closeModal={checkModal.closeModal} 
+                      activeModal={checkModal.activeModal}
+                      content="대회 경력을 삭제하시겠습니까?"
+                      title='대회 경력 삭제' 
+                  />
+
+                  <OneButtonModal 
+                      isModal={confirmModal.isModal}
+                      closeModal={confirmModal.closeModal}
+                      activeModal={()=>{handleRemoveQualification(index);}} 
+                      title='대회 경력 삭제'
+                      content='대회 경력이 삭제되었습니다.' 
+                  />
               </div>
             ))}  
               {error && <p className="text-sm text-red-500">{error}</p>}

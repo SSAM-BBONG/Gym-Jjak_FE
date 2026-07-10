@@ -5,11 +5,32 @@ import { getTrainerCancel } from "@/service/ptzone.service";
 import { deleteTrainerApplication } from "../actions";
 import Link from "next/link";
 import Image from "next/image";
+import { TrainerApplicationDetail } from "../type";
+import OneButtonModal from "@/components/ui/OneButtonModal";
+import TwoButtonModal from "@/components/ui/TwoButtonModal";
+import useModal from "@/components/hooks/useModal";
+import { useState } from "react";
+import { format } from "date-fns";
 
-export const TrainerApplicationPending = ({ trainerApplicationId }: { trainerApplicationId: number }) => {
-    const handleDelteApplication = () => {
-        deleteTrainerApplication(trainerApplicationId);
+interface TrainerApplicationPendingProps {
+    trainerApplicationData: TrainerApplicationDetail
+}
+
+export const TrainerApplicationPending = ({ trainerApplicationData }: TrainerApplicationPendingProps) => {
+    const handleDelteApplication = async () => {
+        const result = await deleteTrainerApplication(trainerApplicationData.trainerApplicationId);
+
+        if(result?.success === false) {
+            setErrorMessage(result?.message);
+            errorModal.openModal();
+            return;
+        }
     }
+
+    const confirmModal = useModal(handleDelteApplication);
+    const checkModal = useModal(confirmModal.openModal);
+    const errorModal = useModal();
+    const [errorMessage, setErrorMessage] = useState("");
 
     return (
         <div className="
@@ -35,7 +56,7 @@ export const TrainerApplicationPending = ({ trainerApplicationId }: { trainerApp
                     </div>
                     <div className="flex flex-col">
                         <p className="text-[24px] font-extrabold text-white"> 대기중</p>
-                        <p className="text-[14px] font-normal text-[#99A1AF]"> 신청일: 2026. 5. 17 </p>
+                        <p className="text-[14px] font-normal text-[#99A1AF]"> 신청일: {!trainerApplicationData.updatedAt ? format(trainerApplicationData.createdAt, "yyyy-MM-dd") : format(trainerApplicationData.updatedAt, "yyyy-MM-dd")} </p>
                     </div>
                 </div>
                 <div className="flex gap-3 items-center">
@@ -52,7 +73,7 @@ export const TrainerApplicationPending = ({ trainerApplicationId }: { trainerApp
                                     className="object-cover"
                                 />
                             </div> */}
-                            <button> 수정 </button>
+                            <button className="hover:cursor-pointer"> 수정 </button>
                         </div>
                     </Link>
                     <div className="flex gap-2 itemes-center rounded-[10px] bg-[#82181AB2] px-4 py-2 text-[16px] font-medium text-[#FF6467] border border-[#FB2C364D]">
@@ -67,11 +88,34 @@ export const TrainerApplicationPending = ({ trainerApplicationId }: { trainerApp
                                 className="object-cover"
                             />
                         </div> */}
-                        <button onClick={handleDelteApplication}> 신청취소 </button>
+                        <button onClick={checkModal.openModal} className="hover:cursor-pointer"> 신청취소 </button>
+                        <TwoButtonModal
+                            isModal={checkModal.isModal}
+                            closeModal={checkModal.closeModal} 
+                            activeModal={checkModal.activeModal}
+                            content="트레이너 신청을 취소하시겠습니까?"
+                            title='트레이너 신청 취소' 
+                        />
+
+                        <OneButtonModal 
+                            isModal={confirmModal.isModal}
+                            closeModal={confirmModal.closeModal}
+                            activeModal={confirmModal.activeModal} 
+                            title='트레이너 신청 취소'
+                            content='트레이너 신청이 취소되었습니다.' 
+                        />
+
                     </div>
                 </div>
             </div>
             <p className="border border-[#F0B1004D] bg-[#733E0A33] px-4 py-4 rounded-[10px] text-[16px] font-normal text-[#FDC700]">관리자의 승인을 기다리고 있습니다. 영업일 기준 3-5일 소요될 수 있습니다.</p>
+            <OneButtonModal
+                isModal={errorModal.isModal}
+                closeModal={errorModal.closeModal}
+                activeModal={errorModal.activeModal}
+                title="트레이너 신청"
+                content={errorMessage}
+            />
         </div>
     );
 }

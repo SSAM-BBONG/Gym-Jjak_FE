@@ -6,6 +6,9 @@ import { useEffect, useState } from "react";
 import { UseFormSetValue } from "react-hook-form";
 import { TrainerApplicationDetail } from "../type";
 import Image from "next/image";
+import useModal from "@/components/hooks/useModal";
+import TwoButtonModal from "@/components/ui/TwoButtonModal";
+import OneButtonModal from "@/components/ui/OneButtonModal";
 
 interface TrainerRegistProfileProps {
     setValue: UseFormSetValue<TrainerRegistFormValue>;
@@ -58,6 +61,9 @@ export default function TrainerRegistProfile({
         });
     };
 
+    const confirmModal = useModal(handleProfileDelete);
+    const checkModal = useModal(confirmModal.openModal);
+
     useEffect(() => {
         return () => {
             if (profileImagePreview) {
@@ -94,7 +100,7 @@ export default function TrainerRegistProfile({
                     {profileImagePreview &&
                         <button
                             type="button"
-                            onClick={handleProfileDelete}
+                            onClick={checkModal.openModal}
                             className="
                                 absolute
                                 top-0
@@ -104,10 +110,26 @@ export default function TrainerRegistProfile({
                                 rounded-full
                                 text-[#FF6467]
                                 font-extrabold
+                                hover:cursor-pointer
                                 ">
                             ✕
                         </button>
                     }
+                    <TwoButtonModal
+                        isModal={checkModal.isModal}
+                        closeModal={checkModal.closeModal}
+                        activeModal={checkModal.activeModal} 
+                        title='프로필 삭제' 
+                        content="프로필 사진을 삭제하시겠습니까?"
+                    />
+                    <OneButtonModal 
+                        isModal={confirmModal.isModal}
+                        closeModal={confirmModal.closeModal}
+                        activeModal={confirmModal.activeModal} 
+                        title='프로필 삭제'
+                        content={`프로필이 삭제되었습니다.`} 
+                    />
+
                 </div>
                 <label
                     htmlFor="trainer-profile-img-upload"

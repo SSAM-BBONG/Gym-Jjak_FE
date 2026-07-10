@@ -23,7 +23,7 @@ export default function PtReviewModal({ isModal, closeModal, activeModal }: Trai
                     <div className="flex flex-col gap-2 ">
                         <div className="flex justify-between items-center pt-2">
                             <h3 className="font-bold text-xl text-[#E8EAF0]"> 수강평 작성 </h3>
-                            <button onClick={closeModal} className="relative ml-auto w-5 h-5">
+                            <button onClick={closeModal} className="relative ml-auto w-5 h-5 hover:cursor-pointer">
                                 <Image
                                     src={CloseButton}
                                     alt="모달 닫기 버튼"
@@ -53,13 +53,13 @@ export default function PtReviewModal({ isModal, closeModal, activeModal }: Trai
                     <button
                         type="button"
                         onClick={closeModal}
-                        className='w-full flex pt-2 pb-3 justify-center items-center rounded-lg text-white text-center font-semibold text-base bg-[#1E2939]'
+                        className='w-full flex pt-2 pb-3 justify-center items-center rounded-lg text-white text-center font-semibold text-base bg-[#1E2939] hover:cursor-pointer'
                     >
                         취소
                     </button>
                     <button
                         onClick={activeModal}
-                        className='w-full flex pt-2 pb-3 justify-center items-center rounded-lg text-black text-center font-semibold text-base bg-[#BFFF0B]'
+                        className='w-full flex pt-2 pb-3 justify-center items-center rounded-lg text-black text-center font-semibold text-base bg-[#BFFF0B] hover:cursor-pointer'
                     >
                         수강평 등록
                     </button>

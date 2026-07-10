@@ -84,7 +84,6 @@ export const loginAction = async (prevState: ActionState, formData: FormData): P
         });
     }
 
-
     if (resData.data.onboardingCompleted) {
         redirect('/');
     } else {
@@ -116,8 +115,11 @@ export const registerAction = async (payload: SignUpFormData): Promise<ActionSta
 }
 
 export const logoutAction = async () => {
+    const cookieStore = await cookies();
     try {
         await logout();
+        cookieStore.delete('accessToken');
+        cookieStore.delete('refreshToken');
     } catch (error) {
         let errorMessage: string = '알 수 없는 오류입니다. 재시도해주세요.'
         if (error instanceof Error) {
@@ -129,9 +131,7 @@ export const logoutAction = async () => {
             message: errorMessage
         }
     }
-    const cookieStore = await cookies();
-    cookieStore.delete('accessToken');
-    cookieStore.delete('refreshToken');
+
 }
 
 

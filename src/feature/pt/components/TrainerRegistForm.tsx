@@ -10,6 +10,11 @@ import { Resolver, SubmitHandler, useForm } from "react-hook-form";
 import { trainerRegistCreateSchema, trainerRegistEditSchema, TrainerRegistFormValue } from "@/lib/trainerRegistSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { TrainerApplicationDetail } from "../type";
+import { useRouter } from "next/navigation";
+import { success } from "zod";
+import useModal from "@/components/hooks/useModal";
+import { useState } from "react";
+import OneButtonModal from "@/components/ui/OneButtonModal";
 
 interface TrainerRegistFormProps {
   mode?: "create" | "edit";
@@ -38,6 +43,11 @@ const schema = mode === "edit"
 ? trainerRegistEditSchema
 : trainerRegistCreateSchema;
 
+const router = useRouter();
+
+const errorModal = useModal();
+const [errorMessage, setErrorMessage] = useState("");
+
 const {
   register,
   handleSubmit,
@@ -57,27 +67,32 @@ const {
 });
 
 const onSubmit: SubmitHandler<TrainerRegistFormValue> = async (values) => {
-  const formData = new FormData();
+    const formData = new FormData();
 
-  if (values.profileImageFile) {
-    formData.append("profileImageFile", values.profileImageFile);
-  }
+    if (values.profileImageFile) {
+      formData.append("profileImageFile", values.profileImageFile);
+    }
 
-  formData.append("profileImageAction", values.profileImageAction ?? "KEEP");
-  formData.append("qualifications", JSON.stringify(values.qualifications));
-  formData.append("awardHistories", JSON.stringify(values.awardHistories));
-  formData.append("introduction", values.introduction);
+    formData.append("profileImageAction", values.profileImageAction ?? "KEEP");
+    formData.append("qualifications", JSON.stringify(values.qualifications));
+    formData.append("awardHistories", JSON.stringify(values.awardHistories));
+    formData.append("introduction", values.introduction);
 
-  if (mode !== "edit" && values.certificateFile) {
-    formData.append("certificateFile", values.certificateFile);
-  }
+    if (mode !== "edit" && values.certificateFile) {
+      formData.append("certificateFile", values.certificateFile);
+    }
 
-  if (mode === "edit") {
-    await trainerApplicationEditAction(initialData.trainerApplicationId, formData);
-  } else {
-    await trainerApplicationAction(formData);
-  }
-};
+    const result = mode === "edit" 
+      ? await trainerApplicationEditAction(initialData.trainerApplicationId, formData)
+      : await trainerApplicationAction(formData)
+
+    if(result?.success === false) {
+      setErrorMessage(result?.message);
+      errorModal.openModal();
+      return;
+    }
+  };
+
     return (
         <div className="flex flex-col px-80 pt-10">
           {mode === 'edit' 
@@ -127,10 +142,32 @@ const onSubmit: SubmitHandler<TrainerRegistFormValue> = async (values) => {
             />
 
                 <div className="flex gap-4">
-                    <button className="flex-1 bg-[#1E2939] text-white text-[16px] font-extrabold py-3 mb-20 rounded-[10px]"> 취소 </button>
-                    <button type="submit" disabled={isSubmitting} className="flex-1 bg-[#BFFF0B] text-black text-[16px] font-extrabold py-3 mb-20 rounded-[10px]"> {mode==="edit" ? "수정하기" : "신청하기"} </button>
-                </div>
+                    <button 
+                      type="button"
+                      className="flex-1 bg-[#1E2939] text-white text-[16px] font-extrabold py-3 mb-20 rounded-[10px] hover:cursor-pointer"
+                      onClick={() => router.back()}
+                    >
+                      취소 
+                    </button>
+                    <button 
+                      type="submit" 
+                      disabled={isSubmitting} 
+                      className={`flex-1 text-black text-[16px] font-extrabold py-3 mb-20 rounded-[10px] hover:cursor-pointer
+                      ${isSubmitting ? 'bg-[#beff0b7c]' : 'bg-[#BFFF0B]'}
+                      `}
+                    > 
+                      {mode==="edit" ? (isSubmitting ? "수정중..." : "수정하기") : isSubmitting ? "신청중..." : "신청하기"} 
+                    </button>
+                </div>      
             </form>
+
+            <OneButtonModal
+              isModal={errorModal.isModal}
+              closeModal={errorModal.closeModal}
+              activeModal={errorModal.activeModal}
+              title="트레이너 신청"
+              content={errorMessage}
+            />
         </div>
     );
 }

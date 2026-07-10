@@ -72,32 +72,34 @@ export default function TrainerDetailModal({ isModal, closeModal, activeModal, n
             className="z-999 bg-black/50 fixed top-0 left-0 w-screen h-screen"
             onClick={closeModal} >
             <form
-                className="bg-gradient-to-br from-[#101828] to-[#000] w-3xl h-150 rounded-2xl border border-[#1E2939] z-1000 fixed top-1/2 left-1/2 p-6 flex -translate-x-1/2 -translate-y-1/2 flex-col justify-between
+                className="bg-gradient-to-br from-[#101828] to-[#000]  w-5/6 max-h-120 sm:w-4/5 sm:max-h-5/6 md:w-3/5 md:max-h-5/6 rounded-2xl border border-[#1E2939] z-1000 fixed top-1/2 left-1/2 p-6 flex -translate-x-1/2 -translate-y-1/2 flex-col justify-between
                 overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
                 onClick={(e) => e.stopPropagation()}>
                 <article>
                     <div className="flex justify-between border-b-[#1E2939] border-b items-center pb-8 pt-2">
-                        <h3 className="font-bold text-xl text-[#E8EAF0]">트레이너 상세 정보</h3>
-                        <Image
-                            src={CloseButton}
-                            alt="모달 닫기 버튼"
-                            fill
-                            sizes="w-4 h-4"
-                        />
+                        <h3 className="font-bold text-base md:text-lg lg:text-xl text-[#E8EAF0]">트레이너 상세 정보</h3>
+                        <button onClick={closeModal} className="relative ml-auto w-5 h-5">
+                            <Image
+                                src={CloseButton}
+                                alt="모달 닫기 버튼"
+                                fill
+                                sizes="w-4 h-4"
+                            />
+                        </button>
                     </div>
                     <div className="flex items-center my-4 gap-6">
-                        <div className="w-30 h-30">
-                            <Image
+                        <div className="w-20 h-20 md:w-24 md:h-24 lg:w-30 lg:h-30">
+                            {profileImageUrl && (<Image
                                 src={profileImageUrl}
                                 alt="트레이너 프로필 사진"
                                 fill
                                 sizes="w-30 h-30"
-                            />
+                            />)}
                         </div>
                         <div>
-                            <h3 className="font-bold text-xl text-[#E8EAF0] py-2">{trainerApplicationInfo.name || trainerInfo.trainerName}</h3>
-                            <p className="font-normal text-base text-[#E8EAF0]">{trainerApplicationInfo.nickname}</p>
-                            <p className="font-normal text-base text-[#E8EAF0]">{trainerApplicationInfo.username}</p>
+                            <h3 className="font-bold text-base md:text-lg lg:text-xl text-[#E8EAF0] py-2">{trainerApplicationInfo.name || trainerInfo.trainerName}</h3>
+                            <p className="font-normal text-sm md:text-base text-[#E8EAF0]">{trainerApplicationInfo.nickname}</p>
+                            <p className="font-normal text-sm md:text-base text-[#E8EAF0]">{trainerApplicationInfo.username}</p>
                             {mode === 'trainerView' ? (
                                 <ActiveStatus text={trainerInfo.status} />
                             ) : (
@@ -107,15 +109,15 @@ export default function TrainerDetailModal({ isModal, closeModal, activeModal, n
                     </div>
                     <section className="flex flex-col gap-6">
                         <article>
-                            <p className="text-white font-bold text-lg mb-3.5">자기소개</p>
+                            <p className="text-white font-bold text-[14px] md:text-base lg:text-lg mb-2 md:mb-3 lg:mb-3.5">자기소개</p>
                             <div
-                                className="flex items-center gap-4 border-[#364153] border w-full p-4 mt-2 bg-[#1E2939] rounded-md text-[#D1D5DC] text-base font-normal"
+                                className="flex items-center gap-3 md:gap-4 border-[#364153] border w-full p-3 md:p-4 mt-2 bg-[#1E2939] rounded-md text-[#D1D5DC] text-sm md:text-base font-normal"
                             >
                                 <p>{trainerApplicationInfo.introduction || trainerInfo.introduction}</p>
                             </div>
                         </article>
                         <article>
-                            <p className="text-white font-bold text-lg mb-3.5">자격증</p>
+                            <p className="text-white font-bold text-[14px] md:text-base lg:text-lg mb-2 md:mb-3 lg:mb-3.5">자격증</p>
                             {mode === 'trainerView' && (
                                 <>
                                     {
@@ -138,7 +140,7 @@ export default function TrainerDetailModal({ isModal, closeModal, activeModal, n
                             )}
                         </article>
                         <article>
-                            <p className="text-white font-bold text-lg mb-3.5">대회 경력</p>
+                            <p className="text-white font-bold text-[14px] md:text-base lg:text-lg mb-2 md:mb-3 lg:mb-3.5">대회 경력</p>
                             {mode === 'trainerView' && (
                                 <>
                                     {
@@ -165,13 +167,13 @@ export default function TrainerDetailModal({ isModal, closeModal, activeModal, n
                         <button
                             type="button"
                             onClick={noneActiveModal}
-                            className='w-full flex pt-2 pb-3 justify-center items-center rounded-lg text-white text-center font-semibold text-base bg-[#1E2939]'
+                            className='w-full flex pt-2 pb-3 justify-center items-center rounded-lg text-white text-center font-semibold text-sm md:text-base bg-[#1E2939]'
                         >
                             반려
                         </button>
                         <button
                             onClick={activeModal}
-                            className='w-full flex pt-2 pb-3 justify-center items-center rounded-lg text-black text-center font-semibold text-base bg-[#BFFF0B]'
+                            className='w-full flex pt-2 pb-3 justify-center items-center rounded-lg text-black text-center font-semibold text-sm md:text-base bg-[#BFFF0B]'
                         >
                             승인
                         </button>

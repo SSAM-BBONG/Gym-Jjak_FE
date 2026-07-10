@@ -12,11 +12,11 @@ export default async function PtRecordsPage() {
             <p className="text-[14px] font-normal text-[#99A1AF]"> 내 PT 기록을 확인하세요 </p>
 
             <div className="flex gap-3 my-5">
-                <button className="px-4 py-2 rounded-[10px] bg-[#BFFF0B] text-[16px] font-extrabold text-black"> 전체 </button>
-                <button className="px-4 py-2 rounded-[10px] bg-[#1E2939] text-[16px] font-extrabold text-[#99A1AF]"> 예약됨 </button>
-                <button className="px-4 py-2 rounded-[10px] bg-[#1E2939] text-[16px] font-extrabold text-[#99A1AF]"> 수강중 </button>
-                <button className="px-4 py-2 rounded-[10px] bg-[#1E2939] text-[16px] font-extrabold text-[#99A1AF]"> 완료 </button>
-                <button className="px-4 py-2 rounded-[10px] bg-[#1E2939] text-[16px] font-extrabold text-[#99A1AF]"> 취소 </button>
+                <button className="px-4 py-2 rounded-[10px] bg-[#BFFF0B] text-[16px] font-extrabold text-black hover:cursor-pointer"> 전체 </button>
+                <button className="px-4 py-2 rounded-[10px] bg-[#1E2939] text-[16px] font-extrabold text-[#99A1AF] hover:cursor-pointer"> 예약됨 </button>
+                <button className="px-4 py-2 rounded-[10px] bg-[#1E2939] text-[16px] font-extrabold text-[#99A1AF] hover:cursor-pointer"> 수강중 </button>
+                <button className="px-4 py-2 rounded-[10px] bg-[#1E2939] text-[16px] font-extrabold text-[#99A1AF] hover:cursor-pointer"> 완료 </button>
+                <button className="px-4 py-2 rounded-[10px] bg-[#1E2939] text-[16px] font-extrabold text-[#99A1AF] hover:cursor-pointer"> 취소 </button>
             </div>
 
             <div className="flex flex-col gap-5">
