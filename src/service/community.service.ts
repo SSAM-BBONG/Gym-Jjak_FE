@@ -3,7 +3,7 @@ import { fetchWithAuth, fetchWithAuthGet } from "@/lib/feth";
 import { getErrorMessage } from "@/lib/stateError";
 
 
-export const getCommunity = async (page: string, type?: 'FREE' | 'NOTICE',) => {
+export const getCommunity = async (page: string = '0', type?: 'FREE' | 'NOTICE') => {
     const response = await fetchWithAuthGet(`/api/community/posts?page=${page}${type ? `&type=${type}` : ''}`);
 
     if (!response.ok) {
@@ -105,7 +105,7 @@ export const createComment = async (postId: number, payload: CommentRequest) => 
 }
 
 export const updateComment = async (commentId: number, payload: CommentRequest) => {
-    const response = await fetchWithAuth(`/api/community/comments/$${commentId}`, {
+    const response = await fetchWithAuth(`/api/community/comments/${commentId}`, {
         method: "PATCH",
         body: JSON.stringify(payload)
     });
