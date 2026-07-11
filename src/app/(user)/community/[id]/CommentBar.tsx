@@ -61,6 +61,7 @@ export default function CommentBar({ postId }: { postId: number }) {
                 onSubmit={handleSubmit(onSubmit)}
                 className="flex items-center  rounded-[5px] md:rounded-[10px] border-[#364153] bg-[#1E2939] mx-7 sm:mx-15 md:mx-0 py-4 px-4 mb-6 gap-4">
                 <input
+                    aria-label="댓글 내용"
                     type="text"
                     {...register('comment')}
                     className="w-full text-white outline-none placeholder:text-[#6A7282] text-[12px] md:placeholder:text-[14px] placeholder:font-normal"
@@ -79,8 +80,7 @@ export default function CommentBar({ postId }: { postId: number }) {
             </form>
             <OneButtonModal
                 isModal={modal.isModal}
-                closeModal={modal.activeModal}
-                activeModal={modal.activeModal}
+                closeModal={modal.closeModal}
                 title="댓글"
                 content={commentState.message}
             />

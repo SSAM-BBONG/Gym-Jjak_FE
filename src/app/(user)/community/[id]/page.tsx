@@ -11,6 +11,15 @@ export default async function CommuDetailPage({ params }: { params: Promise<{ id
 
   const { id } = await params;
   const response = await getCommunityById(Number(id));
+  if (!response?.data) {
+    return (
+      <div className="p-8">
+        <div className="flex flex-col items-center justify-center text-center text-white m-auto">
+          <p className="mt-5">존재하지 않는 게시물입니다.</p>
+        </div>
+      </div>
+    )
+  }
   const post: Community = response.data;
 
   return (
@@ -110,6 +119,12 @@ export default async function CommuDetailPage({ params }: { params: Promise<{ id
         {post.comments.content.map((comment) => {
           return <CommuCommentCard comment={comment} key={comment.commentId} />
         })}
+        {post.comments.content.length === 0 && (
+          <div className="px-3 sm:px-4 lg:px-6 py-8 lg:py-10 text-center text-xs sm:text-sm text-muted-foreground">
+            게시글이 없습니다.
+          </div>
+        )}
+
       </div>
       <div className="block md:hidden fixed bottom-0 left-0 w-full bg-[#0B0F19] ">
         <CommentBar postId={post.postId} />

@@ -83,10 +83,12 @@ export default function CommuCommentCard({ comment }: { comment: CommunityCommen
           onSubmit={handleSubmit(onSubmit)}
           className="flex w-full gap-1 md:gap-3">
           <input
+            aria-label="댓글 수정 내용"
             {...register('comment')}
             defaultValue={comment.content}
             className="flex items-center w-full rounded-[5px] md:rounded-[10px] border-[#364153] bg-[#1E2939] mx-0 py-4 px-4 gap-4 text-[12px] md:text-[14px] font-normal text-[#D1D5DC]" />
           <button
+            type='button'
             onClick={() => {
               reset();
               setUpdateMode(false);
@@ -95,6 +97,7 @@ export default function CommuCommentCard({ comment }: { comment: CommunityCommen
             취소
           </button>
           <button
+            disabled={isSubmitting}
             className="bg-[#BFFF0B] rounded-[5px] md:rounded-[10px] px-2 py-4 md:px-4 text-[12px] md:text-[14px] font-bold w-20">
             수정
           </button>

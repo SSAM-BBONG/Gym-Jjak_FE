@@ -2,7 +2,6 @@
 
 import { createComment, createCommunity, createLike, deleteComment, deleteLike, updateComment } from "@/service/community.service";
 import { CommentRequest, CommunityRequest } from "./type";
-import { redirect } from "next/navigation";
 
 interface ActionState {
     success: boolean;
@@ -47,6 +46,13 @@ export const communityAction = async (formData: FormData): Promise<ActionState> 
 export const commentAction = async (postId: number, formData: FormData): Promise<ActionState> => {
 
     const content = formData.get('comment') as string;
+
+    if (!content.trim()) {
+        return {
+            success: false,
+            message: '값을 입력해주세요'
+        }
+    }
 
     const payload: CommentRequest = { content }
 
@@ -113,6 +119,10 @@ export const CommentDeleteAction = async (commentId: number) => {
 
 export const CommentUpdateAction = async (commentId: number, formData: FormData) => {
     const content = formData.get('comment') as string;
+
+    if (!content.trim()) {
+        return '값을 입력해주세요'
+    }
 
     const payload: CommentRequest = { content }
     try {

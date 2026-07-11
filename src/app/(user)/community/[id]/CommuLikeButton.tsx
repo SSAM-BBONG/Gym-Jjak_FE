@@ -10,13 +10,13 @@ export default function CommuLikeButton({ like, likeCount, postId }: { like: boo
     const [likeState, setLikeState] = useState<boolean>(like);
     const [likeCountState, setLikeCountState] = useState<number>(likeCount);
 
-    const clickLike = () => {
+    const clickLike = async () => {
         if (likeState) {
-            CommunityUnlikeAction(postId);
+            await CommunityUnlikeAction(postId);
             setLikeState(false);
             setLikeCountState((prev) => prev - 1);
         } else {
-            CommunityLikeAction(postId);
+            await CommunityLikeAction(postId);
             setLikeState(true);
             setLikeCountState((prev) => prev + 1);
         }

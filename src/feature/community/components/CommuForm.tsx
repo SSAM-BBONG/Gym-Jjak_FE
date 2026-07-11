@@ -72,6 +72,7 @@ export default function CommuForm() {
                     자유게시판
                 </h2>
                 <input
+                    aria-label="제목"
                     placeholder="제목을 입력해주세요"
                     {...register('title')}
                     className="text-[22px] md:text-[30px] font-black text-white focus:outline-none" />
@@ -86,6 +87,7 @@ export default function CommuForm() {
                 <hr className="border-[#1E2939]" />
 
                 <textarea
+                    aria-label="내용"
                     placeholder="내용을 입력해주세요"
                     {...register('content')}
                     className="rounded-[10px] h-47 focus:outline-none resize-none text-[13px] md:text-[16px] font-normal text-[#D1D5DC] p-2" />
