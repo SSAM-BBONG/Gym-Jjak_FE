@@ -18,7 +18,7 @@ export default function FindPwForm() {
     return (
         <form
             action={temporaryPwFormAction}
-            className="w-md">
+            className="w-full lg:w-md">
             <label
                 htmlFor="username"
                 className="w-full text-[#D1D5DC] text-sm font-medium">
@@ -29,10 +29,10 @@ export default function FindPwForm() {
                 id="username"
                 type="email"
                 placeholder="이메일을 입력해주세요"
-                className="w-full py-3 px-4 mb-5 text-base font-normal rounded-md bg-[#101828] border-[#364153] border focus:outline-0 focus:border-[#BFFF0B] text-white" />
+                className="w-full py-2.5 sm:py-3 lg:py-3 px-3 sm:px-4 lg:px-4 mb-4 sm:mb-5 lg:mb-5 text-sm sm:text-base lg:text-base font-normal rounded-md bg-[#101828] border-[#364153] border focus:outline-0 focus:border-[#BFFF0B] text-white" />
             <button
                 onClick={modal.openModal}
-                className="w-full text-base font-bold mb-6 text-black bg-[#BFFF0B] py-4 rounded-md">
+                className="w-full text-sm sm:text-base lg:text-base font-bold mb-5 sm:mb-6 lg:mb-6 text-black bg-[#BFFF0B] py-3 sm:py-3.5 lg:py-4 rounded-md">
                 임시 비밀번호 발급
             </button>
             {!ispending && (

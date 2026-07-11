@@ -32,10 +32,10 @@ export default function Onboarding1Form({ totalData, setTotalData }: { totalData
 
     return (
         <form onSubmit={handleSubmit(handleNext)}>
-            <div className="flex flex-wrap gap-4 pb-12">
+            <div className="flex flex-wrap gap-2 sm:gap-4 lg:gap-4 pb-8 sm:pb-10 lg:pb-12">
                 <label
                     htmlFor="diet"
-                    className="w-82 h-29 rounded-lg border border-[#364153] bg-[#10182880] text-white text-xl font-bold text-center p-7.5
+                    className="w-full sm:w-[calc(50%-0.5rem)] lg:w-82 h-24 sm:h-26 lg:h-29 rounded-lg border border-[#364153] bg-[#10182880] text-white text-base sm:text-lg lg:text-xl font-bold text-center p-4 sm:p-5 lg:p-7.5
                 has-checked:bg-[#BFFF0B]/90 has-checked:text-black">
                     <input
                         hidden
@@ -48,7 +48,7 @@ export default function Onboarding1Form({ totalData, setTotalData }: { totalData
                 </label>
                 <label
                     htmlFor="bulkup"
-                    className="w-82 h-29 border rounded-lg border-[#364153] bg-[#10182880] text-white text-xl font-bold text-center p-7.5
+                    className="w-full sm:w-[calc(50%-0.5rem)] lg:w-82 h-24 sm:h-26 lg:h-29 border rounded-lg border-[#364153] bg-[#10182880] text-white text-base sm:text-lg lg:text-xl font-bold text-center p-4 sm:p-5 lg:p-7.5
                 has-checked:bg-[#BFFF0B]/90 has-checked:text-black">
                     <input
                         hidden
@@ -61,7 +61,7 @@ export default function Onboarding1Form({ totalData, setTotalData }: { totalData
                 </label>
                 <label
                     htmlFor="improvement"
-                    className="w-82 h-29 border rounded-lg border-[#364153] bg-[#10182880] text-white text-xl font-bold text-center p-7.5
+                    className="w-full sm:w-[calc(50%-0.5rem)] lg:w-82 h-24 sm:h-26 lg:h-29 border rounded-lg border-[#364153] bg-[#10182880] text-white text-base sm:text-lg lg:text-xl font-bold text-center p-4 sm:p-5 lg:p-7.5
                 has-checked:bg-[#BFFF0B]/90 has-checked:text-black">
                     <input
                         hidden
@@ -74,7 +74,7 @@ export default function Onboarding1Form({ totalData, setTotalData }: { totalData
                 </label>
                 <label
                     htmlFor="rehabilitation"
-                    className="w-82 h-29 border rounded-lg border-[#364153] bg-[#10182880] text-white text-xl font-bold text-center p-7.5
+                    className="w-full sm:w-[calc(50%-0.5rem)] lg:w-82 h-24 sm:h-26 lg:h-29 border rounded-lg border-[#364153] bg-[#10182880] text-white text-base sm:text-lg lg:text-xl font-bold text-center p-4 sm:p-5 lg:p-7.5
                 has-checked:bg-[#BFFF0B]/90 has-checked:text-black">
                     <input
                         hidden
@@ -90,7 +90,7 @@ export default function Onboarding1Form({ totalData, setTotalData }: { totalData
 
 
             <article className="flex">
-                <button onClick={handleSubmit(handleNext)} className="ml-auto bg-[#BFFF0B] py-3 px-8 rounded-[10px] text-base font-bold">다음</button>
+                <button onClick={handleSubmit(handleNext)} className="ml-auto bg-[#BFFF0B] py-2.5 sm:py-3 lg:py-3 px-5 sm:px-6 lg:px-8 rounded-[10px] text-sm sm:text-base lg:text-base font-bold">다음</button>
             </article>
         </form>
     );

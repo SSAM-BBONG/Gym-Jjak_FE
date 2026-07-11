@@ -100,23 +100,23 @@ export default function Onboarding6Form({ totalData, setTotalData }: { totalData
 
     return (
         <form onSubmit={handleSubmit(handleNext)}>
-            <div className="flex flex-col gap-3 pb-12 w-md m-auto">
+            <div className="flex flex-col gap-3 pb-8 sm:pb-10 lg:pb-12 w-full sm:w-md lg:w-md m-auto">
                 <label className="text-sm font-medium text-[#D1D5DC]">선호 지역</label>
-                <div className="flex mb-6 gap-2"
+                <div className="flex mb-4 sm:mb-5 lg:mb-6 gap-2"
                     onClick={modal.openModal}>
                     <input
                         readOnly
                         placeholder="선호 지역을 작성해주세요"
                         value={userAdress.fullName}
-                        className="w-full px-6 py-4 border border-[#364153] bg-[#101828] rounded-[10px] text-white focus:outline-0 focus:border-[#BFFF0B]" />
-                    <button className="font-semibold px-6 py rounded-[10px] bg-[#BFFF0B] text-black">주소 찾기</button>
+                        className="min-w-0 w-full px-3 sm:px-5 lg:px-6 py-3 sm:py-4 lg:py-4 text-sm sm:text-base lg:text-base border border-[#364153] bg-[#101828] rounded-[10px] text-white focus:outline-0 focus:border-[#BFFF0B]" />
+                    <button className="font-semibold px-3 sm:px-4 lg:px-6 py rounded-[10px] text-sm sm:text-base lg:text-base bg-[#BFFF0B] text-black">주소 찾기</button>
                 </div>
             </div>
             {errors && <div className="text-red-500 text-md mb-5 text-center">{errors.region?.message ? errors.region?.message : '주소를 검색해주세요'}</div>}
 
             <article className="flex">
-                <Link href='/auth/onboarding?page=5'> <button type="button" className="py-3 px-8 rounded-[10px] text-base font-bold bg-[#10182880] text-[#D1D5DC]">이전</button></Link>
-                <button type="submit" className="ml-auto bg-[#BFFF0B] py-3 px-8 rounded-[10px] text-base font-bold">다음</button>
+                <Link href='/auth/onboarding?page=5'> <button type="button" className="py-2.5 sm:py-3 lg:py-3 px-5 sm:px-6 lg:px-8 rounded-[10px] text-sm sm:text-base lg:text-base font-bold bg-[#10182880] text-[#D1D5DC]">이전</button></Link>
+                <button type="submit" className="ml-auto bg-[#BFFF0B] py-2.5 sm:py-3 lg:py-3 px-5 sm:px-6 lg:px-8 rounded-[10px] text-sm sm:text-base lg:text-base font-bold">다음</button>
             </article>
             <SearchAdressModal
                 isModal={modal.isModal} closeModal={modal.closeModal} completeHandler={completeHandler} />
