@@ -1,6 +1,7 @@
 import { CommuDetailDeclaration, CommuDetailEdit, CommuDetailLike, CommuDetailRemove } from "@/components/ui/image";
 import CommuCommentCard from "@/feature/community/components/CommuCommentCard";
 import Image from "next/image";
+import CommentBar from "./CommentBar";
 
 export default function CommuDetailPage() {
   return (
@@ -97,8 +98,14 @@ export default function CommuDetailPage() {
         <p className="text-[14px] md:text-[18px] text-white font-extrabold"> 댓글</p>
         <p className="text-[14px] md:text-[18px] text-[#BFFF0B] font-extrabold"> 3</p>
       </div>
+      <div className="hidden md:block">
+        <CommentBar />
+      </div>
       <CommuCommentCard />
       <CommuCommentCard />
+      <div className="block md:hidden fixed bottom-0 left-0 w-full bg-[#0B0F19] ">
+        <CommentBar />
+      </div>
     </div>
   );
 }
