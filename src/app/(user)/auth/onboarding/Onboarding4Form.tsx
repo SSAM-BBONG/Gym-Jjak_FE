@@ -32,10 +32,10 @@ export default function Onboarding4Form({ totalData, setTotalData }: { totalData
     }
     return (
         <form onSubmit={handleSubmit(handleNext)}>
-            <div className="grid grid-cols-2 grid-rows-5 gap-3 pb-12">
+            <div className="grid grid-cols-2 grid-rows-5 gap-2 sm:gap-3 lg:gap-3 pb-8 sm:pb-10 lg:pb-12">
                 <label
                     htmlFor="웨이트 트레이닝"
-                    className="w-full font-bold text-base p-5.5 text-center text-white border border-[#364153] rounded-lg
+                    className="w-full font-bold text-sm sm:text-base lg:text-base p-3 sm:p-4 md:p-5 lg:p-5.5 text-center text-white border border-[#364153] rounded-lg
                         has-checked:bg-[#BFFF0B]/90 has-checked:text-black">
                     <input
                         hidden
@@ -47,7 +47,7 @@ export default function Onboarding4Form({ totalData, setTotalData }: { totalData
                 </label>
                 <label
                     htmlFor="크로스핏"
-                    className="w-full font-bold text-base p-5.5 text-center text-white border border-[#364153] rounded-lg
+                    className="w-full font-bold text-sm sm:text-base lg:text-base p-3 sm:p-4 md:p-5 lg:p-5.5 text-center text-white border border-[#364153] rounded-lg
                         has-checked:bg-[#BFFF0B]/90 has-checked:text-black">
                     <input
                         hidden
@@ -59,7 +59,7 @@ export default function Onboarding4Form({ totalData, setTotalData }: { totalData
                 </label>
                 <label
                     htmlFor="요가"
-                    className="w-full font-bold text-base p-5.5 text-center text-white border border-[#364153] rounded-lg
+                    className="w-full font-bold text-sm sm:text-base lg:text-base p-3 sm:p-4 md:p-5 lg:p-5.5 text-center text-white border border-[#364153] rounded-lg
                         has-checked:bg-[#BFFF0B]/90 has-checked:text-black">
                     <input
                         hidden
@@ -71,7 +71,7 @@ export default function Onboarding4Form({ totalData, setTotalData }: { totalData
                 </label>
                 <label
                     htmlFor="필라테스"
-                    className="w-full font-bold text-base p-5.5 text-center text-white border border-[#364153] rounded-lg
+                    className="w-full font-bold text-sm sm:text-base lg:text-base p-3 sm:p-4 md:p-5 lg:p-5.5 text-center text-white border border-[#364153] rounded-lg
                         has-checked:bg-[#BFFF0B]/90 has-checked:text-black">
                     <input
                         hidden
@@ -83,7 +83,7 @@ export default function Onboarding4Form({ totalData, setTotalData }: { totalData
                 </label>
                 <label
                     htmlFor="수영"
-                    className="w-full font-bold text-base p-5.5 text-center text-white border border-[#364153] rounded-lg
+                    className="w-full font-bold text-sm sm:text-base lg:text-base p-3 sm:p-4 md:p-5 lg:p-5.5 text-center text-white border border-[#364153] rounded-lg
                         has-checked:bg-[#BFFF0B]/90 has-checked:text-black">
                     <input
                         hidden
@@ -95,7 +95,7 @@ export default function Onboarding4Form({ totalData, setTotalData }: { totalData
                 </label>
                 <label
                     htmlFor="러닝"
-                    className="w-full font-bold text-base p-5.5 text-center text-white border border-[#364153] rounded-lg
+                    className="w-full font-bold text-sm sm:text-base lg:text-base p-3 sm:p-4 md:p-5 lg:p-5.5 text-center text-white border border-[#364153] rounded-lg
                         has-checked:bg-[#BFFF0B]/90 has-checked:text-black">
                     <input
                         hidden
@@ -107,7 +107,7 @@ export default function Onboarding4Form({ totalData, setTotalData }: { totalData
                 </label>
                 <label
                     htmlFor="사이클"
-                    className="w-full font-bold text-base p-5.5 text-center text-white border border-[#364153] rounded-lg
+                    className="w-full font-bold text-sm sm:text-base lg:text-base p-3 sm:p-4 md:p-5 lg:p-5.5 text-center text-white border border-[#364153] rounded-lg
                         has-checked:bg-[#BFFF0B]/90 has-checked:text-black">
                     <input
                         hidden
@@ -119,7 +119,7 @@ export default function Onboarding4Form({ totalData, setTotalData }: { totalData
                 </label>
                 <label
                     htmlFor="복싱"
-                    className="w-full font-bold text-base p-5.5 text-center text-white border border-[#364153] rounded-lg
+                    className="w-full font-bold text-sm sm:text-base lg:text-base p-3 sm:p-4 md:p-5 lg:p-5.5 text-center text-white border border-[#364153] rounded-lg
                         has-checked:bg-[#BFFF0B]/90 has-checked:text-black">
                     <input
                         hidden
@@ -131,7 +131,7 @@ export default function Onboarding4Form({ totalData, setTotalData }: { totalData
                 </label>
                 <label
                     htmlFor="댄스"
-                    className="w-full font-bold text-base p-5.5 text-center text-white border border-[#364153] rounded-lg
+                    className="w-full font-bold text-sm sm:text-base lg:text-base p-3 sm:p-4 md:p-5 lg:p-5.5 text-center text-white border border-[#364153] rounded-lg
                         has-checked:bg-[#BFFF0B]/90 has-checked:text-black">
                     <input
                         hidden
@@ -143,7 +143,7 @@ export default function Onboarding4Form({ totalData, setTotalData }: { totalData
                 </label>
                 <label
                     htmlFor="클라이밍"
-                    className="w-full font-bold text-base p-5.5 text-center text-white border border-[#364153] rounded-lg
+                    className="w-full font-bold text-sm sm:text-base lg:text-base p-3 sm:p-4 md:p-5 lg:p-5.5 text-center text-white border border-[#364153] rounded-lg
                         has-checked:bg-[#BFFF0B]/90 has-checked:text-black">
                     <input
                         hidden
@@ -158,8 +158,8 @@ export default function Onboarding4Form({ totalData, setTotalData }: { totalData
 
 
             <article className="flex">
-                <Link href='/auth/onboarding?page=3'><button type="button" className="py-3 px-8 rounded-[10px] text-base font-bold bg-[#10182880] text-[#D1D5DC]">이전</button></Link>
-                <button type="submit" className="ml-auto bg-[#BFFF0B] py-3 px-8 rounded-[10px] text-base font-bold">다음</button>
+                <Link href='/auth/onboarding?page=3'><button type="button" className="py-2.5 sm:py-3 lg:py-3 px-5 sm:px-6 lg:px-8 rounded-[10px] text-sm sm:text-base lg:text-base font-bold bg-[#10182880] text-[#D1D5DC]">이전</button></Link>
+                <button type="submit" className="ml-auto bg-[#BFFF0B] py-2.5 sm:py-3 lg:py-3 px-5 sm:px-6 lg:px-8 rounded-[10px] text-sm sm:text-base lg:text-base font-bold">다음</button>
             </article>
         </form>
     );
