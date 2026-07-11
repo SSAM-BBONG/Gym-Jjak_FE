@@ -1,6 +1,6 @@
 'use server'
 
-import { createComment, createCommunity, createLike, deleteComment, deleteLike, updateComment } from "@/service/community.service";
+import { createComment, createCommunity, createLike, deleteComment, deleteCommunity, deleteLike, updateComment, updateCommunity } from "@/service/community.service";
 import { CommentRequest, CommunityRequest } from "./type";
 
 interface ActionState {
@@ -39,7 +39,7 @@ export const communityAction = async (formData: FormData): Promise<ActionState> 
 
     return {
         success: true,
-        message: '게시글 등록 성공'
+        message: '게시글이 등록되었습니다'
     }
 }
 
@@ -134,5 +134,54 @@ export const CommentUpdateAction = async (commentId: number, formData: FormData)
         }
 
         return errorMessage
+    }
+}
+
+
+export const CommunityDeleteAction = async (postId: number) => {
+    try {
+        await deleteCommunity(postId);
+    } catch (error) {
+        let errorMessage: string = '알 수 없는 오류입니다. 재시도해주세요.'
+        if (error instanceof Error) {
+            errorMessage = error.message;
+        }
+
+        return errorMessage;
+    }
+}
+
+
+export const communityUpdateAction = async (postId: number, formData: FormData): Promise<ActionState> => {
+
+    const title = formData.get('title') as string;
+    const content = formData.get('content') as string;
+
+    if (!title.trim() || !content.trim()) {
+        return {
+            success: false,
+            message: '값을 입력해주세요'
+        }
+    }
+
+    const payload: CommunityRequest = { type: 'FREE', title, content }
+
+    try {
+        await updateCommunity(postId, payload);
+    } catch (error) {
+        let errorMessage: string = '알 수 없는 오류입니다. 재시도해주세요.'
+        if (error instanceof Error) {
+            errorMessage = error.message;
+        }
+
+        return {
+            success: false,
+            message: errorMessage
+        }
+    }
+
+    return {
+        success: true,
+        message: '게시글이 수정되었습니다'
     }
 }

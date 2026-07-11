@@ -1,4 +1,4 @@
-import { CommuDetailDeclaration, CommuDetailEdit, CommuDetailLike, CommuDetailLikeFill, CommuDetailRemove } from "@/components/ui/image";
+import { CommuDetailDeclaration, CommuDetailEdit, CommuDetailRemove } from "@/components/ui/image";
 import CommuCommentCard from "@/feature/community/components/CommuCommentCard";
 import Image from "next/image";
 import CommentBar from "./CommentBar";
@@ -6,6 +6,8 @@ import { getCommunityById } from "@/service/community.service";
 import { Community } from "@/feature/community/type";
 import { format } from "date-fns";
 import CommuLikeButton from "./CommuLikeButton";
+import Link from "next/link";
+import CommuDeleteButton from "./CommuDeleteButton";
 
 export default async function CommuDetailPage({ params }: { params: Promise<{ id: string }> }) {
 
@@ -61,7 +63,9 @@ export default async function CommuDetailPage({ params }: { params: Promise<{ id
           {
             post.mine ? (
               <>
-                <div className="px-2 py-2 bg-[#1E2939] rounded-[10px]">
+                <Link
+                  href={`/community/${post.postId}/edit`}
+                  className="px-2 py-2 bg-[#1E2939] rounded-[10px]">
                   <div className="relative w-3 h-3 md:w-4 md:h-4">
                     <Image
                       src={CommuDetailEdit}
@@ -71,19 +75,9 @@ export default async function CommuDetailPage({ params }: { params: Promise<{ id
                       className="object-cover hover:cursor-pointer"
                     />
                   </div>
-                </div>
+                </Link>
 
-                <div className="px-2 py-2 bg-[#1E2939] rounded-[10px]">
-                  <div className="relative w-3 h-3 md:w-4 md:h-4">
-                    <Image
-                      src={CommuDetailRemove}
-                      alt="게시글 삭제"
-                      fill
-                      sizes="w-8 h-8"
-                      className="object-cover hover:cursor-pointer"
-                    />
-                  </div>
-                </div>
+                <CommuDeleteButton postId={post.postId} />
 
               </>
             ) : (
@@ -121,7 +115,7 @@ export default async function CommuDetailPage({ params }: { params: Promise<{ id
         })}
         {post.comments.content.length === 0 && (
           <div className="px-3 sm:px-4 lg:px-6 py-8 lg:py-10 text-center text-xs sm:text-sm text-muted-foreground">
-            게시글이 없습니다.
+            첫 댓글을 남겨주세요
           </div>
         )}
 

@@ -3,12 +3,13 @@
 import useModal from "@/components/hooks/useModal";
 import { format } from "date-fns";
 import { useState } from "react";
-import { communityAction } from "../action";
+import { communityAction, communityUpdateAction } from "../action";
 import OneButtonModal from "@/components/ui/OneButtonModal";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
+import { Community } from "../type";
 
-export default function CommuForm() {
+export default function CommuForm({ post }: { post?: Community }) {
     const route = useRouter();
     const today = new Date();
 
@@ -24,6 +25,10 @@ export default function CommuForm() {
         handleSubmit,
         formState: { isSubmitting },
     } = useForm<{ title: string, content: string }>({
+        defaultValues: {
+            title: post?.title,
+            content: post?.content
+        },
         mode: 'onSubmit',
     });
 
@@ -32,8 +37,12 @@ export default function CommuForm() {
             const formData = new FormData();
             formData.set("title", data.title);
             formData.set("content", data.content);
-
-            const result = await communityAction(formData)
+            let result;
+            if (post?.postId) {
+                result = await communityUpdateAction(post.postId, formData)
+            } else {
+                result = await communityAction(formData)
+            }
             setCommuState(result);
             modal.openModal();
         } catch (error) {
@@ -95,7 +104,7 @@ export default function CommuForm() {
                     disabled={isSubmitting}
                     className="
                 bg-[#BFFF0B] rounded-[5px] md:rounded-[10px] text-[12px] md:text-[16px] text-black  flex items-center justify-center font-semibold md:font-extrabold px-5 py-2 hover:cursor-pointer  w-full  md:w-40  mt-auto  ml-auto"
-                >작성완료</button>
+                >{post?.postId ? '수정완료' : '작성완료'}</button>
             </div>
             <OneButtonModal
                 isModal={modal.isModal}

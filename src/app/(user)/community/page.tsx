@@ -64,6 +64,11 @@ export default async function CommuPage({ searchParams }: paramsProps) {
 
         })
       }
+      {communities.length === 0 && (
+        <div className="px-3 sm:px-4 lg:px-6 py-8 lg:py-10 text-center text-xs sm:text-sm text-muted-foreground">
+          첫 게시글을 남겨주세요
+        </div>
+      )}
 
       <Pagination url={`community`} page={page} totalPage={totalPage} />
     </div>
