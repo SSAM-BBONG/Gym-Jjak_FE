@@ -1,6 +1,7 @@
 import CommuCard from "@/feature/community/components/CommuCard";
 import CommuWriteButton from "@/feature/community/components/CommuWriteButton";
 import CommuSearchBar from "@/feature/community/components/SearchBar";
+import Link from "next/link";
 
 export default function CommuPage() {
   return (
@@ -15,7 +16,18 @@ export default function CommuPage() {
           <button className="bg-[#1E2939] text-[#99A1AF] text-[10px] md:text-[14px] font-medium px-3 py-2 rounded-[5px] md:rounded-[10px] hover:cursor-pointer"> 공지 </button>
         </div>
 
-        <CommuWriteButton />
+        <Link
+          href='/community/create'
+          className="
+            bg-[#BFFF0B]
+            rounded-[5px] md:rounded-[10px]
+            text-[12px]
+            md:text-[16px] text-black 
+            flex items-center justify-center font-semibold md:font-extrabold px-5 py-2
+            hover:cursor-pointer"
+        >
+          + 글쓰기
+        </Link>
       </div>
 
       <CommuSearchBar />

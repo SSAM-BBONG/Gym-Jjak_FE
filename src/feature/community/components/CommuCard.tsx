@@ -1,9 +1,13 @@
 import { CommunityComment, CommunityLike, CommunityView } from "@/components/ui/image";
 import Image from "next/image";
+import Link from "next/link";
+
 
 export default function CommuCard() {
   return (
-    <div className="
+    <Link
+      href='/community/1'
+      className="
         w-full 
         rounded-[8px]
         md:rounded-[16px]
@@ -37,7 +41,7 @@ export default function CommuCard() {
 
       <div className="flex justify-between mt-1.5 md:mt-3">
         <div className="flex gap-1 md:gap-4">
-          <p className="text-[10px] md:text-[12px] font-normal text-[#6A7282]"> 관리자</p>
+          <p className="text-[10px] md:text-[12px] font-normal text-[#6A7282]"> 작성자 아이디</p>
           <p className="text-[10px] md:text-[12px] font-normal text-[#6A7282]"> 2025-05-10 19:00</p>
         </div>
         <div className="flex gap-1 md:gap-2">
@@ -79,6 +83,6 @@ export default function CommuCard() {
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
