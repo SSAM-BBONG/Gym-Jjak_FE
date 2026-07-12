@@ -15,6 +15,9 @@ docker-compose.yml
 docker-compose.deploy.yml
 docker-compose.dev.yml
 server/node_modules
+AGENTS.md
+CLAUDE.md
+.ai/*
 
 # testing
 /coverage

@@ -30,6 +30,12 @@ export default function PtFeeBackCheckModal({ isModal, closeModal, reservationId
                     feedbackId
                 );
 
+                if (response.success === false) {
+                    setFeedbackDetail(null);
+                    setErrorMessage(response.message);
+                    return;
+                }
+
                 setFeedbackDetail(response.data);
             } catch (error) {
                 setErrorMessage(
@@ -77,6 +83,17 @@ export default function PtFeeBackCheckModal({ isModal, closeModal, reservationId
                             </button>                        </div>
                         <p className="text-[14px] font-normal text-[#99A1AF] border-b-[#1E2939] border-b pb-8"> {feedbackDetail?.sessionNo}회차 - {feedbackDetail?.curriculumTitle} </p>
                     </div>
+                    {isLoading && (
+                        <p className="mt-6 text-[14px] font-medium text-[#99A1AF]">
+                            피드백을 불러오는 중입니다.
+                        </p>
+                    )}
+                    {errorMessage && (
+                        <p className="mt-6 text-[14px] font-medium text-red-400">
+                            {errorMessage}
+                        </p>
+                    )}
+                    {!isLoading && !errorMessage && (
                     <div className="flex flex-col gap-6 mt-6">
                         <div className="flex justify-between items-center">
                             <div className="flex gap-2 items-center">
@@ -199,6 +216,7 @@ export default function PtFeeBackCheckModal({ isModal, closeModal, reservationId
                             </div>
                         </div>
                     </div>
+                    )}
                 </article>
                 <article className='flex gap-3'>
                     <button

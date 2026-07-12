@@ -2,8 +2,8 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { chagnePtzoneResrvationStatus, chagnePtzoneStatus, createFeedback, createPtCourse, createPtReservation, getFeedbackDetail, getOnboarding, getPtResrvationAvailableDates, getPtResrvationAvailableTimes, getTrainerCancel, getWithoutOnboarding, trainerApplication, updateTrainerApplication } from "@/service/ptzone.service";
-import { PtRegistRequest, PtRegistSchedule, PtReservationRequest, PtReservationStatusChangeRequest, TrainerApplicationData, TrainerApplicationEditData } from "./type";
+import { chagnePtzoneResrvationStatus, chagnePtzoneStatus, createFeedback, createPtCourse, createPtReservation, getFeedbackDetail, getMyPtReservationDetail, getMyPtReservationLists, getOnboarding, getPtResrvationAvailableDates, getPtResrvationAvailableTimes, getTrainerCancel, getWithoutOnboarding, trainerApplication, updateTrainerApplication } from "@/service/ptzone.service";
+import { FeedbackDetailData, MyPtRecordDetailData, MyPtResrvationListsData, PtRegistRequest, PtRegistSchedule, PtReservationRequest, PtReservationStatusChangeRequest, TrainerApplicationData, TrainerApplicationEditData } from "./type";
 import { uploadFilesPresignedUrl } from "@/service/file.service";
 import { cookies } from "next/headers";
 
@@ -11,6 +11,36 @@ type PtRegistCurriculumFormData = {
   title: string;
   content: string;
 };
+
+type FeedbackDetailActionResult =
+  | {
+      success: true;
+      data: FeedbackDetailData;
+    }
+  | {
+      success: false;
+      message: string;
+    };
+
+type MyPtReservationListsActionResult =
+  | {
+      success: true;
+      data: MyPtResrvationListsData;
+    }
+  | {
+      success: false;
+      message: string;
+    };
+
+type MyPtReservationDetailActionResult =
+  | {
+      success: true;
+      data: MyPtRecordDetailData;
+    }
+  | {
+      success: false;
+      message: string;
+    };
 
 // PT 등록 액션
 export const createPtRegistAction = async (formData: FormData) => {
@@ -275,6 +305,49 @@ export const changePtReservationStatus = async (
   revalidatePath(`/pt/manage/${ptCourseId}`);
 };
 
+// 내 예약 기록 목록 조회 액션
+export const getMyPtReservationListsAction =
+  async (): Promise<MyPtReservationListsActionResult> => {
+    try {
+      const response = await getMyPtReservationLists();
+
+      return {
+        success: true,
+        data: response.data,
+      };
+    } catch (error) {
+      return {
+        success: false,
+        message:
+          error instanceof Error
+            ? error.message
+            : "내 예약 기록 목록 조회에 실패하였습니다.",
+      };
+    }
+  };
+
+// 내 예약 기록 상세 조회 액션
+export const getMyPtReservationDetailAction = async (
+  reservationId: string
+): Promise<MyPtReservationDetailActionResult> => {
+  try {
+    const response = await getMyPtReservationDetail(reservationId);
+
+    return {
+      success: true,
+      data: response.data,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message:
+        error instanceof Error
+          ? error.message
+          : "내 예약 기록 상세 조회에 실패하였습니다.",
+    };
+  }
+};
+
 // 피드백 등록
 export const createPtFeedbackAction = async (
   reservationId: string,
@@ -315,8 +388,23 @@ export const createPtFeedbackAction = async (
 export const getFeedbackDetailAction = async (
   reservationId: string,
   feedbackId: number
-) => {
-  return getFeedbackDetail(reservationId, String(feedbackId));
+): Promise<FeedbackDetailActionResult> => {
+  try {
+    const response = await getFeedbackDetail(reservationId, String(feedbackId));
+
+    return {
+      success: true,
+      data: response.data,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message:
+        error instanceof Error
+          ? error.message
+          : "피드백 상세 조회에 실패하였습니다.",
+    };
+  }
 };
 
 // 온보딩 목록 액션 
