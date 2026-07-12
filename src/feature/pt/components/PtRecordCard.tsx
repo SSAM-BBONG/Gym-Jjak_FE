@@ -1,10 +1,30 @@
+"use client";
+
+import { useState } from "react";
 import { MyPtReservationList } from "../type";
+import PtRecordsErrorModal from "./PtRecordsErrorModal";
 
 interface PtRecordCardProps {
-    data: MyPtReservationList
-}PtRecordCard
+    data?: MyPtReservationList;
+    errorMessage?: string;
+}
 
-export default function PtRecordCard({ data }: PtRecordCardProps) {
+export default function PtRecordCard({ data, errorMessage }: PtRecordCardProps) {
+    const [isErrorModal, setIsErrorModal] = useState(Boolean(errorMessage));
+
+    if (errorMessage) {
+        return (
+            <PtRecordsErrorModal
+                isModal={isErrorModal}
+                closeModal={() => setIsErrorModal(false)}
+                title="PT 기록"
+                content={errorMessage}
+            />
+        );
+    }
+
+    if (!data) return null;
+
     return (
         <div className="
             overflow-hidden
