@@ -1,6 +1,7 @@
 import SearchBar from "@/feature/admin/components/SearchBar";
 import TrainerADataItem from "./TrainerADataItem";
 import AdminPagination from "@/feature/admin/components/AdminPagination";
+import Pagination from "@/components/ui/Pagination";
 
 
 interface TrainerApplicationDataListProps {
@@ -33,7 +34,7 @@ export default function TrainerADataList({ trainers, totalPage, page, keyword, s
                     </div>
                 )}
             </section>
-            <AdminPagination url={`approvals/trainers`} page={page} totalPage={totalPage} />
+            <Pagination url={`organization/gym/approval`} page={page} totalPage={totalPage} />
 
         </div>
     );

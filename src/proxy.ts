@@ -75,6 +75,10 @@ export async function proxy(request: NextRequest) {
             return NextResponse.redirect(new URL('/nopermission', request.url));
         }
 
+        if (pathname.startsWith('/organization') && user?.role !== 'ORGANIZATION') {
+            return NextResponse.redirect(new URL('/nopermission', request.url));
+        }
+
         if ((pathname.startsWith('/pt/manage') || pathname.startsWith('/pt/regist')) && user?.role === 'USER') {
             return NextResponse.redirect(new URL('/nopermission', request.url));
         }
@@ -89,5 +93,5 @@ export async function proxy(request: NextRequest) {
 
 //렌더링 전에 거칠 페이지들
 export const config = {
-    matcher: ['/admin/:path*', '/alarm/:path*', '/calendar/:path*', '/community/:path*', '/mypage/:path*', '/pt/manage/:path*', '/pt/records/:path*', '/pt/regist', '/pt/trainer'],
+    matcher: ['/admin/:path*', '/organization/:path*', '/alarm/:path*', '/calendar/:path*', '/community/:path*', '/mypage/:path*', '/pt/manage/:path*', '/pt/records/:path*', '/pt/regist', '/pt/trainer'],
 };//:path* 는 모든 페이지
