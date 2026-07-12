@@ -2,10 +2,14 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { chagnePtzoneResrvationStatus, chagnePtzoneStatus, createFeedback, createPtCourse, createPtReservation, getFeedbackDetail, getMyPtReservationDetail, getMyPtReservationLists, getOnboarding, getPtResrvationAvailableDates, getPtResrvationAvailableTimes, getTrainerCancel, getWithoutOnboarding, trainerApplication, updateTrainerApplication } from "@/service/ptzone.service";
+import { chagnePtzoneResrvationStatus, chagnePtzoneStatus, createFeedback, createPtCourse, createPtReservation, getFeedbackDetail, getMyPtReservationDetail, getMyPtReservationLists, getOnboarding, getPopularPtLists, getPtResrvationAvailableDates, getPtResrvationAvailableTimes, getTrainerCancel, getWithoutOnboarding, trainerApplication, updateTrainerApplication } from "@/service/ptzone.service";
 import { FeedbackDetailData, MyPtRecordDetailData, MyPtResrvationListsData, PtRegistRequest, PtRegistSchedule, PtReservationRequest, PtReservationStatusChangeRequest, TrainerApplicationData, TrainerApplicationEditData } from "./type";
 import { uploadFilesPresignedUrl } from "@/service/file.service";
 import { cookies } from "next/headers";
+
+export const getPopularPtListsAction = async () => {
+  return getPopularPtLists();
+};
 
 type PtRegistCurriculumFormData = {
   title: string;

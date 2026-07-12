@@ -8,6 +8,7 @@
   MyPtResrvationListsResponse,
   OnboardingResponse, PtCourseDetailResponse,
   PtCourseListResponse,
+  PtPopularCourseResponse,
   PtRegistCategoryReponse,
   PtRegistRequest,
   PtRegistResponse,
@@ -116,12 +117,21 @@ export const createPtCourse = async (
 };
 
 
-// PT 인기 강습 API
-// export const getPopularPtLists = async (): Promise<PtPopularLists> => {
-//   const response = await fetch(`${BASE_URL}/api/pt-courses/popular`);
+// PT 인기 강습 목록 조회 API
+export const getPopularPtLists = async (): Promise<PtPopularCourseResponse> => {
+  const response = await fetchWithoutAuth(`/api/pt-courses/popular`);
 
-//   return response.json();
-// };
+  if (!response.ok) {
+    const message = await getErrorMessage(
+      response,
+      "인기 강습 조회에 실패하였습니다."
+    );
+
+    throw new Error(message);
+  }
+
+  return response.json();
+};
 
 // 트레이너 등록 API
 export const trainerApplication = async (
