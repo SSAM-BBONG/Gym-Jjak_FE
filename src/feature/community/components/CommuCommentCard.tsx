@@ -12,6 +12,7 @@ import { useForm } from "react-hook-form";
 import { CommentUpdateAction } from "../action";
 import { useRouter } from "next/navigation";
 import OneButtonModal from "@/components/ui/OneButtonModal";
+import ReportButton from "@/components/ui/ReportButton";
 
 export default function CommuCommentCard({ comment }: { comment: CommunityComments }) {
   const [updateMode, setUpdateMode] = useState<boolean>(false);
@@ -66,15 +67,7 @@ export default function CommuCommentCard({ comment }: { comment: CommunityCommen
               <CommuDeleteComent commentId={comment.commentId} />
             </>
           ) : (
-            <div className="relative w-3 h-3 md:w-4 md:h-4">
-              <Image
-                src={CommuCommentDeclaration}
-                alt="댓글 신고"
-                fill
-                sizes="w-8 h-8"
-                className="object-cover"
-              />
-            </div>
+            <ReportButton title={comment.author} targetId={comment.commentId} targetType="COMMENT" />
           )}
         </div>
       </div>

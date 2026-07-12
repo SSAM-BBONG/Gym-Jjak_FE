@@ -214,3 +214,10 @@ interface MonthlyCount {
     month: string;
     count: number;
 }
+
+interface ReportRequest {
+    targetId: number;
+    targetType: "PT_COURSE" | "TRAINER_REVIEW" | "COMMENT" | "POST" | "FEEDBACK";
+    reason: "SPAM" | "ADVERTISEMENT" | "ABUSE" | "SEXUAL_CONTENT" | "FRAUD" | "PRIVACY_EXPOSURE" | "ETC";
+    detail: string;
+}
