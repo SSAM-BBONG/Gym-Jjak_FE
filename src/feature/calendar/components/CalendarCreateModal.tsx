@@ -1,8 +1,10 @@
 import { CloseButton } from "@/components/ui/image";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import CalendarCategories from "./CalendarCategories";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { calendarPatchAction, calendarPostAction, getCalendarCategory } from "../action";
 import Image from "next/image";
+import { useState } from "react";
+import CalendarSet from "./CalendarSet";
+import CalendarNameSelecter from "./CalendarNameSelecter";
 
 type CalendarCreateModalProps = {
     isModal: boolean;
@@ -21,16 +23,30 @@ type CalendarCreateModalProps = {
 
 export default function CalendarCreateModal({ isModal, closeModal, selectedSettingDate, data, mode = 'create' }: CalendarCreateModalProps) {
 
-    // 카테고리 조회
-    const {
-        data: categoryData,
-        isLoading: isCategoryLoading,
-        isError: isCategoryError,
-    } = useQuery({
-        queryKey: ["calendar", "diary-categories"],
-        queryFn: getCalendarCategory,
-        staleTime: Infinity,
-    });
+    const [exerciseSet, setExerciseSet] = useState<number[]>([1])
+    const [exerciseName, setExerciseName] = useState<{ searchExercise: string, selectExercise: string }>({ searchExercise: '', selectExercise: '' });
+    const [isSelect, setIsSelect] = useState(false);
+    const [exerciseNames, setExerciseNames] = useState<Exercises[]>([
+        {
+            exerciseId: 1,
+            part: "하체",
+            exerciseName: '운동'
+        },
+        {
+            exerciseId: 2,
+            part: "하체",
+            exerciseName: '하체'
+        },
+        {
+            exerciseId: 3,
+            part: "하체",
+            exerciseName: '하반신'
+        }
+    ])
+
+    const filterExerciseNames = exerciseNames.filter((e) => {
+        return e.exerciseName.includes(exerciseName.searchExercise)
+    })
 
     // 일지 등록
     // 데이터를 변경하는 요청을 관리하는 mutation을 생성
@@ -80,9 +96,9 @@ export default function CalendarCreateModal({ isModal, closeModal, selectedSetti
                     event.preventDefault();
                     createMutation.mutate(new FormData(event.currentTarget));
                 }}
-                className="bg-gradient-to-br from-[#101828] to-[#000] w-4/5 h-80 sm:w-md sm:h-100 md:w-lg md:h-100 lg:w-3xl lg:h-150 rounded-2xl border border-[#1E2939] z-1000 fixed top-1/2 left-1/2 p-6 flex -translate-x-1/2 -translate-y-1/2 flex-col justify-between
+                className="bg-gradient-to-br from-[#101828] to-[#000] w-4/5 max-h-120 sm:w-md sm:h-100 md:w-lg md:h-100 lg:w-3xl lg:h-150 rounded-2xl border border-[#1E2939] z-1000 fixed top-1/2 left-1/2 p-6 flex -translate-x-1/2 -translate-y-1/2 flex-col justify-between
                 overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
-                onClick={(e) => e.stopPropagation()}>
+                onClick={(e) => { e.stopPropagation(); setIsSelect(false) }}>
                 <article>
                     <div className="flex justify-between border-b-[#1E2939] border-b items-center pb-6 md:pb-8 md:pt-2 mb-8">
                         <h3 className="font-bold text-base md:text-lg text-[#E8EAF0]">{mode === 'create' ? '일지 추가' : '일지 수정'}</h3>
@@ -95,31 +111,40 @@ export default function CalendarCreateModal({ isModal, closeModal, selectedSetti
                             />
                         </button>
                     </div>
-                    <label className="font-bold text-base md:text-xl text-white ">제목</label>
-                    <input
-                        defaultValue={data?.title}
-                        name="title"
-                        placeholder="제목을 입력해주세요"
-                        className="border-[#364153] text-sm md:text-base border w-full py-3 px-6 bg-[#1E2939] rounded-md focus:border-[#BFFF0B] text-white focus:outline-none mb-6 mt-3"
-                    />
-                    <label className="font-bold text-base md:text-xl text-white mt-6">내용</label>
-                    <textarea
-                        defaultValue={data?.content}
-                        name="content"
-                        placeholder="내용을 입력해주세요"
-                        className="border-[#364153] text-sm md:text-base border w-full h-47 p-6 bg-[#1E2939] rounded-2xl resize-none focus:border-[#BFFF0B] text-white focus:outline-none mb-6 mt-3"
-                    ></textarea>
-                    <label className="font-bold text-base md:text-xl text-white mt-6">카테고리</label>
-                    <div className="mt-3 flex gap-3 flex-wrap">
-                        {
-                            isCategoryLoading && <p>카테고리를 불러오는 중입니다..</p>
-                        }
-                        {
-                            categoryData?.data?.map((category: Category) => {
-                                return <CalendarCategories category={category} key={category.categoryId} isDefault={data?.category === category.name} />
-                            })
-                        }
+                    <label className="font-bold text-base md:text-xl text-white ">운동 종류</label>
+                    <div className="flex gap-2">
+                        <select
+                            className="border-[#364153] text-sm md:text-base border w-1/3 py-3 md:px-6 px-3 bg-[#1E2939] rounded-md focus:border-[#BFFF0B] text-white focus:outline-none mb-6 mt-3"
+                            defaultValue={'부위'}>
+                            <option disabled hidden>부위</option>
+                            <option>하체</option>
+                            <option>어깨</option>
+                            <option>가슴</option>
+                            <option>팔</option>
+                            <option>등</option>
+                        </select>
+                        {exerciseNames.length > 0 && (
+                            <CalendarNameSelecter isSelect={isSelect} setIsSelect={setIsSelect} exerciseName={exerciseName} setExerciseName={setExerciseName} filterExerciseNames={filterExerciseNames} />
+                        )}
+
                     </div>
+                    <div className="flex gap-2">
+                        <label className="font-bold text-base md:text-xl text-white ">운동 세트</label>
+                        <button
+                            onClick={() => (exerciseSet.length !== 1) && setExerciseSet([...exerciseSet].slice(0, -1))}
+                            type="button"
+                            className="bg-[#1E2939] w-8 h-8 font-bold rounded-[5px] ml-auto">
+                            -</button>
+                        <button
+                            onClick={() => setExerciseSet([...exerciseSet, exerciseSet.length + 1])}
+                            type="button"
+                            className="bg-[#BFFF0B] w-8 h-8 font-bold text-black rounded-[5px]">
+                            +</button>
+                    </div>
+                    {exerciseSet.map((set) => {
+                        return <CalendarSet set={set} key={set} />
+                    })}
+
                     {createMutation.data?.success === false && (
                         <p className="text-red-500 text-md m-2">{createMutation.data.message}</p>
                     )}

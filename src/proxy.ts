@@ -36,7 +36,7 @@ export async function proxy(request: NextRequest) {
 
     if ((!accessToken && !refreshToken) || (accessToken && !refreshToken)) {
         //어세스랑 리프레시 둘다 없는경우
-        if (pathname === '/pt' || pathname.startsWith('/pt/find') || /^\/pt\/\d+$/.test(pathname)) {
+        if (pathname === '/pt' || pathname.startsWith('/pt/find') || /^\/pt\/\d+$/.test(pathname) || pathname === '/community') {
             return response
         } else {
             return NextResponse.redirect(new URL('/auth/login', request.url));
@@ -59,7 +59,7 @@ export async function proxy(request: NextRequest) {
     }
 
     let user: MyTokenPayload;
-    if (pathname === '/pt' || pathname.startsWith('/pt/find') || /^\/pt\/\d+$/.test(pathname)) {
+    if (pathname === '/pt' || pathname.startsWith('/pt/find') || /^\/pt\/\d+$/.test(pathname) || pathname === '/community') {
         return response;
     } else {
         try {

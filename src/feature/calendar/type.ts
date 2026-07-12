@@ -36,3 +36,15 @@ interface DayDetail {
     pts: Pt[];
     diary: Diary;
 }
+
+interface Exercises {
+    exerciseId: number;
+    part: string;
+    exerciseName: string;
+}
+
+interface ExerciseSet {
+    setOrder: number;
+    weight: number;
+    reps: number;
+}
