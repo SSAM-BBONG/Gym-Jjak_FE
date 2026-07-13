@@ -1,4 +1,5 @@
 import {
+  MyPageDetailResponse,
   MyPagePasswordChangeRequest,
   MyPagePasswordChangeResponse,
   MyPagePasswordCheck,
@@ -25,6 +26,22 @@ import {
 import { fetchWithAuth } from "@/lib/feth";
 import { getErrorMessage } from "@/lib/stateError";
 import { redirect } from "next/navigation";
+
+// 마이페이지 조회 API
+export const getMyPageInformation = async (): Promise<MyPageDetailResponse> => {
+  const response = await fetchWithAuth("/api/users/mypage");
+
+  if (!response.ok) {
+    const message = await getErrorMessage(
+      response,
+      "마이페이지 조회에 실패하였습니다."
+    );
+
+    throw new Error(message);
+  }
+
+  return response.json();
+};
 
 // 조직 계정 신청 목록 조회 API
 export const getOrganizationApplications = async (): Promise<OrganizationApplicationResponse> => {

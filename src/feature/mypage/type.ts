@@ -234,6 +234,20 @@ export interface MyPagePasswordChangeResponse {
   data: null;
 }
 
+// 마이페이지 조회 응답값
+export interface MyPageDetailResponse {
+  status: number;
+  code: string;
+  message: string;
+  data: MyPageDetailData;
+}
+
+export interface MyPageDetailData {
+  username: string;
+  nickname: string;
+  socialUser: boolean;
+}
+
 // 내 프로필 조회 응답값
 export interface MyPageUserProfileResponse {
   status: number;
