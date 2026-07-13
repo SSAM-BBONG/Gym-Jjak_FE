@@ -114,14 +114,19 @@ export default function CalendarCreateModal({ isModal, closeModal, selectedSetti
                     <label className="font-bold text-base md:text-xl text-white ">운동 종류</label>
                     <div className="flex gap-2">
                         <select
+                            name="part"
                             className="border-[#364153] text-sm md:text-base border w-1/3 py-3 md:px-6 px-3 bg-[#1E2939] rounded-md focus:border-[#BFFF0B] text-white focus:outline-none mb-6 mt-3"
                             defaultValue={'부위'}>
                             <option disabled hidden>부위</option>
-                            <option>하체</option>
-                            <option>어깨</option>
-                            <option>가슴</option>
-                            <option>팔</option>
-                            <option>등</option>
+                            <option value='CHEST'>가슴</option>
+                            <option value='BACK'>등</option>
+                            <option value='SHOULDER'>어깨</option>
+                            <option value='ARM'>팔</option>
+                            <option value='ABS'>복근</option>
+                            <option value='CORE'>코어</option>
+                            <option value='LEG'>하체</option>
+                            <option value='GLUTE'>둔근</option>
+                            <option value='FULL_BODY'>전신</option>
                         </select>
                         {exerciseNames.length > 0 && (
                             <CalendarNameSelecter isSelect={isSelect} setIsSelect={setIsSelect} exerciseName={exerciseName} setExerciseName={setExerciseName} filterExerciseNames={filterExerciseNames} />

@@ -41,19 +41,26 @@ export const calendargetDateAction = async (date: string) => {
 
 export const calendarPostAction = async (selectedSettingDate: string, formData: FormData): Promise<ActionState> => {
     const diaryDate = selectedSettingDate;
-    const categoryName = formData.get('category') as string;
-    const title = formData.get('title') as string;
-    const content = formData.get('content') as string;
+    const exercise = formData.get('exerciseName') as string;
+    const part = formData.get('part') as Part;
+    const kgs = formData.getAll('kg') as string[];
+    const reps = formData.getAll('rep') as string[];
 
-    if (!categoryName || !title.trim() || !content.trim()) {
+    if (!exercise || !part || !kgs.every(kg => kg.trim()) || !reps.every(rep => rep.trim())) {
         return {
             success: false,
             message: '값을 모두 입력해주세요'
         }
     }
 
+
+
+    const sets: ExerciseSet[] = kgs.map((kg, index) => {
+        return { setOrder: index + 1, weight: Number(kg), reps: Number(reps[index]) }
+    })
+
     const payload: DiaryRequest = {
-        diaryDate, categoryName, title, content
+        diaryDate, exercise, part, sets
     }
 
     try {
