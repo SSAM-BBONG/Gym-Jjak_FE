@@ -5,7 +5,7 @@ import { PasswordChangeFormValue, passwordChangeSchema } from "@/lib/passwordCha
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { Resolver, SubmitHandler, useForm } from "react-hook-form";
-import { updatePasswordAction } from "../action";
+import { updatePasswordAction } from "../actions";
 import Image from "next/image";
 
 export default function PasswordChangeForm() {

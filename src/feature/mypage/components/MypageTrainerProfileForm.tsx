@@ -7,7 +7,7 @@ import MypageTrainerProfileSelfIntroduction from "./MypageTrainerProfileSelfIntr
 import MypageTrainerProfileAwardHistory from "./MypageTrainerProfileAwardHistory";
 import MypageTrainerQulification from "./MypageTrainerQulification";
 import { useState } from "react";
-import { editMyTrainerProfileInformationAction } from "../action";
+import { editMyTrainerProfileInformationAction } from "../actions";
 import { Resolver, SubmitHandler, useForm } from "react-hook-form";
 import { MypageTrainerProfileFormValue, mypageTrainerProfileSchema } from "@/lib/mypageTrainerProfileEditSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
