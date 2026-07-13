@@ -2,7 +2,7 @@
 import useModal from "@/components/hooks/useModal";
 import OrganizationTrainerAddForm from "./OrganizationTrainerAddForm";
 import { OrganizationManageTrainerListItem } from "../type";
-import { deleteOrganizationTrainerAction } from "../action";
+import { deleteOrganizationTrainerAction } from "../actions";
 
 interface OrganTrainerCardProps {
   data: OrganizationManageTrainerListItem[];

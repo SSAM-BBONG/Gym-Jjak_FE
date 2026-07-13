@@ -6,7 +6,7 @@ import { ChangeEvent, useState } from "react";
 import { Resolver, SubmitHandler, useForm } from "react-hook-form";
 import { MyapgeProfileEditFormValue, myapgeProfileEditSchema } from "@/lib/mypageProfileEditSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { editMyProfileInformationAction, organizationIdDuplicationCheckAction } from "../action";
+import { editMyProfileInformationAction, organizationIdDuplicationCheckAction } from "../actions";
 
 interface MyProfileEditProps {
     data: MypageUserProfileData

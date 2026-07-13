@@ -3,7 +3,7 @@
 import { CloseButton, OrganizationTrainerDefaultProfile, OrganizationTrainerNotFound, OrganTrainerAdd } from "@/components/ui/image";
 import { useState, useTransition } from "react";
 import { OrganizationManageTrainerSearchItem } from "../type";
-import { addorganizationTrainerAction, organizationTrainerSearchAction } from "../action";
+import { addorganizationTrainerAction, organizationTrainerSearchAction } from "../actions";
 import Image from "next/image";
 
 interface TrainerDetailModal {

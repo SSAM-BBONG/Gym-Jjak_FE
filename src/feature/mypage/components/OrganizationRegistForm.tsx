@@ -1,7 +1,7 @@
 "use client";
 
 import { OrganApplicationDanger } from "@/components/ui/image";
-import { createOrganizationApplicationAction, organizationApplicationCancelAction } from "../action";
+import { createOrganizationApplicationAction, organizationApplicationCancelAction } from "../actions";
 import { OrganizationApplicationDetail } from "../type";
 import OrganizationRegistLink from "./OrganizationRegistLink";
 import OrganizationRegistBusinessInformation from "./OrganizationRegistBusinessInformation";

@@ -2,7 +2,7 @@
 
 import { MypageAccountSetting } from "@/components/ui/image";
 import Link from "next/link";
-import { deleteMyAccountAction } from "../action";
+import { deleteMyAccountAction } from "../actions";
 import { useState } from "react";
 import PasswordCheckModal from "./PasswordCheckModal";
 import Image from "next/image";
