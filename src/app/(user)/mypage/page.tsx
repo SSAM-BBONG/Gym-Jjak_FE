@@ -7,12 +7,12 @@ import MypageMyOrganizationApplication from "@/feature/mypage/components/MypageM
 import MyPageProfile from "@/feature/mypage/components/MypageProfile";
 import MypageUserProfileEdit from "@/feature/mypage/components/MyPageUserProfileEdit";
 import { decodeJWT } from "@/lib/decode";
+import { getMyPageInformation } from "@/service/mypage.service";
 import Image from "next/image";
 
 export default async function MyPage() {
-
-  // 사용자 정보 디코딩
   const userinf = await decodeJWT();
+  const myPageResponse = await getMyPageInformation();
 
   return (
     <div className="flex flex-col gap-1 pt-8 px-40">
@@ -32,10 +32,10 @@ export default async function MyPage() {
         ) : (
           <div className="flex gap-6 items-start mt-8">
 
-            <MyPageProfile />
+            <MyPageProfile data={myPageResponse.data} />
 
             <div className="flex flex-col gap-6 flex-[7.5]">
-              <MypageUserProfileEdit />
+              <MypageUserProfileEdit socialUser={myPageResponse.data.socialUser}/>
 
               <MypageInbodyInformation />
 

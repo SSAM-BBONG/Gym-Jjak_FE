@@ -1,7 +1,12 @@
 import { MypageContinuosDeclaration, MypageWritePost, Profile } from "@/components/ui/image";
+import { MyPageDetailData } from "@/feature/mypage/type";
 import Image from "next/image";
 
-export default function MyPageProfile() {
+interface MyPageProfileProps {
+  data: MyPageDetailData;
+}
+
+export default function MyPageProfile({ data }: MyPageProfileProps) {
   return (
     <div
       className="flex flex-col items-center p-6 flex-[2.5] rounded-[16px] gap-4
@@ -33,9 +38,9 @@ export default function MyPageProfile() {
       </div>
 
       <div className="flex flex-col items-center">
-        <p className="text-[20px] font-extrabold text-white">사용자 이름</p>
+        <p className="text-[20px] font-extrabold text-white">{data.nickname}</p>
         <p className="text-[12px] font-normal text-[#99A1AF]">
-          사용자 이메일
+          {data.username}
         </p>
       </div>
 
