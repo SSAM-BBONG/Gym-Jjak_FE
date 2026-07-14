@@ -5,15 +5,14 @@ import Link from "next/link";
 import { useState } from "react";
 import PasswordCheckModal from "./PasswordCheckModal";
 import Image from "next/image";
+import { MyTokenPayload } from "@/lib/decode";
 
 interface MypageUserProfileEditProps {
+  userinf?: MyTokenPayload;
   socialUser: boolean;
 }
 
-
-export default function MypageUserProfileEdit( { socialUser }: MypageUserProfileEditProps) {
-
-  const [passwordMoveModal, setPasswordMoveModal] = useState(false);
+export default function MypageUserProfileEdit( { userinf, socialUser }: MypageUserProfileEditProps) {
   
   return (
     <>
@@ -42,8 +41,7 @@ export default function MypageUserProfileEdit( { socialUser }: MypageUserProfile
           </p>
         </div>
         <div className="grid grid-cols-3 gap-3">
-          {socialUser === false &&
-          <>
+          <Link href="/mypage/trainerprofile">
           <div className="p-4 flex flex-col gap-2 bg-[#1E2939] rounded-[14px]">
             <div className="flex justify-between items-center">
               <div className="relative w-5 h-5">
@@ -55,18 +53,19 @@ export default function MypageUserProfileEdit( { socialUser }: MypageUserProfile
                   className="object-cover"
                 />
               </div>
-              <button
-                type="button"
-                onClick={() => setPasswordMoveModal(true)}
-                className="text-[#6A7282] text-[12px] font-black hover:cursor-pointer"> 〉 </button>
+              <p className="text-[#6A7282] text-[12px] font-black hover:cursor-pointer"> 
+                〉 
+              </p>
             </div>
             <p className="text-[14px] font-extrabold text-white">
-              트레이너 프로필
+              {userinf?.role === "USER" ? "트레이너 신청" : "트레이너 프로필 수정"} 
             </p>
             <p className="text-[12px] font-medium text-[#99A1AF]">
-              트레이너 프로필 수정
+              {userinf?.role === "USER" ? "트레이너 프로필 신청" : "트레이너 프로필 수정"}
             </p>
           </div>
+          </Link>
+          <Link href="/mypage/profile">
           <div className="p-4 flex flex-col gap-2 bg-[#1E2939] rounded-[14px]">
             <div className="flex justify-between items-center">
               <div className="relative w-5 h-5">
@@ -78,10 +77,9 @@ export default function MypageUserProfileEdit( { socialUser }: MypageUserProfile
                   className="object-cover"
                 />
               </div>
-              <button
-                type="button"
-                onClick={() => setPasswordMoveModal(true)}
-                className="text-[#6A7282] text-[12px] font-black hover:cursor-pointer"> 〉 </button>
+              <p className="text-[#6A7282] text-[12px] font-black hover:cursor-pointer"> 
+                〉 
+              </p>
             </div>
             <p className="text-[14px] font-extrabold text-white">
               회원 프로필
@@ -90,8 +88,7 @@ export default function MypageUserProfileEdit( { socialUser }: MypageUserProfile
               기본 프로필 수정
             </p>
           </div>
-          </>
-          }
+          </Link>
           <Link href="/mypage/onboarding">
             <div className="p-4 flex flex-col gap-2 bg-[#1E2939] rounded-[14px]">
               <div className="flex justify-between items-center">
@@ -115,19 +112,7 @@ export default function MypageUserProfileEdit( { socialUser }: MypageUserProfile
             </div>
           </Link>
         </div>
-      </div>
-
-      <PasswordCheckModal
-        isModal={passwordMoveModal}
-        closeModal={() => setPasswordMoveModal(false)}
-        movePath="/mypage/profile"
-      />
-
-      <PasswordCheckModal
-        isModal={passwordMoveModal}
-        closeModal={() => setPasswordMoveModal(false)}
-        movePath="/mypage/trainerprofile"
-      />
+      </div>  
     </>
 
   );
