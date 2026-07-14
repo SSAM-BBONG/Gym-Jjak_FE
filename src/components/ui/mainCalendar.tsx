@@ -260,8 +260,8 @@ function CalendarDayButton({
             />
           </div>)}
       </div>
-      {todayData?.diaryTitle && <div className="bg-[#BFFF0B] w-full p-0.5 text-black mt-auto">
-        <p className="hidden md:block">{todayData.diaryTitle.length > 4 ? `${todayData.diaryTitle.slice(0, 4)}...` : `${todayData.diaryTitle}`}</p>
+      {todayData?.diarySummary && <div className="bg-[#BFFF0B] w-full p-0.5 text-black mt-auto">
+        <p className="hidden md:block">{todayData.diarySummary.length > 4 ? `${todayData.diarySummary.slice(0, 4)}...` : `${todayData.diarySummary}`}</p>
       </div>}
     </Button>
   )

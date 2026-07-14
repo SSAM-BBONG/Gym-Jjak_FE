@@ -26,7 +26,7 @@ export default function CalendarNameSelecter({ isSelect, setIsSelect, exerciseNa
             </button>
             <div className={`${!isSelect && 'hidden'} absolute w-full top-14 md:top-15 left-0 border-[#364153] bg-[#1E2939]`}>
                 <div className="p-2">
-                    <input value={exerciseName.searchExercise} onChange={(e) => setExerciseName({ ...exerciseName, searchExercise: e.target.value })} className="box-border bg-[#364153] text-sm md:text-base border w-full py-2 px-3 rounded-md focus:border-[#BFFF0B] text-white focus:outline-none " />
+                    <input name="exerciseName" value={exerciseName.searchExercise} onChange={(e) => setExerciseName({ ...exerciseName, searchExercise: e.target.value })} className="box-border bg-[#364153] text-sm md:text-base border w-full py-2 px-3 rounded-md focus:border-[#BFFF0B] text-white focus:outline-none " />
                 </div>
                 <ul>
                     {filterExerciseNames?.map((e) => {
