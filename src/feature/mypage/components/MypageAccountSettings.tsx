@@ -7,7 +7,11 @@ import { useState } from "react";
 import PasswordCheckModal from "./PasswordCheckModal";
 import Image from "next/image";
 
-export default function MypageAccountSettings() {
+interface MypageAccountSettingsProps {
+  socialUser: boolean;
+}
+
+export default function MypageAccountSettings( {socialUser}: MypageAccountSettingsProps) {
 
   const [passwordCheckModal, setpasswordCheckModal] = useState(false);
   const [passwordMoveModal, setPasswordMoveModal] = useState(false);
@@ -42,16 +46,17 @@ export default function MypageAccountSettings() {
         </div>
 
 
-        <div className=" flex justify-between items-center p-4 bg-[#1E293980] rounded-[10px]">
-          <p className="text-[14px] font-medium text-[#99A1AF]">
-            비밀번호 변경
-          </p>
-          <button
-            type="button"
-            onClick={() => setPasswordMoveModal(true)}
-            className="text-[12px] font-medium text-[#6A7282]"> 〉 </button>
-        </div>
-
+       {!socialUser && (
+          <div className=" flex justify-between items-center p-4 bg-[#1E293980] rounded-[10px]">
+            <p className="text-[14px] font-medium text-[#99A1AF]">
+              비밀번호 변경
+            </p>
+            <button
+              type="button"
+              onClick={() => setPasswordMoveModal(true)}
+              className="text-[12px] font-medium text-[#6A7282]"> 〉 </button>
+          </div>
+        )}
 
         <div className=" flex justify-between items-center p-4 bg-[#1E293980] rounded-[10px]">
           <p className="text-[14px] font-medium text-[#99A1AF]">
@@ -70,11 +75,13 @@ export default function MypageAccountSettings() {
         checkPassword={handleUserDelectionClick}
       />
 
-      <PasswordCheckModal
-        isModal={passwordMoveModal}
-        closeModal={() => setPasswordMoveModal(false)}
-        movePath="/mypage/password"
-      />
+      {!socialUser && (
+        <PasswordCheckModal
+          isModal={passwordMoveModal}
+          closeModal={() => setPasswordMoveModal(false)}
+          movePath="/mypage/password"
+        />
+      )}
     </>
   );
 }
