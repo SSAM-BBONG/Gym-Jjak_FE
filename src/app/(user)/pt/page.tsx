@@ -1,4 +1,5 @@
 import { PtZoneFindCard, PtZonePtManage, PtZonePtRecord, PtZonePtRegist } from "@/components/ui/image";
+import { getPopularPtListsAction } from "@/feature/pt/actions";
 import PtCard from "@/feature/pt/components/PtCard";
 import PtDashboard from "@/feature/pt/components/PtDashboard";
 import PtPopularCard from "@/feature/pt/components/PtPopularCard";
@@ -21,6 +22,7 @@ export default async function PtZonePage() {
     // accessToken 디코딩 한 값 저장
     const userinf = await decodeJWT();
 
+    const response = await getPopularPtListsAction();
 
     return (
         <main className="flex flex-col gap-10 px-40">
@@ -100,10 +102,12 @@ export default async function PtZonePage() {
             <section className="flex flex-col gap-3 pb-15">
                 <p className="text-[24px] font-black text-white"> 인기 강습 </p>
                 <div className="grid grid-cols-4 gap-4">
-                    <PtPopularCard />
-                    <PtPopularCard />
-                    <PtPopularCard />
-                    <PtPopularCard />
+                    {response.data.map((item) => (
+                        <PtPopularCard 
+                            key={item.ptCourseId}
+                            data={item}
+                        />
+                    ))}
                 </div>
             </section>
         </main>

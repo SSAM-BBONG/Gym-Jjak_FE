@@ -83,6 +83,11 @@ export const loginAction = async (prevState: ActionState, formData: FormData): P
             path: '/'
         });
     }
+    if (resData.data.role === 'ORGANIZATION') {
+        redirect('/organization/dashboard/gym');
+    } else if (resData.data.role === 'ADMIN') {
+        redirect('/admin/dashboard/users');
+    }
 
     if (resData.data.onboardingCompleted) {
         redirect('/');

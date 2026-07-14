@@ -1,10 +1,10 @@
 import PtRecordCard from "@/feature/pt/components/PtRecordCard";
-import { getMyPtReservationLists } from "@/service/ptzone.service";
+import { getMyPtReservationListsAction } from "@/feature/pt/actions";
 import Link from "next/link";
 
 export default async function PtRecordsPage() {
 
-    const response = await getMyPtReservationLists();
+    const result = await getMyPtReservationListsAction();
 
     return (
         <div className="flex flex-col gap-1 px-40 py-10">
@@ -20,7 +20,9 @@ export default async function PtRecordsPage() {
             </div>
 
             <div className="flex flex-col gap-5">
-                {response.data.ptReservations.map((item) => (
+                {result.success === false ? (
+                    <PtRecordCard errorMessage={result.message} />
+                ) : result.data.ptReservations.map((item) => (
                 <Link
                     key={item.ptReservationId}
                     href={`/pt/records/${item.ptReservationId}`}

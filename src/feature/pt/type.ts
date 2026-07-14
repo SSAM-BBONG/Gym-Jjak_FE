@@ -73,6 +73,28 @@ export interface PtCourseListResponse {
   data: PtCourseListData[];
 }
 
+// PT 인기 강습 목록 데이터 타입
+export interface PtPopularCourseData {
+  ptCourseId: number;
+  title: string;
+  price: number;
+  thumbnailUrl: string;
+  categoryId: number;
+  categoryName: string;
+  tagId: number;
+  tagName: string;
+  trainerName: string;
+  roadAddress: string;
+}
+
+// PT 인기 강습 목록 응답 타입
+export interface PtPopularCourseResponse {
+  status: number;
+  code: string;
+  message: string;
+  data: PtPopularCourseData[];
+}
+
 // 온보딩 응답 타입
 export interface OnboardingResponse {
   status: number;

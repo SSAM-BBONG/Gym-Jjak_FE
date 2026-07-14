@@ -105,3 +105,6 @@ export const NaverLogo = '/images/naver-logo.png';
 export const GoogleLogo = '/images/google-logo.png';
 export const chat = '/images/chat.svg';
 export const chatAddOption = '/images/chat-add-option.svg';
+export const sendButton = '/images/commu-send-button.svg';
+export const CommuDetailLikeFill = '/images/commu-like-fill.svg';
+export const OrganizationGym = '/images/organization-gym.svg';

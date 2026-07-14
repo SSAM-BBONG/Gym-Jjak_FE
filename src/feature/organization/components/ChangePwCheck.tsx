@@ -1,0 +1,32 @@
+'use client'
+
+import PasswordCheckModal from "@/feature/mypage/components/PasswordCheckModal";
+import { usePathname } from "next/navigation";
+import { useState } from "react";
+
+interface AdminNavLinkProps {
+    href: string,
+    children: string
+}
+
+export default function ChangePwCheck({ href, children }: AdminNavLinkProps) {
+    const [passwordMoveModal, setPasswordMoveModal] = useState(false);
+    const pathName = usePathname();
+    const purehref = href.split('?')[0]
+    const isActive = pathName.startsWith(purehref);
+    let active = 'text-[#BFFF0B] text-left text-sm bg-[#BFFF0B1A] border-[#BFFF0B33] border-1 py-2 px-4 w-full block rounded-md my-1';
+    let noneActive = 'text-[#6A7282] text-left text-sm py-2 px-4 w-full block my-1 rounded-md hover:bg-gray-800/50 hover:text-gray-300';
+
+    return (
+        <>
+            <button onClick={() => setPasswordMoveModal(true)} className={isActive ? active : noneActive}>
+                {children}
+            </button>
+            <PasswordCheckModal
+                isModal={passwordMoveModal}
+                closeModal={() => setPasswordMoveModal(false)}
+                movePath="/organization/account/pw"
+            />
+        </>
+    );
+}

@@ -6,10 +6,11 @@ import { ChangeEvent, useState } from "react";
 import { Resolver, SubmitHandler, useForm } from "react-hook-form";
 import { MyapgeProfileEditFormValue, myapgeProfileEditSchema } from "@/lib/mypageProfileEditSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { editMyProfileInformationAction, organizationIdDuplicationCheckAction } from "../action";
+import { editMyProfileInformationAction, organizationIdDuplicationCheckAction } from "../actions";
 
 interface MyProfileEditProps {
     data: MypageUserProfileData
+    socialUser: boolean;
 }
 
 interface DuplicationId {
@@ -17,7 +18,7 @@ interface DuplicationId {
   message?: string;
 }
 
-export default function MyProfileEditForm( { data }: MyProfileEditProps) {
+export default function MyProfileEditForm( { data, socialUser }: MyProfileEditProps) {
     const router = useRouter();
 
     const [nickname, setNickname] = useState(data.nickname);
@@ -100,14 +101,15 @@ export default function MyProfileEditForm( { data }: MyProfileEditProps) {
             my-8">
                 <p className="text-[20px] text-white font-extrabold"> 기본 정보</p>
                 <div className="flex flex-col gap-2">
-                    <label htmlFor="profile-name" className="text-[14px] text-white font-medium"> 이름 </label>
+                    <label htmlFor="profile-name" className="text-[14px] text-white font-medium"> 이름 {socialUser && "(소셜로그인시 이름을 변경할 수 없습니다.)"} </label>
                     <input 
                         {...register("name")}
                         type="text"
                         defaultValue={data.name}
+                        disabled={socialUser}
                         id="profile-name"
-                        placeholder="정지훈"
-                        className="bg-[#1E2939] border border-[#364153] px-4 py-3 rounded-[10px] text-white outline-none"/>
+                        placeholder="이름"
+                        className={`${!socialUser ? "bg-[#1E2939]" : "bg-[#1e293985]"} border border-[#364153] px-4 py-3 rounded-[10px] text-white outline-none`}/>
                         {errors.name?.message && <p className="my-3 text-[12px] text-[#FF6467]">{errors.name.message}</p>}
                 </div>
                 <div className="flex flex-col gap-2">
@@ -119,7 +121,7 @@ export default function MyProfileEditForm( { data }: MyProfileEditProps) {
                         type="text"
                         defaultValue={data.nickname}
                         id="profile-name"
-                        placeholder="biyuns"
+                        placeholder="닉네임"
                         className="flex-1 bg-[#1E2939] border border-[#364153] px-4 py-3 rounded-[10px] text-white outline-none"/>
                     <button 
                         onClick={handleNicknameDuplicationCheck}

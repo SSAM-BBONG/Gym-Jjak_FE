@@ -3,7 +3,7 @@ import MembersAdminDropDown from "./MembersAdminDropDown";
 import ApprovalsAdminDropDown from "./ApprovalsAdminDropDown";
 import ReportsAdminDropDown from "./RepostsAdminDropDown";
 import SystemsAdminDropDown from "./SystemsAdminDropDown";
-import DashboardAdminDropDown from "@/feature/admin/components/DashboardAdminDropDown";
+import DashboardAdminDropDown from "@/app/admin/DashboardAdminDropDown";
 
 export default function SideBarAdmin() {
     return (

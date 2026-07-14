@@ -5,16 +5,18 @@ import { PtRecordComplete, PtRecordVideo } from "@/components/ui/image";
 import PtFeeBackCheckModal from "./PtFeedBackCheckModal";
 import { useState } from "react";
 import { MyPtRecordDetailCurriculum } from "../type";
-import Image from "next/image";
+import PtRecordsErrorModal from "./PtRecordsErrorModal";
 
 interface PfFeebBackCardProps {
     data: MyPtRecordDetailCurriculum[];
     reservationId: string;
+    errorMessage?: string;
 }
 
-export default function PfFeebBackCard({ data, reservationId }: PfFeebBackCardProps) {
+export default function PfFeebBackCard({ data, reservationId, errorMessage }: PfFeebBackCardProps) {
 
     const modal = useModal();
+    const [isErrorModal, setIsErrorModal] = useState(Boolean(errorMessage));
     const [selectedFeedbackId, setSelectedFeedbackId] = useState<number | null>(null);
 
     const openFeedbackModal = (feedbackId: null | number) => {
@@ -30,6 +32,14 @@ export default function PfFeebBackCard({ data, reservationId }: PfFeebBackCardPr
 
     return (
         <>
+            {errorMessage && (
+                <PtRecordsErrorModal
+                    isModal={isErrorModal}
+                    closeModal={() => setIsErrorModal(false)}
+                    title="PT 기록"
+                    content={errorMessage}
+                />
+            )}
             {data.map((item) => item.feedbackId
                 ?
                 (

@@ -4,7 +4,7 @@ import { MypageMyActivity, OrganAddInf, OrganAddInfBlog, OrganAddInfInsta, Organ
 import { OrganizationManageData } from "../type";
 import { Resolver, SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { editOrganizationManageInformationAction } from "../action";
+import { editOrganizationManageInformationAction } from "../actions";
 import { useState } from "react";
 import { OrganizationManageFormValue, organizationManageSchema } from "@/lib/organizationApplicationSchema";
 import Image from "next/image";

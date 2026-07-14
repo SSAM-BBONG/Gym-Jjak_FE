@@ -36,7 +36,7 @@ export async function proxy(request: NextRequest) {
 
     if ((!accessToken && !refreshToken) || (accessToken && !refreshToken)) {
         //어세스랑 리프레시 둘다 없는경우
-        if (pathname === '/pt' || pathname.startsWith('/pt/find') || /^\/pt\/\d+$/.test(pathname)) {
+        if (pathname === '/pt' || pathname.startsWith('/pt/find') || /^\/pt\/\d+$/.test(pathname) || pathname === '/community') {
             return response
         } else {
             return NextResponse.redirect(new URL('/auth/login', request.url));
@@ -59,7 +59,7 @@ export async function proxy(request: NextRequest) {
     }
 
     let user: MyTokenPayload;
-    if (pathname === '/pt' || pathname.startsWith('/pt/find') || /^\/pt\/\d+$/.test(pathname)) {
+    if (pathname === '/pt' || pathname.startsWith('/pt/find') || /^\/pt\/\d+$/.test(pathname) || pathname === '/community') {
         return response;
     } else {
         try {
@@ -72,6 +72,10 @@ export async function proxy(request: NextRequest) {
         }
 
         if (pathname.startsWith('/admin') && user?.role !== 'ADMIN') {
+            return NextResponse.redirect(new URL('/nopermission', request.url));
+        }
+
+        if (pathname.startsWith('/organization') && user?.role !== 'ORGANIZATION') {
             return NextResponse.redirect(new URL('/nopermission', request.url));
         }
 
@@ -89,5 +93,5 @@ export async function proxy(request: NextRequest) {
 
 //렌더링 전에 거칠 페이지들
 export const config = {
-    matcher: ['/admin/:path*', '/alarm/:path*', '/calendar/:path*', '/community/:path*', '/mypage/:path*', '/pt/manage/:path*', '/pt/records/:path*', '/pt/regist', '/pt/trainer'],
+    matcher: ['/admin/:path*', '/organization/:path*', '/alarm/:path*', '/calendar/:path*', '/community/:path*', '/mypage/:path*', '/pt/manage/:path*', '/pt/records/:path*', '/pt/regist', '/pt/trainer'],
 };//:path* 는 모든 페이지

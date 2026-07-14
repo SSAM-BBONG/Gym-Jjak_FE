@@ -2,6 +2,7 @@ import { CloseButton } from "@/components/ui/image";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteCalendarAction } from "../action";
 import Image from "next/image";
+import CalendarSetRead from "./CalendarSetRead";
 
 interface CalendarViewModalProps {
     isModal: boolean;
@@ -54,12 +55,19 @@ export default function CalendarViewModal({ isModal, closeModal, activeModal, da
                             />
                         </button>                    </div>
                     <div className="flex justify-between items-center my-4">
-                        <h3 className="font-bold text-base md:text-xl text-[#E8EAF0] py-2">{data?.title}</h3>
-                        <div className="w-10">{data?.category}</div>
+                        <h3 className="font-bold text-base md:text-xl text-[#E8EAF0] py-2">{data?.exercise}</h3>
+                        <div className="w-10">{data?.part}</div>
                     </div>
-                    <div
-                        className="border-[#364153] border w-full h-65 p-6 bg-[#1E2939] rounded-2xl resize-none focus:border-[#BFFF0B] text-white  text-sm md:text-base focus:outline-none"
-                    >{data?.content}</div>
+
+
+                    <div className="flex gap-2">
+                        <label className="font-bold text-base md:text-xl text-white ">운동 세트</label>
+                    </div>
+                    {data.sets.map((set) => {
+                        return <CalendarSetRead sets={set} key={set.setId} />
+                    })}
+
+
                 </article>
                 <article className='flex gap-3 mt-3'>
                     <button

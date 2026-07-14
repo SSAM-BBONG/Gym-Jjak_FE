@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from "react";
-import { checkPasswordAction } from "../action";
+import { checkPasswordAction } from "../actions";
 import { useRouter } from "next/navigation";
 
 interface PasswordCheckModalProps {

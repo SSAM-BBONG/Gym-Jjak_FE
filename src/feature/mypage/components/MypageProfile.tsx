@@ -1,13 +1,19 @@
 import { MypageContinuosDeclaration, MypageWritePost, Profile } from "@/components/ui/image";
+import { MyPageDetailData } from "@/feature/mypage/type";
+import { MyTokenPayload } from "@/lib/decode";
 import Image from "next/image";
 
-export default function MyPageProfile() {
+interface MyPageProfileProps {
+  data: MyPageDetailData;
+}
+
+export default function MyPageProfile({ data }: MyPageProfileProps) {
   return (
     <div
       className="flex flex-col items-center p-6 flex-[2.5] rounded-[16px] gap-4
         bg-[linear-gradient(135deg,rgba(16,24,40,0.90)0%,rgba(30,41,57,0.90)100%)]"
     >
-      <div className="relative flex items-center justify-center size-20 rounded-full  border-3 border-[#BFFF0B]">
+      <div className="relative flex items-center justify-center size-20 rounded-full  border-3">
         <div className="w-full overflow-hidden rounded-full">
           <div className="relative w-19 h-19">
             <Image
@@ -19,23 +25,12 @@ export default function MyPageProfile() {
             />
           </div>
         </div>
-        <p
-          className="
-            px-3 py-1 
-            bg-[#BFFF0B] rounded-[20px] 
-            font-extrabold text-[12px] text-black
-            absolute
-            -bottom-2
-            "
-        >
-          LV. 5
-        </p>
       </div>
 
       <div className="flex flex-col items-center">
-        <p className="text-[20px] font-extrabold text-white">사용자 이름</p>
+        <p className="text-[20px] font-extrabold text-white">{data.nickname}</p>
         <p className="text-[12px] font-normal text-[#99A1AF]">
-          사용자 이메일
+          {data.username}
         </p>
       </div>
 

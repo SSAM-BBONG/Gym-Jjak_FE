@@ -32,10 +32,10 @@ export default function Onboarding3Form({ totalData, setTotalData }: { totalData
     }
     return (
         <form onSubmit={handleSubmit(handleNext)}>
-            <div className="flex gap-4 pb-12">
+            <div className="flex flex-col gap-2 sm:flex-row sm:gap-3 lg:gap-4 pb-8 sm:pb-10 lg:pb-12">
                 <label
                     htmlFor="rarely"
-                    className="font-black text-2xl text-white w-full p-8.5 border border-[#364153] rounded-lg text-center
+                    className="font-black text-base sm:text-lg lg:text-2xl text-white w-full p-3 sm:p-5 md:p-7 lg:p-8.5 border border-[#364153] rounded-lg text-center
                 has-checked:bg-[#BFFF0B]/90 has-checked:text-black">
                     <input
                         hidden
@@ -47,7 +47,7 @@ export default function Onboarding3Form({ totalData, setTotalData }: { totalData
                 </label>
                 <label
                     htmlFor="sometimes"
-                    className="font-black text-2xl text-white w-full p-8.5 border border-[#364153] rounded-lg text-center
+                    className="font-black text-base sm:text-lg lg:text-2xl text-white w-full p-3 sm:p-5 md:p-7 lg:p-8.5 border border-[#364153] rounded-lg text-center
                 has-checked:bg-[#BFFF0B]/90 has-checked:text-black">
                     <input
                         hidden
@@ -59,7 +59,7 @@ export default function Onboarding3Form({ totalData, setTotalData }: { totalData
                 </label>
                 <label
                     htmlFor="often"
-                    className="font-black text-2xl text-white w-full p-8.5 border border-[#364153] rounded-lg text-center
+                    className="font-black text-base sm:text-lg lg:text-2xl text-white w-full p-3 sm:p-5 md:p-7 lg:p-8.5 border border-[#364153] rounded-lg text-center
                 has-checked:bg-[#BFFF0B]/90 has-checked:text-black">
                     <input
                         hidden
@@ -73,8 +73,8 @@ export default function Onboarding3Form({ totalData, setTotalData }: { totalData
             <div className="text-red-500 text-md mb-5 text-center">{errors.exerciseFrequency?.message}</div>
 
             <article className="flex">
-                <Link href='/auth/onboarding?page=2'><button type="button" className="py-3 px-8 rounded-[10px] text-base font-bold bg-[#10182880] text-[#D1D5DC]">이전</button></ Link>
-                <button type="submit" className="ml-auto bg-[#BFFF0B] py-3 px-8 rounded-[10px] text-base font-bold">다음</button>
+                <Link href='/auth/onboarding?page=2'><button type="button" className="py-2.5 sm:py-3 lg:py-3 px-5 sm:px-6 lg:px-8 rounded-[10px] text-sm sm:text-base lg:text-base font-bold bg-[#10182880] text-[#D1D5DC]">이전</button></ Link>
+                <button type="submit" className="ml-auto bg-[#BFFF0B] py-2.5 sm:py-3 lg:py-3 px-5 sm:px-6 lg:px-8 rounded-[10px] text-sm sm:text-base lg:text-base font-bold">다음</button>
             </article>
         </form>
     );

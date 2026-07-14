@@ -1,7 +1,7 @@
 ﻿'use server'
 
 import { approvalTrainerApplication, createCategories, createTags, deleteCategories, deleteTags, getOrganizationDetailAdmin, getTrainerApplicationsById, getTrainerDetail, patchUserStatus, rejectTrainerApplication, updateCategories, updateTags } from "@/service/admin.service";
-import { approvalOrganization, approvalReport, getOrganizationApplicationDetailAdmin, getReportPtbyId, rejectOrganization, rejectReport } from "@/service/report.service"
+import { approvalOrganization, approvalReport, createReport, getOrganizationApplicationDetailAdmin, getReportPtbyId, rejectOrganization, rejectReport } from "@/service/report.service"
 import { redirect } from "next/navigation";
 
 interface ActionState {
@@ -368,5 +368,57 @@ export const TrainerAdminDetailAction = async (trainerId: number) => {
         }
 
         throw new Error(errorMessage)
+    }
+}
+
+
+
+//신고 등록
+export const createReportAction = async (
+    targetId: number,
+    targetType: "PT_COURSE" | "TRAINER_REVIEW" | "COMMENT" | "POST" | "FEEDBACK",
+    formData: FormData
+) => {
+    const reason = formData.get('reason') as "SPAM" | "ADVERTISEMENT" | "ABUSE" | "SEXUAL_CONTENT" | "FRAUD" | "PRIVACY_EXPOSURE" | "ETC" | 'default';
+    const detail = formData.get('detail') as string;
+
+    if (!detail.trim()) {
+        return {
+            success: false,
+            message: '사유를 입력해주세요',
+        }
+    }
+
+    if (reason === 'default') {
+        return {
+            success: false,
+            message: '신고 사유를 선택해주세요',
+        }
+    }
+
+    const payload: ReportRequest = { targetId, targetType, reason, detail }
+
+    try {
+        await createReport(payload);
+
+        return {
+            success: true,
+            message: '신고가 접수되었습니다',
+        }
+    } catch (error) {
+        let errorMessage: string = '알 수 없는 오류입니다. 재시도해주세요.'
+        if (error instanceof Error) {
+            errorMessage = error.message;
+        }
+
+        return {
+            success: false,
+            message: errorMessage
+        }
+    }
+
+    return {
+        success: true,
+        message: '신고가 접수되었습니다',
     }
 }

@@ -134,3 +134,23 @@ export const rejectOrganization = async (applicationId: number, reason: { reject
 
     return response.json();
 }
+
+
+
+export const createReport = async (payload: ReportRequest) => {
+    const response = await fetchWithAuth(`/api/reports`, {
+        method: "POST",
+        body: JSON.stringify(payload)
+    });
+
+    if (!response.ok) {
+        const message = await getErrorMessage(
+            response,
+            '신고 처리에 실패하였습니다.'
+        );
+
+        throw new Error(message);
+    }
+
+    return response.json();
+}

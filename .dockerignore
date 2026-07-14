@@ -5,3 +5,7 @@ node_modules
 .env.local
 build
 dist
+AGENTS.md
+CLAUDE.md
+.ai/*
+.docs/*

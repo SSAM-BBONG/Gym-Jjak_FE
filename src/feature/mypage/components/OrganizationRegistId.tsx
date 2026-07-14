@@ -4,7 +4,7 @@ import { UseFormRegister } from "react-hook-form";
 import { OrganizationApplicationDetail } from "../type";
 import { OrganizationApplicationFormValue } from "@/lib/organizationApplicationSchema";
 import { ChangeEvent, useState } from "react";
-import { organizationIdDuplicationCheckAction } from "../action";
+import { organizationIdDuplicationCheckAction } from "../actions";
 
 interface OrganizationRegistFormProps {
     // 신청 & 조회 모드
