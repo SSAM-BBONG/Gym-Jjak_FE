@@ -64,16 +64,10 @@ export default function MypageAccountSettings( {socialUser}: MypageAccountSettin
           </p>
           <button
             type="button"
-            onClick={() => setpasswordCheckModal(true)}
+            onClick={() => handleUserDelectionClick()}
             className="text-[12px] font-medium text-[#6A7282] hover:cursor-pointer"> 〉 </button>
         </div>
       </div>
-
-      <PasswordCheckModal
-        isModal={passwordCheckModal}
-        closeModal={() => setpasswordCheckModal(false)}
-        checkPassword={handleUserDelectionClick}
-      />
 
       {!socialUser && (
         <PasswordCheckModal
