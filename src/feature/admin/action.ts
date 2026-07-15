@@ -1,6 +1,6 @@
 ﻿'use server'
 
-import { approvalTrainerApplication, createCategories, createTags, deleteCategories, deleteTags, getOrganizationDetailAdmin, getTrainerApplicationsById, getTrainerDetail, patchUserStatus, rejectTrainerApplication, updateCategories, updateTags } from "@/service/admin.service";
+import { approvalTrainerApplication, createExercises, deleteExercises, getExercises, getOrganizationDetailAdmin, getTrainerApplicationsById, getTrainerDetail, patchUserStatus, rejectTrainerApplication, updateExercises } from "@/service/admin.service";
 import { approvalOrganization, approvalReport, createReport, getOrganizationApplicationDetailAdmin, getReportPtbyId, rejectOrganization, rejectReport } from "@/service/report.service"
 import { redirect } from "next/navigation";
 
@@ -130,9 +130,9 @@ export const organizationRejectAction = async (applicationId: number, formData: 
 
 
 
-export const deleteCategoryAction = async (categoryId: number) => {
+export const deleteExerciseAction = async (exerciseId: number) => {
     try {
-        await deleteCategories(categoryId);
+        await deleteExercises(exerciseId);
     } catch (error) {
         let errorMessage: string = '알 수 없는 오류입니다. 재시도해주세요.'
         if (error instanceof Error) {
@@ -143,18 +143,19 @@ export const deleteCategoryAction = async (categoryId: number) => {
     }
 
 
-    redirect('/admin/systems/categories?page=1')
+    redirect('/admin/systems/exercises')
 }
 
 
-export const createCategoryAction = async (formData: FormData) => {
-    const name = formData.get('name') as string;
-    const payload = {
-        name
+export const createExerciseAction = async (formData: FormData) => {
+    const part = formData.get('part') as PartKo;
+    const exerciseName = formData.get('exerciseName') as string;
+    const payload: ExerciseRequest = {
+        part, exerciseName
     }
 
     try {
-        await createCategories(payload);
+        await createExercises(payload);
     } catch (error) {
         let errorMessage: string = '알 수 없는 오류입니다. 재시도해주세요.'
         if (error instanceof Error) {
@@ -164,19 +165,21 @@ export const createCategoryAction = async (formData: FormData) => {
         throw new Error(errorMessage)
     }
 
-    redirect('/admin/systems/categories?page=1')
+    redirect(`/admin/systems/exercises?part=하체`)
 
 }
 
 
-export const updateCategoryAction = async (id: number, formData: FormData) => {
-    const name = formData.get('name') as string;
-    const payload = {
-        name
+export const updateExerciseAction = async (id: number, formData: FormData) => {
+    const exerciseName = formData.get('exerciseName') as string;
+    const part = formData.get('part') as PartKo;
+
+    const payload: ExerciseUpdateRequest = {
+        exerciseName
     }
 
     try {
-        await updateCategories(id, payload);
+        await updateExercises(id, payload);
     } catch (error) {
         let errorMessage: string = '알 수 없는 오류입니다. 재시도해주세요.'
         if (error instanceof Error) {
@@ -186,70 +189,10 @@ export const updateCategoryAction = async (id: number, formData: FormData) => {
         throw new Error(errorMessage)
     }
 
-    redirect('/admin/systems/categories?page=1')
+    redirect(`/admin/systems/exercises?part=하체`)
 
 }
 
-
-export const deleteTagAction = async (tagId: number) => {
-    try {
-        await deleteTags(tagId);
-    } catch (error) {
-        let errorMessage: string = '알 수 없는 오류입니다. 재시도해주세요.'
-        if (error instanceof Error) {
-            errorMessage = error.message;
-        }
-
-        throw new Error(errorMessage)
-    }
-
-
-    redirect('/admin/systems/tags?page=1')
-}
-
-
-export const createTagAction = async (formData: FormData) => {
-    const name = formData.get('name') as string;
-    const payload = {
-        name
-    }
-
-    try {
-        await createTags(payload);
-    } catch (error) {
-        let errorMessage: string = '알 수 없는 오류입니다. 재시도해주세요.'
-        if (error instanceof Error) {
-            errorMessage = error.message;
-        }
-
-        throw new Error(errorMessage)
-    }
-
-    redirect('/admin/systems/tags?page=1')
-
-}
-
-
-export const updateTagAction = async (tagId: number, formData: FormData) => {
-    const name = formData.get('name') as string;
-    const payload = {
-        name
-    }
-
-    try {
-        await updateTags(tagId, payload)
-    } catch (error) {
-        let errorMessage: string = '알 수 없는 오류입니다. 재시도해주세요.'
-        if (error instanceof Error) {
-            errorMessage = error.message;
-        }
-
-        throw new Error(errorMessage)
-    }
-
-    redirect('/admin/systems/tags?page=1')
-
-}
 
 export const changeUserStatusAction = async (
     applicationId: number,

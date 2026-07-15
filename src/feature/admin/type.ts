@@ -12,12 +12,6 @@ interface Reposts {
 }
 
 
-interface categorie {
-    categoryId: number;
-    name: string;
-}
-
-
 interface ReportsDetail {
     reportId: number;
     reporterUsername: string;
@@ -74,20 +68,21 @@ interface ReportResponse {
 }
 
 
-interface Category {
-    categoryId: number;
-    name: string;
-    createdAt: string;
-    usageCount: number;
+interface Exercise {
+    exerciseId: number;
+    part: PartKo;
+    exerciseName: string;
 }
 
-
-interface Tag {
-    tagId: number;
-    name: string;
-    createdAt: string;
-    usageCount: number;
+interface ExerciseRequest {
+    part: PartKo;
+    exerciseName: string;
 }
+
+interface ExerciseUpdateRequest {
+    exerciseName: string
+}
+
 
 interface Organizations {
     organizationId: number;

@@ -11,7 +11,7 @@ interface Props {
         searchExercise: string;
         selectExercise: string;
     }>>
-    filterExerciseNames: Exercises[]
+    filterExerciseNames: Exercise[]
 }
 
 export default function CalendarNameSelecter({ isSelect, setIsSelect, exerciseName, setExerciseName, filterExerciseNames }: Props) {
