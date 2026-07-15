@@ -40,7 +40,7 @@ export default function AccountOrgDropDown() {
 
             <ul hidden={dropDownView} className="px-4">
                 <li><AdminNavLink href='/organization/account/gym'>헬스장 정보</AdminNavLink></li>
-                <li><ChangePwCheck href='/organization/account/pw'>비밀번호 변경</ChangePwCheck></li>
+                <li><ChangePwCheck href='/organization/account/password'>비밀번호 변경</ChangePwCheck></li>
                 <li><AdminNavLink href='/organization/account/cancellation'>헬스장 해지</AdminNavLink></li>
             </ul>
         </section>

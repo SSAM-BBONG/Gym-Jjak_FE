@@ -34,7 +34,7 @@ export default function TrainerADataList({ trainers, totalPage, page, keyword, s
                     </div>
                 )}
             </section>
-            <Pagination url={`organization/gym/approval`} page={page} totalPage={totalPage} />
+            <Pagination url={`organization/manage/approval`} page={page} totalPage={totalPage} />
 
         </div>
     );

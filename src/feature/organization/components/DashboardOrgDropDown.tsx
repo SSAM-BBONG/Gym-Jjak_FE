@@ -37,7 +37,7 @@ export default function DashboardOrgDropDown() {
             </div>
             <ul hidden={dropDownView} className="px-4">
                 <li><AdminNavLink href="/organization/dashboard/gym">헬스장 통계</AdminNavLink></li>
-                <li><AdminNavLink href="/organization/dashboard/money">매출 관리</AdminNavLink></li>
+                <li><AdminNavLink href="/organization/dashboard/sales">매출 관리</AdminNavLink></li>
             </ul>
         </section>
     );
