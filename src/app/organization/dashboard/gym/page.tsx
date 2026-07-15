@@ -1,32 +1,40 @@
 import { GymCumulativePt, GymCurrentPt, GymMonthUser, GymThisMonthSales, GymTrainerNumber, GymTrainerSituation } from "@/components/ui/image";
 import GymDashboard from "@/feature/organization/components/GymDashboard";
 
-export default function Page() {
+export default function GymDashBoardPage() {
     return (
         <div className="flex flex-col gap-6 p-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="border border-[#BFFF0B4D] rounded-[16px] bg-[#BFFF0B0D] p-5">
-                    <img src={GymCumulativePt}/>
+                <div className="border border-[#BFFF0B4D] rounded-[16px] bg-[#BFFF0B0D] p-5">
+                    <div className="flex gap-2 items-center">
+                        <img src={GymCumulativePt}/>
+                    <p className="text-[16px] text-white font-bold"> 누적 PT 이용자 수 </p>
+                    </div>
                     <p className="text-[30px] text-[#BFFF0B] font-black"> 136명</p>
-                    <p className="text-[12px] text-white font-bold"> 누적 PT 이용자 수 </p>
                     <p className="text-[12px] text-[#6A7282] font-normal"> 서비스 시작 이후 총 이용자</p>
                 </div>
                 <div className="border border-[#1E2939] rounded-[16px] bg-[#101828] p-5">
-                    <img src={GymCurrentPt}/>
+                    <div className="flex gap-2 items-center">
+                        <img src={GymCurrentPt}/>
+                        <p className="text-[16px] text-white font-bold"> 현재 PT 이용자 수 </p>
+                    </div>
                     <p className="text-[30px] text-white font-black"> 9명</p>
-                    <p className="text-[12px] text-white font-bold"> 현재 PT 이용자 수 </p>
                     <p className="text-[12px] text-[#6A7282] font-normal"> 현재 진행 중인 PT 수강생</p>                
                 </div>
                 <div className="border border-[#1E2939] rounded-[16px] bg-[#101828] p-5">
-                    <img src={GymTrainerNumber}/>
+                    <div className="flex gap-2 items-center">    
+                        <img src={GymTrainerNumber}/>
+                        <p className="text-[16px] text-white font-bold"> 트레이너 수 </p>
+                    </div>
                     <p className="text-[30px] text-white font-black"> 3명</p>
-                    <p className="text-[12px] text-white font-bold"> 트레이너 수 </p>
                     <p className="text-[12px] text-[#6A7282] font-normal"> 현재 활성 트레이너</p>
                 </div>
                 <div className="border border-[#1E2939] rounded-[16px] bg-[#101828] p-5">
-                    <img src={GymThisMonthSales}/>
+                    <div className="flex gap-2 items-center">   
+                        <img src={GymThisMonthSales}/>
+                        <p className="text-[16px] text-white font-bold"> 이번 달 매출  </p>
+                    </div>
                     <p className="text-[30px] text-white font-black"> 5,200,000원</p>
-                    <p className="text-[12px] text-white font-bold"> 이번 달 매출  </p>
                     <p className="text-[12px] text-[#6A7282] font-normal"> 7월 기준</p>
                 </div>
             </div>
