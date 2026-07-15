@@ -1,5 +1,5 @@
 import { getTrainerApplications } from "@/service/admin.service";
-import TrainerADataList from "../../../organization/gym/approval/TrainerADataList";
+import TrainerADataList from "../../../organization/manage/approval/TrainerADataList";
 
 interface paramsProps {
     searchParams: Promise<{

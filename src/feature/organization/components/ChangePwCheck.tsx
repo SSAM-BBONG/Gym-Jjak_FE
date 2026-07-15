@@ -25,7 +25,7 @@ export default function ChangePwCheck({ href, children }: AdminNavLinkProps) {
             <PasswordCheckModal
                 isModal={passwordMoveModal}
                 closeModal={() => setPasswordMoveModal(false)}
-                movePath="/organization/account/pw"
+                movePath="/organization/account/password"
             />
         </>
     );
