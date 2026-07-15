@@ -4,7 +4,7 @@ import GymDashboard from "@/feature/organization/components/GymDashboard";
 export default function Page() {
     return (
         <div className="flex flex-col gap-6 p-6">
-            <div className="grid grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="border border-[#BFFF0B4D] rounded-[16px] bg-[#BFFF0B0D] p-5">
                     <img src={GymCumulativePt}/>
                     <p className="text-[30px] text-[#BFFF0B] font-black"> 136명</p>
