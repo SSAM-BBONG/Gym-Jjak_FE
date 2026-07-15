@@ -1,37 +1,27 @@
 import { CloseButton } from "@/components/ui/image";
-import { createCategoryAction, createTagAction, updateCategoryAction, updateTagAction } from "../../action";
-import { useActionState } from "react";
 import Image from "next/image";
+import { createExerciseAction, updateExerciseAction } from "../../action";
+import PartSelecter from "@/components/ui/PartSelecter";
 
 interface AdminAddModalProps {
     isModal: boolean;
     closeModal: () => void;
-    mode: '카테고리' | '태그';
     system: 'update' | 'create'
     id?: number;
-    name?: string
+    exercise?: Exercise
 }
 
 
-export default function AdminAddModal({ isModal, closeModal, mode, system, id = 0, name = '' }: AdminAddModalProps) {
+export default function AdminAddModal({ isModal, closeModal, system, id = 0, exercise }: AdminAddModalProps) {
     if (!isModal) return null;
 
-    //여기 useAction사용해서 바꿔야함 
-    //그리고 수정이랑 크리에이트 그냥 모달 따로 두는게 좋을 듯
     let systemAction;
-    if (mode === '카테고리') {
-        if (system === 'update') {
-            systemAction = updateCategoryAction.bind(null, id)
-        } else {
-            systemAction = createCategoryAction
-        }
+    if (system === 'update') {
+        systemAction = updateExerciseAction.bind(null, id)
     } else {
-        if (system === 'update') {
-            systemAction = updateTagAction.bind(null, id)
-        } else {
-            systemAction = createTagAction
-        }
+        systemAction = createExerciseAction
     }
+
 
     return (
         <section
@@ -43,8 +33,8 @@ export default function AdminAddModal({ isModal, closeModal, mode, system, id = 
                 onClick={(e) => e.stopPropagation()}>
                 <article>
                     <div className="flex justify-between border-b-[#1E2939] border-b items-center pb-8 pt-2">
-                        <h3 className="font-bold text-base md:text-lg lg:text-xl text-[#E8EAF0]">{mode} {system === 'create' ? '추가' : '수정'}</h3>
-                        <button onClick={closeModal} className="relative ml-auto w-5 h-5">
+                        <h3 className="font-bold text-base md:text-lg lg:text-xl text-[#E8EAF0]">운동 종류 {system === 'create' ? '추가' : '수정'}</h3>
+                        <button type="button" onClick={closeModal} className="relative ml-auto w-5 h-5">
                             <Image
                                 src={CloseButton}
                                 alt="모달 닫기 버튼"
@@ -54,12 +44,13 @@ export default function AdminAddModal({ isModal, closeModal, mode, system, id = 
                         </button>
                     </div>
                     <div className="flex justify-between items-center my-4">
-                        <h3 className="font-bold text-base md:text-lg lg:text-xl text-[#E8EAF0] py-2">{mode}명</h3>
+                        <h3 className="font-bold text-base md:text-lg lg:text-xl text-[#E8EAF0]">운동 종류명</h3>
+                        <PartSelecter part={exercise?.part} />
                     </div>
                     <input
-                        name="name"
-                        defaultValue={name}
-                        placeholder="이름을 입력해주세요"
+                        name="exerciseName"
+                        defaultValue={exercise?.exerciseName}
+                        placeholder="운동 종류를 입력해주세요"
                         className="border-[#364153] border w-full mb-4 px-4 md:px-6 py-2.5 md:py-3 bg-[#1E2939] rounded-md focus:border-[#BFFF0B] text-white text-sm md:text-base focus:outline-none"
                     ></input>
                 </article>

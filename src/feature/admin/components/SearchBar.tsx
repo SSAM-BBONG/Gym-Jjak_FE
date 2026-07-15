@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
-export default function SearchBar() {
+export default function SearchBar({ page = true }: { page?: boolean }) {
     const [searchInput, setSearchInput] = useState<string>('')
     const searchParams = useSearchParams();
     const router = useRouter();
@@ -25,7 +25,9 @@ export default function SearchBar() {
             } else {
                 params.set('keyword', searchInput);
             }
-            params.set('page', '0');
+            if (page) {
+                params.set('page', '0');
+            }
 
             //검색어 변경은 주소에는 반영되지만, 뒤로가기 기록에는 계속 쌓이지 않습니다.
             //push는 뒤로가기에 쌓임

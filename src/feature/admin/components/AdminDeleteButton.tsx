@@ -3,17 +3,13 @@
 import useModal from "@/components/hooks/useModal";
 import { AdminDeleteImg } from "@/components/ui/image";
 import TwoButtonModal from "@/components/ui/TwoButtonModal";
-import { deleteCategoryAction, deleteTagAction } from "../action";
+import { deleteExerciseAction } from "../action";
 import Image from "next/image";
 
-export default function AdminDeleteButton({ mode, id }: { mode: '카테고리' | '태그', id: number }) {
+export default function AdminDeleteButton({ id }: { id: number }) {
 
     const handleDelete = async () => {
-        if (mode === '카테고리') {
-            await deleteCategoryAction(id);
-        } else {
-            await deleteTagAction(id);
-        }
+        await deleteExerciseAction(id);
     }
 
     const modal = useModal(handleDelete);
@@ -36,7 +32,7 @@ export default function AdminDeleteButton({ mode, id }: { mode: '카테고리' |
                 isModal={modal.isModal}
                 closeModal={modal.closeModal}
                 activeModal={modal.activeModal}
-                title={`${mode} 삭제`}
+                title={`운동 종류 삭제`}
                 content={`삭제하시겠습니까?`}
             />
         </>

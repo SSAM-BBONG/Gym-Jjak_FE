@@ -5,7 +5,7 @@ import { AdminAddButton } from "@/components/ui/image";
 import AdminAddModal from "@/feature/admin/components/modals/AdminAddModal";
 import Image from "next/image";
 
-export default function SystemAddButton({ text }: { text: '카테고리' | '태그' }) {
+export default function SystemAddButton() {
     const modal = useModal();
 
     return (
@@ -21,12 +21,11 @@ export default function SystemAddButton({ text }: { text: '카테고리' | '태�
                         sizes="w-4 h-4"
                     />
                 </div>
-                <p>{text} 추가</p>
+                <p>운동 종류 추가</p>
             </button>
             <AdminAddModal
                 isModal={modal.isModal}
                 closeModal={modal.closeModal}
-                mode={text}
                 system="create"
             />
         </>
