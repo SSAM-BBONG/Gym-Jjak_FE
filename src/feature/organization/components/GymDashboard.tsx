@@ -1,65 +1,56 @@
-'use client'
+import GymChart from "@/feature/organization/components/GymChart";
 
-import { CategoryScale, Chart as ChartJS, Legend, LinearScale, LineElement, PointElement, Title, Tooltip } from 'chart.js'
-import { Line } from 'react-chartjs-2';
+export type GymDashboardCard = {
+    icon: string;
+    iconWrapped?: boolean;
+    highlighted?: boolean;
+    title: string;
+    value: string;
+    description: string;
+};
 
-ChartJS.register(
-  CategoryScale, // x축
-  LinearScale,   // y축
-  PointElement,  // 각 데이터 포인트의 점 그리는 역할
-  LineElement,   // 각 데이터 포인트들을 선으로 연결하는 역할    
-  Title,         // 차트의 제목 표시
-  Tooltip,       // 정보 표현 툴팁 표시
-  Legend         // 데이터 셋의 이름(범례) 표시
-)
+type GymDashboardProps = {
+    cards: GymDashboardCard[];
+    chartIcon: string;
+    chartTitle: string;
+};
 
-export default function GymDashboard() {
-  const data = {
-        labels: ['1월', '2월', '3월', '4월', '5월', '6월'], // x축 레이블
-        datasets: [{
-          label: '2026년 PT 이용자 수', // 데이터셋 이름
-          data: [1200, 900, 756, 302, 2500, 1590], // 실제 데이터
-          borderColor: 'rgba(191, 255, 11, 1)', // 선 색상
-          backgroundColor: 'rgba(54, 65, 83, 1)', // 영역 배경색
-          tension: 0.4, // 선의 곡률 (0: 직선, 1: 부드러운 곡선)
-          // fill: true
-          pointRadius:4
-        }]
-      }
-
-  const options = {
-        responsive: true, // 반응형
-        plugins: {
-          legend: {
-            display: true, // 범례 표시
-            position: 'bottom' as const // 범례 위치, chartjs 사용할때는 타입을 정의시켜줘야함, 
-          },
-        },
-        scales: {
-            x: {
-                grid: {
-                display: false,
-                },
-                ticks: {
-                color: '#99A1AF',
-                },
-            },
-            y: {
-                beginAtZero: true,
-                grid: {
-                color: 'rgba(255, 255, 255, 0.08)',
-                },
-                ticks: {
-                color: '#99A1AF',
-                },
-            },
-        },
-        maintainAspectRatio: false
-      } 
-
+export default function GymDashboard({ cards, chartIcon, chartTitle }: GymDashboardProps) {
     return (
-        <div className='bg-[#101828] text-red-300'>
-            <Line data={data} options={options}/>
-        </div>
+        <>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {cards.map((card, index) => (
+                    <div
+                        key={index}
+                        className={
+                            card.highlighted
+                                ? "border border-[#BFFF0B4D] rounded-[16px] bg-[#BFFF0B0D] p-5"
+                                : "border border-[#1E2939] rounded-[16px] bg-[#101828] p-5"
+                        }
+                    >
+                        <div className="flex gap-2 items-center">
+                            {card.iconWrapped ? (
+                                <p className="bg-[#1E293999] w-10 h-10 flex items-center justify-center rounded-[14px] p-2">
+                                    <img src={card.icon}/>
+                                </p>
+                            ) : (
+                                <img src={card.icon}/>
+                            )}
+                            <p className="text-[16px] text-white font-bold"> {card.title} </p>
+                        </div>
+                        <p className={`text-[30px] font-black ${card.highlighted ? "text-[#BFFF0B]" : "text-white"}`}> {card.value}</p>
+                        <p className="text-[12px] text-[#6A7282] font-normal"> {card.description}</p>
+                    </div>
+                ))}
+            </div>
+
+            <div className="p-6 border border-[#1E2939] rounded-[16px] bg-[#101828]">
+                <div className="flex items-center gap-2 pb-4">
+                    <img src={chartIcon}/>
+                    <p className="text-[14px] text-white font-black"> {chartTitle}</p>
+                </div>
+                <GymChart/>
+            </div>
+        </>
     );
 }
