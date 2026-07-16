@@ -10,7 +10,7 @@ export default function OrganizationManageDefaultInformation({ data }: Organizat
     return (
         <div className="
             flex flex-col gap-6
-            bg-[linear-gradient(135deg,_#101828_0%,_#1E2939_100%)]
+            bg-[#101828]
             border border-[#364153] rounded-[16px]
             p-8
             "
