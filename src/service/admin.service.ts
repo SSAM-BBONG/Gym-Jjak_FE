@@ -2,8 +2,22 @@ import { fetchWithAuth } from "@/lib/feth";
 import { getErrorMessage } from "@/lib/stateError";
 
 //운동 종류
-export const getExercises = async (part?: PartKo | null) => {
-    const response = await fetchWithAuth(`/api/exercises${part ? `?part=${part}` : ""}`);
+export const getExercises = async (part?: PartKo | '', keyword?: string) => {
+    const params = new URLSearchParams();
+
+    if (part) {
+        params.set("part", part);
+    }
+
+    if (keyword) {
+        params.set("keyword", keyword);
+    }
+
+    const queryString = params.toString();
+
+    const response = await fetchWithAuth(
+        `/api/exercises${queryString ? `?${queryString}` : ""}`
+    );
 
     if (!response.ok) {
         const message = await getErrorMessage(

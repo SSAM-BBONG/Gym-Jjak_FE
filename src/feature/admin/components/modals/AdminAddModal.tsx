@@ -45,7 +45,7 @@ export default function AdminAddModal({ isModal, closeModal, system, id = 0, exe
                     </div>
                     <div className="flex justify-between items-center my-4">
                         <h3 className="font-bold text-base md:text-lg lg:text-xl text-[#E8EAF0]">운동 종류명</h3>
-                        <PartSelecter part={exercise?.part} />
+                        <PartSelecter visible={system === 'update' ? false : true} part={exercise?.part} />
                     </div>
                     <input
                         name="exerciseName"

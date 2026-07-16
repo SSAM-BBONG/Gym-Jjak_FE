@@ -5,12 +5,13 @@ import SystemDataList from "../SystemDataList";
 interface paramsProps {
     searchParams: Promise<{
         part: PartKo;
+        keyword: string;
     }>
 }
 
 export default async function Page({ searchParams }: paramsProps) {
-    const { part } = await searchParams;
-    const response = await getExercises(part);
+    const { part, keyword } = await searchParams;
+    const response = await getExercises(part, keyword);
     const exercises: Exercise[] = response.data;
 
     return (
