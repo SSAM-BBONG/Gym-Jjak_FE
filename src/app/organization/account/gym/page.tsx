@@ -7,7 +7,8 @@ export default async function OrganManagePage() {
     const response = await getOrganizationManageInformation();
 
     return (
-        <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-6 p-6">
+            <h1 className="font-extrabold text-4xl text-white"> 헬스장 정보 </h1>
             <OrganizationManageDefaultInformation
                 data={response.data}
             />
