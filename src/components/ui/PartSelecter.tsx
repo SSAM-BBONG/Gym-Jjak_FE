@@ -1,8 +1,11 @@
-export default function PartSelecter({ part = '' }: { part?: PartKo | '' }) {
+'use client'
+
+export default function PartSelecter({ visible, part = '', setPart }: { visible: boolean, part?: PartKo | '', setPart?: React.Dispatch<React.SetStateAction<PartKo | "">>; }) {
     return (
         <select
             name="part"
-            className={`border-[#364153] text-sm md:text-base border w-1/3 py-3 md:px-6 px-3 bg-[#1E2939] rounded-md focus:border-[#BFFF0B] text-white focus:outline-none ${part ? 'invisible' : ''}`}
+            onChange={(e) => setPart?.(e.target.value as PartKo)}
+            className={`border-[#364153] text-sm md:text-base border w-1/3 py-3 md:px-6 px-3 bg-[#1E2939] rounded-md focus:border-[#BFFF0B] text-white focus:outline-none ${visible ? '' : 'invisible'}`}
             defaultValue={part ? part : '부위'}>
             <option disabled hidden>부위</option>
             <option value='가슴'>가슴</option>

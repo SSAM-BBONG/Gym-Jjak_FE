@@ -1,5 +1,6 @@
 'use server'
 
+import { getExercises } from "@/service/admin.service";
 import { deleteCalendar, getCalendarDate, getCalendarMonth, getDiaryCategories, patchCalendar, postCalendar } from "@/service/calendar.service";
 
 interface ActionState {
@@ -25,6 +26,8 @@ export const calendargetMonthAction = async (year: string, month: string) => {
     }
 }
 
+
+
 export const calendargetDateAction = async (date: string) => {
     try {
         const response = await getCalendarDate(date);
@@ -41,12 +44,12 @@ export const calendargetDateAction = async (date: string) => {
 
 export const calendarPostAction = async (selectedSettingDate: string, formData: FormData): Promise<ActionState> => {
     const diaryDate = selectedSettingDate;
-    const exercise = formData.get('exerciseName') as string;
+    const exerciseId = Number(formData.get('exerciseName') as string);
     const part = formData.get('part') as Part;
     const kgs = formData.getAll('kg') as string[];
     const reps = formData.getAll('rep') as string[];
 
-    if (!exercise || !part || !kgs.every(kg => kg.trim()) || !reps.every(rep => rep.trim())) {
+    if (!exerciseId || !part || !kgs.every(kg => kg.trim()) || !reps.every(rep => rep.trim())) {
         return {
             success: false,
             message: '값을 모두 입력해주세요'
@@ -60,7 +63,7 @@ export const calendarPostAction = async (selectedSettingDate: string, formData: 
     })
 
     const payload: DiaryRequest = {
-        diaryDate, exercise, part, sets
+        diaryDate, exerciseId, part, sets
     }
 
     try {
@@ -84,19 +87,28 @@ export const calendarPostAction = async (selectedSettingDate: string, formData: 
 }
 
 export const calendarPatchAction = async (diaryId: number, formData: FormData): Promise<ActionState> => {
-    const categoryName = formData.get('category') as string;
-    const title = formData.get('title') as string;
-    const content = formData.get('content') as string;
+    const exerciseId = Number(formData.get('exerciseName') as string);
+    const part = formData.get('part') as Part;
+    const kgs = formData.getAll('kg') as string[];
+    const reps = formData.getAll('rep') as string[];
 
-    if (!categoryName || !title.trim() || !content.trim()) {
+    if (!exerciseId || !part || !kgs.every(kg => kg.trim()) || !reps.every(rep => rep.trim())) {
         return {
             success: false,
             message: '값을 모두 입력해주세요'
         }
     }
 
+
+
+
+
+    const sets: ExerciseSet[] = kgs.map((kg, index) => {
+        return { setOrder: index + 1, weight: Number(kg), reps: Number(reps[index]) }
+    })
+
     const payload: DiaryUpdate = {
-        categoryName, title, content
+        exerciseId, part, sets
     }
 
     try {
@@ -135,6 +147,21 @@ export const deleteCalendarAction = async (diaryId: number) => {
 export const getCalendarCategory = async () => {
     try {
         const response = await getDiaryCategories();
+        return response;
+    } catch (error) {
+        let errorMessage: string = '알 수 없는 오류입니다. 재시도해주세요.'
+        if (error instanceof Error) {
+            errorMessage = error.message;
+        }
+
+        throw new Error(errorMessage)
+    }
+}
+
+
+export const calendargetExeriseAction = async (part?: PartKo | '', keyword?: string) => {
+    try {
+        const response = await getExercises(part, keyword);
         return response;
     } catch (error) {
         let errorMessage: string = '알 수 없는 오류입니다. 재시도해주세요.'
