@@ -238,7 +238,7 @@ function CalendarDayButton({
       <div className="w-full flex justify-between items-center">
         <div
           className={cn(
-            " border-0 rounded-[50%] w-5 h-5 leading-none font-medium text-sm data-[selected-single=true]:border-primary data-[selected-single=true]:text-primary-foreground dark:hover:text-foreground [&>span]:text-xs [&>span]:opacity-70",
+            "flex items-center justify-center border-0 rounded-[50%] w-5 h-5 leading-none font-medium text-2xs md:text-sm data-[selected-single=true]:border-primary data-[selected-single=true]:text-primary-foreground dark:hover:text-foreground [&>span]:text-xs [&>span]:opacity-70",
             "data-[selected-single=true]:border-[#BFFF0B] data-[selected-single=true]:border data-[selected-single=true]:text-[#BFFF0B]",
             isCurrentMonthDay && 'text-white',
             isSunday && "text-red-500",
@@ -261,7 +261,7 @@ function CalendarDayButton({
           </div>)}
       </div>
       {todayData?.diarySummary && <div className="bg-[#BFFF0B] w-full p-0.5 text-black mt-auto">
-        <p className="hidden md:block">{todayData.diarySummary.length > 4 ? `${todayData.diarySummary.slice(0, 4)}...` : `${todayData.diarySummary}`}</p>
+        <p className="hidden lg:block">{todayData.diarySummary.length > 4 ? `${todayData.diarySummary.slice(0, 4)}...` : `${todayData.diarySummary}`}</p>
       </div>}
     </Button>
   )

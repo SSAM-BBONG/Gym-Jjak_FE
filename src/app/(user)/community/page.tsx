@@ -9,13 +9,14 @@ interface paramsProps {
   searchParams: Promise<{
     page: string;
     type: "FREE" | "NOTICE";
+    keyword: string;
   }>
 }
 
 export default async function CommuPage({ searchParams }: paramsProps) {
 
-  const { page, type } = await searchParams;
-  const response = await getCommunity(page, type);
+  const { page, type, keyword } = await searchParams;
+  const response = await getCommunity(page, type, keyword);
   const communities: Communities[] = response.data.content;
   const totalPage: number = response.data.totalPages
 

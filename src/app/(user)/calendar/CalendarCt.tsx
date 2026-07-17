@@ -18,7 +18,6 @@ export default function CalendarCt() {
 
     const selectedDate = date ?? new Date();
 
-
     const selectedYear = format(selectedDate, "yyyy");
     const selectedMonth = format(selectedDate, "M");
     const selectedDay = format(selectedDate, "d");
@@ -65,7 +64,7 @@ export default function CalendarCt() {
             />
             <section className="w-full md:w-2/5 text-white md:ml-8">
                 <div className="flex justify-between mb-2">
-                    <h1 className="font-black text-5xl">{selectedDay}</h1>
+                    <h1 className="font-black text-3xl md:text-5xl ">{selectedDay}</h1>
                     <CalendarAddButton selectedSettingDate={selectedSettingDate} />
                 </div>
                 <p className="text-[#6A7282] font-normal text-base mb-6">{settingDate}</p>

@@ -3,10 +3,13 @@
 import useModal from "@/components/hooks/useModal";
 import CalendarViewModal from "@/feature/calendar/components/CalendarViewModal";
 import CalendarCreateModal from "@/feature/calendar/components/CalendarCreateModal"
+import OneButtonModal from "@/components/ui/OneButtonModal";
 
 export default function CalendarItem({ data }: { data: Diary }) {
     const updateModal = useModal();
     const modal = useModal(updateModal.openModal);
+    const checkModal = useModal();
+    const deleteModal = useModal();
     return (
         <>
             <button
@@ -19,15 +22,29 @@ export default function CalendarItem({ data }: { data: Diary }) {
                 isModal={modal.isModal}
                 closeModal={modal.closeModal}
                 activeModal={modal.activeModal}
+                openDelete={deleteModal.openModal}
                 data={data}
             />}
             {updateModal.isModal && <CalendarCreateModal
                 isModal={updateModal.isModal}
                 closeModal={updateModal.closeModal}
                 selectedSettingDate={data.date}
+                openCheck={checkModal.openModal}
                 data={data}
                 mode='update'
             />}
+            <OneButtonModal
+                isModal={checkModal.isModal}
+                closeModal={checkModal.closeModal}
+                title="운동 일지"
+                content='수정되었습니다'
+            />
+            <OneButtonModal
+                isModal={deleteModal.isModal}
+                closeModal={() => console.log('삭제')}
+                title="운동 일지"
+                content='삭제되었습니다'
+            />
         </>
     );
 }
