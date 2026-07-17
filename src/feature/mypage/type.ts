@@ -12,17 +12,17 @@ export interface OrganizationApplicationRequest {
   detailAddress?: string;
   latitude?: number;
   longitude?: number;
-  websiteUrl?: string 
-  instagramUrl?: string 
-  blogUrl?: string; 
-  facilityPhone?: string 
+  websiteUrl?: string
+  instagramUrl?: string
+  blogUrl?: string;
+  facilityPhone?: string
 }
 
 export interface OrganizationBusineesLicenseFile {
-    fileKey: string;
-    originalName: string;
-    contentType: string;
-    fileSize: number;
+  fileKey: string;
+  originalName: string;
+  contentType: string;
+  fileSize: number;
 }
 
 // 조직 신청 목록 조회 응답 타입
@@ -101,23 +101,23 @@ export interface OrganizationManageResponse {
 
 // 내 조직 정보 조회 데이터 응답 타입
 export interface OrganizationManageData {
-    requestedLoginId: string;
-    businessRegistrationNumber: string;
-    businessName: string;
-    representativeName: string;
-    representativePhone: string;
-    openingDate: string;
-    roadAddress: string;
-    jibunAddress: string;
-    detailAddress: string;
-    latitude: number;
-    longitude: number;
-    businessLicenseFileUrl: string;
-    businessLicenseOriginalName: string;
-    facilityPhone: string;
-    instagramUrl: string;
-    blogUrl: string;
-    websiteUrl: string;
+  requestedLoginId: string;
+  businessRegistrationNumber: string;
+  businessName: string;
+  representativeName: string;
+  representativePhone: string;
+  openingDate: string;
+  roadAddress: string;
+  jibunAddress: string;
+  detailAddress: string;
+  latitude: number;
+  longitude: number;
+  businessLicenseFileUrl: string;
+  businessLicenseOriginalName: string;
+  facilityPhone: string;
+  instagramUrl: string;
+  blogUrl: string;
+  websiteUrl: string;
 }
 
 // 내 조직 정보 수정 요청 타입
@@ -378,4 +378,53 @@ export interface TrainerProfileDetailResponse {
   code: string;
   message: string;
   data: TrainerProfileDetailData;
+}
+
+
+// 인바디
+export interface InbodyRequest {
+  measuredDate: string;
+  height: number;
+  weight: number;
+  bodyFatPercentage: number;
+  skeletalMuscleMass: number;
+}
+
+export interface Inbody {
+  inbodyId: number;
+  measuredDate: string;
+  height: number;
+  weight: number;
+  bodyFatPercentage: number;
+  skeletalMuscleMass: number;
+  bmi: number;
+  bmiStatus: string;
+  bmiStatusDescription: string;
+  weightChange: number | null;
+  skeletalMuscleMassChange: number | null;
+  bodyFatPercentageChange: number | null;
+  bmiChange: number | null;
+}
+
+export interface InbodyResponseData {
+  inbodies: Inbody[];
+  nextMeasuredDate: string;
+  nextInbodyId: number;
+  hasNext: boolean;
+}
+
+export interface InbodyResponse {
+  status: number;
+  code: string;
+  message: string;
+  data: InbodyResponseData;
+}
+
+export type InbodyDetailResponse = InbodyResponse;
+
+export interface InbodyUpdateRequest {
+  height: number;
+  weight: number;
+  bodyFatPercentage: number;
+  skeletalMuscleMass: number;
 }

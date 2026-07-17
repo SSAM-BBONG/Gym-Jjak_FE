@@ -1,4 +1,5 @@
 import {
+  InbodyRequest,
   MyPageDetailResponse,
   MyPagePasswordChangeRequest,
   MyPagePasswordChangeResponse,
@@ -97,8 +98,8 @@ export const createOrganizationApplication = async (
 };
 
 // 조직 계정 신청 아이디 중복 확인 API
-export const organizationApplicationDupliCationId = async ( 
-  loginId : string
+export const organizationApplicationDupliCationId = async (
+  loginId: string
 ) => {
   const params = new URLSearchParams({
     requestedLoginId: loginId,
@@ -119,9 +120,9 @@ export const organizationApplicationDupliCationId = async (
 
 // 조직 신청 취소 API 
 export const organizationApplicationCancel = async (applicationId: number) => {
-  const response = await fetchWithAuth(`/api/organization-applications/${applicationId}/cancel`,{
+  const response = await fetchWithAuth(`/api/organization-applications/${applicationId}/cancel`, {
     method: "PATCH",
-    }
+  }
   )
 
   if (!response.ok) {
@@ -268,15 +269,15 @@ export const checkPassword = async (password: string): Promise<MyPagePasswordChe
     `/api/users/me/password-verification`,
     {
       method: "POST",
-      body: JSON.stringify({password})
+      body: JSON.stringify({ password })
     }
   );
 
   if (!response.ok) {
-  const message = await getErrorMessage(
-    response,
-    '비밀번호 확인에 실패하였습니다.'
-  );
+    const message = await getErrorMessage(
+      response,
+      '비밀번호 확인에 실패하였습니다.'
+    );
 
     throw new Error(message);
   }
@@ -294,10 +295,10 @@ export const deleteMyAccount = async (): Promise<MyPageUserDelection> => {
   );
 
   if (!response.ok) {
-  const message = await getErrorMessage(
-    response,
-    '회원탈퇴에 실패하였습니다..'
-  );
+    const message = await getErrorMessage(
+      response,
+      '회원탈퇴에 실패하였습니다..'
+    );
 
     throw new Error(message);
   }
@@ -398,6 +399,94 @@ export const getTrainerProfileDetail = async (trainerProfileId: number): Promise
     const message = await getErrorMessage(
       response,
       '내 프로필 조회에 실패하였습니다.'
+    );
+
+    throw new Error(message);
+  }
+
+  return response.json();
+}
+
+
+export const getInbody = async () => {
+  const response = await fetchWithAuth(`/api/inbody`);
+
+  if (!response.ok) {
+    const message = await getErrorMessage(
+      response,
+      '내 인바디 조회에 실패하였습니다.'
+    );
+
+    throw new Error(message);
+  }
+
+  return response.json();
+}
+
+
+export const getInbodyDetail = async (nextMeasuredDate: string, nextInbodyId: number) => {
+  const response = await fetchWithAuth(`/api/inbody?measuredDate=${nextMeasuredDate}&inbodyId=${nextInbodyId}`);
+
+  if (!response.ok) {
+    const message = await getErrorMessage(
+      response,
+      '내 인바디 상세 조회에 실패하였습니다.'
+    );
+
+    throw new Error(message);
+  }
+
+  return response.json();
+}
+
+
+export const postInbody = async (payload: InbodyRequest) => {
+  const response = await fetchWithAuth(`/api/inbody`, {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+
+  if (!response.ok) {
+    const message = await getErrorMessage(
+      response,
+      '내 인바디 등록에 실패하였습니다.'
+    );
+
+    throw new Error(message);
+  }
+
+  return response.json();
+}
+
+
+export const patchInbody = async (inbodyId: number, payload: InbodyRequest) => {
+  const response = await fetchWithAuth(`/api/inbody/${inbodyId}`, {
+    method: "PATCH",
+    body: JSON.stringify(payload),
+  });
+
+  if (!response.ok) {
+    const message = await getErrorMessage(
+      response,
+      '내 인바디 수정에 실패하였습니다.'
+    );
+
+    throw new Error(message);
+  }
+
+  return response.json();
+}
+
+
+export const deleteInbody = async (inbodyId: number) => {
+  const response = await fetchWithAuth(`/api/inbody/${inbodyId}`, {
+    method: "DELETE",
+  });
+
+  if (!response.ok) {
+    const message = await getErrorMessage(
+      response,
+      '내 인바디 삭제에 실패하였습니다.'
     );
 
     throw new Error(message);
