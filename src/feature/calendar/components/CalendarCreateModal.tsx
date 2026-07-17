@@ -13,6 +13,7 @@ type CalendarCreateModalProps = {
     isModal: boolean;
     closeModal: () => void;
     selectedSettingDate: string;
+    openCheck: () => void;
 } & (
         {
             mode?: "create";
@@ -31,7 +32,7 @@ interface Set {
     reps: number;
 }
 
-export default function CalendarCreateModal({ isModal, closeModal, selectedSettingDate, data, mode = 'create' }: CalendarCreateModalProps) {
+export default function CalendarCreateModal({ isModal, closeModal, selectedSettingDate, openCheck, data, mode = 'create' }: CalendarCreateModalProps) {
 
     const [exerciseSet, setExerciseSet] = useState<Set[]>(data ? data.sets : [{
         setOrder: 1,
@@ -60,6 +61,8 @@ export default function CalendarCreateModal({ isModal, closeModal, selectedSetti
         currentPart.current = selectPart;
         setExerciseName({ searchExercise: '', selectExercise: '' });
     }
+
+    const isFirstRender = useRef(true);
 
     const {
         data: exerciseData = [],
@@ -100,6 +103,7 @@ export default function CalendarCreateModal({ isModal, closeModal, selectedSetti
             // 지금 날짜 캐시 무효화
 
             closeModal();
+            openCheck();
         },
     });
 
@@ -109,7 +113,6 @@ export default function CalendarCreateModal({ isModal, closeModal, selectedSetti
     };
 
     if (!isModal) return null;
-    console.log(data)
     return (
         <section
             className="z-999 bg-black/50 fixed top-0 left-0 w-screen h-screen"
@@ -119,7 +122,7 @@ export default function CalendarCreateModal({ isModal, closeModal, selectedSetti
                     event.preventDefault();
                     createMutation.mutate(new FormData(event.currentTarget));
                 }}
-                className="bg-gradient-to-br from-[#101828] to-[#000] w-4/5 max-h-120 sm:w-md sm:h-100 md:w-lg md:h-120 lg:w-3xl rounded-2xl border border-[#1E2939] z-1000 fixed top-1/2 left-1/2 p-6 flex -translate-x-1/2 -translate-y-1/2 flex-col justify-between
+                className="bg-gradient-to-br from-[#101828] to-[#000] w-4/5 max-h-120 sm:w-md sm:h-100 md:w-lg md:h-120 lg:w-lg rounded-2xl border border-[#1E2939] z-1000 fixed top-1/2 left-1/2 p-6 flex -translate-x-1/2 -translate-y-1/2 flex-col justify-between
                 overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
                 onClick={(e) => { e.stopPropagation(); setIsSelect(false) }}>
                 <article>
