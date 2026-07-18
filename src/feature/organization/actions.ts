@@ -1,6 +1,8 @@
 "use server";
 
 import {
+  getOrganizationPtCourses,
+  getOrganizationPtStudents,
   getOrganizationSales,
   getOrganizationStats,
   getOrganizationTrainerStats,
@@ -78,6 +80,31 @@ export const getOrganizationTrainerStatsAction = async () => {
 
     return {
       success: false,
+      message: errorMessage,
+    };
+  }
+};
+
+export const getOrganizationPtCoursesAction = async () => {
+    return await getOrganizationPtCourses();
+};
+
+export const getOrganizationPtStudentsAction = async (ptCourseId: number) => {
+  try {
+    const response = await getOrganizationPtStudents(ptCourseId);
+
+    return {
+      success: true as const,
+      data: response.data,
+    };
+  } catch (error) {
+    let errorMessage = "PT 수강생 목록 조회에 실패하였습니다.";
+    if (error instanceof Error) {
+      errorMessage = error.message;
+    }
+
+    return {
+      success: false as const,
       message: errorMessage,
     };
   }

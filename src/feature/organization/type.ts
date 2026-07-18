@@ -73,3 +73,34 @@ export interface OrganizationTrainerStatsData {
   clientCount: number;
   ptCount: number;
 }
+
+export interface OrganizationPtCourseResponse {
+  status: number;
+  code: string;
+  message: string;
+  data: OrganizationPtCourseData[];
+}
+
+export interface OrganizationPtCourseData {
+  ptCourseId: number;
+  title: string;
+  price: number;
+  totalSessionCount: number;
+  status: "VISIBLE" | "HIDDEN";
+  trainerName: string;
+  currentStudentCount: number;
+}
+
+export interface OrganizationPtStudentsResponse {
+  status: number;
+  code: string;
+  message: string;
+  data: OrganizationPtStudentData[];
+}
+
+export interface OrganizationPtStudentData {
+  userName: string;
+  enrolledAt: string;
+  progressCount: number;
+  totalSessionCount: number;
+}
