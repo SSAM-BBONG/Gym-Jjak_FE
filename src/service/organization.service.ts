@@ -1,4 +1,6 @@
 import {
+  OrganizationPtCourseResponse,
+  OrganizationPtStudentsResponse,
   OrganizationSalesResponse,
   OrganizationStatsResponse,
   OrganizationTrainerStatsResponse,
@@ -52,6 +54,48 @@ export const getOrganizationTrainerStats = async (): Promise<OrganizationTrainer
     const message = await getErrorMessage(
       response,
       "트레이너별 통계 조회에 실패하였습니다."
+    );
+
+    throw new Error(message);
+  }
+
+  return response.json();
+};
+
+export const getOrganizationPtCourses = async (): Promise<OrganizationPtCourseResponse> => {
+  const response = await fetchWithAuth(
+    "/api/dashboard/organization/pt-courses",
+    {
+      cache: "no-store",
+    }
+  );
+
+  if (!response.ok) {
+    const message = await getErrorMessage(
+      response,
+      "조직 PT 목록 조회에 실패하였습니다."
+    );
+
+    throw new Error(message);
+  }
+
+  return response.json();
+};
+
+export const getOrganizationPtStudents = async (
+  ptCourseId: number
+): Promise<OrganizationPtStudentsResponse> => {
+  const response = await fetchWithAuth(
+    `/api/dashboard/organization/pt-courses/${ptCourseId}/students`,
+    {
+      cache: "no-store",
+    }
+  );
+
+  if (!response.ok) {
+    const message = await getErrorMessage(
+      response,
+      "PT 수강생 목록 조회에 실패하였습니다."
     );
 
     throw new Error(message);
