@@ -1,5 +1,6 @@
 import { MypageInbody, MypageOnboarding } from "@/components/ui/image";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function MypageInbodyInformation() {
   return (
@@ -46,9 +47,9 @@ export default function MypageInbodyInformation() {
         <p className="text-[12px] font-medium text-[#99A1AF]">
           키, 몸무게, 체지방률 등을 기록하세요
         </p>
-        <button className="px-4 py-2 text-[14px] font-bold text-black bg-[#BFFF0B] rounded-[16px]">
+        <Link href='/mypage/inbody' className="px-4 py-2 text-[14px] font-bold text-black bg-[#BFFF0B] rounded-[16px]">
           입력하기
-        </button>
+        </Link>
       </div>
     </div>
   );
