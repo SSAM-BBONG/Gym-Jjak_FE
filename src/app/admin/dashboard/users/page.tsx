@@ -3,6 +3,7 @@ import { PtZonePtManage } from "@/components/ui/image";
 import PieChart from "@/components/ui/PieChart";
 import AdminDashboardCard from "@/feature/admin/components/AdminDashboardCard";
 import { getUserDashboard } from "@/service/admin.service";
+import { TostTest } from "./TostTest";
 
 export default async function Page() {
     // const response = await getUserDashboard();
@@ -20,6 +21,7 @@ export default async function Page() {
             <section className="flex">
                 {/* <BarChart monthData={monthlyUsers} mode='회원'/>
                 <PieChart userSituation={dashboard} /> */}
+                <TostTest />
             </section>
         </section>
     );

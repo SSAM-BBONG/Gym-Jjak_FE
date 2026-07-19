@@ -29,7 +29,6 @@ export default function CalendarAddButton({ selectedSettingDate }: { selectedSet
                 isModal={modal.isModal}
                 closeModal={modal.closeModal}
                 selectedSettingDate={selectedSettingDate}
-                openCheck={checkModal.openModal}
             />}
             <OneButtonModal
                 isModal={checkModal.isModal}

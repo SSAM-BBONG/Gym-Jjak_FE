@@ -99,10 +99,6 @@ export const calendarPatchAction = async (diaryId: number, formData: FormData): 
         }
     }
 
-
-
-
-
     const sets: ExerciseSet[] = kgs.map((kg, index) => {
         return { setOrder: index + 1, weight: Number(kg), reps: Number(reps[index]) }
     })

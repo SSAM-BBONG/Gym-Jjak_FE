@@ -5,17 +5,17 @@ import Image from "next/image";
 import CalendarSetRead from "./CalendarSetRead";
 import useModal from "@/components/hooks/useModal";
 import TwoButtonModal from "@/components/ui/TwoButtonModal";
+import { toast } from "sonner";
 
 interface CalendarViewModalProps {
     isModal: boolean;
     closeModal: () => void;
     activeModal: () => void;
-    openDelete: () => void;
     data: Diary;
 }
 
 
-export default function CalendarViewModal({ isModal, closeModal, activeModal, openDelete, data }: CalendarViewModalProps) {
+export default function CalendarViewModal({ isModal, closeModal, activeModal, data }: CalendarViewModalProps) {
 
     const queryClient = useQueryClient();
 
@@ -33,7 +33,7 @@ export default function CalendarViewModal({ isModal, closeModal, activeModal, op
             });
 
             closeModal();
-            openDelete();
+            toast.success("일지가 삭제되었습니다")
         },
     });
 

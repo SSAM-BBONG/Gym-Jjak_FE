@@ -1,4 +1,4 @@
-interface Reposts {
+interface Reports {
     reportGroupId: number
     reportNumber: string,
     targetType: string,
@@ -8,7 +8,7 @@ interface Reposts {
     reportedAt: Date,
     effectiveReportCount: number,
     status: '대기중' | '반려' | '처리완료',
-    navigationType: string
+    navigationType: 'PAGE' | 'MODAL'
 }
 
 
@@ -64,7 +64,7 @@ interface TrainerApplications {
 }
 
 interface ReportResponse {
-    reports: Reposts[]
+    reports: Reports[]
 }
 
 
@@ -154,7 +154,7 @@ interface Trainers {
 }
 
 interface UserStatusRequest {
-    status: 'ETERNAL' | 'ACTIVE' | 'DAY_7';
+    status: 'ETERNAL' | 'ACTIVE' | 'DAY_7' | 'WITHDRAWN';
     reason: string;
 }
 

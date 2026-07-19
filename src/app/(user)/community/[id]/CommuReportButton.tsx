@@ -8,10 +8,10 @@ import { createReportAction } from "@/feature/admin/action";
 import Image from "next/image";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 export default function CommuReportButton({ title, targetId }: { title: string, targetId: number }) {
     const reportModal = useModal();
-    const checkModal = useModal();
 
     const [reportState, setReportState] = useState<{ success: boolean, message: string }>({
         success: false,
@@ -32,29 +32,22 @@ export default function CommuReportButton({ title, targetId }: { title: string, 
     });
 
 
-    const onSubmit = async (data: {
-        detail: string,
-        reason: "SPAM" | "ADVERTISEMENT" | "ABUSE" | "SEXUAL_CONTENT" | "FRAUD" | "PRIVACY_EXPOSURE" | "ETC";
-    }) => {
+    const onSubmit = async (data: { detail: string, reason: "SPAM" | "ADVERTISEMENT" | "ABUSE" | "SEXUAL_CONTENT" | "FRAUD" | "PRIVACY_EXPOSURE" | "ETC" }) => {
         const formData = new FormData();
         formData.set('detail', data.detail);
         formData.set('reason', data.reason);
 
         try {
             const result = await createReportAction(targetId, "POST", formData);
-            setReportState(result);
             if (result.success) {
                 reset();
                 reportModal.closeModal();
-                checkModal.openModal();
+                toast.success(result.message)
+                return;
             }
+            setReportState(result);
         } catch (error) {
-            setReportState({
-                success: false,
-                message: `네트워크 오류입니다\n다시 시도해주세요`
-            });
-            reportModal.closeModal();
-            checkModal.openModal();
+            toast.error('네트워크 오류입니다')
         }
     }
 
@@ -82,12 +75,6 @@ export default function CommuReportButton({ title, targetId }: { title: string, 
                 handleSubmit={handleSubmit}
                 register={register}
                 isSubmitting={isSubmitting}
-            />
-            <OneButtonModal
-                isModal={checkModal.isModal}
-                closeModal={checkModal.closeModal}
-                title="신고 접수"
-                content={reportState.message}
             />
         </>
     );

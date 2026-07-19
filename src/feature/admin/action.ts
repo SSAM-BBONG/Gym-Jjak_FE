@@ -2,11 +2,9 @@
 
 import { approvalTrainerApplication, createExercises, deleteExercises, getExercises, getOrganizationDetailAdmin, getTrainerApplicationsById, getTrainerDetail, patchUserStatus, rejectTrainerApplication, updateExercises } from "@/service/admin.service";
 import { approvalOrganization, approvalReport, createReport, getOrganizationApplicationDetailAdmin, getReportPtbyId, rejectOrganization, rejectReport } from "@/service/report.service"
-import { redirect } from "next/navigation";
-
 interface ActionState {
     success: boolean;
-    message?: string;
+    message: string;
 }
 
 export const OrganizationApplicationAdminDetailAction = async (organizationId: number) => {
@@ -85,28 +83,38 @@ export const ReportRejectAction = async (reportGroupId: number, reportId: number
 
 }
 
-export const organizationApprovalAction = async (applicationId: number) => {
+export const organizationApprovalAction = async (applicationId: number): Promise<ActionState> => {
     try {
         await approvalOrganization(applicationId);
+
+        return {
+            success: true,
+            message: '기관 승인이 완료되었습니다',
+        }
     } catch (error) {
         let errorMessage: string = '알 수 없는 오류입니다. 재시도해주세요.'
         if (error instanceof Error) {
             errorMessage = error.message;
         }
 
-        throw new Error(errorMessage)
+        return {
+            success: false,
+            message: errorMessage,
+        }
     }
-
-    redirect('/admin/approvals/organizations?page=1')
 }
 
 
 
-export const organizationRejectAction = async (applicationId: number, formData: FormData) => {
-    const reason = formData.get('reason') as string;
+export const organizationRejectAction = async (applicationId: number, formData: FormData): Promise<ActionState> => {
+    const reasonValue = formData.get('reason');
+    const reason = typeof reasonValue === 'string' ? reasonValue.trim() : '';
 
-    if (!reason.trim()) {
-        return;
+    if (!reason) {
+        return {
+            success: false,
+            message: '반려 사유를 입력해주세요',
+        }
     }
 
     const payload = {
@@ -116,63 +124,102 @@ export const organizationRejectAction = async (applicationId: number, formData: 
     try {
         await rejectOrganization(applicationId, payload);
 
+        return {
+            success: true,
+            message: '기관 반려가 완료되었습니다',
+        }
     } catch (error) {
         let errorMessage: string = '알 수 없는 오류입니다. 재시도해주세요.'
         if (error instanceof Error) {
             errorMessage = error.message;
         }
 
-        throw new Error(errorMessage)
+        return {
+            success: false,
+            message: errorMessage,
+        }
     }
-
-    redirect('/admin/approvals/organizations?page=1')
 }
 
 
 
-export const deleteExerciseAction = async (exerciseId: number) => {
+export const deleteExerciseAction = async (exerciseId: number): Promise<ActionState> => {
     try {
         await deleteExercises(exerciseId);
+
+        return {
+            success: true,
+            message: '운동 종류가 삭제되었습니다',
+        }
     } catch (error) {
         let errorMessage: string = '알 수 없는 오류입니다. 재시도해주세요.'
         if (error instanceof Error) {
             errorMessage = error.message;
         }
 
-        throw new Error(errorMessage)
+        return {
+            success: false,
+            message: errorMessage,
+        }
     }
-
-
-    redirect('/admin/systems/exercises')
 }
 
 
-export const createExerciseAction = async (formData: FormData) => {
-    const part = formData.get('part') as PartKo;
-    const exerciseName = formData.get('exerciseName') as string;
+export const createExerciseAction = async (formData: FormData): Promise<ActionState> => {
+    const partValue = formData.get('part');
+    const exerciseNameValue = formData.get('exerciseName');
+    const part = typeof partValue === 'string' ? partValue : '';
+    const exerciseName = typeof exerciseNameValue === 'string' ? exerciseNameValue.trim() : '';
+
+    if (!part) {
+        return {
+            success: false,
+            message: '운동 부위를 선택해주세요',
+        }
+    }
+
+    if (!exerciseName) {
+        return {
+            success: false,
+            message: '운동 이름을 입력해주세요',
+        }
+    }
+
     const payload: ExerciseRequest = {
-        part, exerciseName
+        part: part as PartKo,
+        exerciseName
     }
 
     try {
         await createExercises(payload);
+
+        return {
+            success: true,
+            message: '운동 종류가 등록되었습니다',
+        }
     } catch (error) {
         let errorMessage: string = '알 수 없는 오류입니다. 재시도해주세요.'
         if (error instanceof Error) {
             errorMessage = error.message;
         }
 
-        throw new Error(errorMessage)
+        return {
+            success: false,
+            message: errorMessage,
+        }
     }
-
-    redirect(`/admin/systems/exercises?part=하체`)
-
 }
 
 
-export const updateExerciseAction = async (id: number, formData: FormData) => {
+export const updateExerciseAction = async (id: number, formData: FormData): Promise<ActionState> => {
     const exerciseName = formData.get('exerciseName') as string;
-    const part = formData.get('part') as PartKo;
+
+    if (!exerciseName.trim()) {
+        return {
+            success: false,
+            message: '운동 이름을 입력해주세요',
+        }
+    }
 
     const payload: ExerciseUpdateRequest = {
         exerciseName
@@ -180,23 +227,27 @@ export const updateExerciseAction = async (id: number, formData: FormData) => {
 
     try {
         await updateExercises(id, payload);
+
+        return {
+            success: true,
+            message: '운동 종류가 수정되었습니다',
+        }
     } catch (error) {
         let errorMessage: string = '알 수 없는 오류입니다. 재시도해주세요.'
         if (error instanceof Error) {
             errorMessage = error.message;
         }
 
-        throw new Error(errorMessage)
+        return {
+            success: false,
+            message: errorMessage,
+        }
     }
-
-    redirect(`/admin/systems/exercises?part=하체`)
-
 }
 
 
 export const changeUserStatusAction = async (
     applicationId: number,
-    prevState: ActionState,
     formData: FormData
 ) => {
     const reason = formData.get('reason') as string;
@@ -249,19 +300,25 @@ export const TrainerApplicationAdminDetailAction = async (applicationId: number)
     }
 }
 
-export const approvalTrainerApplicationAction = async (trainerApplicationId: number) => {
+export const approvalTrainerApplicationAction = async (trainerApplicationId: number): Promise<ActionState> => {
     try {
         await approvalTrainerApplication(trainerApplicationId);
+
+        return {
+            success: true,
+            message: '트레이너 승인이 완료되었습니다',
+        }
     } catch (error) {
         let errorMessage: string = '알 수 없는 오류입니다. 재시도해주세요.'
         if (error instanceof Error) {
             errorMessage = error.message;
         }
 
-        throw new Error(errorMessage)
+        return {
+            success: false,
+            message: errorMessage,
+        }
     }
-
-    redirect('/admin/approvals/trainers');
 }
 
 

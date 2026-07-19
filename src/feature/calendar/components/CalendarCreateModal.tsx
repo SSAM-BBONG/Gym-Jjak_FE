@@ -4,16 +4,16 @@ import { CloseButton } from "@/components/ui/image";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { calendargetExeriseAction, calendarPatchAction, calendarPostAction } from "../action";
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import CalendarSet from "./CalendarSet";
 import PartSelecter from "@/components/ui/PartSelecter";
 import CalendarNameSelecter from "./CalendarNameSelecter";
+import { toast } from "sonner";
 
 type CalendarCreateModalProps = {
     isModal: boolean;
     closeModal: () => void;
     selectedSettingDate: string;
-    openCheck: () => void;
 } & (
         {
             mode?: "create";
@@ -32,7 +32,7 @@ interface Set {
     reps: number;
 }
 
-export default function CalendarCreateModal({ isModal, closeModal, selectedSettingDate, openCheck, data, mode = 'create' }: CalendarCreateModalProps) {
+export default function CalendarCreateModal({ isModal, closeModal, selectedSettingDate, data, mode = 'create' }: CalendarCreateModalProps) {
 
     const [exerciseSet, setExerciseSet] = useState<Set[]>(data ? data.sets : [{
         setOrder: 1,
@@ -103,7 +103,7 @@ export default function CalendarCreateModal({ isModal, closeModal, selectedSetti
             // 지금 날짜 캐시 무효화
 
             closeModal();
-            openCheck();
+            toast.success(`일지가 ${result.message}`)
         },
     });
 

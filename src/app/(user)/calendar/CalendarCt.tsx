@@ -8,7 +8,6 @@ import { MainCalendar } from "@/components/ui/mainCalendar";
 import { useQuery } from "@tanstack/react-query";
 import CalendarPtItem from "@/feature/calendar/components/CalendarPtItem";
 import { format } from "date-fns/format";
-import { isSameDay } from "date-fns/isSameDay";
 
 import { calendargetDateAction, calendargetMonthAction } from "@/feature/calendar/action";
 
@@ -45,8 +44,6 @@ export default function CalendarCt() {
         enabled: !!selectedYear && !!selectedMonth && !!selectedDay,
         select: (response) => response.data,
     });
-
-    const currentDate = new Date();
 
     const settingDate = format(selectedDate, "yyyy년 MM월 dd일", {
         locale: ko,

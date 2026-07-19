@@ -1,24 +1,19 @@
 'use client'
 
-import { CommuCommentDeclaration, CommuCommentEdit, CommuCommentRemove } from "@/components/ui/image";
-import Image from "next/image";
 import { CommunityComments } from "../type";
 import { format } from "date-fns";
 import CommuDeleteComent from "./CommuDeleteComment";
 import CommuUpdateComent from "./CommuUpdateComment";
 import { useState } from "react";
-import useModal from "@/components/hooks/useModal";
 import { useForm } from "react-hook-form";
 import { CommentUpdateAction } from "../action";
 import { useRouter } from "next/navigation";
-import OneButtonModal from "@/components/ui/OneButtonModal";
 import ReportButton from "@/components/ui/ReportButton";
+import { toast } from "sonner";
 
 export default function CommuCommentCard({ comment }: { comment: CommunityComments }) {
   const [updateMode, setUpdateMode] = useState<boolean>(false);
-  const [commentState, setCommentState] = useState<string>('');
   const router = useRouter();
-  const modal = useModal();
 
   const {
     register,
@@ -30,26 +25,21 @@ export default function CommuCommentCard({ comment }: { comment: CommunityCommen
   });
 
   const onSubmit = async (data: { comment: string }) => {
-    if (!data.comment.trim()) {
-      return;
-    }
-
     const formData = new FormData();
     formData.set('comment', data.comment);
 
     try {
       const response = await CommentUpdateAction(comment.commentId, formData);
-      if (response) {
-        setCommentState(response)
-        modal.openModal();
+      if (!response.success) {
+        toast.error(response.message)
         return;
       }
       setUpdateMode(false);
+      toast.success(response.message)
       reset();
       router.refresh();
     } catch (error) {
-      setCommentState(`네트워크 오류입니다\n다시 시도해주세요`);
-      modal.openModal();
+      toast.success("네트워크 오류입니다")
     }
   }
 
@@ -99,12 +89,6 @@ export default function CommuCommentCard({ comment }: { comment: CommunityCommen
         <p className="text-[12px] md:text-[14px] font-normal text-[#D1D5DC]"> {comment.content}</p>
       )
       }
-      <OneButtonModal
-        isModal={modal.isModal}
-        closeModal={modal.closeModal}
-        title="댓글 수정"
-        content={commentState}
-      />
     </div >
   );
 }

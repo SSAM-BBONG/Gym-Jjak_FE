@@ -38,7 +38,6 @@ export default function ApprovalsAdminDropDown() {
             </div>
             <ul hidden={dropDownView} className="px-4">
                 <li><AdminNavLink href="/admin/approvals/organizations?page=0">조직 승인</AdminNavLink></li>
-                <li><AdminNavLink href="/admin/approvals/trainers?page=0">트레이너 승인</AdminNavLink></li>
             </ul>
         </section>
     );

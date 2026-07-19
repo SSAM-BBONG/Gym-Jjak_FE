@@ -7,6 +7,8 @@ import { approvalTrainerApplicationAction } from "../action";
 import TrainerDetailModal from "./modals/TrainerDatailModal";
 import TrainerRejectModal from "./modals/TrainerRejectModal";
 import Image from "next/image";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 interface DetailButtonMode {
     mode: 'trainerView' | 'trainerApprove';
@@ -14,6 +16,7 @@ interface DetailButtonMode {
 }
 
 export default function TrainerDetailButton({ mode, trainerId }: DetailButtonMode) {
+    const router = useRouter();
 
 
     //트레이너, 조직에서 승인 버튼 누름
@@ -28,7 +31,19 @@ export default function TrainerDetailButton({ mode, trainerId }: DetailButtonMod
 
     //정말 승인할건지 물어봄
     const handleApproval = async () => {
-        await approvalTrainerApplicationAction(trainerId);
+        try {
+            const response = await approvalTrainerApplicationAction(trainerId);
+
+            if (!response.success) {
+                toast.error(response.message);
+                return;
+            }
+
+            toast.success(response.message);
+            router.push("/admin/approvals/organizations?page=1");
+        } catch (error) {
+            toast.error("네트워크 오류입니다. 다시 시도해주세요.");
+        }
     }
 
     const approvalModal = useModal(handleApproval);
