@@ -149,12 +149,25 @@ export interface PtRegistData {
 export interface PtRegistRequest {
   title: string;
   description: string;
-  categoryId: number;
-  tagId: number;
+  part: Part;
   price: number;
   thumbnailFile: TrainerFileData;
   curriculums: PtRegistCurriculum[];
   schedules: PtRegistSchedule[];
+  organizationId: number;
+}
+
+export interface PtRegistOrganizationListResponse {
+  status: number;
+  code: string;
+  message: string;
+  data: PtRegistOrganizationData[];
+}
+
+export interface PtRegistOrganizationData {
+  organizationId: number;
+  businessName: string;
+  roadAddress: string;
 }
 
 // PT 등록 커리큘럼 타입

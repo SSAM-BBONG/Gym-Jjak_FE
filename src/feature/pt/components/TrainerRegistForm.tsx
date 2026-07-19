@@ -15,6 +15,7 @@ import { success } from "zod";
 import useModal from "@/components/hooks/useModal";
 import { useState } from "react";
 import OneButtonModal from "@/components/ui/OneButtonModal";
+import TrainerAffiliatedGym from "./TrainerAffiliatedGym";
 
 interface TrainerRegistFormProps {
   mode?: "create" | "edit";
@@ -135,6 +136,8 @@ const onSubmit: SubmitHandler<TrainerRegistFormValue> = async (values) => {
             initialData = {initialData}
             mode={mode}       
             />
+
+            <TrainerAffiliatedGym/>
 
             <TrainerRegistSelfIntroduction
             register={register}
