@@ -1,8 +1,12 @@
-import InbodyCt from "./InbodyCt";
+import { getInbody } from "@/service/mypage.service";
 import InbodyForm from "./InbodyForm";
-import NoneInbodyCt from "./NoneInbodyCt";
+import { Inbody } from "@/feature/mypage/type";
+import InbodyListCt from "./InbodyListCt";
 
-export default function Page() {
+export default async function Page() {
+    const response = await getInbody();
+    const inbodies: Inbody[] = response.data.inbodies;
+
     return (
         <div className="flex flex-col px-40 gap-2 pt-10">
             <div className="flex justify-between items-center">
@@ -19,12 +23,9 @@ export default function Page() {
                 <article className="w-full min-h-80 rounded-[16px] border border-[#36415380] bg-[#101828] p-6">
                     <div className="flex justify-between">
                         <h3 className="mb-4 font-bold text-[18px] text-white">측정 기록</h3>
-                        <p className="text-[#FF6467] font-normal text-sm">+61.0kg</p>
+                        <p className="text-[#FF6467] font-normal text-sm">{Number(inbodies[0].bmiChange) > 0 && '+'}{inbodies[0].bmiChange}</p>
                     </div>
-                    <NoneInbodyCt />
-                    <InbodyCt />
-
-
+                    <InbodyListCt response={response} />
                 </article>
             </section>
         </div>
