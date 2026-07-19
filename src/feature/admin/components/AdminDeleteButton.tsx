@@ -5,14 +5,26 @@ import { AdminDeleteImg } from "@/components/ui/image";
 import TwoButtonModal from "@/components/ui/TwoButtonModal";
 import { deleteExerciseAction } from "../action";
 import Image from "next/image";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 export default function AdminDeleteButton({ id }: { id: number }) {
-
-    const handleDelete = async () => {
-        await deleteExerciseAction(id);
-    }
-
     const modal = useModal(handleDelete);
+    const router = useRouter();
+
+    async function handleDelete() {
+        try {
+            const response = await deleteExerciseAction(id);
+            if (!response.success) {
+                toast.error(response.message)
+                return;
+            }
+            toast.success(response.message)
+            router.refresh();
+        } catch (error) {
+            toast.error('네트워크 오류입니다')
+        }
+    }
 
     return (
         <>

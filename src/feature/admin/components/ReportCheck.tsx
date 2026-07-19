@@ -4,11 +4,11 @@ import useModal from "@/components/hooks/useModal";
 import CheckReportModal from "./modals/CheckReportModal";
 import { DetailButtonImg } from "@/components/ui/image";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 
 export default function ReportCheck({ reportGroupId }: { reportGroupId: number }) {
-
-
+    const route = useRouter();
     const modal = useModal();
 
     return (
@@ -28,9 +28,7 @@ export default function ReportCheck({ reportGroupId }: { reportGroupId: number }
             {modal.isModal &&
                 <CheckReportModal
                     isModal={modal.isModal}
-                    closeModal={modal.closeModal}
-                    activeModal={modal.activeModal}
-                    noneActiveModal={modal.noneActiveModal}
+                    closeModal={() => { modal.closeModal(); route.refresh(); }}
                     reportGroupId={reportGroupId}
                 />
             }

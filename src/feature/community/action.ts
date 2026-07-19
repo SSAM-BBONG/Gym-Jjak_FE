@@ -72,7 +72,7 @@ export const commentAction = async (postId: number, formData: FormData): Promise
 
     return {
         success: true,
-        message: '성공'
+        message: '댓글이 등록되었습니다'
     }
 }
 
@@ -112,7 +112,14 @@ export const CommentDeleteAction = async (commentId: number) => {
             errorMessage = error.message;
         }
 
-        return errorMessage;
+        return {
+            success: false,
+            message: errorMessage
+        }
+    }
+    return {
+        success: true,
+        message: '댓글이 삭제되었습니다'
     }
 }
 
@@ -121,7 +128,10 @@ export const CommentUpdateAction = async (commentId: number, formData: FormData)
     const content = formData.get('comment') as string;
 
     if (!content.trim()) {
-        return '값을 입력해주세요'
+        return {
+            success: false,
+            message: '값을 입력해주세요'
+        }
     }
 
     const payload: CommentRequest = { content }
@@ -133,7 +143,14 @@ export const CommentUpdateAction = async (commentId: number, formData: FormData)
             errorMessage = error.message;
         }
 
-        return errorMessage
+        return {
+            success: false,
+            message: errorMessage
+        }
+    }
+    return {
+        success: true,
+        message: '댓글이 수정되었습니다'
     }
 }
 
@@ -147,7 +164,14 @@ export const CommunityDeleteAction = async (postId: number) => {
             errorMessage = error.message;
         }
 
-        return errorMessage;
+        return {
+            success: false,
+            message: errorMessage
+        }
+    }
+    return {
+        success: true,
+        message: '게시글이 삭제되었습니다'
     }
 }
 

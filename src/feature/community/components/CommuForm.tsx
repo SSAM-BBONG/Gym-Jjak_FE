@@ -1,24 +1,15 @@
 'use client'
 
-import useModal from "@/components/hooks/useModal";
 import { format } from "date-fns";
-import { useState } from "react";
 import { communityAction, communityUpdateAction } from "../action";
-import OneButtonModal from "@/components/ui/OneButtonModal";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { Community } from "../type";
+import { toast } from "sonner";
 
 export default function CommuForm({ post }: { post?: Community }) {
     const route = useRouter();
     const today = new Date();
-
-    const [commuState, setCommuState] = useState<{ success: boolean, message: string }>({
-        success: false,
-        message: ''
-    });
-
-    const modal = useModal(() => { commuState.success && route.push('/community?page=0') });
 
     const {
         register,
@@ -43,14 +34,14 @@ export default function CommuForm({ post }: { post?: Community }) {
             } else {
                 result = await communityAction(formData)
             }
-            setCommuState(result);
-            modal.openModal();
+            if (result.success) {
+                toast.success(result.message)
+                result.success && route.push('/community?page=0')
+            } else {
+                toast.error(result.message)
+            }
         } catch (error) {
-            setCommuState({
-                success: false,
-                message: '네트워크 연결이 원활하지 않습니다.'
-            });
-            modal.openModal();
+            toast.error('네트워크 연결이 원활하지 않습니다.')
 
         }
     }
@@ -106,13 +97,6 @@ export default function CommuForm({ post }: { post?: Community }) {
                 bg-[#BFFF0B] rounded-[5px] md:rounded-[10px] text-[12px] md:text-[16px] text-black  flex items-center justify-center font-semibold md:font-extrabold px-5 py-2 hover:cursor-pointer  w-full  md:w-40  mt-auto  ml-auto"
                 >{post?.postId ? '수정완료' : '작성완료'}</button>
             </div>
-            <OneButtonModal
-                isModal={modal.isModal}
-                closeModal={modal.activeModal}
-                activeModal={modal.activeModal}
-                title="커뮤니티"
-                content={commuState.message}
-            />
         </form>
     );
 }

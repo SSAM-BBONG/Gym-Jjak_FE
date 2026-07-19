@@ -2,24 +2,15 @@
 
 import useModal from "@/components/hooks/useModal";
 import { sendButton } from "@/components/ui/image";
-import OneButtonModal from "@/components/ui/OneButtonModal";
 import { commentAction } from "@/feature/community/action";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 export default function CommentBar({ postId }: { postId: number }) {
 
-    const [commentState, setCommentState] = useState<{ success: boolean, message: string }>({
-        success: false,
-        message: ''
-    });
-
     const router = useRouter();
-
-    const modal = useModal();
-
     const {
         register,
         handleSubmit,
@@ -30,27 +21,21 @@ export default function CommentBar({ postId }: { postId: number }) {
     });
 
     const onSubmit = async (data: { comment: string }) => {
-        if (!data.comment.trim()) {
-            return;
-        }
         const formData = new FormData();
         formData.set('comment', data.comment);
         try {
             const result = await commentAction(postId, formData);
             if (!result?.success) {
-                setCommentState(result);
-                modal.openModal();
+                toast.error(result.message)
                 return;
             }
 
             reset();
+            toast.success(result.message)
             router.refresh();
         } catch (error) {
-            setCommentState({
-                success: false,
-                message: `네트워크 오류입니다\n다시 시도해주세요`
-            });
-            modal.openModal();
+            toast.error('네트워크 오류입니다')
+
         }
 
     }
@@ -78,12 +63,6 @@ export default function CommentBar({ postId }: { postId: number }) {
                     />
                 </button>
             </form>
-            <OneButtonModal
-                isModal={modal.isModal}
-                closeModal={modal.closeModal}
-                title="댓글"
-                content={commentState.message}
-            />
         </div>
     );
 }

@@ -2,6 +2,7 @@ import ReportReason from "../ReportReason";
 import ReportDetailStatus from "../ReportDetailStatus";
 import { ReportApprovalAction, ReportPtDetailAction, ReportRejectAction } from "../../action";
 import { useState } from "react";
+import { format } from "date-fns";
 
 interface ReportDetailFormProps {
     // activeModal: () => void;
@@ -37,7 +38,7 @@ export default function ReportDetailForm({ report, reportGroupId }: ReportDetail
             >
                 {reportState.detail}
             </div>
-            <p className="text-end p-2 text-[10px] md:text-sm">{reportState.reportedAt}</p>
+            <p className="text-end p-2 text-[10px] md:text-sm">{format(reportState.reportedAt, 'yyyy-MM-dd')}</p>
             {reportState.status === '대기' &&
                 <article className='flex gap-3'>
                     <button
