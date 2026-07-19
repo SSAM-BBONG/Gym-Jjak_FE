@@ -48,46 +48,73 @@ type MyPtReservationDetailActionResult =
 
 // PT 등록 액션
 export const createPtRegistAction = async (formData: FormData) => {
-  const thumbnailFile = formData.get("thumbnailFile");
+  try {
+    const thumbnailFile = formData.get("thumbnailFile");
 
-  if (!(thumbnailFile instanceof File) || thumbnailFile.size === 0) {
+    if (!(thumbnailFile instanceof File) || thumbnailFile.size === 0) {
+      return {
+        success: false,
+        message: "썸네일 이미지를 등록해주세요.",
+      };
+    }
+
+    const part = String(formData.get("part") ?? "");
+    const organizationId = Number(formData.get("organizationId"));
+    const parts: Part[] = ["CHEST", "BACK", "SHOULDER", "ARM", "ABS", "CORE", "LEG", "GLUTE", "FULL_BODY"];
+
+    if (!parts.includes(part as Part)) {
+      return {
+        success: false,
+        message: "운동 부위를 선택해주세요.",
+      };
+    }
+
+    if (!Number.isInteger(organizationId) || organizationId <= 0) {
+      return {
+        success: false,
+        message: "소속 헬스장을 선택해주세요.",
+      };
+    }
+
+    const [uploadedThumbnailFile] = await uploadFilesPresignedUrl([
+      {
+        file: thumbnailFile,
+        fileType: "PT_THUMBNAIL",
+      },
+    ]);
+
+    const curriculums = JSON.parse(
+      String(formData.get("curriculums") ?? "[]")
+    ) as PtRegistCurriculumFormData[];
+
+    const schedules = JSON.parse(
+      String(formData.get("schedules") ?? "[]")
+    ) as PtRegistSchedule[];
+
+    const payload: PtRegistRequest = {
+      title: String(formData.get("title") ?? "").trim(),
+      description: String(formData.get("description") ?? "").trim(),
+      part: part as Part,
+      price: Number(formData.get("price")),
+      thumbnailFile: uploadedThumbnailFile,
+      curriculums: curriculums.map((curriculum, index) => ({
+        sessionNo: index + 1,
+        title: curriculum.title,
+        content: curriculum.content,
+      })),
+      schedules,
+      organizationId,
+    };
+
+    await createPtCourse(payload);
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "PT 등록에 실패하였습니다.";
+
     return {
       success: false,
-      message: "썸네일 이미지를 등록해주세요.",
+      message,
     };
   }
-
-  const [uploadedThumbnailFile] = await uploadFilesPresignedUrl([
-    {
-      file: thumbnailFile,
-      fileType: "PT_THUMBNAIL",
-    },
-  ]);
-
-  const curriculums = JSON.parse(
-    String(formData.get("curriculums") ?? "[]")
-  ) as PtRegistCurriculumFormData[];
-
-  const schedules = JSON.parse(
-    String(formData.get("schedules") ?? "[]")
-  ) as PtRegistSchedule[];
-
-  const payload: PtRegistRequest = {
-    title: String(formData.get("title") ?? "").trim(),
-    description: String(formData.get("description") ?? "").trim(),
-    categoryId: Number(formData.get("categoryId")),
-    tagId: Number(formData.get("tagId")),
-    price: Number(formData.get("price")),
-    thumbnailFile: uploadedThumbnailFile,
-    curriculums: curriculums.map((curriculum, index) => ({
-      sessionNo: index + 1,
-      title: curriculum.title,
-      content: curriculum.content,
-    })),
-    schedules,
-  };
-
-  await createPtCourse(payload);
 
   revalidatePath("/pt");
   revalidatePath("/pt/find");
