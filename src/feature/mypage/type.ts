@@ -382,14 +382,6 @@ export interface TrainerProfileDetailResponse {
 
 
 // 인바디
-export interface InbodyRequest {
-  measuredDate: string;
-  height: number;
-  weight: number;
-  bodyFatPercentage: number;
-  skeletalMuscleMass: number;
-}
-
 export interface Inbody {
   inbodyId: number;
   measuredDate: string;
@@ -427,4 +419,11 @@ export interface InbodyUpdateRequest {
   weight: number;
   bodyFatPercentage: number;
   skeletalMuscleMass: number;
+}
+
+export interface InbodyData {
+  inbodies: Inbody[];
+  nextMeasuredDate?: string;
+  nextInbodyId?: number;
+  hasNext: boolean
 }

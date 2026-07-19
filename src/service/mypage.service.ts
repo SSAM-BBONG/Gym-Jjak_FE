@@ -1,5 +1,4 @@
 import {
-  InbodyRequest,
   MyPageDetailResponse,
   MyPagePasswordChangeRequest,
   MyPagePasswordChangeResponse,
@@ -25,6 +24,7 @@ import {
   TrainerProfileDetailResponse,
 } from "@/feature/mypage/type";
 import { fetchWithAuth } from "@/lib/feth";
+import { InbodyFormType } from "@/lib/inbodySchema";
 import { getErrorMessage } from "@/lib/stateError";
 import { redirect } from "next/navigation";
 
@@ -424,7 +424,7 @@ export const getInbody = async () => {
 }
 
 
-export const getInbodyDetail = async (nextMeasuredDate: string, nextInbodyId: number) => {
+export const getInbodyAdd = async (nextMeasuredDate: string, nextInbodyId: number) => {
   const response = await fetchWithAuth(`/api/inbody?measuredDate=${nextMeasuredDate}&inbodyId=${nextInbodyId}`);
 
   if (!response.ok) {
@@ -440,7 +440,7 @@ export const getInbodyDetail = async (nextMeasuredDate: string, nextInbodyId: nu
 }
 
 
-export const postInbody = async (payload: InbodyRequest) => {
+export const postInbody = async (payload: InbodyFormType) => {
   const response = await fetchWithAuth(`/api/inbody`, {
     method: "POST",
     body: JSON.stringify(payload),
@@ -459,7 +459,7 @@ export const postInbody = async (payload: InbodyRequest) => {
 }
 
 
-export const patchInbody = async (inbodyId: number, payload: InbodyRequest) => {
+export const patchInbody = async (inbodyId: number, payload: InbodyFormType) => {
   const response = await fetchWithAuth(`/api/inbody/${inbodyId}`, {
     method: "PATCH",
     body: JSON.stringify(payload),

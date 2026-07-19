@@ -1,10 +1,11 @@
 "use server";
 
-import { addOrganizationManageTrainer, checkPassword, createOrganizationApplication, deleteInbody, deleteMyAccount, deleteOraganizationTrainer, editMyProfileInformation, editMyTrainerProfileInformation, editOrganizationManageInformation, getOraganizationsearchTrainers, organizationApplicationCancel, organizationApplicationDupliCationId, patchInbody, postInbody, updatePassword } from "@/service/mypage.service";
+import { addOrganizationManageTrainer, checkPassword, createOrganizationApplication, deleteInbody, deleteMyAccount, deleteOraganizationTrainer, editMyProfileInformation, editMyTrainerProfileInformation, editOrganizationManageInformation, getInbodyAdd, getOraganizationsearchTrainers, organizationApplicationCancel, organizationApplicationDupliCationId, patchInbody, postInbody, updatePassword } from "@/service/mypage.service";
 import { uploadFilesPresignedUrl } from "@/service/file.service";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
+import { InbodyFormType } from "@/lib/inbodySchema";
 
 // 조직 신청 액션
 export const createOrganizationApplicationAction = async (
@@ -399,17 +400,26 @@ export const editMyTrainerProfileInformationAction = async (
   }
 };
 
-export const createInbodyAction = async (formData: FormData) => {
-  const payload = {
-
-  };
+export const getInbodyDetailAction = async (nextInbodyId: number, nextInbodyDate: string) => {
   try {
-    // await postInbody(payload);
+    const response = await getInbodyAdd(nextInbodyDate, nextInbodyId);
+    console.log(response)
+    return response;
+  } catch (error) {
+    let errorMessage = "내 인바디 추가 조회에 실패하였습니다.";
 
-    return {
-      success: false,
-      message: '인바디 등록에 성공하였습니다.',
-    };
+    if (error instanceof Error) {
+      errorMessage = error.message;
+    }
+
+    throw new Error(errorMessage);
+  }
+
+};
+
+export const createInbodyAction = async (data: InbodyFormType) => {
+  try {
+    await postInbody(data);
   } catch (error) {
     let errorMessage = "내 인바디 등록에 실패하였습니다.";
 
@@ -423,10 +433,7 @@ export const createInbodyAction = async (formData: FormData) => {
     };
   }
 
-  return {
-    success: false,
-    message: '인바디 등록에 성공하였습니다.',
-  };
+  redirect('/mypage/inbody');
 };
 
 
@@ -436,7 +443,6 @@ export const updateInbodyAction = async (inbodyId: number, formData: FormData) =
   };
   try {
     // await patchInbody(inbodyId, payload);
-
     return {
       success: false,
       message: '인바디 수정에 성공하였습니다.',
@@ -464,11 +470,6 @@ export const updateInbodyAction = async (inbodyId: number, formData: FormData) =
 export const deleteInbodyAction = async (inbodyId: number) => {
   try {
     await deleteInbody(inbodyId);
-
-    return {
-      success: false,
-      message: '인바디 삭제에 성공하였습니다.',
-    };
   } catch (error) {
     let errorMessage = "내 인바디 삭제에 실패하였습니다.";
 
@@ -482,8 +483,5 @@ export const deleteInbodyAction = async (inbodyId: number) => {
     };
   }
 
-  return {
-    success: false,
-    message: '인바디 삭제에 성공하였습니다.',
-  };
+  redirect('/mypage/inbody');
 };
