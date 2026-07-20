@@ -32,7 +32,7 @@ export default function   TrainerRegistForm( { mode = "create", initialData = {
   qualifications: [],
   awardHistories: [],
   introduction: "",
-  status: "",
+  status: "PENDING",
   rejectReason: "",
   reviewedBy: 0,
   reviewedAt: "",
@@ -57,6 +57,7 @@ const {
 } = useForm<TrainerRegistFormValue>({
   resolver: zodResolver(schema) as Resolver<TrainerRegistFormValue>,
   defaultValues: {
+    organizationIds: [],
     profileImageFile: null,
     profileImageAction: "KEEP",
     certificateFile: undefined,
@@ -69,6 +70,10 @@ const {
 
 const onSubmit: SubmitHandler<TrainerRegistFormValue> = async (values) => {
     const formData = new FormData();
+
+    if (mode === "create") {
+      formData.append("organizationIds", JSON.stringify(values.organizationIds ?? []));
+    }
 
     if (values.profileImageFile) {
       formData.append("profileImageFile", values.profileImageFile);
@@ -137,7 +142,12 @@ const onSubmit: SubmitHandler<TrainerRegistFormValue> = async (values) => {
             mode={mode}       
             />
 
-            <TrainerAffiliatedGym/>
+            {mode === "create" && (
+              <TrainerAffiliatedGym
+                setValue={setValue}
+                error={errors.organizationIds?.message}
+              />
+            )}
 
             <TrainerRegistSelfIntroduction
             register={register}

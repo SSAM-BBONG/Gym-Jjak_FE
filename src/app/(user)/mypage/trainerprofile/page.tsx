@@ -1,6 +1,5 @@
 import MypageTrainerProfileForm from "@/feature/mypage/components/MypageTrainerProfileForm";
 import { getMyTrainerProfileInformation } from "@/service/mypage.service";
-import { getTrainerApplication } from "@/service/ptzone.service";
 import { redirect } from "next/navigation";
 
 export default async function MypageTrainerProfilePage() {

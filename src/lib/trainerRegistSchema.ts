@@ -45,6 +45,9 @@ const profileImageActionSchema = z.enum(["KEEP", "REPLACE", "DELETE"]);
 
 
 export const trainerRegistCreateSchema = z.object({
+  organizationIds: z
+    .array(z.number().int().positive())
+    .min(1, "소속 헬스장을 하나 이상 선택해주세요."),
   profileImageFile: requiredProfileImg.nullable(),
   profileImageAction: profileImageActionSchema.default("KEEP"),
   certificateFile: requiredEssentialQualification,
@@ -56,6 +59,7 @@ export const trainerRegistCreateSchema = z.object({
 export const trainerRegistEditSchema = trainerRegistCreateSchema.extend({
   certificateFile: requiredEssentialQualification.optional(),
   profileImageAction: profileImageActionSchema.default("KEEP"),
+  organizationIds: z.array(z.number().int().positive()).optional(),
 });
 
 export type TrainerRegistFormValue = z.infer<typeof trainerRegistEditSchema>;
