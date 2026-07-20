@@ -109,7 +109,7 @@ export default function Onboarding6Form({ totalData, setTotalData }: { totalData
                         placeholder="선호 지역을 작성해주세요"
                         value={userAdress.fullName}
                         className="min-w-0 w-full px-3 sm:px-5 lg:px-6 py-3 sm:py-4 lg:py-4 text-sm sm:text-base lg:text-base border border-[#364153] bg-[#101828] rounded-[10px] text-white focus:outline-0 focus:border-[#BFFF0B]" />
-                    <button className="font-semibold px-3 sm:px-4 lg:px-6 py rounded-[10px] text-sm sm:text-base lg:text-base bg-[#BFFF0B] text-black">주소 찾기</button>
+                    <button type="button" className="font-semibold px-3 sm:px-4 lg:px-6 py rounded-[10px] text-sm sm:text-base lg:text-base bg-[#BFFF0B] text-black">주소 찾기</button>
                 </div>
             </div>
             {errors && <div className="text-red-500 text-md mb-5 text-center">{errors.region?.message ? errors.region?.message : '주소를 검색해주세요'}</div>}

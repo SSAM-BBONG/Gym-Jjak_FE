@@ -21,16 +21,23 @@ ChartJS.register(
     BarElement,
 );
 
-export default function BarChart({ monthData, mode }: {
-    monthData: MonthlyCount[]
+export default function ReveanueBarChart({ monthData, mode }: {
+    monthData: MonthlyRevenueCount[]
     mode: string
 }) {
     const barChartData = {
         labels: monthData.map((data) => data.month),
         datasets: [
             {
-                label: `${mode} 현황`,
-                data: monthData.map((data) => data.count),
+                label: `pt ${mode} 현황`,
+                data: monthData.map((data) => data.ptCommissionRevenue),
+                borderColor: "#BFFF0B90",
+                backgroundColor: "#BFFF0B70",
+                borderWidth: 1,
+            },
+            {
+                label: `구독 ${mode} 현황`,
+                data: monthData.map((data) => data.subscriptionRevenue),
                 borderColor: "#BFFF0B90",
                 backgroundColor: "#BFFF0B70",
                 borderWidth: 1,

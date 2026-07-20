@@ -1,3 +1,5 @@
+'use client'
+
 import {
     Chart as ChartJS,
     Title,
@@ -33,14 +35,14 @@ export default function PieChart({ userSituation }: { userSituation: UserSituati
                     userSituation.totalOrganizationCount,
                 ],
                 backgroundColor: [
-                    "rgba(75, 192, 192, 0.6)",
-                    "rgba(54, 162, 235, 0.6)",
-                    "rgba(255, 99, 132, 0.6)",
+                    "#BFFF0B70",
+                    "#22D3EE70",
+                    "#A78BFA70",
                 ],
                 borderColor: [
-                    "rgba(75, 192, 192, 1)",
-                    "rgba(54, 162, 235, 1)",
-                    "rgba(255, 99, 132, 1)",
+                    "#BFFF0B90",
+                    "#22D3EE90",
+                    "#A78BFA90",
                 ],
                 borderWidth: 1,
             },
@@ -63,6 +65,8 @@ export default function PieChart({ userSituation }: { userSituation: UserSituati
     };
 
     return (
-        <Pie data={pieChartData} options={chartOptions} />
+        <div className="w-full">
+            <Pie data={pieChartData} options={chartOptions} />
+        </div>
     );
 }
