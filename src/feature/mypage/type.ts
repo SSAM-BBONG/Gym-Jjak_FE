@@ -246,6 +246,7 @@ export interface MyPageDetailData {
   username: string;
   nickname: string;
   socialUser: boolean;
+  communityPostCount: number;
 }
 
 // 내 프로필 조회 응답값

@@ -1,8 +1,13 @@
 import { MypageMyActivity } from "@/components/ui/image";
 import Image from "next/image";
 import Link from "next/link";
+import { MyPageDetailData } from "../type";
 
-export default function MypageMyActivities() {
+interface MypageMyActivitiesProps {
+  data: MyPageDetailData;
+}
+
+export default function MypageMyActivities( {data}: MypageMyActivitiesProps ) {
   return (
     <div
       className="
@@ -32,7 +37,7 @@ export default function MypageMyActivities() {
             내가 작성한 게시글
           </p>
           <div className="flex gap-2">
-            <p className="text-[12px] font-medium text-[#6A7282]"> 12개 </p>
+            <p className="text-[12px] font-medium text-[#6A7282]"> {data.communityPostCount}개 </p>
             <p className="text-[12px] font-medium text-[#6A7282]"> 〉</p>
           </div>
         </div>
