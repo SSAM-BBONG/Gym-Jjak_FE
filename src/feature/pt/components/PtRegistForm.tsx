@@ -1,26 +1,26 @@
 "use client";
 
 import { createPtRegistAction } from "@/feature/pt/actions";
-import PtRegistCurriculum from "./PtRegistCurriculum";
 import PtRegistTime from "./PtRegistTime";
-import PtRegistCategoryTag from "./PtRegistCategoryTag";
+import PtRegistPart from "./PtRegistPart";
 import PtRegistBasicInformation from "./PtRegistBasicInformation";
 import PtRegistPreview from "./PtRegistPreview";
-import { PtRegistCategoryData, PtRegistTagData } from "../type";
 import { Resolver, SubmitHandler, useForm } from "react-hook-form";
 import { PtRegistFormValue, ptRegistSchema } from "@/lib/ptRegistSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import PtRegistCurriculum from "./PtRegistCurriculum";
+import PtRegistSelectGym from "./PtRegistSelectGym";
+import { PtRegistOrganizationData } from "../type";
+import { useState } from "react";
 
 interface PtRegistFormProps {
-    category: PtRegistCategoryData[];
-    tag: PtRegistTagData[];
+    organizations: PtRegistOrganizationData[];
 }
 
-export default function PtRegistForm({ category, tag}: PtRegistFormProps) {
+export default function PtRegistForm({ organizations }: PtRegistFormProps) {
     const {
         register,
         handleSubmit,
-        control,
         setValue,
         formState: { errors, isSubmitting },
         } = useForm<PtRegistFormValue>({
@@ -28,11 +28,9 @@ export default function PtRegistForm({ category, tag}: PtRegistFormProps) {
         defaultValues: {
             title: "",
             description: "",
-            categoryId: 0,
-            tagId: 0,
             price: 0,
-            curriculums: [{ title: "", content: "" }],
-            schedules: [{ dayOfWeek: "MONDAY", startTime: "10:00", endTime: "11:00" }],
+            curriculums: [],
+            schedules: [],
         },
         mode: "onSubmit",
     });
@@ -43,13 +41,13 @@ export default function PtRegistForm({ category, tag}: PtRegistFormProps) {
         formData.append("thumbnailFile", values.thumbnailFile);
         formData.append("title", values.title);
         formData.append("description", values.description);
-        formData.append("categoryId", String(values.categoryId));
-        formData.append("tagId", String(values.tagId));
+        formData.append("part", values.part);
+        formData.append("organizationId", String(values.organizationId));
         formData.append("price", String(values.price));
         formData.append("curriculums", JSON.stringify(values.curriculums));
         formData.append("schedules", JSON.stringify(values.schedules));
 
-        await createPtRegistAction(formData);
+        const result = await createPtRegistAction(formData);
     };
 
     return (
@@ -69,14 +67,15 @@ export default function PtRegistForm({ category, tag}: PtRegistFormProps) {
                 }}
             />
 
-            <PtRegistCategoryTag
-                category={category}
-                tag={tag}
+            <PtRegistPart
                 register={register}
-                errors={{
-                categoryId: errors.categoryId?.message,
-                tagId: errors.tagId?.message,
-                }}
+                error={errors.part?.message}
+            />
+
+            <PtRegistSelectGym
+                organizations={organizations}
+                register={register}
+                error={errors.organizationId?.message}
             />
 
 
@@ -89,7 +88,6 @@ export default function PtRegistForm({ category, tag}: PtRegistFormProps) {
                 setValue={setValue}
                 error={errors.schedules?.message}
             />
-
 
             <div className="flex gap-3">
                 <button

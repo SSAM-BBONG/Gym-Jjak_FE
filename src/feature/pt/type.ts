@@ -149,12 +149,25 @@ export interface PtRegistData {
 export interface PtRegistRequest {
   title: string;
   description: string;
-  categoryId: number;
-  tagId: number;
+  part: Part;
   price: number;
   thumbnailFile: TrainerFileData;
   curriculums: PtRegistCurriculum[];
   schedules: PtRegistSchedule[];
+  organizationId: number;
+}
+
+export interface PtRegistOrganizationListResponse {
+  status: number;
+  code: string;
+  message: string;
+  data: PtRegistOrganizationData[];
+}
+
+export interface PtRegistOrganizationData {
+  organizationId: number;
+  businessName: string;
+  roadAddress: string;
 }
 
 // PT 등록 커리큘럼 타입
@@ -181,11 +194,42 @@ export interface PtRegistSchedule {
 // 트레이너 등록 API
 // 트레이너 등록 요청 타입
 export interface TrainerApplicationData {
+  organizationIds: number[];
   profileImageFile: TrainerFileData | null;
   certificateFile: TrainerFileData;
   qualifications: string[] | null;
   awardHistories: string[] | null;
   introduction: string;
+}
+
+// 트레이너 신청용 조직 검색 응답 타입
+export interface OrganizationSearchRequest {
+  keyword?: string;
+  page?: number;
+  size?: number;
+}
+
+export interface OrganizationSearchResponse {
+  status: number;
+  code: string;
+  message: string;
+  data: OrganizationSearchData;
+}
+
+export interface OrganizationSearchData {
+  content: OrganizationSearchItem[];
+  page: number;
+  size: number;
+  totalElements: number;
+  totalPages: number;
+}
+
+export interface OrganizationSearchItem {
+  organizationId: number;
+  businessName: string;
+  representativeName: string;
+  roadAddress: string;
+  detailAddress: string;
 }
 
 // 트레이너 이미지 요청 타입
@@ -224,6 +268,35 @@ export interface TrainerApplicationEditData {
 }
 
 // 트레이너 신청 상세 조회 응답 타입
+export type TrainerApplicationStatus = "PENDING" | "APPROVED" | "REJECTED" | "CANCELED";
+
+// 내 트레이너 신청서 목록 조회 응답 타입
+export interface TrainerApplicationListResponse {
+  status: number;
+  code: string;
+  message: string;
+  data: TrainerApplicationListData;
+}
+
+export interface TrainerApplicationListData {
+  content: TrainerApplicationListItem[];
+  page: number;
+  size: number;
+  totalElements: number;
+  totalPages: number;
+  hasNext: boolean;
+}
+
+export interface TrainerApplicationListItem {
+  trainerApplicationId: number;
+  organizationName: string;
+  status: TrainerApplicationStatus;
+  createdAt: string;
+  reviewedAt: string | null;
+  rejectReason: string | null;
+}
+
+// 내 트레이너 신청서 상세 조회 응답 타입
 export interface TrainerApplicationDetailResponse {
   status: number;
   code: string;
@@ -242,7 +315,7 @@ export interface TrainerApplicationDetail {
   qualifications: string[];
   awardHistories: string[];
   introduction: string;
-  status: "" | "PENDING" | "APPROVED" | "REJECTED" | "CANCELED";
+  status: TrainerApplicationStatus;
   rejectReason: string | null;
   reviewedBy: number | null;
   reviewedAt: string | null;
@@ -485,6 +558,7 @@ export interface MyPtRecordDetailCurriculum {
 
 // 내 예약 기록 상세 조회 데이터
 export interface MyPtRecordDetailData {
+  ptCourseId: number;
   thumbnailUrl: string;
   title: string;
   trainerName: string;
@@ -492,6 +566,75 @@ export interface MyPtRecordDetailData {
   progressCount: number;
   totalSessionCount: number;
   curriculums: MyPtRecordDetailCurriculum[];
+}
+
+// 강사평 작성 요청값
+export interface PtReviewCreateRequest {
+  rating: number;
+  content: string;
+}
+
+// 강사평 작성 응답값
+export interface PtReviewCreateResponse {
+  status: number;
+  code: string;
+  message: string;
+  data: PtReviewCreateData;
+}
+
+// 강사평 작성 응답 데이터
+export interface PtReviewCreateData {
+  trainerReviewId: number;
+}
+
+// 강사평 수정 응답값
+export interface PtReviewUpdateResponse {
+  status: number;
+  code: string;
+  message: string;
+  data: PtReviewCreateData;
+}
+
+// 강사평 삭제 응답값
+export interface PtReviewDeleteResponse {
+  status: number;
+  code: string;
+  message: string;
+  data: null;
+}
+
+// 강사평 목록 조회 요청값
+export interface TrainerReviewListRequest {
+  cursor?: number;
+  cursorRating?: number;
+  size?: number;
+  sort?: "LATEST" | "HIGH_RATING";
+}
+
+// 강사평 목록 조회 응답값
+export interface TrainerReviewListResponse {
+  status: number;
+  code: string;
+  message: string;
+  data: TrainerReviewListData;
+}
+
+// 강사평 목록 조회 데이터
+export interface TrainerReviewListData {
+  reviews: TrainerReview[];
+  nextCursor: number | null;
+  nextCursorRating: number | null;
+  hasNext: boolean;
+}
+
+// 강사평 목록 항목
+export interface TrainerReview {
+  trainerReviewId: number;
+  nickname: string;
+  ptCourseTitle: string;
+  rating: number;
+  content: string;
+  createdAt: string;
 }
 
 // 내 예약 기록 상세 조회 응답값

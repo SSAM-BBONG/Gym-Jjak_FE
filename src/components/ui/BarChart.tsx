@@ -1,3 +1,5 @@
+'use client'
+
 import {
     Chart as ChartJS,
     Title,
@@ -20,17 +22,18 @@ ChartJS.register(
 );
 
 export default function BarChart({ monthData, mode }: {
-    monthData: MonthlyCount[],
+    monthData: MonthlyCount[]
     mode: string
 }) {
-
     const barChartData = {
         labels: monthData.map((data) => data.month),
         datasets: [
             {
                 label: `${mode} 현황`,
                 data: monthData.map((data) => data.count),
-                backgroundColor: "rgba(255, 99, 132, 0.5)",
+                borderColor: "#BFFF0B90",
+                backgroundColor: "#BFFF0B70",
+                borderWidth: 1,
             },
         ],
     };
@@ -50,6 +53,8 @@ export default function BarChart({ monthData, mode }: {
     };
 
     return (
-        <Bar data={barChartData} options={chartOptions} />
+        <div className="w-full ">
+            <Bar data={barChartData} options={chartOptions} />
+        </div>
     );
 }

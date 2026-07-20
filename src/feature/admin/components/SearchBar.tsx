@@ -1,39 +1,14 @@
 'use client'
 
+import useDebounce from "@/components/hooks/useDebounce";
 import { AdminSearchImg } from "@/components/ui/image";
 import Image from "next/image";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 
-export default function SearchBar() {
+export default function SearchBar({ page = true }: { page?: boolean }) {
     const [searchInput, setSearchInput] = useState<string>('')
-    const searchParams = useSearchParams();
-    const router = useRouter();
 
-    const isFirstRender = useRef(true);
-    useEffect(() => {
-        if (isFirstRender.current) {
-            isFirstRender.current = false;
-            return;
-        }
-
-        const debounceTimer = setTimeout(() => {
-            const params = new URLSearchParams(searchParams);
-
-            if (!searchInput.trim()) {
-                params.delete('keyword');
-            } else {
-                params.set('keyword', searchInput);
-            }
-            params.set('page', '0');
-
-            //검색어 변경은 주소에는 반영되지만, 뒤로가기 기록에는 계속 쌓이지 않습니다.
-            //push는 뒤로가기에 쌓임
-            router.replace(`?${params.toString()}`);
-        }, 500);
-
-        return () => clearTimeout(debounceTimer);
-    }, [searchInput]);
+    useDebounce(searchInput, page);
 
     return (
         <form

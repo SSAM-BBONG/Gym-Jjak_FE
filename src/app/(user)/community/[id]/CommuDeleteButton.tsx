@@ -2,31 +2,27 @@
 
 import useModal from "@/components/hooks/useModal";
 import { CommuDetailRemove } from "@/components/ui/image";
-import OneButtonModal from "@/components/ui/OneButtonModal";
 import TwoButtonModal from "@/components/ui/TwoButtonModal";
 import { CommunityDeleteAction } from "@/feature/community/action";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { toast } from "sonner";
 
 export default function CommuDeleteButton({ postId }: { postId: number }) {
-    const [communityState, setCommentState] = useState<string>('');
-    const modal = useModal();
     const checkModal = useModal(clickDelete);
     const router = useRouter();
 
     async function clickDelete() {
         try {
             const response = await CommunityDeleteAction(postId);
-            if (response) {
-                setCommentState(response)
-                modal.openModal();
+            if (!response.success) {
+                toast.error(response.message)
                 return;
             }
+            toast.success(response.message)
             router.push('/community?page=0')
         } catch (error) {
-            setCommentState(`네트워크 오류입니다\n다시 시도해주세요`);
-            modal.openModal();
+            toast.error('네트워크 오류입니다')
         }
     }
 
@@ -51,12 +47,6 @@ export default function CommuDeleteButton({ postId }: { postId: number }) {
                 activeModal={checkModal.activeModal}
                 title="게시글 삭제"
                 content='게시글을 삭제하시겠습니까?'
-            />
-            <OneButtonModal
-                isModal={modal.isModal}
-                closeModal={modal.closeModal}
-                title="게시글 삭제"
-                content={communityState}
             />
         </>
     );

@@ -9,10 +9,9 @@
   OnboardingResponse, PtCourseDetailResponse,
   PtCourseListResponse,
   PtPopularCourseResponse,
-  PtRegistCategoryReponse,
+  PtRegistOrganizationListResponse,
   PtRegistRequest,
   PtRegistResponse,
-  PtRegistTagReponse,
   PtReservationAvailableDatesResponse,
   PtReservationRequest,
   PtReservationResponse,
@@ -21,11 +20,20 @@
   PtReservationStudentDetailResponse,
   PtReservationStudentsResponse,
   PtResrvationAvailableTimesResponse,
+  PtReviewCreateRequest,
+  PtReviewCreateResponse,
+  PtReviewDeleteResponse,
+  PtReviewUpdateResponse,
   PtStatsResponse,
   PtStatusChangeRequest,
   PtStatusChangeResponse,
+  TrainerReviewListRequest,
+  TrainerReviewListResponse,
+  OrganizationSearchRequest,
+  OrganizationSearchResponse,
   TrainerApplicationData,
   TrainerApplicationDetailResponse,
+  TrainerApplicationListResponse,
   TrainerApplicationEditData,
   TrainerApplicationResponse
 } from "@/feature/pt/type";
@@ -116,6 +124,21 @@ export const createPtCourse = async (
   return response.json();
 };
 
+export const getMyPtRegistOrganizations = async (): Promise<PtRegistOrganizationListResponse> => {
+  const response = await fetchWithAuth("/api/organizations/trainer/my-organizations");
+
+  if (!response.ok) {
+    const message = await getErrorMessage(
+      response,
+      "소속 헬스장 조회에 실패하였습니다."
+    );
+
+    throw new Error(message);
+  }
+
+  return response.json();
+};
+
 
 // PT 인기 강습 목록 조회 API
 export const getPopularPtLists = async (): Promise<PtPopularCourseResponse> => {
@@ -154,28 +177,68 @@ export const trainerApplication = async (
   return response.json();
 };
 
-// 트레이너 신청 상세 조회
-export const getTrainerApplication = async (): Promise<TrainerApplicationDetailResponse> => {
-  const response = await fetchWithAuth(`/api/trainer-applications/me`, {
-    // 삭제 후 코드가 변경되면 이전 삭제한 트레이너 정보가 조회되어 SSR로 변경
-    cache: "no-store",
+// 트레이너 신청 조직 검색
+export const searchOrganizations = async (
+  { keyword = "", page = 0, size = 10 }: OrganizationSearchRequest
+): Promise<OrganizationSearchResponse> => {
+  const params = new URLSearchParams({
+    keyword: keyword.trim(),
+    page: String(page),
+    size: String(size),
   });
-
-  const data = await response.json().catch(() => null);
+  const response = await fetchWithAuth(`/api/organizations/search?${params}`);
 
   if (!response.ok) {
-    if (data?.code === 'TRAINER_APPLICATION_404_1') {
-      return data;
-    }
     const message = await getErrorMessage(
       response,
-      '트레이너 신청 상세 조회에 실패하였습니다.'
+      "조직 검색에 실패하였습니다."
     );
 
     throw new Error(message);
   }
 
-  return data;
+  return response.json();
+};
+
+// 내 트레이너 신청서 목록 조회
+export const getMyTrainerApplicationList = async (
+  page: number = 0
+): Promise<TrainerApplicationListResponse> => {
+  const response = await fetchWithAuth(`/api/trainer-applications/me?page=${page}`, {
+    cache: "no-store",
+  });
+
+  if (!response.ok) {
+    const message = await getErrorMessage(
+      response,
+      '트레이너 신청 목록 조회에 실패하였습니다.'
+    );
+
+    throw new Error(message);
+  }
+
+  return response.json();
+};
+
+// 내 트레이너 신청서 상세 조회
+export const getMyTrainerApplicationDetail = async (
+  trainerApplicationId: number
+): Promise<TrainerApplicationDetailResponse> => {
+  const response = await fetchWithAuth(
+    `/api/trainer-applications/me/${trainerApplicationId}`,
+    { cache: "no-store" }
+  );
+
+  if (!response.ok) {
+    const message = await getErrorMessage(
+      response,
+      '트레이너 신청서 상세 조회에 실패하였습니다.'
+    );
+
+    throw new Error(message);
+  }
+
+  return response.json();
 };
 
 // 트레이너 신청 취소 API 
@@ -226,38 +289,6 @@ export const getPtzoneStats = async (): Promise<PtStatsResponse> => {
     const message = await getErrorMessage(
       response,
       'PT 통계 조회에 실패하였습니다.'
-    );
-
-    throw new Error(message);
-  }
-
-  return response.json();
-};
-
-// PT 등록 카테고리 API
-export const getPtzoneCategory = async (): Promise<PtRegistCategoryReponse> => {
-  const response = await fetchWithAuth(`/api/categories`);
-
-  if (!response.ok) {
-    const message = await getErrorMessage(
-      response,
-      '카테고리 목록 조회에 실패하였습니다.'
-    );
-
-    throw new Error(message);
-  }
-
-  return response.json();
-};
-
-// PT 등록 태그 API
-export const getPtzoneTag = async (): Promise<PtRegistTagReponse> => {
-  const response = await fetchWithAuth(`/api/tags`);
-
-  if (!response.ok) {
-    const message = await getErrorMessage(
-      response,
-      '태그 목록 조회에 실패하였습니다.'
     );
 
     throw new Error(message);
@@ -452,6 +483,91 @@ export const getMyPtReservationDetail = async (
       response,
       "내 예약 기록 상세 조회에 실패하였습니다."
     );
+
+    throw new Error(message);
+  }
+
+  return response.json();
+};
+
+// 강사평 작성
+export const createPtReview = async (
+  ptCourseId: number,
+  ptReservationId: string,
+  payload: PtReviewCreateRequest
+): Promise<PtReviewCreateResponse> => {
+  const response = await fetchWithAuth(
+    `/api/pt-courses/${ptCourseId}/reservations/${ptReservationId}/reviews`,
+    {
+      method: "POST",
+      body: JSON.stringify(payload),
+    }
+  );
+
+  if (!response.ok) {
+    const message = await getErrorMessage(
+      response,
+      "수강평 등록에 실패하였습니다."
+    );
+
+    throw new Error(message);
+  }
+
+  return response.json();
+};
+
+// 강사평 수정
+export const updatePtReview = async (
+  reviewId: number,
+  payload: PtReviewCreateRequest
+): Promise<PtReviewUpdateResponse> => {
+  const response = await fetchWithAuth(`/api/reviews/${reviewId}`, {
+    method: "PATCH",
+    body: JSON.stringify(payload),
+  });
+
+  if (!response.ok) {
+    const message = await getErrorMessage(response, "수강평 수정에 실패하였습니다.");
+
+    throw new Error(message);
+  }
+
+  return response.json();
+};
+
+// 강사평 삭제
+export const deletePtReview = async (
+  reviewId: number
+): Promise<PtReviewDeleteResponse> => {
+  const response = await fetchWithAuth(`/api/reviews/${reviewId}`, {
+    method: "DELETE",
+  });
+
+  if (!response.ok) {
+    const message = await getErrorMessage(response, "수강평 삭제에 실패하였습니다.");
+
+    throw new Error(message);
+  }
+
+  return response.json();
+};
+
+// 강사평 목록 조회
+export const getTrainerReviewList = async (
+  trainerProfileId: number,
+  { cursor, cursorRating, size = 10, sort = "LATEST" }: TrainerReviewListRequest = {}
+): Promise<TrainerReviewListResponse> => {
+  const params = new URLSearchParams({ size: String(size), sort });
+
+  if (cursor !== undefined) params.set("cursor", String(cursor));
+  if (cursorRating !== undefined) params.set("cursorRating", String(cursorRating));
+
+  const response = await fetchWithAuth(
+    `/api/trainer-profiles/${trainerProfileId}/reviews?${params}`
+  );
+
+  if (!response.ok) {
+    const message = await getErrorMessage(response, "수강평 목록 조회에 실패하였습니다.");
 
     throw new Error(message);
   }

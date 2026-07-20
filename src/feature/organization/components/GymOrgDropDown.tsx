@@ -37,9 +37,8 @@ export default function GymOrgDropDown() {
                 </div>
             </div>
             <ul hidden={dropDownView} className="px-4">
-                <li><AdminNavLink href='/organization/gym/approval'>트레이너 승인</AdminNavLink></li>
-                <li><AdminNavLink href='/organization/gym/trainers'>트레이너 관리</AdminNavLink></li>
-                <li><AdminNavLink href='/organization/gym/pts'>PT 관리</AdminNavLink></li>
+                <li><AdminNavLink href='/organization/manage/trainer'>트레이너 관리</AdminNavLink></li>
+                <li><AdminNavLink href='/organization/manage/pt'>PT 관리</AdminNavLink></li>
             </ul>
         </section>
     );

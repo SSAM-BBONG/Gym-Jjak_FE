@@ -7,6 +7,8 @@ import TwoButtonModal from "@/components/ui/TwoButtonModal";
 import { organizationApprovalAction } from "../action";
 import OrganizationRejectModal from "./modals/OrganizationRejectModal";
 import Image from "next/image";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 interface DetailButtonMode {
     mode: 'organizationView' | 'organizationApprove';
@@ -14,6 +16,7 @@ interface DetailButtonMode {
 }
 
 export default function OrganizationDetailButton({ mode, organizationId }: DetailButtonMode) {
+    const router = useRouter();
 
 
     //트레이너, 조직에서 승인 버튼 누름
@@ -28,7 +31,19 @@ export default function OrganizationDetailButton({ mode, organizationId }: Detai
 
     //정말 승인할건지 물어봄
     const handleApproval = async () => {
-        await organizationApprovalAction(organizationId);
+        try {
+            const response = await organizationApprovalAction(organizationId);
+
+            if (!response.success) {
+                toast.error(response.message);
+                return;
+            }
+
+            toast.success(response.message);
+            router.push("/admin/approvals/organizations?page=1");
+        } catch (error) {
+            toast.error("네트워크 오류입니다. 다시 시도해주세요.");
+        }
     }
 
     const approvalModal = useModal(handleApproval);
@@ -68,7 +83,6 @@ export default function OrganizationDetailButton({ mode, organizationId }: Detai
             <OrganizationRejectModal
                 isModal={rejectModal.isModal}
                 closeModal={rejectModal.closeModal}
-                activeModal={rejectModal.activeModal}
                 organizationId={organizationId}
             />
         </>

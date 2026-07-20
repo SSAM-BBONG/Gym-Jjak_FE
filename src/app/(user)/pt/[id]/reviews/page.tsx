@@ -1,8 +1,21 @@
 import { PtDetailQualification, PtfindTestImg } from "@/components/ui/image";
+import { getTrainerReviewListAction } from "@/feature/pt/actions";
 import TrainerReviewCard from "@/feature/pt/components/TrainerReviewCard";
+import { getPtDetail } from "@/service/ptzone.service";
 import Image from "next/image";
+import Link from "next/link";
 
-export default async function TrainerReviewPage() {
+interface TrainerReviewPageProps {
+    params: Promise<{ id: string }>;
+    searchParams: Promise<{ sort?: string }>;
+}
+
+export default async function TrainerReviewPage({ params, searchParams }: TrainerReviewPageProps) {
+    const { id } = await params;
+    const { sort: sortParam } = await searchParams;
+    const sort = sortParam === "HIGH_RATING" ? "HIGH_RATING" : "LATEST";
+    const ptCourse = await getPtDetail(id);
+    const result = await getTrainerReviewListAction(ptCourse.data.trainerProfileId, { sort });
 
     return (
         <div className="flex flex-col gap-6 px-60 py-10">
@@ -92,14 +105,34 @@ export default async function TrainerReviewPage() {
                 <div className="flex justify-between items-center">
                     <p className="text-[18px] font-extrabold text-white"> 리뷰 목록 </p>
                     <div className="flex gap-2">
-                        <button className="px-4 py-2 rounded-[10px] bg-[#BFFF0B] text-[14px] font-extrabold text-black"> 최신순 </button>
-                        <button className="px-4 py-2 rounded-[10px] bg-[#1E2939] text-[14px] font-medium text-[#99A1AF]">  별점높은순 </button>
+                        <Link
+                            href={`/pt/${id}/reviews?sort=LATEST`}
+                            className={`px-4 py-2 rounded-[10px] text-[14px] ${sort === "LATEST" ? "bg-[#BFFF0B] font-extrabold text-black" : "bg-[#1E2939] font-medium text-[#99A1AF]"}`}
+                        >
+                            최신순
+                        </Link>
+                        <Link
+                            href={`/pt/${id}/reviews?sort=HIGH_RATING`}
+                            className={`px-4 py-2 rounded-[10px] text-[14px] ${sort === "HIGH_RATING" ? "bg-[#BFFF0B] font-extrabold text-black" : "bg-[#1E2939] font-medium text-[#99A1AF]"}`}
+                        >
+                            별점높은순
+                        </Link>
                     </div>
                 </div>
 
-                <TrainerReviewCard />
-                <TrainerReviewCard />
-                <TrainerReviewCard />
+                {result.success === false ? (
+                    <p className="text-[#FF6467]">{result.message}</p>
+                ) : result.data.reviews.length === 0 ? (
+                    <p className="text-[#99A1AF]">등록된 수강평이 없습니다.</p>
+                ) : (
+                    result.data.reviews.map((review) => (
+                        <TrainerReviewCard
+                            key={review.trainerReviewId}
+                            review={review}
+                            ptCourseId={id}
+                        />
+                    ))
+                )}
             </div>
         </div>
     );

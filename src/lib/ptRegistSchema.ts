@@ -17,8 +17,8 @@ export const ptRegistSchema = z.object({
   thumbnailFile: thumbnailFileSchema,
   title: z.string().trim().min(1, "강습명을 입력해주세요."),
   description: z.string().trim().min(1, "강습 소개를 입력해주세요."),
-  categoryId: z.coerce.number().min(1, "카테고리를 선택해주세요."),
-  tagId: z.coerce.number().min(1, "태그를 선택해주세요."),
+  part: z.enum(["CHEST", "BACK", "SHOULDER", "ARM", "ABS", "CORE", "LEG", "GLUTE", "FULL_BODY"], { error: "운동 부위를 선택해주세요." }),
+  organizationId: z.coerce.number().int().positive("소속 헬스장을 선택해주세요."),
   price: z.coerce.number().min(0, "가격은 0원 이상이어야 합니다."),
   curriculums: z.array(z.object({
     title: z.string().trim().min(1, "회차 제목을 입력해주세요."),

@@ -1,4 +1,4 @@
-interface Reposts {
+interface Reports {
     reportGroupId: number
     reportNumber: string,
     targetType: string,
@@ -8,13 +8,7 @@ interface Reposts {
     reportedAt: Date,
     effectiveReportCount: number,
     status: '대기중' | '반려' | '처리완료',
-    navigationType: string
-}
-
-
-interface categorie {
-    categoryId: number;
-    name: string;
+    navigationType: 'PAGE' | 'MODAL'
 }
 
 
@@ -70,24 +64,25 @@ interface TrainerApplications {
 }
 
 interface ReportResponse {
-    reports: Reposts[]
+    reports: Reports[]
 }
 
 
-interface Category {
-    categoryId: number;
-    name: string;
-    createdAt: string;
-    usageCount: number;
+interface Exercise {
+    exerciseId: number;
+    part: PartKo;
+    exerciseName: string;
 }
 
-
-interface Tag {
-    tagId: number;
-    name: string;
-    createdAt: string;
-    usageCount: number;
+interface ExerciseRequest {
+    part: PartKo;
+    exerciseName: string;
 }
+
+interface ExerciseUpdateRequest {
+    exerciseName: string
+}
+
 
 interface Organizations {
     organizationId: number;
@@ -159,7 +154,7 @@ interface Trainers {
 }
 
 interface UserStatusRequest {
-    status: 'ETERNAL' | 'ACTIVE' | 'DAY_7';
+    status: 'ETERNAL' | 'ACTIVE' | 'DAY_7' | 'WITHDRAWN';
     reason: string;
 }
 
@@ -220,4 +215,17 @@ interface ReportRequest {
     targetType: "PT_COURSE" | "TRAINER_REVIEW" | "COMMENT" | "POST" | "FEEDBACK";
     reason: "SPAM" | "ADVERTISEMENT" | "ABUSE" | "SEXUAL_CONTENT" | "FRAUD" | "PRIVACY_EXPOSURE" | "ETC";
     detail: string;
+}
+
+interface ContentSituation {
+    activePtCourseCount: number;
+    blindedPtCourseCount: number;
+    pendingReportGroupCount: number;
+}
+
+interface MonthlyRevenueCount {
+    month: string;
+    ptCommissionRevenue: number;
+    subscriptionRevenue: number;
+    totalRevenue: number;
 }

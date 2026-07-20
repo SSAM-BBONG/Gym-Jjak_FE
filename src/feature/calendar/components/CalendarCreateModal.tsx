@@ -1,17 +1,21 @@
+'use client'
+
 import { CloseButton } from "@/components/ui/image";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { calendarPatchAction, calendarPostAction, getCalendarCategory } from "../action";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { calendargetExeriseAction, calendarPatchAction, calendarPostAction } from "../action";
 import Image from "next/image";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import CalendarSet from "./CalendarSet";
+import PartSelecter from "@/components/ui/PartSelecter";
 import CalendarNameSelecter from "./CalendarNameSelecter";
+import { toast } from "sonner";
 
 type CalendarCreateModalProps = {
     isModal: boolean;
     closeModal: () => void;
     selectedSettingDate: string;
 } & (
-        | {
+        {
             mode?: "create";
             data?: never;
         }
@@ -21,32 +25,55 @@ type CalendarCreateModalProps = {
         }
     );
 
+interface Set {
+    setId?: number;
+    setOrder: number;
+    weight: number;
+    reps: number;
+}
+
 export default function CalendarCreateModal({ isModal, closeModal, selectedSettingDate, data, mode = 'create' }: CalendarCreateModalProps) {
 
-    const [exerciseSet, setExerciseSet] = useState<number[]>([1])
-    const [exerciseName, setExerciseName] = useState<{ searchExercise: string, selectExercise: string }>({ searchExercise: '', selectExercise: '' });
+    const [exerciseSet, setExerciseSet] = useState<Set[]>(data ? data.sets : [{
+        setOrder: 1,
+        weight: 0,
+        reps: 0,
+    }])
+    const [exerciseName, setExerciseName] = useState<{ searchExercise: string, selectExercise: string }>({ searchExercise: '', selectExercise: data ? data.exercise : '' });
     const [isSelect, setIsSelect] = useState(false);
-    const [exerciseNames, setExerciseNames] = useState<Exercises[]>([
-        {
-            exerciseId: 1,
-            part: "하체",
-            exerciseName: '운동'
-        },
-        {
-            exerciseId: 2,
-            part: "하체",
-            exerciseName: '하체'
-        },
-        {
-            exerciseId: 3,
-            part: "하체",
-            exerciseName: '하반신'
-        }
-    ])
+    const [selectPart, setSelectPart] = useState<PartKo | ''>(data ? data?.part : '')
 
-    const filterExerciseNames = exerciseNames.filter((e) => {
-        return e.exerciseName.includes(exerciseName.searchExercise)
-    })
+    // useEffet 사용으로 마운트 시 작동 useRef로 막아도 제대로 작동하지 않음
+    // const isFirstRender = useRef(true);
+
+    // useEffect(() => {
+    //     if (isFirstRender.current) {
+    //         isFirstRender.current = false;
+    //         return;
+    //     } else {
+    //         setExerciseName({ searchExercise: '', selectExercise: '' });
+    //     }
+    // }, [selectPart])
+
+    const currentPart = useRef(selectPart);
+
+    if (currentPart.current !== selectPart) {
+        currentPart.current = selectPart;
+        setExerciseName({ searchExercise: '', selectExercise: '' });
+    }
+
+    const isFirstRender = useRef(true);
+
+    const {
+        data: exerciseData = [],
+        isLoading: isExerciseLoading,
+        isError: isExerciseError,
+    } = useQuery({
+        queryKey: ['exercise', selectPart, exerciseName.searchExercise],
+        queryFn: () => calendargetExeriseAction(selectPart, exerciseName.searchExercise),
+        enabled: selectPart !== "",
+        select: (response) => response.data,
+    });
 
     // 일지 등록
     // 데이터를 변경하는 요청을 관리하는 mutation을 생성
@@ -76,6 +103,7 @@ export default function CalendarCreateModal({ isModal, closeModal, selectedSetti
             // 지금 날짜 캐시 무효화
 
             closeModal();
+            toast.success(`일지가 ${result.message}`)
         },
     });
 
@@ -84,9 +112,7 @@ export default function CalendarCreateModal({ isModal, closeModal, selectedSetti
         closeModal();
     };
 
-
     if (!isModal) return null;
-
     return (
         <section
             className="z-999 bg-black/50 fixed top-0 left-0 w-screen h-screen"
@@ -96,7 +122,7 @@ export default function CalendarCreateModal({ isModal, closeModal, selectedSetti
                     event.preventDefault();
                     createMutation.mutate(new FormData(event.currentTarget));
                 }}
-                className="bg-gradient-to-br from-[#101828] to-[#000] w-4/5 max-h-120 sm:w-md sm:h-100 md:w-lg md:h-100 lg:w-3xl lg:h-150 rounded-2xl border border-[#1E2939] z-1000 fixed top-1/2 left-1/2 p-6 flex -translate-x-1/2 -translate-y-1/2 flex-col justify-between
+                className="bg-gradient-to-br from-[#101828] to-[#000] w-4/5 max-h-120 sm:w-md sm:h-100 md:w-lg md:h-120 lg:w-lg rounded-2xl border border-[#1E2939] z-1000 fixed top-1/2 left-1/2 p-6 flex -translate-x-1/2 -translate-y-1/2 flex-col justify-between
                 overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
                 onClick={(e) => { e.stopPropagation(); setIsSelect(false) }}>
                 <article>
@@ -112,24 +138,11 @@ export default function CalendarCreateModal({ isModal, closeModal, selectedSetti
                         </button>
                     </div>
                     <label className="font-bold text-base md:text-xl text-white ">운동 종류</label>
-                    <div className="flex gap-2">
-                        <select
-                            name="part"
-                            className="border-[#364153] text-sm md:text-base border w-1/3 py-3 md:px-6 px-3 bg-[#1E2939] rounded-md focus:border-[#BFFF0B] text-white focus:outline-none mb-6 mt-3"
-                            defaultValue={'부위'}>
-                            <option disabled hidden>부위</option>
-                            <option value='CHEST'>가슴</option>
-                            <option value='BACK'>등</option>
-                            <option value='SHOULDER'>어깨</option>
-                            <option value='ARM'>팔</option>
-                            <option value='ABS'>복근</option>
-                            <option value='CORE'>코어</option>
-                            <option value='LEG'>하체</option>
-                            <option value='GLUTE'>둔근</option>
-                            <option value='FULL_BODY'>전신</option>
-                        </select>
-                        {exerciseNames.length > 0 && (
-                            <CalendarNameSelecter isSelect={isSelect} setIsSelect={setIsSelect} exerciseName={exerciseName} setExerciseName={setExerciseName} filterExerciseNames={filterExerciseNames} />
+                    <div className="flex gap-2 mb-6 mt-3">
+                        <PartSelecter visible={true} part={data ? data?.part : ''} setPart={setSelectPart} />
+                        {!exerciseData && <p className="text-white">해당 부위에 맞는 운동이 없습니다</p>}
+                        {selectPart && (
+                            <CalendarNameSelecter isSelect={isSelect} setIsSelect={setIsSelect} exerciseName={exerciseName} setExerciseName={setExerciseName} exerciseData={exerciseData} exerciseId={data && data?.exerciseId} />
                         )}
 
                     </div>
@@ -141,13 +154,17 @@ export default function CalendarCreateModal({ isModal, closeModal, selectedSetti
                             className="bg-[#1E2939] w-8 h-8 font-bold rounded-[5px] ml-auto">
                             -</button>
                         <button
-                            onClick={() => setExerciseSet([...exerciseSet, exerciseSet.length + 1])}
+                            onClick={() => setExerciseSet([...exerciseSet, {
+                                setOrder: exerciseSet.length + 1,
+                                weight: 0,
+                                reps: 0,
+                            }])}
                             type="button"
                             className="bg-[#BFFF0B] w-8 h-8 font-bold text-black rounded-[5px]">
                             +</button>
                     </div>
                     {exerciseSet.map((set) => {
-                        return <CalendarSet set={set} key={set} />
+                        return <CalendarSet set={set.setOrder} sets={set} key={set.setOrder} />
                     })}
 
                     {createMutation.data?.success === false && (

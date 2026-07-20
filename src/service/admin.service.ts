@@ -1,14 +1,28 @@
 import { fetchWithAuth } from "@/lib/feth";
 import { getErrorMessage } from "@/lib/stateError";
 
-//카테고리
-export const getCategories = async () => {
-    const response = await fetchWithAuth('/api/categories');
+//운동 종류
+export const getExercises = async (part?: PartKo | '', keyword?: string) => {
+    const params = new URLSearchParams();
+
+    if (part) {
+        params.set("part", part);
+    }
+
+    if (keyword) {
+        params.set("keyword", keyword);
+    }
+
+    const queryString = params.toString();
+
+    const response = await fetchWithAuth(
+        `/api/exercises${queryString ? `?${queryString}` : ""}`
+    );
 
     if (!response.ok) {
         const message = await getErrorMessage(
             response,
-            '카테고리 조회에 실패하였습니다.'
+            '운동 종류 조회에 실패하였습니다.'
         );
 
         throw new Error(message);
@@ -18,8 +32,8 @@ export const getCategories = async () => {
 }
 
 
-export const createCategories = async (payload: { name: string }) => {
-    const response = await fetchWithAuth(`/api/categories`, {
+export const createExercises = async (payload: ExerciseRequest) => {
+    const response = await fetchWithAuth(`/api/exercises`, {
         method: "POST",
         body: JSON.stringify(payload)
     });
@@ -27,7 +41,7 @@ export const createCategories = async (payload: { name: string }) => {
     if (!response.ok) {
         const message = await getErrorMessage(
             response,
-            '카테고리 등록에 실패하였습니다.'
+            '운동 종류 등록에 실패하였습니다.'
         );
 
         throw new Error(message);
@@ -36,8 +50,8 @@ export const createCategories = async (payload: { name: string }) => {
     return response.json();
 }
 
-export const updateCategories = async (categoryId: number, payload: { name: string }) => {
-    const response = await fetchWithAuth(`/api/categories/${categoryId}`, {
+export const updateExercises = async (exerciseId: number, payload: ExerciseUpdateRequest) => {
+    const response = await fetchWithAuth(`/api/exercises/${exerciseId}`, {
         method: "PATCH",
         body: JSON.stringify(payload)
     });
@@ -45,7 +59,7 @@ export const updateCategories = async (categoryId: number, payload: { name: stri
     if (!response.ok) {
         const message = await getErrorMessage(
             response,
-            '카테고리 수정에 실패하였습니다.'
+            '운동 종류 수정에 실패하였습니다.'
         );
 
         throw new Error(message);
@@ -54,15 +68,15 @@ export const updateCategories = async (categoryId: number, payload: { name: stri
     return response.json();
 }
 
-export const deleteCategories = async (categoryId: number) => {
-    const response = await fetchWithAuth(`/api/categories/${categoryId}`, {
+export const deleteExercises = async (exerciseId: number) => {
+    const response = await fetchWithAuth(`/api/exercises/${exerciseId}`, {
         method: "DELETE"
     });
 
     if (!response.ok) {
         const message = await getErrorMessage(
             response,
-            '카테고리 삭제에 실패하였습니다.'
+            '운동 종류 삭제에 실패하였습니다.'
         );
 
         throw new Error(message);
@@ -71,75 +85,6 @@ export const deleteCategories = async (categoryId: number) => {
     return response.json();
 }
 
-//태그
-export const getTags = async () => {
-    const response = await fetchWithAuth('/api/tags');
-
-    if (!response.ok) {
-        const message = await getErrorMessage(
-            response,
-            '태그 조회에 실패하였습니다.'
-        );
-
-        throw new Error(message);
-    }
-
-    return response.json();
-}
-
-
-export const createTags = async (payload: { name: string }) => {
-    const response = await fetchWithAuth(`/api/tags`, {
-        method: "POST",
-        body: JSON.stringify(payload)
-    });
-
-    if (!response.ok) {
-        const message = await getErrorMessage(
-            response,
-            '태그 등록에 실패하였습니다.'
-        );
-
-        throw new Error(message);
-    }
-
-    return response.json();
-}
-
-export const updateTags = async (tagId: number, payload: { name: string }) => {
-    const response = await fetchWithAuth(`/api/tags/${tagId}`, {
-        method: "PATCH",
-        body: JSON.stringify(payload)
-    });
-
-    if (!response.ok) {
-        const message = await getErrorMessage(
-            response,
-            '태그 수정에 실패하였습니다.'
-        );
-
-        throw new Error(message);
-    }
-
-    return response.json();
-}
-
-export const deleteTags = async (tagId: number) => {
-    const response = await fetchWithAuth(`/api/tags/${tagId}`, {
-        method: "DELETE"
-    });
-
-    if (!response.ok) {
-        const message = await getErrorMessage(
-            response,
-            '태그 삭제에 실패하였습니다.'
-        );
-
-        throw new Error(message);
-    }
-
-    return response.json();
-}
 
 //조직 목록 조회
 export const getOrganization = async (page: string = '0') => {
@@ -328,6 +273,20 @@ export const getUserDashboard = async () => {
 
 export const getContentDashboard = async () => {
     const response = await fetchWithAuth(`/api/dashboard/admin/contents`);
+
+    if (!response.ok) {
+        const message = await getErrorMessage(
+            response,
+            '대시보드 조회에 실패했습니다.'
+        );
+
+        throw new Error(message);
+    }
+    return response.json();
+}
+
+export const getRevenuesDashboard = async () => {
+    const response = await fetchWithAuth(`/api/dashboard/admin/revenues`);
 
     if (!response.ok) {
         const message = await getErrorMessage(

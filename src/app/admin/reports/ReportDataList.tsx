@@ -6,12 +6,12 @@ import AdminPagination from "@/feature/admin/components/AdminPagination";
 
 interface ReportDataListProps {
     mode: 'TRAINER_REVIEW' | 'COMMENT' | 'PT_COURSE' | 'FEEDBACK' | 'POST';
-    reposts: Reposts[]
+    reports: Reports[]
     totalPage: number;
     page: string;
 }
 
-export default function ReportDataList({ mode, reposts, totalPage, page }: ReportDataListProps) {
+export default function ReportDataList({ mode, reports, totalPage, page }: ReportDataListProps) {
 
     const modeType = { 'TRAINER_REVIEW': 'reviews', 'COMMENT': 'comments', 'PT_COURSE': 'pt', 'FEEDBACK': 'feedbacks', 'POST': 'posts' }
 
@@ -29,11 +29,11 @@ export default function ReportDataList({ mode, reposts, totalPage, page }: Repor
                     <p className="col-span-2 hidden md:block">상태</p>
                     <p className="col-span-3">관리</p>
                 </div>
-                {reposts?.map((repost) => (
-                    <ReportDataItem mode={mode} repost={repost} key={repost.reportGroupId} />
+                {reports?.map((report) => (
+                    <ReportDataItem mode={mode} report={report} key={report.reportGroupId} />
                 ))}
 
-                {reposts?.length === 0 && (
+                {reports?.length === 0 && (
                     <div className="px-3 sm:px-4 lg:px-6 py-8 lg:py-10 text-center text-xs sm:text-sm text-muted-foreground">
                         신고가 없습니다.
                     </div>

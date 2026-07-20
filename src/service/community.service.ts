@@ -3,8 +3,8 @@ import { fetchWithAuth, fetchWithAuthGet } from "@/lib/feth";
 import { getErrorMessage } from "@/lib/stateError";
 
 
-export const getCommunity = async (page: string = '0', type?: 'FREE' | 'NOTICE') => {
-    const response = await fetchWithAuthGet(`/api/community/posts?page=${page}${type ? `&type=${type}` : ''}`);
+export const getCommunity = async (page: string = '0', type?: 'FREE' | 'NOTICE', keyword?: string) => {
+    const response = await fetchWithAuthGet(`/api/community/posts?page=${page}${type ? `&type=${type}` : ''}${keyword ? `&keyword=${keyword}` : ''}`);
 
     if (!response.ok) {
         const message = await getErrorMessage(

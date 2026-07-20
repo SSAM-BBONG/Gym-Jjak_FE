@@ -44,7 +44,7 @@ export default function PasswordChangeForm() {
             rounded-[16px]
             border
             border-[#36415380]
-            bg-[linear-gradient(135deg,rgba(16,24,40,0.90)0%,rgba(30,41,57,0.90)100%)]"
+            bg-[#101828]"
       >
         <label className="text-[14px] text-white font-medium"> 새비밀번호 </label>
         <div className="
@@ -70,7 +70,7 @@ export default function PasswordChangeForm() {
               className="object-cover hover:cursor-pointer"
             />
           </div>
-          <div className="relative w-5 h-5">
+          {/* <div className="relative w-5 h-5">
             <Image
               src={PasswordOpenEye}
               alt="비밀번호 숨기기"
@@ -78,7 +78,7 @@ export default function PasswordChangeForm() {
               sizes="w-10 h-10"
               className="object-cover hover:cursor-pointer"
             />
-          </div>
+          </div> */}
         </div>
         {errors.newPassword?.message && (
           <p className="my-3 text-[12px] text-[#FF6467]">{errors.newPassword.message}</p>
@@ -91,7 +91,7 @@ export default function PasswordChangeForm() {
             rounded-[16px]
             border
             border-[#36415380]
-            bg-[linear-gradient(135deg,rgba(16,24,40,0.90)0%,rgba(30,41,57,0.90)100%)]"
+            bg-[#101828]"
       >
         <label className="text-[14px] text-white font-medium"> 비밀번호 확인 </label>
         <div className="
@@ -117,7 +117,7 @@ export default function PasswordChangeForm() {
               className="object-cover hover:cursor-pointer"
             />
           </div>
-          <div className="relative w-5 h-5">
+          {/* <div className="relative w-5 h-5">
             <Image
               src={PasswordOpenEye}
               alt="비밀번호 숨기기"
@@ -126,7 +126,7 @@ export default function PasswordChangeForm() {
               sizes="w-10 h-10"
               className="object-cover hover:cursor-pointer"
             />
-          </div>
+          </div> */}
         </div>
         {errors.checkNewPassword?.message && (
           <p className="my-3 text-[12px] text-[#FF6467]">{errors.checkNewPassword.message}</p>

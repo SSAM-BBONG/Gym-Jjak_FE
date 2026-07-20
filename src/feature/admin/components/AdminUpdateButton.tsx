@@ -5,7 +5,7 @@ import { AdminUpdateImg } from "@/components/ui/image";
 import AdminAddModal from "./modals/AdminAddModal";
 import Image from "next/image";
 
-export default function AdminUpdateButton({ mode, id, name }: { mode: '카테고리' | '태그', id: number, name: string }) {
+export default function AdminUpdateButton({ id, exercise }: { id: number, exercise: Exercise }) {
 
     const modal = useModal();
 
@@ -26,10 +26,9 @@ export default function AdminUpdateButton({ mode, id, name }: { mode: '카테고
             <AdminAddModal
                 isModal={modal.isModal}
                 closeModal={modal.closeModal}
-                mode={mode}
                 system="update"
                 id={id}
-                name={name} />
+                exercise={exercise} />
         </>
 
     );

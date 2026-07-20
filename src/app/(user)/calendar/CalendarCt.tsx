@@ -8,7 +8,6 @@ import { MainCalendar } from "@/components/ui/mainCalendar";
 import { useQuery } from "@tanstack/react-query";
 import CalendarPtItem from "@/feature/calendar/components/CalendarPtItem";
 import { format } from "date-fns/format";
-import { isSameDay } from "date-fns/isSameDay";
 
 import { calendargetDateAction, calendargetMonthAction } from "@/feature/calendar/action";
 
@@ -17,7 +16,6 @@ export default function CalendarCt() {
     const [date, setDate] = useState<Date | undefined>(new Date())
 
     const selectedDate = date ?? new Date();
-
 
     const selectedYear = format(selectedDate, "yyyy");
     const selectedMonth = format(selectedDate, "M");
@@ -44,15 +42,12 @@ export default function CalendarCt() {
         queryKey: ['calendar-date', selectedSettingDate],
         queryFn: () => calendargetDateAction(selectedSettingDate),
         enabled: !!selectedYear && !!selectedMonth && !!selectedDay,
+        select: (response) => response.data,
     });
-
-    const currentDate = new Date();
 
     const settingDate = format(selectedDate, "yyyy년 MM월 dd일", {
         locale: ko,
     });
-
-    const isToday = isSameDay(selectedDate, currentDate);
 
     return (
         <>
@@ -66,16 +61,14 @@ export default function CalendarCt() {
             />
             <section className="w-full md:w-2/5 text-white md:ml-8">
                 <div className="flex justify-between mb-2">
-                    <h1 className="font-black text-5xl">{selectedDay}</h1>
-                    {isToday && (
-                        <CalendarAddButton selectedSettingDate={selectedSettingDate} />
-                    )}
+                    <h1 className="font-black text-3xl md:text-5xl ">{selectedDay}</h1>
+                    <CalendarAddButton selectedSettingDate={selectedSettingDate} />
                 </div>
                 <p className="text-[#6A7282] font-normal text-base mb-6">{settingDate}</p>
                 {!isDateLoading && (
                     <>
-                        {dateData?.data?.pts.map((pt: Pt) => <CalendarPtItem data={pt} key={pt.ptId} />)}
-                        {dateData?.data?.diary && <CalendarItem data={dateData?.data?.diary} />}
+                        {dateData?.pts.map((pt: Pt) => <CalendarPtItem data={pt} key={pt.ptId} />)}
+                        {dateData?.diaries.map((diary: Diary) => <CalendarItem data={diary} key={diary.workoutDiaryId} />)}
                     </>
                 )}
 

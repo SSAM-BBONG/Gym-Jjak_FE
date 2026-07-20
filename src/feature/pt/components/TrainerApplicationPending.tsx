@@ -1,22 +1,28 @@
 'use client'
 
 import { PtTrainerRegistPending, TrainerAPplicationCancel, TrainerAPplicationEdit } from "@/components/ui/image";
-import { getTrainerCancel } from "@/service/ptzone.service";
 import { deleteTrainerApplication } from "../actions";
 import Link from "next/link";
-import Image from "next/image";
-import { TrainerApplicationDetail } from "../type";
+import { TrainerApplicationDetail, TrainerApplicationStatus } from "../type";
 import OneButtonModal from "@/components/ui/OneButtonModal";
 import TwoButtonModal from "@/components/ui/TwoButtonModal";
 import useModal from "@/components/hooks/useModal";
 import { useState } from "react";
-import { format } from "date-fns";
+import { format, isValid, parseISO } from "date-fns";
 
 interface TrainerApplicationPendingProps {
-    trainerApplicationData: TrainerApplicationDetail
+    trainerApplicationData: TrainerApplicationDetail;
+    editHref: string;
 }
 
-export const TrainerApplicationPending = ({ trainerApplicationData }: TrainerApplicationPendingProps) => {
+const applicationStatus: Record<TrainerApplicationStatus, { label: string; message: string }> = {
+    PENDING: { label: "대기중", message: "관리자의 승인을 기다리고 있습니다. 영업일 기준 3-5일 소요될 수 있습니다." },
+    APPROVED: { label: "승인됨", message: "트레이너 신청이 승인되었습니다." },
+    REJECTED: { label: "반려됨", message: "트레이너 신청이 반려되었습니다." },
+    CANCELED: { label: "취소됨", message: "트레이너 신청이 취소되었습니다." },
+};
+
+export const TrainerApplicationPending = ({ trainerApplicationData, editHref }: TrainerApplicationPendingProps) => {
     const handleDelteApplication = async () => {
         const result = await deleteTrainerApplication(trainerApplicationData.trainerApplicationId);
 
@@ -31,6 +37,7 @@ export const TrainerApplicationPending = ({ trainerApplicationData }: TrainerApp
     const checkModal = useModal(confirmModal.openModal);
     const errorModal = useModal();
     const [errorMessage, setErrorMessage] = useState("");
+    const status = applicationStatus[trainerApplicationData.status];
 
     return (
         <div className="
@@ -55,12 +62,12 @@ export const TrainerApplicationPending = ({ trainerApplicationData }: TrainerApp
                         </div> */}
                     </div>
                     <div className="flex flex-col">
-                        <p className="text-[24px] font-extrabold text-white"> 대기중</p>
+                        <p className="text-[24px] font-extrabold text-white"> {status.label}</p>
                         <p className="text-[14px] font-normal text-[#99A1AF]"> 신청일: {!trainerApplicationData.updatedAt ? format(trainerApplicationData.createdAt, "yyyy-MM-dd") : format(trainerApplicationData.updatedAt, "yyyy-MM-dd")} </p>
                     </div>
                 </div>
                 <div className="flex gap-3 items-center">
-                    <Link href="/pt/trainer-apply/edit">
+                    <Link href={editHref}>
                         <div className="flex gap-2 items-center text-[16px] font-medium text-white rounded-[10px] bg-[#364153] px-4 py-2">
                             <img src={TrainerAPplicationEdit} alt="트레이너 신청 수정 버튼" />
                             {/* <div className="relative w-5 h-5">
@@ -108,7 +115,9 @@ export const TrainerApplicationPending = ({ trainerApplicationData }: TrainerApp
                     </div>
                 </div>
             </div>
-            <p className="border border-[#F0B1004D] bg-[#733E0A33] px-4 py-4 rounded-[10px] text-[16px] font-normal text-[#FDC700]">관리자의 승인을 기다리고 있습니다. 영업일 기준 3-5일 소요될 수 있습니다.</p>
+            <p className="border border-[#F0B1004D] bg-[#733E0A33] px-4 py-4 rounded-[10px] text-[16px] font-normal text-[#FDC700]">
+                {trainerApplicationData.rejectReason ?? status.message}
+            </p>
             <OneButtonModal
                 isModal={errorModal.isModal}
                 closeModal={errorModal.closeModal}

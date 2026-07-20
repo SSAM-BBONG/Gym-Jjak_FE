@@ -39,7 +39,9 @@ export default async function MyPage() {
 
               <MypageInbodyInformation />
 
-              <MypageMyActivities />
+              <MypageMyActivities 
+                data={myPageResponse.data}
+              />
 
               <MypageAccountSettings socialUser={myPageResponse.data.socialUser}/>
 

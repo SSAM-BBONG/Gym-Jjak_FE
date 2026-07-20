@@ -15,6 +15,7 @@ import { success } from "zod";
 import useModal from "@/components/hooks/useModal";
 import { useState } from "react";
 import OneButtonModal from "@/components/ui/OneButtonModal";
+import TrainerAffiliatedGym from "./TrainerAffiliatedGym";
 
 interface TrainerRegistFormProps {
   mode?: "create" | "edit";
@@ -31,7 +32,7 @@ export default function   TrainerRegistForm( { mode = "create", initialData = {
   qualifications: [],
   awardHistories: [],
   introduction: "",
-  status: "",
+  status: "PENDING",
   rejectReason: "",
   reviewedBy: 0,
   reviewedAt: "",
@@ -56,6 +57,7 @@ const {
 } = useForm<TrainerRegistFormValue>({
   resolver: zodResolver(schema) as Resolver<TrainerRegistFormValue>,
   defaultValues: {
+    organizationIds: [],
     profileImageFile: null,
     profileImageAction: "KEEP",
     certificateFile: undefined,
@@ -68,6 +70,10 @@ const {
 
 const onSubmit: SubmitHandler<TrainerRegistFormValue> = async (values) => {
     const formData = new FormData();
+
+    if (mode === "create") {
+      formData.append("organizationIds", JSON.stringify(values.organizationIds ?? []));
+    }
 
     if (values.profileImageFile) {
       formData.append("profileImageFile", values.profileImageFile);
@@ -135,6 +141,13 @@ const onSubmit: SubmitHandler<TrainerRegistFormValue> = async (values) => {
             initialData = {initialData}
             mode={mode}       
             />
+
+            {mode === "create" && (
+              <TrainerAffiliatedGym
+                setValue={setValue}
+                error={errors.organizationIds?.message}
+              />
+            )}
 
             <TrainerRegistSelfIntroduction
             register={register}

@@ -8,10 +8,9 @@ import useModal from "@/components/hooks/useModal";
 import OneButtonModal from "@/components/ui/OneButtonModal";
 import { useRouter } from "next/navigation";
 import TwoButtonModal from "@/components/ui/TwoButtonModal";
+import { toast } from "sonner";
 
 export default function CommuDeleteComent({ commentId }: { commentId: number }) {
-    const [commentState, setCommentState] = useState<string>('');
-    const modal = useModal();
     const checkModal = useModal(clickDelete);
     const router = useRouter();
 
@@ -19,15 +18,14 @@ export default function CommuDeleteComent({ commentId }: { commentId: number }) 
     async function clickDelete() {
         try {
             const response = await CommentDeleteAction(commentId);
-            if (response) {
-                setCommentState(response)
-                modal.openModal();
+            if (!response.success) {
+                toast.error(response.message)
                 return;
             }
+            toast.success(response.message)
             router.refresh();
         } catch (error) {
-            setCommentState(`네트워크 오류입니다\n다시 시도해주세요`);
-            modal.openModal();
+            toast.error('네트워크 오류입니다')
         }
     }
 
@@ -48,12 +46,6 @@ export default function CommuDeleteComent({ commentId }: { commentId: number }) 
                 activeModal={checkModal.activeModal}
                 title="댓글 삭제"
                 content='댓글을 삭제하시겠습니까?'
-            />
-            <OneButtonModal
-                isModal={modal.isModal}
-                closeModal={modal.closeModal}
-                title="댓글 삭제"
-                content={commentState}
             />
         </>
     );

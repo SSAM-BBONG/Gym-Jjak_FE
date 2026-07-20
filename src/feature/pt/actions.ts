@@ -2,13 +2,67 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { chagnePtzoneResrvationStatus, chagnePtzoneStatus, createFeedback, createPtCourse, createPtReservation, getFeedbackDetail, getMyPtReservationDetail, getMyPtReservationLists, getOnboarding, getPopularPtLists, getPtResrvationAvailableDates, getPtResrvationAvailableTimes, getTrainerCancel, getWithoutOnboarding, trainerApplication, updateTrainerApplication } from "@/service/ptzone.service";
-import { FeedbackDetailData, MyPtRecordDetailData, MyPtResrvationListsData, PtRegistRequest, PtRegistSchedule, PtReservationRequest, PtReservationStatusChangeRequest, TrainerApplicationData, TrainerApplicationEditData } from "./type";
+import { chagnePtzoneResrvationStatus, chagnePtzoneStatus, createFeedback, createPtCourse, createPtReservation, createPtReview, deletePtReview, getFeedbackDetail, getMyPtReservationDetail, getMyPtReservationLists, getMyTrainerApplicationDetail, getMyTrainerApplicationList, getOnboarding, getPopularPtLists, getPtResrvationAvailableDates, getPtResrvationAvailableTimes, getTrainerCancel, getTrainerReviewList, getWithoutOnboarding, searchOrganizations, trainerApplication, updatePtReview, updateTrainerApplication } from "@/service/ptzone.service";
+import { FeedbackDetailData, MyPtRecordDetailData, MyPtResrvationListsData, OrganizationSearchItem, PtRegistRequest, PtRegistSchedule, PtReservationRequest, PtReservationStatusChangeRequest, PtReviewCreateRequest, TrainerApplicationData, TrainerApplicationEditData, TrainerReviewListData, TrainerReviewListRequest } from "./type";
 import { uploadFilesPresignedUrl } from "@/service/file.service";
 import { cookies } from "next/headers";
 
 export const getPopularPtListsAction = async () => {
   return getPopularPtLists();
+};
+
+// 내 트레이너 신청 목록 조회 액션
+export const getMyTrainerApplicationListAction = async (page: number = 0) => {
+  try {
+    const response = await getMyTrainerApplicationList(page);
+
+    return { 
+      success: true, 
+      data: response.data 
+    };
+  } catch (error) {
+    return {
+      success: false as const,
+      message: error instanceof Error ? error.message : "트레이너 신청 목록 조회에 실패하였습니다.",
+    };
+  }
+};
+
+type OrganizationSearchActionResult =
+  | {
+      success: true;
+      data: OrganizationSearchItem[];
+    }
+  | {
+      success: false;
+      message: string;
+    };
+
+// 조직 검색 액션
+export const organizationSearchAction = async (keyword: string): Promise<OrganizationSearchActionResult> => {
+  if (!keyword.trim()) {
+    return { success: true, data: [] };
+  }
+
+  try {
+    const response = await searchOrganizations({
+      keyword,
+      page: 0,
+      size: 10,
+    });
+
+    return {
+      success: true,
+      data: response.data.content,
+    };
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "조직 검색에 실패하였습니다.";
+
+    return {
+      success: false,
+      message,
+    };
+  }
 };
 
 type PtRegistCurriculumFormData = {
@@ -48,46 +102,73 @@ type MyPtReservationDetailActionResult =
 
 // PT 등록 액션
 export const createPtRegistAction = async (formData: FormData) => {
-  const thumbnailFile = formData.get("thumbnailFile");
+  try {
+    const thumbnailFile = formData.get("thumbnailFile");
 
-  if (!(thumbnailFile instanceof File) || thumbnailFile.size === 0) {
+    if (!(thumbnailFile instanceof File) || thumbnailFile.size === 0) {
+      return {
+        success: false,
+        message: "썸네일 이미지를 등록해주세요.",
+      };
+    }
+
+    const part = String(formData.get("part") ?? "");
+    const organizationId = Number(formData.get("organizationId"));
+    const parts: Part[] = ["CHEST", "BACK", "SHOULDER", "ARM", "ABS", "CORE", "LEG", "GLUTE", "FULL_BODY"];
+
+    if (!parts.includes(part as Part)) {
+      return {
+        success: false,
+        message: "운동 부위를 선택해주세요.",
+      };
+    }
+
+    if (!Number.isInteger(organizationId) || organizationId <= 0) {
+      return {
+        success: false,
+        message: "소속 헬스장을 선택해주세요.",
+      };
+    }
+
+    const [uploadedThumbnailFile] = await uploadFilesPresignedUrl([
+      {
+        file: thumbnailFile,
+        fileType: "PT_THUMBNAIL",
+      },
+    ]);
+
+    const curriculums = JSON.parse(
+      String(formData.get("curriculums") ?? "[]")
+    ) as PtRegistCurriculumFormData[];
+
+    const schedules = JSON.parse(
+      String(formData.get("schedules") ?? "[]")
+    ) as PtRegistSchedule[];
+
+    const payload: PtRegistRequest = {
+      title: String(formData.get("title") ?? "").trim(),
+      description: String(formData.get("description") ?? "").trim(),
+      part: part as Part,
+      price: Number(formData.get("price")),
+      thumbnailFile: uploadedThumbnailFile,
+      curriculums: curriculums.map((curriculum, index) => ({
+        sessionNo: index + 1,
+        title: curriculum.title,
+        content: curriculum.content,
+      })),
+      schedules,
+      organizationId,
+    };
+
+    await createPtCourse(payload);
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "PT 등록에 실패하였습니다.";
+
     return {
       success: false,
-      message: "썸네일 이미지를 등록해주세요.",
+      message,
     };
   }
-
-  const [uploadedThumbnailFile] = await uploadFilesPresignedUrl([
-    {
-      file: thumbnailFile,
-      fileType: "PT_THUMBNAIL",
-    },
-  ]);
-
-  const curriculums = JSON.parse(
-    String(formData.get("curriculums") ?? "[]")
-  ) as PtRegistCurriculumFormData[];
-
-  const schedules = JSON.parse(
-    String(formData.get("schedules") ?? "[]")
-  ) as PtRegistSchedule[];
-
-  const payload: PtRegistRequest = {
-    title: String(formData.get("title") ?? "").trim(),
-    description: String(formData.get("description") ?? "").trim(),
-    categoryId: Number(formData.get("categoryId")),
-    tagId: Number(formData.get("tagId")),
-    price: Number(formData.get("price")),
-    thumbnailFile: uploadedThumbnailFile,
-    curriculums: curriculums.map((curriculum, index) => ({
-      sessionNo: index + 1,
-      title: curriculum.title,
-      content: curriculum.content,
-    })),
-    schedules,
-  };
-
-  await createPtCourse(payload);
 
   revalidatePath("/pt");
   revalidatePath("/pt/find");
@@ -100,6 +181,17 @@ export const createPtRegistAction = async (formData: FormData) => {
 export const trainerApplicationAction = async (formData: FormData) => {
   const profileImageFile = formData.get("profileImageFile");
   const certificateFile = formData.get("certificateFile");
+  const organizationIdsValue = String(formData.get("organizationIds") ?? "[]");
+  let organizationIds: number[];
+
+  try {
+    organizationIds = JSON.parse(organizationIdsValue) as number[];
+  } catch {
+    return {
+      success: false,
+      message: "소속 헬스장 정보를 확인해주세요.",
+    };
+  }
 
   const qualifications = JSON.parse(
     String(formData.get("qualifications") ?? "[]")
@@ -125,6 +217,27 @@ export const trainerApplicationAction = async (formData: FormData) => {
     };
   }
 
+  if (!Array.isArray(organizationIds)) {
+    return {
+      success: false,
+      message: "소속 헬스장 정보를 확인해주세요.",
+    };
+  }
+
+  const selectedOrganizationIds = [...new Set(organizationIds)];
+
+  if (
+    selectedOrganizationIds.length === 0 ||
+    selectedOrganizationIds.some(
+      (organizationId) => !Number.isInteger(organizationId) || organizationId <= 0
+    )
+  ) {
+    return {
+      success: false,
+      message: "소속 헬스장을 선택해주세요.",
+    };
+  }
+
   const uploadTargets = [];
 
   const hasProfileImage =
@@ -145,6 +258,7 @@ export const trainerApplicationAction = async (formData: FormData) => {
   const uploadedFiles = await uploadFilesPresignedUrl(uploadTargets);
 
   const payload: TrainerApplicationData = {
+    organizationIds: selectedOrganizationIds,
     profileImageFile: hasProfileImage ? uploadedFiles[0] : null,
     certificateFile: hasProfileImage ? uploadedFiles[1] : uploadedFiles[0],
     qualifications,
@@ -242,9 +356,10 @@ const payload: TrainerApplicationEditData = {
     }
 
   revalidatePath("/pt/trainer-apply");
-  revalidatePath("/pt/trainer-apply/edit");
+  revalidatePath(`/pt/trainer-apply/${id}`);
+  revalidatePath(`/pt/trainer-apply/${id}/edit`);
 
-  redirect("/pt/trainer-apply");
+  redirect(`/pt/trainer-apply/${id}`);
 };
 
 // 트레이너 삭제 액션
@@ -264,8 +379,9 @@ export const deleteTrainerApplication = async (id:number) => {
     }
   
   revalidatePath('/pt/trainer-apply');
-  revalidatePath('/pt/trainer-apply/edit');
-  redirect('/pt');
+  revalidatePath(`/pt/trainer-apply/${id}`);
+  revalidatePath(`/pt/trainer-apply/${id}/edit`);
+  redirect('/pt/trainer-apply');
 }
 
 export const changePtStatus = async (
@@ -348,6 +464,117 @@ export const getMyPtReservationDetailAction = async (
         error instanceof Error
           ? error.message
           : "내 예약 기록 상세 조회에 실패하였습니다.",
+    };
+  }
+};
+
+// 수강평 작성
+export const createPtReviewAction = async (
+  ptCourseId: number,
+  ptReservationId: string,
+  payload: PtReviewCreateRequest
+) => {
+  try {
+    const response = await createPtReview(ptCourseId, ptReservationId, {
+      rating: payload.rating,
+      content: payload.content.trim(),
+    });
+
+    revalidatePath(`/pt/records/${ptReservationId}`);
+
+    return { success: true, message: response.message };
+  } catch (error) {
+    return {
+      success: false,
+      message:
+        error instanceof Error ? error.message : "수강평 등록에 실패하였습니다.",
+    };
+  }
+};
+type TrainerReviewListActionResult =
+  | {
+      success: true;
+      data: TrainerReviewListData;
+    }
+  | {
+      success: false;
+      message: string;
+    };
+
+// 강사평 목록 조회
+export const getTrainerReviewListAction = async (
+  trainerProfileId: number,
+  request: TrainerReviewListRequest = {}
+): Promise<TrainerReviewListActionResult> => {
+  try {
+    const response = await getTrainerReviewList(trainerProfileId, request);
+
+    return {
+      success: true,
+      data: response.data,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message:
+        error instanceof Error
+          ? error.message
+          : "수강평 목록 조회에 실패하였습니다.",
+    };
+  }
+};
+
+// 수강평 수정
+export const updatePtReviewAction = async (
+  ptCourseId: string,
+  reviewId: number,
+  payload: PtReviewCreateRequest
+) => {
+  try {
+    if (!Number.isInteger(payload.rating) || payload.rating < 1 || payload.rating > 5) {
+      return { success: false, message: "별점을 선택해주세요." };
+    }
+
+    if (!payload.content.trim()) {
+      return { success: false, message: "수강평을 입력해주세요." };
+    }
+
+    const response = await updatePtReview(reviewId, {
+      rating: payload.rating,
+      content: payload.content.trim(),
+    });
+
+    revalidatePath(`/pt/${ptCourseId}/reviews`);
+
+    return { 
+      success: true, 
+      message: response.message 
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message:
+        error instanceof Error ? error.message : "수강평 수정에 실패하였습니다.",
+    };
+  }
+};
+
+// 수강평 삭제
+export const deletePtReviewAction = async (ptCourseId: string, reviewId: number) => {
+  try {
+    const response = await deletePtReview(reviewId);
+
+    revalidatePath(`/pt/${ptCourseId}/reviews`);
+
+    return { 
+      success: true, 
+      message: response.message 
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message:
+        error instanceof Error ? error.message : "수강평 삭제에 실패하였습니다.",
     };
   }
 };

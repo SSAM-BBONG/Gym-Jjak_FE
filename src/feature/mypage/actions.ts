@@ -1,10 +1,11 @@
 "use server";
 
-import { addOrganizationManageTrainer, checkPassword, createOrganizationApplication, deleteMyAccount, deleteOraganizationTrainer, editMyProfileInformation, editMyTrainerProfileInformation, editOrganizationManageInformation, getOraganizationsearchTrainers, organizationApplicationCancel, organizationApplicationDupliCationId, updatePassword } from "@/service/mypage.service";
+import { addOrganizationManageTrainer, checkPassword, createOrganizationApplication, deleteInbody, deleteMyAccount, deleteOraganizationTrainer, editMyProfileInformation, editMyTrainerProfileInformation, editOrganizationManageInformation, getInbodyAdd, getOraganizationsearchTrainers, organizationApplicationCancel, organizationApplicationDupliCationId, patchInbody, postInbody, updatePassword } from "@/service/mypage.service";
 import { uploadFilesPresignedUrl } from "@/service/file.service";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
+import { InbodyFormType } from "@/lib/inbodySchema";
 
 // 조직 신청 액션
 export const createOrganizationApplicationAction = async (
@@ -28,7 +29,7 @@ export const createOrganizationApplicationAction = async (
 
   const latitude = String(formData.get("latitude") ?? "");
   const longitude = String(formData.get("longitude") ?? "");
-  
+
   const payload = {
     businessLicenseFile: uploadedBusinessLicenseFile,
     requestedLoginId: String(formData.get("requestedLoginId") ?? "").trim(),
@@ -57,49 +58,49 @@ export const createOrganizationApplicationAction = async (
 
 // 조직 신청 ID 중복확인 액션
 export const organizationIdDuplicationCheckAction = async (loginId: string) => {
-      try {
-          await organizationApplicationDupliCationId(loginId);
-      } catch (error) {
-          let errorMessage: string = '알 수 없는 오류입니다. 재시도해주세요.'
-          if (error instanceof Error) {
-              errorMessage = error.message;
-          }
-  
-          return {
-              success: false,
-              message: errorMessage
-          }
-      }
-  
-      return {
-          success: true,
-          message: '중복 확인을 완료헀습니다.'
-      }
-} 
+  try {
+    await organizationApplicationDupliCationId(loginId);
+  } catch (error) {
+    let errorMessage: string = '알 수 없는 오류입니다. 재시도해주세요.'
+    if (error instanceof Error) {
+      errorMessage = error.message;
+    }
+
+    return {
+      success: false,
+      message: errorMessage
+    }
+  }
+
+  return {
+    success: true,
+    message: '중복 확인을 완료헀습니다.'
+  }
+}
 
 // 조직 신청 취소 액션
-export const organizationApplicationCancelAction = async (applicationId:number) => {
+export const organizationApplicationCancelAction = async (applicationId: number) => {
   try {
     await organizationApplicationCancel(applicationId);
-        revalidatePath("/mypage/organization");
-        revalidatePath("/mypage/organization/application");
-      } catch (error) {
-          let errorMessage: string = '알 수 없는 오류입니다. 재시도해주세요.'
-          if (error instanceof Error) {
-              errorMessage = error.message;
-          }
-  
-          return {
-              success: false,
-              message: errorMessage
-          }
-      }
-      
-      redirect("/mypage/organization");
-      return {
-          success: true,
-          message: '중복 확인을 완료헀습니다.'
-      }
+    revalidatePath("/mypage/organization");
+    revalidatePath("/mypage/organization/application");
+  } catch (error) {
+    let errorMessage: string = '알 수 없는 오류입니다. 재시도해주세요.'
+    if (error instanceof Error) {
+      errorMessage = error.message;
+    }
+
+    return {
+      success: false,
+      message: errorMessage
+    }
+  }
+
+  redirect("/mypage/organization");
+  return {
+    success: true,
+    message: '중복 확인을 완료헀습니다.'
+  }
 }
 
 // 내 조직 정보 수정 액션
@@ -312,9 +313,9 @@ export const editMyProfileInformationAction = async (formData: FormData) => {
     await editMyProfileInformation(payload);
     revalidatePath("/mypage/profile");
 
-    return { 
-      success: true, 
-      message: "프로필 정보가 수정되었습니다." 
+    return {
+      success: true,
+      message: "프로필 정보가 수정되었습니다."
     };
   } catch (error) {
     let errorMessage = "내 프로필 수정에 실패하였습니다.";
@@ -343,11 +344,11 @@ export const editMyTrainerProfileInformationAction = async (
 
     const introduction = String(formData.get("introduction") ?? "").trim();
 
-    const awardHistories =  JSON.parse(String(formData.get("awardHistories") ?? "[]")
-      ) as string[];
+    const awardHistories = JSON.parse(String(formData.get("awardHistories") ?? "[]")
+    ) as string[];
 
     const additionalCertifications = JSON.parse(String(formData.get("additionalCertifications") ?? "[]")
-      ) as string[];
+    ) as string[];
 
     let uploadedProfileImage = null;
 
@@ -397,4 +398,90 @@ export const editMyTrainerProfileInformationAction = async (
       message: errorMessage,
     };
   }
+};
+
+export const getInbodyDetailAction = async (nextInbodyId: number, nextInbodyDate: string) => {
+  try {
+    const response = await getInbodyAdd(nextInbodyDate, nextInbodyId);
+    console.log(response)
+    return response;
+  } catch (error) {
+    let errorMessage = "내 인바디 추가 조회에 실패하였습니다.";
+
+    if (error instanceof Error) {
+      errorMessage = error.message;
+    }
+
+    throw new Error(errorMessage);
+  }
+
+};
+
+export const createInbodyAction = async (data: InbodyFormType) => {
+  try {
+    await postInbody(data);
+  } catch (error) {
+    let errorMessage = "내 인바디 등록에 실패하였습니다.";
+
+    if (error instanceof Error) {
+      errorMessage = error.message;
+    }
+
+    return {
+      success: false,
+      message: errorMessage,
+    };
+  }
+
+  redirect('/mypage/inbody');
+};
+
+
+export const updateInbodyAction = async (inbodyId: number, formData: FormData) => {
+  const payload = {
+
+  };
+  try {
+    // await patchInbody(inbodyId, payload);
+    return {
+      success: false,
+      message: '인바디 수정에 성공하였습니다.',
+    };
+  } catch (error) {
+    let errorMessage = "내 인바디 수정에 실패하였습니다.";
+
+    if (error instanceof Error) {
+      errorMessage = error.message;
+    }
+
+    return {
+      success: false,
+      message: errorMessage,
+    };
+  }
+
+  return {
+    success: false,
+    message: '인바디 수정에 성공하였습니다.',
+  };
+};
+
+
+export const deleteInbodyAction = async (inbodyId: number) => {
+  try {
+    await deleteInbody(inbodyId);
+  } catch (error) {
+    let errorMessage = "내 인바디 삭제에 실패하였습니다.";
+
+    if (error instanceof Error) {
+      errorMessage = error.message;
+    }
+
+    return {
+      success: false,
+      message: errorMessage,
+    };
+  }
+
+  redirect('/mypage/inbody');
 };

@@ -154,3 +154,21 @@ export const createReport = async (payload: ReportRequest) => {
 
     return response.json();
 }
+
+
+export const deleteReportGroup = async (reportGroupId: number) => {
+    const response = await fetchWithAuth(`/api/reportgroup/${reportGroupId}/manual-blind`, {
+        method: "PATCH",
+    });
+
+    if (!response.ok) {
+        const message = await getErrorMessage(
+            response,
+            '신고 그룹 수동 삭제에 실패하였습니다.'
+        );
+
+        throw new Error(message);
+    }
+
+    return response.json();
+}

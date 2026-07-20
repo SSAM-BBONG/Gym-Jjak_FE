@@ -1,7 +1,15 @@
+'use client'
+
+import useDebounce from "@/components/hooks/useDebounce";
 import { CommunitySearchBar } from "@/components/ui/image";
 import Image from "next/image";
+import { useState } from "react";
 
 export default function CommuSearchBar() {
+
+    const [searchInput, setSearchInput] = useState<string>('')
+    useDebounce(searchInput, true);
+
     return (
         <div className="flex gap-2 mt-6">
             <div className="flex flex-1 items-center  rounded-[5px] md:rounded-[10px] border-[#364153] bg-[#101828] px-[16px] py-[16px] gap-4">
@@ -16,7 +24,9 @@ export default function CommuSearchBar() {
                 </div>
                 <input type="text"
                     className="w-full text-white outline-none placeholder:text-[#6A7282] text-[12px] md:placeholder:text-[14px] placeholder:font-normal"
-                    placeholder="검색어를 입력하세요" />
+                    placeholder="검색어를 입력하세요"
+                    onChange={(e) => setSearchInput(e.target.value)}
+                    value={searchInput} />
             </div>
             <select className="bg-[#101828] text-white px-3 md:px-4 py-2 rounded-[5px] md:rounded-[10px] text-[12px] md:text-[16px] hover:cursor-pointer">
                 <option> 최신순 </option>
