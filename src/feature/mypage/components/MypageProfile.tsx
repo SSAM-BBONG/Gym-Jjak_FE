@@ -49,25 +49,7 @@ export default function MyPageProfile({ data }: MyPageProfileProps) {
             작성한 게시글
           </p>
         </div>
-        <p className="text-[16px] font-extrabold text-[#BFFF0B]"> 12 </p>
-      </div>
-
-      <div className="flex w-full justify-between bg-[#1E293980] p-3 rounded-[10px]">
-        <div className="flex gap-2 items-center">
-          <div className="relative w-3 h-4">
-            <Image
-              src={MypageContinuosDeclaration}
-              alt="마이페이지 작성한 글"
-              fill
-              sizes="w-6 h-8"
-              className="object-cover"
-            />
-          </div>
-          <p className="text-[14px] text-[#99A1AF] font-normal">
-            연속 출석
-          </p>
-        </div>
-        <p className="text-[16px] font-extrabold text-[#FF6900]"> 7일 </p>
+        <p className="text-[16px] font-extrabold text-[#BFFF0B]"> {data.communityPostCount} </p>
       </div>
     </div >
   );
