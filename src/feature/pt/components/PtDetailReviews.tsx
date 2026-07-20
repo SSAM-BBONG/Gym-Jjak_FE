@@ -34,7 +34,7 @@ export default function PtDetailReviews( {data}:PtDetailReviewsProps ) {
                     </div>
                 ))}
             </div>
-            <Link href="/pt/1/reviews">
+            <Link href={`/pt/${data.ptCourseId}/reviews`}>
                 <p className="py-6 text-[16px] font-medium text-white text-center"> 전체 리뷰 보기 &nbsp; 〉</p>
             </Link>
         </div>

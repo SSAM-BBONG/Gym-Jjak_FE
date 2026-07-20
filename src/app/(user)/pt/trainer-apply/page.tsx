@@ -1,134 +1,86 @@
-import { TrainerEssentialQulificationIcon, TrainerProfileImgDefault } from "@/components/ui/image";
-import { TrainerApplicationPending } from "@/feature/pt/components/TrainerApplicationPending";
-import TrainerRegistForm from "@/feature/pt/components/TrainerRegistForm";
-import { getTrainerApplication } from "@/service/ptzone.service";
-import Image from "next/image";
+import { getMyTrainerApplicationListAction } from "@/feature/pt/actions";
+import { TrainerApplicationStatus } from "@/feature/pt/type";
+import Link from "next/link";
 
-export default async function PtTrainerRegistPage() {
+interface PtTrainerRegistPageProps {
+  searchParams: Promise<{ page?: string }>;
+}
 
-    const trainerApplicationData = await getTrainerApplication();
+const statusLabel: Record<TrainerApplicationStatus, string> = {
+  PENDING: "대기중",
+  APPROVED: "승인됨",
+  REJECTED: "반려됨",
+  CANCELED: "취소됨",
+};
 
-    return (
+export default async function PtTrainerRegistPage({ searchParams }: PtTrainerRegistPageProps) {
+  const { page: pageParam } = await searchParams;
+  const page = Number(pageParam ?? "0");
+  const currentPage = Number.isInteger(page) && page >= 0 ? page : 0;
+  const result = await getMyTrainerApplicationListAction(currentPage);
+
+  if (!result.success) {
+    throw new Error(result.message);
+  }
+
+  const { content, hasNext } = result.data;
+
+  return (
+    <div className="flex flex-col px-80 py-10">
+      <div className="flex items-end justify-between gap-4">
         <div>
-            {trainerApplicationData.code === 'TRAINER_APPLICATION_404_1'
-                ?
-                <TrainerRegistForm />
-                : (
-                    <div className="flex flex-col px-80 py-10">
-                        <p className="text-[36px] font-black text-white"> 트레이너 신청 현황 </p>
-                        <p className="text-[14px] font-normal text-[#99A1AF]"> 신청 상태를 확인하세요 </p>
-
-                        <div className="flex flex-col gap-6 mt-6">
-
-                            <TrainerApplicationPending
-                                trainerApplicationData={trainerApplicationData.data}
-                            />
-
-                            <div className="
-                        flex flex-col gap-4
-                        p-8
-                        bg-[linear-gradient(135deg,rgba(16,24,40,0.90)0%,rgba(30,41,57,0.90)100%)]
-                        border
-                        border-[#36415380]
-                        rounded-[16px]
-                        ">
-                                <p className="text-[20px] font-extrabold text-white"> 프로필 정보 </p>
-                                <div className="flex gap-6 items-start  ">
-                                    <div className="flex items-center justify-center size-30 border-[3px] border-[#BFFF0B] rounded-full overflow-hidden">
-                                        <img
-                                            className={`${trainerApplicationData.data.profileImageUrl && "w-full h-full"} object-cover`}
-                                            src={trainerApplicationData.data.profileImageUrl ?? TrainerProfileImgDefault}
-                                            alt="트레이너 프로필 수정 프로필 사진" />
-                                        {/* <div className="relative w-4 h-4">
-                                            <Image
-                                                src={trainerApplicationData.data.profileImageUrl ?? TrainerProfileImgDefault}
-                                                alt="트레이너 프로필 수정 프로필 사진"
-                                                fill
-                                                priority
-                                                sizes="w-8 h-8"
-                                                className={`${trainerApplicationData.data.profileImageUrl && "w-full h-full"} object-cover`}
-                                            />
-                                        </div> */}
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="
-                                flex flex-col gap-4
-                                p-8
-                                bg-[linear-gradient(135deg,rgba(16,24,40,0.90)0%,rgba(30,41,57,0.90)100%)]
-                                border
-                                border-[#36415380]
-                                rounded-[16px]
-                                ">
-                                <div className="flex items-center justify-between">
-                                    <div className="flex flex-col gap-3">
-                                        <p className="text-[20px] font-extrabold text-white"> 필수 자격증 </p>
-                                    </div>
-                                </div>
-                                <div className="flex gap-3 justify-between">
-                                    <div className="flex flex-1 gap-2 px-3 py-2 border border-[#364153] bg-[#1E293980] items-center rounded-[10px]">
-                                        <img src={TrainerEssentialQulificationIcon} alt="자격증 업로드시 나오는 아이콘" />
-                                        {/* <div className="relative w-4 h-4">
-                                            <Image
-                                                src={TrainerEssentialQulificationIcon}
-                                                alt="자격증 업로드시 나오는 아이콘"
-                                                fill
-                                                priority
-                                                sizes="w-8 h-8"
-                                                className="object-cover"
-                                            />
-                                        </div> */}
-                                        <p className="text-[#99A1AF] text-[12px] font-medium"> {trainerApplicationData.data.certificateOriginalName} </p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="
-                        flex flex-col gap-4
-                        p-8
-                        bg-[linear-gradient(135deg,rgba(16,24,40,0.90)0%,rgba(30,41,57,0.90)100%)]
-                        border
-                        border-[#36415380]
-                        rounded-[16px]">
-                                <p className="text-[20px] font-extrabold text-white"> 자격증 </p>
-                                {trainerApplicationData.data.qualifications.map((data, index) => (
-                                    <p key={index} className="flex gap-2 text-[16px] font-normal text-[#D1D5DC]">
-                                        <span className="text-[#BFFF0B] font-black ">•</span>
-                                        {data}
-                                    </p>
-                                ))}
-                            </div>
-
-                            <div className="
-                        flex flex-col gap-4
-                        p-8
-                        bg-[linear-gradient(135deg,rgba(16,24,40,0.90)0%,rgba(30,41,57,0.90)100%)]
-                        border
-                        border-[#36415380]
-                        rounded-[16px]">
-                                <p className="text-[20px] font-extrabold text-white"> 대회 경력 </p>
-                                {trainerApplicationData.data.awardHistories.map((data, index) => (
-                                    <p key={index} className="flex gap-2 text-[16px] font-normal text-[#D1D5DC]">
-                                        <span className="text-[#BFFF0B] font-black ">•</span>
-                                        {data}
-                                    </p>
-                                ))}
-                            </div>
-
-                            <div className="
-                    flex flex-col gap-4
-                    p-8
-                    bg-[linear-gradient(135deg,rgba(16,24,40,0.90)0%,rgba(30,41,57,0.90)100%)]
-                    border
-                    border-[#36415380]
-                    rounded-[16px]">
-                                <p className="text-[20px] font-extrabold text-white"> 자기소개 </p>
-                                <p className="text-[16px] font-normal text-[#D1D5DC]"> {trainerApplicationData.data.introduction} </p>
-                            </div>
-                        </div>
-                    </div>
-                )}
+          <h1 className="text-[36px] font-black text-white">트레이너 신청 현황</h1>
+          <p className="text-[14px] font-normal text-[#99A1AF]">신청한 헬스장별 상태를 확인하세요.</p>
         </div>
-    );
+        <Link
+          href="/pt/trainer-apply/regist"
+          className="rounded-[10px] bg-[#BFFF0B] px-4 py-3 text-[16px] font-extrabold text-black"
+        >
+          신청하기
+        </Link>
+      </div>
+
+      {content.length === 0 ? (
+        <div className="mt-6 rounded-[16px] border border-[#36415380] bg-[#101828] px-8 py-16 text-center text-[16px] text-[#99A1AF]">
+          트레이너 신청 목록이 없습니다.
+        </div>
+      ) : (
+        <div className="mt-6 flex flex-col gap-4">
+          {content.map((application) => (
+            <Link
+              key={application.trainerApplicationId}
+              href={`/pt/trainer-apply/${application.trainerApplicationId}`}
+              className="rounded-[16px] border border-[#36415380] bg-[linear-gradient(135deg,rgba(16,24,40,0.90)_0%,rgba(30,41,57,0.90)_100%)] p-6 transition-colors hover:border-[#BFFF0B]"
+            >
+              <div className="flex items-center justify-between gap-4">
+                <div>
+                  <p className="text-[20px] font-extrabold text-white">{application.organizationName}</p>
+                  <p className="mt-2 text-[14px] text-[#99A1AF]">신청일: {application.createdAt.slice(0, 10)}</p>
+                </div>
+                <span className="rounded-full bg-[#364153] px-3 py-1 text-[14px] font-bold text-white">
+                  {statusLabel[application.status]}
+                </span>
+              </div>
+              {application.rejectReason && (
+                <p className="mt-4 text-[14px] text-[#FF9A9C]">반려 사유: {application.rejectReason}</p>
+              )}
+            </Link>
+          ))}
+
+          <div className="flex justify-center gap-3 pt-2">
+            {currentPage > 0 && (
+              <Link href={`/pt/trainer-apply?page=${currentPage - 1}`} className="rounded-[10px] bg-[#364153] px-4 py-2 text-white">
+                이전
+              </Link>
+            )}
+            {hasNext && (
+              <Link href={`/pt/trainer-apply?page=${currentPage + 1}`} className="rounded-[10px] bg-[#364153] px-4 py-2 text-white">
+                다음
+              </Link>
+            )}
+          </div>
+        </div>
+      )}
+    </div>
+  );
 }

@@ -58,7 +58,11 @@ export default async function PtRecordDetailPage({ params }: PtRecordDetailPageP
                 </div>
             </div>
 
-            <PtRecordDetailButton />
+            <PtRecordDetailButton
+                ptCourseId={data.ptCourseId}
+                reservationId={id}
+                title={data.title}
+            />
 
             <div className="
             grid grid-cols-1 gap-2

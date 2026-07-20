@@ -3,12 +3,16 @@
 import useModal from "@/components/hooks/useModal";
 import PtReviewModal from "./PtReviewModal";
 
-export default function PtRecordDetailButton() {
-    const activefunc =() =>{
-        console.log('1');
-    }   
-
-    const modal = useModal(activefunc);
+export default function PtRecordDetailButton({
+    ptCourseId,
+    reservationId,
+    title,
+}: {
+    ptCourseId: number;
+    reservationId: string;
+    title: string;
+}) {
+    const modal = useModal();
 
     return (
         <div className="grid grid-cols-4 gap-4">
@@ -19,7 +23,9 @@ export default function PtRecordDetailButton() {
                 <PtReviewModal 
                     isModal={modal.isModal}
                     closeModal={modal.closeModal}
-                    activeModal={modal.activeModal}
+                    ptCourseId={ptCourseId}
+                    reservationId={reservationId}
+                    title={title}
                 />
                 <button className="py-3 rounded-[10px] bg-[#1E2939] text-[16px] font-extrabold text-white hover:cursor-pointer"> 채팅 </button>
                 <button className="py-3 rounded-[10px] bg-[#1E2939] text-[16px] font-extrabold text-white hover:cursor-pointer"> 신고 </button>
