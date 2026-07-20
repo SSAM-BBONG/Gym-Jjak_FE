@@ -216,3 +216,16 @@ interface ReportRequest {
     reason: "SPAM" | "ADVERTISEMENT" | "ABUSE" | "SEXUAL_CONTENT" | "FRAUD" | "PRIVACY_EXPOSURE" | "ETC";
     detail: string;
 }
+
+interface ContentSituation {
+    activePtCourseCount: number;
+    blindedPtCourseCount: number;
+    pendingReportGroupCount: number;
+}
+
+interface MonthlyRevenueCount {
+    month: string;
+    ptCommissionRevenue: number;
+    subscriptionRevenue: number;
+    totalRevenue: number;
+}

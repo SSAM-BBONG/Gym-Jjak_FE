@@ -13,11 +13,6 @@ interface AdminNavLinkProps {
 
 export default function PartNavLink({ part, href, children }: AdminNavLinkProps) {
     const pathName = usePathname();
-    console.log('p', pathName)
-    console.log('h', href)
-    console.log('part', part)
-    console.log(`${pathName}${part ? `?part=${part}` : ''}`)
-    console.log('true', href == `${pathName}${part ? `?part=${part}` : ''}`);
     const isActive = href === `${pathName}${part ? `?part=${part}` : ''}`;
     let active = 'text-black text-sm font-semibold bg-[#BFFF0B] border-[#BFFF0B] border-1 py-2 px-4 block rounded-md my-1';
     let noneActive = 'text-[#BFFF0B] text-sm py-2 px-4 block my-1 rounded-md hover:bg-gray-800/50 hover:text-[#BFFF0B]-300';

@@ -285,6 +285,20 @@ export const getContentDashboard = async () => {
     return response.json();
 }
 
+export const getRevenuesDashboard = async () => {
+    const response = await fetchWithAuth(`/api/dashboard/admin/revenues`);
+
+    if (!response.ok) {
+        const message = await getErrorMessage(
+            response,
+            '대시보드 조회에 실패했습니다.'
+        );
+
+        throw new Error(message);
+    }
+    return response.json();
+}
+
 export const getReservationDashboard = async () => {
     const response = await fetchWithAuth(`/api/dashboard/admin/reservations`);
 
