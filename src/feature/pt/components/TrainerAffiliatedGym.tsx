@@ -18,6 +18,7 @@ export default function TrainerAffiliatedGym({
     const [keyword, setKeyword] = useState("");
     const [organizations, setOrganizations] = useState<OrganizationSearchItem[]>([]);
     const [selectedOrganizations, setSelectedOrganizations] = useState<OrganizationSearchItem[]>([]);
+    const [isSearchOpen, setIsSearchOpen] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
     const [searchError, setSearchError] = useState("");
 
@@ -62,6 +63,10 @@ export default function TrainerAffiliatedGym({
         const nextOrganizations = [...selectedOrganizations, organization];
 
         setSelectedOrganizations(nextOrganizations);
+        setKeyword("");
+        setOrganizations([]);
+        setSearchError("");
+        setIsSearchOpen(false);
         setValue("organizationIds", nextOrganizations.map(({ organizationId }) => organizationId), {
             shouldValidate: true,
             shouldDirty: true,
@@ -74,6 +79,9 @@ export default function TrainerAffiliatedGym({
         );
 
         setSelectedOrganizations(nextOrganizations);
+        if (nextOrganizations.length === 0) {
+            setIsSearchOpen(true);
+        }
         setValue("organizationIds", nextOrganizations.map((organization) => organization.organizationId), {
             shouldValidate: true,
             shouldDirty: true,
@@ -94,6 +102,22 @@ export default function TrainerAffiliatedGym({
             </div>
         
         <div className="w-full">
+            {selectedOrganizations.length > 0 && (
+                <div className="mb-3 flex items-center justify-between gap-3">
+                    <p className="text-[13px] font-medium text-[#99A1AF]">선택한 헬스장 {selectedOrganizations.length}곳</p>
+                    {!isSearchOpen && (
+                        <button
+                            type="button"
+                            onClick={() => setIsSearchOpen(true)}
+                            className="rounded-[8px] bg-[#364153] px-3 py-2 text-[13px] font-bold text-white hover:bg-[#4b5563]"
+                        >
+                            헬스장 추가
+                        </button>
+                    )}
+                </div>
+            )}
+            {isSearchOpen && (
+                <>
             <input
                 value={keyword}
                 onChange={(event) => {
@@ -126,9 +150,10 @@ export default function TrainerAffiliatedGym({
                     ))}
                 </div>
             )}
+                </>
+            )}
             {selectedOrganizations.length > 0 && (
                 <div className="mt-3 flex flex-col gap-2">
-                    <p className="text-[13px] font-medium text-[#99A1AF]">선택한 헬스장 {selectedOrganizations.length}곳</p>
                     {selectedOrganizations.map((organization) => (
                         <div key={organization.organizationId} className="flex items-center justify-between gap-3 rounded-[10px] border border-[#BFFF0B] bg-[#BFFF0B]/10 px-4 py-3">
                             <div>

@@ -12,7 +12,6 @@ const STATUS_LABEL: Record<string, string> = {
   RESERVED: "예약됨",
 };
 
-
 export default function PtManageUserFeedBackTop( {data}: PtManageUserFeedBackTopProps) {
     
     const current = data.progressCount

@@ -21,8 +21,6 @@ export default function PtManageReservationList({
         ? ptReservations
         : ptReservations.filter((item) => item.status === selectedStatus);
 
-    console.log(ptReservations);
-
     return (
         <>
             <div className="flex justify-between">
