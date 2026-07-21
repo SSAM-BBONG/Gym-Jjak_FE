@@ -5,6 +5,7 @@ import ReportDetailButton from "@/feature/admin/components/ReportDetailButton";
 import ReportGroupDeleteButton from "@/feature/admin/components/ReportGroupDeleteButton";
 import ReportStatus from "@/feature/admin/components/ReportStatus";
 import { getReportPtbyId } from "@/service/report.service";
+import { format } from "date-fns";
 import Image from "next/image";
 
 interface ReportMode {
@@ -24,7 +25,7 @@ export default function ReportDataItem({ mode, report }: ReportMode) {
             <p className="col-span-3">{report.targetDisplayText}</p>
             <p className="col-span-3 hidden md:block">{report.targetOwnerUsername}</p>
             <div className="col-span-3"><ReportCheck reportGroupId={report.reportGroupId} /></div>
-            <p className="col-span-2 hidden md:block">날짜</p>
+            <p className="col-span-2 hidden md:block">{format(report.reportedAt, 'yyyy-MM-dd')}</p>
             <p className="col-span-2 hidden md:block">{report.effectiveReportCount}건</p>
             {report.status === '처리완료' ? (
                 <>

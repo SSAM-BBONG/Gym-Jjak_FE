@@ -56,13 +56,6 @@ export default function HeaderAuthArea() {
     <div className="grid grid-cols-[20px_20px_80px] items-center justify-end gap-5 min-w-32">
       {user && <AlarmSocket enabled={isAlarmSocketEnabled} />}
 
-      {user?.role === "ADMIN" && (
-        <Link href="/admin/approvals/organizations?page=1">
-          <button className="cursor-pointer rounded-[10px] border border-[#BFFF0B] bg-black px-4 py-2 text-[14px] font-extrabold text-[#BFFF0B]">
-            관리자
-          </button>
-        </Link>
-      )}
 
       <Link href="/alarm">
         <div className="relative min-w-5">
