@@ -4,10 +4,12 @@ import Link from "next/link";
 import HeaderAuthArea from "./HeaderAuthArea";
 import Image from "next/image";
 import { decodeJWT } from "@/lib/decode";
+import { getAlarmUnreadCountAction } from "@/feature/alarm/action";
 
 export default async function Header() {
 
     const userinf = await decodeJWT();
+    const response = await getAlarmUnreadCountAction();
 
     return (
         <header className="fixed top-0 left-0 w-full h-17.5 bg-black grid grid-cols-[1fr_auto_1fr] items-center px-10 z-9999 border-b border-b-[#1E2939]">
@@ -36,6 +38,7 @@ export default async function Header() {
             <NavBar />
             <HeaderAuthArea 
                 userInf={userinf}
+                notification={response.data}
             />
         </header>
     );

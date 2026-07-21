@@ -403,7 +403,6 @@ export const editMyTrainerProfileInformationAction = async (
 export const getInbodyDetailAction = async (nextInbodyId: number, nextInbodyDate: string) => {
   try {
     const response = await getInbodyAdd(nextInbodyDate, nextInbodyId);
-    console.log(response)
     return response;
   } catch (error) {
     let errorMessage = "내 인바디 추가 조회에 실패하였습니다.";

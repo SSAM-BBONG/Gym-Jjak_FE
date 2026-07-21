@@ -101,7 +101,7 @@ export default function PtRegistForm({ organizations }: PtRegistFormProps) {
                     disabled={isSubmitting} 
                     className="flex-1 rounded-[10px] bg-[#BFFF0B] py-4 text-black text-[16px] font-extrabold"
                 > 
-                    {isSubmitting ? "등록 중" : "등록하기"} 
+                    {isSubmitting ? "등록 중..." : "등록하기"} 
                 </button>
             </div>
         </form>

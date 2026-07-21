@@ -27,8 +27,21 @@ export default function PtRegistTime({
     const [startTime, setStartTime] = useState("10:00");
     const [endTime, setEndTime] = useState("11:00");
     const [schedules, setSchedules] = useState<PtRegistSchedule[]>([]);
+    const [addError, setAddError] = useState("");
 
     const handleAddTime = () => {
+        const isDuplicate = schedules.some(
+            (schedule) =>
+                schedule.dayOfWeek === dayOfWeek &&
+                schedule.startTime === startTime &&
+                schedule.endTime === endTime,
+        );
+
+        if (isDuplicate) {
+            setAddError("이미 추가된 요일과 시간입니다.");
+            return;
+        }
+
         const nextSchedules = [
         ...schedules,
         {
@@ -44,6 +57,8 @@ export default function PtRegistTime({
         shouldValidate: true,
         shouldDirty: true,
         });
+
+        setAddError("");
     };
 
     const handleRemoveTime = (removeIndex: number) => {
@@ -195,7 +210,9 @@ export default function PtRegistTime({
                 </div>
             ))}
 
-            {error && <p className="text-[14px] text-red-400">{error}</p>}
+            {(addError || error) && (
+                <p className="text-[14px] text-red-400">{addError || error}</p>
+            )}
         </div>
     );
 }

@@ -28,7 +28,6 @@ export default function TrainerRegistEssentialQulification({
     const [qualificationFileName, setQualificationFileName] = useState(
         initialData?.certificateOriginalName ?? ""
     );
-    console.log();
 
     // 자격증 관리
     const handleQualificationChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {

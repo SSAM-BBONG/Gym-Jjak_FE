@@ -9,19 +9,22 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { MyTokenPayload } from "@/lib/decode";
+import { AlarmUnreadCountData } from "@/feature/alarm/type";
 
 interface HeaderAuthAreaProps {
   userInf?: MyTokenPayload
+  notification?: AlarmUnreadCountData;
 }
 
 type HeaderUser = Awaited<ReturnType<typeof getHeaderUserAction>>;
 
 const ALARM_SOCKET_DISABLED_PATHS = ["/alarm", "/admin"];
 
-export default function HeaderAuthArea({ userInf }: HeaderAuthAreaProps) {
+export default function HeaderAuthArea({ userInf, notification }: HeaderAuthAreaProps) {
   const pathname = usePathname();
   const [user, setUser] = useState<HeaderUser>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const unreadCount = notification?.unreadCount ?? 0;
 
   const isAlarmSocketEnabled =
     Boolean(user) &&
@@ -73,9 +76,11 @@ export default function HeaderAuthArea({ userInf }: HeaderAuthAreaProps) {
               className="object-cover"
             />
           </div>
-          {/* <div className="absolute top-[-4px] left-2 flex size-4 items-center justify-center rounded-full bg-[#BFFF0B] text-[10px] font-extrabold text-black">
-            5
-          </div> */}
+          {unreadCount > 0 && (
+            <div className="absolute top-[-4px] left-2 flex size-4 items-center justify-center rounded-full bg-[#BFFF0B] text-[10px] font-extrabold text-black">
+              {unreadCount}
+            </div>
+          )}
         </div>
       </Link>
 
