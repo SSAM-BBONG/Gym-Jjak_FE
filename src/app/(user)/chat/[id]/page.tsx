@@ -1,5 +1,5 @@
 export default async function ChatDetailPage() {
     return (
-        <div></div>
+        <div className="text-white"> Test</div>
     )
 }
