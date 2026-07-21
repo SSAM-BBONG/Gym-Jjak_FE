@@ -8,6 +8,7 @@ import { OrganizationAdminDetailAction, OrganizationApplicationAdminDetailAction
 import OrganizationTrainerList from "@/app/admin/members/organizations/OrganizationTrainersList";
 import UrlCt from "../UrlCt";
 import Image from "next/image";
+import { format } from "date-fns";
 
 interface OrganizationDetailModalProps {
     isModal: boolean;
@@ -25,7 +26,7 @@ const emptyOrganizationApplicationInstance: OrganizationApplicationsDetail = {
     businessName: '',
     representativeName: '',
     representativePhone: '',
-    openingDate: '',
+    openingDate: '2026-07-20T13:26:16.661111',
     roadAddress: '',
     jibunAddress: '',
     detailAddress: '',
@@ -48,7 +49,7 @@ const emptyOrganizationInstance: OrganizationDetail = {
     businessName: '',
     representativeName: '',
     representativePhone: '',
-    openingDate: '',
+    openingDate: '2026-07-20T13:26:16.661111',
     roadAddress: '',
     detailAddress: '',
     latitude: 0,
@@ -58,7 +59,7 @@ const emptyOrganizationInstance: OrganizationDetail = {
     blogUrl: '',
     websiteUrl: '',
     status: 'ACTIVE',
-    approvedAt: '',
+    approvedAt: '2026-07-20T13:26:16.661111',
     trainerCount: 0,
     trainers: []
 }
@@ -119,18 +120,20 @@ export default function OrganizationDetailModal({ isModal, closeModal, activeMod
                         <article>
                             <AdminModalP title='사업자 등록증' />
                             <div
-                                className="flex items-center gap-2 md:gap-4 border-[#364153] border w-full p-3 md:p-4 mt-2 bg-[#1E2939] rounded-md text-[#D1D5DC] text-sm md:text-base font-normal"
+                                className="flex justify-between items-center gap-2 md:gap-4 border-[#364153] border w-full p-3 md:p-4 mt-2 bg-[#1E2939] rounded-md text-[#D1D5DC] text-sm md:text-base font-normal"
                             >
-                                <div className="relative ml-auto w-4 h-4 lg:w-5 lg:h-5">
-                                    <Image
-                                        src={AdminDocument}
-                                        alt="문서 버튼"
-                                        fill
-                                        sizes="w-4 h-4"
-                                    />
-                                </div>
-                                <div>
-                                    <p className="text-white">{organizationApplicationInfo.businessLicenseOriginalName || organizationInfo.businessLicenseOriginalName}</p>
+                                <div className="flex items-center gap-3">
+                                    <div className="relative ml-auto w-4 h-4 lg:w-5 lg:h-5">
+                                        <Image
+                                            src={AdminDocument}
+                                            alt="문서 버튼"
+                                            fill
+                                            sizes="w-4 h-4"
+                                        />
+                                    </div>
+                                    <div>
+                                        <p className="text-white">{organizationApplicationInfo.businessLicenseOriginalName || organizationInfo.businessLicenseOriginalName}</p>
+                                    </div>
                                 </div>
                                 <a target="_blank" rel="noopener noreferrer" href={organizationApplicationInfo.businessLicenseFileUrl || organizationInfo.businessLicenseFileUrl} className="px-3 md:px-4.5 py-1.5 md:py-2 text-black bg-[#BFFF0B] rounded-md font-bold text-[10px] md:text-sm lg:text-base ml-auto">자세히 보기</a>
 
@@ -164,7 +167,7 @@ export default function OrganizationDetailModal({ isModal, closeModal, activeMod
                         </article>
                         <article>
                             <AdminModalP title='개업일자' />
-                            <AdminModalDiv content={organizationApplicationInfo.openingDate || organizationInfo.openingDate} />
+                            <AdminModalDiv content={format(organizationApplicationInfo.openingDate, 'yyyy-MM-dd') || format(organizationInfo.openingDate, 'yyyy-MM-dd')} />
                         </article>
                         <article>
                             <AdminModalP title='웹사이트 링크' />
@@ -198,7 +201,7 @@ export default function OrganizationDetailModal({ isModal, closeModal, activeMod
                                 </article>
                                 <article>
                                     <AdminModalP title='승인일' />
-                                    <AdminModalDiv content={organizationInfo.approvedAt} />
+                                    <AdminModalDiv content={format(organizationInfo.approvedAt, 'yyyy-MM-dd')} />
                                 </article>
                                 <article>
                                     <AdminModalP title='소속 트레이너' />

@@ -3,7 +3,6 @@
 import SearchBar from "@/feature/admin/components/SearchBar";
 import OrganizationADataItem from "./OrganizationADataItem";
 import AdminPagination from "@/feature/admin/components/AdminPagination";
-import OrganizationDetailButton from "@/feature/admin/components/OrganizationDetailButton";
 
 interface OrganizationApplicationDataListProps {
     organizations: OrganizationApplications[]

@@ -2,17 +2,17 @@
 
 import useModal from "@/components/hooks/useModal";
 import { DetailButtonImg } from "@/components/ui/image";
-import CheckViewModal from "./modals/CheckViewModal";
 import Image from "next/image";
+import ViewReportModal from "./modals/ViewReportModal";
 
 interface DetailButtonMode {
     mode: 'TRAINER_REVIEW' | 'COMMENT' | 'PT_COURSE' | 'FEEDBACK' | 'POST';
     reportId: number
+    reportGroupId: number
 }
 
 
-export default function ReportDetailButton({ mode, reportId }: DetailButtonMode) {
-
+export default function ReportDetailButton({ mode, reportId, reportGroupId }: DetailButtonMode) {
 
     const viewModal = useModal();
 
@@ -38,13 +38,14 @@ export default function ReportDetailButton({ mode, reportId }: DetailButtonMode)
                     />
                 </div> 상세보기
             </button>
-            <CheckViewModal
-                isModal={viewModal.isModal}
-                closeModal={viewModal.closeModal}
-                mode={mode}
-                nickname='모달입니다'
-                content=""
-            />
+            {viewModal.isModal &&
+                <ViewReportModal
+                    isModal={viewModal.isModal}
+                    closeModal={viewModal.closeModal}
+                    mode={mode}
+                    reportId={reportGroupId}
+                />
+            }
         </>
     );
 }

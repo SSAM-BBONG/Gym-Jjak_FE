@@ -230,3 +230,13 @@ interface MonthlyRevenueCount {
     subscriptionRevenue: number;
     totalRevenue: number;
 }
+
+
+interface RepostSnapshot {
+    reportGroupId: number;
+    targetType: string;
+    targetId: number;
+    title: null | string;
+    content: string;
+    fileUrl: null | string;
+}
