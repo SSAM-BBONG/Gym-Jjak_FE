@@ -17,3 +17,14 @@ export interface WebSocketAlarmError {
     code: string;
     message: string;
 }
+
+export interface AlarmUnreadCountResponse {
+    status: number;
+    code: string;
+    message: string;
+    data: AlarmUnreadCountData;
+}
+
+export interface AlarmUnreadCountData {
+    unreadCount: number;
+}

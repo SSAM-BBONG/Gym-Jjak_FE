@@ -15,7 +15,6 @@ interface UserProfileProps {
 }
 
 export default function UserProfile( {userInf}: UserProfileProps) {
-    console.log(userInf);
     const router = useRouter();
     const [visible, setVisible] = useState<boolean>(false);
 

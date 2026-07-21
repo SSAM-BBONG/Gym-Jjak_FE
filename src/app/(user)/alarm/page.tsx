@@ -30,8 +30,8 @@ export default async function AlarmPage() {
       </div>
 
       <div className="flex gap-[14px] justify-end">
-        <AlarmReadDeleteAllButton text={'모두 읽음'} alarms={deleteAllFilter} />
-        <AlarmReadDeleteAllButton text={'모두 삭제'} alarms={readAllFilter} />
+        <AlarmReadDeleteAllButton text={'모두 읽음'} alarms={readAllFilter} />
+        <AlarmReadDeleteAllButton text={'모두 삭제'} alarms={deleteAllFilter} />
       </div>
       {alarms.map((alarm) => {
         return <AlarmCard alarm={alarm} key={alarm.notificationId} />

@@ -33,22 +33,7 @@ export default async function PtZonePage() {
             {/* 역할에 따라 서로 다른 UI 분기 설정 */}
             {userinf?.role === "TRAINER" ?
                 (
-                    <div className="grid grid-cols-4 gap-6">
-                        <PtCard
-                            imgsrc={PtZoneFindCard}
-                            title="PT 찾기"
-                            content="내 주변 PT 찾기"
-                            movecoment="찾아보기"
-                            move="/pt/find"
-                            testId="pt-find-link"
-                        />
-                        <PtCard
-                            imgsrc={PtZonePtRecord}
-                            title="PT 기록"
-                            content="내 PT 기록 확인"
-                            movecoment="확인하기"
-                            move="/pt/records"
-                        />
+                    <div className="grid grid-cols-2 gap-6">
                         <PtCard
                             imgsrc={PtZonePtRegist}
                             title="PT 등록"

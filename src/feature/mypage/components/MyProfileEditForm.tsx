@@ -125,12 +125,13 @@ export default function MyProfileEditForm( { data, socialUser }: MyProfileEditPr
                         className="flex-1 bg-[#1E2939] border border-[#364153] px-4 py-3 rounded-[10px] text-white outline-none"/>
                     <button 
                         onClick={handleNicknameDuplicationCheck}
+                        type="button"
                         className="text-[16px] font-medium text-white px-4 py-3 bg-[#364153] rounded-[10px]"> 
                         중복 확인 
                     </button>
                     </div>
                     {nicknameCheckState.message && (
-                         <p className="my-3 text-[12px] text-white">{nicknameCheckState.message}</p>
+                         <p className="my-3 text-[12px] font-bold text-emerald-500">{nicknameCheckState.message}</p>
                         )}
                         
                         {errors.nickname?.message && <p className="my-3 text-[12px] text-[#FF6467]">{errors.nickname.message}</p>}

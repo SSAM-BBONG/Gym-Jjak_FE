@@ -79,10 +79,7 @@ export interface PtPopularCourseData {
   title: string;
   price: number;
   thumbnailUrl: string;
-  categoryId: number;
-  categoryName: string;
-  tagId: number;
-  tagName: string;
+  part: string;
   trainerName: string;
   roadAddress: string;
 }

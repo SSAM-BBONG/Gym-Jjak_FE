@@ -87,6 +87,8 @@ export const loginAction = async (prevState: ActionState, formData: FormData): P
         redirect('/organization/dashboard/gym');
     } else if (resData.data.role === 'ADMIN') {
         redirect('/admin/dashboard/users');
+    } else if (resData.data.role === 'TRAINER') {
+        redirect('/pt');
     }
 
     if (resData.data.onboardingCompleted) {
