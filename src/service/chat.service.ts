@@ -2,7 +2,7 @@ import type { ChatRoomListResponse } from "@/feature/chat/type";
 import { fetchWithAuth } from "@/lib/feth";
 import { getErrorMessage } from "@/lib/stateError";
 
-export const getChatRooms = async (): Promise<ChatRoomListResponse> => {
+export const getChatRoomList = async (): Promise<ChatRoomListResponse> => {
     const response = await fetchWithAuth("/api/chat/rooms");
 
     if (!response.ok) {

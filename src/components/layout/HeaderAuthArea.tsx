@@ -92,9 +92,9 @@ export default function HeaderAuthArea() {
               className="object-cover"
             />
           </div>
-          <div className="absolute top-[-4px] left-2 flex size-4 items-center justify-center rounded-full bg-[#BFFF0B] text-[10px] font-extrabold text-black">
-            5
-          </div>
+          {/* <div className="absolute top-[-4px] left-2 flex size-4 items-center justify-center rounded-full bg-[#BFFF0B] text-[10px] font-extrabold text-black">
+          5
+          </div> */}
         </div>
       </Link>
 
