@@ -2,7 +2,7 @@
 
 import { PtCourseListData } from "@/feature/pt/type";
 import { useState } from "react";
-import { CustomOverlayMap, Map, MapMarker } from "react-kakao-maps-sdk";
+import { CustomOverlayMap, Map, MapMarker, useKakaoLoader } from "react-kakao-maps-sdk";
 
 interface OrganizationId {
   organName: string;
@@ -17,6 +17,10 @@ interface PtFindProps {
 }
 
 export default function KakaoMap({latitude, longitude, ptList, setOrganizationId}: PtFindProps) {
+  const [loading, error] = useKakaoLoader({
+    appkey: process.env.NEXT_PUBLIC_KAKAO_MAP_KEY ?? "",
+    libraries: ["services"],
+  });
   
   const [selectedOrganizationName, setSelectedOrganizationName] = useState<string | null>(null);
 
@@ -26,6 +30,14 @@ export default function KakaoMap({latitude, longitude, ptList, setOrganizationId
     });
     setSelectedOrganizationName(organizationName);
   };
+
+  if (loading) {
+    return <div className="h-full flex items-center justify-center bg-gray-100">지도를 불러오는 중...</div>;
+  }
+
+  if (error) {
+    return <div className="h-full flex items-center justify-center bg-gray-100">지도를 불러오지 못했습니다.</div>;
+  }
   return (
     // 지도 출력 컴포넌트 
     <Map
