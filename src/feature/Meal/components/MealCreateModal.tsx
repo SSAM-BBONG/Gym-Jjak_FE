@@ -31,8 +31,8 @@ export default function MealCreateModal({ isModal, closeModal, system }: MealPro
                             />
                         </button>
                     </div>
-                    <label className="font-bold text-base md:text-xl text-white">ㄴㄴㅇ</label>
-                    <div className="flex mb-6 mt-3">
+                    <label className="font-medium text-base md:text-lg text-white">식사 유형</label>
+                    <div className="flex mb-6 mt-2">
                         <select
                             className={`border-[#364153] text-sm md:text-base border w-1/3 py-3 md:px-6 px-3 bg-[#1E2939] rounded-md focus:border-[#BFFF0B] text-white focus:outline-none ${system === 'create' ? '' : 'invisible'}`}>
                             <option disabled hidden>시간</option>
@@ -44,30 +44,30 @@ export default function MealCreateModal({ isModal, closeModal, system }: MealPro
                     </div>
                     <div className="flex w-full md:gap-3 flex-col md:flex-row">
                         <div className="w-full">
-                            <label className="font-bold text-base md:text-xl text-white">날짜</label>
-                            <input type='date' className="border-[#364153] border w-full mb-4 px-4 md:px-6 py-2.5 md:py-3 bg-[#1E2939] rounded-md focus:border-[#BFFF0B] text-white text-sm md:text-base focus:outline-none" />
+                            <label className="font-medium text-base md:text-lg text-white">날짜</label>
+                            <input type='date' className="border-[#364153] mt-2 border w-full mb-4 px-4 md:px-6 py-2.5 md:py-3 bg-[#1E2939] rounded-md focus:border-[#BFFF0B] text-white text-sm md:text-base focus:outline-none" />
                         </div>
                         <div className="w-full">
-                            <label className="font-bold text-base md:text-xl text-white">시간</label>
-                            <input type='time' className="border-[#364153] border w-full mb-4 px-4 md:px-6 py-2.5 md:py-3 bg-[#1E2939] rounded-md focus:border-[#BFFF0B] text-white text-sm md:text-base focus:outline-none" />
+                            <label className="font-medium text-base md:text-lg text-white">시간</label>
+                            <input type='time' className="border-[#364153] mt-2 border w-full mb-4 px-4 md:px-6 py-2.5 md:py-3 bg-[#1E2939] rounded-md focus:border-[#BFFF0B] text-white text-sm md:text-base focus:outline-none" />
                         </div>
                     </div>
                     <MealImgClassifier />
-                    <label className="font-bold text-base md:text-xl text-white">열량(kcal)</label>
-                    <input type="number" defaultValue={0} placeholder="0" className="border-[#364153] border w-full mb-4 px-4 md:px-6 py-2.5 md:py-3 bg-[#1E2939] rounded-md focus:border-[#BFFF0B] text-white text-sm md:text-base focus:outline-none" />
-                    <label className="font-bold text-base md:text-xl text-white">영양소</label>
+                    <label className="font-medium text-base md:text-lg text-white">열량(kcal)</label>
+                    <input type="number" defaultValue={0} placeholder="0" className="border-[#364153] mt-2 border w-full mb-4 px-4 md:px-6 py-2.5 md:py-3 bg-[#1E2939] rounded-md focus:border-[#BFFF0B] text-white text-sm md:text-base focus:outline-none" />
+                    <label className="font-medium text-base md:text-lg text-white">영양소</label>
                     <div className="flex w-full gap-2 md:gap-3">
                         <div className="w-full">
                             <label className="font-medium text-xs md:text-base text-[#6A7282]">탄수화물</label>
-                            <input type="number" defaultValue={0} placeholder="0.00" className="border-[#364153] border w-full mb-4 px-4 md:px-6 py-2.5 md:py-3 bg-[#1E2939] rounded-md focus:border-[#BFFF0B] text-white text-sm md:text-base focus:outline-none" />
+                            <input type="number" defaultValue={0} placeholder="0.00" className="border-[#364153] mt-2 border w-full mb-4 px-4 md:px-6 py-2.5 md:py-3 bg-[#1E2939] rounded-md focus:border-[#BFFF0B] text-white text-sm md:text-base focus:outline-none" />
                         </div>
                         <div className="w-full">
                             <label className="font-medium text-xs md:text-base text-[#6A7282]">단백질</label>
-                            <input type="number" defaultValue={0} placeholder="0.00" className="border-[#364153] border w-full mb-4 px-4 md:px-6 py-2.5 md:py-3 bg-[#1E2939] rounded-md focus:border-[#BFFF0B] text-white text-sm md:text-base focus:outline-none" />
+                            <input type="number" defaultValue={0} placeholder="0.00" className="border-[#364153] mt-2 border w-full mb-4 px-4 md:px-6 py-2.5 md:py-3 bg-[#1E2939] rounded-md focus:border-[#BFFF0B] text-white text-sm md:text-base focus:outline-none" />
                         </div>
                         <div className="w-full">
                             <label className="font-medium text-xs md:text-base text-[#6A7282]">지방</label>
-                            <input type="number" defaultValue={0} placeholder="0.00" className="border-[#364153] border w-full mb-4 px-4 md:px-6 py-2.5 md:py-3 bg-[#1E2939] rounded-md focus:border-[#BFFF0B] text-white text-sm md:text-base focus:outline-none" />
+                            <input type="number" defaultValue={0} placeholder="0.00" className="border-[#364153] mt-2 border w-full mb-4 px-4 md:px-6 py-2.5 md:py-3 bg-[#1E2939] rounded-md focus:border-[#BFFF0B] text-white text-sm md:text-base focus:outline-none" />
                         </div>
                     </div>
                 </article>
