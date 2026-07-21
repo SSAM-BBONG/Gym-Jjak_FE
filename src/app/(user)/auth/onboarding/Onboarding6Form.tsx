@@ -11,6 +11,7 @@ import useModal from "@/components/hooks/useModal";
 import { onboardingAction } from "@/feature/auth/action";
 import OneButtonModal from "@/components/ui/OneButtonModal";
 import Link from "next/link";
+import { useKakaoLoader } from "react-kakao-maps-sdk";
 
 interface DaumAddressData {
     roadAddress: string;
@@ -27,6 +28,12 @@ interface KakaoAddressResult {
 
 export default function Onboarding6Form({ totalData, setTotalData }: { totalData: onbordingRequest, setTotalData: Dispatch<SetStateAction<onbordingRequest>> }) {
     const router = useRouter();
+
+    const [isKakaoLoading, kakaoError] = useKakaoLoader({
+        appkey: process.env.NEXT_PUBLIC_KAKAO_MAP_KEY ?? "",
+        libraries: ["services"],
+    });
+
     const [userAdress, setUserAddress] = useState({
         "sido": "",
         "sigungu": "",
@@ -65,36 +72,51 @@ export default function Onboarding6Form({ totalData, setTotalData }: { totalData
     }
 
     const completeHandler = (data: DaumAddressData) => {
-        const selectedRoadAddress = data.roadAddress;
+        if (isKakaoLoading) {
+            setApiState({
+            success: false,
+            message: "지도 서비스를 준비 중입니다. 잠시 후 다시 시도해주세요.",
+            });
+            errorModal.openModal();
+            return;
+        }
 
-        window.kakao.maps.load(() => {
-            const geocoder = new window.kakao.maps.services.Geocoder();
+        if (kakaoError || !window.kakao?.maps?.services) {
+            setApiState({
+            success: false,
+            message: "지도 서비스를 불러오지 못했습니다. 새로고침 후 다시 시도해주세요.",
+            });
+            errorModal.openModal();
+            return;
+        }
 
-            geocoder.addressSearch(
-                selectedRoadAddress,
-                (result: KakaoAddressResult[], status: string) => {
-                    if (status !== "OK") return;
 
-                    const newAddress = {
-                        sido: data.sido,
-                        sigungu: data.sigungu,
-                        eupmyeondong: data.bname || data.roadname,
-                        fullName: selectedRoadAddress,
-                        latitude: Number(result[0].y),
-                        longitude: Number(result[0].x),
-                    };
+        const geocoder = new window.kakao.maps.services.Geocoder();
 
-                    setTotalData({
-                        ...totalData,
-                        region: newAddress,
-                    });
+        geocoder.addressSearch(data.roadAddress, (result, status) => {
+            if (status !== "OK" || !result[0]) {
+            // 주소 변환 실패 UI 처리
+            return;
+            }
 
-                    setUserAddress(newAddress);
-                    setValue("region", newAddress);
-                    modal.closeModal();
-                }
-            );
-        });
+            const newAddress = {
+                sido: data.sido,
+                sigungu: data.sigungu,
+                eupmyeondong: data.bname || data.roadname,
+                fullName: data.roadAddress,
+                latitude: Number(result[0].y),
+                longitude: Number(result[0].x),
+            };
+                setTotalData({
+                    ...totalData,
+                    region: newAddress,
+                });
+
+                setUserAddress(newAddress);
+                setValue("region", newAddress);
+                modal.closeModal();
+            }
+        );
     };
 
 
