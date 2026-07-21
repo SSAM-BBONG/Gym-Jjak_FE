@@ -1,4 +1,4 @@
-'ise client'
+'use client'
 
 import { CloseButton } from "@/components/ui/image";
 import Image from "next/image";
