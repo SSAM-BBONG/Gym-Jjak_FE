@@ -71,6 +71,7 @@ interface ReportResponse {
 interface Exercise {
     exerciseId: number;
     part: PartKo;
+    createdAt: string;
     exerciseName: string;
 }
 
