@@ -437,8 +437,7 @@ export const chagnePtzoneResrvationStatus = async (
   reservationId: number,
   status: PtReservationStatusChangeRequest
 ): Promise<PtReservationStatusChangeResponse> => {
-  const response = await fetchWithAuth(`/api/reservations/${reservationId}/status
-`, {
+  const response = await fetchWithAuth(`/api/reservations/${reservationId}/status`, {
     method: "PATCH",
     body: JSON.stringify(status)
   }

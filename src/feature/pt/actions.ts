@@ -420,9 +420,26 @@ export const changePtReservationStatus = async (
   reservationId: number,
   status: PtReservationStatusChangeRequest["status"]
 ) => {
-  await chagnePtzoneResrvationStatus(reservationId, { status });
+  try {
+    const response = await chagnePtzoneResrvationStatus(reservationId, {
+      status,
+    });
 
-  revalidatePath(`/pt/manage/${ptCourseId}`);
+    revalidatePath(`/pt/manage/${ptCourseId}`);
+
+    return {
+      success: true as const,
+      data: response.data,
+    };
+  } catch (error) {
+    return {
+      success: false as const,
+      message:
+        error instanceof Error
+          ? error.message
+          : "수강생 상태 변경에 실패했습니다.",
+    };
+  }
 };
 
 // 내 예약 기록 목록 조회 액션
