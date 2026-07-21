@@ -1,0 +1,92 @@
+import { CloseButton } from "@/components/ui/image";
+import Image from "next/image";
+import MealImgClassifier from "./MealImgClassifier";
+
+interface MealProps {
+    isModal: boolean;
+    closeModal: () => void;
+    system: 'update' | 'create'
+}
+
+export default function MealCreateModal({ isModal, closeModal, system }: MealProps) {
+    if (!isModal) return null;
+
+    return (
+        <section
+            className="z-999 bg-black/50 fixed top-0 left-0 w-screen h-screen"
+            onClick={closeModal} >
+            <form
+                className="bg-gradient-to-br from-[#101828] to-[#000] w-4/5 max-h-120 sm:w-md sm:h-100 md:w-lg md:h-120 lg:w-lg rounded-2xl border border-[#1E2939] z-1000 fixed top-1/2 left-1/2 p-6 flex -translate-x-1/2 -translate-y-1/2 flex-col justify-between
+                        overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+                onClick={(e) => { e.stopPropagation(); }}>
+                <article>
+                    <div className="flex justify-between border-b-[#1E2939] border-b items-center pb-6 md:pb-8 md:pt-2 mb-8">
+                        <h3 className="font-bold text-base md:text-lg text-[#E8EAF0]">{system === 'create' ? '식단 추가' : '식단 수정'}</h3>
+                        <button onClick={closeModal} className="relative ml-auto w-5 h-5">
+                            <Image
+                                src={CloseButton}
+                                alt="모달 닫기 버튼"
+                                fill
+                                sizes="w-4 h-4"
+                            />
+                        </button>
+                    </div>
+                    <label className="font-bold text-base md:text-xl text-white">ㄴㄴㅇ</label>
+                    <div className="flex mb-6 mt-3">
+                        <select
+                            className={`border-[#364153] text-sm md:text-base border w-1/3 py-3 md:px-6 px-3 bg-[#1E2939] rounded-md focus:border-[#BFFF0B] text-white focus:outline-none ${system === 'create' ? '' : 'invisible'}`}>
+                            <option disabled hidden>시간</option>
+                            <option value='아침'>아침</option>
+                            <option value='점심'>점심</option>
+                            <option value='저녁'>저녁</option>
+                            <option value='간식'>간식</option>
+                        </select>
+                    </div>
+                    <div className="flex w-full md:gap-3 flex-col md:flex-row">
+                        <div className="w-full">
+                            <label className="font-bold text-base md:text-xl text-white">날짜</label>
+                            <input type='date' className="border-[#364153] border w-full mb-4 px-4 md:px-6 py-2.5 md:py-3 bg-[#1E2939] rounded-md focus:border-[#BFFF0B] text-white text-sm md:text-base focus:outline-none" />
+                        </div>
+                        <div className="w-full">
+                            <label className="font-bold text-base md:text-xl text-white">시간</label>
+                            <input type='time' className="border-[#364153] border w-full mb-4 px-4 md:px-6 py-2.5 md:py-3 bg-[#1E2939] rounded-md focus:border-[#BFFF0B] text-white text-sm md:text-base focus:outline-none" />
+                        </div>
+                    </div>
+                    <MealImgClassifier />
+                    <label className="font-bold text-base md:text-xl text-white">열량(kcal)</label>
+                    <input type="number" defaultValue={0} placeholder="0" className="border-[#364153] border w-full mb-4 px-4 md:px-6 py-2.5 md:py-3 bg-[#1E2939] rounded-md focus:border-[#BFFF0B] text-white text-sm md:text-base focus:outline-none" />
+                    <label className="font-bold text-base md:text-xl text-white">영양소</label>
+                    <div className="flex w-full gap-2 md:gap-3">
+                        <div className="w-full">
+                            <label className="font-medium text-xs md:text-base text-[#6A7282]">탄수화물</label>
+                            <input type="number" defaultValue={0} placeholder="0.00" className="border-[#364153] border w-full mb-4 px-4 md:px-6 py-2.5 md:py-3 bg-[#1E2939] rounded-md focus:border-[#BFFF0B] text-white text-sm md:text-base focus:outline-none" />
+                        </div>
+                        <div className="w-full">
+                            <label className="font-medium text-xs md:text-base text-[#6A7282]">단백질</label>
+                            <input type="number" defaultValue={0} placeholder="0.00" className="border-[#364153] border w-full mb-4 px-4 md:px-6 py-2.5 md:py-3 bg-[#1E2939] rounded-md focus:border-[#BFFF0B] text-white text-sm md:text-base focus:outline-none" />
+                        </div>
+                        <div className="w-full">
+                            <label className="font-medium text-xs md:text-base text-[#6A7282]">지방</label>
+                            <input type="number" defaultValue={0} placeholder="0.00" className="border-[#364153] border w-full mb-4 px-4 md:px-6 py-2.5 md:py-3 bg-[#1E2939] rounded-md focus:border-[#BFFF0B] text-white text-sm md:text-base focus:outline-none" />
+                        </div>
+                    </div>
+                </article>
+                <article className='flex gap-3 mt-10'>
+                    <button
+                        type="button"
+                        onClick={closeModal}
+                        className='w-full flex pt-2 pb-3 justify-center items-center rounded-lg text-white text-center font-semibold text-s md:text-base bg-[#1E2939]'
+                    >
+                        취소
+                    </button>
+                    <button
+                        type="submit"
+                        className='w-full flex pt-2 pb-3 justify-center items-center rounded-lg text-black text-center font-semibold text-s md:text-base bg-[#BFFF0B]'
+                    >
+                        {system === 'create' ? '저장하기' : '수정하기'}
+                    </button>
+                </article>
+            </form>
+        </section>
+    );
+}

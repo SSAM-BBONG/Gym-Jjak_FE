@@ -4,9 +4,13 @@ import { MealCalendar } from "@/components/ui/MealCalendar";
 import Image from "next/image";
 import { useState } from "react";
 import MealCard from "./MealCard";
+import useModal from "@/components/hooks/useModal";
+import MealCreateModal from "@/feature/Meal/components/MealCreateModal";
 
 export default function Page() {
     const [date, setDate] = useState<Date | undefined>(new Date())
+
+    const modal = useModal();
 
     return (
         <div className="px-10 sm:px-20 md:px-30 lg:px-40 pt-5">
@@ -16,6 +20,7 @@ export default function Page() {
                     <p className="text-[#99A1AF] font-normal text-[14px] mt-[10px]"> 오늘의 식사를 기록하고 영양 균형을 확인하세요 </p>
                 </div>
                 <button
+                    onClick={modal.openModal}
                     className="flex items-center gap-1.5 sm:gap-2 lg:gap-3 bg-[#BFFF0B] text-black text-[10px] sm:text-sm lg:text-base font-bold ml-auto px-2 sm:px-4 lg:px-6 py-2 sm:py-3 lg:py-3.5 rounded-md">
                     <div className="relative w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6">
                         <Image
@@ -61,6 +66,10 @@ export default function Page() {
             <div className="px-3 sm:px-4 lg:px-6 py-8 lg:py-10 text-center text-xs sm:text-sm text-muted-foreground">
                 오늘의 식단을 남겨주세요
             </div>
+            <MealCreateModal
+                isModal={modal.isModal}
+                closeModal={modal.closeModal}
+                system="create" />
         </div>
     );
 }
