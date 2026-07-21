@@ -87,7 +87,7 @@ export default function PtManageFeedBackCard({ data, reservationId, ptCourseId }
                                         onClick={() => openCheckModal(item.feedbacks?.feedbackId ?? null)}>
                                         <div className="flex flex-col gap-2 pb-2 border-b border-b-[#364153]">
                                             <div className="flex justify-between">
-                                                <p className="flex gap-3 text-[14px] font-extrabold text-[#BFFF0B] whitespace-nowrap items-center">
+                                                <div className="flex gap-3 text-[14px] font-extrabold text-[#BFFF0B] whitespace-nowrap items-center">
                                                     <div className="relative w-4 h-4">
                                                         <Image
                                                             src={PtRecordVideo}
@@ -99,13 +99,13 @@ export default function PtManageFeedBackCard({ data, reservationId, ptCourseId }
                                                         />
                                                     </div>
                                                     트레이너 피드백
-                                                </p>
+                                                </div>
                                                 <p className="text-[12px] font-normal text-[#6A7282]"> {item.feedbacks.createdAt} </p>
                                             </div>
                                             <p className="text-[14px] font-medium text-[#99A1AF] hover:text-[#BFFF0B]"> 비디오 피드백 보기</p>
                                         </div>
                                         <div className="flex flex-col gap-1 pt-2">
-                                            <p className="flex items-center gap-3 text-[14px] font-extrabold text-[#BFFF0B]">
+                                            <div className="flex items-center gap-3 text-[14px] font-extrabold text-[#BFFF0B]">
                                                 <div className="relative w-4 h-4">
                                                     <Image
                                                         src={MypageMyActivity}
@@ -117,7 +117,7 @@ export default function PtManageFeedBackCard({ data, reservationId, ptCourseId }
                                                     />
                                                 </div>
                                                 텍스트 피드백
-                                            </p>
+                                            </div>
                                             <p className="text-[14px] font-normal text-[#D1D5DC]"> {item.feedbacks.content} </p>
                                         </div>
                                     </div>
