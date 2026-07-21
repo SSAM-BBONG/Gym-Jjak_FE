@@ -537,12 +537,18 @@ export interface MyPtResrvationListsData {
 }
 
 // 내 예약 기록 목록
+export type MyPtReservationStatus =
+  | "COMPLETED"
+  | "RESERVED"
+  | "IN_PROGRESS"
+  | "CANCELLED";
+
 export interface MyPtReservationList {
   ptReservationId: number,
   thumbnailUrl: string,
   title: string,
   trainerName: string,
-  status: string,
+  status: MyPtReservationStatus,
   lastPtDate: string,
   progressCount: number,
   totalSessionCount: number
