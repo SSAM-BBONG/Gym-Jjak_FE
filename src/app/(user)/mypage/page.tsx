@@ -20,16 +20,6 @@ export default async function MyPage() {
       <p className="text-[14px] font-normal text-[#99A1AF]">
         나의 정보를 확인하고 관리하세요
       </p>
-
-      {userinf?.role === "ORGANIZATION"
-        ?
-        (
-          <>
-            <MypageMyOrganization />
-
-            <MypageAccountSettings socialUser={myPageResponse.data.socialUser}/>
-          </>
-        ) : (
           <div className="flex gap-6 items-start mt-8">
 
             <MyPageProfile data={myPageResponse.data} />
@@ -49,7 +39,6 @@ export default async function MyPage() {
 
             </div>
           </div>
-        )}
     </div>
   );
 }

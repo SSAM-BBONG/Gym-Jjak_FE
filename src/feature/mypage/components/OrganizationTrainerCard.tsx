@@ -21,7 +21,6 @@ export default function OrganizationTrainerCard( {data}: OrganTrainerCardProps) 
 
   return (
     <div className="flex flex-col gap-6 p-6">
-      <p className="text-[36px] font-black text-white"> 트레이너 관리 </p>
       {/* <button onClick={modal.openModal} className="self-end bg-[#BFFF0B] rounded-[14px] px-6 py-3 text-[16px] text-black font-extrabold">
         + 트레이너 추가
       </button> */}

@@ -8,12 +8,17 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { MyTokenPayload } from "@/lib/decode";
+
+interface HeaderAuthAreaProps {
+  userInf?: MyTokenPayload
+}
 
 type HeaderUser = Awaited<ReturnType<typeof getHeaderUserAction>>;
 
 const ALARM_SOCKET_DISABLED_PATHS = ["/alarm", "/admin"];
 
-export default function HeaderAuthArea() {
+export default function HeaderAuthArea({ userInf }: HeaderAuthAreaProps) {
   const pathname = usePathname();
   const [user, setUser] = useState<HeaderUser>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -94,7 +99,9 @@ export default function HeaderAuthArea() {
       {isLoading ? (
         <div className="h-9 w-17 min-w-5" />
       ) : user ? (
-        <UserProfile />
+        <UserProfile 
+          userInf={userInf}
+        />
       ) : (
         <Link href="/auth/login">
           <button className="min-w-4 cursor-pointer rounded-[10px] bg-[#BFFF0B] px-4 py-2 text-[14px] font-extrabold text-black">
