@@ -3,8 +3,12 @@ import NavBar from "./NavBar";
 import Link from "next/link";
 import HeaderAuthArea from "./HeaderAuthArea";
 import Image from "next/image";
+import { decodeJWT } from "@/lib/decode";
 
-export default function Header() {
+export default async function Header() {
+
+    const userinf = await decodeJWT();
+
     return (
         <header className="fixed top-0 left-0 w-full h-17.5 bg-black grid grid-cols-[1fr_auto_1fr] items-center px-10 z-9999 border-b border-b-[#1E2939]">
             <div className="flex items-center gap-3">
@@ -30,7 +34,9 @@ export default function Header() {
                 </Link>
             </div>
             <NavBar />
-            <HeaderAuthArea />
+            <HeaderAuthArea 
+                userInf={userinf}
+            />
         </header>
     );
 }
