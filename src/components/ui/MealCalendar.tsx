@@ -76,7 +76,7 @@ function MealCalendar({ className, selected, onSelect }: MealCalendarProps) {
     <section
       aria-label="식단 날짜 선택"
       className={cn(
-        "w-full min-w-0 bg-black px-1 py-3 text-white sm:px-2 sm:py-4 lg:px-0",
+        "w-full min-w-0 bg-[#0B0F19] px-1 py-3 text-white sm:px-2 sm:py-4 lg:px-0",
         className
       )}
     >
