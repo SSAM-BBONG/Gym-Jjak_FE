@@ -1,7 +1,7 @@
 ﻿'use server'
 
 import { approvalTrainerApplication, createExercises, deleteExercises, getOrganizationDetailAdmin, getTrainerApplicationsById, getTrainerDetail, patchUserStatus, rejectTrainerApplication, updateExercises } from "@/service/admin.service";
-import { approvalOrganization, approvalReport, createReport, deleteReportGroup, getOrganizationApplicationDetailAdmin, getReportPtbyId, rejectOrganization, rejectReport } from "@/service/report.service"
+import { approvalOrganization, approvalReport, createReport, deleteReportGroup, getOrganizationApplicationDetailAdmin, getReportPtbyId, getReportSnapshot, rejectOrganization, rejectReport } from "@/service/report.service"
 interface ActionState {
     success: boolean;
     message: string;
@@ -445,3 +445,16 @@ export const deleteReportGroupAction = async (reportGroupId: number): Promise<Ac
     }
 }
 
+export const getRepostSnapshotAction = async (reportGroupId: number): Promise<RepostSnapshot> => {
+    try {
+        const response = await getReportSnapshot(reportGroupId);
+        return response.data;
+    } catch (error) {
+        let errorMessage: string = '알 수 없는 오류입니다. 재시도해주세요.'
+        if (error instanceof Error) {
+            errorMessage = error.message;
+        }
+
+        throw new Error(errorMessage)
+    }
+}

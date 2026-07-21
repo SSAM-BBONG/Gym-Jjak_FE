@@ -1,9 +1,8 @@
-import { axiosFetch } from "@/lib/api"
 import { fetchWithAuth } from "@/lib/feth";
 import { getErrorMessage } from "@/lib/stateError";
 import { cache } from "react";
 
-export const getReport = cache(async (targetType: string, page: string) => {
+export const getReport = async (targetType: string, page: string) => {
     const response = await fetchWithAuth(`/api/reportgroup/list?targetType=${targetType}&page=${page}`);
 
     if (!response.ok) {
@@ -16,7 +15,7 @@ export const getReport = cache(async (targetType: string, page: string) => {
     }
 
     return response.json();
-})
+}
 
 export const getReportPtbyId = cache(async (reportGroupId: number) => {
     const response = await fetchWithAuth(`/api/reportgroup/detail/${reportGroupId}`)
@@ -165,6 +164,21 @@ export const deleteReportGroup = async (reportGroupId: number) => {
         const message = await getErrorMessage(
             response,
             '신고 그룹 수동 삭제에 실패하였습니다.'
+        );
+
+        throw new Error(message);
+    }
+
+    return response.json();
+}
+
+export const getReportSnapshot = async (reportGroupId: number) => {
+    const response = await fetchWithAuth(`/api/reportgroup/${reportGroupId}/snapshot`);
+
+    if (!response.ok) {
+        const message = await getErrorMessage(
+            response,
+            '신고 스냅샷 조회에 실패하였습니다.'
         );
 
         throw new Error(message);
