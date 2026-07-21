@@ -19,6 +19,8 @@
     "@next/bundle-analyzer": "^16.2.6",
     "@stomp/stompjs": "^7.3.0",
     "@tanstack/react-query": "^5.101.1",
+    "@tensorflow-models/mobilenet": "^2.1.1",
+    "@tensorflow/tfjs": "^4.22.0",
     "axios": "^1.16.1",
     "chart": "^0.1.2",
     "chart.js": "^4.5.1",
