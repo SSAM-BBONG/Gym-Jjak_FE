@@ -81,6 +81,7 @@ export default function RootLayout({
   return (
     <html
       lang="ko"
+      className="scrollbar-hide"
     >
 
       <body>

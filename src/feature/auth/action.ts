@@ -37,7 +37,7 @@ export const loginAction = async (prevState: ActionState, formData: FormData): P
     if (!username.trim() || !password.trim()) {
         return {
             success: false,
-            message: '값을 입력해주세요'
+            message: '아이디, 비밀번호를 입력해주세요'
         }
     }
 
@@ -115,7 +115,7 @@ export const registerAction = async (payload: SignUpFormData): Promise<ActionSta
 
     return {
         success: true,
-        message: '회원가입 성공'
+        message: 'GYMJJAK의 회원이 되신 것을 환영합니다'
     }
 }
 

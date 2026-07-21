@@ -88,7 +88,7 @@ export default function TrainerDetailModal({ isModal, closeModal, activeModal, n
                         </button>
                     </div>
                     <div className="flex items-center my-4 gap-6">
-                        <div className="w-20 h-20 md:w-24 md:h-24 lg:w-30 lg:h-30">
+                        <div className="relative w-20 h-20 md:w-24 md:h-24 lg:w-30 lg:h-30">
                             {profileImageUrl && (<Image
                                 src={profileImageUrl}
                                 alt="트레이너 프로필 사진"
