@@ -1,7 +1,7 @@
 'use server'
 
 import { getExercises } from "@/service/admin.service";
-import { deleteCalendar, getCalendarDate, getCalendarMonth, getDiaryCategories, patchCalendar, postCalendar } from "@/service/calendar.service";
+import { deleteCalendar, getCalendarDate, getCalendarMonth, patchCalendar, postCalendar } from "@/service/calendar.service";
 
 interface ActionState {
     success: boolean;
@@ -139,21 +139,6 @@ export const deleteCalendarAction = async (diaryId: number) => {
         throw new Error(errorMessage)
     }
 }
-
-export const getCalendarCategory = async () => {
-    try {
-        const response = await getDiaryCategories();
-        return response;
-    } catch (error) {
-        let errorMessage: string = '알 수 없는 오류입니다. 재시도해주세요.'
-        if (error instanceof Error) {
-            errorMessage = error.message;
-        }
-
-        throw new Error(errorMessage)
-    }
-}
-
 
 export const calendargetExeriseAction = async (part?: PartKo | '', keyword?: string) => {
     try {

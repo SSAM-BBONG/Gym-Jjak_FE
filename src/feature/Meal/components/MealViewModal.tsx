@@ -2,44 +2,68 @@
 
 import { CloseButton } from '@/components/ui/image';
 import Image from 'next/image';
+import { Meal } from '../type';
+import { mealDeleteAction, mealGetAction } from '../action';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { toast } from 'sonner';
+import useModal from '@/components/hooks/useModal';
+import TwoButtonModal from '@/components/ui/TwoButtonModal';
 
 export type MealType = 'BREAKFAST' | 'LUNCH' | 'DINNER' | 'SNACK';
-
-export interface MealViewData {
-    mealType: MealType;
-    name: string;
-    date: string;
-    time: string;
-    imageUrl?: string | null;
-    calories: number;
-    carbohydrates: number;
-    protein: number;
-    fat: number;
-}
 
 interface MealViewModalProps {
     isModal: boolean;
     closeModal: () => void;
     activeModal: () => void;
-    data: MealViewData;
+    mealId: number;
 }
 
-const MEAL_TYPE_LABEL: Record<MealType, string> = {
-    BREAKFAST: '아침',
-    LUNCH: '점심',
-    DINNER: '저녁',
-    SNACK: '간식',
-};
+export default function MealViewModal({ isModal, closeModal, activeModal, mealId }: MealViewModalProps) {
 
-const formatNutrient = (value: number) => `${value.toLocaleString('ko-KR')}g`;
-
-export default function MealViewModal({
-    isModal,
-    closeModal,
-    activeModal,
-    data,
-}: MealViewModalProps) {
     if (!isModal) return null;
+
+    const {
+        data: mealData,
+        isLoading: isDateLoading,
+        isError: isDateError,
+        error: dateError,
+    } = useQuery<{ data: Meal }, Error, Meal>({
+        queryKey: ["meals", "detail", mealId],
+        queryFn: () => mealGetAction(mealId),
+        enabled: !!mealId,
+        select: (response) => response.data,
+    });
+
+    const queryClient = useQueryClient();
+
+    const createMutation = useMutation({
+        mutationFn: (() =>
+            mealDeleteAction(mealId)
+        ),
+        onSuccess: (result) => {
+            if (!result.success) {
+                toast.error(result.message)
+                return;
+            }
+
+            void queryClient.invalidateQueries({
+                queryKey: ["meals", "list"]
+            });
+
+            void queryClient.invalidateQueries({
+                queryKey: ["meals", "detail", mealId],
+            });
+
+            closeModal();
+            toast.success(result.message)
+        },
+        onError: () => {
+            toast.error("네트워크 오류가 발생했습니다")
+        }
+    });
+
+    const checkModal = useModal(createMutation.mutate);
+
 
     return (
         <section
@@ -74,32 +98,31 @@ export default function MealViewModal({
                     <div className="flex items-start justify-between gap-4">
                         <div>
                             <span className="inline-flex rounded-sm bg-[#364153] px-3 py-1 text-xs font-extrabold text-[#D1D5DC]">
-                                {MEAL_TYPE_LABEL[data.mealType]}
+                                {mealData?.mealType}
                             </span>
                             <h4 className="mt-3 text-lg font-bold text-white md:text-xl">
-                                {data.name}
+                                {mealData?.menu}
                             </h4>
                             <p className="mt-1 text-sm text-[#99A1AF]">
-                                {data.date} {data.time}
+                                {mealData?.mealTime}
                             </p>
                         </div>
                         <strong className="shrink-0 text-lg text-[#BFFF0B] md:text-xl">
-                            {data.calories.toLocaleString('ko-KR')} kcal
+                            {mealData?.kcal || 0} kcal
                         </strong>
                     </div>
 
-                    {data.imageUrl && (
+                    {mealData?.imageUrl && (
                         <div className="relative aspect-video w-full overflow-hidden rounded-lg bg-[#1E2939]">
                             <Image
-                                src={CloseButton}
-                                alt={`${data.name} 식단 이미지`}
+                                src={mealData?.imageUrl}
+                                alt={`${mealData.menu} 식단 이미지`}
                                 fill
                                 sizes="(max-width: 640px) 80vw, 512px"
                                 className="object-cover"
                             />
                         </div>
                     )}
-
                     <div>
                         <h4 className="mb-3 text-base font-bold text-white md:text-lg">
                             영양 정보
@@ -108,19 +131,19 @@ export default function MealViewModal({
                             <div className="rounded-lg border border-[#364153] bg-[#1E2939] px-3 py-4 text-center">
                                 <div className="text-xs text-[#99A1AF] md:text-sm">탄수화물</div>
                                 <div className="mt-1 text-sm font-bold text-white md:text-base">
-                                    {formatNutrient(data.carbohydrates)}
+                                    {mealData?.carbohydrate || 0}
                                 </div>
                             </div>
                             <div className="rounded-lg border border-[#364153] bg-[#1E2939] px-3 py-4 text-center">
                                 <div className="text-xs text-[#99A1AF] md:text-sm">단백질</div>
                                 <div className="mt-1 text-sm font-bold text-white md:text-base">
-                                    {formatNutrient(data.protein)}
+                                    {mealData?.protein || 0}
                                 </div>
                             </div>
                             <div className="rounded-lg border border-[#364153] bg-[#1E2939] px-3 py-4 text-center">
                                 <div className="text-xs text-[#99A1AF] md:text-sm">지방</div>
                                 <div className="mt-1 text-sm font-bold text-white md:text-base">
-                                    {formatNutrient(data.fat)}
+                                    {mealData?.fat || 0}
                                 </div>
                             </div>
                         </div>
@@ -129,6 +152,7 @@ export default function MealViewModal({
 
                 <footer className="mt-10 flex gap-3">
                     <button
+                        onClick={() => checkModal.openModal()}
                         type="button"
                         className="flex w-full items-center justify-center rounded-lg bg-[#1E2939] pt-2 pb-3 text-center text-sm font-semibold text-white md:text-base"
                     >
@@ -143,6 +167,13 @@ export default function MealViewModal({
                     </button>
                 </footer>
             </article>
+            <TwoButtonModal
+                isModal={checkModal.isModal}
+                closeModal={checkModal.closeModal}
+                activeModal={checkModal.activeModal}
+                title='식단'
+                content="삭제하시겠습니까?"
+            />
         </section>
     );
 }

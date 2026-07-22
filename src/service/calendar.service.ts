@@ -82,22 +82,3 @@ export const deleteCalendar = async (diaryId: number) => {
     }
     return response.json();
 }
-
-
-export const getDiaryCategories = async () => {
-    const response = await fetchWithAuth(`/api/categories`);
-
-    if (!response.ok) {
-        const message = await getErrorMessage(
-            response,
-            '카테고리 조회에 실패하였습니다.'
-        );
-
-        throw new Error(message);
-    }
-
-    return response.json();
-}
-
-
-

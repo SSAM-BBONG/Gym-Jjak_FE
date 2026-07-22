@@ -76,7 +76,32 @@ export default function MealImgClassifier() {
         })
     }, [])
 
+
+
     useEffect(() => {
+        //이미지 분류(추론)
+        const classifyImage = async () => {
+            if (!selectedImage) return;
+            const model = modelRef.current;
+            const imgElement = imgRef.current;
+
+            if (!model || !imgElement) {
+                setError('모델 또는 이미지가 준비되어 있지 않습니다.');
+                return;
+            }
+
+            setClassifying(true);
+            setError(null);
+            try {
+                const result = await model.classify(imgElement, 1);
+                setPredictions(result);
+            } catch (error) {
+                setError(error instanceof Error ? error.message : '분류 실패');
+            } finally {
+                setClassifying(false);
+            }
+        };
+
         classifyImage();
     }, [selectedImage])
 
@@ -97,28 +122,6 @@ export default function MealImgClassifier() {
         reader.readAsDataURL(file);
     };
 
-    //이미지 분류(추론)
-    const classifyImage = async () => {
-        if (!selectedImage) return;
-        const model = modelRef.current;
-        const imgElement = imgRef.current;
-
-        if (!model || !imgElement) {
-            setError('모델 또는 이미지가 준비되어 있지 않습니다.');
-            return;
-        }
-
-        setClassifying(true);
-        setError(null);
-        try {
-            const result = await model.classify(imgElement, 1);
-            setPredictions(result);
-        } catch (error) {
-            setError(error instanceof Error ? error.message : '분류 실패');
-        } finally {
-            setClassifying(false);
-        }
-    };
 
     if (error) {
         return (
@@ -156,6 +159,7 @@ export default function MealImgClassifier() {
                             hidden
                             type="file"
                             id="menu"
+                            name="mealImageFile"
                             accept="image/*"
                             onChange={handleImageUpload}
                         />
@@ -179,6 +183,7 @@ export default function MealImgClassifier() {
 
                     <label className="font-medium text-base md:text-lg text-white">메뉴</label>
                     <textarea
+                        name="menu"
                         maxLength={255}
                         defaultValue={predictions[0]?.className || ''}
                         placeholder="메뉴를 입력해주세요"
