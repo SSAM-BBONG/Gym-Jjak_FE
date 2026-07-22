@@ -2,14 +2,45 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { chagnePtzoneResrvationStatus, chagnePtzoneStatus, createFeedback, createPtCourse, createPtReservation, createPtReview, deletePtReview, getFeedbackDetail, getMyPtReservationDetail, getMyPtReservationLists, getMyTrainerApplicationDetail, getMyTrainerApplicationList, getOnboarding, getPopularPtLists, getPtResrvationAvailableDates, getPtResrvationAvailableTimes, getTrainerCancel, getTrainerReviewList, getWithoutOnboarding, searchOrganizations, trainerApplication, updatePtReview, updateTrainerApplication } from "@/service/ptzone.service";
-import { FeedbackDetailData, MyPtRecordDetailData, MyPtResrvationListsData, OrganizationSearchItem, PtRegistRequest, PtRegistSchedule, PtReservationRequest, PtReservationStatusChangeRequest, PtReviewCreateRequest, TrainerApplicationData, TrainerApplicationEditData, TrainerReviewListData, TrainerReviewListRequest } from "./type";
+import { chagnePtzoneResrvationStatus, chagnePtzoneStatus, createFeedback, createPtCourse, createPtReservation, createPtReview, deletePtReview, getFeedbackDetail, getMyPtReservationDetail, getMyPtReservationLists, getMyTrainerApplicationDetail, getMyTrainerApplicationList, getOnboarding, getPopularPtLists, getPtResrvationAvailableDates, getPtResrvationAvailableTimes, getTrainerCancel, getTrainerPtDashboard, getTrainerReviewList, getWithoutOnboarding, searchOrganizations, trainerApplication, updatePtReview, updateTrainerApplication } from "@/service/ptzone.service";
+import { FeedbackDetailData, MyPtRecordDetailData, MyPtResrvationListsData, OrganizationSearchItem, PtRegistRequest, PtRegistSchedule, PtReservationRequest, PtReservationStatusChangeRequest, PtReviewCreateRequest, TrainerApplicationData, TrainerApplicationEditData, TrainerPtDashboardData, TrainerReviewListData, TrainerReviewListRequest } from "./type";
 import { uploadFilesPresignedUrl } from "@/service/file.service";
 import { cookies } from "next/headers";
 
 export const getPopularPtListsAction = async () => {
   return getPopularPtLists();
 };
+
+type TrainerPtDashboardActionResult =
+  | {
+      success: true;
+      data: TrainerPtDashboardData;
+    }
+  | {
+      success: false;
+      message: string;
+    };
+
+// 트레이너 PT Zone 대시보드 조회 액션
+export const getTrainerPtDashboardAction =
+  async () => {
+    try {
+      const response = await getTrainerPtDashboard();
+
+      return {
+        success: true as const,
+        data: response.data,
+      };
+    } catch (error) {
+      return {
+        success: false as const,
+        message:
+          error instanceof Error
+            ? error.message
+            : "트레이너 PT Zone 대시보드 조회에 실패하였습니다.",
+      };
+    }
+  };
 
 // 내 트레이너 신청 목록 조회 액션
 export const getMyTrainerApplicationListAction = async (page: number = 0) => {

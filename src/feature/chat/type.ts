@@ -21,9 +21,56 @@ export interface ChatRoomData {
     unreadCount: number;
 }
 
+export interface ChatRoomCreateRequest {
+    ptCourseId: number;
+}
+
+export interface ChatRoomCreateResponse {
+    status: number;
+    code: string;
+    message: string;
+    data: ChatRoomCreateData;
+}
+
+export interface ChatRoomCreateData {
+    chatRoomId: number;
+}
+
+export interface ChatRoomUnreadCountResponse {
+    status: number;
+    code: string;
+    message: string;
+    data: ChatRoomUnreadCountData;
+}
+
+export interface ChatRoomUnreadCountData {
+    totalUnreadCount: number;
+}
+
 export interface ChatMessageData {
     messageId: number;
     chatRoomId: number;
+    senderId: number;
+    content: string;
+    read: boolean;
+    createdAt: string;
+}
+
+export interface ChatMessageListResponse {
+    status: number;
+    code: string;
+    message: string;
+    data: ChatMessageListData;
+}
+
+export interface ChatMessageListData {
+    messages: ChatMessageHistoryData[];
+    nextCursor: number;
+    hasNext: boolean;
+}
+
+export interface ChatMessageHistoryData {
+    messageId: number;
     senderId: number;
     content: string;
     read: boolean;
@@ -35,3 +82,10 @@ export interface WebSocketChatError {
     code: string;
     message: string;
 }
+
+export type ChatMessageReportReason =
+    | "ABUSE"
+    | "AD"
+    | "OBSCENE"
+    | "FRAUD"
+    | "FALSE_INFO";

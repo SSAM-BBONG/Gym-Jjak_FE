@@ -1,11 +1,9 @@
 'use client'
 
 import useModal from "@/components/hooks/useModal";
-import { CommuCommentDeclaration, CommuDetailDeclaration } from "@/components/ui/image";
 import OneButtonModal from "@/components/ui/OneButtonModal";
 import ReportModal from "@/components/ui/ReportModal";
 import { createReportAction } from "@/feature/admin/action";
-import Image from "next/image";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
