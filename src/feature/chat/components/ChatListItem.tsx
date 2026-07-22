@@ -1,7 +1,7 @@
-import { chatAddOption, HeaderProfile } from "@/components/ui/image";
-import Image from "next/image";
+import { HeaderProfile } from "@/components/ui/image";
 import { ChatRoomData } from "../type";
 import Link from "next/link";
+import ChatRoomMenu from "./ChatRoomMenu";
 
 interface ChatListItemProps {
     chat: ChatRoomData
@@ -27,22 +27,18 @@ export default function ChatListItem( {chat}: ChatListItemProps) {
                     </div>
                         <div className="flex gap-6 items-center justify-center">
                             <div className="flex flex-col gap-2 justify-center items-center">
-                                <p className="text-[#6A7282] text-[11px] font-normal"> {(chat.lastMessageAt).split("T")[0]}</p>
+                                <p className="text-[#6A7282] text-[11px] font-normal"> 
+                                      {chat.lastMessageAt
+                                        ? chat.lastMessageAt.split("T")[0]
+                                        : "대화 시작 전"}
+                                </p>
                                 <p className="bg-[#BFFF0B] rounded-full px-2 py-1 text-[10px] text-black font-bold self-end"> {chat.unreadCount} </p>
                             </div>
                         </div>
                     </div>
             </div>
             </Link>
-                <div className="relative w-4 h-4">
-                    <Image
-                        src={chatAddOption}
-                        alt="채팅 기능 이미지"
-                        fill
-                        sizes="w-20 h-20"
-                        className="object-cover"
-                        />
-                </div>
+                <ChatRoomMenu chatRoomId={chat.chatRoomId} />
         </div>
     );
 }

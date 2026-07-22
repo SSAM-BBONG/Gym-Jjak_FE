@@ -98,7 +98,6 @@ export default function PtRecordCard({ data, errorMessage }: PtRecordCardProps) 
                     </div>
                 </div>
                 <div className="flex gap-3 mt-2">
-                    <button className="px-8 py-2 bg-[#1E2939] rounded-[10px] text-[14px] font-extrabold text-white hover:cursor-pointer hover:bg-[#BFFF0B] hover:text-black"> 채팅하기 </button>
                     <Link href={`/pt/records/${data.ptReservationId}`}>
                         <button className="px-8 py-2 bg-[#1E2939] rounded-[10px] text-[14px] font-extrabold text-white hover:cursor-pointer hover:bg-[#BFFF0B] hover:text-black"> 상세보기 </button>
                     </Link>

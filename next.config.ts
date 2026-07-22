@@ -8,6 +8,10 @@ const withBundleAnalyzer = bundleAnalyzer({
 });
 
 const nextConfig: NextConfig = {
+  env: {
+    NEXT_PUBLIC_PORTONE_STORE_ID: process.env.VITE_PORTONE_STORE_ID,
+    NEXT_PUBLIC_PORTONE_CHANNEL_KEY: process.env.VITE_PORTONE_CHANNEL_KEY,
+  },
     experimental: {
     serverActions: {
       bodySizeLimit: "20mb",

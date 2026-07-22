@@ -40,9 +40,9 @@ export default function UserProfile( {userInf}: UserProfileProps) {
     // OneButtonModal에서 확인 클릭 시 기존 로그아웃 로직 실행
     const handleLogoutFinalClick = async () => {
         await logoutAction();
+        window.dispatchEvent(new Event('auth-changed'));
         router.push("/");
         router.refresh();
-        window.dispatchEvent(new Event('auth-changed'));
     }
 
     return (

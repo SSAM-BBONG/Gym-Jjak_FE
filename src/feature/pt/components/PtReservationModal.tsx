@@ -152,6 +152,15 @@ export default function PtReservationModal({ isModal, closeModal, activeModal, n
                         </div>
                     </div>
 
+                    {errorMessage && (
+                        <p
+                            role="alert"
+                            className="mt-3 text-sm text-red-400"
+                        >
+                            {errorMessage}
+                        </p>
+                    )}
+
                 </article>
                 <article className='flex gap-3 mt-10'>
                     <button

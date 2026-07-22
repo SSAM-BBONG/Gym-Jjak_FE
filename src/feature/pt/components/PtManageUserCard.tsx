@@ -9,6 +9,9 @@ import { HeaderProfile } from "@/components/ui/image";
 import { Progress } from "@/components/ui/progress";
 import OneButtonModal from "@/components/ui/OneButtonModal";
 import { useState } from "react";
+import useModal from "@/components/hooks/useModal";
+import { createChatRoomAction } from "@/feature/chat/actions";
+import { useRouter } from "next/navigation";
 
 interface PtManageUserCardProps {
     data: PtReservationStudent;
@@ -27,6 +30,10 @@ export default function PtManageUserCard( {data, id}: PtManageUserCardProps) {
     const [errorMessage, setErrorMessage] = useState("");
     const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
     const [isChanging, setIsChanging] = useState(false);
+    const [isCreatingChat, setIsCreatingChat] = useState(false);
+    const [chatErrorMessage, setChatErrorMessage] = useState("");
+    const chatErrorModal = useModal();
+    const router = useRouter();
         
     
     const handleStatusChange = async (
@@ -53,6 +60,27 @@ export default function PtManageUserCard( {data, id}: PtManageUserCardProps) {
     const current = data.progressCount
     const total = data.totalSessionCount
     const progreesPercent = total > 0 ? Math.min(100, (Math.round((current/total) * 100))) : 0;
+    
+    const handleChatClick = async () => {
+        if (isCreatingChat) return;
+
+        setIsCreatingChat(true);
+
+        try {
+            const result = await createChatRoomAction({ ptCourseId: id });
+
+            if (!result.success) {
+                setChatErrorMessage(result.message);
+                chatErrorModal.openModal();
+                return;
+            }
+
+            router.push(`/chat/${result.data.chatRoomId}`);
+        } finally {
+            setIsCreatingChat(false);
+        }
+    };
+    
     return (
         <div className="
         flex gap-4 items-start
@@ -98,7 +126,14 @@ export default function PtManageUserCard( {data, id}: PtManageUserCardProps) {
                     <button type="button" className="px-5 py-2 rounded-[10px] bg-[#1E2939] text-[14px] font-extrabold text-white hover:bg-[#BFFF0B] hover:text-[black]"> 피드백 작성 </button>
                 </Link>   
                     
-                    <button type="button" className="px-5 py-2 rounded-[10px] bg-[#1E2939] text-[14px] font-extrabold text-white hover:bg-[#BFFF0B] hover:text-[black]"> 채팅하기 </button>
+                    <button
+                        type="button"
+                        onClick={handleChatClick}
+                        disabled={isCreatingChat}
+                        className="px-5 py-2 rounded-[10px] bg-[#1E2939] text-[14px] font-extrabold text-white hover:bg-[#BFFF0B] hover:text-[black] disabled:cursor-not-allowed disabled:opacity-50"
+                    >
+                        {isCreatingChat ? "채팅방 생성 중..." : "채팅하기"}
+                    </button>
                     <ReportButtonVer2 title={data.nickname} targetId={data.ptReservationId} targetType="PT_COURSE" />
                     <select
                         className="px-3 py-2 rounded-[10px] border border-[#1E2939] bg-[#1E2939] text-[14px] font-extrabold text-white focus:outline-none hover:border-[#BFFF0B]"
@@ -120,6 +155,12 @@ export default function PtManageUserCard( {data, id}: PtManageUserCardProps) {
                         closeModal={() => setIsErrorModalOpen(false)}
                         title="상태 변경 실패"
                         content={errorMessage}
+                    />
+                    <OneButtonModal
+                        isModal={chatErrorModal.isModal}
+                        closeModal={chatErrorModal.closeModal}
+                        title="채팅방 생성 실패"
+                        content={chatErrorMessage}
                     />
                 </div>
             </div>
