@@ -5,9 +5,29 @@ import MealCard from "./MealCard";
 import MealAddButton from "./MealAddButton";
 import { useState } from "react";
 import MealGoalCard from "@/feature/Meal/components/MealGoalCard";
+import { useQuery } from "@tanstack/react-query";
+import { mealListGetAction } from "@/feature/Meal/action";
+import { Meals } from "@/feature/Meal/type";
+import Pagination from "@/components/ui/Pagination";
+import { Spinner } from "@/components/ui/spinner";
+import { format } from "date-fns";
 
-export default function MealCt() {
-    const [date, setDate] = useState<Date | undefined>(new Date())
+export default function MealCt({ page }: { page: string }) {
+
+    const [selectDate, setSelectDate] = useState<Date>(new Date())
+
+    const {
+        data: mealListData = { meals: [] },
+        isLoading: isMealListLoading,
+        isError: isMealListError,
+        error: mealListError,
+    } = useQuery({
+        queryKey: ["meals", "list", format(selectDate, 'yyyy-MM-dd'), page],
+        queryFn: () => mealListGetAction(format(selectDate, 'yyyy-MM-dd'), page),
+        select: (response) => response.data,
+    });
+
+    console.log(mealListData)
 
     return (
         <>
@@ -20,11 +40,10 @@ export default function MealCt() {
             </div>
             <div className="flex justify-between items-center mt-[30px]">
                 <MealCalendar
-                    selected={date}
-                    onSelect={setDate}
-                />
+                    selectDate={selectDate}
+                    setSelectDate={setSelectDate} />
             </div>
-            <div
+            {/* <div
                 className="
                     w-full 
                     rounded-[8px]
@@ -43,20 +62,30 @@ export default function MealCt() {
                     hover:cursor-pointer">
                 <p className="text-[14px] md:text-[18px] font-extrabold text-white"> 오늘의 코멘트</p>
                 <p className="text-[12px] md:text-[14px] font-normal text-[#99A1AF]"> 2026-07-19 08:30 </p>
-            </div>
-            <MealGoalCard
-                calories={{ current: 1320, target: 2000 }}
-                carbohydrates={{ current: 180, target: 250 }}
-                protein={{ current: 75, target: 120 }}
-                fat={{ current: 40, target: 60 }}
-            />
-            <div>
-                <MealCard />
-                <MealCard />
-            </div>
-            <div className="px-3 sm:px-4 lg:px-6 py-8 lg:py-10 text-center text-xs sm:text-sm text-muted-foreground">
-                오늘의 식단을 남겨주세요
-            </div>
+            </div> */}
+            <MealGoalCard />
+            {isMealListLoading ? (
+                <div className="px-3 sm:px-4 lg:px-6 py-8 lg:py-10  flex items-center gap-3 flex-col text-sm text-muted-foreground">
+                    <Spinner className="size-5" />
+                    오늘의 식단을 불러오는 중입니다...
+                </div>
+            ) : (
+                <>
+                    {mealListData.meals.map((meal: Meals) => {
+                        return <MealCard meal={meal} key={meal.mealId} />
+                    })}
+                    {mealListData.meals.length === 0 && ((
+                        <div className="px-3 sm:px-4 lg:px-6 py-8 lg:py-10 text-center text-xs sm:text-sm text-muted-foreground">
+                            오늘의 식단을 남겨주세요
+                        </div>
+                    ))}
+                </>
+            )}
+
+            {!selectDate && (
+                <Pagination url="meal" page={page} totalPage={mealListData.totalPages} />
+
+            )}
         </>
     );
 }

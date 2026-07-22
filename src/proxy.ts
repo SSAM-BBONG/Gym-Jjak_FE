@@ -93,5 +93,5 @@ export async function proxy(request: NextRequest) {
 
 //렌더링 전에 거칠 페이지들
 export const config = {
-    matcher: ['/admin/:path*', '/organization/:path*', '/alarm/:path*', '/calendar/:path*', '/community/:path*', '/mypage/:path*', '/pt/manage/:path*', '/pt/records/:path*', '/pt/regist', '/pt/trainer'],
+    matcher: ['/admin/:path*', '/organization/:path*', '/alarm/:path*', '/calendar/:path*', '/community/:path*', '/mypage/:path*', '/pt/manage/:path*', '/pt/records/:path*', '/pt/regist', '/pt/trainer', '/meal'],
 };//:path* 는 모든 페이지

@@ -2,20 +2,50 @@
 
 import { CloseButton } from '@/components/ui/image';
 import Image from 'next/image';
-import type { GoalFormValues } from './GoalCreateModal';
 import GoalItem from './GoalItem';
+import { Goal } from '../type';
+import TwoButtonModal from '@/components/ui/TwoButtonModal';
+import { toast } from 'sonner';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { nutritionGoalDeleteAction } from '../action';
+import useModal from '@/components/hooks/useModal';
 
 interface GoalViewModalProps {
     isModal: boolean;
     closeModal: () => void;
-    data: GoalFormValues;
+    activeModal: () => void;
+    data: Goal;
 }
 
-export default function GoalViewModal({
-    isModal,
-    closeModal,
-    data,
-}: GoalViewModalProps) {
+export default function GoalViewModal({ isModal, closeModal, activeModal, data }: GoalViewModalProps) {
+
+    const queryClient = useQueryClient();
+
+    const createMutation = useMutation({
+        mutationFn: (() =>
+            nutritionGoalDeleteAction()
+        ),
+        onSuccess: (result) => {
+
+            if (!result.success) {
+                toast.error(result.message)
+                return;
+            }
+
+            void queryClient.invalidateQueries({
+                queryKey: ["goal"],
+            });
+
+            closeModal();
+            toast.success("영양 목표가 삭제되었습니다")
+        },
+        onError: () => {
+            toast.error("네트워크 오류가 발생했습니다")
+        }
+    });
+
+    const checkModal = useModal(createMutation.mutate);
+
     if (!isModal) return null;
 
     return (
@@ -81,18 +111,27 @@ export default function GoalViewModal({
 
                 <footer className="mt-10 flex gap-3">
                     <button
+                        onClick={checkModal.openModal}
                         type="button"
                         className="flex w-full items-center justify-center rounded-lg bg-[#1E2939] pt-2 pb-3 text-center text-sm font-semibold text-white transition-colors hover:bg-[#293548] md:text-base"
                     >
                         삭제하기
                     </button>
                     <button
+                        onClick={activeModal}
                         type="button"
                         className="flex w-full items-center justify-center rounded-lg bg-[#BFFF0B] pt-2 pb-3 text-center text-sm font-semibold text-black transition-colors hover:bg-[#D0FF46] md:text-base"
                     >
                         수정하기
                     </button>
                 </footer>
+                <TwoButtonModal
+                    isModal={checkModal.isModal}
+                    closeModal={checkModal.closeModal}
+                    activeModal={checkModal.activeModal}
+                    title="영양 목표"
+                    content="삭제하시겠습니까?"
+                />
             </article>
         </section>
     );
