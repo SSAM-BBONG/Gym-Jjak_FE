@@ -79,10 +79,7 @@ export interface PtPopularCourseData {
   title: string;
   price: number;
   thumbnailUrl: string;
-  categoryId: number;
-  categoryName: string;
-  tagId: number;
-  tagName: string;
+  part: string;
   trainerName: string;
   roadAddress: string;
 }
@@ -340,6 +337,34 @@ export interface PtStats {
   averageSatisfaction: number;
 }
 
+// 트레이너 PT Zone 대시보드 조회 응답 타입
+export interface TrainerPtDashboardResponse {
+  status: number;
+  code: string;
+  message: string;
+  data: TrainerPtDashboardData;
+}
+
+// 트레이너 PT Zone 대시보드 조회 데이터 타입
+export interface TrainerPtDashboardData {
+  organizationCount: number;
+  currentStudentCount: number;
+  averageRating: number;
+  reviewCount: number;
+  inProgressPtCourses: TrainerPtDashboardCourse[];
+}
+
+// 트레이너 PT Zone 대시보드 진행 중 강습 타입
+export interface TrainerPtDashboardCourse {
+  ptCourseId: number;
+  thumbnailUrl: string;
+  title: string;
+  trainerName: string;
+  organizationName: string;
+  price: number;
+  currentStudentCount: number;
+}
+
 // PT 등록 카테고리 목록 조회 응답 타입
 export interface PtRegistCategoryReponse {
   status: number;
@@ -537,12 +562,18 @@ export interface MyPtResrvationListsData {
 }
 
 // 내 예약 기록 목록
+export type MyPtReservationStatus =
+  | "COMPLETED"
+  | "RESERVED"
+  | "IN_PROGRESS"
+  | "CANCELLED";
+
 export interface MyPtReservationList {
   ptReservationId: number,
   thumbnailUrl: string,
   title: string,
   trainerName: string,
-  status: string,
+  status: MyPtReservationStatus,
   lastPtDate: string,
   progressCount: number,
   totalSessionCount: number
@@ -657,6 +688,7 @@ export interface StudentFeedbackCurriculum {
   ptCurriculumId: number;
   sessionNo: number;
   title: string;
+  reservedStartAt: string;
   feedbacks: Feedback | null;
 }
 

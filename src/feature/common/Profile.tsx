@@ -2,16 +2,19 @@
 
 import { HeaderLogout, HeaderProfile, Profile } from "@/components/ui/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { logoutAction } from "../auth/action";
 import TwoButtonModal from "@/components/ui/TwoButtonModal";
 import OneButtonModal from "@/components/ui/OneButtonModal";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { MyTokenPayload } from "@/lib/decode";
 
+interface UserProfileProps {
+  userInf?: MyTokenPayload
+}
 
-export default function UserProfile() {
-
+export default function UserProfile( {userInf}: UserProfileProps) {
     const router = useRouter();
     const [visible, setVisible] = useState<boolean>(false);
 
@@ -37,9 +40,9 @@ export default function UserProfile() {
     // OneButtonModal에서 확인 클릭 시 기존 로그아웃 로직 실행
     const handleLogoutFinalClick = async () => {
         await logoutAction();
+        window.dispatchEvent(new Event('auth-changed'));
         router.push("/");
         router.refresh();
-        window.dispatchEvent(new Event('auth-changed'));
     }
 
     return (
@@ -80,11 +83,20 @@ export default function UserProfile() {
                                     className="object-cover"
                                 />
                             </div>
+                            {userInf?.role === "ORGANIZATION" 
+                            ? 
+                            <Link href="/organization/dashboard/gym">
+                                <p className="text-[#D1D5DC] text-[14px] hover:text-[#BFFF0B] cursor-pointer">
+                                    마이페이지
+                                </p>
+                            </Link>
+                            :
                             <Link href="/mypage">
                                 <p className="text-[#D1D5DC] text-[14px] hover:text-[#BFFF0B] cursor-pointer">
                                     마이페이지
                                 </p>
                             </Link>
+                            }
                         </div>
 
                         <div className="flex gap-3 items-center">

@@ -24,6 +24,8 @@ export default function PtReviewModal({ isModal, closeModal, ptCourseId, reserva
     if (!isModal) return null;
 
     const handleClose = () => {
+        setRating(0);
+        setContent("");
         setErrorMessage("");
         closeModal();
     };

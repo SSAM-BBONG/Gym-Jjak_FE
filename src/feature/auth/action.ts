@@ -37,7 +37,7 @@ export const loginAction = async (prevState: ActionState, formData: FormData): P
     if (!username.trim() || !password.trim()) {
         return {
             success: false,
-            message: '값을 입력해주세요'
+            message: '아이디, 비밀번호를 입력해주세요'
         }
     }
 
@@ -87,6 +87,8 @@ export const loginAction = async (prevState: ActionState, formData: FormData): P
         redirect('/organization/dashboard/gym');
     } else if (resData.data.role === 'ADMIN') {
         redirect('/admin/dashboard/users');
+    } else if (resData.data.role === 'TRAINER') {
+        redirect('/pt');
     }
 
     if (resData.data.onboardingCompleted) {
@@ -115,7 +117,7 @@ export const registerAction = async (payload: SignUpFormData): Promise<ActionSta
 
     return {
         success: true,
-        message: '회원가입 성공'
+        message: 'GYMJJAK의 회원이 되신 것을 환영합니다'
     }
 }
 

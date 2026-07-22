@@ -12,8 +12,10 @@ interface PtManageCardProps {
 export default function PtManageCard({ data }: PtManageCardProps) {
     const currentStatus = data.status === "VISIBLE" ? "HIDDEN" : "VISIBLE"
 
-    const handleStatusClick = async (id: number, status: "VISIBLE" | "HIDDEN") => {
-        const response = await changePtStatus(id, currentStatus);
+    const handleStatusClick = async (e:React.MouseEvent<HTMLButtonElement>, id: number, status: "VISIBLE" | "HIDDEN") => {
+        e.preventDefault();
+        e.stopPropagation();
+        await changePtStatus(id, currentStatus);
     }
 
     return (
@@ -25,7 +27,7 @@ export default function PtManageCard({ data }: PtManageCardProps) {
         border border-[#1E2939] rounded-[16px]
         ${data.status === "HIDDEN" ? "opacity-50" : ""}
         `}>
-            <div className={`absolute right-3 top-3 px-3 py-1 rounded-full text-[12px] font-extrabold 
+            <div className={`absolute right-3 top-3 px-3 py-1 rounded-full text-[12px] font-extrabold z-999
                     ${data.status === "VISIBLE" ? "bg-[#BFFF0B] text-black" : "bg-[#FB2C361A] text-[#FB2C36]"}`}>
                 {data.status === "VISIBLE" ? "활성화" : "비활성화"}
             </div>
@@ -67,7 +69,7 @@ export default function PtManageCard({ data }: PtManageCardProps) {
                 </div>
                 <button
                     type="button"
-                    onClick={() => handleStatusClick(data.ptCourseId, data.status)}
+                    onClick={(e) => handleStatusClick(e, data.ptCourseId, data.status)}
                     className={`flex justify-center items-center gap-3 py-3 rounded-[14px] mt-1
                             ${data.status === "VISIBLE" ? "bg-[#1E2939]" : "bg-[#BFFF0B1A]"}`}
                 >

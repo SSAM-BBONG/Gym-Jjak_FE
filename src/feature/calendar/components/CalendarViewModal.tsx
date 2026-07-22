@@ -35,6 +35,9 @@ export default function CalendarViewModal({ isModal, closeModal, activeModal, da
             closeModal();
             toast.success("일지가 삭제되었습니다")
         },
+        onError: () => {
+            toast.error("다시 시도해주세요")
+        }
     });
 
     const checkModal = useModal(createMutation.mutate);

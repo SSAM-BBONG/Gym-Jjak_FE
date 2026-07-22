@@ -3,12 +3,26 @@
 import { AlarmAllRead, AlarmAllRemove } from "@/components/ui/image";
 import { deleteAlarmsAction, readAlarmsAction } from "../action";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 export default function AlarmReadDeleteAllButton({ text, alarms }: { text: '모두 읽음' | '모두 삭제', alarms: number[] }) {
+    const router = useRouter();
+
+    const handleAlarmsAction = async () => {
+        if (text === '모두 읽음') {
+            await readAlarmsAction(alarms);
+        } else {
+            await deleteAlarmsAction(alarms);
+        }
+
+        router.refresh();
+    };
 
     return (
         <button
-            onClick={text === '모두 읽음' ? () => readAlarmsAction(alarms) : () => deleteAlarmsAction(alarms)}
+            onClick={() => {
+                void handleAlarmsAction();
+            }}
             className="flex gap-[8px]"
         >
             <div className="relative w-4 h-4">

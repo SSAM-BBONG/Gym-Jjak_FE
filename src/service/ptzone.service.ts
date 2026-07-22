@@ -27,6 +27,7 @@
   PtStatsResponse,
   PtStatusChangeRequest,
   PtStatusChangeResponse,
+  TrainerPtDashboardResponse,
   TrainerReviewListRequest,
   TrainerReviewListResponse,
   OrganizationSearchRequest,
@@ -297,6 +298,22 @@ export const getPtzoneStats = async (): Promise<PtStatsResponse> => {
   return response.json();
 };
 
+// 트레이너 PT Zone 대시보드 조회 API
+export const getTrainerPtDashboard = async (): Promise<TrainerPtDashboardResponse> => {
+  const response = await fetchWithAuth(`/api/dashboard/trainer/main`);
+
+  if (!response.ok) {
+    const message = await getErrorMessage(
+      response,
+      "트레이너 PT Zone 대시보드 조회에 실패하였습니다."
+    );
+
+    throw new Error(message);
+  }
+
+  return response.json();
+};
+
 // PT 강습 관리 목록 조회 API 
 export const getPtzonePtManageList = async (): Promise<MyPtManageListResponse> => {
   const response = await fetchWithAuth(`/api/pt-courses/me`);
@@ -437,8 +454,7 @@ export const chagnePtzoneResrvationStatus = async (
   reservationId: number,
   status: PtReservationStatusChangeRequest
 ): Promise<PtReservationStatusChangeResponse> => {
-  const response = await fetchWithAuth(`/api/reservations/${reservationId}/status
-`, {
+  const response = await fetchWithAuth(`/api/reservations/${reservationId}/status`, {
     method: "PATCH",
     body: JSON.stringify(status)
   }

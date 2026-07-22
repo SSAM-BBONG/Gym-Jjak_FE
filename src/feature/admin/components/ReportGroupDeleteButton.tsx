@@ -32,7 +32,7 @@ export default function ReportGroupDeleteButton({ reportGroupId }: { reportGroup
                     fill
                     sizes="w-4 h-4"
                 />
-            </div>수동 삭제
+            </div>삭제
         </button>
     );
 }

@@ -1,6 +1,6 @@
-import PtRecordCard from "@/feature/pt/components/PtRecordCard";
 import { getMyPtReservationListsAction } from "@/feature/pt/actions";
-import Link from "next/link";
+import PtRecordCard from "@/feature/pt/components/PtRecordCard";
+import PtRecordsList from "@/feature/pt/components/PtRecordsList";
 
 export default async function PtRecordsPage() {
 
@@ -11,29 +11,11 @@ export default async function PtRecordsPage() {
             <p className="text-[36px] font-black text-white"> PT 기록 </p>
             <p className="text-[14px] font-normal text-[#99A1AF]"> 내 PT 기록을 확인하세요 </p>
 
-            <div className="flex gap-3 my-5">
-                <button className="px-4 py-2 rounded-[10px] bg-[#BFFF0B] text-[16px] font-extrabold text-black hover:cursor-pointer"> 전체 </button>
-                <button className="px-4 py-2 rounded-[10px] bg-[#1E2939] text-[16px] font-extrabold text-[#99A1AF] hover:cursor-pointer"> 예약됨 </button>
-                <button className="px-4 py-2 rounded-[10px] bg-[#1E2939] text-[16px] font-extrabold text-[#99A1AF] hover:cursor-pointer"> 수강중 </button>
-                <button className="px-4 py-2 rounded-[10px] bg-[#1E2939] text-[16px] font-extrabold text-[#99A1AF] hover:cursor-pointer"> 완료 </button>
-                <button className="px-4 py-2 rounded-[10px] bg-[#1E2939] text-[16px] font-extrabold text-[#99A1AF] hover:cursor-pointer"> 취소 </button>
-            </div>
-
-            <div className="flex flex-col gap-5">
-                {result.success === false ? (
-                    <PtRecordCard errorMessage={result.message} />
-                ) : result.data.ptReservations.map((item) => (
-                <Link
-                    key={item.ptReservationId}
-                    href={`/pt/records/${item.ptReservationId}`}
-                >
-                <PtRecordCard 
-                    key={item.ptReservationId}
-                    data={item}
-                />
-                </Link>
-                ))}
-            </div>
+            {result.success === false ? (
+                <PtRecordCard errorMessage={result.message} />
+            ) : (
+                <PtRecordsList ptReservations={result.data.ptReservations} />
+            )}
         </div>
     );
 }

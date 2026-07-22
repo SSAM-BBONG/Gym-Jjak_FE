@@ -1,4 +1,4 @@
-import PtManageUserCard from "@/feature/pt/components/PtManageUserCard";
+import PtManageReservationList from "@/feature/pt/components/PtManageReservationList";
 import { getPtStudentsList } from "@/service/ptzone.service";
 
 interface PtManageDetailPageProps {
@@ -14,20 +14,11 @@ export default async function PtManageDetailPage({ params }: PtManageDetailPageP
 
     return (
         <div className="flex flex-col gap-1 px-60 py-10">
-            <p className="text-[36px] font-black text-white"> {response.data.title} </p>
-            <p className="text-[14px] font-normal text-[#99A1AF]"> 신청자 관리 및 피드백 제공 </p>
-
-            <div className="flex flex-col gap-4 mt-6">
-
-                {response.data.ptReservations.map((item) => (
-
-                    <PtManageUserCard
-                        key={item.ptReservationId}
-                        data={item}
-                        id={id}
-                    />
-                ))}
-            </div>
+            <PtManageReservationList
+                id={id}
+                title={response.data.title}
+                ptReservations={response.data.ptReservations}
+            />
         </div>
     );
 }

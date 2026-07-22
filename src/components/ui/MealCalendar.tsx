@@ -1,14 +1,14 @@
 "use client"
 
-import * as React from "react"
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react"
 
 import { cn } from "@/lib/utils"
+import { useEffect, useMemo, useRef, useState } from "react"
 
 interface MealCalendarProps {
+  selectDate?: Date
+  setSelectDate?: (date: Date) => void
   className?: string
-  selected?: Date
-  onSelect?: (date: Date | undefined) => void
 }
 
 const startOfMonth = (date: Date) =>
@@ -23,14 +23,15 @@ const isSameMonth = (left: Date, right: Date) =>
   left.getFullYear() === right.getFullYear() &&
   left.getMonth() === right.getMonth()
 
-function MealCalendar({ className, selected, onSelect }: MealCalendarProps) {
-  const today = React.useMemo(() => new Date(), [])
-  const [visibleMonth, setVisibleMonth] = React.useState(() =>
-    startOfMonth(selected && selected <= today ? selected : today)
-  )
-  const datesRef = React.useRef<HTMLDivElement>(null)
+function MealCalendar({ selectDate, setSelectDate, className }: MealCalendarProps) {
 
-  const dates = React.useMemo(() => {
+  const today = useMemo(() => new Date(), [])
+  const [visibleMonth, setVisibleMonth] = useState(() =>
+    startOfMonth(selectDate && selectDate <= today ? selectDate : today)
+  )
+  const datesRef = useRef<HTMLDivElement>(null)
+
+  const dates = useMemo(() => {
     const lastDate = isSameMonth(visibleMonth, today)
       ? today.getDate()
       : new Date(
@@ -60,7 +61,7 @@ function MealCalendar({ className, selected, onSelect }: MealCalendarProps) {
     setVisibleMonth(nextMonth)
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     const container = datesRef.current
     if (!container) return
 
@@ -72,11 +73,12 @@ function MealCalendar({ className, selected, onSelect }: MealCalendarProps) {
     container.scrollTo({ left: 0, behavior: "smooth" })
   }, [isCurrentMonth, visibleMonth])
 
+
   return (
     <section
       aria-label="식단 날짜 선택"
       className={cn(
-        "w-full min-w-0 bg-black px-1 py-3 text-white sm:px-2 sm:py-4 lg:px-0",
+        "w-full min-w-0 bg-[#0B0F19] px-1 py-3 text-white sm:px-2 sm:py-4 lg:px-0",
         className
       )}
     >
@@ -111,17 +113,17 @@ function MealCalendar({ className, selected, onSelect }: MealCalendarProps) {
         className="mt-5 flex w-full touch-pan-x snap-x snap-mandatory gap-2 overflow-x-auto pb-2 sm:mt-6 sm:gap-2.5 lg:mt-8 lg:gap-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
         {dates.map((date) => {
-          const isSelected = selected ? isSameDay(date, selected) : false
+          const isselectDate = selectDate ? isSameDay(date, selectDate) : false
 
           return (
             <button
               key={date.toISOString()}
               type="button"
-              aria-pressed={isSelected}
-              onClick={() => onSelect?.(date)}
+              aria-pressed={isselectDate}
+              onClick={() => setSelectDate?.(date)}
               className={cn(
                 "shrink-0 snap-start rounded-full border px-4 py-1.5 text-sm font-bold transition-colors sm:px-5 sm:py-2 sm:text-[15px] lg:px-6 lg:text-base",
-                isSelected
+                isselectDate
                   ? "border-[#BFFF0B] bg-[#BFFF0B] text-black"
                   : "border-[#364153] bg-[#1E2939] text-[#99A1AF] hover:border-[#BFFF0B] hover:text-white"
               )}

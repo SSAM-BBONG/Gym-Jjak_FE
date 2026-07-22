@@ -97,7 +97,7 @@ export default function PtReservationModal({ isModal, closeModal, activeModal, n
                 <article>
                     <div className="flex justify-between border-b-[#1E2939] border-b items-center pb-8 pt-2">
                         <h3 className="font-bold text-xl text-[#E8EAF0]">PT 예약하기</h3>
-                        <button onClick={closeModal} className="relative ml-auto w-5 h-5">
+                        <button type="button" onClick={closeModal} className="relative ml-auto w-5 h-5">
                             <Image
                                 src={CloseButton}
                                 alt="모달 닫기 버튼"
@@ -152,6 +152,15 @@ export default function PtReservationModal({ isModal, closeModal, activeModal, n
                         </div>
                     </div>
 
+                    {errorMessage && (
+                        <p
+                            role="alert"
+                            className="mt-3 text-sm text-red-400"
+                        >
+                            {errorMessage}
+                        </p>
+                    )}
+
                 </article>
                 <article className='flex gap-3 mt-10'>
                     <button
@@ -164,6 +173,7 @@ export default function PtReservationModal({ isModal, closeModal, activeModal, n
                     </button>
                     <button
                         data-testid="reservation-submit-button"
+                        type="button"
                         onClick={handleCreateReservation}
                         className='w-full flex pt-2 pb-3 justify-center items-center rounded-lg text-black text-center font-semibold text-base bg-[#BFFF0B]'
                     >

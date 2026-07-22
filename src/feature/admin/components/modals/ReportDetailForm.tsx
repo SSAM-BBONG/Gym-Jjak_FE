@@ -29,7 +29,7 @@ export default function ReportDetailForm({ report, reportGroupId }: ReportDetail
     return (
         <form>
             <div className="flex justify-between items-center my-4">
-                <h3 className="font-bold text-base md:text-lg lg:text-xl text-[#E8EAF0] py-2">{reportState.reporterUsername}</h3>
+                <h3 className="font-bold text-base md:text-lg lg:text-xl text-[#E8EAF0] py-2">신고자: {reportState.reporterUsername}</h3>
                 <div className="flex gap-2"><ReportReason text={reportState.reason} /><ReportDetailStatus text={reportState.status} /></div>
             </div>
 

@@ -9,8 +9,6 @@ interface PtRegistSelectGymProps {
 }
 
 export default function PtRegistSelectGym({ organizations, register, error }: PtRegistSelectGymProps) {
-    console.log(organizations);
-
     return (
         <section className="flex flex-col gap-4 rounded-[16px] border border-[#36415380] bg-[linear-gradient(135deg,rgba(16,24,40,0.90)0%,rgba(30,41,57,0.90)100%)] p-8">
             <div className="flex flex-col gap-1">

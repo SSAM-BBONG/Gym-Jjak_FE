@@ -8,7 +8,8 @@ export type FileType =
   | "CERTIFICATION"
   | "AWARD"
   | "BUSINESS_LICENSE"
-  | "FEEDBACK_VIDEO";
+  | "FEEDBACK_VIDEO"
+  | "MEAL_IMAGE";
 
 // 요청시 타입선언
 export interface PresignedUrlReqeust {
@@ -79,7 +80,7 @@ export const uploadFilesPresignedUrl = async (
 
   // 파일별로 fileKey 목록 추출
   const presignedFiles = presignedResponse.data.files;
-  
+
   // 업로드 할 파일 정보 저장을 위한 배열
   const uploadedFiles = [];
 

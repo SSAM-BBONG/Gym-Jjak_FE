@@ -1,8 +1,7 @@
 import OrganizationDetailButton from "@/feature/admin/components/OrganizationDetailButton";
+import { format } from "date-fns";
 
 export default function OrgainzationDataItem({ organization }: { organization: Organizations }) {
-    const date = new Date(organization.createdAt);
-
     return (
         <div
             style={{ display: 'grid' }}
@@ -13,8 +12,8 @@ export default function OrgainzationDataItem({ organization }: { organization: O
             <p className="col-span-2 hidden md:block">{organization.representativeName}</p>
             <p className="col-span-3">{organization.representativePhone}</p>
             <p className="col-span-2 hidden md:block">{organization.trainerCount}명</p>
-            <p className="col-span-2 hidden md:block">{`${date.getFullYear()}-${(date.getMonth() + 1)}-${date.getDate()}`}</p>
-            <div className="col-span-2"><OrganizationDetailButton mode='organizationView' organizationId={organization.organizationId} /></div>
-        </div>
+            <p className="col-span-2 hidden md:block">{format(organization.createdAt, 'yyyy-MM-dd')}</p>
+            <div className="col-span-2" > <OrganizationDetailButton mode='organizationView' organizationId={organization.organizationId} /></div>
+        </div >
     );
 }

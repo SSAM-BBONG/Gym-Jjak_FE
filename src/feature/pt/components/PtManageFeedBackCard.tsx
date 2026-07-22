@@ -3,6 +3,7 @@
 import { useState } from "react";
 import useModal from "@/components/hooks/useModal";
 import { MypageMyActivity, PtRecordComplete, PtRecordVideo } from "@/components/ui/image";
+import OneButtonModal from "@/components/ui/OneButtonModal";
 import PtFeeBackCheckModal from "./PtFeedBackCheckModal";
 import PtFeeBackRegistModal from "./PtFeedBackRegistModal";
 import type { StudentFeedbackCurriculum } from "../type";
@@ -17,12 +18,18 @@ interface PtManageFeedBackCardProps {
 export default function PtManageFeedBackCard({ data, reservationId, ptCourseId }: PtManageFeedBackCardProps) {
     const checkModal = useModal();
     const registModal = useModal();
+    const feedbackUnavailableModal = useModal();
 
     const [selectedCurriculum, setSelectedCurriculum] =
         useState<StudentFeedbackCurriculum | null>(null);
     const [selectedFeedbackId, setSelectedFeedbackId] = useState<number | null>(null);
 
     const openRegistModal = (item: StudentFeedbackCurriculum) => {
+        if (new Date(item.reservedStartAt).getTime() > Date.now()) {
+            feedbackUnavailableModal.openModal();
+            return;
+        }
+
         setSelectedCurriculum(item);
         registModal.openModal();
     };
@@ -87,7 +94,7 @@ export default function PtManageFeedBackCard({ data, reservationId, ptCourseId }
                                         onClick={() => openCheckModal(item.feedbacks?.feedbackId ?? null)}>
                                         <div className="flex flex-col gap-2 pb-2 border-b border-b-[#364153]">
                                             <div className="flex justify-between">
-                                                <p className="flex gap-3 text-[14px] font-extrabold text-[#BFFF0B] whitespace-nowrap items-center">
+                                                <div className="flex gap-3 text-[14px] font-extrabold text-[#BFFF0B] whitespace-nowrap items-center">
                                                     <div className="relative w-4 h-4">
                                                         <Image
                                                             src={PtRecordVideo}
@@ -99,13 +106,13 @@ export default function PtManageFeedBackCard({ data, reservationId, ptCourseId }
                                                         />
                                                     </div>
                                                     트레이너 피드백
-                                                </p>
+                                                </div>
                                                 <p className="text-[12px] font-normal text-[#6A7282]"> {item.feedbacks.createdAt} </p>
                                             </div>
                                             <p className="text-[14px] font-medium text-[#99A1AF] hover:text-[#BFFF0B]"> 비디오 피드백 보기</p>
                                         </div>
                                         <div className="flex flex-col gap-1 pt-2">
-                                            <p className="flex items-center gap-3 text-[14px] font-extrabold text-[#BFFF0B]">
+                                            <div className="flex items-center gap-3 text-[14px] font-extrabold text-[#BFFF0B]">
                                                 <div className="relative w-4 h-4">
                                                     <Image
                                                         src={MypageMyActivity}
@@ -117,7 +124,7 @@ export default function PtManageFeedBackCard({ data, reservationId, ptCourseId }
                                                     />
                                                 </div>
                                                 텍스트 피드백
-                                            </p>
+                                            </div>
                                             <p className="text-[14px] font-normal text-[#D1D5DC]"> {item.feedbacks.content} </p>
                                         </div>
                                     </div>
@@ -126,26 +133,37 @@ export default function PtManageFeedBackCard({ data, reservationId, ptCourseId }
                         )
                         :
                         (
-                            <div
-                                key={item.ptCurriculumId}
-                                className="
+                            (() => {
+                                const isBeforeReservationStart =
+                                    new Date(item.reservedStartAt).getTime() > Date.now();
+
+                                return (
+                                    <div
+                                        key={item.ptCurriculumId}
+                                        className="
         flex items-center justify-between gap-6
         p-5
         border border-[#1E2939] rounded-[16px]
         bg-[#101828]
         ">
 
-                                <div className="flex items-center gap-3">
-                                    <p className="px-4 py-2 text-[14px] font-extrabold text-[#99A1AF] bg-[#364153] rounded-full"> {item.sessionNo} </p>
-                                    <p className="text-[18px] font-extrabold text-white"> {item.title} </p>
-                                </div>
-                                <button
-                                    type="button"
-                                    onClick={() => openRegistModal(item)}
-                                    className="px-4 py-2 rounded-[10px] bg-[#BFFF0B] text-[14px] font-extrabold text-black">
-                                    등록하기
-                                </button>
-                            </div>
+                                        <div className="flex items-center gap-3">
+                                            <p className="px-4 py-2 text-[14px] font-extrabold text-[#99A1AF] bg-[#364153] rounded-full"> {item.sessionNo} </p>
+                                            <p className="text-[18px] font-extrabold text-white"> {item.title} </p>
+                                        </div>
+                                        <button
+                                            type="button"
+                                            onClick={() => openRegistModal(item)}
+                                            aria-disabled={isBeforeReservationStart}
+                                            className={`px-4 py-2 rounded-[10px] text-[14px] font-extrabold ${isBeforeReservationStart
+                                                ? "bg-[#364153] text-[#99A1AF] cursor-not-allowed"
+                                                : "bg-[#BFFF0B] text-black"
+                                                }`}>
+                                            등록하기
+                                        </button>
+                                    </div>
+                                );
+                            })()
                         ))}
             </div>
             <PtFeeBackCheckModal
@@ -161,6 +179,13 @@ export default function PtManageFeedBackCard({ data, reservationId, ptCourseId }
                 reservationId={reservationId}
                 ptCourseId={ptCourseId}
                 curriculum={selectedCurriculum}
+            />
+
+            <OneButtonModal
+                isModal={feedbackUnavailableModal.isModal}
+                closeModal={feedbackUnavailableModal.closeModal}
+                title="피드백 등록 불가"
+                content="예약 시작 시간 이후에 피드백을 등록할 수 있습니다."
             />
         </>
     );

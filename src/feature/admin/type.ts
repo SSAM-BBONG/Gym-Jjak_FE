@@ -71,6 +71,7 @@ interface ReportResponse {
 interface Exercise {
     exerciseId: number;
     part: PartKo;
+    createdAt: string;
     exerciseName: string;
 }
 
@@ -228,4 +229,14 @@ interface MonthlyRevenueCount {
     ptCommissionRevenue: number;
     subscriptionRevenue: number;
     totalRevenue: number;
+}
+
+
+interface RepostSnapshot {
+    reportGroupId: number;
+    targetType: string;
+    targetId: number;
+    title: null | string;
+    content: string;
+    fileUrl: null | string;
 }

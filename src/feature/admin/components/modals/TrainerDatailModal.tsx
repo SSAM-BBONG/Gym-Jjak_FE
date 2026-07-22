@@ -88,7 +88,7 @@ export default function TrainerDetailModal({ isModal, closeModal, activeModal, n
                         </button>
                     </div>
                     <div className="flex items-center my-4 gap-6">
-                        <div className="w-20 h-20 md:w-24 md:h-24 lg:w-30 lg:h-30">
+                        <div className="relative w-20 h-20 md:w-24 md:h-24 lg:w-30 lg:h-30 bg-[#1E2939]">
                             {profileImageUrl && (<Image
                                 src={profileImageUrl}
                                 alt="트레이너 프로필 사진"
@@ -111,7 +111,7 @@ export default function TrainerDetailModal({ isModal, closeModal, activeModal, n
                         <article>
                             <p className="text-white font-bold text-[14px] md:text-base lg:text-lg mb-2 md:mb-3 lg:mb-3.5">자기소개</p>
                             <div
-                                className="flex items-center gap-3 md:gap-4 border-[#364153] border w-full p-3 md:p-4 mt-2 bg-[#1E2939] rounded-md text-[#D1D5DC] text-sm md:text-base font-normal"
+                                className="h-14 flex items-center gap-3 md:gap-4 border-[#364153] border w-full p-3 md:p-4 mt-2 bg-[#1E2939] rounded-md text-[#D1D5DC] text-sm md:text-base font-normal"
                             >
                                 <p>{trainerApplicationInfo.introduction || trainerInfo.introduction}</p>
                             </div>

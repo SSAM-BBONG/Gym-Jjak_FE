@@ -1,26 +1,19 @@
 'use client'
 
-import useModal from "@/components/hooks/useModal";
 import { MyOnboardingPurpose } from "@/components/ui/image";
-import OneButtonModal from "@/components/ui/OneButtonModal";
 import { onboardingEditAction } from "@/feature/auth/action";
 import { MyOnboardingResponse } from "@/feature/auth/type";
 import OnboardingAdressCard from "@/feature/mypage/components/OnboardingAdressCard";
 import OnboardingDetailEditCard from "@/feature/mypage/components/OnboardingDetailEditCard";
 import { onboardingSchema, OnboardingType } from "@/lib/onboardingSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { EXERCISE_FREQUENCY_OPTIONS, EXERCISE_GOAL_OPTIONS, EXERCISE_PERIOD_OPTIONS, PREFERRED_EXERCISE_OPTIONS } from "./OnboardingOptions";
 import Image from "next/image";
+import { toast } from "sonner";
 
-interface OnboardingStateType {
-    success: boolean;
-    message?: string
-}
 
 export default function OnboardingForm({ myOnboarding }: { myOnboarding: MyOnboardingResponse }) {
-    const modal = useModal();
 
     const {
         register,
@@ -41,21 +34,12 @@ export default function OnboardingForm({ myOnboarding }: { myOnboarding: MyOnboa
         mode: 'onSubmit'
     });
 
-    const [onboardingState, setOnboardingState] = useState<OnboardingStateType>({
-        success: false,
-        message: ''
-    });
-
     const onSubmit = async (data: OnboardingType) => {
         try {
             const result = await onboardingEditAction(data);
-            setOnboardingState(result);
+            toast.success(result.message);
         } catch (error) {
-            setOnboardingState({
-                success: false,
-                message: '네트워크 연결이 원활하지 않습니다.'
-            })
-            modal.openModal();
+            toast.error('네트워크 연결이 원활하지 않습니다.')
         }
     }
 
@@ -109,17 +93,7 @@ export default function OnboardingForm({ myOnboarding }: { myOnboarding: MyOnboa
                 </div>
             </div>
             <OnboardingAdressCard title='선호 지역' content={myOnboarding.preferredRegion} setValue={setValue} />
-            <button type="submit" className="bg-[#BFFF0B] text-xl px-6 py-6 mb-10 mt-5 font-black rounded-[10px] w-full">등록하기</button>
-            {!isSubmitting && (
-                <OneButtonModal
-                    isModal={modal.isModal}
-                    closeModal={modal.closeModal}
-                    activeModal={modal.activeModal}
-                    title='온보딩 수정'
-                    content={onboardingState.success ?
-                        '온보딩이 수정되었습니다.' : onboardingState.message ?
-                            onboardingState.message : `알 수 없는 오류입니다\n다시 시도해주세요`} />
-            )}
+            <button disabled={isSubmitting} type="submit" className="bg-[#BFFF0B] text-xl px-6 py-6 mb-10 mt-5 font-black rounded-[10px] w-full">수정하기</button>
         </form>
     );
 }

@@ -8,21 +8,40 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { MyTokenPayload } from "@/lib/decode";
+import { AlarmUnreadCountData } from "@/feature/alarm/type";
+import { ChatRoomUnreadCountData } from "@/feature/chat/type";
+import { useChatRoomListSocket } from "@/components/hooks/useChatRoomListSocket";
+
+interface HeaderAuthAreaProps {
+  userInf?: MyTokenPayload
+  notification?: AlarmUnreadCountData;
+  chatCount?: ChatRoomUnreadCountData;
+  
+}
 
 type HeaderUser = Awaited<ReturnType<typeof getHeaderUserAction>>;
 
 const ALARM_SOCKET_DISABLED_PATHS = ["/alarm", "/admin"];
 
-export default function HeaderAuthArea() {
+export default function HeaderAuthArea({ userInf, notification, chatCount }: HeaderAuthAreaProps) {
   const pathname = usePathname();
   const [user, setUser] = useState<HeaderUser>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const unreadCount = notification?.unreadCount ?? 0;
+  const unreadChat = chatCount?.totalUnreadCount ?? 0;
+  
 
   const isAlarmSocketEnabled =
     Boolean(user) &&
     !ALARM_SOCKET_DISABLED_PATHS.some(
       (path) => pathname === path || pathname.startsWith(`${path}/`),
     );
+
+  useChatRoomListSocket({
+    enabled: Boolean(user),
+    refreshKey: pathname,
+  });
 
   useEffect(() => {
     let ignore = false;
@@ -56,14 +75,6 @@ export default function HeaderAuthArea() {
     <div className="grid grid-cols-[20px_20px_80px] items-center justify-end gap-5 min-w-32">
       {user && <AlarmSocket enabled={isAlarmSocketEnabled} />}
 
-      {user?.role === "ADMIN" && (
-        <Link href="/admin/approvals/organizations?page=1">
-          <button className="cursor-pointer rounded-[10px] border border-[#BFFF0B] bg-black px-4 py-2 text-[14px] font-extrabold text-[#BFFF0B]">
-            관리자
-          </button>
-        </Link>
-      )}
-
       <Link href="/alarm">
         <div className="relative min-w-5">
           <div className="relative h-5 w-5">
@@ -75,9 +86,11 @@ export default function HeaderAuthArea() {
               className="object-cover"
             />
           </div>
-          {/* <div className="absolute top-[-4px] left-2 flex size-4 items-center justify-center rounded-full bg-[#BFFF0B] text-[10px] font-extrabold text-black">
-            5
-          </div> */}
+          {unreadCount > 0 && (
+            <div className="absolute top-[-4px] left-2 flex size-4 items-center justify-center rounded-full bg-[#BFFF0B] text-[10px] font-extrabold text-black">
+              {unreadCount}
+            </div>
+          )}
         </div>
       </Link>
 
@@ -92,16 +105,20 @@ export default function HeaderAuthArea() {
               className="object-cover"
             />
           </div>
-          <div className="absolute top-[-4px] left-2 flex size-4 items-center justify-center rounded-full bg-[#BFFF0B] text-[10px] font-extrabold text-black">
-            5
-          </div>
+          {unreadChat > 0 && (
+            <div className="absolute top-[-4px] left-2 flex size-4 items-center justify-center rounded-full bg-[#BFFF0B] text-[10px] font-extrabold text-black">
+              {unreadChat}
+            </div>
+          )}
         </div>
       </Link>
 
       {isLoading ? (
         <div className="h-9 w-17 min-w-5" />
       ) : user ? (
-        <UserProfile />
+        <UserProfile 
+          userInf={userInf}
+        />
       ) : (
         <Link href="/auth/login">
           <button className="min-w-4 cursor-pointer rounded-[10px] bg-[#BFFF0B] px-4 py-2 text-[14px] font-extrabold text-black">

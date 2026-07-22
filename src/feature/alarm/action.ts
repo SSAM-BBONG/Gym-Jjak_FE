@@ -1,7 +1,28 @@
 'use server'
 
-import { deleteAlarms, patchReadAlarms } from "@/service/alarm.service";
-import { redirect } from "next/navigation";
+import { deleteAlarms, getAlarmUnreadCount, patchReadAlarms } from "@/service/alarm.service";
+import { revalidatePath } from "next/cache";
+
+export const getAlarmUnreadCountAction = async () => {
+    try {
+        const response = await getAlarmUnreadCount();
+
+        return {
+            success: true,
+            data: response.data,
+        };
+    } catch (error) {
+        let errorMessage = '미읽음 알림 개수 조회에 실패하였습니다.';
+        if (error instanceof Error) {
+            errorMessage = error.message;
+        }
+
+        return {
+            success: false,
+            message: errorMessage,
+        };
+    }
+};
 
 export const readAlarmsAction = async (notificationIds: number[]) => {
     try {
@@ -14,7 +35,8 @@ export const readAlarmsAction = async (notificationIds: number[]) => {
 
         throw new Error(errorMessage)
     }
-    redirect('/alarm');
+    revalidatePath('/alarm');
+    return { success: true };
 }
 
 export const deleteAlarmsAction = async (notificationIds: number[]) => {
@@ -28,6 +50,7 @@ export const deleteAlarmsAction = async (notificationIds: number[]) => {
 
         throw new Error(errorMessage)
     }
-    redirect('/alarm');
+    revalidatePath('/alarm');
+    return { success: true };
 
 }
