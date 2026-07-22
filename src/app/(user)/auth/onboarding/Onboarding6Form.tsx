@@ -74,8 +74,8 @@ export default function Onboarding6Form({ totalData, setTotalData }: { totalData
     const completeHandler = (data: DaumAddressData) => {
         if (isKakaoLoading) {
             setApiState({
-            success: false,
-            message: "지도 서비스를 준비 중입니다. 잠시 후 다시 시도해주세요.",
+                success: false,
+                message: "지도 서비스를 준비 중입니다. 잠시 후 다시 시도해주세요.",
             });
             errorModal.openModal();
             return;
@@ -83,8 +83,8 @@ export default function Onboarding6Form({ totalData, setTotalData }: { totalData
 
         if (kakaoError || !window.kakao?.maps?.services) {
             setApiState({
-            success: false,
-            message: "지도 서비스를 불러오지 못했습니다. 새로고침 후 다시 시도해주세요.",
+                success: false,
+                message: "지도 서비스를 불러오지 못했습니다. 새로고침 후 다시 시도해주세요.",
             });
             errorModal.openModal();
             return;
@@ -95,8 +95,8 @@ export default function Onboarding6Form({ totalData, setTotalData }: { totalData
 
         geocoder.addressSearch(data.roadAddress, (result, status) => {
             if (status !== "OK" || !result[0]) {
-            // 주소 변환 실패 UI 처리
-            return;
+                // 주소 변환 실패 UI 처리
+                return;
             }
 
             const newAddress = {
@@ -107,15 +107,15 @@ export default function Onboarding6Form({ totalData, setTotalData }: { totalData
                 latitude: Number(result[0].y),
                 longitude: Number(result[0].x),
             };
-                setTotalData({
-                    ...totalData,
-                    region: newAddress,
-                });
+            setTotalData({
+                ...totalData,
+                region: newAddress,
+            });
 
-                setUserAddress(newAddress);
-                setValue("region", newAddress);
-                modal.closeModal();
-            }
+            setUserAddress(newAddress);
+            setValue("region", newAddress);
+            modal.closeModal();
+        }
         );
     };
 
