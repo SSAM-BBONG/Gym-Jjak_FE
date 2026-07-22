@@ -48,7 +48,7 @@ export const getPtPurchaseStatus = async (
 
 
 export const createSubscriptionsPayment = async (planType: AiPlanRequest) => {
-  const response = await fetchWithAuth(" /api/payments/subscriptions", {
+  const response = await fetchWithAuth("/api/payments/subscriptions", {
     method: "POST",
     body: JSON.stringify(planType),
   });

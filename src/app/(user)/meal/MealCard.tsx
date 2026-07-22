@@ -42,17 +42,19 @@ export default function MealCard({ meal }: { meal: Meals }) {
 
         <p className="text-[12px] md:text-[14px] font-normal text-[#99A1AF]"> {meal.mealTime} </p>
       </div>
-      <MealViewModal
-        isModal={modal.isModal}
-        closeModal={modal.closeModal}
-        activeModal={modal.activeModal}
-        mealId={meal.mealId} />
-      <MealCreateModal
-        isModal={updateModal.isModal}
-        closeModal={updateModal.closeModal}
-        system="update"
-        mealId={meal.mealId}
-      />
+      {modal.isModal && (
+        <MealViewModal
+          isModal={modal.isModal}
+          closeModal={modal.closeModal}
+          activeModal={modal.activeModal}
+          mealId={meal.mealId} />)}
+      {updateModal.isModal && (
+        <MealCreateModal
+          isModal={updateModal.isModal}
+          closeModal={updateModal.closeModal}
+          system="update"
+          mealId={meal.mealId}
+        />)}
     </>
   );
 }

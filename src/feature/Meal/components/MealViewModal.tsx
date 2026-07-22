@@ -20,7 +20,7 @@ interface MealViewModalProps {
 
 export default function MealViewModal({ isModal, closeModal, activeModal, mealId }: MealViewModalProps) {
 
-    if (!isModal) return null;
+
 
     const {
         data: mealData,
@@ -63,7 +63,7 @@ export default function MealViewModal({ isModal, closeModal, activeModal, mealId
     });
 
     const checkModal = useModal(createMutation.mutate);
-
+    if (!isModal) return null;
 
     return (
         <section
