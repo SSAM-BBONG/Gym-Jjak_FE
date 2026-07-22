@@ -12,6 +12,14 @@ import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
+const PURCHASE_STATUS_RETRY_INTERVAL_MS = 1_000;
+const PURCHASE_STATUS_MAX_RETRY_COUNT = 10;
+
+type PurchaseConfirmationResult =
+  | { status: "purchased" }
+  | { status: "pending" }
+  | { status: "error"; message: string };
+
 interface PtDetailReservationButtonProps {
   ptCourseId: number;
   title: string;
@@ -40,6 +48,7 @@ export default function PtDetailButton({
   const [isPurchased, setIsPurchased] = useState(false);
   const [isPurchaseStatusLoading, setIsPurchaseStatusLoading] = useState(true);
   const [isPaymentSubmitting, setIsPaymentSubmitting] = useState(false);
+  const [isPaymentPending, setIsPaymentPending] = useState(false);
   const [isCreatingChat, setIsCreatingChat] = useState(false);
   const [chatErrorMessage, setChatErrorMessage] = useState("");
   const [resultModalState, setResultModalState] = useState({
@@ -60,6 +69,31 @@ export default function PtDetailButton({
     }
 
     return result;
+  };
+
+  const confirmPurchaseStatus = async (): Promise<PurchaseConfirmationResult> => {
+    for (
+      let retryCount = 0;
+      retryCount < PURCHASE_STATUS_MAX_RETRY_COUNT;
+      retryCount += 1
+    ) {
+      const result = await fetchPurchaseStatus();
+
+      if (!result.success) {
+        return { status: "error", message: result.message };
+      }
+
+      if (result.data.isPurchased) {
+        setIsPaymentPending(false);
+        return { status: "purchased" };
+      }
+
+      await new Promise((resolve) => {
+        window.setTimeout(resolve, PURCHASE_STATUS_RETRY_INTERVAL_MS);
+      });
+    }
+
+    return { status: "pending" };
   };
 
   useEffect(() => {
@@ -117,17 +151,19 @@ export default function PtDetailButton({
         return;
       }
 
-      const purchaseStatusResult = await fetchPurchaseStatus();
+      setIsPaymentPending(true);
 
-      if (!purchaseStatusResult.success) {
-        showResultModal("결제 확인 실패", purchaseStatusResult.message);
+      const purchaseConfirmation = await confirmPurchaseStatus();
+
+      if (purchaseConfirmation.status === "error") {
+        showResultModal("결제 확인 실패", purchaseConfirmation.message);
         return;
       }
 
-      if (!purchaseStatusResult.data.isPurchased) {
+      if (purchaseConfirmation.status === "pending") {
         showResultModal(
           "결제 확인 중",
-          "결제는 완료되었습니다. 결제 처리 후 다시 확인해주세요."
+          "결제는 완료되었습니다. 잠시 후 결제 상태를 다시 확인해주세요."
         );
         return;
       }
@@ -140,6 +176,31 @@ export default function PtDetailButton({
           ? error.message
           : "결제 처리 중 오류가 발생했습니다."
       );
+    } finally {
+      setIsPaymentSubmitting(false);
+    }
+  };
+
+  const handlePurchaseStatusRetry = async () => {
+    try {
+      setIsPaymentSubmitting(true);
+
+      const purchaseConfirmation = await confirmPurchaseStatus();
+
+      if (purchaseConfirmation.status === "error") {
+        showResultModal("결제 확인 실패", purchaseConfirmation.message);
+        return;
+      }
+
+      if (purchaseConfirmation.status === "pending") {
+        showResultModal(
+          "결제 확인 중",
+          "아직 결제 처리가 완료되지 않았습니다. 잠시 후 다시 확인해주세요."
+        );
+        return;
+      }
+
+      showResultModal("결제 완료", "PT 결제가 완료되었습니다.");
     } finally {
       setIsPaymentSubmitting(false);
     }
@@ -184,6 +245,15 @@ export default function PtDetailButton({
             className="py-4 rounded-[14px] bg-[#1E2939] text-[16px] font-extrabold text-white hover:text-black hover:bg-[#BFFF0B]"
           >
             예약하기
+          </button>
+        ) : isPaymentPending ? (
+          <button
+            type="button"
+            onClick={handlePurchaseStatusRetry}
+            disabled={isPaymentSubmitting}
+            className="py-4 rounded-[14px] bg-[#1E2939] text-[16px] font-extrabold text-white hover:text-black hover:bg-[#BFFF0B] disabled:cursor-not-allowed disabled:opacity-60"
+          >
+            {isPaymentSubmitting ? "결제 상태 확인 중..." : "결제 상태 다시 확인"}
           </button>
         ) : (
           <button

@@ -1,5 +1,6 @@
 import {
   PtPaymentCreateResponse,
+  PtPaymentCreateRequest,
   PtPurchaseStatusResponse,
 } from "@/feature/payment/type";
 import { fetchWithAuth } from "@/lib/feth";
@@ -8,9 +9,11 @@ import { getErrorMessage } from "@/lib/stateError";
 export const createPtPayment = async (
   ptCourseId: number
 ): Promise<PtPaymentCreateResponse> => {
+  const payload: PtPaymentCreateRequest = { ptCourseId };
+
   const response = await fetchWithAuth("/api/payments/pt", {
     method: "POST",
-    body: JSON.stringify({ ptCourseId }),
+    body: JSON.stringify(payload),
   });
 
   if (!response.ok) {

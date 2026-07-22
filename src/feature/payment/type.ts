@@ -1,3 +1,7 @@
+export interface PtPaymentCreateRequest {
+  ptCourseId: number;
+}
+
 export interface PtPaymentCreateData {
   orderId: string;
   amount: number;
