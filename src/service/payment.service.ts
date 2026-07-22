@@ -82,7 +82,7 @@ export const getPlan = async () => {
 
 
 export const getMyPlan = async () => {
-  const response = await fetchWithoutAuth('/api/subscriptions/me');
+  const response = await fetchWithAuth('/api/subscriptions/me');
 
   if (!response.ok) {
     const message = await getErrorMessage(
