@@ -24,7 +24,7 @@ type MealProps = {
 
 export default function MealCreateModal({ isModal, closeModal, system, mealId }: MealProps) {
 
-    if (!isModal) return null;
+
 
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
     const imgRef = useRef<HTMLImageElement>(null);
@@ -90,7 +90,7 @@ export default function MealCreateModal({ isModal, closeModal, system, mealId }:
         reader.readAsDataURL(file);
     };
 
-
+    if (!isModal) return null;
     return (
         <section
             className="z-999 bg-black/50 fixed top-0 left-0 w-screen h-screen"
