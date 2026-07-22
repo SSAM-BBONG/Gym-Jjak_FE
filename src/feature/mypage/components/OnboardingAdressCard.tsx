@@ -7,6 +7,7 @@ import { RegionType } from "@/feature/auth/type";
 import { OnboardingType } from "@/lib/onboardingSchema";
 import Image from "next/image";
 import { useState } from "react";
+import { useKakaoLoader } from "react-kakao-maps-sdk";
 import { UseFormSetValue } from "react-hook-form";
 
 interface DaumAddressData {
@@ -23,6 +24,12 @@ interface KakaoAddressResult {
 }
 
 export default function OnboardingAdressCard({ title, content, setValue }: { title: string, content: RegionType, setValue: UseFormSetValue<OnboardingType> }) {
+    const [isKakaoLoading, kakaoError] = useKakaoLoader({
+        appkey: process.env.NEXT_PUBLIC_KAKAO_MAP_KEY ?? "",
+        libraries: ["services"],
+    });
+
+    const [addressError, setAddressError] = useState("");
     const [userAdress, setUserAddress] = useState({
         "sido": content.sido,
         "sigungu": content.sigungu,
@@ -33,33 +40,42 @@ export default function OnboardingAdressCard({ title, content, setValue }: { tit
     })
 
     const completeHandler = (data: DaumAddressData) => {
+        if (isKakaoLoading) {
+            setAddressError("지도 서비스를 준비 중입니다. 잠시 후 다시 선택해주세요.");
+            return;
+        }
+
+        if (kakaoError || !window.kakao?.maps?.services) {
+            setAddressError("지도 서비스를 불러오지 못했습니다. 새로고침 후 다시 시도해주세요.");
+            return;
+        }
+
+        setAddressError("");
         const selectedRoadAddress = data.roadAddress;
+        const geocoder = new window.kakao.maps.services.Geocoder();
 
-        window.kakao.maps.load(() => {
-            const geocoder = new window.kakao.maps.services.Geocoder();
-
-            geocoder.addressSearch(
-                selectedRoadAddress,
-                (result: KakaoAddressResult[], status: string) => {
-                    if (status !== "OK") return;
-
-                    const newAddress = {
-                        sido: data.sido,
-                        sigungu: data.sigungu,
-                        eupmyeondong: data.bname || data.roadname,
-                        fullName: selectedRoadAddress,
-                        latitude: Number(result[0].y),
-                        longitude: Number(result[0].x),
-                    };
-
-
-
-                    setUserAddress(newAddress);
-                    setValue('region', newAddress);
-                    modal.closeModal();
+        geocoder.addressSearch(
+            selectedRoadAddress,
+            (result: KakaoAddressResult[], status: string) => {
+                if (status !== "OK" || !result[0]) {
+                    setAddressError("선택한 주소의 좌표를 찾지 못했습니다. 다른 주소를 선택해주세요.");
+                    return;
                 }
-            );
-        });
+
+                const newAddress = {
+                    sido: data.sido,
+                    sigungu: data.sigungu,
+                    eupmyeondong: data.bname || data.roadname,
+                    fullName: selectedRoadAddress,
+                    latitude: Number(result[0].y),
+                    longitude: Number(result[0].x),
+                };
+
+                setUserAddress(newAddress);
+                setValue('region', newAddress);
+                modal.closeModal();
+            }
+        );
     };
 
     const modal = useModal();
@@ -86,9 +102,13 @@ export default function OnboardingAdressCard({ title, content, setValue }: { tit
             <div className=" flex flex-col gap-5 w-full">
                 <p className="text-xl flex items-center h-10 text-white font-extrabold ">{title}</p>
                 <div
-                    onClick={modal.openModal}
+                    onClick={() => {
+                        setAddressError("");
+                        modal.openModal();
+                    }}
                     className="font-normal text-base text-white w-full bg-[#1E2939] border-[#364153] p-3 rounded-[10px]"
                 >{userAdress.fullName ? userAdress.fullName : content.fullName}</div>
+                {addressError && <p className="text-sm text-red-400">{addressError}</p>}
             </div>
             <SearchAdressModal
                 isModal={modal.isModal} closeModal={modal.closeModal} completeHandler={completeHandler} />
