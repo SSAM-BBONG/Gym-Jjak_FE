@@ -124,20 +124,20 @@ export default function SubscriptionPaymentForm({
 
     return (
         <form
-            className="w-full flex flex-col items-center mt-28"
+            className="w-full flex flex-col items-center mt-20 sm:mt-24 lg:mt-28"
             onSubmit={handlePayment}
         >
             {children}
             <button
                 type="submit"
                 disabled={isPending}
-                className="w-full flex items-center justify-center gap-3 mt-8 py-6 rounded-[16px] bg-[#BFFF0B] text-black text-[24px] font-black disabled:cursor-not-allowed disabled:opacity-60"
+                className="w-full flex items-center justify-center gap-2 lg:gap-3 mt-6 lg:mt-8 py-4 sm:py-5 lg:py-6 rounded-[16px] bg-[#BFFF0B] text-black text-[18px] sm:text-[20px] lg:text-[24px] font-black disabled:cursor-not-allowed disabled:opacity-60"
             >
                 <CreditCard size={28} />
                 {isPending ? "결제 처리 중..." : "구독 시작"}
                 <ChevronRight size={30} />
             </button>
-            <p className="text-[16px] text-[#6A7282] font-normal mt-8">
+            <p className="text-[13px] sm:text-[14px] lg:text-[16px] text-[#6A7282] font-normal mt-5 sm:mt-6 lg:mt-8">
                 언제든지 해지 가능 · 자동 갱신 · 부가세 포함
             </p>
         </form>

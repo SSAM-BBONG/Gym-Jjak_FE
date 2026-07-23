@@ -28,8 +28,6 @@ export default function MealCt({ page, myStatus }: { page: string, myStatus?: "A
         select: (response) => response.data,
     });
 
-    console.log(mealListData)
-
     return (
         <>
             <div className="flex justify-between">
@@ -44,7 +42,7 @@ export default function MealCt({ page, myStatus }: { page: string, myStatus?: "A
                     selectDate={selectDate}
                     setSelectDate={setSelectDate} />
             </div>
-            {myStatus &&
+            {!myStatus &&
                 <MealAiPlanCard />
             }
             <MealGoalCard />

@@ -33,6 +33,7 @@ export default function MealGoalCard() {
         select: (response) => response.data,
     });
 
+    console.log(goalData)
     return (
         <>
             <button
@@ -52,18 +53,18 @@ export default function MealGoalCard() {
                     </div>
                 </div>
             </button>
-            {!goalData ? (
+            {goalData === null ? (
                 <GoalCreateModal
                     isModal={modal.isModal}
                     closeModal={modal.closeModal}
-                    mode="update"
-                    data={goalData}
+                    mode="create"
                 />
             ) : (
                 <GoalCreateModal
                     isModal={modal.isModal}
                     closeModal={modal.closeModal}
-                    mode="create"
+                    mode="update"
+                    data={goalData}
                 />
             )}
             {viewModal.isModal && goalData && (
