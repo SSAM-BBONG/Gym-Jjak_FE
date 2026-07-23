@@ -56,6 +56,7 @@ export default function PtRegistForm({ organizations }: PtRegistFormProps) {
             <PtRegistPreview
                 setValue={setValue} 
                 error={errors.thumbnailFile?.message}     
+                allowThumbnailDelete
             />
 
             <PtRegistBasicInformation

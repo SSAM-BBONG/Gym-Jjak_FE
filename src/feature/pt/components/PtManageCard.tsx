@@ -1,6 +1,6 @@
 'use client'
 
-import { PtManageUsers, PtZonePtListsActivate, PtZonePtListsDeactivate } from "@/components/ui/image";
+import { HeaderProfile, OrganApplicationUpload, PtManageUsers, PtZonePtListsActivate, PtZonePtListsDeactivate } from "@/components/ui/image";
 import { PtManageListData, PtStatusChangeRequest } from "../type";
 import { changePtStatus } from "../actions";
 import Image from "next/image";
@@ -47,7 +47,8 @@ export default function PtManageCard({ data, onOpen }: PtManageCardProps) {
             <div
                 className="relative w-full h-40">
                     <Image
-                        src={data.thumbnailUrl}
+                        key={data.thumbnailUrl || "thumbnail-placeholder"}
+                        src={data.thumbnailUrl || HeaderProfile}
                         alt="피드백 등록 완료"
                         fill
                         sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
