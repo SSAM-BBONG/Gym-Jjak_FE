@@ -3,11 +3,13 @@
 import {
   getOrganizationPtCourses,
   getOrganizationPtStudents,
+  getPublicOrganizationDetail,
   getOrganizationSales,
   getOrganizationStats,
   getOrganizationTrainerStats,
 } from "@/service/organization.service";
 import {
+  OrganizationPublicDetailData,
   OrganizationSalesData,
   OrganizationStatsData,
 } from "./type";
@@ -105,6 +107,29 @@ export const getOrganizationPtStudentsAction = async (ptCourseId: number) => {
 
     return {
       success: false as const,
+      message: errorMessage,
+    };
+  }
+};
+
+export const getPublicOrganizationDetailAction = async (
+  organizationId: number
+): Promise<OrganizationDashboardActionResult<OrganizationPublicDetailData>> => {
+  try {
+    const response = await getPublicOrganizationDetail(organizationId);
+
+    return {
+      success: true,
+      data: response.data,
+    };
+  } catch (error) {
+    let errorMessage = "조직 상세 조회에 실패하였습니다.";
+    if (error instanceof Error) {
+      errorMessage = error.message;
+    }
+
+    return {
+      success: false,
       message: errorMessage,
     };
   }

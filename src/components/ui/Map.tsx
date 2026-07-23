@@ -6,6 +6,7 @@ import { CustomOverlayMap, Map, MapMarker, useKakaoLoader } from "react-kakao-ma
 
 interface OrganizationId {
   organName: string;
+  organizationId: number | null;
 }
 
 
@@ -24,9 +25,10 @@ export default function KakaoMap({latitude, longitude, ptList, setOrganizationId
   
   const [selectedOrganizationName, setSelectedOrganizationName] = useState<string | null>(null);
 
-  const handleMarkerClick = (organizationName: string) => {
+  const handleMarkerClick = (organizationName: string, organizationId: number) => {
     setOrganizationId({
       organName: organizationName,
+      organizationId,
     });
     setSelectedOrganizationName(organizationName);
   };
@@ -81,7 +83,7 @@ export default function KakaoMap({latitude, longitude, ptList, setOrganizationId
               </div>
              <button
                  data-testid="organization-marker"
-                 onClick={() => handleMarkerClick(item.businessName)} 
+                 onClick={() => handleMarkerClick(item.businessName, item.organizationId)}
                  className={`
                   absolute bottom-full left-1/2 -translate-x-1/2
                   max-w-25 px-3 py-2 border-2 bg-[#1e293994]  rounded-[10px] text-[12px]

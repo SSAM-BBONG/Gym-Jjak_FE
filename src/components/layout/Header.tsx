@@ -6,11 +6,18 @@ import Image from "next/image";
 import { decodeJWT } from "@/lib/decode";
 import { getAlarmUnreadCountAction } from "@/feature/alarm/action";
 import { getChatRoomUnreadCountAction } from "@/feature/chat/actions";
+import OrganizationHeader from "./OrganizationHeader";
 
 export default async function Header() {
 
     const userinf = await decodeJWT();
     const isAuthenticated = Boolean(userinf?.sub);
+    const isOrganization = userinf?.role === "ORGANIZATION";
+
+    if (isOrganization) {
+        return <OrganizationHeader userInf={userinf} />;
+    }
+
     const AlarmCount = isAuthenticated ? await getAlarmUnreadCountAction() : undefined;
     const chatCount = isAuthenticated ? await getChatRoomUnreadCountAction() : undefined;
 

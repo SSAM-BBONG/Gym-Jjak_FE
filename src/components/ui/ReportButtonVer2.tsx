@@ -4,13 +4,16 @@ import useModal from "@/components/hooks/useModal";
 import OneButtonModal from "@/components/ui/OneButtonModal";
 import ReportModal from "@/components/ui/ReportModal";
 import { createReportAction } from "@/feature/admin/action";
+import type { ReactNode } from "react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
-export default function ReportButtonVer2({ title, targetId, targetType }: {
+export default function ReportButtonVer2({ title, targetId, targetType, className, children }: {
     title: string,
     targetId: number,
     targetType: "PT_COURSE" | "TRAINER_REVIEW" | "COMMENT" | "POST" | "FEEDBACK",
+    className?: string,
+    children?: ReactNode,
 }) {
     const reportModal = useModal();
     const checkModal = useModal();
@@ -63,9 +66,10 @@ export default function ReportButtonVer2({ title, targetId, targetType }: {
     return (
         <>
             <button
+                type="button"
                 onClick={() => { reportModal.openModal(); setReportState({ success: false, message: '' }) }}
-                className="relative flex items-center justify-center px-5 py-2 rounded-[10px] bg-[#1E2939] text-[14px] font-extrabold text-white hover:bg-[#BFFF0B] hover:text-[black]">
-                <p> 신고하기 </p>
+                className={className ?? "relative flex items-center justify-center px-5 py-2 rounded-[10px] bg-[#1E2939] text-[14px] font-extrabold text-white hover:bg-[#BFFF0B] hover:text-[black]"}>
+                {children ?? <p> 신고하기 </p>}
             </button>
             <ReportModal
                 isModal={reportModal.isModal}

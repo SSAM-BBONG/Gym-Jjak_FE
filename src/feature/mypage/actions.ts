@@ -1,16 +1,28 @@
 "use server";
 
-import { addOrganizationManageTrainer, checkMyProfileNicknameAvailability, checkPassword, createOrganizationApplication, deleteInbody, deleteMyAccount, deleteOraganizationTrainer, editMyProfileInformation, editMyTrainerProfileInformation, editOrganizationManageInformation, getInbodyAdd, getMyCommu, getOraganizationsearchTrainers, organizationApplicationCancel, organizationApplicationDupliCationId, patchInbody, postInbody, updatePassword } from "@/service/mypage.service";
+import { addOrganizationManageTrainer, checkMyProfileNicknameAvailability, checkPassword, createOrganizationApplication, deleteInbody, deleteMyAccount, deleteOraganizationTrainer, editMyProfileInformation, editMyTrainerProfileInformation, editOrganizationManageInformation, getInbodyAdd, getMyCommu, getMyPageInformation, getMyPaymentHistory, getOraganizationsearchTrainers, organizationApplicationCancel, organizationApplicationDupliCationId, patchInbody, postInbody, updatePassword } from "@/service/mypage.service";
+import type { MyPaymentHistoryData } from "./type";
 import { uploadFilesPresignedUrl } from "@/service/file.service";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import { InbodyFormType } from "@/lib/inbodySchema";
 
+export const getHeaderProfileAction = async () => {
+  try {
+    const response = await getMyPageInformation();
+
+    return response.data;
+  } catch {
+    return null;
+  }
+};
+
 // 조직 신청 액션
 export const createOrganizationApplicationAction = async (
   formData: FormData
 ) => {
+  try {
   const businessLicenseFile = formData.get("businessLicenseFile");
 
   if (!(businessLicenseFile instanceof File) || businessLicenseFile.size === 0) {
@@ -49,11 +61,22 @@ export const createOrganizationApplicationAction = async (
     facilityPhone: String(formData.get("facilityPhone") ?? "").trim() || undefined,
   };
 
-  await createOrganizationApplication(payload);
+  const response = await createOrganizationApplication(payload);
 
   revalidatePath("/mypage/organization");
   revalidatePath("/mypage/organization/application");
-  redirect("/mypage/organization");
+  return {
+    success: true,
+    message: response.message || "조직 계정 신청이 완료되었습니다.",
+  };
+  } catch (error) {
+    return {
+      success: false,
+      message: error instanceof Error
+        ? error.message
+        : "조직 계정 신청에 실패했습니다. 다시 시도해주세요.",
+    };
+  }
 }
 
 // 조직 신청 ID 중복확인 액션
@@ -524,4 +547,26 @@ export const getMyCommuAction = async (page: string) => {
     throw new Error(errorMessage);
   }
 
+};
+
+export const getMyPaymentHistoryAction = async (): Promise<
+  | { success: true; data: MyPaymentHistoryData }
+  | { success: false; message: string }
+> => {
+  try {
+    const response = await getMyPaymentHistory();
+
+    return {
+      success: true,
+      data: response.data,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message:
+        error instanceof Error
+          ? error.message
+          : "내 결제 내역 조회에 실패하였습니다.",
+    };
+  }
 };

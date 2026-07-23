@@ -249,6 +249,28 @@ export interface MyPageDetailData {
   communityPostCount: number;
 }
 
+export type MyPaymentProductType = "PT" | "SUBSCRIPTIONS";
+export type MyPaymentStatus = "PENDING" | "PAID" | "CANCELLED" | "FAILED";
+
+export interface MyPaymentHistoryItem {
+  productType: MyPaymentProductType;
+  itemName: string;
+  amount: number;
+  status: MyPaymentStatus;
+  processedAt: string | null;
+}
+
+export interface MyPaymentHistoryData {
+  payments: MyPaymentHistoryItem[];
+}
+
+export interface MyPaymentHistoryResponse {
+  status: number;
+  code: string;
+  message: string;
+  data: MyPaymentHistoryData;
+}
+
 // 내 프로필 조회 응답값
 export interface MyPageUserProfileResponse {
   status: number;

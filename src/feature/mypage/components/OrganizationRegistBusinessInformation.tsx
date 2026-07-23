@@ -1,3 +1,4 @@
+import { ChangeEvent } from "react";
 import { UseFormRegister, UseFormSetValue } from "react-hook-form";
 import { OrganizationApplicationDetail } from "../type";
 import OrganizationRegistMap from "./OrganizationRegistMap";
@@ -17,7 +18,28 @@ interface OrganizationRegistFormProps {
     application?: OrganizationApplicationDetail;
 }
 
+const formatPhoneNumber = (value: string) => {
+    const digits = value.replace(/\D/g, "").slice(0, 11);
+
+    if (digits.startsWith("02")) {
+        if (digits.length <= 2) return digits;
+        if (digits.length <= 5) return `${digits.slice(0, 2)}-${digits.slice(2)}`;
+        if (digits.length <= 9) return `${digits.slice(0, 2)}-${digits.slice(2, 5)}-${digits.slice(5)}`;
+        return `${digits.slice(0, 2)}-${digits.slice(2, 6)}-${digits.slice(6)}`;
+    }
+
+    if (digits.length <= 3) return digits;
+    if (digits.length <= 7) return `${digits.slice(0, 3)}-${digits.slice(3)}`;
+    return `${digits.slice(0, 3)}-${digits.slice(3, 7)}-${digits.slice(7)}`;
+};
+
 export default function OrganizationRegistBusinessInformation( {register, setValue, errors, application, isReadOnly }: OrganizationRegistFormProps) {
+    const representativePhoneRegister = register("representativePhone");
+
+    const handleRepresentativePhoneChange = (e: ChangeEvent<HTMLInputElement>) => {
+        e.target.value = formatPhoneNumber(e.target.value);
+        representativePhoneRegister.onChange(e);
+    };
     return (
         <div className="
         flex flex-col gap-6
@@ -63,8 +85,10 @@ export default function OrganizationRegistBusinessInformation( {register, setVal
                     <label className="text-[14px] font-medium text-white"> 대표자 전화번호 </label>
                     <input 
                         className="px-4 py-3 bg-[#1E2939] border border-[#364153] rounded-[10px] text-[16px] font-normal text-white outline-none" 
-                        type="type"
-                        {...register("representativePhone")}
+                        type="text"
+                        inputMode="numeric"
+                        {...representativePhoneRegister}
+                        onChange={handleRepresentativePhoneChange}
                         defaultValue={application?.representativePhone}
                         disabled={isReadOnly}
                         placeholder="ex) 010-0000-0000"/>

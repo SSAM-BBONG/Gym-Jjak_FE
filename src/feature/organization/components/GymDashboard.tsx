@@ -1,4 +1,4 @@
-import GymChart from "@/feature/organization/components/GymChart";
+import GymChart, { GymChartData } from "@/feature/organization/components/GymChart";
 
 export type GymDashboardCard = {
     icon: string;
@@ -13,12 +13,22 @@ type GymDashboardProps = {
     cards: GymDashboardCard[];
     chartIcon: string;
     chartTitle: string;
+    chartData: GymChartData;
+    chartLabel: string;
+    cardGridClassName?: string;
 };
 
-export default function GymDashboard({ cards, chartIcon, chartTitle }: GymDashboardProps) {
+export default function GymDashboard({
+    cards,
+    chartIcon,
+    chartTitle,
+    chartData,
+    chartLabel,
+    cardGridClassName = "md:grid-cols-4",
+}: GymDashboardProps) {
     return (
         <>
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div className={`grid grid-cols-1 gap-4 ${cardGridClassName}`}>
                 {cards.map((card, index) => (
                     <div
                         key={index}
@@ -49,7 +59,7 @@ export default function GymDashboard({ cards, chartIcon, chartTitle }: GymDashbo
                     <img src={chartIcon}/>
                     <p className="text-[14px] text-white font-black"> {chartTitle}</p>
                 </div>
-                <GymChart/>
+                <GymChart data={chartData} label={chartLabel}/>
             </div>
         </>
     );

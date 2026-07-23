@@ -1,66 +1,99 @@
 'use client'
 
+import { useState } from 'react';
 import { CategoryScale, Chart as ChartJS, Legend, LinearScale, LineElement, PointElement, Title, Tooltip } from 'chart.js'
 import { Line } from 'react-chartjs-2';
 
+export type GymChartItem = {
+  date: string;
+  value: number;
+};
+
+export type GymChartPeriod = 'monthly' | 'threeMonthly' | 'sixMonthly';
+
+export type GymChartData = Record<GymChartPeriod, GymChartItem[]>;
+
+type GymChartProps = {
+  data: GymChartData;
+  label: string;
+};
+
 ChartJS.register(
-  CategoryScale, // x축
-  LinearScale,   // y축
-  PointElement,  // 각 데이터 포인트의 점 그리는 역할
-  LineElement,   // 각 데이터 포인트들을 선으로 연결하는 역할    
-  Title,         // 차트의 제목 표시
-  Tooltip,       // 정보 표현 툴팁 표시
-  Legend         // 데이터 셋의 이름(범례) 표시
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
 )
 
-export default function GymChart() {
+const PERIOD_OPTIONS: { value: GymChartPeriod; label: string }[] = [
+  { value: 'monthly', label: '1개월' },
+  { value: 'threeMonthly', label: '3개월' },
+  { value: 'sixMonthly', label: '6개월' },
+];
+
+export default function GymChart({ data: chartData, label }: GymChartProps) {
+  const [period, setPeriod] = useState<GymChartPeriod>('monthly');
+  const chartItems = period === 'monthly' ? chartData.monthly.slice(-12) : chartData[period];
+
   const data = {
-        labels: ['1월', '2월', '3월', '4월', '5월', '6월'], // x축 레이블
-        datasets: [{
-          label: '2026년 PT 이용자 수', // 데이터셋 이름
-          data: [1200, 900, 756, 302, 2500, 1590], // 실제 데이터
-          borderColor: 'rgba(191, 255, 11, 1)', // 선 색상
-          backgroundColor: 'rgba(54, 65, 83, 1)', // 영역 배경색
-          tension: 0.4, // 선의 곡률 (0: 직선, 1: 부드러운 곡선)
-          // fill: true
-          pointRadius:4
-        }]
-      }
+    labels: chartItems.map(({ date }) => date),
+    datasets: [{
+      label,
+      data: chartItems.map(({ value }) => value),
+      borderColor: 'rgba(191, 255, 11, 1)',
+      backgroundColor: 'rgba(54, 65, 83, 1)',
+      tension: 0.4,
+      pointRadius: 4,
+    }],
+  }
 
   const options = {
-        responsive: true, // 반응형
-        plugins: {
-          legend: {
-            display: true, // 범례 표시
-            position: 'bottom' as const // 범례 위치, chartjs 사용할때는 타입을 정의시켜줘야함, 
-          },
-        },
-        scales: {
-            x: {
-                beginAtZero: true,
-                grid: {
-                color: 'rgba(255, 255, 255, 0.08)',
-                },
-                ticks: {
-                color: '#99A1AF',
-                },
-            },
-            y: {
-                beginAtZero: true,
-                grid: {
-                color: 'rgba(255, 255, 255, 0.08)',
-                },
-                ticks: {
-                color: '#99A1AF',
-                },
-            },
-        },
-        maintainAspectRatio: false
-      } 
+    responsive: true,
+    plugins: {
+      legend: {
+        display: true,
+        position: 'bottom' as const,
+      },
+    },
+    scales: {
+      x: {
+        beginAtZero: true,
+        grid: { color: 'rgba(255, 255, 255, 0.08)' },
+        ticks: { color: '#99A1AF' },
+      },
+      y: {
+        beginAtZero: true,
+        grid: { color: 'rgba(255, 255, 255, 0.08)' },
+        ticks: { color: '#99A1AF' },
+      },
+    },
+    maintainAspectRatio: false,
+  }
 
-    return (
-        <div className='bg-[#101828] text-red-300'>
-            <Line data={data} options={options}/>
-        </div>
-    );
+  return (
+    <div className='bg-[#101828]'>
+      <div className="mb-4 flex gap-2">
+        {PERIOD_OPTIONS.map((option) => (
+          <button
+            type="button"
+            key={option.value}
+            onClick={() => setPeriod(option.value)}
+            className={
+              period === option.value
+                ? 'rounded-md bg-[#BFFF0B] px-3 py-1.5 text-sm font-bold text-[#101828]'
+                : 'rounded-md border border-[#1E2939] px-3 py-1.5 text-sm text-[#99A1AF]'
+            }
+          >
+            {option.label}
+          </button>
+        ))}
+      </div>
+      <div className="h-64">
+        <Line data={data} options={options}/>
+      </div>
+    </div>
+  );
 }

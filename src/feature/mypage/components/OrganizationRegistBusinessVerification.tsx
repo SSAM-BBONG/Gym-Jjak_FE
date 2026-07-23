@@ -1,9 +1,10 @@
 'use client'
 
-import { UseFormRegister } from "react-hook-form";
+import { ChangeHandler, UseFormRegister } from "react-hook-form";
 import { OrganizationApplicationDetail } from "../type";
 import { OrganizationApplicationFormValue } from "@/lib/organizationApplicationSchema";
 import { ChangeEvent, useState } from "react";
+import { toast } from "sonner";
 
 interface OrganizationRegistFormProps {
     register: UseFormRegister<OrganizationApplicationFormValue>;
@@ -19,6 +20,10 @@ interface OrganizationRegistFormProps {
 }
 
 export default function OrganizationRegistBusinessVerification({ register, application, errors, isReadOnly }: OrganizationRegistFormProps) {
+    const businessRegistrationNumberRegister = register("businessRegistrationNumber");
+    const businessNameRegister = register("businessName");
+    const representativeNameRegister = register("representativeName");
+    const openingDateRegister = register("openingDate");
     const [inputState, setInputState] = useState({
         businessRegistrationNumber: "",
         businessName: "",
@@ -26,7 +31,8 @@ export default function OrganizationRegistBusinessVerification({ register, appli
         openingDate:""
     })
 
-    const handleInputChange = (e:ChangeEvent<HTMLInputElement>) => {
+    const handleInputChange = (e: ChangeEvent<HTMLInputElement>, onChange: ChangeHandler) => {
+        onChange(e);
         setInputState({
             ...inputState,
             [e.target.name] : e.target.value
@@ -34,6 +40,10 @@ export default function OrganizationRegistBusinessVerification({ register, appli
     }
 
     const buttonState = !!inputState.businessName && !!inputState.businessRegistrationNumber && !!inputState.openingDate && !!inputState.representativeName;
+
+    const handleBusinessVerification = () => {
+        toast.success("검증이 완료되었습니다.");
+    };
 
     return (
     <div className="
@@ -49,9 +59,9 @@ export default function OrganizationRegistBusinessVerification({ register, appli
                     <input 
                         className="px-4 py-3 bg-[#1E2939] border border-[#364153] rounded-[10px] text-[16px] font-normal text-white outline-none" 
                         type="text"
-                        {...register("businessRegistrationNumber")}
+                        {...businessRegistrationNumberRegister}
                         defaultValue={application?.businessRegistrationNumber}
-                        onChange={handleInputChange}
+                        onChange={(e) => handleInputChange(e, businessRegistrationNumberRegister.onChange)}
                         disabled={isReadOnly}
                         maxLength={10}
                         name="businessRegistrationNumber"
@@ -63,9 +73,9 @@ export default function OrganizationRegistBusinessVerification({ register, appli
                     <input 
                         className="px-4 py-3 bg-[#1E2939] border border-[#364153] rounded-[10px] text-[16px] font-normal text-white outline-none" 
                         type="text"
-                        {...register("businessName")}
+                        {...businessNameRegister}
                         defaultValue={application?.businessName}
-                        onChange={handleInputChange}
+                        onChange={(e) => handleInputChange(e, businessNameRegister.onChange)}
                         disabled={isReadOnly}
                         name="businessName"
                         placeholder="ex) 엑티브펄스 PT센터"/>
@@ -76,9 +86,9 @@ export default function OrganizationRegistBusinessVerification({ register, appli
                     <input 
                         className="px-4 py-3 bg-[#1E2939] border border-[#364153] rounded-[10px] text-[16px] font-normal text-white outline-none" 
                         type="text"
-                        {...register("representativeName")} 
+                        {...representativeNameRegister}
                         defaultValue={application?.representativeName}
-                        onChange={handleInputChange}
+                        onChange={(e) => handleInputChange(e, representativeNameRegister.onChange)}
                         disabled={isReadOnly}
                         name="representativeName"
                         placeholder="ex) 홍길동"/>
@@ -87,11 +97,11 @@ export default function OrganizationRegistBusinessVerification({ register, appli
                 <div className="flex flex-col gap-2">
                     <label className="text-[14px] font-medium text-white"> 개업 일자 </label>
                     <input 
-                        className="px-4 py-3 bg-[#1E2939] border border-[#364153] rounded-[10px] text-[16px] font-normal text-[#FFFFFF80] outline-none" 
-                        {...register("openingDate")} 
+                        className="px-4 py-3 bg-[#1E2939] border border-[#364153] rounded-[10px] text-[16px] font-normal text-white outline-none cursor-pointer [&::-webkit-calendar-picker-indicator]:cursor-pointer [&::-webkit-calendar-picker-indicator]:invert [&::-webkit-calendar-picker-indicator]:brightness-200"
+                        {...openingDateRegister}
                         type="date"
                         defaultValue={application?.openingDate}
-                        onChange={handleInputChange}
+                        onChange={(e) => handleInputChange(e, openingDateRegister.onChange)}
                         disabled={isReadOnly}
                         name="openingDate"
                         placeholder="ex) 20000000"/>
@@ -100,8 +110,9 @@ export default function OrganizationRegistBusinessVerification({ register, appli
             </div>
             {/* 읽기모드일때는 검증 버튼 뜨지 않게 설정 */}
             {!isReadOnly && <button 
-                                disabled={buttonState}
+                                disabled={!buttonState}
                                 type="button"
+                                onClick={handleBusinessVerification}
                                 className={`
                                     ${!buttonState && "opacity-50"}
                                     bg-[#BFFF0B] rounded-[10px] py-3 text-[16px] font-extrabold text-black`}
