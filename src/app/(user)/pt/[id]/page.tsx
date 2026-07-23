@@ -20,6 +20,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
     const trainerProfileId = response.data.trainerProfileId;
     const trainerInformation = await getTrainerProfileDetail(trainerProfileId);
     const keywords = response.data.curriculums.map((curri) => curri.title)
+    const thumbnailUrl = response.data.thumbnailUrl;
 
 
 
@@ -37,14 +38,16 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
             type: 'article',
             title: response.data.title,
             description: response.data.description,
-            images: [
-                {
-                    url: response.data.thumbnailUrl,
-                    width: 1200,
-                    height: 630,
-                    alt: response.data.title
-                }
-            ]
+            ...(thumbnailUrl && {
+                images: [
+                    {
+                        url: thumbnailUrl,
+                        width: 1200,
+                        height: 630,
+                        alt: response.data.title
+                    }
+                ]
+            })
         }
     }
 }
@@ -76,7 +79,7 @@ export default async function PtDetailPage({ params }: PtDetailPageProps) {
 
         name: response.data.title,
         description: response.data.description,
-        image: [response.data.thumbnailUrl],
+        ...(response.data.thumbnailUrl && { image: [response.data.thumbnailUrl] }),
         category: response.data.curriculums,
         sku: `PT-${response.data.ptCourseId}`,
 

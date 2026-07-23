@@ -278,6 +278,17 @@ export interface MyPageUserProfileEditResponse {
   data: null;
 }
 
+export interface MyPageNicknameAvailabilityData {
+  available: boolean;
+}
+
+export interface MyPageNicknameAvailabilityResponse {
+  status: number;
+  code: string;
+  message: string;
+  data: MyPageNicknameAvailabilityData;
+}
+
 // 내 트레이너 프로필 조회 응답값
 export interface MyTrainerProfileResponse {
   status: number;
