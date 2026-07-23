@@ -33,6 +33,7 @@ export default function MealGoalCard() {
         select: (response) => response.data,
     });
 
+    console.log(goalData)
     return (
         <>
             <button
@@ -44,7 +45,7 @@ export default function MealGoalCard() {
                 <div className="flex w-full items-start justify-between gap-4">
                     <div>
                         <p className="text-[14px] font-extrabold text-white md:text-[18px]">
-                            오늘의 영양 목표
+                            나의 영양 목표
                         </p>
                         <p className="mt-1 text-[11px] font-normal text-[#99A1AF] md:text-[13px]">
                             {goalData ? '영양 목표를 확인해보세요!' : '영양 목표를 설정해보세요!'}
@@ -52,18 +53,18 @@ export default function MealGoalCard() {
                     </div>
                 </div>
             </button>
-            {!goalData ? (
+            {goalData === null ? (
                 <GoalCreateModal
                     isModal={modal.isModal}
                     closeModal={modal.closeModal}
-                    mode="update"
-                    data={goalData}
+                    mode="create"
                 />
             ) : (
                 <GoalCreateModal
                     isModal={modal.isModal}
                     closeModal={modal.closeModal}
-                    mode="create"
+                    mode="update"
+                    data={goalData}
                 />
             )}
             {viewModal.isModal && goalData && (

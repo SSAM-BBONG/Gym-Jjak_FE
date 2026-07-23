@@ -1,10 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { Resolver, SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CloseButton, MypageMyActivity, PtFeedBackOnBoard, PtRecordVideo } from "@/components/ui/image";
-import { createPtFeedbackAction } from "../actions";
+import { createPtFeedbackAction, getFeedbackDetailAction, updatePtFeedbackAction } from "../actions";
 import type { StudentFeedbackCurriculum } from "../type";
 import { ptFeedbackSchema, PtFeedbackFormValue } from "@/lib/ptFeedbackSchema";
 import Image from "next/image";
@@ -15,6 +16,7 @@ interface PtFeeBackRegistModalProps {
   reservationId: string;
   ptCourseId: string;
   curriculum: StudentFeedbackCurriculum | null;
+  feedbackId?: number | null;
 }
 
 export default function PtFeeBackRegistModal({
@@ -23,9 +25,11 @@ export default function PtFeeBackRegistModal({
   reservationId,
   ptCourseId,
   curriculum,
+  feedbackId = null,
 }: PtFeeBackRegistModalProps) {
-  // AI의 작성 코드
+  const router = useRouter();
   const [submitError, setSubmitError] = useState("");
+  const [existingMedia, setExistingMedia] = useState<{ beforeUrl?: string; afterUrl?: string }>({});
 
   const {
     register,
@@ -50,13 +54,32 @@ export default function PtFeeBackRegistModal({
   useEffect(() => {
     if (!isModal) return;
 
-    reset({
+    const resetForm = async () => {
+      reset({
       beforeFile: undefined,
       afterFile: undefined,
       content: "",
-    });
-    setSubmitError("");
-  }, [isModal, curriculum?.ptCurriculumId, reset]);
+      });
+      setExistingMedia({});
+      setSubmitError("");
+
+      if (feedbackId === null) return;
+
+      const result = await getFeedbackDetailAction(reservationId, feedbackId);
+      if (result.success === false) {
+        setSubmitError(result.message);
+        return;
+      }
+
+      reset({ beforeFile: undefined, afterFile: undefined, content: result.data.content });
+      setExistingMedia({
+        beforeUrl: result.data.mediaList.find((media) => media.mediaType === "BEFORE")?.fileUrl,
+        afterUrl: result.data.mediaList.find((media) => media.mediaType === "AFTER")?.fileUrl,
+      });
+    };
+
+    void resetForm();
+  }, [feedbackId, isModal, reservationId, curriculum?.ptCurriculumId, reset]);
 
   if (!isModal || !curriculum) return null;
 
@@ -69,11 +92,9 @@ export default function PtFeeBackRegistModal({
     formData.append("content", values.content);
 
     try {
-      const result = await createPtFeedbackAction(
-        reservationId,
-        ptCourseId,
-        formData
-      );
+      const result = feedbackId === null
+        ? await createPtFeedbackAction(reservationId, ptCourseId, formData)
+        : await updatePtFeedbackAction(reservationId, feedbackId, ptCourseId, formData);
 
       if (result?.success === false) {
         setSubmitError(result.message ?? "피드백 등록에 실패하였습니다.");
@@ -81,6 +102,7 @@ export default function PtFeeBackRegistModal({
       }
 
       closeModal();
+      router.refresh();
     } catch (error) {
       setSubmitError(
         error instanceof Error
@@ -110,7 +132,7 @@ export default function PtFeeBackRegistModal({
           <div className="flex flex-col gap-2">
             <div className="flex justify-between items-center pt-2">
               <h3 className="font-bold text-xl text-[#E8EAF0]">
-                피드백 등록
+                {feedbackId === null ? "피드백 등록" : "피드백 수정"}
               </h3>
 
               <button onClick={closeModal} className="relative ml-auto w-5 h-5">
@@ -183,7 +205,11 @@ export default function PtFeeBackRegistModal({
                     />
                   </div>
                   <p className="text-[12px] font-normal text-[#99A1AF] text-center">
-                    {beforeFile ? beforeFile.name : "Before 영상을 업로드해주세요."}
+                    {beforeFile
+                      ? beforeFile.name
+                      : existingMedia.beforeUrl
+                        ? "기존 Before 영상이 등록되어 있습니다."
+                        : "Before 영상을 업로드해주세요."}
                   </p>
 
                   <label
@@ -213,6 +239,11 @@ export default function PtFeeBackRegistModal({
                     <p className="text-[12px] font-medium text-red-400">
                       {errors.beforeFile.message}
                     </p>
+                  )}
+                  {existingMedia.beforeUrl && !beforeFile && (
+                    <a href={existingMedia.beforeUrl} target="_blank" rel="noreferrer" className="text-[12px] text-[#BFFF0B] underline">
+                      기존 영상 보기
+                    </a>
                   )}
                 </div>
               </div>
@@ -253,7 +284,11 @@ export default function PtFeeBackRegistModal({
                     />
                   </div>
                   <p className="text-[12px] font-normal text-[#99A1AF] text-center">
-                    {afterFile ? afterFile.name : "After 영상을 업로드해주세요."}
+                    {afterFile
+                      ? afterFile.name
+                      : existingMedia.afterUrl
+                        ? "기존 After 영상이 등록되어 있습니다."
+                        : "After 영상을 업로드해주세요."}
                   </p>
 
                   <label
@@ -283,6 +318,11 @@ export default function PtFeeBackRegistModal({
                     <p className="text-[12px] font-medium text-red-400">
                       {errors.afterFile.message}
                     </p>
+                  )}
+                  {existingMedia.afterUrl && !afterFile && (
+                    <a href={existingMedia.afterUrl} target="_blank" rel="noreferrer" className="text-[12px] text-[#BFFF0B] underline">
+                      기존 영상 보기
+                    </a>
                   )}
                 </div>
               </div>
@@ -350,7 +390,7 @@ export default function PtFeeBackRegistModal({
             disabled={isSubmitting}
             className="w-full flex pt-2 pb-3 justify-center items-center rounded-lg text-black text-center font-semibold text-base bg-[#BFFF0B] disabled:opacity-60"
           >
-            {isSubmitting ? "등록 중" : "등록"}
+            {isSubmitting ? "저장 중" : feedbackId === null ? "등록" : "수정"}
           </button>
         </article>
       </form>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { PtManageListData } from "../type";
 import PtManageCard from "./PtManageCard";
 import PtManageIsActive from "./PtManageIsActive";
@@ -11,6 +11,7 @@ interface PtManageCourseListProps {
 }
 
 export default function PtManageCourseList({ ptCourses }: PtManageCourseListProps) {
+    const router = useRouter();
     const [selectedStatus, setSelectedStatus] = useState("ALL");
     const filteredCourses = selectedStatus === "ALL"
         ? ptCourses
@@ -24,9 +25,11 @@ export default function PtManageCourseList({ ptCourses }: PtManageCourseListProp
             />
             <div className="grid grid-cols-3 gap-4">
                 {filteredCourses.map((item) => (
-                    <Link key={item.ptCourseId} href={`/pt/manage/${item.ptCourseId}`}>
-                        <PtManageCard data={item} />
-                    </Link>
+                    <PtManageCard
+                        key={item.ptCourseId}
+                        data={item}
+                        onOpen={() => router.push(`/pt/manage/${item.ptCourseId}`)}
+                    />
                 ))}
             </div>
         </>

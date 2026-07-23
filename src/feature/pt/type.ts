@@ -25,7 +25,7 @@ export interface PtCourseReview {
 // PT 상세조회 데이터 타입
 export interface PtCourseDetailData {
   ptCourseId: number;
-  thumbnailUrl: string;
+  thumbnailUrl: string | null;
   title: string;
   description: string;
   price: number;
@@ -400,7 +400,7 @@ export interface PtRegistTagData {
 // PT 강습 관리 목록 데이터
 export interface PtManageListData {
   ptCourseId: number;
-  thumbnailUrl: string;
+  thumbnailUrl: string | null;
   title: string;
   trainerName: string;
   status: "VISIBLE" | "HIDDEN";
@@ -502,6 +502,7 @@ export interface PtReservationStudentsData {
 // PT 강습별 수강생 목록 ptReservations 데이터
 export interface PtReservationStudent {
   ptReservationId: number;
+  userId: number;
   nickname: string;
   status: string;
   lastPtDate: string | null;
@@ -577,6 +578,39 @@ export interface MyPtReservationList {
   lastPtDate: string,
   progressCount: number,
   totalSessionCount: number
+}
+
+export type PtSessionReservationStatus = "RESERVED" | "COMPLETED" | "CANCELLED";
+
+export interface PtSessionReservationListResponse {
+  status: number;
+  code: string;
+  message: string;
+  data: PtSessionReservationListData;
+}
+
+export interface PtSessionReservationListData {
+  sessions: PtSessionReservation[];
+}
+
+export interface PtSessionReservation {
+  ptReservationId: number;
+  ptCourseId: number;
+  ptCourseTitle: string;
+  trainerName: string;
+  reservedStartAt: string;
+  reservedEndAt: string;
+  sessionStatus: PtSessionReservationStatus;
+}
+
+export interface PtSessionReservationCancelResponse {
+  status: number;
+  code: string;
+  message: string;
+  data: {
+    sessionStatus: "CANCELLED";
+    cancelledAt: string;
+  };
 }
 
 // 내 예약 기록 상세 조회 커리큘럼
@@ -658,6 +692,64 @@ export interface TrainerReviewListData {
   hasNext: boolean;
 }
 
+export interface PtCourseUpdateCurriculum extends PtRegistCurriculum {
+  id?: number;
+}
+
+export interface PtCourseUpdateSchedule extends PtRegistSchedule {
+  id?: number;
+}
+
+export interface PtCourseUpdateRequest {
+  title: string;
+  description: string;
+  part: Part;
+  price: number;
+  thumbnailFile?: TrainerFileData;
+  curriculums: PtCourseUpdateCurriculum[];
+  schedules: PtCourseUpdateSchedule[];
+}
+
+export interface PtCourseUpdateResponse {
+  status: number;
+  code: string;
+  message: string;
+  data: PtCourseDetailData;
+}
+
+export interface PtCourseDeleteResponse {
+  status: number;
+  code: string;
+  message: string;
+  data: null;
+}
+
+// 강사평 요약 조회 응답값
+export interface TrainerReviewSummaryResponse {
+  status: number;
+  code: string;
+  message: string;
+  data: TrainerReviewSummaryData;
+}
+
+// 강사평 요약 조회 데이터
+export interface TrainerReviewSummaryData {
+  trainerName: string;
+  introduction: string;
+  averageRating: number;
+  reviewCount: number;
+  ratingDistribution: TrainerReviewRatingDistribution;
+}
+
+// 별점별 강사평 수
+export interface TrainerReviewRatingDistribution {
+  "1": number;
+  "2": number;
+  "3": number;
+  "4": number;
+  "5": number;
+}
+
 // 강사평 목록 항목
 export interface TrainerReview {
   trainerReviewId: number;
@@ -666,6 +758,7 @@ export interface TrainerReview {
   rating: number;
   content: string;
   createdAt: string;
+  isMine: boolean;
 }
 
 // 내 예약 기록 상세 조회 응답값
@@ -723,6 +816,28 @@ export interface FeedbackCreateResponse {
 // 피드백 등록 데이터
 export interface FeedbackCreateData {
   feedbackId: number;
+}
+
+// 피드백 수정 요청값
+export interface FeedbackUpdateRequest {
+  content: string;
+  media: FeedbackCreateMedia[];
+}
+
+// 피드백 수정 응답값
+export interface FeedbackUpdateResponse {
+  status: number;
+  code: string;
+  message: string;
+  data: FeedbackCreateData;
+}
+
+// 피드백 삭제 응답값
+export interface FeedbackDeleteResponse {
+  status: number;
+  code: string;
+  message: string;
+  data: null;
 }
 
 // 피드백 상세조회 

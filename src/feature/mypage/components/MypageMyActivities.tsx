@@ -7,7 +7,7 @@ interface MypageMyActivitiesProps {
   data: MyPageDetailData;
 }
 
-export default function MypageMyActivities( {data}: MypageMyActivitiesProps ) {
+export default function MypageMyActivities({ data }: MypageMyActivitiesProps) {
   return (
     <div
       className="
@@ -31,7 +31,7 @@ export default function MypageMyActivities( {data}: MypageMyActivitiesProps ) {
         </div>
         <p className="text-[18px] font-extrabold text-white">나의 활동</p>
       </div>
-      <Link href="/mypage/mypost">
+      <Link href="/mypage/mypost?page=0">
         <div className="flex justify-between bg-[#1E2939] rounded-[10px] p-4">
           <p className="text-[14px] font-medium text-white">
             내가 작성한 게시글

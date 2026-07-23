@@ -23,7 +23,7 @@ export default async function Page() {
                 <article className="w-full min-h-80 rounded-[16px] border border-[#36415380] bg-[#101828] p-6">
                     <div className="flex justify-between">
                         <h3 className="mb-4 font-bold text-[18px] text-white">측정 기록</h3>
-                        <p className="text-[#FF6467] font-normal text-sm">{Number(inbodies[0].bmiChange) > 0 && '+'}{inbodies[0].bmiChange}</p>
+                        <p className="text-[#FF6467] font-normal text-sm">{Number(inbodies[0]?.bmiChange || 0) > 0 && '+'}{inbodies[0]?.bmiChange}</p>
                     </div>
                     <InbodyListCt response={response} />
                 </article>

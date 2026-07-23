@@ -10,6 +10,7 @@ import { Meal } from "../type";
 type MealProps = {
     isModal: boolean;
     closeModal: () => void;
+    myStatus: boolean;
 } & (
         {
             system: 'update';
@@ -22,17 +23,10 @@ type MealProps = {
     );
 
 
-export default function MealCreateModal({ isModal, closeModal, system, mealId }: MealProps) {
+export default function MealCreateModal({ isModal, closeModal, myStatus, system, mealId }: MealProps) {
 
-
-
-    const [selectedImage, setSelectedImage] = useState<string | null>(null);
-    const imgRef = useRef<HTMLImageElement>(null);
     const {
         data: mealData,
-        isLoading: isDateLoading,
-        isError: isDateError,
-        error: dateError,
     } = useQuery<{ data: Meal }, Error, Meal>({
         queryKey: ["meals", "detail", mealId],
         queryFn: mealId
@@ -72,22 +66,7 @@ export default function MealCreateModal({ isModal, closeModal, system, mealId }:
 
     const handleClose = () => {
         createMutation.reset();
-        setSelectedImage(null);
         closeModal();
-    };
-
-    const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0];
-        if (!file) {
-            setSelectedImage(null);
-            return;
-        }
-
-        const reader = new FileReader();
-        reader.onload = (event) => {
-            setSelectedImage(event.target?.result as string);
-        }
-        reader.readAsDataURL(file);
     };
 
     if (!isModal) return null;
@@ -138,46 +117,16 @@ export default function MealCreateModal({ isModal, closeModal, system, mealId }:
                             <input defaultValue={mealData?.mealTime.split(' ')[1] || ''} name='time' type='time' className="border-[#364153] mt-2 border w-full mb-4 px-4 md:px-6 py-2.5 md:py-3 bg-[#1E2939] rounded-md focus:border-[#BFFF0B] text-white text-sm md:text-base focus:outline-none" />
                         </div>
                     </div>
-                    {system === 'update' ? (
-                        <>
-                            <div className="my-5">
-                                <label htmlFor='mealImageFile'
-                                    className=" px-4 md:px-6 py-2.5 md:py-3 rounded-lg font-bold bg-[#BFFF0B]">파일 선택</label>
-                                <input
-                                    hidden
-                                    type="file"
-                                    id="mealImageFile"
-                                    name="mealImageFile"
-                                    accept="image/*"
-                                    onChange={handleImageUpload}
-                                />
-                            </div>
 
-                            {(selectedImage || mealData?.imageUrl) && (
-                                <div className="mb-4 flex flex-col gap-3">
-                                    <img
-                                        ref={imgRef}
-                                        src={selectedImage || mealData?.imageUrl || undefined}
-                                        alt="분류할 이미지"
-                                        className="max-h-64 w-auto rounded-lg border border-zinc-200 object-contain dark:border-zinc-600"
-                                    />
-                                </div>
-                            )}
-                            <label className="font-medium text-base md:text-lg text-white">메뉴</label>
-                            <textarea
-                                defaultValue={mealData?.menu}
-                                name='menu'
-                                maxLength={255}
-                                placeholder="메뉴를 입력해주세요"
-                                className="border-[#364153] border mt-2 mb-4  w-full h-20 p-3 md:px-6 md:py-4 bg-[#1E2939] rounded-md resize-none focus:border-[#BFFF0B] text-white text-sm md:text-base focus:outline-none"
-                            ></textarea>
-                        </>
+                    {system === 'update' ? (
+                        <MealImgClassifier mealData={mealData} />
                     ) : (
                         <MealImgClassifier />
                     )}
+
                     <label className="font-medium text-base md:text-lg text-white">열량(kcal)</label>
                     <input defaultValue={mealData?.kcal || 0} name='kcal' type="number" placeholder="0" className="border-[#364153] mt-2 border w-full mb-4 px-4 md:px-6 py-2.5 md:py-3 bg-[#1E2939] rounded-md focus:border-[#BFFF0B] text-white text-sm md:text-base focus:outline-none" />
-                    {false && (
+                    {myStatus && (
                         <>
                             <label className="font-medium text-base md:text-lg text-white">영양소</label>
 

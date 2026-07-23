@@ -21,10 +21,12 @@ export const ptRegistSchema = z.object({
   organizationId: z.coerce.number().int().positive("소속 헬스장을 선택해주세요."),
   price: z.coerce.number().min(0, "가격은 0원 이상이어야 합니다."),
   curriculums: z.array(z.object({
+    id: z.number().int().positive().optional(),
     title: z.string().trim().min(1, "회차 제목을 입력해주세요."),
     content: z.string().trim().min(1, "회차 설명을 입력해주세요."),
   })).min(1),
   schedules: z.array(z.object({
+    id: z.number().int().positive().optional(),
     dayOfWeek: z.enum(["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"]),
     startTime: z.string().min(1),
     endTime: z.string().min(1),

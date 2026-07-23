@@ -18,6 +18,12 @@ export interface MealRequest {
     file?: UploadedFile | null;
 }
 
+export interface MealAiRequest {
+    mealType: MealType;
+    mealTime: string;
+    file?: UploadedFile | null;
+}
+
 export interface Meal {
     mealId: number;
     mealType: MealType;

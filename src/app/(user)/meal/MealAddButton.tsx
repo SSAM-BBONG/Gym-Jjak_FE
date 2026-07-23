@@ -1,10 +1,12 @@
 'use client'
 import useModal from "@/components/hooks/useModal";
 import { AdminAddButton } from "@/components/ui/image";
+import MealCreateAiModal from "@/feature/Meal/components/MealCreateAiModal";
 import MealCreateModal from "@/feature/Meal/components/MealCreateModal";
+import MealViewAiModal from "@/feature/Meal/components/MealViewAi";
 import Image from "next/image";
 
-export default function MealAddButton() {
+export default function MealAddButton({ myStatus }: { myStatus: boolean }) {
     const modal = useModal();
 
     return (
@@ -22,10 +24,17 @@ export default function MealAddButton() {
                 </div>
                 <p>추가</p>
             </button>
-            <MealCreateModal
-                isModal={modal.isModal}
-                closeModal={modal.closeModal}
-                system="create" />
+            {(!myStatus && modal.isModal) && (
+                <MealCreateModal
+                    isModal={modal.isModal}
+                    closeModal={modal.closeModal}
+                    myStatus={false}
+                    system="create" />)}
+            {(myStatus && modal.isModal) && (
+                <MealCreateAiModal
+                    isModal={modal.isModal}
+                    closeModal={modal.closeModal}
+                />)}
         </>
     );
 }

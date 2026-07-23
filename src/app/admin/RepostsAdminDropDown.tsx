@@ -41,6 +41,7 @@ export default function ReportsAdminDropDown() {
                 <li><AdminNavLink href="/admin/reports/posts?page=0">게시글 관리</AdminNavLink></li>
                 <li><AdminNavLink href="/admin/reports/pt?page=0">PT 관리</AdminNavLink></li>
                 <li><AdminNavLink href="/admin/reports/reviews?page=0">리뷰 관리</AdminNavLink></li>
+                <li><AdminNavLink href="/admin/reports/chat?page=0">채팅 관리</AdminNavLink></li>
             </ul>
         </section>
     );

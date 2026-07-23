@@ -1,7 +1,7 @@
 'use server'
 
-import { deleteMeal, deleteNutritionGoal, getMeal, getMeals, getNutritionGoal, patchMeal, patchNutritionGoal, postMeal, postNutritionGoal, } from "@/service/meal.service";
-import type { GoalRequest, MealRequest, MealType } from "./type";
+import { deleteMeal, deleteNutritionGoal, getMeal, getMeals, getNutritionGoal, patchMeal, patchNutritionGoal, postAiMeal, postMeal, postNutritionGoal, } from "@/service/meal.service";
+import type { GoalRequest, MealAi, MealAiRequest, MealRequest, MealType } from "./type";
 import { uploadFilesPresignedUrl } from "@/service/file.service";
 
 interface ActionState {
@@ -295,4 +295,70 @@ export const nutritionGoalDeleteAction = async () => {
         success: true,
         message: '영양 목표가 삭제되었습니다.',
     };
+};
+
+
+interface ActionStateAi {
+    success: boolean;
+    message: string;
+    data?: MealAi;
+}
+
+export const mealAiPostAction = async (formData: FormData): Promise<ActionStateAi> => {
+    const mealType = formData.get('mealType') as MealType;
+    const date = formData.get('date') as string;
+    const time = formData.get('time') as string;
+
+    const mealTime = `${date} ${time}`;
+
+    const mealImageFile = formData.get('mealImageFile');
+
+    if (!mealType || !mealTime?.trim()) {
+        return {
+            success: false,
+            message: '필수 값을 모두 입력해주세요.',
+        };
+    }
+
+    let uploadedMealImageFile = null;
+    if (mealImageFile instanceof File && mealImageFile.size > 0) {
+        const [uploadedFile] = await uploadFilesPresignedUrl([
+            {
+                file: mealImageFile,
+                fileType: "MEAL_IMAGE",
+            },
+        ]);
+        uploadedMealImageFile = uploadedFile;
+    } else {
+        return {
+            success: false,
+            message: '이미지를 입력해주세요.',
+        };
+    }
+
+    const payload: MealAiRequest = {
+        mealType,
+        mealTime,
+        file: uploadedMealImageFile || null
+    };
+
+    try {
+        const response = await postAiMeal(payload);
+
+        return {
+            success: true,
+            message: '식단 분석이 완료되었습니다',
+            data: response.data
+        };
+    } catch (error) {
+        let errorMessage: string = '알 수 없는 오류입니다. 재시도해주세요.';
+        if (error instanceof Error) {
+            errorMessage = error.message;
+        }
+
+        return {
+            success: false,
+            message: errorMessage,
+        };
+    }
 };
