@@ -2,6 +2,7 @@
 
 import { deletePtReviewAction, updatePtReviewAction } from "@/feature/pt/actions";
 import { TrainerReview } from "@/feature/pt/type";
+import ReportButtonVer2 from "@/components/ui/ReportButtonVer2";
 import { EllipsisVertical, Pencil, Trash2, TriangleAlert } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -108,14 +109,15 @@ export default function TrainerReviewCard({ review, ptCourseId }: TrainerReviewC
                                                 </button>
                                             </>
                                         ) : (
-                                            <button
-                                                type="button"
-                                                onClick={() => setIsMenuOpen(false)}
+                                            <ReportButtonVer2
+                                                title={review.nickname}
+                                                targetId={review.trainerReviewId}
+                                                targetType="TRAINER_REVIEW"
                                                 className="flex w-full items-center justify-center gap-3 px-3 py-3 text-[12px] font-bold text-[#F5A524] hover:bg-[#1E2939]"
                                             >
                                                 <TriangleAlert size={15} strokeWidth={2} />
                                                 신고하기
-                                            </button>
+                                            </ReportButtonVer2>
                                         )}
                                     </div>
                                 )}
