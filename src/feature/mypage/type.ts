@@ -428,3 +428,15 @@ export interface InbodyData {
   nextInbodyId?: number;
   hasNext: boolean
 }
+
+export interface MyCommu {
+  postId: number;
+  type: "FREE";
+  title: string;
+  content: string;
+  author: string;
+  createdAt: string;
+  viewCount: number;
+  likeCount: number;
+  commentCount: number;
+}

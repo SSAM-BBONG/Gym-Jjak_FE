@@ -25,15 +25,8 @@ type MealProps = {
 
 export default function MealCreateModal({ isModal, closeModal, myStatus, system, mealId }: MealProps) {
 
-
-
-    const [selectedImage, setSelectedImage] = useState<string | null>(null);
-    const imgRef = useRef<HTMLImageElement>(null);
     const {
         data: mealData,
-        isLoading: isDateLoading,
-        isError: isDateError,
-        error: dateError,
     } = useQuery<{ data: Meal }, Error, Meal>({
         queryKey: ["meals", "detail", mealId],
         queryFn: mealId
@@ -73,22 +66,7 @@ export default function MealCreateModal({ isModal, closeModal, myStatus, system,
 
     const handleClose = () => {
         createMutation.reset();
-        setSelectedImage(null);
         closeModal();
-    };
-
-    const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0];
-        if (!file) {
-            setSelectedImage(null);
-            return;
-        }
-
-        const reader = new FileReader();
-        reader.onload = (event) => {
-            setSelectedImage(event.target?.result as string);
-        }
-        reader.readAsDataURL(file);
     };
 
     if (!isModal) return null;

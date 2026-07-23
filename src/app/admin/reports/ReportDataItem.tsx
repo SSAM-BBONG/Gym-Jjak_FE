@@ -5,7 +5,7 @@ import ReportStatus from "@/feature/admin/components/ReportStatus";
 import { format } from "date-fns";
 
 interface ReportMode {
-    mode: 'TRAINER_REVIEW' | 'COMMENT' | 'PT_COURSE' | 'FEEDBACK' | 'POST';
+    mode: 'TRAINER_REVIEW' | 'COMMENT' | 'PT_COURSE' | 'FEEDBACK' | 'POST' | 'CHAT';
     report: Reports
 }
 
@@ -28,7 +28,7 @@ export default function ReportDataItem({ mode, report }: ReportMode) {
             )}
             <div className="col-span-5 flex justify-between">
                 <ReportDetailButton mode={mode} reportId={report.targetId} reportGroupId={report.reportGroupId} />
-                {report.status !== '처리완료' && <ReportGroupDeleteButton reportGroupId={report.reportGroupId} />}
+                <ReportGroupDeleteButton reportGroupId={report.reportGroupId} />
             </div>
         </div>
     );
