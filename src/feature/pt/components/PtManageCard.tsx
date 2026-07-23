@@ -4,12 +4,14 @@ import { PtManageUsers, PtZonePtListsActivate, PtZonePtListsDeactivate } from "@
 import { PtManageListData, PtStatusChangeRequest } from "../type";
 import { changePtStatus } from "../actions";
 import Image from "next/image";
+import PtManageCourseActions from "./PtManageCourseActions";
 
 interface PtManageCardProps {
-    data: PtManageListData
+    data: PtManageListData;
+    onOpen: () => void;
 }
 
-export default function PtManageCard({ data }: PtManageCardProps) {
+export default function PtManageCard({ data, onOpen }: PtManageCardProps) {
     const currentStatus = data.status === "VISIBLE" ? "HIDDEN" : "VISIBLE"
 
     const handleStatusClick = async (e:React.MouseEvent<HTMLButtonElement>, id: number, status: "VISIBLE" | "HIDDEN") => {
@@ -19,7 +21,17 @@ export default function PtManageCard({ data }: PtManageCardProps) {
     }
 
     return (
-        <div className={`
+        <div
+            role="link"
+            tabIndex={0}
+            onClick={onOpen}
+            onKeyDown={(event) => {
+                if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault();
+                    onOpen();
+                }
+            }}
+            className={`
         overflow-hidden
         relative
         flex flex-col
@@ -27,10 +39,11 @@ export default function PtManageCard({ data }: PtManageCardProps) {
         border border-[#1E2939] rounded-[16px]
         ${data.status === "HIDDEN" ? "opacity-50" : ""}
         `}>
-            <div className={`absolute right-3 top-3 px-3 py-1 rounded-full text-[12px] font-extrabold z-999
+            <div className={`absolute left-3 top-3 px-3 py-1 rounded-full text-[12px] font-extrabold z-10
                     ${data.status === "VISIBLE" ? "bg-[#BFFF0B] text-black" : "bg-[#FB2C361A] text-[#FB2C36]"}`}>
                 {data.status === "VISIBLE" ? "활성화" : "비활성화"}
             </div>
+            <PtManageCourseActions ptCourseId={data.ptCourseId} />
             <div
                 className="relative w-full h-40">
                     <Image

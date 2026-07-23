@@ -2,8 +2,8 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { chagnePtzoneResrvationStatus, chagnePtzoneStatus, createFeedback, createPtCourse, createPtReservation, createPtReview, deletePtReview, getFeedbackDetail, getMyPtReservationDetail, getMyPtReservationLists, getMyTrainerApplicationDetail, getMyTrainerApplicationList, getOnboarding, getPopularPtLists, getPtResrvationAvailableDates, getPtResrvationAvailableTimes, getTrainerCancel, getTrainerPtDashboard, getTrainerReviewList, getWithoutOnboarding, searchOrganizations, trainerApplication, updatePtReview, updateTrainerApplication } from "@/service/ptzone.service";
-import { FeedbackDetailData, MyPtRecordDetailData, MyPtResrvationListsData, OrganizationSearchItem, PtRegistRequest, PtRegistSchedule, PtReservationRequest, PtReservationStatusChangeRequest, PtReviewCreateRequest, TrainerApplicationData, TrainerApplicationEditData, TrainerPtDashboardData, TrainerReviewListData, TrainerReviewListRequest } from "./type";
+import { chagnePtzoneResrvationStatus, chagnePtzoneStatus, createFeedback, createPtCourse, createPtReservation, createPtReview, deletePtCourse, deletePtReview, getFeedbackDetail, getMyPtReservationDetail, getMyPtReservationLists, getMyTrainerApplicationDetail, getMyTrainerApplicationList, getOnboarding, getPopularPtLists, getPtResrvationAvailableDates, getPtResrvationAvailableTimes, getTrainerCancel, getTrainerPtDashboard, getTrainerReviewList, getTrainerReviewSummary, getWithoutOnboarding, searchOrganizations, trainerApplication, updatePtCourse, updatePtReview, updateTrainerApplication } from "@/service/ptzone.service";
+import { FeedbackDetailData, MyPtRecordDetailData, MyPtResrvationListsData, OrganizationSearchItem, PtCourseUpdateRequest, PtRegistRequest, PtRegistSchedule, PtReservationRequest, PtReservationStatusChangeRequest, PtReviewCreateRequest, TrainerApplicationData, TrainerApplicationEditData, TrainerPtDashboardData, TrainerReviewListData, TrainerReviewListRequest, TrainerReviewSummaryData } from "./type";
 import { uploadFilesPresignedUrl } from "@/service/file.service";
 import { cookies } from "next/headers";
 
@@ -426,6 +426,89 @@ export const changePtStatus = async (
   redirect('/pt/manage');
 }
 
+type PtCourseEditFormData = {
+  id?: number;
+  sessionNo?: number;
+  title: string;
+  content: string;
+  dayOfWeek?: PtRegistSchedule["dayOfWeek"];
+  startTime?: string;
+  endTime?: string;
+};
+
+export const updatePtCourseAction = async (ptCourseId: number, formData: FormData) => {
+  try {
+    const curriculums = JSON.parse(String(formData.get("curriculums") ?? "[]")) as PtCourseEditFormData[];
+    const schedules = JSON.parse(String(formData.get("schedules") ?? "[]")) as PtCourseEditFormData[];
+    const thumbnailFile = formData.get("thumbnailFile");
+
+    if (!curriculums.length || !schedules.length) {
+      return { success: false as const, message: "커리큘럼과 수업 시간을 각각 1개 이상 등록해 주세요." };
+    }
+
+    const payload: PtCourseUpdateRequest = {
+      title: String(formData.get("title") ?? "").trim(),
+      description: String(formData.get("description") ?? "").trim(),
+      part: String(formData.get("part")) as Part,
+      price: Number(formData.get("price")),
+      curriculums: curriculums.map((curriculum, index) => ({
+        id: curriculum.id,
+        sessionNo: index + 1,
+        title: curriculum.title.trim(),
+        content: curriculum.content.trim(),
+      })),
+      schedules: schedules.map((schedule) => ({
+        id: schedule.id,
+        dayOfWeek: schedule.dayOfWeek as PtRegistSchedule["dayOfWeek"],
+        startTime: String(schedule.startTime),
+        endTime: String(schedule.endTime),
+      })),
+    };
+
+    if (thumbnailFile instanceof File && thumbnailFile.size > 0) {
+      const [uploadedThumbnail] = await uploadFilesPresignedUrl([
+        { file: thumbnailFile, fileType: "PT_THUMBNAIL" },
+      ]);
+      payload.thumbnailFile = uploadedThumbnail;
+    }
+
+    const parts: Part[] = ["CHEST", "BACK", "SHOULDER", "ARM", "ABS", "CORE", "LEG", "GLUTE", "FULL_BODY"];
+
+    if (!payload.title || !payload.description || !parts.includes(payload.part) || !Number.isFinite(payload.price) || payload.price < 0) {
+      return { success: false as const, message: "강습 정보 입력값을 확인해 주세요." };
+    }
+
+    await updatePtCourse(ptCourseId, payload);
+    revalidatePath("/pt");
+    revalidatePath("/pt/find");
+    revalidatePath("/pt/manage");
+    revalidatePath(`/pt/manage/${ptCourseId}`);
+
+    return { success: true as const };
+  } catch (error) {
+    return {
+      success: false as const,
+      message: error instanceof Error ? error.message : "PT 강습 수정에 실패하였습니다.",
+    };
+  }
+};
+
+export const deletePtCourseAction = async (ptCourseId: number) => {
+  try {
+    await deletePtCourse(ptCourseId);
+    revalidatePath("/pt");
+    revalidatePath("/pt/find");
+    revalidatePath("/pt/manage");
+
+    return { success: true as const };
+  } catch (error) {
+    return {
+      success: false as const,
+      message: error instanceof Error ? error.message : "PT 강습 삭제에 실패하였습니다.",
+    };
+  }
+};
+
 export const getPtAvailableDatesAction = async (ptCourseId: number) => {
   return getPtResrvationAvailableDates(ptCourseId);
 };
@@ -568,6 +651,28 @@ export const getTrainerReviewListAction = async (
         error instanceof Error
           ? error.message
           : "수강평 목록 조회에 실패하였습니다.",
+    };
+  }
+};
+
+// 강사평 요약 조회
+export const getTrainerReviewSummaryAction = async (
+  trainerProfileId: number
+) => {
+  try {
+    const response = await getTrainerReviewSummary(trainerProfileId);
+
+    return {
+      success: true as const,
+      data: response.data,
+    };
+  } catch (error) {
+    return {
+      success: false as const,
+      message:
+        error instanceof Error
+          ? error.message
+          : "강사평 요약 조회에 실패하였습니다.",
     };
   }
 };
