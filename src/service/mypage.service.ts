@@ -1,5 +1,6 @@
 import {
   MyPageDetailResponse,
+  MyPaymentHistoryResponse,
   MyPagePasswordChangeRequest,
   MyPagePasswordChangeResponse,
   MyPagePasswordCheck,
@@ -37,6 +38,24 @@ export const getMyPageInformation = async (): Promise<MyPageDetailResponse> => {
     const message = await getErrorMessage(
       response,
       "마이페이지 조회에 실패하였습니다."
+    );
+
+    throw new Error(message);
+  }
+
+  return response.json();
+};
+
+// 내 결제 내역 조회 API
+export const getMyPaymentHistory = async (): Promise<MyPaymentHistoryResponse> => {
+  const response = await fetchWithAuth("/api/payments/me", {
+    cache: "no-store",
+  });
+
+  if (!response.ok) {
+    const message = await getErrorMessage(
+      response,
+      "내 결제 내역 조회에 실패하였습니다."
     );
 
     throw new Error(message);

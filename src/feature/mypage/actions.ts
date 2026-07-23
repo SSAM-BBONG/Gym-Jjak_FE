@@ -1,6 +1,7 @@
 "use server";
 
-import { addOrganizationManageTrainer, checkMyProfileNicknameAvailability, checkPassword, createOrganizationApplication, deleteInbody, deleteMyAccount, deleteOraganizationTrainer, editMyProfileInformation, editMyTrainerProfileInformation, editOrganizationManageInformation, getInbodyAdd, getMyCommu, getMyPageInformation, getOraganizationsearchTrainers, organizationApplicationCancel, organizationApplicationDupliCationId, patchInbody, postInbody, updatePassword } from "@/service/mypage.service";
+import { addOrganizationManageTrainer, checkMyProfileNicknameAvailability, checkPassword, createOrganizationApplication, deleteInbody, deleteMyAccount, deleteOraganizationTrainer, editMyProfileInformation, editMyTrainerProfileInformation, editOrganizationManageInformation, getInbodyAdd, getMyCommu, getMyPageInformation, getMyPaymentHistory, getOraganizationsearchTrainers, organizationApplicationCancel, organizationApplicationDupliCationId, patchInbody, postInbody, updatePassword } from "@/service/mypage.service";
+import type { MyPaymentHistoryData } from "./type";
 import { uploadFilesPresignedUrl } from "@/service/file.service";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
@@ -546,4 +547,26 @@ export const getMyCommuAction = async (page: string) => {
     throw new Error(errorMessage);
   }
 
+};
+
+export const getMyPaymentHistoryAction = async (): Promise<
+  | { success: true; data: MyPaymentHistoryData }
+  | { success: false; message: string }
+> => {
+  try {
+    const response = await getMyPaymentHistory();
+
+    return {
+      success: true,
+      data: response.data,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message:
+        error instanceof Error
+          ? error.message
+          : "내 결제 내역 조회에 실패하였습니다.",
+    };
+  }
 };

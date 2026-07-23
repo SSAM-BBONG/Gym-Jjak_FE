@@ -30,6 +30,7 @@ export default function PtFeeBackRegistModal({
   const router = useRouter();
   const [submitError, setSubmitError] = useState("");
   const [existingMedia, setExistingMedia] = useState<{ beforeUrl?: string; afterUrl?: string }>({});
+  const [previewUrls, setPreviewUrls] = useState<{ beforeUrl?: string; afterUrl?: string }>({});
 
   const {
     register,
@@ -50,6 +51,18 @@ export default function PtFeeBackRegistModal({
 
   const beforeFile = watch("beforeFile");
   const afterFile = watch("afterFile");
+
+  useEffect(() => {
+    const beforeUrl = beforeFile ? URL.createObjectURL(beforeFile) : undefined;
+    const afterUrl = afterFile ? URL.createObjectURL(afterFile) : undefined;
+
+    setPreviewUrls({ beforeUrl, afterUrl });
+
+    return () => {
+      if (beforeUrl) URL.revokeObjectURL(beforeUrl);
+      if (afterUrl) URL.revokeObjectURL(afterUrl);
+    };
+  }, [beforeFile, afterFile]);
 
   useEffect(() => {
     if (!isModal) return;
@@ -168,7 +181,7 @@ export default function PtFeeBackRegistModal({
               </p>
             </div>
 
-            <div className="grid grid-cols-2 gap-5">
+            <div className="flex flex-col gap-5">
               <div
                 className="
                 flex flex-col gap-3
@@ -194,16 +207,28 @@ export default function PtFeeBackRegistModal({
                 </div>
 
                 <div className="flex flex-col items-center gap-3">
-                  <div className="relative w-15 h-15">
-                    <Image
-                      src={PtRecordVideo}
-                      alt="BEFORE 영상 업로드"
-                      fill
-                      priority
-                      sizes="w-30 h-30"
-                      className="object-cover"
-                    />
-                  </div>
+                  {previewUrls.beforeUrl || existingMedia.beforeUrl ? (
+                    <video
+                      key={previewUrls.beforeUrl ?? existingMedia.beforeUrl}
+                      controls
+                      preload="metadata"
+                      className="aspect-video w-full rounded-lg bg-black object-contain"
+                      src={previewUrls.beforeUrl ?? existingMedia.beforeUrl}
+                    >
+                      브라우저가 영상 재생을 지원하지 않습니다.
+                    </video>
+                  ) : (
+                    <div className="relative w-15 h-15">
+                      <Image
+                        src={PtRecordVideo}
+                        alt="BEFORE 영상 업로드"
+                        fill
+                        priority
+                        sizes="w-30 h-30"
+                        className="object-cover"
+                      />
+                    </div>
+                  )}
                   <p className="text-[12px] font-normal text-[#99A1AF] text-center">
                     {beforeFile
                       ? beforeFile.name
@@ -240,11 +265,6 @@ export default function PtFeeBackRegistModal({
                       {errors.beforeFile.message}
                     </p>
                   )}
-                  {existingMedia.beforeUrl && !beforeFile && (
-                    <a href={existingMedia.beforeUrl} target="_blank" rel="noreferrer" className="text-[12px] text-[#BFFF0B] underline">
-                      기존 영상 보기
-                    </a>
-                  )}
                 </div>
               </div>
 
@@ -273,16 +293,28 @@ export default function PtFeeBackRegistModal({
                 </div>
 
                 <div className="flex flex-col items-center gap-3">
-                  <div className="relative w-15 h-15">
-                    <Image
-                      src={PtRecordVideo}
-                      alt=" AFTER 영상 업로드"
-                      fill
-                      priority
-                      sizes="w-30 h-30"
-                      className="object-cover"
-                    />
-                  </div>
+                  {previewUrls.afterUrl || existingMedia.afterUrl ? (
+                    <video
+                      key={previewUrls.afterUrl ?? existingMedia.afterUrl}
+                      controls
+                      preload="metadata"
+                      className="aspect-video w-full rounded-lg bg-black object-contain"
+                      src={previewUrls.afterUrl ?? existingMedia.afterUrl}
+                    >
+                      브라우저가 영상 재생을 지원하지 않습니다.
+                    </video>
+                  ) : (
+                    <div className="relative w-15 h-15">
+                      <Image
+                        src={PtRecordVideo}
+                        alt="AFTER 영상 업로드"
+                        fill
+                        priority
+                        sizes="w-30 h-30"
+                        className="object-cover"
+                      />
+                    </div>
+                  )}
                   <p className="text-[12px] font-normal text-[#99A1AF] text-center">
                     {afterFile
                       ? afterFile.name
@@ -318,11 +350,6 @@ export default function PtFeeBackRegistModal({
                     <p className="text-[12px] font-medium text-red-400">
                       {errors.afterFile.message}
                     </p>
-                  )}
-                  {existingMedia.afterUrl && !afterFile && (
-                    <a href={existingMedia.afterUrl} target="_blank" rel="noreferrer" className="text-[12px] text-[#BFFF0B] underline">
-                      기존 영상 보기
-                    </a>
                   )}
                 </div>
               </div>

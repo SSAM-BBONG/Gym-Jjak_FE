@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { X } from "lucide-react";
 import type { ChatRoomData } from "../type";
 import ChatListItem from "./ChatListItem";
 
@@ -38,14 +39,26 @@ export default function ChatList({ chatRooms }: ChatListProps) {
 
     return (
         <>
-            <input
-                type="search"
-                value={searchName}
-                onChange={(event) => setSearchName(event.target.value)}
-                className="px-6 py-3 bg-[#101828] border border-[#1E2939] rounded-[14px] text-white placeholder:text-[#6A7282]"
-                placeholder="이름으로 검색"
-                aria-label="상대방 이름으로 채팅 검색"
-            />
+            <div className="relative">
+                <input
+                    type="text"
+                    value={searchName}
+                    onChange={(event) => setSearchName(event.target.value)}
+                    className="w-full px-6 py-3 pr-12 bg-[#101828] border border-[#1E2939] rounded-[14px] text-white placeholder:text-[#6A7282]"
+                    placeholder="이름으로 검색"
+                    aria-label="상대방 이름으로 채팅 검색"
+                />
+                {searchName && (
+                    <button
+                        type="button"
+                        onClick={() => setSearchName("")}
+                        className="absolute right-4 top-1/2 -translate-y-1/2 text-[#99A1AF] transition-colors hover:text-white"
+                        aria-label="검색어 지우기"
+                    >
+                        <X size={18} aria-hidden />
+                    </button>
+                )}
+            </div>
 
             <div className="flex gap-2" aria-label="상대방 역할 필터">
                 {roleFilters.map(({ label, value }) => {
