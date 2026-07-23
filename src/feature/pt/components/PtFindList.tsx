@@ -1,15 +1,27 @@
 import { PtCourseListData } from "../type";
 import PtFindCard from "./PtFindCard";
+import Link from "next/link";
 
 interface PtFindListProps {
   response: PtCourseListData[];
+  organizationId: number | null;
 }
 
-export default function PtFindList( {response}: PtFindListProps) {
+export default function PtFindList( {response, organizationId}: PtFindListProps) {
     return (
         <div className="flex flex-3 flex-col gap-6 p-6 overflow-y-auto scrollbar-none">
             <div className="flex flex-col gap-1">
-                <p className="text-[24px] font-black text-white"> PT 목록 </p>
+                <div className="flex items-center justify-between gap-3">
+                    <p className="text-[24px] font-black text-white"> PT 목록 </p>
+                    {organizationId && (
+                        <Link
+                            href={`/pt/organization/${organizationId}`}
+                            className="shrink-0 rounded-lg border border-[#BFFF0B] px-3 py-2 text-sm font-bold text-[#BFFF0B] transition hover:bg-[#BFFF0B] hover:text-[#101828]"
+                        >
+                            헬스장 조회
+                        </Link>
+                    )}
+                </div>
                 <p className="text-[14px] font-normal text-[#6A7282]"> 가까운 곳에서 마음에 드는 PT를 찾아보세요</p>
             </div>
 

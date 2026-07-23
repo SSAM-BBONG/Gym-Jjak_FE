@@ -11,6 +11,7 @@ import { InbodyFormType } from "@/lib/inbodySchema";
 export const createOrganizationApplicationAction = async (
   formData: FormData
 ) => {
+  try {
   const businessLicenseFile = formData.get("businessLicenseFile");
 
   if (!(businessLicenseFile instanceof File) || businessLicenseFile.size === 0) {
@@ -49,11 +50,22 @@ export const createOrganizationApplicationAction = async (
     facilityPhone: String(formData.get("facilityPhone") ?? "").trim() || undefined,
   };
 
-  await createOrganizationApplication(payload);
+  const response = await createOrganizationApplication(payload);
 
   revalidatePath("/mypage/organization");
   revalidatePath("/mypage/organization/application");
-  redirect("/mypage/organization");
+  return {
+    success: true,
+    message: response.message || "조직 계정 신청이 완료되었습니다.",
+  };
+  } catch (error) {
+    return {
+      success: false,
+      message: error instanceof Error
+        ? error.message
+        : "조직 계정 신청에 실패했습니다. 다시 시도해주세요.",
+    };
+  }
 }
 
 // 조직 신청 ID 중복확인 액션

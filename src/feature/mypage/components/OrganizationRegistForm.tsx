@@ -12,6 +12,10 @@ import { Resolver, SubmitHandler, useForm } from "react-hook-form";
 import { OrganizationApplicationFormValue, organizationApplicationSchema } from "@/lib/organizationApplicationSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import OneButtonModal from "@/components/ui/OneButtonModal";
+import { useState } from "react";
+import { toast } from "sonner";
 
 // 조직 신청 폼 타입
 interface OrganizationRegistFormProps {
@@ -22,6 +26,8 @@ interface OrganizationRegistFormProps {
 
 
 export default function OrganizationRegistForm({ mode = "create", application }: OrganizationRegistFormProps) {
+    const router = useRouter();
+    const [errorMessage, setErrorMessage] = useState("");
 
     const handleCancelClick = async () => {
         const applicationId = application?.organizationApplicationId;
@@ -89,7 +95,15 @@ export default function OrganizationRegistForm({ mode = "create", application }:
         formData.append("blogUrl", values.blogUrl ?? "");
         formData.append("facilityPhone", values.facilityPhone ?? "");
 
-        await createOrganizationApplicationAction(formData);
+        const result = await createOrganizationApplicationAction(formData);
+
+        if (!result.success) {
+            setErrorMessage(result.message ?? "조직 계정 신청에 실패했습니다.");
+            return;
+        }
+
+        toast.success(result.message ?? "조직 계정 신청이 완료되었습니다.");
+        router.push("/mypage/organization");
     };
 
     return (
@@ -115,18 +129,20 @@ export default function OrganizationRegistForm({ mode = "create", application }:
             border border-[#2B7FFF4D] rounded-[16px]
             bg-[linear-gradient(135deg,rgba(28,57,142,0.20)0%,rgba(25,60,184,0.10)100%)]
             p-6">
-                    <div className="flex gap-3 items-start">
-                        <div className="relative w-5 h-5">
-                            <Image
-                                src={OrganApplicationDanger}
-                                alt="조직 계정 신청 절차"
-                                fill
-                                sizes="w-10 h-10"
-                                className="object-cover hover:cursor-pointer"
-                            />
+                    <div className="flex flex-col gap-2">
+                        <div className="flex items-center gap-3">
+                            <div className="relative h-5 w-5 shrink-0">
+                                <Image
+                                    src={OrganApplicationDanger}
+                                    alt="조직 계정 신청 절차"
+                                    fill
+                                    sizes="20px"
+                                    className="object-contain"
+                                />
+                            </div>
+                            <p className="text-[18px] font-extrabold text-[#51A2FF]"> 신청 절차 안내</p>
                         </div>
-                        <div className="flex flex-col">
-                            <p className="text-[18px] font-extrabold text-[#51A2FF] self-start"> 신청 절차 안내</p>
+                        <div className="flex flex-col pl-8">
                             <p className="text-[14px] font-normal text-[#D1D5DC]"> 1. 아래 정보를 입력하고 신청 </p>
                             <p className="text-[14px] font-normal text-[#D1D5DC]"> 2. 관리자가 제출된 정보 검증 (영업일 기준 2-3일) </p>
                             <p className="text-[14px] font-normal text-[#D1D5DC]"> 3. 승인 시 신청자 이메일로 조직 계정 정보 발송 </p>
@@ -188,7 +204,13 @@ export default function OrganizationRegistForm({ mode = "create", application }:
                 {/* 읽기모드에서는 안보이게 설정 */}
                 {!isReadOnly && (
                     <div className="flex gap-3 mb-15">
-                        <button className="py-4 text-[16px] font-extrabold text-white flex-1 bg-[#1E2939] rounded-[10px]"> 취소 </button>
+                        <button
+                            type="button"
+                            onClick={() => router.back()}
+                            className="py-4 text-[16px] font-extrabold text-white flex-1 bg-[#1E2939] rounded-[10px]"
+                        >
+                            취소
+                        </button>
                         <button
                             type="submit"
                             disabled={isSubmitting}
@@ -196,6 +218,12 @@ export default function OrganizationRegistForm({ mode = "create", application }:
                     </div>
                 )}
             </div>
+            <OneButtonModal
+                isModal={Boolean(errorMessage)}
+                closeModal={() => setErrorMessage("")}
+                title="조직 계정 신청 실패"
+                content={errorMessage}
+            />
         </form>
     );
 }

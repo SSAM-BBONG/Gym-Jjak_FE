@@ -20,8 +20,8 @@ interface registerStateType {
 }
 
 export default function OrganizationRegistId( {register, application, isReadOnly, error }: OrganizationRegistFormProps) {
-    
-    const [organizationId, setOrganizationId] = useState("");
+    const requestedLoginIdRegister = register("requestedLoginId");
+    const [organizationId, setOrganizationId] = useState(application?.requestedLoginId ?? "");
 
     const [registerState, setRegisterState] = useState<registerStateType>({
         success: false,
@@ -30,7 +30,9 @@ export default function OrganizationRegistId( {register, application, isReadOnly
 
 
     const handleOragnizationIdChange = (e:ChangeEvent<HTMLInputElement>) => {
+        requestedLoginIdRegister.onChange(e);
         setOrganizationId(e.target.value);
+        setRegisterState({ success: false, message: "" });
     }
 
     const handleDuplicationIdCheck = async (id: string) => {
@@ -50,7 +52,7 @@ export default function OrganizationRegistId( {register, application, isReadOnly
                 <div className="flex gap-3">
                     <input 
                         type="text"
-                        {...register("requestedLoginId")}
+                        {...requestedLoginIdRegister}
                         onChange={handleOragnizationIdChange}
                         defaultValue={application?.requestedLoginId}
                         disabled={isReadOnly}
@@ -61,10 +63,11 @@ export default function OrganizationRegistId( {register, application, isReadOnly
                     {!isReadOnly && (
                         <button 
                             type="button"
+                            disabled={organizationId.trim().length === 0}
                                 className={`px-7 py-3 text-[16px] rounded-[10px]
                                     ${organizationId.length===0 ? "text-white bg-[#364153] font-medium opacity-50" : "text-black bg-[#BFFF0B] font-bold"}`
                                 }
-                            onClick={() => handleDuplicationIdCheck(organizationId)}
+                            onClick={() => handleDuplicationIdCheck(organizationId.trim())}
                         > 
                         중복 확인
                         </button>
