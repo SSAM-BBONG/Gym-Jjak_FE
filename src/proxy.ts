@@ -79,6 +79,13 @@ export async function proxy(request: NextRequest) {
             return NextResponse.redirect(new URL('/nopermission', request.url));
         }
 
+        if (
+            user?.role === 'ORGANIZATION' &&
+            (pathname.startsWith('/alarm') || pathname.startsWith('/chat'))
+        ) {
+            return NextResponse.redirect(new URL('/nopermission', request.url));
+        }
+
         if ((pathname.startsWith('/pt/manage') || pathname.startsWith('/pt/regist')) && user?.role === 'USER') {
             return NextResponse.redirect(new URL('/nopermission', request.url));
         }
@@ -93,5 +100,5 @@ export async function proxy(request: NextRequest) {
 
 //렌더링 전에 거칠 페이지들
 export const config = {
-    matcher: ['/admin/:path*', '/organization/:path*', '/alarm/:path*', '/calendar/:path*', '/community/:path*', '/mypage/:path*', '/pt/manage/:path*', '/pt/records/:path*', '/pt/regist', '/pt/trainer', '/meal'],
+    matcher: ['/admin/:path*', '/organization/:path*', '/alarm/:path*', '/calendar/:path*', '/chat/:path*', '/community/:path*', '/mypage/:path*', '/pt/manage/:path*', '/pt/records/:path*', '/pt/regist', '/pt/trainer', '/meal'],
 };//:path* 는 모든 페이지

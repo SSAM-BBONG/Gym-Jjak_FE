@@ -1,6 +1,7 @@
 "use client";
 
 import { getHeaderUserAction } from "@/feature/auth/action";
+import { getHeaderProfileAction } from "@/feature/mypage/actions";
 import UserProfile from "@/feature/common/Profile";
 import AlarmSocket from "@/feature/alarm/components/AlarmSocket";
 import { Alarm, chat } from "../ui/image";
@@ -21,12 +22,14 @@ interface HeaderAuthAreaProps {
 }
 
 type HeaderUser = Awaited<ReturnType<typeof getHeaderUserAction>>;
+type HeaderProfile = Awaited<ReturnType<typeof getHeaderProfileAction>>;
 
 const ALARM_SOCKET_DISABLED_PATHS = ["/alarm", "/admin"];
 
 export default function HeaderAuthArea({ userInf, notification, chatCount }: HeaderAuthAreaProps) {
   const pathname = usePathname();
   const [user, setUser] = useState<HeaderUser>(null);
+  const [profile, setProfile] = useState<HeaderProfile>(null);
   const [isLoading, setIsLoading] = useState(true);
   const unreadCount = notification?.unreadCount ?? 0;
   const unreadChat = chatCount?.totalUnreadCount ?? 0;
@@ -51,9 +54,11 @@ export default function HeaderAuthArea({ userInf, notification, chatCount }: Hea
 
       try {
         const result = await getHeaderUserAction();
+        const profileResult = result ? await getHeaderProfileAction() : null;
 
         if (!ignore) {
           setUser(result);
+          setProfile(profileResult);
         }
       } finally {
         if (!ignore) {
@@ -118,6 +123,7 @@ export default function HeaderAuthArea({ userInf, notification, chatCount }: Hea
       ) : user ? (
         <UserProfile 
           userInf={userInf}
+          profile={profile}
         />
       ) : (
         <Link href="/auth/login">

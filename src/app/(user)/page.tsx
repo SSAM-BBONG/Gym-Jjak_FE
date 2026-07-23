@@ -1,254 +1,141 @@
 import UserFooter from "@/components/layout/UserFooter";
-import {
-  MainCalender,
-  MainCommunity,
-  MainCrewDefender,
-  MainHomeTraining,
-  MainImg,
-} from "@/components/ui/image";
+import { MainImg } from "@/components/ui/image";
 import Image from "next/image";
 import Link from "next/link";
 
+const quickLinks = [
+  {
+    href: "/meal",
+    eyebrow: "MEAL TRACKER",
+    title: "오늘 먹은 식단을\n기록해 보세요",
+    description: "식사 기록을 모아 하루의 식단 흐름을 한눈에 관리할 수 있어요.",
+    action: "식단 관리하기",
+    accent: "from-orange-300 to-amber-400",
+    number: "01",
+  },
+  {
+    href: "/calendar",
+    eyebrow: "WORKOUT CALENDAR",
+    title: "운동 계획을\n캘린더에 쌓아가세요",
+    description: "PT 일정과 나만의 운동 기록을 날짜별로 편하게 확인하세요.",
+    action: "운동 캘린더 열기",
+    accent: "from-sky-300 to-cyan-400",
+    number: "02",
+  },
+  {
+    href: "/community",
+    eyebrow: "COMMUNITY",
+    title: "함께 운동하는\n사람들과 연결하세요",
+    description: "운동 이야기와 유용한 팁을 나누며 꾸준함을 만들어 보세요.",
+    action: "커뮤니티 둘러보기",
+    accent: "from-violet-300 to-fuchsia-400",
+    number: "03",
+  },
+];
+
 export default function Page() {
   return (
-    <main className="flex flex-col gap-6 px-40">
-      <section className="flex justify-between mt-20 mb-22.5">
-        <header className="flex flex-col gap-8">
-          <p className="font-normal text-[14px] text-[#99A1AF]"> 전문적인 PT를 원하는 사람들</p>
-          <p className="font-black text-white text-[56px] leading-17.5"> 당신의 잠재력을 <br />
-            <span className="text-[#BFFF0B]"> 폭발시켜라 </span> <br />
-            오늘부터 시작하세요. </p>
-          <p className="font-normal text-[14px] text-[#99A1AF]">
-            최고의 트레이너 관리와 과학적 데이터 기반 PT를 시작해보세요. <br />
-            당신의 목표를 달성할 수 있습니다.
-          </p>
-          <Link href="/pt">
-            <button className="bg-[#BFFF0B] text-black font-extrabold text-[16px] px-9 py-3.5 rounded-[10px] cursor-pointer hover:opacity-80"> 지금 바로 체험하기</button>
-          </Link>
-        </header>
+    <main className="overflow-hidden bg-[#0B0F19] text-white">
+      <div className="mx-auto max-w-7xl px-5 py-12 sm:px-8 lg:px-12 lg:py-20">
+        <section className="relative isolate overflow-hidden rounded-[32px] border border-white/10 bg-[#121a2b] px-6 pb-14 pt-10 sm:px-10 lg:min-h-[480px] lg:px-14 lg:pb-20 lg:pt-16">
+          <div className="absolute -right-32 -top-32 -z-10 size-96 rounded-full bg-[#bfff0b]/10 blur-3xl" />
+          <div className="absolute -bottom-48 left-1/3 -z-10 size-96 rounded-full bg-sky-400/10 blur-3xl" />
 
-        <div>
-          <div className="relative w-165 h-100">
+          <div className="relative z-10 max-w-xl">
+            <p className="mb-5 inline-flex rounded-full border border-[#bfff0b]/30 bg-[#bfff0b]/10 px-3 py-1.5 text-xs font-bold tracking-[0.14em] text-[#cfff4a]">
+              YOUR HEALTH, YOUR ROUTINE
+            </p>
+            <h1 className="text-4xl font-black leading-[1.18] tracking-tight sm:text-5xl lg:text-6xl">
+              운동의 시작부터
+              <br />
+              <span className="text-[#bfff0b]">꾸준한 기록</span>까지
+            </h1>
+            <p className="mt-6 max-w-md text-base leading-7 text-slate-300 sm:text-lg">
+              나에게 맞는 PT 센터를 찾고, 운동과 식단을 기록하며 건강한 루틴을 만들어 보세요.
+            </p>
+            <div className="mt-9 flex flex-wrap gap-3">
+              <Link
+                href="/pt/find"
+                className="rounded-xl bg-[#bfff0b] px-5 py-3.5 text-sm font-extrabold text-[#0b0f19] transition hover:bg-[#d4ff65] focus:outline-none focus:ring-2 focus:ring-[#bfff0b] focus:ring-offset-2 focus:ring-offset-[#121a2b]"
+              >
+                내 주변 PT 센터 찾기
+              </Link>
+              <Link
+                href="/calendar"
+                className="rounded-xl border border-white/15 bg-white/5 px-5 py-3.5 text-sm font-extrabold text-white transition hover:border-white/30 hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/70 focus:ring-offset-2 focus:ring-offset-[#121a2b]"
+              >
+                운동 캘린더 보기
+              </Link>
+            </div>
+          </div>
+
+          <div className="relative mt-10 h-56 sm:h-72 lg:absolute lg:inset-y-0 lg:right-0 lg:mt-0 lg:h-auto lg:w-[52%]">
             <Image
               src={MainImg}
-              alt="메인페이지 설명이미지"
+              alt="운동을 표현한 메인 일러스트"
               fill
               priority
-              sizes="w-200 h-200"
-              className="object-cover"
+              sizes="(max-width: 1024px) 100vw, 620px"
+              className="object-contain object-center lg:-translate-x-6 lg:scale-90 lg:object-right"
             />
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section className="flex flex-wrap gap-6 justify-between">
-        <article
-          className="
-        bg-[linear-gradient(135deg,rgba(16,24,40,0.90)_0%,rgba(30,41,57,0.90)_100%)]
-        border border-[#BFFF0B66] rounded-[24px]
-        w-[70%]
-        p-7
-        flex flex-col gap-6
-        "
-        >
-          <header className="text-white text-[48px]">
-            <p className="leading-12 font-black">전문 트레이너와</p>
-            <p className="leading-12 font-black"> 1:1 PT 매칭 </p>
-          </header>
-          <p className="text-[#D1D5DC] text-[18px]">
-            전국의 검증된 트레이너를 찾아보세요. <br />내 위치 기반으로 가까운
-            PT 센터를 쉽게 찾을 수 있습니다.
-          </p>
-          <div className="text-[#D1D5DC] text-[16px] flex gap-2">
-            <p className="rounded-full size-6 bg-[#BFFF0B] text-black flex items-center justify-center font-black">
-              ☆
-            </p>
-            <p> 원하는 트레이너와 함께 </p>
-          </div>
-          <div className="text-[#D1D5DC] text-[16px] flex gap-2">
-            <p className="rounded-full size-6 bg-[#BFFF0B] text-black flex items-center justify-center font-black">
-              ☆
-            </p>
-            <p>후기로 검증된 트레이너</p>
-          </div>
-          <div className="text-[#D1D5DC] text-[16px] flex gap-2">
-            <p className="rounded-full size-6 bg-[#BFFF0B] text-black flex items-center justify-center font-black">
-              ☆
-            </p>
-            <p>목표 맞춤 PT 프로그램</p>
-          </div>
-          <button className="bg-[#BFFF0B] rounded-[10px] text-black flex items-center justify-center px-6 py-2 font-bold
-          hover:cursor-pointer hover:opacity-80">
-            PT 센터 찾기
-          </button>
-        </article>
-        <div
-          className="
-        flex-1
-        bg-[linear-gradient(135deg,rgba(16,24,40,0.90)_0%,rgba(30,41,57,0.90)_100%)]
-        rounded-[24px]
-        p-7
-        flex
-        flex-col
-        justify-between
-        "
-        >
-          <article className="flex flex-col gap-6 items-baseline">
-            <div className="relative w-13 h-13">
-              <Image
-                src={MainCommunity}
-                alt="메인페이지 커뮤니티"
-                fill
-                sizes="w-26 h-26"
-                className="object-cover"
-              />
+        <section className="mt-16">
+          <div className="mb-7 flex flex-col justify-between gap-3 sm:flex-row sm:items-end">
+            <div>
+              <p className="text-sm font-bold text-[#bfff0b]">GYMJJAK SERVICES</p>
+              <h2 className="mt-2 text-2xl font-black tracking-tight sm:text-3xl">오늘의 건강 루틴을 시작하세요</h2>
             </div>
-            <p className="text-[30px] font-black text-white">
-              함께하는 <br /> 커뮤니티
-            </p>
-            <p className="text-[#D1D5DC] font-normal">
-
-              운동 팁을 공유하고 <br /> 동기부여를 받으세요
-            </p>
-          </article>
-          <Link href="/community">
-            <button className="w-full bg-[#1E2939] text-white px-2 py-2.5 text-center rounded-[10px] font-extrabold
-          hover:bg-[#BFFF0B] hover:text-black hover:cursor-pointer">
-              커뮤니티 가기
-            </button>
-          </Link>
-        </div>
-        <article
-          className="
-        w-[31%]
-        bg-[linear-gradient(135deg,rgba(16,24,40,0.90)_0%,rgba(30,41,57,0.90)_100%)]
-        rounded-[24px]
-        p-7
-        flex
-        flex-col
-        justify-between"
-        >
-          <div className="flex flex-col gap-6 items-baseline">
-            <div className="bg-[#1E2939] rounded-[16px] border border-[#364153] p-3.5">
-              <div className="relative w-8 h-8">
-                <Image
-                  src={MainHomeTraining}
-                  alt="메인페이지 홈트"
-                  fill
-                  sizes="w-16 h-16"
-                  className="object-cover"
-                />
-              </div>
-            </div>
-            <p className="text-[30px] font-black text-white">
-              홈트 <br /> 프로그램
-            </p>
-            <p className="text-[#D1D5DC] font-normal">
-
-              집에서 할 수 있는 <br /> 맞춤형 운동 루틴
-            </p>
+            <p className="max-w-sm text-sm leading-6 text-slate-400 sm:max-w-xl">필요한 기능을 골라 운동 계획과 식단 기록을 자연스럽게 이어갈 수 있어요.</p>
           </div>
-          <button className="w-full bg-[#1E2939] text-white px-2 py-2.5 text-center rounded-[10px] font-extrabold
-          hover:bg-[#BFFF0B] hover:text-black hover:cursor-pointer">
-            홈트 ZONE 가기
-          </button>
-        </article>
-        <article className="w-[31%] bg-[linear-gradient(135deg,rgba(16,24,40,0.90)_0%,rgba(30,41,57,0.90)_100%)] rounded-[24px] p-7">
-          <div className="flex flex-col gap-6 items-baseline">
-            <div className="bg-[#1E2939] rounded-[16px] border border-[#364153] p-3.5">
-              <div className="relative w-8 h-8">
-                <Image
-                  src={MainCalender}
-                  alt="메인페이지 캘린더"
-                  fill
-                  sizes="w-16 h-16"
-                  className="object-cover"
-                />
-              </div>
-            </div>
-            <p className="text-[30px] font-black text-white">
 
-              운동 <br /> 캘린더
-            </p>
-            <p className="text-[#D1D5DC] font-normal">
+          <div className="grid gap-5 lg:grid-cols-2">
+            <Link
+              href="/pt/find"
+              className="group relative overflow-hidden rounded-[28px] border border-[#bfff0b]/30 bg-[linear-gradient(135deg,#17213a_0%,#121a2b_65%,#192b20_100%)] p-7 transition hover:-translate-y-1 hover:border-[#bfff0b]/70 sm:p-9 lg:row-span-2"
+            >
+              <span className="text-sm font-bold tracking-[0.14em] text-[#cfff4a]">PT MATCHING</span>
+              <h3 className="mt-5 text-3xl font-black leading-tight sm:text-4xl">검증된 트레이너와<br />가까운 PT 센터를 찾아보세요</h3>
+              <p className="mt-5 max-w-md text-sm leading-6 text-slate-300 sm:text-base">내 위치와 목표에 맞춰 PT 센터와 트레이너 정보를 살펴보고, 나에게 맞는 운동 파트너를 선택할 수 있어요.</p>
+              <span className="mt-9 inline-flex rounded-xl bg-[#bfff0b] px-4 py-3 text-sm font-extrabold text-[#0b0f19] transition group-hover:bg-[#d4ff65]">PT 센터 찾기 →</span>
+              <span className="absolute bottom-6 right-16 text-[170px] font-black leading-none text-[#bfff0b]/10">PT</span>
+            </Link>
 
-              운동 일정을 관리하고 <br /> 습관을 만드세요
-            </p>
+            {quickLinks.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="group relative overflow-hidden rounded-[28px] border border-white/10 bg-[#121a2b] p-7 transition hover:-translate-y-1 hover:border-white/25 hover:bg-[#17213a] sm:p-8"
+              >
+                <div className="flex items-start justify-between gap-4">
+                  <span className={`flex size-11 items-center justify-center rounded-2xl bg-gradient-to-br ${item.accent} text-sm font-black text-[#0b0f19]`}>
+                    {item.number}
+                  </span>
+                  <span className="text-sm font-bold tracking-[0.12em] text-slate-500">{item.eyebrow}</span>
+                </div>
+                <h3 className="mt-7 whitespace-pre-line text-2xl font-black leading-tight">{item.title}</h3>
+                <p className="mt-3 max-w-lg text-sm leading-6 text-slate-400">{item.description}</p>
+                <span className="mt-6 inline-flex text-sm font-extrabold text-white transition group-hover:text-[#bfff0b]">{item.action} <span className="ml-2">→</span></span>
+              </Link>
+            ))}
           </div>
-          <Link href="/calendar">
-            <button className="w-full bg-[#1E2939] text-white px-2 py-3 text-center rounded-[10px] font-extrabold mt-8
-                      hover:bg-[#BFFF0B] hover:text-black hover:cursor-pointer">
-              캘린더 가기
-            </button>
-          </Link>
-        </article>
-        <article className="w-[31%] bg-[linear-gradient(135deg,rgba(16,24,40,0.90)_0%,rgba(30,41,57,0.90)_100%)] rounded-[24px] p-7">
-          <div className="flex flex-col gap-6 items-baseline">
-            <div className="bg-[#1E2939] rounded-[16px] border border-[#364153] p-3.5">
-              <div className="relative w-8 h-8">
-                <Image
-                  src={MainCrewDefender}
-                  alt="메인페이지 길드 대항전"
-                  fill
-                  sizes="w-16 h-16"
-                  className="object-cover"
-                />
-              </div>
+        </section>
+
+        <section className="mt-16 rounded-[28px] border border-white/10 bg-[#121a2b] p-7 sm:p-10">
+          <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+            <div>
+              <p className="text-sm font-bold text-[#bfff0b]">START SMALL, STAY CONSISTENT</p>
+              <h2 className="mt-2 text-2xl font-black">오늘의 식단 한 끼부터 기록해 볼까요?</h2>
+              <p className="mt-3 text-sm leading-6 text-slate-400">식단을 남기고, 나만의 건강한 습관을 쌓아가세요.</p>
             </div>
-            <p className="text-[30px] font-black text-white">
-
-              길드 <br /> 대항전
-            </p>
-            <p className="text-[#D1D5DC] font-normal">
-
-              팀을 만들고 함께 <br /> 목표를 달성하세요
-            </p>
+            <Link href="/meal" className="shrink-0 rounded-xl border border-[#bfff0b]/50 px-5 py-3.5 text-center text-sm font-extrabold text-[#cfff4a] transition hover:bg-[#bfff0b] hover:text-[#0b0f19]">
+              식단 기록 시작하기
+            </Link>
           </div>
-          <button className="w-full bg-[#1E2939] text-white px-2 py-3 rounded-[10px] font-extrabold mt-8
-                    hover:bg-[#BFFF0B] hover:text-black hover:cursor-pointer">
-            길드 대항전 참여하기
-          </button>
-        </article>
-      </section>
-
-      <section
-        className="flex justify-around 
-            bg-[linear-gradient(90deg,rgba(16,24,40,0.90)_100%,rgba(30,41,57,0.90)_100%)]
-            border
-            border-[#36415380]
-            rounded-[24px]
-            p-8
-            mb-37.5
-            "
-      >
-        <div>
-          <p className="text-[#BFFF0B] text-[32px] font-black text-center">
-            1234
-          </p>
-          <p className="text-[#99A1AF] text-center"> 전문 트레이너</p>
-        </div>
-        <div>
-          <p className="text-[#BFFF0B] text-[32px] font-black text-center">
-            15,678
-          </p>
-          <p className="text-[#99A1AF] text-center"> 소속 회원</p>
-        </div>
-        <div>
-          <p className="text-[#BFFF0B] text-[32px] font-black text-center">
-            892
-          </p>
-          <p className="text-[#99A1AF] text-center"> PT 센터</p>
-        </div>
-        <div>
-          <p className="text-[#BFFF0B] text-[32px] font-black text-center">
-            4.8
-          </p>
-          <p className="text-[#99A1AF] text-center"> 평균 만족도</p>
-        </div>
-      </section>
-      <footer className="w-auto -mx-40">
-        <UserFooter />
-      </footer>
+        </section>
+      </div>
+      <UserFooter />
     </main>
   );
 }

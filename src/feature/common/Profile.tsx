@@ -9,12 +9,14 @@ import OneButtonModal from "@/components/ui/OneButtonModal";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { MyTokenPayload } from "@/lib/decode";
+import { MyPageDetailData } from "@/feature/mypage/type";
 
 interface UserProfileProps {
-  userInf?: MyTokenPayload
+  userInf?: MyTokenPayload;
+  profile?: MyPageDetailData | null;
 }
 
-export default function UserProfile( {userInf}: UserProfileProps) {
+export default function UserProfile( {userInf, profile}: UserProfileProps) {
     const router = useRouter();
     const [visible, setVisible] = useState<boolean>(false);
 
@@ -67,8 +69,8 @@ export default function UserProfile( {userInf}: UserProfileProps) {
                 {visible && (
                     <div className="absolute top-11 right-0 w-47.5 h-40 border border-[#364153] bg-[#101828] px-3 py-4 flex flex-col gap-3 rounded-[10px]">
                         <div className="flex flex-col gap-2">
-                            <p className="text-white text-[14px]">사용자 이름</p>
-                            <p className="text-[#99A1AF] text-[12px]">사용자 내용</p>
+                            <p className="text-white text-[14px]">{profile?.nickname ?? "사용자"}</p>
+                            <p className="text-[#99A1AF] text-[12px]">{profile?.username ?? ""}</p>
                         </div>
 
                         <hr className="border-t-[#1E2939]" />
@@ -87,7 +89,7 @@ export default function UserProfile( {userInf}: UserProfileProps) {
                             ? 
                             <Link href="/organization/dashboard/gym">
                                 <p className="text-[#D1D5DC] text-[14px] hover:text-[#BFFF0B] cursor-pointer">
-                                    마이페이지
+                                    조직 페이지
                                 </p>
                             </Link>
                             :
