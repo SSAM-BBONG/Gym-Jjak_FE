@@ -3,6 +3,8 @@
 import { useState, useRef, useEffect } from "react";
 import '@tensorflow/tfjs';
 import * as mobilenet from '@tensorflow-models/mobilenet'
+import { Meal } from "../type";
+import AiLoading from "@/components/ui/AiLoading";
 
 
 interface Prediction {
@@ -11,28 +13,21 @@ interface Prediction {
 }
 
 
-export default function MealImgClassifier() {
-    // 모델 로딩 여부 
+export default function MealImgClassifier({ mealData }: { mealData?: Meal }) {
     const [modelLoading, setModelLoading] = useState(true);
-    // 모델 로딩 진행 퍼센트
     const [progress, setProgress] = useState(0);
-    // 모델 로딩 진행 상태 메시지
-    const [progressLabel, setProgressLabel] = useState("모델 준비 중…");
+    const [progressLabel, setProgressLabel] = useState("AI 분석 모델 준비 중…");
 
-    // 이미지 미리보기 경로 (Base64 URL)
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
-    // 이미지를 표시할 <img> 엘리먼트, 분류시에도 필요 (Ref 사용)
     const imgRef = useRef<HTMLImageElement>(null);
 
 
-    // 분류 중 여부 
     const [classifying, setClassifying] = useState(false);
-    // 분류 결과 
     const [predictions, setPredictions] = useState<Prediction[]>([]);
 
-    // 에러 메시지 
     const [error, setError] = useState<string | null>(null);
     const modelRef = useRef<mobilenet.MobileNet | null>(null);
+    const [menu, setMenu] = useState(mealData?.menu ?? "");
 
 
 
@@ -95,6 +90,7 @@ export default function MealImgClassifier() {
             try {
                 const result = await model.classify(imgElement, 1);
                 setPredictions(result);
+                setMenu(result[0].className)
             } catch (error) {
                 setError(error instanceof Error ? error.message : '분류 실패');
             } finally {
@@ -132,7 +128,6 @@ export default function MealImgClassifier() {
         );
     }
 
-
     return (
         <>
             {modelLoading && (
@@ -165,11 +160,11 @@ export default function MealImgClassifier() {
                         />
                     </div>
 
-                    {selectedImage && !modelLoading && (
+                    {((selectedImage && !modelLoading) || mealData?.imageUrl) && (
                         <div className="mb-4 flex flex-col gap-3">
                             <img
                                 ref={imgRef}
-                                src={selectedImage}
+                                src={selectedImage || mealData?.imageUrl || ''}
                                 alt="분류할 이미지"
                                 className="max-h-64 w-auto rounded-lg border border-zinc-200 object-contain dark:border-zinc-600"
                             />
@@ -185,7 +180,8 @@ export default function MealImgClassifier() {
                     <textarea
                         name="menu"
                         maxLength={255}
-                        defaultValue={predictions[0]?.className || ''}
+                        value={menu}
+                        onChange={(event) => setMenu(event.target.value)}
                         placeholder="메뉴를 입력해주세요"
                         className="border-[#364153] border mt-2 mb-4  w-full h-20 p-3 md:px-6 md:py-4 bg-[#1E2939] rounded-md resize-none focus:border-[#BFFF0B] text-white text-sm md:text-base focus:outline-none"
                     ></textarea>

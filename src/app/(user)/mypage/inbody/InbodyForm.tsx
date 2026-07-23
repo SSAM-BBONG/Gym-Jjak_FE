@@ -92,7 +92,10 @@ export default function InbodyForm() {
                         체지방률 (%)
                     </label>
                     <input
-                        {...register('bodyFatPercentage', { valueAsNumber: true })}
+                        {...register("bodyFatPercentage", {
+                            setValueAs: (value) =>
+                                value === "" ? undefined : Number(value),
+                        })}
                         name="bodyFatPercentage"
                         id="bodyFatPercentage"
                         type="number"
@@ -106,7 +109,10 @@ export default function InbodyForm() {
                         골격근량 (kg)
                     </label>
                     <input
-                        {...register('skeletalMuscleMass', { valueAsNumber: true })}
+                        {...register("skeletalMuscleMass", {
+                            setValueAs: (value) =>
+                                value === "" ? undefined : Number(value),
+                        })}
                         name="skeletalMuscleMass"
                         id="skeletalMuscleMass"
                         type="number"

@@ -1,4 +1,4 @@
-import type { GoalRequest, MealRequest } from "@/feature/Meal/type";
+import type { GoalRequest, MealAiRequest, MealRequest } from "@/feature/Meal/type";
 import { fetchWithAuth } from "@/lib/feth";
 import { getErrorMessage } from "@/lib/stateError";
 
@@ -207,6 +207,25 @@ export const deleteNutritionGoal = async () => {
         const message = await getErrorMessage(
             response,
             "영양 목표 삭제에 실패했습니다."
+        );
+
+        throw new Error(message);
+    }
+
+    return response.json();
+};
+
+
+export const postAiMeal = async (meal: MealAiRequest) => {
+    const response = await fetchWithAuth(`/api/diet/meals/ai-analyze`, {
+        method: "POST",
+        body: JSON.stringify(meal),
+    });
+
+    if (!response.ok) {
+        const message = await getErrorMessage(
+            response,
+            "식단 분석 및 등록에 실패했습니다."
         );
 
         throw new Error(message);
