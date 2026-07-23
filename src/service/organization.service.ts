@@ -1,11 +1,12 @@
 import {
+  OrganizationPublicDetailResponse,
   OrganizationPtCourseResponse,
   OrganizationPtStudentsResponse,
   OrganizationSalesResponse,
   OrganizationStatsResponse,
   OrganizationTrainerStatsResponse,
 } from "@/feature/organization/type";
-import { fetchWithAuth } from "@/lib/feth";
+import { fetchWithAuth, fetchWithoutAuth } from "@/lib/feth";
 import { getErrorMessage } from "@/lib/stateError";
 
 export const getOrganizationStats = async (): Promise<OrganizationStatsResponse> => {
@@ -96,6 +97,26 @@ export const getOrganizationPtStudents = async (
     const message = await getErrorMessage(
       response,
       "PT 수강생 목록 조회에 실패하였습니다."
+    );
+
+    throw new Error(message);
+  }
+
+  return response.json();
+};
+
+export const getPublicOrganizationDetail = async (
+  organizationId: number
+): Promise<OrganizationPublicDetailResponse> => {
+  const response = await fetchWithoutAuth(
+    `/api/organizations/${organizationId}/detail`,
+    { cache: "no-store" }
+  );
+
+  if (!response.ok) {
+    const message = await getErrorMessage(
+      response,
+      "조직 상세 조회에 실패하였습니다."
     );
 
     throw new Error(message);

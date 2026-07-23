@@ -1,4 +1,4 @@
-import { Complete, OrganApplicationDanger, OrganApplicationDate, OrganBusinessInf, OrganizationApplicationReject, OrganUnderReview, PtRecordComplete } from "@/components/ui/image";
+import { Complete, MypageOrganization, OrganApplicationDanger, OrganApplicationDate, OrganBusinessInf, OrganizationApplicationReject, OrganUnderReview, PtRecordComplete } from "@/components/ui/image";
 import { getOrganizationApplications } from "@/service/mypage.service";
 import Link from "next/link";
 import { OrganizationApplicationListData } from "../type";
@@ -50,7 +50,29 @@ export default async function OrganizationApplicationCard({ data }: Organization
                 <p className="text-[14px] font-normal text-[#99A1AF]"> 나의 조직 계정 신청 목록을 확인하세요 </p>
             </div>
             <div className="flex flex-col gap-8">
-                {data.map((item) => (
+                {data.length === 0 ? (
+                    <div className="flex min-h-80 flex-col items-center justify-center gap-4 rounded-[16px] border border-[#36415380] bg-[linear-gradient(135deg,rgba(16,24,40,0.90)_0%,rgba(30,41,57,0.90)_100%)] px-6 py-12 text-center">
+                        <div className="relative h-12 w-12 rounded-full bg-[#BFFF0B1A] p-3">
+                            <Image
+                                src={MypageOrganization}
+                                alt="조직 신청 내역 없음"
+                                fill
+                                sizes="48px"
+                                className="object-contain p-3"
+                            />
+                        </div>
+                        <div className="flex flex-col gap-2">
+                            <p className="text-[20px] font-extrabold text-white">아직 조직 신청 내역이 없어요</p>
+                            <p className="text-[14px] font-normal text-[#99A1AF]">조직 계정을 신청하고 회원과 PT 서비스를 관리해보세요.</p>
+                        </div>
+                        <Link
+                            href="/mypage/organization/application"
+                            className="mt-2 rounded-[10px] bg-[#BFFF0B] px-5 py-3 text-[16px] font-extrabold text-black"
+                        >
+                            조직 계정 신청하기
+                        </Link>
+                    </div>
+                ) : data.map((item) => (
                     <div
                         key={item.organizationApplicationId}
                         className="
@@ -120,7 +142,7 @@ export default async function OrganizationApplicationCard({ data }: Organization
                                     </div> */}
                                     <p className="text-[12px] font-normal text-[#99A1AF]"> 신청 일시</p>
                                 </div>
-                                <p className="text-[14px] font-extrabold text-white"> {item.createdAt}</p>
+                                <p className="text-[14px] font-extrabold text-white"> {item.createdAt.split("T")[0]}</p>
                             </div>
                         </div>
 
@@ -145,7 +167,7 @@ export default async function OrganizationApplicationCard({ data }: Organization
                     </div>
                 ))}
             </div>
-            <Link href="/mypage/organization/application">
+            {data.length > 0 && <Link href="/mypage/organization/application">
                 <div className="
                     flex items-center justify-center gap-3
                     bg-[linear-gradient(135deg,rgba(16,24,40,0.90)0%,rgba(30,41,57,0.90)100%)]
@@ -156,7 +178,7 @@ export default async function OrganizationApplicationCard({ data }: Organization
                     <p className="text-[16px] text-white font-extrabold"> 새로운 조직 계정 신청하기 </p>
                     <p className="text-[#6A7282] font-black"> 〉</p>
                 </div>
-            </Link>
+            </Link>}
         </div>
     );
 }

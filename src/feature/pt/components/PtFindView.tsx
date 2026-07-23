@@ -13,6 +13,7 @@ interface PtFindResponse {
 export default function PtFindView({listResponse, onBoardingResponse}: PtFindResponse) {
     const [organizationId, setOrganizationId] = useState({
         organName: "",
+        organizationId: null as number | null,
     });
 
     const filterPtList = useMemo(() => {
@@ -27,6 +28,7 @@ export default function PtFindView({listResponse, onBoardingResponse}: PtFindRes
     <>  
         {organizationId.organName && filterPtList.length > 0 &&
         <PtFindList
+            organizationId={organizationId.organizationId}
             response={filterPtList}/>
         }
 
