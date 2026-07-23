@@ -21,7 +21,7 @@ async function getRefreshToken(request: NextRequest) {
 
         return resData.data.accessToken;
     } catch (error) {
-        return null;
+        return null; 
     }
 }
 
