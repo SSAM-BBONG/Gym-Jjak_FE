@@ -8,6 +8,9 @@
   MyPtResrvationListsResponse,
   OnboardingResponse, PtCourseDetailResponse,
   PtCourseListResponse,
+  PtCourseUpdateRequest,
+  PtCourseUpdateResponse,
+  PtCourseDeleteResponse,
   PtPopularCourseResponse,
   PtRegistOrganizationListResponse,
   PtRegistRequest,
@@ -30,6 +33,7 @@
   TrainerPtDashboardResponse,
   TrainerReviewListRequest,
   TrainerReviewListResponse,
+  TrainerReviewSummaryResponse,
   OrganizationSearchRequest,
   OrganizationSearchResponse,
   TrainerApplicationData,
@@ -49,6 +53,22 @@ export const getPtDetail = async (ptCourseId: string): Promise<PtCourseDetailRes
     const message = await getErrorMessage(
       response,
       'PT 상세 조회에 실패하였습니다.'
+    );
+
+    throw new Error(message);
+  }
+
+  return response.json();
+};
+
+// 비로그인 PT 상세 조회 API
+export const getPublicPtDetail = async (ptCourseId: string): Promise<PtCourseDetailResponse> => {
+  const response = await fetchWithoutAuth(`/api/pt-courses/${ptCourseId}`);
+
+  if (!response.ok) {
+    const message = await getErrorMessage(
+      response,
+      "PT 상세 조회에 실패하였습니다."
     );
 
     throw new Error(message);
@@ -584,6 +604,55 @@ export const getTrainerReviewList = async (
 
   if (!response.ok) {
     const message = await getErrorMessage(response, "수강평 목록 조회에 실패하였습니다.");
+
+    throw new Error(message);
+  }
+
+  return response.json();
+};
+
+export const updatePtCourse = async (
+  ptCourseId: number,
+  payload: PtCourseUpdateRequest
+): Promise<PtCourseUpdateResponse> => {
+  const response = await fetchWithAuth(`/api/pt-courses/${ptCourseId}`, {
+    method: "PATCH",
+    body: JSON.stringify(payload),
+  });
+
+  if (!response.ok) {
+    const message = await getErrorMessage(response, "PT 강습 수정에 실패하였습니다.");
+    throw new Error(message);
+  }
+
+  return response.json();
+};
+
+export const deletePtCourse = async (
+  ptCourseId: number
+): Promise<PtCourseDeleteResponse> => {
+  const response = await fetchWithAuth(`/api/pt-courses/${ptCourseId}`, {
+    method: "DELETE",
+  });
+
+  if (!response.ok) {
+    const message = await getErrorMessage(response, "PT 강습 삭제에 실패하였습니다.");
+    throw new Error(message);
+  }
+
+  return response.json();
+};
+
+// 강사평 요약 조회
+export const getTrainerReviewSummary = async (
+  trainerProfileId: number
+): Promise<TrainerReviewSummaryResponse> => {
+  const response = await fetchWithAuth(
+    `/api/trainer-profiles/${trainerProfileId}/reviews/summary`
+  );
+
+  if (!response.ok) {
+    const message = await getErrorMessage(response, "강사평 요약 조회에 실패하였습니다.");
 
     throw new Error(message);
   }

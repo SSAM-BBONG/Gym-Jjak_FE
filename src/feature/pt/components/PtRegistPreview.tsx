@@ -9,12 +9,13 @@ import { UseFormSetValue } from "react-hook-form";
 interface PtRegistPreviewProps {
     setValue: UseFormSetValue<PtRegistFormValue>;
     error?: string;
+    initialThumbnailUrl?: string;
 }
 
 export default function PtRegistPreview({
-    setValue, error
+    setValue, error, initialThumbnailUrl = ""
 }: PtRegistPreviewProps) {
-    const [thumbnailPreview, setThumbnailPreview] = useState("");
+    const [thumbnailPreview, setThumbnailPreview] = useState(initialThumbnailUrl ?? "");
 
     const handleThumbnailChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
         const file = e.target.files?.[0];
@@ -31,7 +32,7 @@ export default function PtRegistPreview({
 
     useEffect(() => {
         return () => {
-            if (thumbnailPreview) {
+            if (typeof thumbnailPreview === "string" && thumbnailPreview.startsWith("blob:")) {
                 URL.revokeObjectURL(thumbnailPreview);
             }
         };

@@ -1,7 +1,7 @@
 import { PtDetailQualification, PtfindTestImg } from "@/components/ui/image";
-import { getTrainerReviewListAction } from "@/feature/pt/actions";
+import { getTrainerReviewListAction, getTrainerReviewSummaryAction } from "@/feature/pt/actions";
 import TrainerReviewCard from "@/feature/pt/components/TrainerReviewCard";
-import { getPtDetail } from "@/service/ptzone.service";
+import { getPublicPtDetail } from "@/service/ptzone.service";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -14,8 +14,10 @@ export default async function TrainerReviewPage({ params, searchParams }: Traine
     const { id } = await params;
     const { sort: sortParam } = await searchParams;
     const sort = sortParam === "HIGH_RATING" ? "HIGH_RATING" : "LATEST";
-    const ptCourse = await getPtDetail(id);
-    const result = await getTrainerReviewListAction(ptCourse.data.trainerProfileId, { sort });
+    const ptCourse = await getPublicPtDetail(id);
+    const trainerProfileId = ptCourse.data.trainerProfileId;
+    const result = await getTrainerReviewListAction(trainerProfileId, { sort });
+    const summaryResult = await getTrainerReviewSummaryAction(trainerProfileId);
 
     return (
         <div className="flex flex-col gap-6 px-60 py-10">
@@ -53,57 +55,49 @@ export default async function TrainerReviewPage({ params, searchParams }: Traine
             border border-[#36415380] rounded-[16px]
             p-8">
                 <p className="text-[20px] font-extrabold text-white"> 강사 평가</p>
-                <div className="flex items-start">
-                    <div className="flex flex-1 flex-col gap-1">
-                        <p className="justify-self-start text-[55px] font-black text-[#BFFF0B]">
-                            4.8<span className="text-[24px] font-normal text-[#99A1AF]">/5</span>
-                        </p>
-                        <p className="text-[24px] text-[#BFFF0B]"> ★★★★★ </p>
-                        <p className="text-[16px] font-normal text-[#99A1AF]"> 총 8개의 리뷰 </p>
-                    </div>
-                    <div className="flex flex-1 flex-col gap-2">
-                        <div className="flex justify-between items-center">
-                            <p className="flex-1 text-[14px] font-normal text-[#99A1AF]"> 5★ </p>
-                            <div className="flex-3 h-2 rounded-full bg-[#1E2939] ">
-                                <p className="w-[30%] h-2 rounded-full bg-[#BFFF0B]"> </p>
+                {summaryResult.success === false ? (
+                    <p className="text-[#FF6467]">{summaryResult.message}</p>
+                ) : (
+                    <>
+                        <div className="flex items-start">
+                            <div className="flex flex-1 flex-col gap-1">
+                                <p className="justify-self-start text-[55px] font-black text-[#BFFF0B]">
+                                    {summaryResult.data.averageRating.toFixed(1)}<span className="text-[24px] font-normal text-[#99A1AF]">/5</span>
+                                </p>
+                                <p className="text-[24px] text-[#BFFF0B]">
+                                    {"★".repeat(Math.round(summaryResult.data.averageRating))}{"☆".repeat(5 - Math.round(summaryResult.data.averageRating))}
+                                </p>
+                                <p className="text-[16px] font-normal text-[#99A1AF]"> 총 {summaryResult.data.reviewCount}개의 리뷰 </p>
                             </div>
-                            <p className="flex-1 text-right text-[14px] font-normal text-[#99A1AF]"> 5</p>
-                        </div>
-                        <div className="flex justify-between items-center">
-                            <p className="flex-1 text-[14px] font-normal text-[#99A1AF]"> 4★ </p>
-                            <div className="flex-3 h-2 rounded-full bg-[#1E2939] ">
-                                <p className="w-[30%] h-2 rounded-full bg-[#BFFF0B]"> </p>
+                            <div className="flex flex-1 flex-col gap-2">
+                                {[5, 4, 3, 2, 1].map((rating) => {
+                                    const count = summaryResult.data.ratingDistribution[String(rating) as "1" | "2" | "3" | "4" | "5"];
+                                    const width = summaryResult.data.reviewCount > 0
+                                        ? Math.min(100, (count / summaryResult.data.reviewCount) * 100)
+                                        : 0;
+
+                                    return (
+                                        <div key={rating} className="flex items-center justify-between">
+                                            <p className="flex-1 text-[14px] font-normal text-[#99A1AF]"> {rating}★ </p>
+                                            <div className="h-2 flex-[3] rounded-full bg-[#1E2939]">
+                                                <div
+                                                    className="h-2 rounded-full bg-[#BFFF0B]"
+                                                    style={{ width: `${width}%` }}
+                                                />
+                                            </div>
+                                            <p className="flex-1 text-right text-[14px] font-normal text-[#99A1AF]"> {count}</p>
+                                        </div>
+                                    );
+                                })}
                             </div>
-                            <p className="flex-1 text-right text-[14px] font-normal text-[#99A1AF]"> 5</p>
                         </div>
-                        <div className="flex justify-between items-center">
-                            <p className="flex-1 text-[14px] font-normal text-[#99A1AF]"> 3★ </p>
-                            <div className="flex-3 h-2 rounded-full bg-[#1E2939] ">
-                                <p className="w-[30%] h-2 rounded-full bg-[#BFFF0B]"> </p>
-                            </div>
-                            <p className="flex-1 text-right text-[14px] font-normal text-[#99A1AF]"> 5</p>
-                        </div>
-                        <div className="flex justify-between items-center">
-                            <p className="flex-1 text-[14px] font-normal text-[#99A1AF]"> 2★ </p>
-                            <div className="flex-3 h-2 rounded-full bg-[#1E2939] ">
-                                <p className="w-[30%] h-2 rounded-full bg-[#BFFF0B]"> </p>
-                            </div>
-                            <p className="flex-1 text-right text-[14px] font-normal text-[#99A1AF]"> 5</p>
-                        </div>
-                        <div className="flex justify-between items-center">
-                            <p className="flex-1 text-[14px] font-normal text-[#99A1AF]"> 1★ </p>
-                            <div className="flex-3 h-2 rounded-full bg-[#1E2939] ">
-                                <p className="w-[30%] h-2 rounded-full bg-[#BFFF0B]"> </p>
-                            </div>
-                            <p className="flex-1 text-right text-[14px] font-normal text-[#99A1AF]"> 5</p>
-                        </div>
-                    </div>
-                </div>
+                    </>
+                )}
             </div>
 
             <div className="flex flex-col gap-6">
                 <div className="flex justify-between items-center">
-                    <p className="text-[18px] font-extrabold text-white"> 리뷰 목록 </p>
+                    <p className="text-[18px] font-extrabold text-white"> 강사평 목록 </p>
                     <div className="flex gap-2">
                         <Link
                             href={`/pt/${id}/reviews?sort=LATEST`}

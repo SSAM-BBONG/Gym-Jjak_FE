@@ -23,6 +23,7 @@ export interface ChatRoomData {
 
 export interface ChatRoomCreateRequest {
     ptCourseId: number;
+    userId?: number | null;
 }
 
 export interface ChatRoomCreateResponse {

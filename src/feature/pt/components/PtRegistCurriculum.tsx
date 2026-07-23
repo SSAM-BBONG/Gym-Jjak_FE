@@ -8,9 +8,11 @@ import { UseFormSetValue } from "react-hook-form";
 interface PtRegistCurriculumProps {
   setValue: UseFormSetValue<PtRegistFormValue>;
   error?: string;
+  initialCurriculums?: CurriculumItem[];
 }
 
 interface CurriculumItem {
+  id?: number;
   title: string;
   content: string;
 }
@@ -20,11 +22,12 @@ interface CurriculumItem {
 export default function PtRegistCurriculum({
   setValue,
   error,
+  initialCurriculums = [],
 }: PtRegistCurriculumProps) {
 
     const [curriculumTitleInput, setCurriculumTitleInput] = useState("");
     const [curriculumContentInput, setCurriculumContentInput] = useState("");
-    const [curriculums, setCurriculums] = useState<CurriculumItem[]>([]);
+    const [curriculums, setCurriculums] = useState<CurriculumItem[]>(initialCurriculums);
 
     const handleAddCurriculum = () => {
         const trimmedTitle = curriculumTitleInput.trim();

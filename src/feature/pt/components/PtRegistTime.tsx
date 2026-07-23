@@ -8,7 +8,10 @@ import { PtRegistSchedule } from "../type";
 interface PtRegistTimeProps {
   setValue: UseFormSetValue<PtRegistFormValue>;
   error?: string;
+  initialSchedules?: ScheduleItem[];
 }
+
+type ScheduleItem = PtRegistSchedule & { id?: number };
 
 type WeekValue =
   | "MONDAY"
@@ -20,13 +23,13 @@ type WeekValue =
   | "SUNDAY";
 
 export default function PtRegistTime({
-    setValue, error
+    setValue, error, initialSchedules = []
 }: PtRegistTimeProps) {
 
     const [dayOfWeek, setDayOfWeek] = useState<WeekValue>("MONDAY");
     const [startTime, setStartTime] = useState("10:00");
     const [endTime, setEndTime] = useState("11:00");
-    const [schedules, setSchedules] = useState<PtRegistSchedule[]>([]);
+    const [schedules, setSchedules] = useState<ScheduleItem[]>(initialSchedules);
     const [addError, setAddError] = useState("");
 
     const handleAddTime = () => {

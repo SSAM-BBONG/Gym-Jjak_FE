@@ -67,7 +67,10 @@ export default function PtManageUserCard( {data, id}: PtManageUserCardProps) {
         setIsCreatingChat(true);
 
         try {
-            const result = await createChatRoomAction({ ptCourseId: id });
+            const result = await createChatRoomAction({
+                ptCourseId: id,
+                userId: data.userId,
+            });
 
             if (!result.success) {
                 setChatErrorMessage(result.message);

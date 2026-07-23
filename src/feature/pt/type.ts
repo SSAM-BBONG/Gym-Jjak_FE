@@ -502,6 +502,7 @@ export interface PtReservationStudentsData {
 // PT 강습별 수강생 목록 ptReservations 데이터
 export interface PtReservationStudent {
   ptReservationId: number;
+  userId: number;
   nickname: string;
   status: string;
   lastPtDate: string | null;
@@ -658,6 +659,66 @@ export interface TrainerReviewListData {
   hasNext: boolean;
 }
 
+export interface PtCourseUpdateCurriculum extends PtRegistCurriculum {
+  id?: number;
+}
+
+export interface PtCourseUpdateSchedule extends PtRegistSchedule {
+  id?: number;
+}
+
+export interface PtCourseUpdateRequest {
+  title: string;
+  description: string;
+  part: Part;
+  price: number;
+  thumbnailFile?: TrainerFileData;
+  curriculums: PtCourseUpdateCurriculum[];
+  schedules: PtCourseUpdateSchedule[];
+}
+
+export interface PtCourseUpdateResponse {
+  status: number;
+  code: string;
+  message: string;
+  data: {
+    ptCourseId: number;
+  };
+}
+
+export interface PtCourseDeleteResponse {
+  status: number;
+  code: string;
+  message: string;
+  data: null;
+}
+
+// 강사평 요약 조회 응답값
+export interface TrainerReviewSummaryResponse {
+  status: number;
+  code: string;
+  message: string;
+  data: TrainerReviewSummaryData;
+}
+
+// 강사평 요약 조회 데이터
+export interface TrainerReviewSummaryData {
+  trainerName: string;
+  introduction: string;
+  averageRating: number;
+  reviewCount: number;
+  ratingDistribution: TrainerReviewRatingDistribution;
+}
+
+// 별점별 강사평 수
+export interface TrainerReviewRatingDistribution {
+  "1": number;
+  "2": number;
+  "3": number;
+  "4": number;
+  "5": number;
+}
+
 // 강사평 목록 항목
 export interface TrainerReview {
   trainerReviewId: number;
@@ -666,6 +727,7 @@ export interface TrainerReview {
   rating: number;
   content: string;
   createdAt: string;
+  isMine: boolean;
 }
 
 // 내 예약 기록 상세 조회 응답값
