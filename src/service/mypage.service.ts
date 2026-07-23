@@ -6,6 +6,7 @@ import {
   MyPageUserDelection,
   MyPageUserProfileEditRequest,
   MyPageUserProfileEditResponse,
+  MyPageNicknameAvailabilityResponse,
   MyPageUserProfileResponse,
   MyTrainerProfileEditRequest,
   MyTrainerProfileEditResponse,
@@ -363,6 +364,26 @@ export const editMyProfileInformation = async (
 
   return response.json();
 }
+
+export const checkMyProfileNicknameAvailability = async (
+  nickname: string
+): Promise<MyPageNicknameAvailabilityResponse> => {
+  const response = await fetchWithAuth("/api/users/me/availability/nickname", {
+    method: "POST",
+    body: JSON.stringify({ nickname }),
+  });
+
+  if (!response.ok) {
+    const message = await getErrorMessage(
+      response,
+      "닉네임 중복 확인에 실패했습니다."
+    );
+
+    throw new Error(message);
+  }
+
+  return response.json();
+};
 
 // 내 트레이너 프로필 조회 API
 export const getMyTrainerProfileInformation = async () => {

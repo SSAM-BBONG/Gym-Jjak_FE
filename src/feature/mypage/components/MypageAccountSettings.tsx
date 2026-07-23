@@ -6,19 +6,35 @@ import { deleteMyAccountAction } from "../actions";
 import { useState } from "react";
 import PasswordCheckModal from "./PasswordCheckModal";
 import Image from "next/image";
+import useModal from "@/components/hooks/useModal";
+import TwoButtonModal from "@/components/ui/TwoButtonModal";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 interface MypageAccountSettingsProps {
   socialUser: boolean;
 }
 
 export default function MypageAccountSettings( {socialUser}: MypageAccountSettingsProps) {
+  const router = useRouter();
 
   const [passwordCheckModal, setpasswordCheckModal] = useState(false);
   const [passwordMoveModal, setPasswordMoveModal] = useState(false);
 
-  const handleUserDelectionClick = async () => {
+  const handleUserDelectionConfirm = async () => {
     const result = await deleteMyAccountAction();
-  }
+
+    if (!result?.success) {
+      toast.error(result?.message ?? "회원탈퇴에 실패했습니다.");
+      return;
+    }
+
+    toast.success(result.message);
+    router.push("/");
+    router.refresh();
+  };
+
+  const withdrawalModal = useModal(handleUserDelectionConfirm);
   return (
     <>
       <div
@@ -47,25 +63,27 @@ export default function MypageAccountSettings( {socialUser}: MypageAccountSettin
 
 
        {!socialUser && (
-          <div className=" flex justify-between items-center p-4 bg-[#1E293980] rounded-[10px]">
+          <div 
+            className=" flex justify-between items-center p-4 bg-[#1E293980] rounded-[10px] hover:cursor-pointer"
+            onClick={() => setPasswordMoveModal(true)}  
+          >
             <p className="text-[14px] font-medium text-[#99A1AF]">
               비밀번호 변경
             </p>
-            <button
-              type="button"
-              onClick={() => setPasswordMoveModal(true)}
-              className="text-[12px] font-medium text-[#6A7282]"> 〉 </button>
+            <p
+              className="text-[12px] font-medium text-[#6A7282]"> 〉 </p>
           </div>
         )}
 
-        <div className=" flex justify-between items-center p-4 bg-[#1E293980] rounded-[10px]">
+        <div 
+          className=" flex justify-between items-center p-4 bg-[#1E293980] rounded-[10px] hover:cursor-pointer"
+          onClick={() => setPasswordMoveModal(true)}    
+        >
           <p className="text-[14px] font-medium text-[#99A1AF]">
             회원 탈퇴
           </p>
-          <button
-            type="button"
-            onClick={() => handleUserDelectionClick()}
-            className="text-[12px] font-medium text-[#6A7282] hover:cursor-pointer"> 〉 </button>
+          <p
+            className="text-[12px] font-medium text-[#6A7282] hover:cursor-pointer"> 〉 </p>
         </div>
       </div>
 
@@ -76,6 +94,13 @@ export default function MypageAccountSettings( {socialUser}: MypageAccountSettin
           movePath="/mypage/password"
         />
       )}
+      <TwoButtonModal
+        isModal={withdrawalModal.isModal}
+        closeModal={withdrawalModal.closeModal}
+        activeModal={withdrawalModal.activeModal}
+        title="회원탈퇴"
+        content="회원탈퇴 하시겠습니까?"
+      />
     </>
   );
 }

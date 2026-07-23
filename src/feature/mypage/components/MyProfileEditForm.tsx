@@ -6,7 +6,10 @@ import { ChangeEvent, useState } from "react";
 import { Resolver, SubmitHandler, useForm } from "react-hook-form";
 import { MyapgeProfileEditFormValue, myapgeProfileEditSchema } from "@/lib/mypageProfileEditSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { editMyProfileInformationAction, organizationIdDuplicationCheckAction } from "../actions";
+import { checkMyProfileNicknameAvailabilityAction, editMyProfileInformationAction } from "../actions";
+import OneButtonModal from "@/components/ui/OneButtonModal";
+import useModal from "@/components/hooks/useModal";
+import { toast } from "sonner";
 
 interface MyProfileEditProps {
     data: MypageUserProfileData
@@ -20,8 +23,10 @@ interface DuplicationId {
 
 export default function MyProfileEditForm( { data, socialUser }: MyProfileEditProps) {
     const router = useRouter();
+    const errorModal = useModal();
 
     const [nickname, setNickname] = useState(data.nickname);
+    const [errorMessage, setErrorMessage] = useState("");
     const [nicknameCheckState, setNicknameCheckState] =
         useState<DuplicationId>({
         success: false,
@@ -57,12 +62,21 @@ export default function MyProfileEditForm( { data, socialUser }: MyProfileEditPr
     };
 
     const handleNicknameDuplicationCheck = async () => {
-        const result = await organizationIdDuplicationCheckAction(nickname);
+        const result = await checkMyProfileNicknameAvailabilityAction(nickname);
         setNicknameCheckState(result);
+
+        if (result.success) {
+            return;
+        }
+
+        setErrorMessage(result.message ?? "닉네임 중복 확인에 실패했습니다.");
+        errorModal.openModal();
     };
 
     const onSubmit: SubmitHandler<MyapgeProfileEditFormValue> = async (values) => {
         if (isNicknameChanged && !nicknameCheckState.success) {
+        setErrorMessage("닉네임 중복 확인을 먼저 진행해주세요.");
+        errorModal.openModal();
         setNicknameCheckState({
             success: false,
             message: "닉네임 중복 확인을 먼저 진행해주세요.",
@@ -79,9 +93,12 @@ export default function MyProfileEditForm( { data, socialUser }: MyProfileEditPr
         const result = await editMyProfileInformationAction(formData);
 
         if (!result.success) {
+        setErrorMessage(result.message ?? "프로필 수정에 실패했습니다.");
+        errorModal.openModal();
         return;
         }
 
+        toast.success(result.message ?? "프로필 정보가 수정되었습니다.");
         router.push("/mypage");
     };
     
@@ -131,7 +148,7 @@ export default function MyProfileEditForm( { data, socialUser }: MyProfileEditPr
                     </button>
                     </div>
                     {nicknameCheckState.message && (
-                         <p className="my-3 text-[12px] font-bold text-emerald-500">{nicknameCheckState.message}</p>
+                         <p className={`my-3 text-[12px] font-bold ${nicknameCheckState.success ? "text-emerald-500" : "text-[#FF6467]"}`}>{nicknameCheckState.message}</p>
                         )}
                         
                         {errors.nickname?.message && <p className="my-3 text-[12px] text-[#FF6467]">{errors.nickname.message}</p>}
@@ -157,6 +174,12 @@ export default function MyProfileEditForm( { data, socialUser }: MyProfileEditPr
                     type="submit"
                     className="flex-1 bg-[#BFFF0B] text-black text-[16px] font-extrabold py-3 mb-20 rounded-[10px]"> 수정하기 </button>
            </div>
+           <OneButtonModal
+                isModal={errorModal.isModal}
+                closeModal={errorModal.closeModal}
+                title="프로필 수정 안내"
+                content={errorMessage}
+            />
            </form>
     );
 }

@@ -1,6 +1,6 @@
 "use server";
 
-import { addOrganizationManageTrainer, checkPassword, createOrganizationApplication, deleteInbody, deleteMyAccount, deleteOraganizationTrainer, editMyProfileInformation, editMyTrainerProfileInformation, editOrganizationManageInformation, getInbodyAdd, getMyCommu, getOraganizationsearchTrainers, organizationApplicationCancel, organizationApplicationDupliCationId, patchInbody, postInbody, updatePassword } from "@/service/mypage.service";
+import { addOrganizationManageTrainer, checkMyProfileNicknameAvailability, checkPassword, createOrganizationApplication, deleteInbody, deleteMyAccount, deleteOraganizationTrainer, editMyProfileInformation, editMyTrainerProfileInformation, editOrganizationManageInformation, getInbodyAdd, getMyCommu, getOraganizationsearchTrainers, organizationApplicationCancel, organizationApplicationDupliCationId, patchInbody, postInbody, updatePassword } from "@/service/mypage.service";
 import { uploadFilesPresignedUrl } from "@/service/file.service";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
@@ -77,6 +77,26 @@ export const organizationIdDuplicationCheckAction = async (loginId: string) => {
     message: '중복 확인을 완료헀습니다.'
   }
 }
+
+export const checkMyProfileNicknameAvailabilityAction = async (
+  nickname: string
+) => {
+  try {
+    const response = await checkMyProfileNicknameAvailability(nickname.trim());
+
+    return {
+      success: response.data.available,
+      message: response.message,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: error instanceof Error
+        ? error.message
+        : "닉네임 중복 확인에 실패했습니다. 다시 시도해주세요.",
+    };
+  }
+};
 
 // 조직 신청 취소 액션
 export const organizationApplicationCancelAction = async (applicationId: number) => {
@@ -270,7 +290,11 @@ export const deleteMyAccountAction = async () => {
   const cookieStore = await cookies();
   cookieStore.delete("accessToken");
   cookieStore.delete("refreshToken");
-  redirect("/");
+
+  return {
+    success: true,
+    message: "회원탈퇴가 완료되었습니다.",
+  };
 };
 
 // 마이페이지 비밀번호 변경 액션
