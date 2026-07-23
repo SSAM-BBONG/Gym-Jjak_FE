@@ -28,16 +28,9 @@ export function useChatRoomSocket({
     }, [onError, onMessage]);
 
     useEffect(() => {
-        const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
-
-        if (!apiBaseUrl) {
-            setConnectionError("채팅 서버 주소가 설정되지 않았습니다.");
-            return;
-        }
-
         let isUnmounting = false;
         let reconnectAttempts = 0;
-        const socketUrl = `${apiBaseUrl.replace(/\/$/, "")}/ws`;
+        const socketUrl = `${window.location.origin}/ws`;
         const client = new Client({
             webSocketFactory: () => new SockJS(socketUrl),
             reconnectDelay: 5000,
