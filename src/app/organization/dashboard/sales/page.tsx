@@ -27,7 +27,18 @@ export default async function GymSalesDashboardPage() {
     return (
         <div className="flex flex-col gap-6 p-6">
             <h1 className="font-extrabold text-4xl text-white"> 매출 관리 </h1>
-            <GymDashboard cards={cards} chartIcon={GymMonthSales} chartTitle="월별 이용자 추이"/>
+            <GymDashboard
+                cards={cards}
+                cardGridClassName="md:grid-cols-2"
+                chartIcon={GymMonthSales}
+                chartTitle="월별 매출 추이"
+                chartLabel="월별 매출"
+                chartData={{
+                    monthly: (result.data?.revenueTrend.monthly ?? []).map((item) => ({ date: item.date, value: item.amount })),
+                    threeMonthly: (result.data?.revenueTrend.threeMonthly ?? []).map((item) => ({ date: item.date, value: item.amount })),
+                    sixMonthly: (result.data?.revenueTrend.sixMonthly ?? []).map((item) => ({ date: item.date, value: item.amount })),
+                }}
+            />
             <GymDashboardTrainerSales data={result.data} errorMessage={result.message}/>
         </div>
     );

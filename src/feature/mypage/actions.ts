@@ -1,11 +1,21 @@
 "use server";
 
-import { addOrganizationManageTrainer, checkMyProfileNicknameAvailability, checkPassword, createOrganizationApplication, deleteInbody, deleteMyAccount, deleteOraganizationTrainer, editMyProfileInformation, editMyTrainerProfileInformation, editOrganizationManageInformation, getInbodyAdd, getMyCommu, getOraganizationsearchTrainers, organizationApplicationCancel, organizationApplicationDupliCationId, patchInbody, postInbody, updatePassword } from "@/service/mypage.service";
+import { addOrganizationManageTrainer, checkMyProfileNicknameAvailability, checkPassword, createOrganizationApplication, deleteInbody, deleteMyAccount, deleteOraganizationTrainer, editMyProfileInformation, editMyTrainerProfileInformation, editOrganizationManageInformation, getInbodyAdd, getMyCommu, getMyPageInformation, getOraganizationsearchTrainers, organizationApplicationCancel, organizationApplicationDupliCationId, patchInbody, postInbody, updatePassword } from "@/service/mypage.service";
 import { uploadFilesPresignedUrl } from "@/service/file.service";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import { InbodyFormType } from "@/lib/inbodySchema";
+
+export const getHeaderProfileAction = async () => {
+  try {
+    const response = await getMyPageInformation();
+
+    return response.data;
+  } catch {
+    return null;
+  }
+};
 
 // 조직 신청 액션
 export const createOrganizationApplicationAction = async (
