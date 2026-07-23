@@ -1,8 +1,11 @@
 ﻿import {
   FeedbackCreateRequest,
   FeedbackCreateResponse,
+  FeedbackDeleteResponse,
   FeedbackDetailResponse,
   FeedbackListsResponse,
+  FeedbackUpdateRequest,
+  FeedbackUpdateResponse,
   MyPtManageListResponse,
   MyPtResrvationDetailResponse,
   MyPtResrvationListsResponse,
@@ -18,6 +21,8 @@
   PtReservationAvailableDatesResponse,
   PtReservationRequest,
   PtReservationResponse,
+  PtSessionReservationCancelResponse,
+  PtSessionReservationListResponse,
   PtReservationStatusChangeRequest,
   PtReservationStatusChangeResponse,
   PtReservationStudentDetailResponse,
@@ -690,6 +695,75 @@ export const createFeedback = async (
     const message = await getErrorMessage(
       response,
       "피드백 등록에 실패하였습니다.");
+
+    throw new Error(message);
+  }
+
+  return response.json();
+};
+
+export const getMyPtSessionReservations = async (): Promise<PtSessionReservationListResponse> => {
+  const response = await fetchWithAuth("/api/reservations/me/sessions");
+
+  if (!response.ok) {
+    const message = await getErrorMessage(response, "PT 세션 예약 목록 조회에 실패하였습니다.");
+    throw new Error(message);
+  }
+
+  return response.json();
+};
+
+export const cancelMyPtSessionReservation = async (
+  reservationId: number
+): Promise<PtSessionReservationCancelResponse> => {
+  const response = await fetchWithAuth(
+    `/api/reservations/me/sessions/${reservationId}/cancel`,
+    { method: "PATCH" }
+  );
+
+  if (!response.ok) {
+    const message = await getErrorMessage(response, "PT 세션 예약 취소에 실패하였습니다.");
+    throw new Error(message);
+  }
+
+  return response.json();
+};
+
+// 피드백 수정
+export const updateFeedback = async (
+  reservationId: string,
+  feedbackId: number,
+  payload: FeedbackUpdateRequest
+): Promise<FeedbackUpdateResponse> => {
+  const response = await fetchWithAuth(
+    `/api/reservations/${reservationId}/feedbacks/${feedbackId}`,
+    {
+      method: "PATCH",
+      body: JSON.stringify(payload),
+    }
+  );
+
+  if (!response.ok) {
+    const message = await getErrorMessage(response, "피드백 수정에 실패하였습니다.");
+
+    throw new Error(message);
+  }
+
+  return response.json();
+};
+
+// 피드백 삭제
+export const deleteFeedback = async (
+  reservationId: string,
+  feedbackId: number
+): Promise<FeedbackDeleteResponse> => {
+  const response = await fetchWithAuth(
+    `/api/reservations/${reservationId}/feedbacks/${feedbackId}`,
+    { method: "DELETE" }
+  );
+
+  if (!response.ok) {
+    const message = await getErrorMessage(response, "피드백 삭제에 실패하였습니다.");
 
     throw new Error(message);
   }

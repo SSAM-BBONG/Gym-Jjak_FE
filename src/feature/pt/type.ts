@@ -25,7 +25,7 @@ export interface PtCourseReview {
 // PT 상세조회 데이터 타입
 export interface PtCourseDetailData {
   ptCourseId: number;
-  thumbnailUrl: string;
+  thumbnailUrl: string | null;
   title: string;
   description: string;
   price: number;
@@ -400,7 +400,7 @@ export interface PtRegistTagData {
 // PT 강습 관리 목록 데이터
 export interface PtManageListData {
   ptCourseId: number;
-  thumbnailUrl: string;
+  thumbnailUrl: string | null;
   title: string;
   trainerName: string;
   status: "VISIBLE" | "HIDDEN";
@@ -580,6 +580,39 @@ export interface MyPtReservationList {
   totalSessionCount: number
 }
 
+export type PtSessionReservationStatus = "RESERVED" | "COMPLETED" | "CANCELLED";
+
+export interface PtSessionReservationListResponse {
+  status: number;
+  code: string;
+  message: string;
+  data: PtSessionReservationListData;
+}
+
+export interface PtSessionReservationListData {
+  sessions: PtSessionReservation[];
+}
+
+export interface PtSessionReservation {
+  ptReservationId: number;
+  ptCourseId: number;
+  ptCourseTitle: string;
+  trainerName: string;
+  reservedStartAt: string;
+  reservedEndAt: string;
+  sessionStatus: PtSessionReservationStatus;
+}
+
+export interface PtSessionReservationCancelResponse {
+  status: number;
+  code: string;
+  message: string;
+  data: {
+    sessionStatus: "CANCELLED";
+    cancelledAt: string;
+  };
+}
+
 // 내 예약 기록 상세 조회 커리큘럼
 export interface MyPtRecordDetailCurriculum {
   id: number;
@@ -681,9 +714,7 @@ export interface PtCourseUpdateResponse {
   status: number;
   code: string;
   message: string;
-  data: {
-    ptCourseId: number;
-  };
+  data: PtCourseDetailData;
 }
 
 export interface PtCourseDeleteResponse {
@@ -785,6 +816,28 @@ export interface FeedbackCreateResponse {
 // 피드백 등록 데이터
 export interface FeedbackCreateData {
   feedbackId: number;
+}
+
+// 피드백 수정 요청값
+export interface FeedbackUpdateRequest {
+  content: string;
+  media: FeedbackCreateMedia[];
+}
+
+// 피드백 수정 응답값
+export interface FeedbackUpdateResponse {
+  status: number;
+  code: string;
+  message: string;
+  data: FeedbackCreateData;
+}
+
+// 피드백 삭제 응답값
+export interface FeedbackDeleteResponse {
+  status: number;
+  code: string;
+  message: string;
+  data: null;
 }
 
 // 피드백 상세조회 
