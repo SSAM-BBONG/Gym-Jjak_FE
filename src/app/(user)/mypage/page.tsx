@@ -20,25 +20,25 @@ export default async function MyPage() {
       <p className="text-[14px] font-normal text-[#99A1AF]">
         나의 정보를 확인하고 관리하세요
       </p>
-          <div className="flex gap-6 items-start mt-8">
+      <div className="flex gap-6 items-start mt-8">
 
-            <MyPageProfile data={myPageResponse.data} />
+        <MyPageProfile data={myPageResponse.data} />
 
-            <div className="flex flex-col gap-6 flex-[7.5]">
-              <MypageUserProfileEdit userinf={userinf} socialUser={myPageResponse.data.socialUser}/>
+        <div className="flex flex-col gap-6 flex-[7.5]">
+          <MypageUserProfileEdit userinf={userinf} socialUser={myPageResponse.data.socialUser} />
 
-              <MypageInbodyInformation />
+          <MypageInbodyInformation />
 
-              <MypageMyActivities 
-                data={myPageResponse.data}
-              />
+          <MypageMyActivities
+            data={myPageResponse.data}
+          />
 
-              <MypageAccountSettings socialUser={myPageResponse.data.socialUser}/>
+          <MypageAccountSettings socialUser={myPageResponse.data.socialUser} />
 
-              <MypageMyOrganizationApplication />
+          <MypageMyOrganizationApplication />
 
-            </div>
-          </div>
+        </div>
+      </div>
     </div>
   );
 }

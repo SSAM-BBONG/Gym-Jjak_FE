@@ -24,13 +24,13 @@ export default function MealAddButton({ myStatus }: { myStatus: boolean }) {
                 </div>
                 <p>추가</p>
             </button>
-            {(myStatus && modal.isModal) && (
+            {(!myStatus && modal.isModal) && (
                 <MealCreateModal
                     isModal={modal.isModal}
                     closeModal={modal.closeModal}
                     myStatus={false}
                     system="create" />)}
-            {(!myStatus && modal.isModal) && (
+            {(myStatus && modal.isModal) && (
                 <MealCreateAiModal
                     isModal={modal.isModal}
                     closeModal={modal.closeModal}

@@ -6,7 +6,7 @@ import Image from "next/image";
 import ViewReportModal from "./modals/ViewReportModal";
 
 interface DetailButtonMode {
-    mode: 'TRAINER_REVIEW' | 'COMMENT' | 'PT_COURSE' | 'FEEDBACK' | 'POST';
+    mode: 'TRAINER_REVIEW' | 'COMMENT' | 'PT_COURSE' | 'FEEDBACK' | 'POST' | 'CHAT';
     reportId: number
     reportGroupId: number
 }
@@ -17,7 +17,7 @@ export default function ReportDetailButton({ mode, reportId, reportGroupId }: De
     const viewModal = useModal();
 
     const handleClickButton = (): void => {
-        if (mode === 'TRAINER_REVIEW' || mode === 'COMMENT') {
+        if (mode === 'TRAINER_REVIEW' || mode === 'COMMENT' || mode === 'CHAT') {
             viewModal.openModal();
         } else if (mode === 'POST') {
             window.open(`http://localhost:3000/community/${reportId}`, "_blank", "noopener,noreferrer");

@@ -494,3 +494,19 @@ export const deleteInbody = async (inbodyId: number) => {
 
   return response.json();
 }
+
+
+export const getMyCommu = async (page: string = '0') => {
+  const response = await fetchWithAuth(`/api/community/posts/me?page=${page}`);
+
+  if (!response.ok) {
+    const message = await getErrorMessage(
+      response,
+      '내 인바디 조회에 실패하였습니다.'
+    );
+
+    throw new Error(message);
+  }
+
+  return response.json();
+}

@@ -5,7 +5,7 @@ import ReportDataItem from "./ReportDataItem";
 import AdminPagination from "@/feature/admin/components/AdminPagination";
 
 interface ReportDataListProps {
-    mode: 'TRAINER_REVIEW' | 'COMMENT' | 'PT_COURSE' | 'FEEDBACK' | 'POST';
+    mode: 'TRAINER_REVIEW' | 'COMMENT' | 'PT_COURSE' | 'FEEDBACK' | 'POST' | 'CHAT';
     reports: Reports[]
     totalPage: number;
     page: string;
@@ -13,7 +13,7 @@ interface ReportDataListProps {
 
 export default function ReportDataList({ mode, reports, totalPage, page }: ReportDataListProps) {
 
-    const modeType = { 'TRAINER_REVIEW': 'reviews', 'COMMENT': 'comments', 'PT_COURSE': 'pt', 'FEEDBACK': 'feedbacks', 'POST': 'posts' }
+    const modeType = { 'TRAINER_REVIEW': 'reviews', 'COMMENT': 'comments', 'PT_COURSE': 'pt', 'FEEDBACK': 'feedbacks', 'POST': 'posts', 'CHAT': 'chat' }
 
     return (
         <div>
