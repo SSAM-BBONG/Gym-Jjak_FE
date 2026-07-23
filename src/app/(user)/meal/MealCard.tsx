@@ -1,9 +1,11 @@
 import useModal from "@/components/hooks/useModal";
+import MealCreateAiModal from "@/feature/Meal/components/MealCreateAiModal";
 import MealCreateModal from "@/feature/Meal/components/MealCreateModal";
+import MealViewAiModal from "@/feature/Meal/components/MealViewAi";
 import MealViewModal from "@/feature/Meal/components/MealViewModal";
 import { Meals } from "@/feature/Meal/type";
 
-export default function MealCard({ meal }: { meal: Meals }) {
+export default function MealCard({ meal, myStatus }: { meal: Meals, myStatus: boolean }) {
   const updateModal = useModal();
   const modal = useModal(updateModal.openModal);
   return (
@@ -47,11 +49,14 @@ export default function MealCard({ meal }: { meal: Meals }) {
           isModal={modal.isModal}
           closeModal={modal.closeModal}
           activeModal={modal.activeModal}
-          mealId={meal.mealId} />)}
+          myStatus={myStatus}
+          mealId={meal.mealId}
+        />)}
       {updateModal.isModal && (
         <MealCreateModal
           isModal={updateModal.isModal}
           closeModal={updateModal.closeModal}
+          myStatus={myStatus}
           system="update"
           mealId={meal.mealId}
         />)}

@@ -24,18 +24,22 @@ export default function InbodyCt({ inbody, index }: { inbody: Inbody, index: num
                 </div>
             </div>
             <div className="flex gap-4 mb-3">
-                <div className="w-full">
-                    <p className="text-[#6A7282] text-sm font-normal">
-                        체지방률
-                    </p>
-                    <p className="text-sm font-bold text-white" >{inbody.bodyFatPercentage}</p>
-                </div>
-                <div className="w-full">
-                    <p className="text-[#6A7282] text-sm font-normal">
-                        골격근량
-                    </p>
-                    <p className="text-sm font-bold text-white" >{inbody.skeletalMuscleMass}</p>
-                </div>
+                {inbody.bodyFatPercentage && (
+                    <div className="w-full">
+                        <p className="text-[#6A7282] text-sm font-normal">
+                            체지방률
+                        </p>
+                        <p className="text-sm font-bold text-white" >{inbody.bodyFatPercentage}</p>
+                    </div>
+                )}
+                {inbody.skeletalMuscleMass && (
+                    <div className="w-full">
+                        <p className="text-[#6A7282] text-sm font-normal">
+                            골격근량
+                        </p>
+                        <p className="text-sm font-bold text-white" >{inbody.skeletalMuscleMass}</p>
+                    </div>
+                )}
             </div>
             <div className="w-full">
                 <p className="text-[#6A7282] text-sm font-normal">

@@ -15,10 +15,11 @@ interface MealViewModalProps {
     isModal: boolean;
     closeModal: () => void;
     activeModal: () => void;
+    myStatus: boolean;
     mealId: number;
 }
 
-export default function MealViewModal({ isModal, closeModal, activeModal, mealId }: MealViewModalProps) {
+export default function MealViewModal({ isModal, closeModal, activeModal, myStatus, mealId }: MealViewModalProps) {
 
 
 

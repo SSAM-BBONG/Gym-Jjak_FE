@@ -24,11 +24,6 @@ export default function InbodyDeleteButton({ inbodyId }: { inbodyId: number }) {
             <div className="flex gap-2 justify-end">
                 <button onClick={modal.openModal}>
                     <p className="text-[#6A7282] text-end text-sm font-normal">
-                        기록 수정 →
-                    </p>
-                </button>
-                <button onClick={modal.openModal}>
-                    <p className="text-[#6A7282] text-end text-sm font-normal">
                         기록 삭제 →
                     </p>
                 </button>

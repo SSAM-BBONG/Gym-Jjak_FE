@@ -13,7 +13,7 @@ import { Spinner } from "@/components/ui/spinner";
 import { format } from "date-fns";
 import MealAiPlanCard from "@/feature/Meal/components/MealAiPlanCard";
 
-export default function MealCt({ page }: { page: string }) {
+export default function MealCt({ page, myStatus }: { page: string, myStatus?: "ACTIVE" | "EXPIRED" }) {
 
     const [selectDate, setSelectDate] = useState<Date>(new Date())
 
@@ -37,14 +37,16 @@ export default function MealCt({ page }: { page: string }) {
                     <h1 className="text-[36px] font-black text-white"> 식단 관리 </h1>
                     <p className="text-[#99A1AF] font-normal text-[14px] mt-[10px]"> 오늘의 식사를 기록하고 영양 균형을 확인하세요 </p>
                 </div>
-                <MealAddButton />
+                <MealAddButton myStatus={!!myStatus} />
             </div>
             <div className="flex justify-between items-center mt-[30px]">
                 <MealCalendar
                     selectDate={selectDate}
                     setSelectDate={setSelectDate} />
             </div>
-            <MealAiPlanCard />
+            {myStatus &&
+                <MealAiPlanCard />
+            }
             <MealGoalCard />
             {isMealListLoading ? (
                 <div className="px-3 sm:px-4 lg:px-6 py-8 lg:py-10  flex items-center gap-3 flex-col text-sm text-muted-foreground">
@@ -54,7 +56,7 @@ export default function MealCt({ page }: { page: string }) {
             ) : (
                 <>
                     {mealListData.meals.map((meal: Meals) => {
-                        return <MealCard meal={meal} key={meal.mealId} />
+                        return <MealCard meal={meal} key={meal.mealId} myStatus={!!myStatus} />
                     })}
                     {mealListData.meals.length === 0 && ((
                         <div className="px-3 sm:px-4 lg:px-6 py-8 lg:py-10 text-center text-xs sm:text-sm text-muted-foreground">
