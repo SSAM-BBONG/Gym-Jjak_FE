@@ -8,6 +8,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import useModal from '@/components/hooks/useModal';
 import TwoButtonModal from '@/components/ui/TwoButtonModal';
+import Link from 'next/link';
 
 export type MealType = 'BREAKFAST' | 'LUNCH' | 'DINNER' | 'SNACK';
 
@@ -128,26 +129,47 @@ export default function MealViewModal({ isModal, closeModal, activeModal, myStat
                         <h4 className="mb-3 text-base font-bold text-white md:text-lg">
                             영양 정보
                         </h4>
-                        <div className="grid grid-cols-3 gap-2 md:gap-3">
-                            <div className="rounded-lg border border-[#364153] bg-[#1E2939] px-3 py-4 text-center">
-                                <div className="text-xs text-[#99A1AF] md:text-sm">탄수화물</div>
-                                <div className="mt-1 text-sm font-bold text-white md:text-base">
-                                    {mealData?.carbohydrate || 0}
+                        {myStatus ? (
+                            <div className="grid grid-cols-3 gap-2 md:gap-3">
+                                <div className="rounded-lg border border-[#364153] bg-[#1E2939] px-3 py-4 text-center">
+                                    <div className="text-xs text-[#99A1AF] md:text-sm">탄수화물</div>
+                                    <div className="mt-1 text-sm font-bold text-white md:text-base">
+                                        {mealData?.carbohydrate || 0}
+                                    </div>
+                                </div>
+                                <div className="rounded-lg border border-[#364153] bg-[#1E2939] px-3 py-4 text-center">
+                                    <div className="text-xs text-[#99A1AF] md:text-sm">단백질</div>
+                                    <div className="mt-1 text-sm font-bold text-white md:text-base">
+                                        {mealData?.protein || 0}
+                                    </div>
+                                </div>
+                                <div className="rounded-lg border border-[#364153] bg-[#1E2939] px-3 py-4 text-center">
+                                    <div className="text-xs text-[#99A1AF] md:text-sm">지방</div>
+                                    <div className="mt-1 text-sm font-bold text-white md:text-base">
+                                        {mealData?.fat || 0}
+                                    </div>
                                 </div>
                             </div>
-                            <div className="rounded-lg border border-[#364153] bg-[#1E2939] px-3 py-4 text-center">
-                                <div className="text-xs text-[#99A1AF] md:text-sm">단백질</div>
-                                <div className="mt-1 text-sm font-bold text-white md:text-base">
-                                    {mealData?.protein || 0}
-                                </div>
-                            </div>
-                            <div className="rounded-lg border border-[#364153] bg-[#1E2939] px-3 py-4 text-center">
-                                <div className="text-xs text-[#99A1AF] md:text-sm">지방</div>
-                                <div className="mt-1 text-sm font-bold text-white md:text-base">
-                                    {mealData?.fat || 0}
-                                </div>
-                            </div>
-                        </div>
+                        ) : (
+                            <Link href={'/plan'} className="
+                                relative grid h-30 grid-cols-3 gap-2 md:gap-3
+                                place-items-center
+                                rounded-lg border border-white/10
+                                bg-[#1E2939]/65 backdrop-blur-md
+                                shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]
+                                ">
+                                <p className="
+                                    absolute right-3 top-3
+                                    text-xs font-semibold text-[#BFFF0B]
+                                ">
+                                    월 4,900원으로 시작 &gt;
+                                </p>
+
+                                <p className="col-span-3 text-sm font-medium text-[#D1D5DC]">
+                                    구독 시 사용 가능합니다
+                                </p>
+                            </Link>
+                        )}
                     </div>
                 </div>
 

@@ -1,7 +1,5 @@
 import useModal from "@/components/hooks/useModal";
-import MealCreateAiModal from "@/feature/Meal/components/MealCreateAiModal";
 import MealCreateModal from "@/feature/Meal/components/MealCreateModal";
-import MealViewAiModal from "@/feature/Meal/components/MealViewAi";
 import MealViewModal from "@/feature/Meal/components/MealViewModal";
 import { Meals } from "@/feature/Meal/type";
 

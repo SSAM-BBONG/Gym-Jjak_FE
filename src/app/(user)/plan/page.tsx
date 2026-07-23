@@ -15,27 +15,27 @@ import {
 
 export default function PlanPage() {
     return (
-        <main className="mx-40 py-16">
+        <main className="mx-10 sm:mx-2.5 md:mx-20 lg:mx-40 py-10 sm:py-12 md:py-14 lg:py-16">
             <section className="w-full flex flex-col items-center text-center">
-                <p className="flex items-center gap-2 rounded-full border border-[#BFFF0B4D] bg-[#BFFF0B0D] px-4 py-1 text-[13px] text-[#BFFF0B] font-extrabold">
+                <p className="flex items-center gap-1.5 lg:gap-2 rounded-full border border-[#BFFF0B4D] bg-[#BFFF0B0D] px-3 lg:px-4 py-1 text-[12px] lg:text-[13px] text-[#BFFF0B] font-extrabold">
                     <Sparkles size={14} />
                     AI 구독
                 </p>
-                <h1 className="text-[48px] leading-tight text-white font-black mt-7">
+                <h1 className="text-[30px] sm:text-[36px] md:text-[42px] lg:text-[48px] leading-tight text-white font-black mt-5 sm:mt-6 lg:mt-7">
                     짐짝만의 데이터로
                     <br />
                     <span className="text-[#BFFF0B]">나에게만 맞는 AI</span>
                 </h1>
-                <p className="text-[20px] text-[#99A1AF] font-normal leading-9 mt-6">
+                <p className="text-[14px] sm:text-[16px] md:text-[18px] lg:text-[20px] text-[#99A1AF] font-normal leading-7 sm:leading-8 lg:leading-9 mt-4 sm:mt-5 lg:mt-6">
                     내 운동기록·PT이력·식단 누적치를 직접 아는 AI.
                     <br />
                     챗봇·식단 분석·시장 리포트를 하나의 구독으로.
                 </p>
             </section>
             <SubscriptionPaymentForm>
-                <h2 className="text-[36px] text-white font-black">구독 플랜 선택</h2>
+                <h2 className="text-[26px] sm:text-[30px] lg:text-[36px] text-white font-black">구독 플랜 선택</h2>
 
-                <div className="w-full flex gap-6 mt-12">
+                <div className="w-full flex flex-col md:flex-row gap-4 sm:gap-5 lg:gap-6 mt-8 sm:mt-10 lg:mt-12">
                     <PlanCard
                         id="monthly"
                         name="planType"
@@ -60,8 +60,8 @@ export default function PlanPage() {
 
             </SubscriptionPaymentForm>
 
-            <SectionTitle title="일반 회원" badge="유료" />
-            <section className="w-full flex gap-6">
+            <SectionTitle title="짐짝 회원" badge="유료" />
+            <section className="w-full flex gap-4 sm:gap-5 lg:gap-6 flex flex-col md:flex-row">
                 <FeatureCard
                     icon={<MessageCircle size={28} />}
                     title="AI 챗봇"
@@ -76,11 +76,11 @@ export default function PlanPage() {
                 />
             </section>
 
-            <SectionTitle title="트레이너 · 조직" badge="유료" />
+            <SectionTitle title="트레이너" badge="무료" />
             <ReportFeatureCard />
 
             <SectionTitle title="전체 회원" badge="무료" />
-            <section className="w-full flex gap-6">
+            <section className="w-full flex gap-4 sm:gap-5 lg:gap-6 flex flex-col md:flex-row">
                 <SmallFeatureCard
                     icon={<Dumbbell size={24} />}
                     title="AI PT 추천"

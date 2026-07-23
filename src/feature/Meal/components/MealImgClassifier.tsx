@@ -41,7 +41,7 @@ export default function MealImgClassifier({ mealData }: { mealData?: Meal }) {
         }, 80)
 
         async function loadModel() {
-            setProgressLabel('모델 다운로드 중...');
+            setProgressLabel('AI 분석 모델 준비 중…');
 
             try {
                 const model = await mobilenet.load();
