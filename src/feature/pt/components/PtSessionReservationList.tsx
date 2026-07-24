@@ -59,7 +59,7 @@ export default function PtSessionReservationList({
 
   return (
     <>
-      <div className="mt-6 flex flex-col gap-4">
+      <div className="mt-5 flex flex-col gap-3 sm:mt-6 sm:gap-4">
         {sessions.length === 0 ? (
           <div className="rounded-[16px] border border-[#1E2939] bg-[#101828] py-12 text-center text-[#99A1AF]">
             예약된 PT 세션이 없습니다.
@@ -71,7 +71,7 @@ export default function PtSessionReservationList({
             return (
               <article
                 key={session.ptReservationId}
-                className="flex items-center justify-between gap-6 rounded-[16px] border border-[#1E2939] bg-[#101828] p-6"
+                className="flex flex-col items-center justify-between gap-3 rounded-[16px] border border-[#1E2939] bg-[#101828] p-4 sm:flex-row sm:gap-6 sm:p-5 lg:p-6"
               >
                 <div className="flex flex-col gap-2">
                   <div className="flex items-center gap-3">
@@ -90,7 +90,7 @@ export default function PtSessionReservationList({
                   <button
                     type="button"
                     onClick={() => setSelectedReservation(session)}
-                    className="shrink-0 rounded-[10px] bg-[#82181A4D] px-5 py-2 text-[14px] font-extrabold text-[#FF6467] hover:bg-[#FB2C36] hover:text-white"
+                    className="shrink-0 rounded-[10px] bg-[#82181A4D] px-4 py-2 text-[12px] font-extrabold text-[#FF6467] sm:px-5 sm:text-[14px] hover:bg-[#FB2C36] hover:text-white"
                   >
                     예약 취소
                   </button>
