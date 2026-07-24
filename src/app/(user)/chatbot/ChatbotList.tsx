@@ -13,7 +13,7 @@ export default function ChatbotList({ sessionId }: { sessionId?: string }) {
 
     const useChatbotListQuery = () => {
         return useInfiniteQuery({
-            queryKey: ["chabot", "session"],
+            queryKey: ["chatbot", "session"],
             // 첫 요청에 전달되는 커서 
             initialPageParam: undefined as string | undefined,
             // 두 번째 요청부터 pageParam에 nextCursor가 들어감

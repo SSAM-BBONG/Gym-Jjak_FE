@@ -1,5 +1,6 @@
 import { Clock3 } from "lucide-react";
 import type { ChatSession } from "../type";
+import Link from "next/link";
 
 interface ChatbotListItemProps {
     session: ChatSession;
@@ -11,7 +12,8 @@ export default function ChatbotListItem({
     isSelected = false,
 }: ChatbotListItemProps) {
     return (
-        <button
+        <Link
+            href={`/chatbot/${session.sessionId}`}
             type="button"
             className={`group w-full rounded-xl border p-4 text-left transition-colors ${isSelected
                 ? "border-[#BFFF0B]/50 bg-[#BFFF0B]/8"
@@ -42,6 +44,6 @@ export default function ChatbotListItem({
                     </div>
                 </div>
             </div>
-        </button>
+        </Link>
     );
 }

@@ -1,6 +1,6 @@
 'use server'
 
-import { deleteMeal, deleteNutritionGoal, getMeal, getMeals, getNutritionGoal, patchMeal, patchNutritionGoal, postAiMeal, postMeal, postNutritionGoal, } from "@/service/meal.service";
+import { deleteMeal, deleteNutritionGoal, getMeal, getMeals, getNutritionGoal, MealAiRequestError, patchMeal, patchNutritionGoal, postAiMeal, postMeal, postNutritionGoal, } from "@/service/meal.service";
 import type { GoalRequest, MealAi, MealAiRequest, MealRequest, MealType } from "./type";
 import { uploadFilesPresignedUrl } from "@/service/file.service";
 
@@ -302,6 +302,12 @@ interface ActionStateAi {
     success: boolean;
     message: string;
     data?: MealAi;
+    debug?: {
+        requestUrl: string;
+        accept: string;
+        status: number;
+        contentType: string | null;
+    };
 }
 
 export const mealAiPostAction = async (formData: FormData): Promise<ActionStateAi> => {
@@ -359,6 +365,14 @@ export const mealAiPostAction = async (formData: FormData): Promise<ActionStateA
         return {
             success: false,
             message: errorMessage,
+            ...(error instanceof MealAiRequestError && {
+                debug: {
+                    requestUrl: error.requestUrl,
+                    accept: error.accept,
+                    status: error.status,
+                    contentType: error.contentType,
+                },
+            }),
         };
     }
 };

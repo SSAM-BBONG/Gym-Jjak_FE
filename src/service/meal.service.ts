@@ -2,6 +2,18 @@ import type { GoalRequest, MealAiRequest, MealRequest } from "@/feature/Meal/typ
 import { fetchWithAuth } from "@/lib/feth";
 import { getErrorMessage } from "@/lib/stateError";
 
+export class MealAiRequestError extends Error {
+    constructor(
+        message: string,
+        readonly requestUrl: string,
+        readonly status: number,
+        readonly contentType: string | null,
+    ) {
+        super(message);
+        this.name = "MealAiRequestError";
+    }
+}
+
 export const postMeal = async (meal: MealRequest) => {
     const response = await fetchWithAuth(`/api/diet/meals`, {
         method: "POST",
@@ -223,12 +235,19 @@ export const postAiMeal = async (meal: MealAiRequest) => {
     });
 
     if (!response.ok) {
+        const contentType = response.headers.get("content-type");
+
         const message = await getErrorMessage(
             response,
             "식단 분석 및 등록에 실패했습니다."
         );
 
-        throw new Error(message);
+        throw new MealAiRequestError(
+            message,
+            response.url,
+            response.status,
+            contentType,
+        );
     }
 
     return response.json();
