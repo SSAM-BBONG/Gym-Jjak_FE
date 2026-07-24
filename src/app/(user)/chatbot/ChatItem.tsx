@@ -1,5 +1,5 @@
 import { HeaderProfile } from "@/components/ui/image";
-import type { ChatMessageRole } from "@/feature/chatbot/type";
+import type { ChatMessageRole, ChatRoutine, ChatSource } from "@/feature/chatbot/type";
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
@@ -14,10 +14,14 @@ interface ChatItemProps {
     role: ChatMessageRole;
     content: string;
     createdAt?: string;
+    routine?: ChatRoutine | null
+    sources?: ChatSource[]
 }
 
-export default function ChatItem({ role, content, createdAt }: ChatItemProps) {
+export default function ChatItem({ role, content, createdAt, routine, sources }: ChatItemProps) {
     const isMyMessage = role === "USER";
+    console.log(routine);
+    console.log(sources);
 
     return (
         <div className={`flex max-w-[85%] items-end gap-2 ${isMyMessage ? "ml-auto flex-row-reverse" : ""}`}>
@@ -78,6 +82,7 @@ export default function ChatItem({ role, content, createdAt }: ChatItemProps) {
                             }
                         }}
                     >
+
                         {content}
                     </ReactMarkdown>
                 </p>

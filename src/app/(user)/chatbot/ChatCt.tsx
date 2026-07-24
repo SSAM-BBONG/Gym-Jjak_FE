@@ -1,6 +1,6 @@
 "use client";
 
-import { ChatSendButton } from "@/components/ui/image";
+import { ChatSendButton, Logo, MainImg } from "@/components/ui/image";
 import Image from "next/image";
 import Link from "next/link";
 import ChatItem from "./ChatItem";
@@ -11,6 +11,7 @@ import { useChatbotSocket } from "@/components/hooks/useChatbotSocket";
 import type { ChatbotSocketEvent } from "@/feature/chatbot/type";
 import STTButton from "./STTButton";
 import { useRouter } from "next/navigation";
+import { MessageSquareText } from "lucide-react";
 
 export default function ChatCt({ sessionId }: { sessionId?: string }) {
 
@@ -52,9 +53,11 @@ export default function ChatCt({ sessionId }: { sessionId?: string }) {
                 }
                 if (event.routine) {
                     setRoutine(JSON.parse(event.routine));
+                    console.log(event.routine)
                 }
                 if (event.sources) {
                     setSource(JSON.parse(event.sources))
+                    console.log(event.sources)
                 }
 
                 setResponse(event.answer);
@@ -114,6 +117,7 @@ export default function ChatCt({ sessionId }: { sessionId?: string }) {
         data,
         isError,
         error,
+        isPending,
         fetchNextPage,
         hasNextPage,
         isFetchingNextPage,
@@ -189,7 +193,7 @@ export default function ChatCt({ sessionId }: { sessionId?: string }) {
     };
 
     return (
-        <div className="relative flex items-start min-h-[calc(100vh-70px)] w-full md:w-5/7 py-[70px] md:pt-[0px] ">
+        <div className="relative flex h-full min-h-0 w-full flex-col overflow-hidden pt-[70px] md:w-5/7 md:pt-0">
             <header className="absolute top-0 z-50  h-[70px] w-full items-center justify-between  bg-[#0B0F19] px-5 sm:px-6 flex md:hidden">
                 <div className="flex items-center gap-4">
                     <Link
@@ -208,13 +212,40 @@ export default function ChatCt({ sessionId }: { sessionId?: string }) {
                     /> */}
             </header>
 
-            <div className="h-full w-full px-5 py-6 sm:px-10 overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+            <div className="min-h-0 w-full flex-1 overflow-y-auto px-5 py-6 pb-20 sm:px-10 sm:pb-24 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+                {!sessionId && messages.length === 0 && (
+                    <div className="flex flex-1 mt-20 md:mt-50 flex-col items-center justify-center px-4 text-center">
+                        <div className="flex size-12 items-center justify-center rounded-full border border-[#364153] bg-[#101828]">
+                            <div className="relative h-10 w-10 sm:h-13 sm:w-20 ">
+                                <Image
+                                    src={Logo}
+                                    alt="운동을 표현한 메인 일러스트"
+                                    fill
+                                    priority
+                                    sizes="w-20 h-20"
+                                />
+                            </div>
+                        </div>
+                        <p className="mt-4 text-xl font-semibold text-[#D1D5DC]">
+                            궁금한 점이 있으신가요?
+                        </p>
+                        <p className="mt-1 text-lg text-[#6A7282]">
+                            짐짝과 새로운 대화를 시작해보세요.
+                        </p>
+                        <div className="mt-6 flex flex-wrap justify-center gap-2 sm:gap-3">
+                            <button onClick={() => { setMessage("운동 루틴 추천을 추천해주세요") }} className="rounded-full border border-[#364153] bg-[#101828] px-4 py-2 text-xs font-semibold text-[#99A1AF] transition-colors hover:border-[#BFFF0B]/60 hover:bg-[#BFFF0B]/10 hover:text-[#BFFF0B] focus-visible:border-[#BFFF0B] focus-visible:text-[#BFFF0B] focus-visible:outline-none sm:px-5 sm:text-sm">운동 루틴 추천</button>
+                            <button onClick={() => { setMessage("짐짝 서비스를 설명해주세요") }} className="rounded-full border border-[#364153] bg-[#101828] px-4 py-2 text-xs font-semibold text-[#99A1AF] transition-colors hover:border-[#BFFF0B]/60 hover:bg-[#BFFF0B]/10 hover:text-[#BFFF0B] focus-visible:border-[#BFFF0B] focus-visible:text-[#BFFF0B] focus-visible:outline-none sm:px-5 sm:text-sm">짐짝이란?</button>
+                            <button onClick={() => { setMessage("pt를 추천해주세요") }} className="rounded-full border border-[#364153] bg-[#101828] px-4 py-2 text-xs font-semibold text-[#99A1AF] transition-colors hover:border-[#BFFF0B]/60 hover:bg-[#BFFF0B]/10 hover:text-[#BFFF0B] focus-visible:border-[#BFFF0B] focus-visible:text-[#BFFF0B] focus-visible:outline-none sm:px-5 sm:text-sm">PT 추천</button>
+                        </div>
+                    </div>
+                )}
                 {isError ? (
                     <div className="flex flex-1 items-center justify-center px-4 text-center text-sm text-[#99A1AF]">
                         {error.message}
                     </div>
                 ) : (
                     <div className="flex flex-col gap-4">
+
                         {hasNextPage && (
                             <div
                                 ref={targetRef}
@@ -228,6 +259,8 @@ export default function ChatCt({ sessionId }: { sessionId?: string }) {
                                 role={chatMessage.role}
                                 content={chatMessage.content}
                                 createdAt={chatMessage.createdAt}
+                                routine={chatMessage?.routine}
+                                sources={chatMessage?.sources}
                             />
                         ))}
                         {(loading || response) && (

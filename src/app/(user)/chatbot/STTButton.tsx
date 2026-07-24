@@ -75,7 +75,7 @@ export default function STTButton({ loading, isConnected, setMessage, isListenin
             onClick={() => { !isListening ? handleStartListening() : handleStopListening() }}
             type="button"
             disabled={loading || !isConnected}
-            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#BFFF0B] hover:scale-105 disabled:cursor-not-allowed disabled:opacity-50"
+            className="hidden md:flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#BFFF0B] hover:scale-105 disabled:cursor-not-allowed disabled:opacity-50"
         >
             {isListening ? (
                 <MicOff size={20} />
