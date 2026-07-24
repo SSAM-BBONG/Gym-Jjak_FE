@@ -15,6 +15,8 @@
   PtCourseUpdateResponse,
   PtCourseDeleteResponse,
   PtPopularCourseResponse,
+  PtRecommendationRequest,
+  PtRecommendationResponse,
   PtRegistOrganizationListResponse,
   PtRegistRequest,
   PtRegistResponse,
@@ -178,6 +180,22 @@ export const getPopularPtLists = async (): Promise<PtPopularCourseResponse> => {
       "인기 강습 조회에 실패하였습니다."
     );
 
+    throw new Error(message);
+  }
+
+  return response.json();
+};
+
+export const createPtRecommendation = async (
+  payload: PtRecommendationRequest
+): Promise<PtRecommendationResponse> => {
+  const response = await fetchWithAuth("/api/pt-recommendations", {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+
+  if (!response.ok) {
+    const message = await getErrorMessage(response, "AI PT 추천을 불러오지 못했습니다.");
     throw new Error(message);
   }
 
