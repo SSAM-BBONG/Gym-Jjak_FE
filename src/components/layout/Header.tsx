@@ -8,15 +8,22 @@ import { getAlarmUnreadCountAction } from "@/feature/alarm/action";
 import { getChatRoomUnreadCountAction } from "@/feature/chat/actions";
 import OrganizationHeader from "./OrganizationHeader";
 import MobileNavMenu from "./MobileNavMenu";
+import AdminHeader from "./AdminHeader";
+import TrainerNavBar from "./TrainerNavBar";
 
 export default async function Header() {
 
     const userinf = await decodeJWT();
     const isAuthenticated = Boolean(userinf?.sub);
     const isOrganization = userinf?.role === "ORGANIZATION";
+    const isAdmin = userinf?.role === "ADMIN";
 
     if (isOrganization) {
         return <OrganizationHeader userInf={userinf} />;
+    }
+
+    if (isAdmin) {
+        return <AdminHeader userInf={userinf} />
     }
 
     const AlarmCount = isAuthenticated ? await getAlarmUnreadCountAction() : undefined;
@@ -48,7 +55,11 @@ export default async function Header() {
                 </Link>
             </div>
             <div className="absolute left-1/2 hidden -translate-x-1/2 lg:block">
-                <NavBar />
+                {userinf?.role === "TRAINER" ? (
+                    <TrainerNavBar />
+                ) : (
+                    <NavBar />
+                )}
             </div>
             <HeaderAuthArea
                 userInf={userinf}

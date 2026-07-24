@@ -177,8 +177,10 @@ export const onboardingEditAction = async (payload: OnboardingType): Promise<Act
             message: errorMessage
         }
     }
-    redirect('/mypage/onboarding');
-
+    return {
+        success: true,
+        message: '온보딩이 수정되었습니다'
+    }
 }
 
 export const temporaryPwAction = async (prevState: ActionState, formData: FormData): Promise<ActionState> => {

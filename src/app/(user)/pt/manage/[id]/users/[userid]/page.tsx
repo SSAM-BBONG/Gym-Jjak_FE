@@ -46,10 +46,10 @@ export default async function PtManageUserFeedBackPage({
                     />
                 }
                 {type === 'calendar' &&
-                    <PtManageCalendar userId={userid} />
+                    <PtManageCalendar userId={response.data.userId} />
                 }
                 {type === 'meal' &&
-                    <PtManageMeal userId={userid} />
+                    <PtManageMeal userId={response.data.userId} />
                 }
 
             </div>

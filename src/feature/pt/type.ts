@@ -620,6 +620,7 @@ export interface PtReservationStudentDetailResponse {
 
 // PT 수강생 상세조회 데이터
 export interface PtReservationStudentDetailData {
+  userId: number,
   nickname: string,
   email: string,
   phone: string,

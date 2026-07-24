@@ -13,18 +13,26 @@ ChartJS.register(
     Legend
 )
 
-export default function LineChart({ monthData, mode }: {
-    monthData: MonthlyCount[]
+export default function ReveanueLineChart({ monthData, mode }: {
+    monthData: MonthlyRevenueCount[]
     mode: string
 }) {
-    const data = {
+    const barChartData = {
         labels: monthData.map((data) => data.month),
         datasets: [
             {
-                label: `${mode} 현황`,
-                data: monthData.map((data) => data.count),
+                label: `pt ${mode} 현황`,
+                data: monthData.map((data) => data.ptCommissionRevenue),
                 borderColor: "#BFFF0B90",
                 backgroundColor: "#BFFF0B70",
+                tension: 0.4,
+                pointRadius: 4
+            },
+            {
+                label: `구독 ${mode} 현황`,
+                data: monthData.map((data) => data.subscriptionRevenue),
+                borderColor: "#BFFF0B90",
+                backgroundColor: "#22D3EE70",
                 tension: 0.4,
                 pointRadius: 4
             },
@@ -63,8 +71,8 @@ export default function LineChart({ monthData, mode }: {
     }
 
     return (
-        <div className='bg-[#101828] text-red-300'>
-            <Line data={data} options={options} />
+        <div className="w-full ">
+            <Line data={barChartData} options={options} />
         </div>
     );
 }
