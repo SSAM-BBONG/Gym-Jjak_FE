@@ -49,14 +49,16 @@ export default function AlarmSocket({ enabled }: AlarmSocketProps) {
     return null;
   }
 
+  const isTrainerReportAlarm = alarm.type === "TRAINER_REPORT_CREATED";
+
   return (
     <div>
       <div
-        onClick={() => {
+        onClick={isTrainerReportAlarm ? undefined : () => {
           router.push("/alarm");
           setAlarm(null);
         }}
-        className="fixed top-22 left-1/2 z-[10000] flex h-8 w-50 -translate-x-1/2 cursor-pointer items-center justify-center rounded-full border border-[#BFFF0B66] bg-[#BFFF0B40] text-sm font-semibold text-[#000000] shadow-[0_0_8px_2px_rgba(191,255,11,0.5)]"
+        className={`fixed top-22 left-1/2 z-[10000] flex h-8 w-50 -translate-x-1/2 items-center justify-center rounded-full border border-[#BFFF0B66] bg-[#BFFF0B40] text-sm font-semibold text-[#000000] shadow-[0_0_8px_2px_rgba(191,255,11,0.5)] ${isTrainerReportAlarm ? "" : "cursor-pointer"}`}
       >
         {alarm.title}
       </div>
