@@ -7,6 +7,7 @@ import { decodeJWT } from "@/lib/decode";
 import { getAlarmUnreadCountAction } from "@/feature/alarm/action";
 import { getChatRoomUnreadCountAction } from "@/feature/chat/actions";
 import OrganizationHeader from "./OrganizationHeader";
+import MobileNavMenu from "./MobileNavMenu";
 
 export default async function Header() {
 
@@ -22,8 +23,9 @@ export default async function Header() {
     const chatCount = isAuthenticated ? await getChatRoomUnreadCountAction() : undefined;
 
     return (
-        <header className="fixed top-0 left-0 w-full h-17.5 bg-black grid grid-cols-[1fr_auto_1fr] items-center px-10 z-9999 border-b border-b-[#1E2939]">
-            <div className="flex items-center gap-3">
+        <header className="fixed top-0 left-0 z-9999 flex h-17.5 w-full items-center justify-between border-b border-b-[#1E2939] bg-black px-4 sm:px-10">
+            <div className="flex shrink-0 items-center gap-3">
+                <MobileNavMenu />
                 <Link href="/">
                     <div className="size-10 rounded-[10px] flex items-center justify-center cursor-pointer">
                         <div className="relative w-10 h-10">
@@ -38,15 +40,17 @@ export default async function Header() {
                         </div>
                     </div>
                 </Link>
-                <Link href="/">
+                <Link href="/" className="hidden lg:block">
                     <div className="flex-col cursor-pointer">
                         <p className="text-[#BFFF0B] text-[12px]">GYMJJAK</p>
                         <p className="text-white text text-[10px]">Fitness Platform </p>
                     </div>
                 </Link>
             </div>
-            <NavBar />
-            <HeaderAuthArea 
+            <div className="absolute left-1/2 hidden -translate-x-1/2 lg:block">
+                <NavBar />
+            </div>
+            <HeaderAuthArea
                 userInf={userinf}
                 notification={AlarmCount?.data}
                 chatCount={chatCount?.data}

@@ -5,11 +5,11 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { logoutAction } from "../auth/action";
 import TwoButtonModal from "@/components/ui/TwoButtonModal";
-import OneButtonModal from "@/components/ui/OneButtonModal";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { MyTokenPayload } from "@/lib/decode";
 import { MyPageDetailData } from "@/feature/mypage/type";
+import { toast } from "sonner";
 
 interface UserProfileProps {
   userInf?: MyTokenPayload;
@@ -21,7 +21,6 @@ export default function UserProfile( {userInf, profile}: UserProfileProps) {
     const [visible, setVisible] = useState<boolean>(false);
 
     const [logoutConfirmModal, setLogoutConfirmModal] = useState<boolean>(false);
-    const [logoutCheckModal, setLogoutCheckModal] = useState<boolean>(false);
 
     const handleProfileClick = () => {
         setVisible(!visible);
@@ -33,15 +32,17 @@ export default function UserProfile( {userInf, profile}: UserProfileProps) {
         setLogoutConfirmModal(true);
     }
 
-    // TwoButtonModal에서 확인 클릭 시 OneButtonModal 열기
-    const handleLogoutConfirmClick = () => {
+    // TwoButtonModal에서 확인 클릭 시 로그아웃 처리
+    const handleLogoutConfirmClick = async () => {
         setLogoutConfirmModal(false);
-        setLogoutCheckModal(true);
-    }
+        const result = await logoutAction();
 
-    // OneButtonModal에서 확인 클릭 시 기존 로그아웃 로직 실행
-    const handleLogoutFinalClick = async () => {
-        await logoutAction();
+        if (!result.success) {
+            toast.error(result.message);
+            return;
+        }
+
+        toast.success(result.message);
         window.dispatchEvent(new Event('auth-changed'));
         router.push("/");
         router.refresh();
@@ -128,14 +129,6 @@ export default function UserProfile( {userInf, profile}: UserProfileProps) {
                 activeModal={handleLogoutConfirmClick}
                 title="로그아웃 확인"
                 content="로그아웃 하시겠습니까?"
-            />
-
-            <OneButtonModal
-                isModal={logoutCheckModal}
-                closeModal={() => setLogoutCheckModal(false)}
-                activeModal={handleLogoutFinalClick}
-                title="로그아웃 완료"
-                content="로그아웃이 완료되었습니다."
             />
         </>
     );

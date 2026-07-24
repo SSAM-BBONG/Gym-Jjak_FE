@@ -50,8 +50,6 @@ export default function HeaderAuthArea({ userInf, notification, chatCount }: Hea
     let ignore = false;
 
     const getHeaderUser = async () => {
-      setIsLoading(true);
-
       try {
         const result = await getHeaderUserAction();
         const profileResult = result ? await getHeaderProfileAction() : null;
