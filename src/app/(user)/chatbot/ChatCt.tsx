@@ -9,7 +9,7 @@ import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 import { getChatbotMessageListAction } from "@/feature/chatbot/action";
 import { useChatbotSocket } from "@/components/hooks/useChatbotSocket";
 // 수정된 코드 시작
-import type { ChatbotQuickReply, ChatbotSocketEvent } from "@/feature/chatbot/type";
+import type { ChatbotQuickReply, ChatbotSocketEvent, RoutineResponse } from "@/feature/chatbot/type";
 // 수정된 코드 끝
 import STTButton from "./STTButton";
 import { useRouter } from "next/navigation";
@@ -25,7 +25,7 @@ export default function ChatCt({ sessionId }: { sessionId?: string }) {
     const [socketError, setSocketError] = useState("");
     const [response, setResponse] = useState("");
     const [isListening, setIsListening] = useState(false);
-    const [routine, setRoutine] = useState("");
+    const [routine, setRoutine] = useState<RoutineResponse | null>(null);
     const [source, setSource] = useState("");
     const router = useRouter();
 
@@ -68,7 +68,7 @@ export default function ChatCt({ sessionId }: { sessionId?: string }) {
                     return;
                 }
                 if (event.routine) {
-                    setRoutine(JSON.parse(event.routine));
+                    setRoutine(JSON.parse(event.routine) as RoutineResponse);
                     console.log(event.routine)
                 }
                 if (event.sources) {
