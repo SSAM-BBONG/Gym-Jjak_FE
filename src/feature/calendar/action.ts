@@ -1,7 +1,7 @@
 'use server'
 
 import { getExercises } from "@/service/admin.service";
-import { deleteCalendar, getCalendarDate, getCalendarMonth, patchCalendar, postCalendar } from "@/service/calendar.service";
+import { deleteCalendar, getCalendarDate, getCalendarMonth, getTrainerCalendarDate, getTrainerCalendarMonth, patchCalendar, postCalendar } from "@/service/calendar.service";
 
 interface ActionState {
     success: boolean;
@@ -34,6 +34,34 @@ export const calendargetDateAction = async (date: string) => {
         return response;
     } catch (error) {
         let errorMessage: string = '알 수 없는 오류입니다. 재시도해주세요.'
+        if (error instanceof Error) {
+            errorMessage = error.message;
+        }
+
+        throw new Error(errorMessage)
+    }
+}
+
+export const trainerCalendargetMonthAction = async (targetUserId: number, year: string, month: string) => {
+    try {
+        const response = await getTrainerCalendarMonth(targetUserId, year, month);
+        return response;
+    } catch (error) {
+        let errorMessage: string = '알 수 없는 오류입니다. 다시 시도해주세요.'
+        if (error instanceof Error) {
+            errorMessage = error.message;
+        }
+
+        throw new Error(errorMessage)
+    }
+}
+
+export const trainerCalendargetDateAction = async (targetUserId: number, date: string) => {
+    try {
+        const response = await getTrainerCalendarDate(targetUserId, date);
+        return response;
+    } catch (error) {
+        let errorMessage: string = '알 수 없는 오류입니다. 다시 시도해주세요.'
         if (error instanceof Error) {
             errorMessage = error.message;
         }

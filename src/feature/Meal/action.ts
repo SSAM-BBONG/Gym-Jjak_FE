@@ -1,6 +1,6 @@
 'use server'
 
-import { deleteMeal, deleteNutritionGoal, getMeal, getMeals, getNutritionGoal, MealAiRequestError, patchMeal, patchNutritionGoal, postAiMeal, postMeal, postNutritionGoal, } from "@/service/meal.service";
+import { deleteMeal, deleteNutritionGoal, getMeal, getMeals, getNutritionGoal, getTrainerMeal, getTrainerMeals, MealAiRequestError, patchMeal, patchNutritionGoal, postAiMeal, postMeal, postNutritionGoal, } from "@/service/meal.service";
 import type { GoalRequest, MealAi, MealAiRequest, MealRequest, MealType } from "./type";
 import { uploadFilesPresignedUrl } from "@/service/file.service";
 
@@ -29,6 +29,34 @@ export const mealListGetAction = async (date?: string, page?: string) => {
         return response;
     } catch (error) {
         let errorMessage: string = '알 수 없는 오류입니다. 재시도해주세요.';
+        if (error instanceof Error) {
+            errorMessage = error.message;
+        }
+
+        throw new Error(errorMessage);
+    }
+};
+
+export const trainerMealGetAction = async (mealId: number, targetUserId: number) => {
+    try {
+        const response = await getTrainerMeal(mealId, targetUserId);
+        return response;
+    } catch (error) {
+        let errorMessage: string = '알 수 없는 오류입니다. 다시 시도해주세요.';
+        if (error instanceof Error) {
+            errorMessage = error.message;
+        }
+
+        throw new Error(errorMessage);
+    }
+};
+
+export const trainerMealListGetAction = async (targetUserId: number, date?: string) => {
+    try {
+        const response = await getTrainerMeals(targetUserId, date);
+        return response;
+    } catch (error) {
+        let errorMessage: string = '알 수 없는 오류입니다. 다시 시도해주세요.';
         if (error instanceof Error) {
             errorMessage = error.message;
         }
