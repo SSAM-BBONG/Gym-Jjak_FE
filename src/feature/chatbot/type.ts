@@ -39,10 +39,26 @@ export interface ChatMessages {
     hasNext: boolean;
 }
 
+// 수정된 코드 시작
+export interface ChatbotQuickReplyRequest {
+    questionId: string;
+    value: string;
+}
+
+export interface ChatbotQuickReply {
+    questionId: string;
+    label: string;
+    value: string;
+}
+// 수정된 코드 끝
+
 export interface ChatRequest {
     sessionId?: string;
     content: string;
     intentHint?: string;
+    // 수정된 코드 시작
+    quickReply?: ChatbotQuickReplyRequest | null;
+    // 수정된 코드 끝
 }
 
 export interface ChatbotStartedEvent {
@@ -67,6 +83,9 @@ export interface ChatbotDoneEvent {
     routine: string | null;
     sources: string | null;
     limited: boolean;
+    // 수정된 코드 시작
+    quickReplies: ChatbotQuickReply[];
+    // 수정된 코드 끝
 }
 
 export interface ChatbotErrorEvent {
