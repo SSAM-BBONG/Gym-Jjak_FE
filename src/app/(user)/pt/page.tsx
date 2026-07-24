@@ -4,6 +4,7 @@ import PtCard from "@/feature/pt/components/PtCard";
 import PtDashboard from "@/feature/pt/components/PtDashboard";
 import PtPopularCard from "@/feature/pt/components/PtPopularCard";
 import PtTrainerPopularCard from "@/feature/pt/components/PtTrainerPopularCard";
+import TrainerMarketReportCard from "@/feature/pt/components/TrainerMarketReportCard";
 import { decodeJWT } from "@/lib/decode";
 import { Metadata } from "next";
 import Link from "next/link";
@@ -36,7 +37,7 @@ export default async function PtZonePage() {
             {/* 역할에 따라 서로 다른 UI 분기 설정 */}
             {userinf?.role === "TRAINER" ?
                 (
-                    <div className="grid grid-cols-2 gap-6">
+                    <div className="grid grid-cols-3 gap-6">
                         <PtCard
                             imgsrc={PtZonePtRegist}
                             title="PT 등록"
@@ -51,6 +52,7 @@ export default async function PtZonePage() {
                             movecoment="관리하기"
                             move="/pt/manage"
                         />
+                        <TrainerMarketReportCard />
                     </div>
                 )
                 :
@@ -89,7 +91,6 @@ export default async function PtZonePage() {
                     data={TrainerPtData?.data}
                 />
             </section>    
-            
             <section className="flex flex-col gap-3 pb-15">
                 <p className="text-[24px] font-black text-white"> {userinf?.role === "TRAINER" ? "내 인기 강습" : "인기 강습"} </p>
                 {userinf?.role === "TRAINER"

@@ -36,6 +36,8 @@
   PtStatusChangeRequest,
   PtStatusChangeResponse,
   TrainerPtDashboardResponse,
+  TrainerReportDetailResponse,
+  TrainerReportListResponse,
   TrainerReviewListRequest,
   TrainerReviewListResponse,
   TrainerReviewSummaryResponse,
@@ -331,6 +333,43 @@ export const getTrainerPtDashboard = async (): Promise<TrainerPtDashboardRespons
     const message = await getErrorMessage(
       response,
       "트레이너 PT Zone 대시보드 조회에 실패하였습니다."
+    );
+
+    throw new Error(message);
+  }
+
+  return response.json();
+};
+
+// 트레이너 시장 동향 리포트 목록 조회 API
+export const getTrainerReportList = async (
+  page: number = 0,
+  size: number = 20
+): Promise<TrainerReportListResponse> => {
+  const response = await fetchWithAuth(`/api/trainer-reports?page=${page}&size=${size}`);
+
+  if (!response.ok) {
+    const message = await getErrorMessage(
+      response,
+      "트레이너 시장 동향 리포트 목록 조회에 실패하였습니다."
+    );
+
+    throw new Error(message);
+  }
+
+  return response.json();
+};
+
+// 트레이너 시장 동향 리포트 상세 조회 API
+export const getTrainerReportDetail = async (
+  trainerReportId: number
+): Promise<TrainerReportDetailResponse> => {
+  const response = await fetchWithAuth(`/api/trainer-reports/${trainerReportId}`);
+
+  if (!response.ok) {
+    const message = await getErrorMessage(
+      response,
+      "트레이너 시장 동향 리포트 상세 조회에 실패하였습니다."
     );
 
     throw new Error(message);
