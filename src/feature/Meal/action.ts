@@ -304,7 +304,6 @@ interface ActionStateAi {
     data?: MealAi;
     debug?: {
         requestUrl: string;
-        accept: string;
         status: number;
         contentType: string | null;
     };
@@ -368,7 +367,6 @@ export const mealAiPostAction = async (formData: FormData): Promise<ActionStateA
             ...(error instanceof MealAiRequestError && {
                 debug: {
                     requestUrl: error.requestUrl,
-                    accept: error.accept,
                     status: error.status,
                     contentType: error.contentType,
                 },
