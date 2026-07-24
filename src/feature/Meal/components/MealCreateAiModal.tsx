@@ -40,7 +40,6 @@ export default function MealCreateAiModal({ isModal, closeModal }: MealProps) {
             });
 
             setMealAiData(result.data as MealAi)
-            closeModal();
             toast.success(result.message)
         },
         onError: () => {
@@ -83,16 +82,20 @@ export default function MealCreateAiModal({ isModal, closeModal }: MealProps) {
                             />
                         </button>
                     </div>
-                    {!mealAiData && (
-                        <MealAiCreate setSelectedImage={setSelectedImage} selectedImage={selectedImage} />
-
-                    )}
-                    {isLoading && (
+                    {isLoading ? (
                         <div className="h-60">
                             <AiLoading />
                         </div>
+                    ) : (
+                        <>
+                            {!mealAiData && (
+                                <MealAiCreate setSelectedImage={setSelectedImage} selectedImage={selectedImage} />
+                            )}
+
+                            {mealAiData && <MealViewAi mealData={mealAiData} />}
+                        </>
                     )}
-                    {mealAiData && <MealViewAi mealData={mealAiData} />}
+
 
                 </article>
                 {(!mealAiData && !isLoading) && (

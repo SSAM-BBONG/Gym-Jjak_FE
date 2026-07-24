@@ -13,7 +13,7 @@ export default function ChatbotListItem({
 }: ChatbotListItemProps) {
     return (
         <Link
-            href={`/chatbot/${session.sessionId}`}
+            href={`/chatbot?sessionId=${session.sessionId}`}
             type="button"
             className={`group w-full rounded-xl border p-4 text-left transition-colors ${isSelected
                 ? "border-[#BFFF0B]/50 bg-[#BFFF0B]/8"
