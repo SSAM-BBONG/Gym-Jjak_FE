@@ -1,5 +1,5 @@
 import { HeaderProfile } from "@/components/ui/image";
-import type { ChatMessageRole, ChatRoutine, ChatSource } from "@/feature/chatbot/type";
+import type { ChatMessageRole, ChatSource, RoutineResponse } from "@/feature/chatbot/type";
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
@@ -7,6 +7,7 @@ import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import rehypeRaw from 'rehype-raw';
 import rehypeSanitize from 'rehype-sanitize';
 import Image from 'next/image';
+import RoutineContent from "@/feature/chatbot/components/RoutineContent";
 
 
 
@@ -14,7 +15,7 @@ interface ChatItemProps {
     role: ChatMessageRole;
     content: string;
     createdAt?: string;
-    routine?: ChatRoutine | null
+    routine?: RoutineResponse | null | undefined,
     sources?: ChatSource[]
 }
 
@@ -22,18 +23,9 @@ export default function ChatItem({ role, content, createdAt, routine, sources }:
     const isMyMessage = role === "USER";
 
     return (
-        <div className={`flex max-w-[85%] items-end gap-2 ${isMyMessage ? "ml-auto flex-row-reverse" : ""}`}>
-            {!isMyMessage && (
-                <div className="mb-5 h-8 w-8 shrink-0 overflow-hidden rounded-full border border-[#364153] bg-[#101828]">
-                    <img
-                        src={HeaderProfile}
-                        alt={`프로필`}
-                        className="h-full w-full object-cover"
-                    />
-                </div>
-            )}
+        <div className={`flex items-end gap-2 ${isMyMessage ? " max-w-[85%] ml-auto flex-row-reverse" : "max-w-full"}`}>
             <div>
-                <div className={`rounded-2xl px-4 py-3 text-sm ${isMyMessage ? "rounded-br-md bg-[#BFFF0B] text-black font-bold" : "rounded-bl-md bg-[#1E2939] text-white"}`}>
+                <div className={`rounded-2xl px-4 py-3 text-sm ${isMyMessage ? "rounded-br-md bg-[#BFFF0B] text-black font-bold" : "rounded-bl-md text-white"}`}>
                     <ReactMarkdown
                         remarkPlugins={[remarkGfm]}
                         rehypePlugins={[rehypeRaw, rehypeSanitize]}//스타일 속성을 작성해줘야하는 단점이 있지만 xss 공격을 막기 위해 rehypeSanitize 이걸 사용
@@ -75,6 +67,7 @@ export default function ChatItem({ role, content, createdAt, routine, sources }:
                                         className='text-indigo-600 font-medium'
                                     >
                                         {children}
+
                                     </a>
                                 )
                             }
@@ -82,16 +75,10 @@ export default function ChatItem({ role, content, createdAt, routine, sources }:
                     >
 
                         {content}
+
                     </ReactMarkdown>
                     {routine && (
-                        <div className="mt-4 rounded-lg border border-[#364153] bg-[#101828] p-3">
-                            <p className="text-xs font-semibold text-[#99A1AF]">
-                                추천 루틴
-                            </p>
-                            <p className="mt-1 text-sm font-bold text-[#BFFF0B]">
-                                {routine.name}
-                            </p>
-                        </div>
+                        <RoutineContent routine={routine} />
                     )}
                     {sources && sources.length > 0 && (
                         <div className="mt-4 border-t border-[#364153] pt-3">
