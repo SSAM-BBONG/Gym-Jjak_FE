@@ -31,7 +31,7 @@ export default function PtPopularCard({ data }: PtPopularCardProps) {
                 <p className="text-[18px] font-extrabold text-white"> {data.title}</p>
                 <p className="text-[12px] font-normal text-[#99A1AF]"> {data.trainerName} </p>
                 <div className="flex justify-between">
-                    <p className="text-[12px] font-normal text-[#6A7282]"> {data.roadAddress} </p>
+                    <p className="text-[12px] font-normal text-[#6A7282]"> {data.businessName} </p>
                     <p className="text-[14px] font-extrabold text-[#BFFF0B]"> {data.price.toLocaleString()}원 </p>
                 </div>
             </div>

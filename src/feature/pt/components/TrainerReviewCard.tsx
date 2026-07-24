@@ -3,9 +3,11 @@
 import { deletePtReviewAction, updatePtReviewAction } from "@/feature/pt/actions";
 import { TrainerReview } from "@/feature/pt/type";
 import ReportButtonVer2 from "@/components/ui/ReportButtonVer2";
+import TwoButtonModal from "@/components/ui/TwoButtonModal";
 import { EllipsisVertical, Pencil, Trash2, TriangleAlert } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { toast } from "sonner";
 
 interface TrainerReviewCardProps {
     review: TrainerReview;
@@ -16,58 +18,81 @@ export default function TrainerReviewCard({ review, ptCourseId }: TrainerReviewC
     const router = useRouter();
     const [isEditing, setIsEditing] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
     const [rating, setRating] = useState(review.rating);
     const [content, setContent] = useState(review.content);
     const [message, setMessage] = useState("");
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     const handleUpdate = async () => {
+        if (isSubmitting) return;
+
         setMessage("");
         setIsSubmitting(true);
-        const result = await updatePtReviewAction(ptCourseId, review.trainerReviewId, { rating, content });
-        setIsSubmitting(false);
+        try {
+            const result = await updatePtReviewAction(ptCourseId, review.trainerReviewId, { rating, content });
 
-        if (result.success === false) {
-            setMessage(result.message);
-            return;
+            if (result.success === false) {
+                setMessage(result.message);
+                toast.error(result.message);
+                return;
+            }
+
+            setIsEditing(false);
+            toast.success("강사평 수정이 완료되었습니다.");
+            router.refresh();
+        } catch {
+            const errorMessage = "강사평 수정에 실패했습니다.";
+            setMessage(errorMessage);
+            toast.error(errorMessage);
+        } finally {
+            setIsSubmitting(false);
         }
-
-        setIsEditing(false);
-        router.refresh();
     };
 
     const handleDelete = async () => {
-        if (!window.confirm("수강평을 삭제하시겠습니까?")) return;
+        if (isSubmitting) return;
 
         setMessage("");
         setIsSubmitting(true);
-        const result = await deletePtReviewAction(ptCourseId, review.trainerReviewId);
-        setIsSubmitting(false);
+        try {
+            const result = await deletePtReviewAction(ptCourseId, review.trainerReviewId);
 
-        if (result.success === false) {
-            setMessage(result.message);
-            return;
+            if (result.success === false) {
+                setMessage(result.message);
+                toast.error(result.message);
+                return;
+            }
+
+            setIsDeleteConfirmOpen(false);
+            toast.success("강사평 삭제가 완료되었습니다.");
+            router.refresh();
+        } catch {
+            const errorMessage = "강사평 삭제에 실패했습니다.";
+            setMessage(errorMessage);
+            toast.error(errorMessage);
+        } finally {
+            setIsSubmitting(false);
         }
-
-        router.refresh();
     };
 
     return (
-        <div className="
-        flex flex-col gap-5
+        <>
+            <div className="
+        flex flex-col gap-4 md:gap-5
         bg-[#101828]
         border border-[#36415380] rounded-[16px]
-        p-8">
-            <div className="flex items-start gap-3">
-                <p className="px-3 py-2 text-[14px] font-extrabold text-white bg-[#1E2939] rounded-full"> {review.nickname.slice(0, 1)} </p>
-                <div className="flex flex-col flex-1 gap-1">
-                    <div className="flex justify-between items-center">
-                        <div className="flex gap-4 items-center">
-                            <p className="text-[16px] font-extrabold text-white"> {review.nickname} </p>
-                            <p className="px-3 py-1 bg-[#1E2939] rounded-[4px] text-[12px] font-normal text-[#99A1AF]"> {review.ptCourseTitle} </p>
+        p-4 sm:p-6 lg:p-8">
+            <div className="flex items-start gap-2 md:gap-3">
+                <p className="px-2 py-1 md:px-3 md:py-2 text-[12px] md:text-[13px] lg:text-[14px] font-extrabold text-white bg-[#1E2939] rounded-full"> {review.nickname.slice(0, 1)} </p>
+                <div className="flex flex-col flex-1 min-w-0 gap-1">
+                    <div className="flex min-w-0 justify-between items-center">
+                        <div className="flex flex-1 min-w-0 gap-2 md:gap-3 lg:gap-4 items-center">
+                            <p className="min-w-0 truncate text-[14px] md:text-[15px] lg:text-[16px] font-extrabold text-white"> {review.nickname} </p>
+                            <p className="min-w-0 max-w-24 sm:max-w-32 md:max-w-40 lg:max-w-none truncate px-2 py-1 lg:px-3 bg-[#1E2939] rounded-[4px] text-[10px] md:text-[11px] lg:text-[12px] font-normal text-[#99A1AF]"> {review.ptCourseTitle} </p>
                         </div>
-                        <div className="flex items-center gap-2">
-                            <p className="text-[12px] font-normal text-[#6A7282]"> {review.createdAt.slice(0, 10)}</p>
+                        <div className="flex shrink-0 items-center gap-2">
+                            <p className="text-[10px] md:text-[11px] lg:text-[12px] font-normal text-[#6A7282]"> {review.createdAt.slice(0, 10)}</p>
                             <div className="relative shrink-0">
                                 <button
                                     type="button"
@@ -99,7 +124,7 @@ export default function TrainerReviewCard({ review, ptCourseId }: TrainerReviewC
                                                     type="button"
                                                     onClick={() => {
                                                         setIsMenuOpen(false);
-                                                        handleDelete();
+                                                        setIsDeleteConfirmOpen(true);
                                                     }}
                                                     disabled={isSubmitting}
                                                     className="flex w-full items-center justify-center gap-2 px-3 py-2 text-[14px] font-bold text-[#FB7185] hover:bg-[#1E2939] pb-3"
@@ -135,7 +160,7 @@ export default function TrainerReviewCard({ review, ptCourseId }: TrainerReviewC
                                         aria-label={`${value}점`}
                                         aria-checked={rating === value}
                                         onClick={() => setRating(value)}
-                                        className={`text-[32px] hover:cursor-pointer ${value <= rating ? "text-[#BFFF0B]" : "text-[#364153]"}`}
+                                        className={`text-[24px] md:text-[28px] lg:text-[32px] hover:cursor-pointer ${value <= rating ? "text-[#BFFF0B]" : "text-[#364153]"}`}
                                     >
                                         ★
                                     </button>
@@ -144,22 +169,43 @@ export default function TrainerReviewCard({ review, ptCourseId }: TrainerReviewC
                             <textarea
                                 value={content}
                                 onChange={(event) => setContent(event.target.value)}
-                                className="min-h-70 rounded-[20px] border border-[#364153] bg-[#1E2939] p-3 text-[#D1D5DC] resize-none"
+                                className="min-h-70 rounded-[20px] border border-[#364153] bg-[#1E2939] p-2 md:p-3 text-[#D1D5DC] resize-none"
                             />
                             <div className="flex gap-2">
-                                <button type="button" onClick={handleUpdate} disabled={isSubmitting} className="rounded bg-[#BFFF0B] px-3 py-2 text-sm font-bold text-black disabled:opacity-60">저장</button>
-                                <button type="button" onClick={() => { setIsEditing(false); setRating(review.rating); setContent(review.content); setMessage(""); }} className="rounded bg-[#1E2939] px-3 py-2 text-sm text-white">취소</button>
+                                <button
+                                    type="button"
+                                    onClick={handleUpdate}
+                                    disabled={isSubmitting}
+                                    className="rounded bg-[#BFFF0B] px-3 py-2 text-[12px] md:text-[13px] lg:text-sm font-bold text-black disabled:opacity-60"
+                                >
+                                    저장
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={() => { setIsEditing(false); setRating(review.rating); setContent(review.content); setMessage(""); }}
+                                    className="rounded bg-[#1E2939] px-3 py-2 text-[12px] md:text-[13px] lg:text-sm text-white"
+                                >
+                                    취소
+                                </button>
                             </div>
                         </div>
                     ) : (
                         <>
-                            <p className="text-[#BFFF0B]"> {"★".repeat(review.rating)}{"☆".repeat(5 - review.rating)} </p>
-                            <p className="text-[16px] font-normal text-[#D1D5DC]"> {review.content} </p>
+                            <p className="text-[14px] md:text-[15px] lg:text-[16px] text-[#BFFF0B]"> {"★".repeat(review.rating)}{"☆".repeat(5 - review.rating)} </p>
+                            <p className="text-[12px] md:text-[14px] lg:text-[16px] font-normal text-[#D1D5DC]"> {review.content} </p>
                         </>
                     )}
                     {message && <p className="text-sm text-[#FF6467]">{message}</p>}
                 </div>
             </div>
-        </div>
+            </div>
+            <TwoButtonModal
+                isModal={isDeleteConfirmOpen}
+                closeModal={() => setIsDeleteConfirmOpen(false)}
+                activeModal={handleDelete}
+                title="강사평 삭제"
+                content="작성한 강사평을 삭제하시겠습니까?"
+            />
+        </>
     );
 }

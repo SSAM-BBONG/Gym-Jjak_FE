@@ -111,7 +111,7 @@ export default async function PtDetailPage({ params }: PtDetailPageProps) {
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-            <main className="flex flex-col gap-8 px-80 py-10">
+            <main className="flex flex-col gap-5 px-4 py-5 sm:px-6 sm:py-6 md:gap-6 md:px-12 md:py-8 lg:gap-8 lg:px-80 lg:py-10">
                 
                 <section>
                     <PtDetailInformation

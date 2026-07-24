@@ -113,7 +113,7 @@ export interface PtPopularCourseData {
   thumbnailUrl: string;
   part: string;
   trainerName: string;
-  roadAddress: string;
+  businessName: string;
 }
 
 // PT 인기 강습 목록 응답 타입
