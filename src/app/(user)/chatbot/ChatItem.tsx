@@ -20,8 +20,6 @@ interface ChatItemProps {
 
 export default function ChatItem({ role, content, createdAt, routine, sources }: ChatItemProps) {
     const isMyMessage = role === "USER";
-    console.log(routine);
-    console.log(sources);
 
     return (
         <div className={`flex max-w-[85%] items-end gap-2 ${isMyMessage ? "ml-auto flex-row-reverse" : ""}`}>
@@ -35,7 +33,7 @@ export default function ChatItem({ role, content, createdAt, routine, sources }:
                 </div>
             )}
             <div>
-                <p className={`rounded-2xl px-4 py-3 text-sm ${isMyMessage ? "rounded-br-md bg-[#BFFF0B] text-black font-bold" : "rounded-bl-md bg-[#1E2939] text-white"}`}>
+                <div className={`rounded-2xl px-4 py-3 text-sm ${isMyMessage ? "rounded-br-md bg-[#BFFF0B] text-black font-bold" : "rounded-bl-md bg-[#1E2939] text-white"}`}>
                     <ReactMarkdown
                         remarkPlugins={[remarkGfm]}
                         rehypePlugins={[rehypeRaw, rehypeSanitize]}//스타일 속성을 작성해줘야하는 단점이 있지만 xss 공격을 막기 위해 rehypeSanitize 이걸 사용
@@ -85,7 +83,31 @@ export default function ChatItem({ role, content, createdAt, routine, sources }:
 
                         {content}
                     </ReactMarkdown>
-                </p>
+                    {routine && (
+                        <div className="mt-4 rounded-lg border border-[#364153] bg-[#101828] p-3">
+                            <p className="text-xs font-semibold text-[#99A1AF]">
+                                추천 루틴
+                            </p>
+                            <p className="mt-1 text-sm font-bold text-[#BFFF0B]">
+                                {routine.name}
+                            </p>
+                        </div>
+                    )}
+                    {sources && sources.length > 0 && (
+                        <div className="mt-4 border-t border-[#364153] pt-3">
+                            <p className="text-xs font-semibold text-[#99A1AF]">
+                                출처
+                            </p>
+                            <ul className="mt-2 flex list-disc flex-col gap-1 pl-4 text-xs text-[#99A1AF]">
+                                {sources.map((source, index) => (
+                                    <li key={`${source.title}-${index}`}>
+                                        {source.title}
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    )}
+                </div>
                 <p className={`mt-1 text-xs text-[#6A7282] ${isMyMessage ? "text-right" : ""}`}>
                     {createdAt?.split("T")[0]}
                 </p>
