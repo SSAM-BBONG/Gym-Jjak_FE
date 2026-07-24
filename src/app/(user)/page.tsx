@@ -3,6 +3,8 @@ import ChatbotFloatingButton from "@/components/ui/ChatbotFloatingButton";
 import { MainImg } from "@/components/ui/image";
 import Image from "next/image";
 import Link from "next/link";
+import { decodeJWT } from "@/lib/decode";
+import FreeRecommendStartButton from "@/feature/pt/components/FreeRecommendStartButton";
 
 const quickLinks = [
   {
@@ -34,7 +36,9 @@ const quickLinks = [
   },
 ];
 
-export default function Page() {
+export default async function Page() {
+  const user = await decodeJWT();
+
   return (
     <main className="overflow-hidden bg-[#0B0F19] text-white">
       <div className="mx-auto max-w-7xl px-5 py-12 sm:px-8 lg:px-12 lg:py-20">
@@ -70,7 +74,7 @@ export default function Page() {
             </div>
           </div>
 
-          <div className="relative mt-10 h-56 sm:h-72 lg:absolute lg:inset-y-0 lg:right-0 lg:mt-0 lg:h-auto lg:w-[52%]">
+          <div className="relative mt-10 hidden h-56 sm:h-72 lg:absolute lg:inset-y-0 lg:right-0 lg:mt-0 lg:block lg:h-auto lg:w-[52%]">
             <Image
               src={MainImg}
               alt="운동을 표현한 메인 일러스트"
@@ -90,9 +94,7 @@ export default function Page() {
               <h2 className="mt-3 text-2xl font-black tracking-tight sm:text-3xl">AI한테 나에게 꼭 맞는 PT를 추천받아보세요!</h2>
               <p className="mt-2 text-sm leading-6 text-slate-300">운동 부위와 거리, 통증 여부만 알려주면 추천 이유까지 확인할 수 있어요.</p>
             </div>
-            <Link href="/pt/recommend" className="shrink-0 rounded-xl bg-[#bfff0b] px-5 py-3.5 text-center text-sm font-extrabold text-[#0b0f19] transition hover:bg-[#d4ff65] focus:outline-none focus:ring-2 focus:ring-white">
-              무료 추천 시작하기 →
-            </Link>
+            <FreeRecommendStartButton isAuthenticated={Boolean(user?.sub)} />
           </div>
         </section>
 
