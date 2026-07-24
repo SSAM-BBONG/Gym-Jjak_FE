@@ -1,8 +1,6 @@
-// import Map from "@/components/ui/Map";
-// import PtFindList from "@/feature/pt/components/PtFindList";
 import { getOnboardingAction } from "@/feature/pt/actions";
 import PtFindView from "@/feature/pt/components/PtFindView";
-import { getOnboarding, getPtLists } from "@/service/ptzone.service";
+import { getPtLists } from "@/service/ptzone.service";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {

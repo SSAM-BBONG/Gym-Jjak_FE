@@ -31,6 +31,43 @@ export const getCalendarDate = async (date: string) => {
     return response.json();
 }
 
+export const getTrainerCalendarMonth = async (targetUserId: number, year: string, month: string) => {
+    const params = new URLSearchParams();
+    params.set("targetUserId", String(targetUserId));
+    params.set("year", year);
+    params.set("month", month);
+
+    const response = await fetchWithAuth(`/api/calendar/month?${params.toString()}`);
+
+    if (!response.ok) {
+        const message = await getErrorMessage(
+            response,
+            '회원 캘린더 조회에 실패했습니다.'
+        );
+
+        throw new Error(message);
+    }
+    return response.json();
+}
+
+export const getTrainerCalendarDate = async (targetUserId: number, date: string) => {
+    const params = new URLSearchParams();
+    params.set("targetUserId", String(targetUserId));
+    params.set("date", date);
+
+    const response = await fetchWithAuth(`/api/calendar/day?${params.toString()}`);
+
+    if (!response.ok) {
+        const message = await getErrorMessage(
+            response,
+            '회원 캘린더 일별 조회에 실패했습니다.'
+        );
+
+        throw new Error(message);
+    }
+    return response.json();
+}
+
 export const postCalendar = async (diary: DiaryRequest) => {
     const response = await fetchWithAuth(`/api/calendar/diaries`, {
         method: 'POST',

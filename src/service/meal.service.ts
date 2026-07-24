@@ -131,16 +131,12 @@ export const getTrainerMeal = async (mealId: number, targetUserId: number) => {
 };
 
 // 트레이너용 식단 목록 조회
-export const getTrainerMeals = async (targetUserId: number, date?: string, page?: number) => {
+export const getTrainerMeals = async (targetUserId: number, date?: string) => {
     const params = new URLSearchParams();
     params.set("targetUserId", String(targetUserId));
 
     if (date) {
         params.set("date", date);
-    }
-
-    if (page !== undefined) {
-        params.set("page", String(page));
     }
 
     const response = await fetchWithAuth(
