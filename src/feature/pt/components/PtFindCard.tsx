@@ -11,7 +11,7 @@ interface PtFindCardProps {
 export default function PtFindCard({ response }: PtFindCardProps) {
     return (
         <div className="
-        flex flex-col
+        flex w-full flex-col
         shrink-0
         overflow-hidden
         bg-[linear-gradient(135deg,rgba(16,24,40,0.90)0%,rgba(30,41,57,0.90)100%)]
@@ -21,7 +21,7 @@ export default function PtFindCard({ response }: PtFindCardProps) {
                 data-testid="pt-card-link"
                 href={`/pt/${response.ptCourseId}`}>
             <div>
-                <div className="relative size-80 overflow-hidden">
+                <div className="relative h-56 w-full overflow-hidden sm:h-64 md:h-72 lg:h-56 xl:h-64 2xl:h-80">
                     <Image
                         src={response.thumbnailUrl}
                         alt={`${response.title} 썸네일`}
@@ -31,8 +31,8 @@ export default function PtFindCard({ response }: PtFindCardProps) {
                     />
                 </div>    
             </div>
-            <div className="flex flex-col gap-3 p-5">
-                <p className="text-[20px] text-white font-extrabold"> {response.title} </p>
+            <div className="flex flex-col gap-2 p-4 sm:gap-3 sm:p-5 lg:gap-2 lg:p-4 xl:gap-3 xl:p-5">
+                <p className="text-[18px] text-white font-extrabold sm:text-[20px] lg:text-[18px] xl:text-[20px]"> {response.title} </p>
                 <p className="text-[14px] text-[#D1D5DC] font-medium"> {response.trainerName} </p>
                 <div className="flex gap-2 items-center text-[14px] font-normal text-[#99A1AF]">
                     <Image 

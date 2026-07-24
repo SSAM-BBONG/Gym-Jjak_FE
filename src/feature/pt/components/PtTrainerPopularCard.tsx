@@ -16,13 +16,13 @@ export default function PtTrainerPopularCard({ data }: PtPopularCardProps) {
         overflow-hidden
         cursor-pointer
         ">
-            <div className="relative w-80 h-40">
+            <div className="relative w-full aspect-[2/1]">
                 <Image
                     src={data.thumbnailUrl || PtfindTestImg }
                     alt="PT ZONE 인기강습 이미지"
                     fill
                     priority
-                    sizes="w-160 h-80"
+                    sizes="(max-width: 639px) 100vw, (max-width: 767px) 50vw, (max-width: 1023px) 33vw, 25vw"
                     className="object-cover"
                 />
             </div>
