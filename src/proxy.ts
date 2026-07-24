@@ -21,7 +21,7 @@ async function getRefreshToken(request: NextRequest) {
 
         return resData.data.accessToken;
     } catch (error) {
-        return null; 
+        return null;
     }
 }
 
@@ -100,5 +100,5 @@ export async function proxy(request: NextRequest) {
 
 //렌더링 전에 거칠 페이지들
 export const config = {
-    matcher: ['/admin/:path*', '/organization/:path*', '/alarm/:path*', '/calendar/:path*', '/chat/:path*', '/community/:path*', '/mypage/:path*', '/pt/manage/:path*', '/pt/records/:path*', '/pt/regist', '/pt/trainer', '/meal'],
+    matcher: ['/admin/:path*', '/organization/:path*', '/alarm/:path*', '/calendar/:path*', '/chat/:path*', '/community/:path*', '/mypage/:path*', '/pt/manage/:path*', '/pt/records/:path*', '/pt/regist', '/pt/trainer', '/meal', '/chatbot'],
 };//:path* 는 모든 페이지

@@ -139,6 +139,10 @@ export const logoutAction = async () => {
         }
     }
 
+    return {
+        success: true,
+        message: '로그아웃이 완료되었습니다.'
+    }
 }
 
 
