@@ -3,7 +3,6 @@ import { GymCumulativePt, GymCurrentPt, GymMonthUser, GymTrainerNumber, PtZonePt
 import PieChart from "@/components/ui/PieChart";
 import AdminDashboardCard from "@/feature/admin/components/AdminDashboardCard";
 import { getUserDashboard } from "@/service/admin.service";
-import { TostTest } from "./TostTest";
 import { GymDashboardCard } from "@/feature/organization/components/GymDashboard";
 import LineChart from "@/components/ui/LineChart";
 

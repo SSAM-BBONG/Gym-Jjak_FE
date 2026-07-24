@@ -11,9 +11,12 @@ import { useForm } from "react-hook-form";
 import { EXERCISE_FREQUENCY_OPTIONS, EXERCISE_GOAL_OPTIONS, EXERCISE_PERIOD_OPTIONS, PREFERRED_EXERCISE_OPTIONS } from "./OnboardingOptions";
 import Image from "next/image";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 
 export default function OnboardingForm({ myOnboarding }: { myOnboarding: MyOnboardingResponse }) {
+
+    const router = useRouter();
 
     const {
         register,
@@ -37,8 +40,10 @@ export default function OnboardingForm({ myOnboarding }: { myOnboarding: MyOnboa
     const onSubmit = async (data: OnboardingType) => {
         try {
             const result = await onboardingEditAction(data);
+            router.push('/mypage/onboarding');
             toast.success(result.message);
         } catch (error) {
+            console.log(error)
             toast.error('네트워크 연결이 원활하지 않습니다.')
         }
     }

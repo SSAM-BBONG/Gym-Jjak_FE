@@ -9,14 +9,11 @@ import { useState } from "react";
 import PtManageMealCard from "./PtManageMealCard";
 
 interface PtManageMealProps {
-    userId: string;
+    userId: number;
 }
 
-
-
-
 export default function PtManageMeal({ userId }: PtManageMealProps) {
-    const targetUserId = Number(userId);
+    const targetUserId = userId;
     const [selectDate, setSelectDate] = useState<Date>(new Date());
     const selectedDate = format(selectDate, "yyyy-MM-dd");
 

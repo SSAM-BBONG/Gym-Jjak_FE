@@ -10,11 +10,11 @@ import { useState } from "react";
 import PtManageCalendarItem from "./PtManageCalendarItem";
 
 interface PtManageCalendarProps {
-    userId: string;
+    userId: number;
 }
 
 export default function PtManageCalendar({ userId }: PtManageCalendarProps) {
-    const targetUserId = Number(userId);
+    const targetUserId = userId;
     const [date, setDate] = useState<Date | undefined>(new Date());
 
     const selectedDate = date ?? new Date();

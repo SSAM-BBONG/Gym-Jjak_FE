@@ -12,11 +12,11 @@ import { MyPageDetailData } from "@/feature/mypage/type";
 import { toast } from "sonner";
 
 interface UserProfileProps {
-  userInf?: MyTokenPayload;
-  profile?: MyPageDetailData | null;
+    userInf?: MyTokenPayload;
+    profile?: MyPageDetailData | null;
 }
 
-export default function UserProfile( {userInf, profile}: UserProfileProps) {
+export default function UserProfile({ userInf, profile }: UserProfileProps) {
     const router = useRouter();
     const [visible, setVisible] = useState<boolean>(false);
 
@@ -86,19 +86,27 @@ export default function UserProfile( {userInf, profile}: UserProfileProps) {
                                     className="object-cover"
                                 />
                             </div>
-                            {userInf?.role === "ORGANIZATION" 
-                            ? 
-                            <Link href="/organization/dashboard/gym">
-                                <p className="text-[#D1D5DC] text-[14px] hover:text-[#BFFF0B] cursor-pointer">
-                                    조직 페이지
-                                </p>
-                            </Link>
-                            :
-                            <Link href="/mypage">
-                                <p className="text-[#D1D5DC] text-[14px] hover:text-[#BFFF0B] cursor-pointer">
-                                    마이페이지
-                                </p>
-                            </Link>
+                            {userInf?.role === "ORGANIZATION" &&
+
+                                <Link href="/organization/dashboard/gym">
+                                    <p className="text-[#D1D5DC] text-[14px] hover:text-[#BFFF0B] cursor-pointer">
+                                        조직 페이지
+                                    </p>
+                                </Link>
+                            }
+                            {(userInf?.role === 'USER' || userInf?.role === 'TRAINER') &&
+                                <Link href="/mypage">
+                                    <p className="text-[#D1D5DC] text-[14px] hover:text-[#BFFF0B] cursor-pointer">
+                                        마이페이지
+                                    </p>
+                                </Link>
+                            }
+                            {userInf?.role === 'ADMIN' &&
+                                <Link href="/admin/dashboard/users">
+                                    <p className="text-[#D1D5DC] text-[14px] hover:text-[#BFFF0B] cursor-pointer">
+                                        관리자페이지
+                                    </p>
+                                </Link>
                             }
                         </div>
 
