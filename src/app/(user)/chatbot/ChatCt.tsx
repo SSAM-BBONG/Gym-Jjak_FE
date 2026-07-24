@@ -5,13 +5,14 @@ import Image from "next/image";
 import Link from "next/link";
 import ChatItem from "./ChatItem";
 import { FormEvent, useCallback, useEffect, useRef, useState } from "react";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 import { getChatbotMessageListAction } from "@/feature/chatbot/action";
 import { useChatbotSocket } from "@/components/hooks/useChatbotSocket";
 import type { ChatbotSocketEvent } from "@/feature/chatbot/type";
 
 export default function ChatCt({ sessionId }: { sessionId?: string }) {
 
+    const queryClient = useQueryClient();
     const targetRef = useRef<HTMLDivElement>(null);
     const requestIdRef = useRef<string | null>(null);
     const [currentSessionId, setCurrentSessionId] = useState(sessionId);
@@ -28,14 +29,18 @@ export default function ChatCt({ sessionId }: { sessionId?: string }) {
                 setLoading(true);
                 setSocketError("");
                 setResponse("");
+                void queryClient.invalidateQueries({
+                    queryKey: ["chatbot", "session"],
+                });
                 break;
             }
             case "delta": {
                 if (requestIdRef.current && requestIdRef.current !== event.requestId) {
                     return;
                 }
-
+                console.log('delta', event.text)
                 setResponse((previous) => previous + event.text);
+                console.log('compd', response)
                 break;
             }
             case "done": {
@@ -43,9 +48,24 @@ export default function ChatCt({ sessionId }: { sessionId?: string }) {
                     return;
                 }
 
+                console.log('done', event.answer)
                 setResponse(event.answer);
+                console.log('compdone', response)
                 setLoading(false);
                 requestIdRef.current = null;
+
+                void Promise.all([
+                    queryClient.invalidateQueries({
+                        queryKey: ["chatbot", "session"],
+                    }),
+                    queryClient.invalidateQueries({
+                        queryKey: ["chatbot", "messages"],
+                    }),
+                ]).then(() => {
+                    setResponse((previous) => (
+                        previous === event.answer ? "" : previous
+                    ));
+                });
                 break;
             }
             case "error": {
@@ -59,7 +79,7 @@ export default function ChatCt({ sessionId }: { sessionId?: string }) {
                 break;
             }
         }
-    }, []);
+    }, [queryClient]);
 
     const { sendMessage, isConnected } = useChatbotSocket({
         onEvent: handleChatbotEvent,
@@ -150,6 +170,13 @@ export default function ChatCt({ sessionId }: { sessionId?: string }) {
             setSocketError("메시지를 전송하지 못했습니다.");
             return;
         }
+
+        void queryClient.invalidateQueries({
+            queryKey: ["chatbot", "session"],
+        });
+        void queryClient.invalidateQueries({
+            queryKey: ["chatbot", "messages"],
+        });
 
         setMessage("");
     };

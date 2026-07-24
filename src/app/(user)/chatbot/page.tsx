@@ -2,8 +2,14 @@ import CalendarQueryProvider from "../calendar/CalendarQueryProvider";
 import ChatbotList from "./ChatbotList";
 import ChatCt from "./ChatCt";
 
-export default async function Page({ params }: { params: Promise<{ sessionId?: string }> }) {
-    const { sessionId } = await params;
+interface paramsProps {
+    searchParams: Promise<{
+        sessionId: string;
+    }>
+}
+
+export default async function Page({ searchParams }: paramsProps) {
+    const { sessionId } = await searchParams;
 
     return (
         <CalendarQueryProvider>
