@@ -53,15 +53,15 @@ export default function PtRecordCard({ data, errorMessage }: PtRecordCardProps) 
     const progreesPercent = total > 0 ? Math.min(100, (Math.round((current/total) * 100))) : 0;
 
     const status = PT_RECORD_STATUS[data.status];
- 
+
     return (
         <div className="
             overflow-hidden
-            flex
+            flex flex-col md:flex-row
             bg-[#101828]
             border border-[#1E2939] rounded-[16px]
             ">
-            <div className="relative w-[20%]">
+            <div className="relative w-full h-44 md:w-[20%] md:h-auto">
                 <Image 
                     src={data.thumbnailUrl || HeaderProfile}
                     fill
@@ -70,7 +70,7 @@ export default function PtRecordCard({ data, errorMessage }: PtRecordCardProps) 
             </div>
             <div className="
             flex flex-col gap-1 flex-8
-            p-6
+            p-4 sm:p-5 lg:p-6
             ">
                 <div className="flex justify-between items-center">
                     <p className="text-[20px] font-black text-white"> {data.title} </p>
@@ -79,7 +79,7 @@ export default function PtRecordCard({ data, errorMessage }: PtRecordCardProps) 
                     </p>
                 </div>
                 <p className="text-[14px] font-normal text-[#99A1AF]"> {data.trainerName} </p>
-                <div className="grid grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3">
                     <div className="flex flex-col gap-1 bg-[#1E293980] rounded-[10px] p-3">
                         <p className="text-[12px] font-normal text-[#6A7282]">최근 PT 날짜</p>
                         <p className="text-[14px] font-extrabold text-white">{data.lastPtDate}</p>

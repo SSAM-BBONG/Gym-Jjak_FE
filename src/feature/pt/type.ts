@@ -113,7 +113,7 @@ export interface PtPopularCourseData {
   thumbnailUrl: string;
   part: string;
   trainerName: string;
-  roadAddress: string;
+  businessName: string;
 }
 
 // PT 인기 강습 목록 응답 타입
@@ -620,6 +620,7 @@ export interface PtReservationStudentDetailResponse {
 
 // PT 수강생 상세조회 데이터
 export interface PtReservationStudentDetailData {
+  userId: number,
   nickname: string,
   email: string,
   phone: string,

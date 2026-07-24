@@ -25,7 +25,7 @@ export default async function PtRecordDetailPage({ params }: PtRecordDetailPageP
 
     if (result.success === false) {
         return (
-            <div className="flex flex-col gap-5 px-70 py-10">
+            <div className="flex flex-col gap-5 px-4 py-6 sm:px-8 sm:py-8 md:px-16 md:py-10 lg:px-70">
                 <PfFeebBackCard
                     data={[]}
                     reservationId={id}
@@ -42,24 +42,24 @@ export default async function PtRecordDetailPage({ params }: PtRecordDetailPageP
     const progreesPercent = total > 0 ? Math.min(100, (Math.round((current/total) * 100))) : 0;
 
     return (
-        <div className="flex flex-col gap-5 px-70 py-10">
+        <div className="flex flex-col gap-5 px-4 py-6 sm:px-8 sm:py-8 md:px-16 md:py-10 lg:px-70">
             <div className="
             overflow-hidden
-            flex
+            flex flex-col md:flex-row
             bg-[#101828]
             border border-[#1E2939] rounded-[16px]
                 ">
-                <div className="relative w-[20%]">
+                <div className="relative w-full h-44 md:w-[20%] md:h-auto">
                     <Image 
                         src={data.thumbnailUrl || HeaderProfile}
                         fill
                         alt="PT 기록 프로필 사진"
                     />
                 </div>
-                <div className="flex flex-col gap-2 flex-7 p-6">
+                <div className="flex flex-col gap-2 flex-7 p-4 sm:p-5 lg:p-6">
                     <p className="text-[24px] font-black text-white"> {data.title}</p>
                     <p className="text-[14px] font-normal text-[#99A1AF]"> {data.trainerName}</p>
-                    <div className="grid grid-cols-2 gap-4 mt-2">
+                    <div className="grid grid-cols-1 gap-3 mt-2 sm:grid-cols-2 sm:gap-4">
                         <div className="flex flex-col gap-1 p-3 rounded-[10px] bg-[#1E293980]">
                             <p className="text-[12px] font-normal text-[#6A7282]"> 진척도 <span className="text-[#BFFF0B]">({progreesPercent}%)</span> </p>
                             <p className="text-[14px] font-extrabold text-[#BFFF0B]"> {data.progressCount}/{data.totalSessionCount}회 </p>
@@ -86,7 +86,7 @@ export default async function PtRecordDetailPage({ params }: PtRecordDetailPageP
             border border-[#1E2939] rounded-[14px]
             p-2
             ">  
-                <div className="flex gap-5">
+                <div className="flex flex-col gap-2 sm:flex-row sm:gap-5">
                     <p className="py-3 text-[16px] font-extrabold text-black bg-[#BFFF0B] rounded-[10px] text-center flex-1"> 트레이너 피드백 </p>
                     <p className="py-3 text-[16px] font-extrabold text-[#99a1af] rounded-[10px] text-center flex-1"> 식단 관리 </p>
                 </div>
