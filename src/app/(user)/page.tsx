@@ -81,6 +81,20 @@ export default function Page() {
           </div>
         </section>
 
+        <section className="relative mt-8 overflow-hidden rounded-[28px] border border-[#bfff0b]/50 bg-[linear-gradient(110deg,#1c3422_0%,#13231b_45%,#121a2b_100%)] px-7 py-8 shadow-[0_0_45px_rgba(191,255,11,0.12)] sm:px-10 sm:py-9">
+          <div className="absolute -right-10 -top-16 size-52 rounded-full bg-[#bfff0b]/15 blur-3xl" />
+          <div className="relative flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+            <div>
+              <p className="inline-flex rounded-full bg-[#bfff0b] px-3 py-1 text-xs font-black tracking-[0.12em] text-[#0b0f19]">FREE AI PT MATCHING</p>
+              <h2 className="mt-3 text-2xl font-black tracking-tight sm:text-3xl">AI한테 나에게 꼭 맞는 PT를 추천받아보세요!</h2>
+              <p className="mt-2 text-sm leading-6 text-slate-300">운동 부위와 거리, 통증 여부만 알려주면 추천 이유까지 확인할 수 있어요.</p>
+            </div>
+            <Link href="/pt/recommend" className="shrink-0 rounded-xl bg-[#bfff0b] px-5 py-3.5 text-center text-sm font-extrabold text-[#0b0f19] transition hover:bg-[#d4ff65] focus:outline-none focus:ring-2 focus:ring-white">
+              무료 추천 시작하기 →
+            </Link>
+          </div>
+        </section>
+
         <section className="mt-16">
           <div className="mb-7 flex flex-col justify-between gap-3 sm:flex-row sm:items-end">
             <div>

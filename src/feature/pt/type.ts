@@ -73,6 +73,38 @@ export interface PtCourseListResponse {
   data: PtCourseListData[];
 }
 
+export type PtRecommendationTargetPart =
+  | "CHEST" | "BACK" | "SHOULDER" | "ARM" | "ABS" | "CORE" | "LEG" | "GLUTE" | "FULL_BODY";
+
+export type PainOnset = "ACUTE" | "SUBACUTE" | "CHRONIC";
+
+export interface PtRecommendationRequest {
+  targetParts: PtRecommendationTargetPart[];
+  distanceLevel: number;
+  hasPain: boolean;
+  painArea: string | null;
+  painOnset: PainOnset | null;
+}
+
+export interface PtRecommendationResponse {
+  status: number;
+  code: string;
+  message: string;
+  data: PtRecommendationData;
+}
+
+export interface PtRecommendationData {
+  recommendations: PtRecommendationItem[];
+}
+
+export interface PtRecommendationItem {
+  courseId: number;
+  courseName: string;
+  trainerId: number;
+  trainerName: string;
+  reason: string;
+}
+
 // PT 인기 강습 목록 데이터 타입
 export interface PtPopularCourseData {
   ptCourseId: number;

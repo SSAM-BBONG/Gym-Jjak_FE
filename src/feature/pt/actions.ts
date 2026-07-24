@@ -2,13 +2,45 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { cancelMyPtSessionReservation, chagnePtzoneResrvationStatus, chagnePtzoneStatus, createFeedback, createPtCourse, createPtReservation, createPtReview, deleteFeedback, deletePtCourse, deletePtReview, getFeedbackDetail, getMyPtReservationDetail, getMyPtReservationLists, getMyPtSessionReservations, getMyTrainerApplicationDetail, getMyTrainerApplicationList, getOnboarding, getPopularPtLists, getPtResrvationAvailableDates, getPtResrvationAvailableTimes, getTrainerCancel, getTrainerPtDashboard, getTrainerReportDetail, getTrainerReportList, getTrainerReviewList, getTrainerReviewSummary, getWithoutOnboarding, searchOrganizations, trainerApplication, updateFeedback, updatePtCourse, updatePtReview, updateTrainerApplication } from "@/service/ptzone.service";
-import { FeedbackDetailData, MyPtRecordDetailData, MyPtResrvationListsData, OrganizationSearchItem, PtCourseUpdateRequest, PtRegistRequest, PtRegistSchedule, PtReservationRequest, PtReservationStatusChangeRequest, PtReviewCreateRequest, PtSessionReservationListData, TrainerApplicationData, TrainerApplicationEditData, TrainerPtDashboardData, TrainerReportDetailData, TrainerReportListData, TrainerReviewListData, TrainerReviewListRequest, TrainerReviewSummaryData } from "./type";
+import { cancelMyPtSessionReservation, chagnePtzoneResrvationStatus, chagnePtzoneStatus, createFeedback, createPtCourse, createPtRecommendation, createPtReservation, createPtReview, deleteFeedback, deletePtCourse, deletePtReview, getFeedbackDetail, getMyPtReservationDetail, getMyPtReservationLists, getMyPtSessionReservations, getMyTrainerApplicationDetail, getMyTrainerApplicationList, getOnboarding, getPopularPtLists, getPtResrvationAvailableDates, getPtResrvationAvailableTimes, getTrainerCancel, getTrainerPtDashboard, getTrainerReportDetail, getTrainerReportList, getTrainerReviewList, getTrainerReviewSummary, getWithoutOnboarding, searchOrganizations, trainerApplication, updateFeedback, updatePtCourse, updatePtReview, updateTrainerApplication } from "@/service/ptzone.service";
+import { FeedbackDetailData, MyPtRecordDetailData, MyPtResrvationListsData, OrganizationSearchItem, PainOnset, PtCourseUpdateRequest, PtRecommendationData, PtRecommendationRequest, PtRecommendationTargetPart, PtRegistRequest, PtRegistSchedule, PtReservationRequest, PtReservationStatusChangeRequest, PtReviewCreateRequest, PtSessionReservationListData, TrainerApplicationData, TrainerApplicationEditData, TrainerPtDashboardData, TrainerReportDetailData, TrainerReportListData, TrainerReviewListData, TrainerReviewListRequest, TrainerReviewSummaryData } from "./type";
 import { uploadFilesPresignedUrl } from "@/service/file.service";
 import { cookies } from "next/headers";
 
 export const getPopularPtListsAction = async () => {
   return getPopularPtLists();
+};
+
+type PtRecommendationActionResult =
+  | { success: true; data: PtRecommendationData }
+  | { success: false; message: string };
+
+export const getPtRecommendationAction = async (
+  payload: PtRecommendationRequest
+): Promise<PtRecommendationActionResult> => {
+  const parts: PtRecommendationTargetPart[] = ["CHEST", "BACK", "SHOULDER", "ARM", "ABS", "CORE", "LEG", "GLUTE", "FULL_BODY"];
+  const painOnsets: PainOnset[] = ["ACUTE", "SUBACUTE", "CHRONIC"];
+
+  try {
+    if (!payload.targetParts.length || payload.targetParts.some((part) => !parts.includes(part))) {
+      return { success: false, message: "원하는 운동 부위를 한 개 이상 선택해주세요." };
+    }
+    if (!Number.isInteger(payload.distanceLevel) || payload.distanceLevel < 1 || payload.distanceLevel > 5) {
+      return { success: false, message: "희망 거리를 다시 선택해주세요." };
+    }
+    if (payload.hasPain && (!payload.painArea?.trim() || !payload.painOnset || !painOnsets.includes(payload.painOnset))) {
+      return { success: false, message: "통증 부위와 발생 시기를 모두 선택해주세요." };
+    }
+
+    const response = await createPtRecommendation({
+      ...payload,
+      painArea: payload.hasPain ? payload.painArea?.trim() ?? null : null,
+      painOnset: payload.hasPain ? payload.painOnset : null,
+    });
+    return { success: true, data: response.data };
+  } catch (error) {
+    return { success: false, message: error instanceof Error ? error.message : "AI PT 추천을 불러오지 못했습니다." };
+  }
 };
 
 type TrainerPtDashboardActionResult =
