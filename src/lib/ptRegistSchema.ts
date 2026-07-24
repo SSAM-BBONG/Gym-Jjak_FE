@@ -33,4 +33,10 @@ export const ptRegistSchema = z.object({
   })).min(1),
 });
 
+export const ptCourseEditSchema = ptRegistSchema
+  .omit({ organizationId: true })
+  .extend({
+    thumbnailFile: thumbnailFileSchema.optional(),
+  });
+
 export type PtRegistFormValue = z.infer<typeof ptRegistSchema>;

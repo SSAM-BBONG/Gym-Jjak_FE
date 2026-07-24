@@ -2,8 +2,8 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { cancelMyPtSessionReservation, chagnePtzoneResrvationStatus, chagnePtzoneStatus, createFeedback, createPtCourse, createPtReservation, createPtReview, deleteFeedback, deletePtCourse, deletePtReview, getFeedbackDetail, getMyPtReservationDetail, getMyPtReservationLists, getMyPtSessionReservations, getMyTrainerApplicationDetail, getMyTrainerApplicationList, getOnboarding, getPopularPtLists, getPtResrvationAvailableDates, getPtResrvationAvailableTimes, getTrainerCancel, getTrainerPtDashboard, getTrainerReviewList, getTrainerReviewSummary, getWithoutOnboarding, searchOrganizations, trainerApplication, updateFeedback, updatePtCourse, updatePtReview, updateTrainerApplication } from "@/service/ptzone.service";
-import { FeedbackDetailData, MyPtRecordDetailData, MyPtResrvationListsData, OrganizationSearchItem, PtCourseUpdateRequest, PtRegistRequest, PtRegistSchedule, PtReservationRequest, PtReservationStatusChangeRequest, PtReviewCreateRequest, PtSessionReservationListData, TrainerApplicationData, TrainerApplicationEditData, TrainerPtDashboardData, TrainerReviewListData, TrainerReviewListRequest, TrainerReviewSummaryData } from "./type";
+import { cancelMyPtSessionReservation, chagnePtzoneResrvationStatus, chagnePtzoneStatus, createFeedback, createPtCourse, createPtReservation, createPtReview, deleteFeedback, deletePtCourse, deletePtReview, getFeedbackDetail, getMyPtReservationDetail, getMyPtReservationLists, getMyPtSessionReservations, getMyTrainerApplicationDetail, getMyTrainerApplicationList, getOnboarding, getPopularPtLists, getPtResrvationAvailableDates, getPtResrvationAvailableTimes, getTrainerCancel, getTrainerPtDashboard, getTrainerReportDetail, getTrainerReportList, getTrainerReviewList, getTrainerReviewSummary, getWithoutOnboarding, searchOrganizations, trainerApplication, updateFeedback, updatePtCourse, updatePtReview, updateTrainerApplication } from "@/service/ptzone.service";
+import { FeedbackDetailData, MyPtRecordDetailData, MyPtResrvationListsData, OrganizationSearchItem, PtCourseUpdateRequest, PtRegistRequest, PtRegistSchedule, PtReservationRequest, PtReservationStatusChangeRequest, PtReviewCreateRequest, PtSessionReservationListData, TrainerApplicationData, TrainerApplicationEditData, TrainerPtDashboardData, TrainerReportDetailData, TrainerReportListData, TrainerReviewListData, TrainerReviewListRequest, TrainerReviewSummaryData } from "./type";
 import { uploadFilesPresignedUrl } from "@/service/file.service";
 import { cookies } from "next/headers";
 
@@ -41,6 +41,45 @@ export const getTrainerPtDashboardAction =
       };
     }
   };
+
+type TrainerReportListActionResult =
+  | { success: true; data: TrainerReportListData }
+  | { success: false; message: string };
+
+type TrainerReportDetailActionResult =
+  | { success: true; data: TrainerReportDetailData }
+  | { success: false; message: string };
+
+export const getTrainerReportListAction = async (
+  page: number = 0,
+  size: number = 20
+): Promise<TrainerReportListActionResult> => {
+  try {
+    const response = await getTrainerReportList(page, size);
+
+    return { success: true, data: response.data };
+  } catch (error) {
+    return {
+      success: false,
+      message: error instanceof Error ? error.message : "트레이너 시장 동향 리포트 목록 조회에 실패하였습니다.",
+    };
+  }
+};
+
+export const getTrainerReportDetailAction = async (
+  trainerReportId: number
+): Promise<TrainerReportDetailActionResult> => {
+  try {
+    const response = await getTrainerReportDetail(trainerReportId);
+
+    return { success: true, data: response.data };
+  } catch (error) {
+    return {
+      success: false,
+      message: error instanceof Error ? error.message : "트레이너 시장 동향 리포트 상세 조회에 실패하였습니다.",
+    };
+  }
+};
 
 // 내 트레이너 신청 목록 조회 액션
 export const getMyTrainerApplicationListAction = async (page: number = 0) => {

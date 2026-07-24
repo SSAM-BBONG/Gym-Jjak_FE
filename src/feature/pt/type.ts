@@ -365,6 +365,74 @@ export interface TrainerPtDashboardCourse {
   currentStudentCount: number;
 }
 
+// 트레이너 시장 동향 리포트 목록 조회 응답 타입
+export interface TrainerReportListResponse {
+  status: number;
+  code: string;
+  message: string;
+  data: TrainerReportListData;
+}
+
+export interface TrainerReportListData {
+  items: TrainerReportListItem[];
+  hasNext: boolean;
+}
+
+export interface TrainerReportListItem {
+  trainerReportId: number;
+  targetMonth: string;
+}
+
+// 트레이너 시장 동향 리포트 상세 조회 응답 타입
+export interface TrainerReportDetailResponse {
+  status: number;
+  code: string;
+  message: string;
+  data: TrainerReportDetailData;
+}
+
+export interface TrainerReportDetailData {
+  trainerReportId: number;
+  targetMonth: string;
+  report: string;
+  marketTrendsSnapshot: TrainerMarketTrendsSnapshot;
+}
+
+export interface TrainerMarketTrendsSnapshot {
+  popularBodyParts: TrainerReportBodyPartDistribution[];
+  priceDistribution: TrainerReportPriceDistribution[];
+  pricePerSessionDistribution: TrainerReportPriceDistribution[];
+  sessionCountDistribution: TrainerReportSessionCountDistribution[];
+  locationDistribution: TrainerReportLocationDistribution[];
+}
+
+export interface TrainerReportBodyPartDistribution {
+  bodyPart: string;
+  percentage: number;
+  percentageChangeFromLastMonth: number | null;
+}
+
+export interface TrainerReportPriceDistribution {
+  priceRange: string;
+  minPrice: number;
+  maxPrice: number | null;
+  percentage: number;
+  percentageChangeFromLastMonth: number | null;
+}
+
+export interface TrainerReportSessionCountDistribution {
+  sessionCount: number;
+  percentage: number;
+  percentageChangeFromLastMonth: number | null;
+}
+
+// 현재 API는 항상 빈 배열을 반환하지만, 응답 구조 확장에 대비해 타입을 유지한다.
+export interface TrainerReportLocationDistribution {
+  location: string;
+  percentage: number;
+  percentageChangeFromLastMonth: number | null;
+}
+
 // PT 등록 카테고리 목록 조회 응답 타입
 export interface PtRegistCategoryReponse {
   status: number;
