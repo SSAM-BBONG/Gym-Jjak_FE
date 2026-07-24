@@ -9,24 +9,29 @@ import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 import { getChatbotMessageListAction } from "@/feature/chatbot/action";
 import { useChatbotSocket } from "@/components/hooks/useChatbotSocket";
 import type { ChatbotSocketEvent } from "@/feature/chatbot/type";
+import STTButton from "./STTButton";
+import { useRouter } from "next/navigation";
 
 export default function ChatCt({ sessionId }: { sessionId?: string }) {
 
     const queryClient = useQueryClient();
     const targetRef = useRef<HTMLDivElement>(null);
     const requestIdRef = useRef<string | null>(null);
-    const [currentSessionId, setCurrentSessionId] = useState(sessionId);
     const [message, setMessage] = useState("");
     const [loading, setLoading] = useState(false);
     const [socketError, setSocketError] = useState("");
     const [response, setResponse] = useState("");
+    const [isListening, setIsListening] = useState(false);
+    const [routine, setRoutine] = useState("");
+    const [source, setSource] = useState("");
+    const router = useRouter();
 
     const handleChatbotEvent = useCallback((event: ChatbotSocketEvent) => {
         switch (event.type) {
             case "started": {
                 requestIdRef.current = event.requestId;
-                setCurrentSessionId(event.sessionId);
                 setLoading(true);
+                router.replace(`/chatbot?sessionId=${event.sessionId}`);
                 setSocketError("");
                 setResponse("");
                 void queryClient.invalidateQueries({
@@ -38,19 +43,21 @@ export default function ChatCt({ sessionId }: { sessionId?: string }) {
                 if (requestIdRef.current && requestIdRef.current !== event.requestId) {
                     return;
                 }
-                console.log('delta', event.text)
                 setResponse((previous) => previous + event.text);
-                console.log('compd', response)
                 break;
             }
             case "done": {
                 if (requestIdRef.current && requestIdRef.current !== event.requestId) {
                     return;
                 }
+                if (event.routine) {
+                    setRoutine(JSON.parse(event.routine));
+                }
+                if (event.sources) {
+                    setSource(JSON.parse(event.sources))
+                }
 
-                console.log('done', event.answer)
                 setResponse(event.answer);
-                console.log('compdone', response)
                 setLoading(false);
                 requestIdRef.current = null;
 
@@ -87,10 +94,10 @@ export default function ChatCt({ sessionId }: { sessionId?: string }) {
 
     const useChatbotListQuery = () => {
         return useInfiniteQuery({
-            queryKey: ["chatbot", "messages", currentSessionId],
+            queryKey: ["chatbot", "messages", sessionId],
             initialPageParam: undefined as string | undefined,
             queryFn: ({ pageParam }) => {
-                return getChatbotMessageListAction(currentSessionId as string, pageParam);
+                return getChatbotMessageListAction(sessionId as string, pageParam);
             },
             getNextPageParam: (lastPage) => {
                 if (!lastPage.data.hasNext) {
@@ -99,7 +106,7 @@ export default function ChatCt({ sessionId }: { sessionId?: string }) {
 
                 return lastPage.data.nextCursor ?? undefined;
             },
-            enabled: !!currentSessionId
+            enabled: !!sessionId
         })
     }
 
@@ -161,7 +168,7 @@ export default function ChatCt({ sessionId }: { sessionId?: string }) {
         setResponse("");
 
         const sent = sendMessage({
-            sessionId: currentSessionId,
+            sessionId: sessionId,
             content,
         });
 
@@ -201,7 +208,7 @@ export default function ChatCt({ sessionId }: { sessionId?: string }) {
                     /> */}
             </header>
 
-            <div className="h-full w-full overflow-y-auto px-5 py-6 sm:px-10">
+            <div className="h-full w-full px-5 py-6 sm:px-10 overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
                 {isError ? (
                     <div className="flex flex-1 items-center justify-center px-4 text-center text-sm text-[#99A1AF]">
                         {error.message}
@@ -238,6 +245,13 @@ export default function ChatCt({ sessionId }: { sessionId?: string }) {
                     {socketError}
                 </p>
             )}
+
+
+            {isListening && (
+                <p className="absolute bottom-16 px-5 pb-2 text-center text-xs text-[#99A1AF]">
+                    음성인식 중입니다...
+                </p>
+            )}
             <form
                 onSubmit={handleSubmit}
                 className="absolute bottom-0 z-50 flex w-full items-center gap-3 bg-[#0B0F19] px-4 pb-4 sm:px-5 sm:pb-5"
@@ -252,6 +266,7 @@ export default function ChatCt({ sessionId }: { sessionId?: string }) {
                     disabled={loading}
                     className="h-11 min-w-0 flex-1 rounded-[15px] border border-[#364153] bg-[#0F172A] px-4 text-sm text-white outline-none placeholder:text-[#6A7282] focus:border-[#65748B]"
                 />
+                <STTButton loading={loading} isConnected={isConnected} setMessage={setMessage} isListening={isListening} setIsListening={setIsListening} />
                 <button
                     type="submit"
                     disabled={loading || !isConnected || !message.trim()}
