@@ -29,15 +29,15 @@ export default async function PtZonePage() {
     const TrainerPtData = await getTrainerPtDashboardAction();
 
     return (
-        <main className="flex flex-col gap-10 px-40">
-            <header className="pt-10">
-                <p className="text-[40px] font-black text-white"> PT ZONE </p>
-                <p className="text-[16px] font-normal text-[#99A1AF]"> 전문 트레이너와 함께하는 1:1 맞춤 PT </p>
+        <main className="flex flex-col gap-6 px-4 sm:gap-8 sm:px-10 md:gap-10 md:px-20 lg:gap-10 lg:px-40">
+            <header className="pt-6 sm:pt-8 md:pt-10 lg:pt-10">
+                <p className="text-[28px] font-black text-white sm:text-[34px] md:text-[36px] lg:text-[40px]"> PT ZONE </p>
+                <p className="text-[14px] font-normal text-[#99A1AF] md:text-[15px] lg:text-[16px]"> 전문 트레이너와 함께하는 1:1 맞춤 PT </p>
             </header>
             {/* 역할에 따라 서로 다른 UI 분기 설정 */}
             {userinf?.role === "TRAINER" ?
                 (
-                    <div className="grid grid-cols-3 gap-6">
+                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 md:grid-cols-3 md:gap-6 lg:grid-cols-3 lg:gap-6">
                         <PtCard
                             imgsrc={PtZonePtRegist}
                             title="PT 등록"
@@ -57,7 +57,7 @@ export default async function PtZonePage() {
                 )
                 :
                 (
-                    <div className="grid grid-cols-3 gap-6">
+                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 md:grid-cols-3 md:gap-6 lg:grid-cols-3 lg:gap-6">
                         <PtCard
                             imgsrc={PtZoneFindCard}
                             title="PT 찾기"
@@ -91,11 +91,11 @@ export default async function PtZonePage() {
                     data={TrainerPtData?.data}
                 />
             </section>    
-            <section className="flex flex-col gap-3 pb-15">
-                <p className="text-[24px] font-black text-white"> {userinf?.role === "TRAINER" ? "내 인기 강습" : "인기 강습"} </p>
+            <section className="flex flex-col gap-2 pb-10 sm:gap-3 sm:pb-12 lg:gap-3 lg:pb-15">
+                <p className="text-[20px] font-black text-white sm:text-[22px] lg:text-[24px]"> {userinf?.role === "TRAINER" ? "내 인기 강습" : "인기 강습"} </p>
                 {userinf?.role === "TRAINER"
                 ?
-                <div className="grid grid-cols-4 gap-4">                
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 md:gap-5 lg:grid-cols-4 lg:gap-4">
                     {TrainerPtData.data?.inProgressPtCourses.map((item) => (
                     <Link 
                         key={item.ptCourseId} 
@@ -108,7 +108,7 @@ export default async function PtZonePage() {
                     ))}
                 </div>
                 :
-                <div className="grid grid-cols-4 gap-4">                
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 md:gap-5 lg:grid-cols-4 lg:gap-4">
                     {popularPtData.data.map((item) => (
                         <Link
                             key={item.ptCourseId} 

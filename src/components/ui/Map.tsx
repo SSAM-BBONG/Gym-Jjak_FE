@@ -48,7 +48,7 @@ export default function KakaoMap({latitude, longitude, ptList, setOrganizationId
         lng: longitude || 127.1651323818218,
       }}
       level={5}
-      className="h-full"
+      className="h-full w-full"
       draggable={true}
       scrollwheel={true}
     >
