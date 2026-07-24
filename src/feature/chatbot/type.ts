@@ -13,10 +13,6 @@ export interface ChatSessions {
     hasNext: boolean;
 }
 
-export interface ChatRoutine {
-    name: string;
-}
-
 export interface ChatSource {
     title: string;
 }
@@ -27,7 +23,7 @@ export interface ChatMessage {
     content: string;
     intentHint: string | null;
     category: string | null;
-    routine: ChatRoutine | null;
+    routine: RoutineResponse | null;
     sources: ChatSource[];
     limited: boolean | null;
     createdAt: string;
@@ -102,3 +98,40 @@ export type ChatbotSocketEvent =
     | ChatbotDeltaEvent
     | ChatbotDoneEvent
     | ChatbotErrorEvent;
+
+
+export type RoutineStatus = 'COMPLETE' | 'LIMITED' | 'BLOCKED';
+
+export interface RoutineExercise {
+    name: string;
+    part: string;
+    sets: number;
+    reps: string;
+    intensity: string;
+    rest_seconds: number;
+    rationale: string;
+}
+
+export interface RoutineDay {
+    day_label: string;
+    goal: string;
+    warm_up: string[];
+    exercises: RoutineExercise[];
+    cool_down: string[];
+}
+
+export interface RoutineSource {
+    source: string;
+    title: string;
+    category: string;
+}
+
+export interface RoutineResponse {
+    status: RoutineStatus;
+    title: string;
+    summary: string;
+    days: RoutineDay[];
+    cautions: string[];
+    missing_data: string[];
+    sources: RoutineSource[];
+}

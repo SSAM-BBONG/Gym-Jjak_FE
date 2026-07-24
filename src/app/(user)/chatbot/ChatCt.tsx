@@ -9,11 +9,10 @@ import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 import { getChatbotMessageListAction } from "@/feature/chatbot/action";
 import { useChatbotSocket } from "@/components/hooks/useChatbotSocket";
 // 수정된 코드 시작
-import type { ChatbotQuickReply, ChatbotSocketEvent } from "@/feature/chatbot/type";
+import type { ChatbotQuickReply, ChatbotSocketEvent, RoutineResponse } from "@/feature/chatbot/type";
 // 수정된 코드 끝
 import STTButton from "./STTButton";
 import { useRouter } from "next/navigation";
-import { MessageSquareText } from "lucide-react";
 
 export default function ChatCt({ sessionId }: { sessionId?: string }) {
 
@@ -25,9 +24,10 @@ export default function ChatCt({ sessionId }: { sessionId?: string }) {
     const [socketError, setSocketError] = useState("");
     const [response, setResponse] = useState("");
     const [isListening, setIsListening] = useState(false);
-    const [routine, setRoutine] = useState("");
+    const [routine, setRoutine] = useState<RoutineResponse | null>(null);
     const [source, setSource] = useState("");
     const router = useRouter();
+    const endRef = useRef<HTMLDivElement>(null);
 
     // 수정된 코드 시작
     const activeSessionIdRef = useRef(sessionId);
@@ -38,6 +38,12 @@ export default function ChatCt({ sessionId }: { sessionId?: string }) {
         activeSessionIdRef.current = sessionId;
     }, [sessionId]);
     // 수정된 코드 끝
+
+    const scrollToBottom = () => {
+        if (endRef.current) {
+            endRef.current.scrollIntoView();
+        }
+    };
 
     const handleChatbotEvent = useCallback((event: ChatbotSocketEvent) => {
         switch (event.type) {
@@ -68,7 +74,7 @@ export default function ChatCt({ sessionId }: { sessionId?: string }) {
                     return;
                 }
                 if (event.routine) {
-                    setRoutine(JSON.parse(event.routine));
+                    setRoutine(JSON.parse(event.routine) as RoutineResponse);
                     console.log(event.routine)
                 }
                 if (event.sources) {
@@ -83,6 +89,7 @@ export default function ChatCt({ sessionId }: { sessionId?: string }) {
                 setLoading(false);
                 requestIdRef.current = null;
 
+                scrollToBottom();
                 void Promise.all([
                     queryClient.invalidateQueries({
                         queryKey: ["chatbot", "session"],
@@ -255,6 +262,7 @@ export default function ChatCt({ sessionId }: { sessionId?: string }) {
     };
     // 수정된 코드 끝
 
+
     return (
         <div className="relative flex h-full min-h-0 w-full flex-col overflow-hidden pt-[70px] md:w-5/7 md:pt-0">
             <header className="absolute top-0 z-50  h-[70px] w-full items-center justify-between  bg-[#0B0F19] px-5 sm:px-6 flex md:hidden">
@@ -276,7 +284,7 @@ export default function ChatCt({ sessionId }: { sessionId?: string }) {
             </header>
 
             <div className="min-h-0 w-full flex-1 overflow-y-auto px-5 py-6 pb-20 sm:px-10 sm:pb-24 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
-                {!sessionId && messages.length === 0 && (
+                {(!sessionId && !loading) && (
                     <div className="flex flex-1 mt-20 md:mt-50 flex-col items-center justify-center px-4 text-center">
                         <div className="flex size-12 items-center justify-center rounded-full border border-[#364153] bg-[#101828]">
                             <div className="relative h-10 w-10 sm:h-13 sm:w-20 ">
@@ -367,6 +375,7 @@ export default function ChatCt({ sessionId }: { sessionId?: string }) {
                     음성인식 중입니다...
                 </p>
             )}
+            <div ref={endRef}></div>
             <form
                 onSubmit={handleSubmit}
                 className="absolute bottom-0 z-50 flex w-full items-center gap-3 bg-[#0B0F19] px-4 pb-4 sm:px-5 sm:pb-5"
