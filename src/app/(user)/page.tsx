@@ -1,4 +1,5 @@
 import UserFooter from "@/components/layout/UserFooter";
+import ChatbotFloatingButton from "@/components/ui/ChatbotFloatingButton";
 import { MainImg } from "@/components/ui/image";
 import Image from "next/image";
 import Link from "next/link";
@@ -150,6 +151,7 @@ export default function Page() {
         </section>
       </div>
       <UserFooter />
+      <ChatbotFloatingButton />
     </main>
   );
 }

@@ -88,7 +88,7 @@ export default function ChatbotList({ sessionId }: { sessionId?: string }) {
                 <ChatAddButton />
             </header>
 
-            <div className="flex flex-1 flex-col gap-2 overflow-y-auto p-3 lg:p-4">
+            <div className="flex flex-1 flex-col gap-2 p-3 lg:p-4 overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
                 {isError ? (
                     <div className="flex flex-1 items-center justify-center px-4 text-center text-sm text-[#99A1AF]">
                         {error.message}
