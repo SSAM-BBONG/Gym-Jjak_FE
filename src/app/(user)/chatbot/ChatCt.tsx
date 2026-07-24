@@ -19,7 +19,6 @@ export default function ChatCt({ sessionId }: { sessionId?: string }) {
     const [loading, setLoading] = useState(false);
     const [socketError, setSocketError] = useState("");
     const [response, setResponse] = useState("");
-    const [sentMessage, setSentMessage] = useState("");
 
     const handleChatbotEvent = useCallback((event: ChatbotSocketEvent) => {
         switch (event.type) {
@@ -140,7 +139,6 @@ export default function ChatCt({ sessionId }: { sessionId?: string }) {
         setLoading(true);
         setSocketError("");
         setResponse("");
-        setSentMessage(content);
 
         const sent = sendMessage({
             sessionId: currentSessionId,
@@ -198,12 +196,6 @@ export default function ChatCt({ sessionId }: { sessionId?: string }) {
                                 createdAt={chatMessage.createdAt}
                             />
                         ))}
-                        {sentMessage && (
-                            <ChatItem
-                                role="USER"
-                                content={sentMessage}
-                            />
-                        )}
                         {(loading || response) && (
                             <ChatItem
                                 role="ASSISTANT"

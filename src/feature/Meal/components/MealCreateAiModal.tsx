@@ -27,6 +27,10 @@ export default function MealCreateAiModal({ isModal, closeModal }: MealProps) {
         )),
         onSuccess: (result) => {
             if (!result.success) {
+                if (result.debug) {
+                    console.error("[mealAiPostAction] AI 식단 분석 요청 실패", result.debug);
+                }
+
                 toast.error(result.message)
                 return;
             }
