@@ -14,8 +14,8 @@ export default function ChatListItem( {chat}: ChatListItemProps) {
             className="flex items-center gap-2 rounded-[12px] border border-[#1E2939] bg-[#101828] px-3 py-3 transition-colors hover:border-[#BFFF0B4D] hover:bg-gradient-to-r hover:from-[#19210F] hover:via-[#101828] hover:to-[#101828] sm:gap-3 sm:px-4 sm:py-4 sm:rounded-[16px] lg:gap-4 lg:py-5">
             <Link className="flex-1 min-w-0" href={`/chat/${chat.chatRoomId}`}>
             <div className="flex gap-2 flex-1 min-w-0 justify-between sm:gap-3">
-                <div className="border border-[#364153] rounded-full w-10 h-10 flex justify-center items-center sm:w-[45px] sm:h-[45px] lg:w-[55px] lg:h-[55px]">
-                    <img src={chat.partnerProfileImageUrl || HeaderProfile} className="object-cover w-[70%]"/>
+                <div className="border border-[#364153] rounded-full w-10 h-10 flex shrink-0 justify-center items-center overflow-hidden sm:w-[45px] sm:h-[45px] lg:w-[55px] lg:h-[55px]">
+                    <img src={chat.partnerProfileImageUrl || HeaderProfile} className="h-full w-full object-cover"/>
                 </div>
                 <div className="flex flex-1 min-w-0 justify-between items-center">
                     <div className="flex flex-col gap-1.5 min-w-0 justify-center sm:gap-2">

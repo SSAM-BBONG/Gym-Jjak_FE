@@ -103,7 +103,7 @@ export default function ChatRoom({
                             ⭠
                         </Link>
 
-                        <div className="h-9 w-9 overflow-hidden rounded-full border border-[#364153] bg-[#101828] sm:h-10 sm:w-10">
+                        <div className="h-9 w-9 shrink-0 overflow-hidden rounded-full border border-[#364153] bg-[#101828] sm:h-10 sm:w-10">
                             <img
                                 src={partnerProfileImageUrl || HeaderProfile}
                                 alt={`${partnerName} 프로필`}
