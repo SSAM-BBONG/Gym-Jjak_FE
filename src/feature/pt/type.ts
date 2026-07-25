@@ -17,6 +17,7 @@ export interface PtCourseSchedule {
 // PT 상세조회 리뷰 타입
 export interface PtCourseReview {
   reviewId: number;
+  nickname: string;
   rating: number;
   content: string;
   createdAt: string;
@@ -676,7 +677,7 @@ export interface MyPtReservationList {
   title: string,
   trainerName: string,
   status: MyPtReservationStatus,
-  lastPtDate: string,
+  lastPtDate: string | { date: string; message: string } | null,
   progressCount: number,
   totalSessionCount: number
 }
@@ -714,11 +715,43 @@ export interface PtSessionReservationCancelResponse {
   };
 }
 
+export interface PtCourseSessionReservationListResponse {
+  status: number;
+  code: string;
+  message: string;
+  data: PtCourseSessionReservationListData;
+}
+
+export interface PtCourseSessionReservationListData {
+  sessions: PtCourseSessionReservation[];
+}
+
+export interface PtCourseSessionReservation {
+  ptReservationId: number;
+  ptCourseId: number;
+  ptCourseTitle: string;
+  trainerName: string;
+  reservedStartAt: string;
+  reservedEndAt: string;
+  sessionStatus: boolean;
+}
+
+export interface PtReservationCancelResponse {
+  status: number;
+  code: string;
+  message: string;
+  data: {
+    status: "CANCELLED";
+    cancelledAt: string;
+  };
+}
+
 // 내 예약 기록 상세 조회 커리큘럼
 export interface MyPtRecordDetailCurriculum {
   id: number;
   sessionNo: number;
   title: string;
+  reservedStartAt?: string | { date: string; message: string } | null;
   feedbackId: number | null;
 }
 

@@ -26,7 +26,7 @@ export default function PtDetailReviews( {data}:PtDetailReviewsProps ) {
                         key={item.reviewId} 
                         className="flex flex-col gap-1 py-4 md:py-5 lg:py-6 border-b border-b-[#364153]">
                         <div className="flex justify-between">
-                            <p className="text-[12px] md:text-[13px] lg:text-[14px] font-extrabold text-white"> 운동초보 </p>
+                            <p className="text-[12px] md:text-[13px] lg:text-[14px] font-extrabold text-white"> {item.nickname} </p>
                             <p className="text-[10px] md:text-[11px] lg:text-[12px] font-normal text-[#6A7282]"> {(item.createdAt).split("T")[0]} </p>
                         </div>
                         <div className="text-[#BFFF0B]">

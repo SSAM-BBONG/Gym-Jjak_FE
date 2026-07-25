@@ -1,11 +1,8 @@
 "use client";
 
 import OneButtonModal from "@/components/ui/OneButtonModal";
-import TwoButtonModal from "@/components/ui/TwoButtonModal";
-import { cancelMyPtSessionReservationAction } from "@/feature/pt/actions";
 import { PtSessionReservation } from "@/feature/pt/type";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 
 const statusStyle = {
   RESERVED: { label: "예약 완료", className: "bg-[#2B7FFF33] text-[#51A2FF]" },
@@ -25,26 +22,6 @@ export default function PtSessionReservationList({
   errorMessage,
 }: PtSessionReservationListProps) {
   const router = useRouter();
-  const [selectedReservation, setSelectedReservation] = useState<PtSessionReservation | null>(null);
-  const [isCancelling, setIsCancelling] = useState(false);
-  const [actionError, setActionError] = useState("");
-
-  const handleCancel = async () => {
-    if (!selectedReservation || isCancelling) return;
-
-    setIsCancelling(true);
-    const result = await cancelMyPtSessionReservationAction(selectedReservation.ptReservationId);
-    setIsCancelling(false);
-
-    if (!result.success) {
-      setSelectedReservation(null);
-      setActionError(result.message);
-      return;
-    }
-
-    setSelectedReservation(null);
-    router.refresh();
-  };
 
   if (errorMessage) {
     return (
@@ -86,34 +63,12 @@ export default function PtSessionReservationList({
                   </p>
                 </div>
 
-                {session.sessionStatus === "RESERVED" && (
-                  <button
-                    type="button"
-                    onClick={() => setSelectedReservation(session)}
-                    className="shrink-0 rounded-[10px] bg-[#82181A4D] px-4 py-2 text-[12px] font-extrabold text-[#FF6467] sm:px-5 sm:text-[14px] hover:bg-[#FB2C36] hover:text-white"
-                  >
-                    예약 취소
-                  </button>
-                )}
               </article>
             );
           })
         )}
       </div>
 
-      <TwoButtonModal
-        isModal={Boolean(selectedReservation)}
-        closeModal={() => !isCancelling && setSelectedReservation(null)}
-        activeModal={handleCancel}
-        title="PT 세션 예약 취소"
-        content={isCancelling ? "예약을 취소하고 있습니다." : "선택한 PT 세션 예약을 취소하시겠습니까?"}
-      />
-      <OneButtonModal
-        isModal={Boolean(actionError)}
-        closeModal={() => setActionError("")}
-        title="PT 세션 예약 취소 실패"
-        content={actionError}
-      />
     </>
   );
 }
