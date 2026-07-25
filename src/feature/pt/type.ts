@@ -17,6 +17,7 @@ export interface PtCourseSchedule {
 // PT 상세조회 리뷰 타입
 export interface PtCourseReview {
   reviewId: number;
+  nickname: string;
   rating: number;
   content: string;
   createdAt: string;
