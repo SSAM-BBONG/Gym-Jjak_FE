@@ -4,7 +4,7 @@ import { ChatSendButton, Logo, MainImg } from "@/components/ui/image";
 import Image from "next/image";
 import Link from "next/link";
 import ChatItem from "./ChatItem";
-import { FormEvent, useEffect, useRef, useState } from "react";
+import { FormEvent, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 import { getChatbotMessageListAction } from "@/feature/chatbot/action";
 import { useChatbotSocket } from "@/components/hooks/useChatbotSocket";
@@ -13,6 +13,7 @@ import type { ChatbotDoneEvent, ChatbotQuickReply, ChatbotSocketEvent, RoutineRe
 // 수정된 코드 끝
 import STTButton from "./STTButton";
 import { useRouter } from "next/navigation";
+import { ChevronDown } from "lucide-react";
 
 export default function ChatCt({ sessionId }: { sessionId?: string }) {
 
@@ -43,10 +44,13 @@ export default function ChatCt({ sessionId }: { sessionId?: string }) {
     // 수정된 코드 끝
 
     const scrollToBottom = () => {
-        if (endRef.current) {
-            endRef.current.scrollIntoView();
-        }
+        endRef.current?.scrollIntoView({
+            behavior: "smooth",
+            block: "end",
+        });
     };
+
+
 
     const refreshChatbotData = async (doneEvent: ChatbotDoneEvent) => {
         try {
@@ -94,7 +98,6 @@ export default function ChatCt({ sessionId }: { sessionId?: string }) {
                 setLoading(false);
                 requestIdRef.current = null;
                 doneEventRef.current = null;
-                scrollToBottom();
                 refreshChatbotData(doneEvent);
             }
 
@@ -328,6 +331,10 @@ export default function ChatCt({ sessionId }: { sessionId?: string }) {
     };
     // 수정된 코드 끝
 
+    useLayoutEffect(() => {
+        scrollToBottom();
+    }, [messages.length]);
+
 
     return (
         <div className="relative flex h-full min-h-0 w-full flex-col overflow-hidden pt-[70px] md:w-5/7 md:pt-0">
@@ -425,6 +432,7 @@ export default function ChatCt({ sessionId }: { sessionId?: string }) {
                             </div>
                         )}
                         {/* 수정된 코드 끝 */}
+                        <div ref={endRef}></div>
                     </div>
                 )}
             </div>
@@ -441,7 +449,6 @@ export default function ChatCt({ sessionId }: { sessionId?: string }) {
                     음성인식 중입니다...
                 </p>
             )}
-            <div ref={endRef}></div>
             <form
                 onSubmit={handleSubmit}
                 className="absolute bottom-0 z-50 flex w-full items-center gap-3 bg-[#0B0F19] px-4 pb-4 sm:px-5 sm:pb-5"
@@ -468,6 +475,15 @@ export default function ChatCt({ sessionId }: { sessionId?: string }) {
                     className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#BFFF0B] hover:scale-105 disabled:cursor-not-allowed disabled:opacity-50"
                 >
                     <Image src={ChatSendButton} alt="채팅 보내기 버튼" width={20} height={15} />
+                </button>
+
+                <button
+                    type="button"
+                    onClick={scrollToBottom}
+                    aria-label="채팅 맨 아래로 이동"
+                    className="fixed right-4 bottom-20 z-60 flex h-9 w-9 items-center justify-center rounded-full bg-[#BFFF0B] shadow-lg transition-transform hover:scale-105 sm:right-5 sm:bottom-22"
+                >
+                    <ChevronDown aria-hidden="true" size={20} strokeWidth={2.5} className="text-black" />
                 </button>
             </form>
         </div>
