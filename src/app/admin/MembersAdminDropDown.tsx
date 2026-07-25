@@ -14,7 +14,7 @@ export default function MembersAdminDropDown() {
 
     return (
         <section className="my-2">
-            <div onClick={handleClickDropDown} className="flex text-[#99A1AF] font-medium text-base py-3 px-4 items-center rounded-md hover:bg-gray-800 hover:text-white gap-4">
+            <div onClick={handleClickDropDown} className="flex text-[#99A1AF] font-medium text-base py-3 px-4 items-center rounded-md transition-colors hover:bg-white/10 hover:text-white gap-4">
                 <div className="relative w-5 h-5">
                     <Image
                         src={AdminMembers}

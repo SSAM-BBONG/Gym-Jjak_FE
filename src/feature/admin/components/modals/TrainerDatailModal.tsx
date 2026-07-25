@@ -111,13 +111,13 @@ export default function TrainerDetailModal({ isModal, closeModal, activeModal, n
                         <article>
                             <p className="text-white font-bold text-[14px] md:text-base lg:text-lg mb-2 md:mb-3 lg:mb-3.5">자기소개</p>
                             <div
-                                className="h-14 flex items-center gap-3 md:gap-4 border-[#364153] border w-full p-3 md:p-4 mt-2 bg-[#1E2939] rounded-md text-[#D1D5DC] text-sm md:text-base font-normal"
+                                className="min-h-14 flex items-center gap-3 md:gap-4 border-[#364153] border w-full p-3 md:p-4 mt-2 bg-[#1E2939] rounded-md text-[#D1D5DC] text-sm md:text-base font-normal"
                             >
                                 <p>{trainerApplicationInfo.introduction || trainerInfo.introduction}</p>
                             </div>
                         </article>
                         <article>
-                            <p className="text-white font-bold text-[14px] md:text-base lg:text-lg mb-2 md:mb-3 lg:mb-3.5">자격증</p>
+                            <p className="min-h-14 text-white font-bold text-[14px] md:text-base lg:text-lg mb-2 md:mb-3 lg:mb-3.5">자격증</p>
                             {mode === 'trainerView' && (
                                 <>
                                     {
@@ -140,7 +140,7 @@ export default function TrainerDetailModal({ isModal, closeModal, activeModal, n
                             )}
                         </article>
                         <article>
-                            <p className="text-white font-bold text-[14px] md:text-base lg:text-lg mb-2 md:mb-3 lg:mb-3.5">대회 경력</p>
+                            <p className="min-h-14 text-white font-bold text-[14px] md:text-base lg:text-lg mb-2 md:mb-3 lg:mb-3.5">대회 경력</p>
                             {mode === 'trainerView' && (
                                 <>
                                     {
@@ -167,13 +167,13 @@ export default function TrainerDetailModal({ isModal, closeModal, activeModal, n
                         <button
                             type="button"
                             onClick={noneActiveModal}
-                            className='w-full flex pt-2 pb-3 justify-center items-center rounded-lg text-white text-center font-semibold text-sm md:text-base bg-[#1E2939]'
+                            className='w-full flex pt-2 pb-3 justify-center items-center rounded-lg text-white text-center font-semibold text-sm md:text-base bg-[#1E2939] border border-transparent transition-colors hover:bg-[#1E293999] hover:text-white'
                         >
                             반려
                         </button>
                         <button
                             onClick={activeModal}
-                            className='w-full flex pt-2 pb-3 justify-center items-center rounded-lg text-black text-center font-semibold text-sm md:text-base bg-[#BFFF0B]'
+                            className='w-full flex pt-2 pb-3 justify-center items-center rounded-lg text-black text-center font-semibold text-sm md:text-base bg-[#BFFF0B] transition-colors hover:bg-[#BFFF0B99] hover:text-black'
                         >
                             승인
                         </button>

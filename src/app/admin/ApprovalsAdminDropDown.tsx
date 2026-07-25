@@ -16,7 +16,7 @@ export default function ApprovalsAdminDropDown() {
 
     return (
         <section className="my-2">
-            <div onClick={handleClickDropDown} className="flex gap-4 text-[#99A1AF] font-medium text-base py-3 px-4 items-center rounded-md hover:bg-gray-800 hover:text-white">
+            <div onClick={handleClickDropDown} className="flex gap-4 text-[#99A1AF] font-medium text-base py-3 px-4 items-center rounded-md transition-colors hover:bg-white/10 hover:text-white">
                 <div className="relative w-5 h-5">
                     <Image
                         src={AdminApprovals}

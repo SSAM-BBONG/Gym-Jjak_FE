@@ -33,7 +33,7 @@ export default async function PtManageUserFeedBackPage({
 
     return (
         <CalendarQueryProvider>
-            <div className="flex flex-col gap-5 px-70 py-10">
+            <div className="flex flex-col gap-3 px-4 py-5 sm:gap-4 sm:px-10 md:gap-5 md:px-25 md:py-8 lg:px-70 lg:py-10">
                 <PtManageUserFeedBackTop
                     data={response.data}
                 />

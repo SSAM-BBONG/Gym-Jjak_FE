@@ -24,13 +24,13 @@ export const ptRegistSchema = z.object({
     id: z.number().int().positive().optional(),
     title: z.string().trim().min(1, "회차 제목을 입력해주세요."),
     content: z.string().trim().min(1, "회차 설명을 입력해주세요."),
-  })).min(1),
+  })).min(1, "커리큘럼을 한 개 이상 등록해주세요."),
   schedules: z.array(z.object({
     id: z.number().int().positive().optional(),
     dayOfWeek: z.enum(["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"]),
     startTime: z.string().min(1),
     endTime: z.string().min(1),
-  })).min(1),
+  })).min(1, "수업 시간을 한 개 이상 등록해주세요."),
 });
 
 export const ptCourseEditSchema = ptRegistSchema

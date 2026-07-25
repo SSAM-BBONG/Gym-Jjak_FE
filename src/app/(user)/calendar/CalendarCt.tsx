@@ -24,9 +24,6 @@ export default function CalendarCt() {
 
     const {
         data: monthData,
-        isLoading: isMonthLoading,
-        isError: isMonthError,
-        error: monthError,
     } = useQuery({
         queryKey: ['calendar-month', selectedYear, selectedMonth],
         queryFn: () => calendargetMonthAction(selectedYear, selectedMonth),
@@ -36,8 +33,6 @@ export default function CalendarCt() {
     const {
         data: dateData,
         isLoading: isDateLoading,
-        isError: isDateError,
-        error: dateError,
     } = useQuery({
         queryKey: ['calendar-date', selectedSettingDate],
         queryFn: () => calendargetDateAction(selectedSettingDate),

@@ -14,7 +14,7 @@ export default function CalendarAddButton({ selectedSettingDate }: { selectedSet
         <>
             <button
                 onClick={modal.openModal}
-                className="bg-[#BFFF0B] w-10 h-10 md:w-12 md:h-12 rounded-[14px] flex items-center justify-center">
+                className="bg-[#BFFF0B] w-10 h-10 md:w-12 md:h-12 rounded-[14px] flex items-center justify-center transition-colors hover:bg-[#BFFF0B99]">
                 <div className="relative w-8 h-8">
                     <Image
                         src={AdminAddButton}

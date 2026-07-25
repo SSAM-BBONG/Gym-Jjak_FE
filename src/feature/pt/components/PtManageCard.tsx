@@ -5,6 +5,10 @@ import { PtManageListData, PtStatusChangeRequest } from "../type";
 import { changePtStatus } from "../actions";
 import Image from "next/image";
 import PtManageCourseActions from "./PtManageCourseActions";
+import OneButtonModal from "@/components/ui/OneButtonModal";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { toast } from "sonner";
 
 interface PtManageCardProps {
     data: PtManageListData;
@@ -12,12 +16,22 @@ interface PtManageCardProps {
 }
 
 export default function PtManageCard({ data, onOpen }: PtManageCardProps) {
+    const router = useRouter();
     const currentStatus = data.status === "VISIBLE" ? "HIDDEN" : "VISIBLE"
+    const [errorMessage, setErrorMessage] = useState("");
 
     const handleStatusClick = async (e:React.MouseEvent<HTMLButtonElement>, id: number, status: "VISIBLE" | "HIDDEN") => {
         e.preventDefault();
         e.stopPropagation();
-        await changePtStatus(id, currentStatus);
+        const result = await changePtStatus(id, currentStatus);
+
+        if (!result.success) {
+            setErrorMessage(result.message);
+            return;
+        }
+
+        toast.success(result.message);
+        router.refresh();
     }
 
     return (
@@ -45,7 +59,7 @@ export default function PtManageCard({ data, onOpen }: PtManageCardProps) {
             </div>
             <PtManageCourseActions ptCourseId={data.ptCourseId} />
             <div
-                className="relative w-full h-40">
+                className="relative h-36 w-full sm:h-40 md:h-44 lg:h-40">
                     <Image
                         key={data.thumbnailUrl || "thumbnail-placeholder"}
                         src={data.thumbnailUrl || HeaderProfile}
@@ -55,15 +69,15 @@ export default function PtManageCard({ data, onOpen }: PtManageCardProps) {
                         className="object-cover"
                     />
                 </div>
-            <div className="flex flex-col p-5 gap-2">
-                <p className="text-[18px] font-black text-white"> {data.title} </p>
+            <div className="flex flex-col gap-2 p-4 sm:p-5 md:gap-3 md:p-6 lg:gap-2 lg:p-5 2xl:gap-1">
+                <p className="truncate text-base font-black text-white sm:text-[17px] lg:text-[18px]"> {data.title} </p>
                 <p className="text-[14px] font-normal text-[#99A1AF]"> {data.trainerName} </p>
                 <div className={`
                 flex flex-col gap-3
                 bg-[#1E293980]
                 rounded-[10px]
-                p-3
-                mt-3
+                p-2 sm:p-3 md:p-4 lg:p-3
+                mt-2 sm:mt-3 md:mt-4 lg:mt-3
                 `}>
                     <div className="flex justify-between items-center">
                         <div className="flex gap-2 whitespace-nowrap items-center">
@@ -84,7 +98,7 @@ export default function PtManageCard({ data, onOpen }: PtManageCardProps) {
                 <button
                     type="button"
                     onClick={(e) => handleStatusClick(e, data.ptCourseId, data.status)}
-                    className={`flex justify-center items-center gap-3 py-3 rounded-[14px] mt-1
+                    className={`flex justify-center items-center gap-3 py-2.5 rounded-[14px] mt-1 sm:py-3
                             ${data.status === "VISIBLE" ? "bg-[#1E2939]" : "bg-[#BFFF0B1A]"}`}
                 >
                     {data.status === "VISIBLE"
@@ -120,6 +134,12 @@ export default function PtManageCard({ data, onOpen }: PtManageCardProps) {
                         )}
                 </button>
             </div>
+            <OneButtonModal
+                isModal={Boolean(errorMessage)}
+                closeModal={() => setErrorMessage("")}
+                title="PT 강습 상태 변경 실패"
+                content={errorMessage}
+            />
         </div>
     );
 }

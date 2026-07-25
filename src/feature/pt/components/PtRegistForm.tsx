@@ -51,7 +51,7 @@ export default function PtRegistForm({ organizations }: PtRegistFormProps) {
     };
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)}className="flex flex-col gap-6 mt-6">
+        <form onSubmit={handleSubmit(onSubmit)}className="flex flex-col gap-4 mt-4 sm:gap-5 sm:mt-5 lg:gap-6 lg:mt-6">
             
             <PtRegistPreview
                 setValue={setValue} 
@@ -90,17 +90,17 @@ export default function PtRegistForm({ organizations }: PtRegistFormProps) {
                 error={errors.schedules?.message}
             />
 
-            <div className="flex gap-3">
+            <div className="flex gap-2 sm:gap-3">
                 <button
                     type="button" 
-                    className="flex-1 rounded-[10px] bg-[#1E2939] py-4 text-white text-[16px] font-extrabold"
+                    className="flex-1 rounded-[10px] bg-[#1E2939] py-3 text-[14px] font-extrabold text-white sm:py-3.5 sm:text-[15px] lg:py-4 lg:text-[16px]"
                 > 
                     취소 
                 </button>
                 <button 
                     type="submit"
                     disabled={isSubmitting} 
-                    className="flex-1 rounded-[10px] bg-[#BFFF0B] py-4 text-black text-[16px] font-extrabold"
+                    className="flex-1 rounded-[10px] bg-[#BFFF0B] py-3 text-[14px] font-extrabold text-black sm:py-3.5 sm:text-[15px] lg:py-4 lg:text-[16px]"
                 > 
                     {isSubmitting ? "등록 중..." : "등록하기"} 
                 </button>

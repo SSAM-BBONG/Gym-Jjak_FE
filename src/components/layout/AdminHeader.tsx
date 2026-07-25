@@ -32,7 +32,7 @@ export default function AdminHeader({ userInf }: AdminHeaderProps) {
                 <nav aria-label="관리자 계정 메뉴">
                     <Link
                         href="/community?page=0"
-                        className="rounded-lg border border-[#364153] px-3 py-2 text-sm font-semibold text-[#D1D5DC] transition hover:border-[#BFFF0B] hover:text-[#BFFF0B]"
+                        className="rounded-lg border border-[#364153] px-3 py-2 text-sm font-semibold text-[#D1D5DC] transition hover:border-[#BFFF0B] hover:bg-white/10 hover:text-[#BFFF0B]"
                     >
                         커뮤니티
                     </Link>

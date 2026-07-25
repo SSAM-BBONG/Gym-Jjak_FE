@@ -41,7 +41,7 @@ export default function OrganizationRejectModal({ isModal, closeModal, organizat
 
             reset();
             toast.success(response.message);
-            router.push("/admin/approvals/organizations?page=1");
+            router.push("/admin/approvals/organizations?page=0");
         } catch (error) {
             toast.error("네트워크 오류입니다");
         }
@@ -53,7 +53,7 @@ export default function OrganizationRejectModal({ isModal, closeModal, organizat
             className="z-999 bg-black/50 fixed top-0 left-0 w-screen h-screen"
             onClick={closeModal} >
             <form
-                onSubmit={() => handleSubmit(onSubmit)}
+                onSubmit={handleSubmit(onSubmit)}
                 className="bg-gradient-to-br from-[#101828] to-[#000] w-5/6 max-h-120 sm:w-4/5 sm:max-h-5/6 md:w-3/5 md:max-h-5/6 lg:w-md rounded-2xl border border-[#1E2939] z-1000 fixed top-1/2 left-1/2 p-6 flex -translate-x-1/2 -translate-y-1/2 flex-col justify-between"
                 onClick={(e) => e.stopPropagation()}>
                 <article>
@@ -79,18 +79,18 @@ export default function OrganizationRejectModal({ isModal, closeModal, organizat
                     <button
                         type="button"
                         onClick={closeModal}
-                        className='w-full flex pt-2 pb-3 justify-center items-center rounded-lg text-white text-center font-semibold text-sm md:text-base bg-[#1E2939]'
+                        className='w-full flex pt-2 pb-3 justify-center items-center rounded-lg text-white text-center font-semibold text-sm md:text-base bg-[#1E2939] border border-transparent transition-colors hover:bg-[#1E293999] hover:text-white'
                     >
                         취소
                     </button>
                     <button
                         disabled={isSubmitting}
-                        className='w-full flex pt-2 pb-3 justify-center items-center rounded-lg text-black text-center font-semibold text-sm md:text-base bg-[#BFFF0B]'
+                        className='w-full flex pt-2 pb-3 justify-center items-center rounded-lg text-black text-center font-semibold text-sm md:text-base bg-[#BFFF0B] transition-colors hover:bg-[#BFFF0B99] hover:text-black'
                     >
-                        저장
+                        반려
                     </button>
                 </article>
             </form>
-        </section>
+        </section >
     );
 }

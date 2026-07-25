@@ -135,7 +135,7 @@ export default function OrganizationDetailModal({ isModal, closeModal, activeMod
                                         <p className="text-white">{organizationApplicationInfo.businessLicenseOriginalName || organizationInfo.businessLicenseOriginalName}</p>
                                     </div>
                                 </div>
-                                <a target="_blank" rel="noopener noreferrer" href={organizationApplicationInfo.businessLicenseFileUrl || organizationInfo.businessLicenseFileUrl} className="px-3 md:px-4.5 py-1.5 md:py-2 text-black bg-[#BFFF0B] rounded-md font-bold text-[10px] md:text-sm lg:text-base ml-auto">자세히 보기</a>
+                                <a target="_blank" rel="noopener noreferrer" href={organizationApplicationInfo.businessLicenseFileUrl || organizationInfo.businessLicenseFileUrl} className="px-3 md:px-4.5 py-1.5 md:py-2 text-black bg-[#BFFF0B] rounded-md font-bold text-[10px] md:text-sm lg:text-base ml-auto transition-colors hover:bg-[#BFFF0B99] hover:text-black">자세히 보기</a>
 
                             </div>
                         </article>
@@ -216,13 +216,13 @@ export default function OrganizationDetailModal({ isModal, closeModal, activeMod
                         <button
                             type="button"
                             onClick={noneActiveModal}
-                            className='w-full flex pt-2 pb-3 justify-center items-center rounded-lg text-white text-center font-semibold text-sm md:text-base bg-[#1E2939]'
+                            className='w-full flex pt-2 pb-3 justify-center items-center rounded-lg text-white text-center font-semibold text-sm md:text-base bg-[#1E2939] border border-transparent transition-colors hover:bg-[#1E293999] hover:text-white'
                         >
                             반려
                         </button>
                         <button
                             onClick={activeModal}
-                            className='w-full flex pt-2 pb-3 justify-center items-center rounded-lg text-black text-center font-semibold text-sm md:text-base bg-[#BFFF0B]'
+                            className='w-full flex pt-2 pb-3 justify-center items-center rounded-lg text-black text-center font-semibold text-sm md:text-base bg-[#BFFF0B] transition-colors hover:bg-[#BFFF0B99] hover:text-black'
                         >
                             승인
                         </button>

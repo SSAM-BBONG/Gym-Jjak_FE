@@ -69,7 +69,7 @@ export default function OnlinePtFeeBackCheckModal({ isModal, closeModal, type }:
                     <button
                         type="button"
                         onClick={closeModal}
-                        className='w-full flex pt-2 pb-3 justify-center items-center rounded-lg text-white text-center font-semibold text-base bg-[#1E2939]'
+                        className='w-full flex pt-2 pb-3 justify-center items-center rounded-lg text-white text-center font-semibold text-base bg-[#1E2939] border border-transparent transition-colors hover:bg-[#1E293999] hover:text-white'
                     >
                         닫기
                     </button>

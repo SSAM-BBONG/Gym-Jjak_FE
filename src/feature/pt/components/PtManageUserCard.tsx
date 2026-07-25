@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { PtReservationStatusChangeRequest, PtReservationStudent } from "../type";
 import { changePtReservationStatus } from "../actions";
-import ReportButtonVer2 from "@/components/ui/ReportButtonVer2";
 import Image from "next/image";
 import { HeaderProfile } from "@/components/ui/image";
 import { Progress } from "@/components/ui/progress";
@@ -12,6 +11,7 @@ import { useState } from "react";
 import useModal from "@/components/hooks/useModal";
 import { createChatRoomAction } from "@/feature/chat/actions";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 interface PtManageUserCardProps {
     data: PtReservationStudent;
@@ -56,6 +56,7 @@ export default function PtManageUserCard( {data, id}: PtManageUserCardProps) {
         }
 
         setSelectedStatus(response.data.status);
+        toast.success(response.message);
     };
     const current = data.progressCount
     const total = data.totalSessionCount
@@ -86,20 +87,21 @@ export default function PtManageUserCard( {data, id}: PtManageUserCardProps) {
     
     return (
         <div className="
-        flex gap-4 items-start
+        flex flex-col gap-3 items-start sm:flex-row sm:gap-4
         bg-[#101828]
         border border-[#1E2939] rounded-[16px]
-        p-6
+        p-4 sm:p-5 lg:p-6
         ">
-            <div className="flex items-center justify-center flex-1 size-24 border-[3px] border-[#6A7282] rounded-full">
+            <div className="mx-auto flex h-16 w-16 shrink-0 items-center justify-center rounded-full border-[3px] border-[#6A7282] sm:mx-0 sm:h-20 sm:w-20 lg:h-24 lg:w-24">
                 <Image 
                     alt="회원 이미지"
                     src={HeaderProfile}
                     width={50}
                     height={50}
+                    className="h-10 w-10 sm:h-12 sm:w-12 lg:h-[50px] lg:w-[50px]"
                 />
             </div>
-            <div className="flex flex-col gap-4 flex-9">
+            <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-9 sm:gap-4">
                 <div className="flex justify-between items-start">
                     <div className="flex flex-col gap-2">
                         <p className="text-[20px] font-black text-white"> {data.nickname} </p>
@@ -108,12 +110,12 @@ export default function PtManageUserCard( {data, id}: PtManageUserCardProps) {
                     <div className="px-4 py-1 border border-[#BFFF0B4D] bg-[#BFFF0B4D] rounded-full text-[12px] font-extrabold text-[#BFFF0B]">   {STATUS_LABEL[data.status] ?? "상태 확인 필요"} </div>
                 </div>
 
-                <div className="flex gap-6">
-                    <div className="flex flex-3 flex-col gap-1 p-4 rounded-[10px] bg-[#1E293980]"> 
+                <div className="flex gap-3 sm:gap-4 lg:gap-6">
+                    <div className="flex flex-3 flex-col gap-1 rounded-[10px] bg-[#1E293980] p-3 sm:p-4">
                         <p className="text-[12px] font-normal text-[#6A7282]"> 진척도 </p>
                         <p className="text-[14px] font-extrabold text-[#BFFF0B]"> {data.progressCount}/{data.totalSessionCount} </p>
                     </div>
-                    <div className="flex flex-7 flex-col gap-2 p-4 rounded-[10px] bg-[#1E293980]"> 
+                    <div className="flex flex-7 flex-col gap-2 rounded-[10px] bg-[#1E293980] p-3 sm:p-4">
                         <div className="flex justify-between">
                             <p className="text-[12px] font-normal text-[#6A7282]"> 완료율 </p>
                             <p className="text-[12px] font-bold text-[#BFFF0B]"> {progreesPercent}% </p>
@@ -122,7 +124,7 @@ export default function PtManageUserCard( {data, id}: PtManageUserCardProps) {
                     </div>
                 </div>
 
-                <div className="flex gap-4">
+                <div className="flex flex-wrap gap-2 sm:flex-nowrap sm:gap-3 lg:gap-4">
                 <Link 
                     href={`/pt/manage/${id}/users/${data.ptReservationId}`}
                 > 
@@ -133,13 +135,12 @@ export default function PtManageUserCard( {data, id}: PtManageUserCardProps) {
                         type="button"
                         onClick={handleChatClick}
                         disabled={isCreatingChat}
-                        className="px-5 py-2 rounded-[10px] bg-[#1E2939] text-[14px] font-extrabold text-white hover:bg-[#BFFF0B] hover:text-[black] disabled:cursor-not-allowed disabled:opacity-50"
+                        className="rounded-[10px] bg-[#1E2939] px-3 py-2 text-[12px] font-extrabold text-white hover:bg-[#BFFF0B] hover:text-[black] disabled:cursor-not-allowed disabled:opacity-50 sm:text-[14px] lg:px-5"
                     >
                         {isCreatingChat ? "채팅방 생성 중..." : "채팅하기"}
                     </button>
-                    <ReportButtonVer2 title={data.nickname} targetId={data.ptReservationId} targetType="PT_COURSE" />
                     <select
-                        className="px-3 py-2 rounded-[10px] border border-[#1E2939] bg-[#1E2939] text-[14px] font-extrabold text-white focus:outline-none hover:border-[#BFFF0B]"
+                        className="rounded-[10px] border border-[#1E2939] bg-[#1E2939] px-2 py-2 text-[12px] font-extrabold text-white focus:outline-none hover:border-[#BFFF0B] sm:px-3 sm:text-[14px]"
                         value={selectedStatus}
                         disabled={isChanging}
                         onChange={(event) =>

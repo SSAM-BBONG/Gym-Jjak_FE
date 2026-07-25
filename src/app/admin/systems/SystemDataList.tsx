@@ -10,7 +10,7 @@ export default function SystemDataList({ exercises, part }: { exercises: Exercis
         <div>
             <SearchBar page={false}></SearchBar>
             <PartSidebar part={part} />
-            <section className="bg-[#1E2939] border-[#364153] border-separate border-spacing-0 md:border mt-4 sm:mt-5 lg:mt-6 md:rounded-md w-full ">
+            <section className="bg-[#1E2939] border-[#364153] border-separate border-spacing-0 md:border mt-4 sm:mt-5 lg:mt-6 rounded-md w-full ">
                 <div style={{ display: 'grid' }} className="grid grid-cols-8 sm:grid-cols-11 md:grid-cols-14 px-2 sm:px-3 md:px-4 lg:px-6 text-[#99A1AF] font-bold text-[10px] sm:text-[11px] md:text-xs lg:text-sm border-0 h-11 sm:h-12 lg:h-13 items-center">
                     <p className="md:col-span-4 col-span-2">운동 종류</p>
                     <p className="sm:col-span-3 col-span-2">등록일</p>

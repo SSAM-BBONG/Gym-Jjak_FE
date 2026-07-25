@@ -22,9 +22,9 @@ interface PtRegistPartProps {
 
 export default function PtRegistPart({ register, error }: PtRegistPartProps) {
     return (
-        <section className="flex flex-col gap-6 rounded-[16px] border border-[#1E2939] bg-[#101828] p-6">
-            <p className="text-[18px] font-extrabold text-white">운동 부위</p>
-            <div className="flex flex-wrap gap-3">
+        <section className="flex flex-col gap-4 rounded-[16px] border border-[#1E2939] bg-[#101828] p-4 sm:gap-5 sm:p-5 lg:gap-6 lg:p-6">
+            <p className="text-base font-extrabold text-white sm:text-[17px] lg:text-[18px]">운동 부위</p>
+            <div className="flex flex-wrap gap-2 sm:gap-3">
                 {parts.map((part) => (
                     <label key={part} className="cursor-pointer">
                         <input
@@ -34,7 +34,7 @@ export default function PtRegistPart({ register, error }: PtRegistPartProps) {
                             {...register("part")}
                         />
                         <span
-                            className="block rounded-[10px] bg-[#1E2939] px-4 py-2 text-[16px] font-medium text-[#99A1AF] transition-colors peer-checked:bg-[#BFFF0B] peer-checked:text-black"
+                            className="block rounded-[10px] bg-[#1E2939] px-3 py-2 text-[14px] font-medium text-[#99A1AF] transition-colors peer-checked:bg-[#BFFF0B] peer-checked:text-black sm:px-4 sm:text-[15px] lg:text-[16px]"
                         >
                             {part}
                         </span>

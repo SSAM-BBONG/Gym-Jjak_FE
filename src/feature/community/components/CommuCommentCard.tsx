@@ -76,12 +76,12 @@ export default function CommuCommentCard({ comment }: { comment: CommunityCommen
               reset();
               setUpdateMode(false);
             }}
-            className="bg-[#364153] text-white rounded-[5px] md:rounded-[10px] px-2  py-4 md:px-4 text-[12px] md:text-[14px] font-bold w-20">
+            className="bg-[#364153] text-white rounded-[5px] md:rounded-[10px] px-2  py-4 md:px-4 text-[12px] md:text-[14px] font-bold w-20 transition-colors hover:bg-[#1E293999] hover:text-white">
             취소
           </button>
           <button
             disabled={isSubmitting}
-            className="bg-[#BFFF0B] rounded-[5px] md:rounded-[10px] px-2 py-4 md:px-4 text-[12px] md:text-[14px] font-bold w-20">
+            className="bg-[#BFFF0B] rounded-[5px] md:rounded-[10px] px-2 py-4 md:px-4 text-[12px] md:text-[14px] font-bold w-20 transition-colors hover:bg-[#BFFF0B99] hover:text-black">
             수정
           </button>
         </form>
