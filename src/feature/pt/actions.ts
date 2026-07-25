@@ -317,21 +317,21 @@ export const trainerApplicationAction = async (formData: FormData) => {
 
   if (!(certificateFile instanceof File) || certificateFile.size === 0) {
     return {
-      success: false,
+      success: false as const,
       message: "필수 자격증 파일을 등록해주세요.",
     };
   }
 
   if (!introduction) {
     return {
-      success: false,
+      success: false as const,
       message: "자기소개를 입력해주세요.",
     };
   }
 
   if (!Array.isArray(organizationIds)) {
     return {
-      success: false,
+      success: false as const,
       message: "소속 헬스장 정보를 확인해주세요.",
     };
   }
@@ -345,7 +345,7 @@ export const trainerApplicationAction = async (formData: FormData) => {
     )
   ) {
     return {
-      success: false,
+      success: false as const,
       message: "소속 헬스장을 선택해주세요.",
     };
   }
@@ -387,13 +387,13 @@ export const trainerApplicationAction = async (formData: FormData) => {
         }
 
         return {
-            success: false,
+            success: false as const,
             message: errorMessage
         }
     }
 
   revalidatePath("/pt/trainer-apply");
-  redirect("/pt/trainer-apply");
+  return { success: true as const };
 };
 
 // 트레이너 등록 수정 액션
@@ -419,7 +419,7 @@ export const trainerApplicationEditAction = async (
 
   if (!introduction) {
     return {
-      success: false,
+      success: false as const,
       message: "자기소개를 입력해주세요.",
     };
   }
@@ -431,7 +431,7 @@ if (profileImageAction === "REPLACE") {
 
   if (!(profileImageFile instanceof File) || profileImageFile.size === 0) {
     return {
-      success: false,
+      success: false as const,
       message: "프로필 이미지를 교체하려면 파일이 필요합니다.",
     };
   }
@@ -462,7 +462,7 @@ const payload: TrainerApplicationEditData = {
         }
 
         return {
-            success: false,
+            success: false as const,
             message: errorMessage
         }
     }
@@ -471,7 +471,7 @@ const payload: TrainerApplicationEditData = {
   revalidatePath(`/pt/trainer-apply/${id}`);
   revalidatePath(`/pt/trainer-apply/${id}/edit`);
 
-  redirect(`/pt/trainer-apply/${id}`);
+  return { success: true as const };
 };
 
 // 트레이너 삭제 액션
@@ -493,7 +493,7 @@ export const deleteTrainerApplication = async (id:number) => {
   revalidatePath('/pt/trainer-apply');
   revalidatePath(`/pt/trainer-apply/${id}`);
   revalidatePath(`/pt/trainer-apply/${id}/edit`);
-  redirect('/pt/trainer-apply');
+  return { success: true as const };
 }
 
 export const changePtStatus = async (
