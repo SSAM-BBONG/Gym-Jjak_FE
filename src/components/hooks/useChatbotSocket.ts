@@ -35,7 +35,6 @@ export function useChatbotSocket({ onEvent }: UseChatbotSocketOptions) {
                 onConnect: () => {
                     reconnectAttempts = 0;
                     setIsConnected(true);
-                    console.log("챗봇 WebSocket 연결 성공");
 
                     client.subscribe("/user/queue/chatbot", (msg) => {
                         try {

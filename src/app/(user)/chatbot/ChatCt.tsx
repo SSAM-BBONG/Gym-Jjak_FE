@@ -4,12 +4,12 @@ import { ChatSendButton, Logo, MainImg } from "@/components/ui/image";
 import Image from "next/image";
 import Link from "next/link";
 import ChatItem from "./ChatItem";
-import { FormEvent, useCallback, useEffect, useRef, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 import { getChatbotMessageListAction } from "@/feature/chatbot/action";
 import { useChatbotSocket } from "@/components/hooks/useChatbotSocket";
 // 수정된 코드 시작
-import type { ChatbotQuickReply, ChatbotSocketEvent, RoutineResponse } from "@/feature/chatbot/type";
+import type { ChatbotDoneEvent, ChatbotQuickReply, ChatbotSocketEvent, RoutineResponse } from "@/feature/chatbot/type";
 // 수정된 코드 끝
 import STTButton from "./STTButton";
 import { useRouter } from "next/navigation";
@@ -28,6 +28,9 @@ export default function ChatCt({ sessionId }: { sessionId?: string }) {
     const [source, setSource] = useState("");
     const router = useRouter();
     const endRef = useRef<HTMLDivElement>(null);
+    const timeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+    const queueRef = useRef<string[]>([]);
+    const doneEventRef = useRef<ChatbotDoneEvent | null>(null);
 
     // 수정된 코드 시작
     const activeSessionIdRef = useRef(sessionId);
@@ -45,9 +48,90 @@ export default function ChatCt({ sessionId }: { sessionId?: string }) {
         }
     };
 
-    const handleChatbotEvent = useCallback((event: ChatbotSocketEvent) => {
+    const refreshChatbotData = async (doneEvent: ChatbotDoneEvent) => {
+        try {
+            await queryClient.invalidateQueries({
+                queryKey: ["chatbot", "session"],
+            });
+
+            await queryClient.invalidateQueries({
+                queryKey: ["chatbot", "messages"],
+            });
+
+            setResponse((previous) => previous === doneEvent.answer
+                ? ""
+                : previous
+            );
+        } catch (error) {
+            console.error("챗봇 세션 갱신 실패", error);
+        }
+    };
+
+    const startQueue = () => {
+        if (timeout.current !== null) {
+            return;
+        }
+
+        if (queueRef.current.length === 0) {
+            const doneEvent = doneEventRef.current;
+
+            if (doneEvent) {
+                setResponse(doneEvent.answer);
+
+                if (doneEvent.routine) {
+                    setRoutine(
+                        JSON.parse(doneEvent.routine)
+                    );
+                }
+
+                if (doneEvent.sources) {
+                    setSource(
+                        JSON.parse(doneEvent.sources)
+                    );
+                }
+
+                setQuickReplies(doneEvent.quickReplies ?? []);
+                setLoading(false);
+                requestIdRef.current = null;
+                doneEventRef.current = null;
+                scrollToBottom();
+                refreshChatbotData(doneEvent);
+            }
+
+            return;
+        }
+
+
+        setResponse((previous) => previous + queueRef.current.shift());
+
+
+        timeout.current = setTimeout(() => {
+            timeout.current = null;
+            startQueue();
+        }, 30);
+    };
+
+    useEffect(() => {
+        return () => {
+            if (timeout.current) {
+                clearTimeout(timeout.current);
+                timeout.current = null;
+            }
+            queueRef.current = [];
+            doneEventRef.current = null;
+        };
+    }, []);
+
+    const handleChatbotEvent = (event: ChatbotSocketEvent) => {
         switch (event.type) {
             case "started": {
+                if (timeout.current !== null) {
+                    clearTimeout(timeout.current);
+                    timeout.current = null;
+                }
+
+                queueRef.current = [];
+                doneEventRef.current = null;
                 requestIdRef.current = event.requestId;
                 // 수정된 코드 시작
                 activeSessionIdRef.current = event.sessionId;
@@ -66,48 +150,30 @@ export default function ChatCt({ sessionId }: { sessionId?: string }) {
                 if (requestIdRef.current && requestIdRef.current !== event.requestId) {
                     return;
                 }
-                setResponse((previous) => previous + event.text);
+                queueRef.current.push(...event.text.split(''))
+                startQueue();
                 break;
             }
             case "done": {
                 if (requestIdRef.current && requestIdRef.current !== event.requestId) {
                     return;
                 }
-                if (event.routine) {
-                    setRoutine(JSON.parse(event.routine) as RoutineResponse);
-                    console.log(event.routine)
-                }
-                if (event.sources) {
-                    setSource(JSON.parse(event.sources))
-                    console.log(event.sources)
-                }
 
-                setResponse(event.answer);
-                // 수정된 코드 시작
-                setQuickReplies(event.quickReplies ?? []);
-                // 수정된 코드 끝
-                setLoading(false);
-                requestIdRef.current = null;
-
-                scrollToBottom();
-                void Promise.all([
-                    queryClient.invalidateQueries({
-                        queryKey: ["chatbot", "session"],
-                    }),
-                    queryClient.invalidateQueries({
-                        queryKey: ["chatbot", "messages"],
-                    }),
-                ]).then(() => {
-                    setResponse((previous) => (
-                        previous === event.answer ? "" : previous
-                    ));
-                });
+                doneEventRef.current = event;
+                startQueue();
                 break;
             }
             case "error": {
                 if (requestIdRef.current && event.requestId && requestIdRef.current !== event.requestId) {
                     return;
                 }
+                if (timeout.current !== null) {
+                    clearTimeout(timeout.current);
+                    timeout.current = null;
+                }
+
+                queueRef.current = [];
+                doneEventRef.current = null;
 
                 setSocketError(event.message);
                 setLoading(false);
@@ -115,7 +181,7 @@ export default function ChatCt({ sessionId }: { sessionId?: string }) {
                 break;
             }
         }
-    }, [queryClient, router]);
+    }
 
     const { sendMessage, isConnected } = useChatbotSocket({
         onEvent: handleChatbotEvent,
