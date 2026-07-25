@@ -15,16 +15,16 @@ export default async function MyPage() {
   const myPageResponse = await getMyPageInformation();
 
   return (
-    <div className="flex flex-col gap-1 pt-8 px-40">
-      <p className="text-[36px] font-black text-white"> 마이페이지</p>
-      <p className="text-[14px] font-normal text-[#99A1AF]">
+    <div className="flex flex-col gap-1 pt-6 sm:pt-8 px-4 sm:px-10 md:px-20 lg:px-40">
+      <p className="text-2xl sm:text-3xl lg:text-[36px] font-black text-white"> 마이페이지</p>
+      <p className="text-xs sm:text-sm lg:text-[14px] font-normal text-[#99A1AF]">
         나의 정보를 확인하고 관리하세요
       </p>
-      <div className="flex gap-6 items-start mt-8">
+      <div className="flex flex-col lg:flex-row gap-4 md:gap-6 items-stretch lg:items-start mt-6 md:mt-8">
 
         <MyPageProfile data={myPageResponse.data} />
 
-        <div className="flex flex-col gap-6 flex-[7.5]">
+        <div className="w-full lg:w-auto flex flex-col gap-4 md:gap-6 flex-[7.5]">
           <MypageUserProfileEdit userinf={userinf} socialUser={myPageResponse.data.socialUser} />
 
           <MypageInbodyInformation />
