@@ -64,10 +64,6 @@ export default async function Page() {
                                         있습니다.
                                     </p>
                                 </div>
-
-                                <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-[16px] bg-[#BFFF0B] text-[#101828]">
-                                    <Sparkles className="h-7 w-7" />
-                                </div>
                             </div>
 
                             <div className="my-6 h-px bg-[#36415380]" />

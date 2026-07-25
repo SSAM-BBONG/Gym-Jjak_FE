@@ -68,15 +68,15 @@ export default function ChatReportButton({
                     onClick={reportModal.closeModal}
                 >
                     <div
-                        className="fixed left-1/2 top-1/2 z-1000 w-5/6 -translate-x-1/2 -translate-y-1/2 rounded-2xl border border-[#1E2939] bg-gradient-to-br from-[#101828] to-black p-6 sm:w-md"
+                        className="fixed left-1/2 top-1/2 z-1000 w-5/6 max-h-120 -translate-x-1/2 -translate-y-1/2 overflow-y-auto rounded-2xl border border-[#1E2939] bg-gradient-to-br from-[#101828] to-black p-6 sm:w-4/5 sm:max-h-5/6 md:w-3/5 md:max-h-5/6"
                         onClick={(event) => event.stopPropagation()}
                     >
-                        <h3 className="border-b border-[#1E2939] pb-5 text-lg font-bold text-[#E8EAF0]">신고 접수</h3>
-                        <p className="my-4 text-base font-bold text-[#E8EAF0]">{title}</p>
+                        <h3 className="border-b border-[#1E2939] pb-5 text-base font-bold text-[#E8EAF0] md:text-lg lg:text-xl">신고 접수</h3>
+                        <p className="my-4 text-base font-bold text-[#E8EAF0] md:text-lg lg:text-xl">{title}</p>
                         <select
                             value={reason}
                             onChange={(event) => setReason(event.target.value as ChatMessageReportReason)}
-                            className="w-full rounded-lg border border-gray-700 bg-gray-800 px-3 py-2 text-sm text-white focus:border-[#BFFF0B] focus:outline-none"
+                            className="w-full rounded-lg border border-gray-700 bg-gray-800 px-3 py-2 text-sm text-white focus:border-[#BFFF0B] focus:outline-none md:text-base"
                         >
                             <option value="" disabled>신고 사유</option>
                             <option value="ABUSE">욕설</option>
@@ -86,13 +86,13 @@ export default function ChatReportButton({
                             <option value="FALSE_INFO">허위 정보</option>
                         </select>
                         {!reportState.success && reportState.message && (
-                            <p className="mt-3 text-sm text-red-400">{reportState.message}</p>
+                            <p className="mt-3 text-sm text-red-400 md:text-base">{reportState.message}</p>
                         )}
                         <div className="mt-6 flex gap-3">
                             <button
                                 type="button"
                                 onClick={reportModal.closeModal}
-                                className="flex w-full justify-center rounded-lg bg-[#1E2939] py-3 text-sm font-semibold text-white"
+                                className="flex w-full justify-center rounded-lg bg-[#1E2939] py-3 text-sm font-semibold text-white md:text-base"
                             >
                                 취소
                             </button>
@@ -100,7 +100,7 @@ export default function ChatReportButton({
                                 type="button"
                                 disabled={isSubmitting}
                                 onClick={submitReport}
-                                className="flex w-full justify-center rounded-lg bg-[#BFFF0B] py-3 text-sm font-semibold text-black disabled:cursor-not-allowed disabled:opacity-60"
+                                className="flex w-full justify-center rounded-lg bg-[#BFFF0B] py-3 text-sm font-semibold text-black disabled:cursor-not-allowed disabled:opacity-60 md:text-base"
                             >
                                 신고
                             </button>

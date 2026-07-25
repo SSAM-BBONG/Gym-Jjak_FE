@@ -57,7 +57,8 @@ export default function CommuForm({ post }: { post?: Community }) {
         lg:mx-40
         mt-5
         md:mt-10
-        p-8
+        py-8
+        px-5
         h-17/20
         ">
                 <h2

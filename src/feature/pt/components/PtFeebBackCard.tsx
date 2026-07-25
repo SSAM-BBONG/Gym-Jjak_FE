@@ -13,6 +13,22 @@ interface PfFeebBackCardProps {
     errorMessage?: string;
 }
 
+const getDisplayText = (value: unknown) =>
+    typeof value === "string" || typeof value === "number" ? String(value) : "";
+
+const getLessonDateLabel = (reservedStartAt: unknown) => {
+    const date = typeof reservedStartAt === "string"
+        ? reservedStartAt
+        : typeof reservedStartAt === "object"
+            && reservedStartAt !== null
+            && "date" in reservedStartAt
+            && typeof reservedStartAt.date === "string"
+            ? reservedStartAt.date
+            : "";
+
+    return date ? ` - 수업일 : ${date.replace("T", " ").slice(0, 10)}` : "";
+};
+
 export default function PfFeebBackCard({ data, reservationId, errorMessage }: PfFeebBackCardProps) {
 
     const modal = useModal();
@@ -55,8 +71,9 @@ export default function PfFeebBackCard({ data, reservationId, errorMessage }: Pf
                             <p className="px-4 py-2 text-[14px] font-extrabold text-black bg-[#BFFF0B] rounded-full"> {item.sessionNo} </p>
                             <div className="flex flex-1 flex-col gap-2 sm:flex-row sm:justify-between sm:items-center">
                                 <div className="flex flex-col gap-1">
-                                    <p className="text-[18px] font-extrabold text-white"> {item.title}</p>
-                                    <p className="text-[12px] font-normal text-[#99A1AF]"> 2026-05-01 </p>
+                                    <p className="text-[18px] font-extrabold text-white">
+                                        {getDisplayText(item.title)}{getLessonDateLabel(item.reservedStartAt)}
+                                    </p>
                                 </div>
                                 <div className="flex gap-2">
                                     <img src={PtRecordComplete} alt="PT 신청기록 완료" />
@@ -111,7 +128,9 @@ export default function PfFeebBackCard({ data, reservationId, errorMessage }: Pf
         ">
                         <div className="flex items-center gap-2 sm:gap-3">
                             <p className="px-4 py-2 text-[14px] font-extrabold text-[#99A1AF] bg-[#364153] rounded-full"> {item.sessionNo} </p>
-                            <p className="text-[18px] font-extrabold text-white"> {item.title}</p>
+                            <p className="text-[18px] font-extrabold text-white">
+                                {getDisplayText(item.title)}{getLessonDateLabel(item.reservedStartAt)}
+                            </p>
                         </div>
                         <p className="px-3 py-1 text-[12px] font-extrabold text-[#99A1AF] bg-[#364153] rounded-full"> 미완료 </p>
                     </div>

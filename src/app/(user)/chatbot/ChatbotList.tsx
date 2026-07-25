@@ -11,6 +11,7 @@ export default function ChatbotList({ sessionId }: { sessionId?: string }) {
 
     const targetRef = useRef<HTMLDivElement>(null);
 
+    // 무한 스크롤 도와주는 쿼리
     const useChatbotListQuery = () => {
         return useInfiniteQuery({
             queryKey: ["chatbot", "session"],
@@ -40,6 +41,7 @@ export default function ChatbotList({ sessionId }: { sessionId?: string }) {
         isFetchingNextPage, // 현재 다음 데이터를 요청 중인지
     } = useChatbotListQuery();
 
+    // 무한 스크롤 요청 보내기
     useEffect(() => {
         const target = targetRef.current;
 
@@ -47,11 +49,7 @@ export default function ChatbotList({ sessionId }: { sessionId?: string }) {
 
         const observer = new IntersectionObserver(
             ([entry]) => {
-                if (
-                    entry.isIntersecting &&
-                    hasNextPage &&
-                    !isFetchingNextPage
-                ) {
+                if (entry.isIntersecting && hasNextPage && !isFetchingNextPage) {
                     void fetchNextPage();
                 }
             },
@@ -66,11 +64,7 @@ export default function ChatbotList({ sessionId }: { sessionId?: string }) {
         return () => {
             observer.disconnect();
         };
-    }, [
-        hasNextPage,
-        isFetchingNextPage,
-        fetchNextPage,
-    ]);
+    }, [hasNextPage, isFetchingNextPage, fetchNextPage,]);
 
     const sessions = data?.pages.flatMap((page) => page.data.sessions) ?? [];
 
