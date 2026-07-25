@@ -75,11 +75,11 @@ export default function InbodyForm({ setUpdate, update }: { setUpdate: Dispatch<
                 id="measuredDate"
                 type="date"
                 placeholder="날짜를 입력해주세요"
-                className="w-full py-2.5 sm:py-3 lg:py-3 px-3 sm:px-4 lg:px-4  text-sm sm:text-base lg:text-base font-normal rounded-md bg-[#1E2939] border-[#364153] border focus:outline-0 focus:border-[#BFFF0B] text-white" />
-            <p className="text-red-400 text-sm md:text-base m-1 mb-5">{errors.measuredDate?.message}</p>
+                className="w-full py-2.5 sm:py-3 lg:py-3 px-2 sm:px-3 lg:px-4 text-xs sm:text-sm md:text-base lg:text-base font-normal rounded-md bg-[#1E2939] border-[#364153] border focus:outline-0 focus:border-[#BFFF0B] text-white" />
+            <p className="text-red-400 text-xs sm:text-sm lg:text-base m-1 mb-3 sm:mb-4 lg:mb-5">{errors.measuredDate?.message}</p>
 
-            <div className="flex gap-4">
-                <div>
+            <div className="flex gap-2 sm:gap-3 lg:gap-4">
+                <div className="w-1/2 min-w-0">
                     <label
                         htmlFor="height"
                         className="w-full text-[#D1D5DC] text-sm font-medium">
@@ -91,11 +91,11 @@ export default function InbodyForm({ setUpdate, update }: { setUpdate: Dispatch<
                         id="height"
                         type="number"
                         placeholder="키를 입력해주세요"
-                        className="w-full py-2.5 sm:py-3 lg:py-3 px-3 sm:px-4 lg:px-4 text-sm sm:text-base lg:text-base font-normal rounded-md bg-[#1E2939] border-[#364153] border focus:outline-0 focus:border-[#BFFF0B] text-white" />
-                    <p className="text-red-400 text-sm md:text-base m-1 mb-5">{errors.height?.message}</p>
+                        className="w-full py-2.5 sm:py-3 lg:py-3 px-2 sm:px-3 lg:px-4 text-xs sm:text-sm md:text-base lg:text-base font-normal rounded-md bg-[#1E2939] border-[#364153] border focus:outline-0 focus:border-[#BFFF0B] text-white" />
+                    <p className="text-red-400 text-xs sm:text-sm lg:text-base m-1 mb-3 sm:mb-4 lg:mb-5">{errors.height?.message}</p>
 
                 </div>
-                <div>
+                <div className="w-1/2 min-w-0">
                     <label
                         htmlFor="weight"
                         className="w-full text-[#D1D5DC] text-sm font-medium">
@@ -107,13 +107,13 @@ export default function InbodyForm({ setUpdate, update }: { setUpdate: Dispatch<
                         id="weight"
                         type="number"
                         placeholder="몸무게를 입력해주세요"
-                        className="w-full py-2.5 sm:py-3 lg:py-3 px-3 sm:px-4 lg:px-4  text-sm sm:text-base lg:text-base font-normal rounded-md bg-[#1E2939] border-[#364153] border focus:outline-0 focus:border-[#BFFF0B] text-white" />
-                    <p className="text-red-400 text-sm md:text-base m-1 mb-5">{errors.weight?.message}</p>
+                        className="w-full py-2.5 sm:py-3 lg:py-3 px-2 sm:px-3 lg:px-4 text-xs sm:text-sm md:text-base lg:text-base font-normal rounded-md bg-[#1E2939] border-[#364153] border focus:outline-0 focus:border-[#BFFF0B] text-white" />
+                    <p className="text-red-400 text-xs sm:text-sm lg:text-base m-1 mb-3 sm:mb-4 lg:mb-5">{errors.weight?.message}</p>
 
                 </div>
             </div>
-            <div className="flex gap-4">
-                <div>
+            <div className="flex gap-2 sm:gap-3 lg:gap-4">
+                <div className="w-1/2 min-w-0">
                     <label
                         htmlFor="bodyFatPercentage"
                         className="w-full text-[#D1D5DC] text-sm font-medium">
@@ -128,11 +128,11 @@ export default function InbodyForm({ setUpdate, update }: { setUpdate: Dispatch<
                         id="bodyFatPercentage"
                         type="number"
                         placeholder="체지방률을 입력해주세요"
-                        className="w-full py-2.5 sm:py-3 lg:py-3 px-3 sm:px-4 lg:px-4  text-sm sm:text-base lg:text-base font-normal rounded-md bg-[#1E2939] border-[#364153] border focus:outline-0 focus:border-[#BFFF0B] text-white" />
-                    <p className="text-red-400 text-sm md:text-base m-1 mb-5">{errors.bodyFatPercentage?.message}</p>
+                        className="w-full py-2.5 sm:py-3 lg:py-3 px-2 sm:px-3 lg:px-4 text-xs sm:text-sm md:text-base lg:text-base font-normal rounded-md bg-[#1E2939] border-[#364153] border focus:outline-0 focus:border-[#BFFF0B] text-white" />
+                    <p className="text-red-400 text-xs sm:text-sm lg:text-base m-1 mb-3 sm:mb-4 lg:mb-5">{errors.bodyFatPercentage?.message}</p>
 
                 </div>
-                <div>
+                <div className="w-1/2 min-w-0">
                     <label
                         htmlFor="skeletalMuscleMass"
                         className="w-full text-[#D1D5DC] text-sm font-medium">
@@ -147,8 +147,8 @@ export default function InbodyForm({ setUpdate, update }: { setUpdate: Dispatch<
                         id="skeletalMuscleMass"
                         type="number"
                         placeholder="골격근량을 입력해주세요"
-                        className="w-full py-2.5 sm:py-3 lg:py-3 px-3 sm:px-4 lg:px-4  text-sm sm:text-base lg:text-base font-normal rounded-md bg-[#1E2939] border-[#364153] border focus:outline-0 focus:border-[#BFFF0B] text-white" />
-                    <p className="text-red-400 text-sm md:text-base m-1 mb-5">{errors.skeletalMuscleMass?.message}</p>
+                        className="w-full py-2.5 sm:py-3 lg:py-3 px-2 sm:px-3 lg:px-4 text-xs sm:text-sm md:text-base lg:text-base font-normal rounded-md bg-[#1E2939] border-[#364153] border focus:outline-0 focus:border-[#BFFF0B] text-white" />
+                    <p className="text-red-400 text-xs sm:text-sm lg:text-base m-1 mb-3 sm:mb-4 lg:mb-5">{errors.skeletalMuscleMass?.message}</p>
                 </div>
             </div>
             <button

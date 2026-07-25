@@ -1,14 +1,9 @@
-import { CommuDetailDeclaration, CommuDetailEdit, CommuDetailRemove } from "@/components/ui/image";
 import CommuCommentCard from "@/feature/community/components/CommuCommentCard";
-import Image from "next/image";
 import CommentBar from "./CommentBar";
 import { getCommunityById } from "@/service/community.service";
 import { Community } from "@/feature/community/type";
 import { format } from "date-fns";
 import CommuLikeButton from "./CommuLikeButton";
-import Link from "next/link";
-import CommuDeleteButton from "./CommuDeleteButton";
-import CommuReportButton from "./CommuReportButton";
 import CommuButtonCt from "./CommuButtonCt";
 
 export default async function CommuDetailPage({ params }: { params: Promise<{ id: string }> }) {
@@ -35,8 +30,8 @@ export default async function CommuDetailPage({ params }: { params: Promise<{ id
     lg:mx-40
     mt-5
     md:mt-10
-    p-8
-    
+    py-8
+    px-5
     ">
       <h2
         className="

@@ -22,7 +22,7 @@ export default async function CommuPage({ searchParams }: paramsProps) {
   const totalPage: number = response.data.totalPages
 
   return (
-    <div className="px-10 sm:px-20 md:px-30 lg:px-40 pt-5">
+    <div className="px-5 sm:px-20 md:px-30 lg:px-40 pt-5">
       <p className="text-[36px] font-black text-white"> 커뮤니티 </p>
       <p className="text-[#99A1AF] font-normal text-[14px] mt-[10px]"> 운동 정보를 공유하고 소통해보세요 </p>
 

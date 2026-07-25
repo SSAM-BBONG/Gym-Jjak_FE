@@ -13,7 +13,7 @@ export default async function Page({ searchParams }: paramsProps) {
 
     return (
         <CalendarQueryProvider>
-            <main className="flex  h-[calc(100dvh-70px)] overflow-hidden">
+            <main className="flex h-[calc(100dvh-70px)] overflow-hidden">
                 <ChatbotList sessionId={sessionId} />
                 <ChatCt sessionId={sessionId} />
             </main>
