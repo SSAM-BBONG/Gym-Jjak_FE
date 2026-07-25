@@ -9,9 +9,9 @@ import CommuLikeButton from "./CommuLikeButton";
 import Link from "next/link";
 import CommuDeleteButton from "./CommuDeleteButton";
 import CommuReportButton from "./CommuReportButton";
+import CommuButtonCt from "./CommuButtonCt";
 
 export default async function CommuDetailPage({ params }: { params: Promise<{ id: string }> }) {
-
   const { id } = await params;
   const response = await getCommunityById(Number(id));
   if (!response?.data) {
@@ -61,30 +61,7 @@ export default async function CommuDetailPage({ params }: { params: Promise<{ id
         </div>
         <div className="flex gap-3 items-center">
           <CommuLikeButton like={post.likedByMe} likeCount={post.likeCount} postId={post.postId} />
-          {
-            post.mine ? (
-              <>
-                <Link
-                  href={`/community/${post.postId}/edit`}
-                  className="px-2 py-2 bg-[#1E2939] rounded-[10px]">
-                  <div className="relative w-3 h-3 md:w-4 md:h-4">
-                    <Image
-                      src={CommuDetailEdit}
-                      alt="게시글 수정"
-                      fill
-                      sizes="w-8 h-8"
-                      className="object-cover hover:cursor-pointer"
-                    />
-                  </div>
-                </Link>
-
-                <CommuDeleteButton postId={post.postId} />
-
-              </>
-            ) : (
-              <CommuReportButton title={post.author} targetId={post.postId} />
-            )
-          }
+          <CommuButtonCt post={post} />
 
         </div>
       </div>

@@ -1,7 +1,10 @@
+'use client'
+
 import { Inbody } from "@/feature/mypage/type";
 import InbodyDeleteButton from "./InbodyDeleteButton";
+import { Dispatch, SetStateAction } from "react";
 
-export default function InbodyCt({ inbody, index }: { inbody: Inbody, index: number }) {
+export default function InbodyCt({ setUpdate, inbody, index }: { setUpdate: Dispatch<SetStateAction<Inbody | null>>, inbody: Inbody, index: number }) {
 
     return (
         <div className=" p-4 rounded-md bg-[#1E2939] border-[#364153] border mb-3">
@@ -24,7 +27,7 @@ export default function InbodyCt({ inbody, index }: { inbody: Inbody, index: num
                 </div>
             </div>
             <div className="flex gap-4 mb-3">
-                {inbody.bodyFatPercentage && (
+                {inbody.bodyFatPercentage !== 0 && (
                     <div className="w-full">
                         <p className="text-[#6A7282] text-sm font-normal">
                             체지방률
@@ -32,7 +35,7 @@ export default function InbodyCt({ inbody, index }: { inbody: Inbody, index: num
                         <p className="text-sm font-bold text-white" >{inbody.bodyFatPercentage}</p>
                     </div>
                 )}
-                {inbody.skeletalMuscleMass && (
+                {inbody.skeletalMuscleMass !== 0 && (
                     <div className="w-full">
                         <p className="text-[#6A7282] text-sm font-normal">
                             골격근량
@@ -46,6 +49,13 @@ export default function InbodyCt({ inbody, index }: { inbody: Inbody, index: num
                     BMI
                 </p>
                 <p className="text-sm font-bold text-[#FDC700]" >{inbody.bmi}({inbody.bmiStatusDescription})</p>
+            </div>
+            <div className="flex gap-2 justify-end">
+                <button onClick={() => setUpdate(inbody)}>
+                    <p className="text-[#6A7282] text-end text-sm font-normal">
+                        기록 수정 →
+                    </p>
+                </button>
             </div>
             <InbodyDeleteButton inbodyId={inbody.inbodyId} />
         </div>

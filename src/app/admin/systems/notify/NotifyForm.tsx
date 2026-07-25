@@ -1,13 +1,13 @@
 'use client'
 
 import { format } from "date-fns";
-import { communityAction, communityUpdateAction } from "../action";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
-import { Community } from "../type";
 import { toast } from "sonner";
+import { notifyAction, notifyUpdateAction } from "@/feature/admin/action";
+import { Community } from "@/feature/community/type";
 
-export default function CommuForm({ post }: { post?: Community }) {
+export default function NotifyForm({ post }: { post?: Community }) {
     const route = useRouter();
     const today = new Date();
 
@@ -30,13 +30,13 @@ export default function CommuForm({ post }: { post?: Community }) {
             formData.set("content", data.content);
             let result;
             if (post?.postId) {
-                result = await communityUpdateAction(post.postId, formData)
+                result = await notifyUpdateAction(post.postId, formData)
             } else {
-                result = await communityAction(formData)
+                result = await notifyAction(formData)
             }
             if (result.success) {
                 toast.success(result.message)
-                result.success && route.push('/community?page=0')
+                result.success && route.push('/admin/systems/notify?page=0')
             } else {
                 toast.error(result.message)
             }
@@ -47,16 +47,8 @@ export default function CommuForm({ post }: { post?: Community }) {
     }
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)} >
+        <form onSubmit={handleSubmit(onSubmit)} className="h-screen">
             <div className="flex flex-col gap-3 
-        md:bg-[linear-gradient(135deg,_rgba(16,24,40,0.90)_0%,_rgba(30,41,57,0.90)_100%)]
-        md:border-[#36415380] md:border-[1px]
-        md:rounded-[16px]
-        sm:mx-10
-        md:mx-25
-        lg:mx-40
-        mt-5
-        md:mt-10
         p-8
         h-17/20
         ">
@@ -69,7 +61,7 @@ export default function CommuForm({ post }: { post?: Community }) {
                 text-[12px]
                 font-extrabold"
                 >
-                    자유게시판
+                    공지
                 </h2>
                 <input
                     aria-label="제목"
