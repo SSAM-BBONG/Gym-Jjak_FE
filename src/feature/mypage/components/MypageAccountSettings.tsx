@@ -1,7 +1,6 @@
 'use client'
 
 import { MypageAccountSetting } from "@/components/ui/image";
-import Link from "next/link";
 import { deleteMyAccountAction } from "../actions";
 import { useState } from "react";
 import PasswordCheckModal from "./PasswordCheckModal";
@@ -64,7 +63,7 @@ export default function MypageAccountSettings( {socialUser}: MypageAccountSettin
 
        {!socialUser && (
           <div 
-            className=" flex justify-between items-center p-4 bg-[#1E293980] rounded-[10px] hover:cursor-pointer"
+            className=" flex justify-between items-center p-4 bg-[#1E293980] rounded-[10px] transition-colors hover:bg-[#27364b] hover:cursor-pointer"
             onClick={() => setPasswordMoveModal(true)}  
           >
             <p className="text-[14px] font-medium text-[#99A1AF]">
@@ -76,8 +75,8 @@ export default function MypageAccountSettings( {socialUser}: MypageAccountSettin
         )}
 
         <div 
-          className=" flex justify-between items-center p-4 bg-[#1E293980] rounded-[10px] hover:cursor-pointer"
-          onClick={() => setPasswordMoveModal(true)}    
+          className=" flex justify-between items-center p-4 bg-[#1E293980] rounded-[10px] transition-colors hover:bg-[#27364b] hover:cursor-pointer"
+          onClick={() => socialUser ? withdrawalModal.openModal() : setpasswordCheckModal(true)}
         >
           <p className="text-[14px] font-medium text-[#99A1AF]">
             회원 탈퇴
@@ -92,6 +91,13 @@ export default function MypageAccountSettings( {socialUser}: MypageAccountSettin
           isModal={passwordMoveModal}
           closeModal={() => setPasswordMoveModal(false)}
           movePath="/mypage/password"
+        />
+      )}
+      {!socialUser && (
+        <PasswordCheckModal
+          isModal={passwordCheckModal}
+          closeModal={() => setpasswordCheckModal(false)}
+          checkPassword={handleUserDelectionConfirm}
         />
       )}
       <TwoButtonModal

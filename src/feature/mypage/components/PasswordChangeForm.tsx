@@ -48,10 +48,10 @@ export default function PasswordChangeForm() {
 
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6 mt-6">
+    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4 md:gap-6 mt-4 md:mt-6">
       <div className="
-            flex flex-col gap-4
-            p-6 
+            flex flex-col gap-3 md:gap-4
+            p-4 sm:p-5 lg:p-6
             rounded-[16px]
             border
             border-[#36415380]
@@ -59,17 +59,17 @@ export default function PasswordChangeForm() {
       >
         <label className="text-[14px] text-white font-medium"> 새비밀번호 </label>
         <div className="
-        flex gap-3 items-center
+        flex gap-2 md:gap-3 items-center
         border
         border-[#364153]
         rounded-[10px]
         bg-[#1E2939]
-        px-4 py-3
+        px-3 md:px-4 py-3
         ">
           <input
             type={isNewPasswordVisible ? "text" : "password"}
             placeholder="새 비밀번호를 입력하세요"
-            className="flex-1 outline-none text-white"
+            className="flex-1 min-w-0 outline-none text-white"
             {...register("newPassword")}
           />
           <button
@@ -102,8 +102,8 @@ export default function PasswordChangeForm() {
       </div>
 
       <div className="
-            flex flex-col gap-4
-            p-6 
+            flex flex-col gap-3 md:gap-4
+            p-4 sm:p-5 lg:p-6
             rounded-[16px]
             border
             border-[#36415380]
@@ -111,17 +111,17 @@ export default function PasswordChangeForm() {
       >
         <label className="text-[14px] text-white font-medium"> 비밀번호 확인 </label>
         <div className="
-        flex gap-3 items-center
+        flex gap-2 md:gap-3 items-center
         border
         border-[#364153]
         rounded-[10px]
         bg-[#1E2939]
-        px-4 py-3
+        px-3 md:px-4 py-3
         ">
           <input
             type={isCheckNewPasswordVisible ? "text" : "password"}
             placeholder="비밀번호를 다시 입력하세요"
-            className="flex-1 outline-none text-white"
+            className="flex-1 min-w-0 outline-none text-white"
             {...register("checkNewPassword")}
           />
           <button
@@ -153,15 +153,15 @@ export default function PasswordChangeForm() {
           <p className="my-3 text-[12px] text-[#FF6467]">{errors.checkNewPassword.message}</p>
         )}
       </div>
-      <div className="flex gap-3">
+      <div className="flex gap-3 sm:gap-4">
         <button
           onClick={() => router.back()}
           type="button"
-          className="flex-1 py-4 rounded-[10px] bg-[#1E2939] text-[16px] font-extrabold text-white"> 취소 </button>
+          className="flex-1 py-3 lg:py-4 rounded-[10px] bg-[#1E2939] text-sm md:text-[16px] font-extrabold text-white"> 취소 </button>
 
         <button
           type="submit"
-          className="flex-1 py-4 rounded-[10px] bg-[#BFFF0B] text-[16px] font-extrabold text-black"> 변경하기 </button>
+          className="flex-1 py-3 lg:py-4 rounded-[10px] bg-[#BFFF0B] text-sm md:text-[16px] font-extrabold text-black"> 변경하기 </button>
       </div>
       <OneButtonModal
         isModal={errorModal.isModal}

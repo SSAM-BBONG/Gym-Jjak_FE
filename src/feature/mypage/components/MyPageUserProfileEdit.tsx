@@ -40,9 +40,9 @@ export default function MypageUserProfileEdit( { userinf, socialUser }: MypageUs
             회원 프로필 수정
           </p>
         </div>
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
           <Link href="/mypage/trainerprofile">
-          <div className="p-4 flex flex-col gap-2 bg-[#1E2939] rounded-[14px]">
+          <div className="p-4 flex flex-col gap-2 bg-[#1E2939] hover:bg-[#364153] hover:cursor-pointer rounded-[14px]">
             <div className="flex justify-between items-center">
               <div className="relative w-5 h-5">
                 <Image
@@ -53,7 +53,7 @@ export default function MypageUserProfileEdit( { userinf, socialUser }: MypageUs
                   className="object-cover"
                 />
               </div>
-              <p className="text-[#6A7282] text-[12px] font-black hover:cursor-pointer"> 
+              <p className="text-[#6A7282] text-[12px] font-black">
                 〉 
               </p>
             </div>
@@ -66,7 +66,7 @@ export default function MypageUserProfileEdit( { userinf, socialUser }: MypageUs
           </div>
           </Link>
           <Link href="/mypage/profile">
-          <div className="p-4 flex flex-col gap-2 bg-[#1E2939] rounded-[14px]">
+          <div className="p-4 flex flex-col gap-2 bg-[#1E2939] hover:bg-[#364153] hover:cursor-pointer rounded-[14px]">
             <div className="flex justify-between items-center">
               <div className="relative w-5 h-5">
                 <Image
@@ -77,7 +77,7 @@ export default function MypageUserProfileEdit( { userinf, socialUser }: MypageUs
                   className="object-cover"
                 />
               </div>
-              <p className="text-[#6A7282] text-[12px] font-black hover:cursor-pointer"> 
+              <p className="text-[#6A7282] text-[12px] font-black">
                 〉 
               </p>
             </div>
@@ -90,7 +90,7 @@ export default function MypageUserProfileEdit( { userinf, socialUser }: MypageUs
           </div>
           </Link>
           <Link href="/mypage/onboarding">
-            <div className="p-4 flex flex-col gap-2 bg-[#1E2939] rounded-[14px]">
+            <div className="p-4 flex flex-col gap-2 bg-[#1E2939] hover:bg-[#364153] hover:cursor-pointer rounded-[14px]">
               <div className="flex justify-between items-center">
                 <div className="relative w-5 h-5">
                   <Image
