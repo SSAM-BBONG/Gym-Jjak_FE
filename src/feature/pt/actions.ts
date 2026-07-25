@@ -2,8 +2,8 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { cancelMyPtSessionReservation, chagnePtzoneResrvationStatus, chagnePtzoneStatus, createFeedback, createPtCourse, createPtRecommendation, createPtReservation, createPtReview, deleteFeedback, deletePtCourse, deletePtReview, getFeedbackDetail, getMyPtReservationDetail, getMyPtReservationLists, getMyPtSessionReservations, getMyTrainerApplicationDetail, getMyTrainerApplicationList, getOnboarding, getPopularPtLists, getPtResrvationAvailableDates, getPtResrvationAvailableTimes, getTrainerCancel, getTrainerPtDashboard, getTrainerReportDetail, getTrainerReportList, getTrainerReviewList, getTrainerReviewSummary, getWithoutOnboarding, searchOrganizations, trainerApplication, updateFeedback, updatePtCourse, updatePtReview, updateTrainerApplication } from "@/service/ptzone.service";
-import { FeedbackDetailData, MyPtRecordDetailData, MyPtResrvationListsData, OrganizationSearchItem, PainOnset, PtCourseUpdateRequest, PtRecommendationData, PtRecommendationRequest, PtRecommendationTargetPart, PtRegistRequest, PtRegistSchedule, PtReservationRequest, PtReservationStatusChangeRequest, PtReviewCreateRequest, PtSessionReservationListData, TrainerApplicationData, TrainerApplicationEditData, TrainerPtDashboardData, TrainerReportDetailData, TrainerReportListData, TrainerReviewListData, TrainerReviewListRequest, TrainerReviewSummaryData } from "./type";
+import { cancelMyPtReservation, cancelMyPtSessionReservation, chagnePtzoneResrvationStatus, chagnePtzoneStatus, createFeedback, createPtCourse, createPtRecommendation, createPtReservation, createPtReview, deleteFeedback, deletePtCourse, deletePtReview, getFeedbackDetail, getMyPtCourseSessionReservations, getMyPtReservationDetail, getMyPtReservationLists, getMyPtSessionReservations, getMyTrainerApplicationDetail, getMyTrainerApplicationList, getOnboarding, getPopularPtLists, getPtResrvationAvailableDates, getPtResrvationAvailableTimes, getTrainerCancel, getTrainerPtDashboard, getTrainerReportDetail, getTrainerReportList, getTrainerReviewList, getTrainerReviewSummary, getWithoutOnboarding, searchOrganizations, trainerApplication, updateFeedback, updatePtCourse, updatePtReview, updateTrainerApplication } from "@/service/ptzone.service";
+import { FeedbackDetailData, MyPtRecordDetailData, MyPtResrvationListsData, OrganizationSearchItem, PainOnset, PtCourseSessionReservationListData, PtCourseUpdateRequest, PtRecommendationData, PtRecommendationRequest, PtRecommendationTargetPart, PtRegistRequest, PtRegistSchedule, PtReservationRequest, PtReservationStatusChangeRequest, PtReviewCreateRequest, PtSessionReservationListData, TrainerApplicationData, TrainerApplicationEditData, TrainerPtDashboardData, TrainerReportDetailData, TrainerReportListData, TrainerReviewListData, TrainerReviewListRequest, TrainerReviewSummaryData } from "./type";
 import { uploadFilesPresignedUrl } from "@/service/file.service";
 import { cookies } from "next/headers";
 
@@ -206,6 +206,16 @@ type PtSessionReservationListActionResult =
   | {
       success: true;
       data: PtSessionReservationListData;
+    }
+  | {
+      success: false;
+      message: string;
+    };
+
+type PtCourseSessionReservationListActionResult =
+  | {
+      success: true;
+      data: PtCourseSessionReservationListData;
     }
   | {
       success: false;
@@ -683,6 +693,24 @@ export const getMyPtSessionReservationsAction = async (): Promise<PtSessionReser
   }
 };
 
+export const getMyPtCourseSessionReservationsAction = async (
+  ptCourseId: number
+): Promise<PtCourseSessionReservationListActionResult> => {
+  try {
+    const response = await getMyPtCourseSessionReservations(ptCourseId);
+
+    return { success: true as const, data: response.data };
+  } catch (error) {
+    return {
+      success: false as const,
+      message:
+        error instanceof Error
+          ? error.message
+          : "PT별 내 세션 목록 조회에 실패하였습니다.",
+    };
+  }
+};
+
 export const cancelMyPtSessionReservationAction = async (reservationId: number) => {
   try {
     const response = await cancelMyPtSessionReservation(reservationId);
@@ -698,6 +726,25 @@ export const cancelMyPtSessionReservationAction = async (reservationId: number) 
         error instanceof Error
           ? error.message
           : "PT 세션 예약 취소에 실패하였습니다.",
+    };
+  }
+};
+
+export const cancelMyPtReservationAction = async (reservationId: number) => {
+  try {
+    const response = await cancelMyPtReservation(reservationId);
+
+    revalidatePath("/pt/records");
+    revalidatePath(`/pt/records/${reservationId}`);
+
+    return { success: true as const, message: response.message };
+  } catch (error) {
+    return {
+      success: false as const,
+      message:
+        error instanceof Error
+          ? error.message
+          : "PT 예약 취소에 실패하였습니다.",
     };
   }
 };

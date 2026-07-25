@@ -22,7 +22,9 @@
   PtRegistResponse,
   PtReservationAvailableDatesResponse,
   PtReservationRequest,
+  PtReservationCancelResponse,
   PtReservationResponse,
+  PtCourseSessionReservationListResponse,
   PtSessionReservationCancelResponse,
   PtSessionReservationListResponse,
   PtReservationStatusChangeRequest,
@@ -780,6 +782,37 @@ export const cancelMyPtSessionReservation = async (
 
   if (!response.ok) {
     const message = await getErrorMessage(response, "PT 세션 예약 취소에 실패하였습니다.");
+    throw new Error(message);
+  }
+
+  return response.json();
+};
+
+export const getMyPtCourseSessionReservations = async (
+  ptCourseId: number
+): Promise<PtCourseSessionReservationListResponse> => {
+  const response = await fetchWithAuth(
+    `/api/pt-courses/${ptCourseId}/reservations/me/sessions`
+  );
+
+  if (!response.ok) {
+    const message = await getErrorMessage(response, "PT별 내 세션 목록 조회에 실패하였습니다.");
+    throw new Error(message);
+  }
+
+  return response.json();
+};
+
+export const cancelMyPtReservation = async (
+  reservationId: number
+): Promise<PtReservationCancelResponse> => {
+  const response = await fetchWithAuth(
+    `/api/reservations/me/${reservationId}/cancel`,
+    { method: "PATCH" }
+  );
+
+  if (!response.ok) {
+    const message = await getErrorMessage(response, "PT 예약 취소에 실패하였습니다.");
     throw new Error(message);
   }
 

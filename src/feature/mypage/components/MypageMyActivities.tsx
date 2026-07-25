@@ -60,6 +60,15 @@ export default function MypageMyActivities({ data }: MypageMyActivitiesProps) {
           </div>
         </div>
       </Link>
+      <Link href="/pt/records/reservation">
+        <div className="flex justify-between bg-[#1E2939] rounded-[10px] p-4 transition-colors hover:bg-[#27364b]">
+          <p className="text-[14px] font-medium text-white">전체 PT 예약 확인</p>
+          <div className="flex gap-2">
+            <p className="text-[12px] font-medium text-[#6A7282]">조회하기</p>
+            <p className="text-[12px] font-medium text-[#6A7282]">〉</p>
+          </div>
+        </div>
+      </Link>
     </div>
 
   );
