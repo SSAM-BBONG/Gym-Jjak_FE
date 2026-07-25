@@ -14,7 +14,9 @@ export default async function Layout({ children }: { children: React.ReactNode }
     return (
         <section className="flex">
             <Header />
-            <SideBarAdmin />
+            <div className="hidden lg:block">
+                <SideBarAdmin />
+            </div>
             <section className="flex-1 pt-17.5 lg:ml-80">
                 {children}
             </section>
