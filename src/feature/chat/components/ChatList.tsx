@@ -40,12 +40,12 @@ export default function ChatList({ chatRooms }: ChatListProps) {
 
     return (
         <>
-            <div className="relative">
+            <div className="relative rounded-[16px] border border-[#364153] bg-[#101828] p-2 sm:p-3">
                 <input
                     type="text"
                     value={searchName}
                     onChange={(event) => setSearchName(event.target.value)}
-                    className="w-full px-6 py-3 pr-12 bg-[#101828] border border-[#1E2939] rounded-[14px] text-white placeholder:text-[#6A7282]"
+                    className="w-full rounded-[12px] border border-[#1E2939] bg-[#0F172A] px-3 py-2 pr-10 text-[14px] text-white placeholder:text-[#6A7282] sm:px-4 sm:py-3 sm:pr-12 sm:rounded-[14px] sm:text-base lg:px-6"
                     placeholder="이름으로 검색"
                     aria-label="상대방 이름으로 채팅 검색"
                 />
@@ -61,7 +61,7 @@ export default function ChatList({ chatRooms }: ChatListProps) {
                 )}
             </div>
 
-            <div className="flex gap-2" aria-label="상대방 역할 필터">
+            <div className="flex gap-2 rounded-[16px] border border-[#1E2939] bg-[#101828] p-2 sm:p-3" aria-label="상대방 역할 필터">
                 {roleFilters.map(({ label, value }) => {
                     const isSelected = selectedRole === value;
 
@@ -73,8 +73,8 @@ export default function ChatList({ chatRooms }: ChatListProps) {
                             aria-pressed={isSelected}
                             className={
                                 isSelected
-                                    ? "bg-[#BFFF0B] text-black font-bold px-4 py-2 rounded-full"
-                                    : "bg-[#101828] text-[#99A1AF] font-bold px-4 py-2 rounded-full border border-[#1E2939]"
+                                    ? "bg-[#BFFF0B] text-[12px] text-black font-bold px-3 py-1.5 rounded-full sm:px-4 sm:py-2 sm:text-sm"
+                                    : "bg-[#101828] text-[12px] text-[#99A1AF] font-bold px-3 py-1.5 rounded-full border border-[#1E2939] sm:px-4 sm:py-2 sm:text-sm"
                             }
                         >
                             {label}
@@ -83,8 +83,8 @@ export default function ChatList({ chatRooms }: ChatListProps) {
                 })}
             </div>
 
-            <div className="flex flex-col gap-3 mt-5">
-                <p className="text-[12px] text-[#6A7282] font-bold">모든 대화</p>
+            <div className="mt-5 mb-3 flex flex-col gap-3 sm:mt-6">
+                <p className="mb-3 text-[12px] font-bold text-[#BFFF0B] sm:text-sm">모든 대화</p>
 
                 {!hasChatRooms ? (
                     <p className="py-12 text-center text-[#99A1AF]">
