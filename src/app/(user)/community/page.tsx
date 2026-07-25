@@ -1,3 +1,4 @@
+import ChatbotFloatingButton from "@/components/ui/ChatbotFloatingButton";
 import Pagination from "@/components/ui/Pagination";
 import CommuCard from "@/feature/community/components/CommuCard";
 import CommuSearchBar from "@/feature/community/components/SearchBar";
@@ -72,6 +73,7 @@ export default async function CommuPage({ searchParams }: paramsProps) {
       )}
 
       <Pagination url={`community`} page={page} totalPage={totalPage} />
+      <ChatbotFloatingButton />
     </div>
   );
 }

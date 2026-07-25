@@ -3,20 +3,25 @@
 import useModal from "@/components/hooks/useModal";
 import TwoButtonModal from "@/components/ui/TwoButtonModal";
 import { deleteInbodyAction } from "@/feature/mypage/actions";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
-interface state {
-    success: boolean;
-    message: string;
-}
+
 
 export default function InbodyDeleteButton({ inbodyId }: { inbodyId: number }) {
-    const [result, setResult] = useState<state>({ success: false, message: '' });
+    const router = useRouter();
     const modal = useModal(deleteInbody);
 
     async function deleteInbody() {
         const response = await deleteInbodyAction(inbodyId);
-        setResult(response);
+
+        if (!response?.success) {
+            toast.error(response.message)
+            return;
+        }
+
+        router.refresh();
+        toast.success(response.message)
     }
 
     return (

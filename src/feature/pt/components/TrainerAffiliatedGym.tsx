@@ -91,11 +91,15 @@ export default function TrainerAffiliatedGym({
     return (
         <div className="
             flex flex-col gap-4
-            p-8
+            p-4
             bg-[linear-gradient(135deg,rgba(16,24,40,0.90)0%,rgba(30,41,57,0.90)100%)]
             border
             border-[#36415380]
-            rounded-[16px]">
+            rounded-xl
+            md:p-6
+            md:rounded-2xl
+            lg:p-8
+            lg:rounded-[16px]">
             <div className="flex flex-col gap-1">
                 <p className="text-[20px] font-extrabold text-white"> 소속 헬스장 </p>
                 <p className="text-[12px] font-normal text-[#6A7282]"> 신청할 헬스장을 검색하여 여러 곳을 선택할 수 있습니다. </p>

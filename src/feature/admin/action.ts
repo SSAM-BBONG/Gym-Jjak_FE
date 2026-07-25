@@ -2,6 +2,8 @@
 
 import { approvalTrainerApplication, createExercises, deleteExercises, getOrganizationDetailAdmin, getTrainerApplicationsById, getTrainerDetail, patchUserStatus, rejectTrainerApplication, updateExercises } from "@/service/admin.service";
 import { approvalOrganization, approvalReport, createReport, deleteReportGroup, getOrganizationApplicationDetailAdmin, getReportPtbyId, getReportSnapshot, rejectOrganization, rejectReport } from "@/service/report.service"
+import { CommunityRequest } from "../community/type";
+import { createCommunity, updateCommunity } from "@/service/community.service";
 interface ActionState {
     success: boolean;
     message: string;
@@ -456,5 +458,74 @@ export const getRepostSnapshotAction = async (reportGroupId: number): Promise<Re
         }
 
         throw new Error(errorMessage)
+    }
+}
+
+export const notifyAction = async (formData: FormData): Promise<ActionState> => {
+
+    const title = formData.get('title') as string;
+    const content = formData.get('content') as string;
+
+    if (!title.trim() || !content.trim()) {
+        return {
+            success: false,
+            message: '값을 입력해주세요'
+        }
+    }
+
+    const payload: CommunityRequest = { type: 'NOTICE', title, content }
+
+    try {
+        await createCommunity(payload);
+    } catch (error) {
+        let errorMessage: string = '알 수 없는 오류입니다. 재시도해주세요.'
+        if (error instanceof Error) {
+            errorMessage = error.message;
+        }
+
+        return {
+            success: false,
+            message: errorMessage
+        }
+    }
+
+    return {
+        success: true,
+        message: '공지가 등록되었습니다'
+    }
+}
+
+
+export const notifyUpdateAction = async (postId: number, formData: FormData): Promise<ActionState> => {
+
+    const title = formData.get('title') as string;
+    const content = formData.get('content') as string;
+
+    if (!title.trim() || !content.trim()) {
+        return {
+            success: false,
+            message: '값을 입력해주세요'
+        }
+    }
+
+    const payload: CommunityRequest = { type: 'NOTICE', title, content }
+
+    try {
+        await updateCommunity(postId, payload);
+    } catch (error) {
+        let errorMessage: string = '알 수 없는 오류입니다. 재시도해주세요.'
+        if (error instanceof Error) {
+            errorMessage = error.message;
+        }
+
+        return {
+            success: false,
+            message: errorMessage
+        }
+    }
+
+    return {
+        success: true,
+        message: '공지가 수정되었습니다'
     }
 }
