@@ -7,8 +7,8 @@ import { UseFormSetValue } from "react-hook-form";
 import { TrainerApplicationDetail } from "../type";
 import Image from "next/image";
 import useModal from "@/components/hooks/useModal";
-import OneButtonModal from "@/components/ui/OneButtonModal";
 import TwoButtonModal from "@/components/ui/TwoButtonModal";
+import { toast } from "sonner";
 
 interface TrainerEssentialQulificationProps {
     setValue: UseFormSetValue<TrainerRegistFormValue>;
@@ -52,24 +52,29 @@ export default function TrainerRegistEssentialQulification({
             shouldValidate: true,
             shouldDirty: true,
         });
+
+        toast.success("필수 자격증이 삭제되었습니다.");
     };
 
-    const confirmModal = useModal(handleRemoveQualification);
-    const checkModal = useModal(confirmModal.openModal);
+    const checkModal = useModal(handleRemoveQualification);
 
     return (
         <div className={`
             flex flex-col gap-4
-            p-8
+            p-4
             bg-[linear-gradient(135deg,rgba(16,24,40,0.90)0%,rgba(30,41,57,0.90)100%)]
             ${mode === "edit" && "opacity-50"}
             border
             border-[#36415380]
-            rounded-[16px]
+            rounded-xl
+            md:p-6
+            md:rounded-2xl
+            lg:p-8
+            lg:rounded-[16px]
             `}>
             <div className="flex items-center justify-between">
                 <div className="flex flex-col gap-3">
-                    <div className="flex gap-5 items-center">
+                    <div className="flex items-center gap-3 md:gap-4 lg:gap-5">
                         <p className="text-[20px] font-extrabold text-white"> 필수 자격증 </p>
                         {mode === "edit" &&
                             <p className="
@@ -91,10 +96,12 @@ export default function TrainerRegistEssentialQulification({
                     disabled={mode === "edit"}
                     className={`
                         flex gap-3 items-center
-                        px-4 py-2
+                        px-3 py-2
                         bg-[#BFFF0B] rounded-[10px]
                         self-baseline
                         ${mode !== "edit" && "hover:cursor-pointer"}
+                        md:px-4
+                        lg:px-4
                         `}>
                     <div className="relative w-4 h-4">
                         <Image
@@ -120,7 +127,7 @@ export default function TrainerRegistEssentialQulification({
                 <>
                     <label
                         htmlFor="trainer-profile-essential-upload"
-                        className="flex flex-col py-8 gap-3 items-center justify-center rounded-[14px] border border-[#364153] hover:cursor-pointer mt-3">
+                        className="mt-3 flex flex-col items-center justify-center gap-3 rounded-[14px] border border-[#364153] py-6 hover:cursor-pointer md:py-7 lg:py-8">
                         <div className="relative w-8 h-8">
                             <Image
                                 src={TrainerProfileEssential}
@@ -166,7 +173,8 @@ export default function TrainerRegistEssentialQulification({
                     <button
                         onClick={checkModal.openModal}
                         type="button"
-                        className="px-4 py-3 bg-[#82181A4D] rounded-[10px] text-[#FF6467] font-extrabold hover:cursor-pointer">
+                        disabled={mode === "edit"}
+                        className="px-4 py-3 bg-[#82181A4D] rounded-[10px] text-[#FF6467] font-extrabold hover:cursor-pointer disabled:cursor-not-allowed disabled:opacity-50">
                         ✕
                     </button>
 
@@ -178,13 +186,6 @@ export default function TrainerRegistEssentialQulification({
                         title='필수 자격증 삭제' 
                     />
 
-                    <OneButtonModal 
-                        isModal={confirmModal.isModal}
-                        closeModal={confirmModal.closeModal}
-                        activeModal={confirmModal.activeModal} 
-                        title='필수 자격증 삭제'
-                        content='필수 자격증이 삭제되었습니다.' 
-                    />
                 </div>
             }
             {error && <p className="text-sm text-red-500">{error}</p>}

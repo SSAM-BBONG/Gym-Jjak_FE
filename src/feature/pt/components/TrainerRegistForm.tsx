@@ -16,6 +16,7 @@ import useModal from "@/components/hooks/useModal";
 import { useState } from "react";
 import OneButtonModal from "@/components/ui/OneButtonModal";
 import TrainerAffiliatedGym from "./TrainerAffiliatedGym";
+import { toast } from "sonner";
 
 interface TrainerRegistFormProps {
   mode?: "create" | "edit";
@@ -97,10 +98,13 @@ const onSubmit: SubmitHandler<TrainerRegistFormValue> = async (values) => {
       errorModal.openModal();
       return;
     }
+
+    toast.success(mode === "edit" ? "트레이너 수정이 완료되었습니다." : "트레이너 신청이 완료되었습니다.");
+    router.push(mode === "edit" ? `/pt/trainer-apply/${initialData.trainerApplicationId}` : "/pt/trainer-apply");
   };
 
     return (
-        <div className="flex flex-col px-80 pt-10">
+        <div className="flex flex-col px-2.5 pt-6 sm:px-2.5 md:px-40 md:pt-8 lg:px-80 lg:pt-10">
           {mode === 'edit' 
           ?  
             <>
@@ -113,7 +117,7 @@ const onSubmit: SubmitHandler<TrainerRegistFormValue> = async (values) => {
             <p className="text-[14px] font-normal text-[#99A1AF]"> 트레이너로 활동하기 위한 정보를 입력하세요</p>
             </>
           }
-            <form  onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6 mt-6">            
+            <form  onSubmit={handleSubmit(onSubmit)} className="mt-4 flex flex-col gap-4 md:mt-5 md:gap-5 lg:mt-6 lg:gap-6">
             <TrainerRegistProfile
             setValue={setValue}
             error={errors.profileImageFile?.message}
@@ -154,10 +158,10 @@ const onSubmit: SubmitHandler<TrainerRegistFormValue> = async (values) => {
             error={errors.introduction?.message}         
             />
 
-                <div className="flex gap-4">
+                <div className="flex gap-3 md:gap-4 lg:gap-4">
                     <button 
                       type="button"
-                      className="flex-1 bg-[#1E2939] text-white text-[16px] font-extrabold py-3 mb-20 rounded-[10px] hover:cursor-pointer"
+                      className="mb-12 flex-1 rounded-[10px] bg-[#1E2939] py-2 text-sm font-extrabold text-white hover:cursor-pointer md:mb-16 md:py-3 md:text-base lg:mb-20 lg:py-3 lg:text-[16px]"
                       onClick={() => router.back()}
                     >
                       취소 
@@ -165,7 +169,7 @@ const onSubmit: SubmitHandler<TrainerRegistFormValue> = async (values) => {
                     <button 
                       type="submit" 
                       disabled={isSubmitting} 
-                      className={`flex-1 text-black text-[16px] font-extrabold py-3 mb-20 rounded-[10px] hover:cursor-pointer
+                      className={`mb-12 flex-1 rounded-[10px] py-2 text-sm font-extrabold text-black hover:cursor-pointer md:mb-16 md:py-3 md:text-base lg:mb-20 lg:py-3 lg:text-[16px]
                       ${isSubmitting ? 'bg-[#beff0b7c]' : 'bg-[#BFFF0B]'}
                       `}
                     > 
