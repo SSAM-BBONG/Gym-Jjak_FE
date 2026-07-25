@@ -13,8 +13,8 @@ interface AdminNavLinkProps {
 export default function DashboardNavLink({ href, children }: AdminNavLinkProps) {
     const pathName = usePathname();
     const isActive = pathName === href;
-    let active = 'flex gap-4 text-[#BFFF0B] bg-[#BFFF0B1A] border-[#BFFF0B33] border-1 font-medium text-base py-3 px-4 my-2 items-center rounded-md';
-    let noneActive = 'flex gap-4 text-[#99A1AF] font-medium text-base py-3 px-4 my-2 items-center rounded-md hover:bg-gray-800 hover:text-white';
+    let active = 'flex gap-4 text-[#BFFF0B] bg-[#BFFF0B1A] border-[#BFFF0B33] border-1 font-medium text-base py-3 px-4 my-2 items-center rounded-md transition-colors hover:border-[#BFFF0B] hover:bg-[#BFFF0B1A] hover:text-[#BFFF0B]';
+    let noneActive = 'flex gap-4 text-[#99A1AF] font-medium text-base py-3 px-4 my-2 items-center rounded-md border border-transparent transition-colors hover:border-white/30 hover:bg-white/10 hover:text-white';
 
     return (
         <Link href={href} className={isActive ? active : noneActive}>

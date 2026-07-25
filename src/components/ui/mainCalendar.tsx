@@ -250,7 +250,7 @@ function CalendarDayButton({
           )}
         >{day.date.getDate()}</div>
         {todayData?.pt && (
-          <div className="relative w-5 h-5">
+          <div className="relative w-5 h-5 md:block hidden">
             <Image
               src={CalendarPtImg}
               alt="헬스 이미지"
@@ -260,8 +260,10 @@ function CalendarDayButton({
             />
           </div>)}
       </div>
-      {todayData?.diarySummary && <div className="bg-[#BFFF0B] w-full p-0.5 text-black mt-auto">
+      {todayData?.diarySummary && <div className="bg-[#BFFF0B] w-full p-0.5 text-black mt-auto hidden md:block">
         <p className="hidden lg:block">{todayData.diarySummary.length > 4 ? `${todayData.diarySummary.slice(0, 4)}...` : `${todayData.diarySummary}`}</p>
+      </div>}
+      {(todayData?.diarySummary || todayData?.pt) && <div className="bg-[#BFFF0B] w-full p-0.5 text-black mt-auto md:hidden">
       </div>}
     </Button>
   )

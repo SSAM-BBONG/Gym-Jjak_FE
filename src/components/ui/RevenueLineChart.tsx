@@ -31,7 +31,7 @@ export default function ReveanueLineChart({ monthData, mode }: {
             {
                 label: `구독 ${mode} 현황`,
                 data: monthData.map((data) => data.subscriptionRevenue),
-                borderColor: "#BFFF0B90",
+                borderColor: "#22D3EE90",
                 backgroundColor: "#22D3EE70",
                 tension: 0.4,
                 pointRadius: 4

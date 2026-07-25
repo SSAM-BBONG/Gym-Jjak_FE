@@ -16,7 +16,7 @@ export default function SystemsAdminDropDown() {
 
     return (
         <section className="my-2">
-            <div onClick={handleClickDropDown} className="flex gap-4 text-[#99A1AF] font-medium text-base py-3 px-4 items-center rounded-md hover:bg-gray-800 hover:text-white">
+            <div onClick={handleClickDropDown} className="flex gap-4 text-[#99A1AF] font-medium text-base py-3 px-4 items-center rounded-md transition-colors hover:bg-white/10 hover:text-white">
                 <div className="relative w-5 h-5">
                     <Image
                         src={AdminSystems}
@@ -38,7 +38,7 @@ export default function SystemsAdminDropDown() {
             </div>
             <ul hidden={dropDownView} className="px-4">
                 <li><AdminNavLink href='/admin/systems/exercises'>운동 종류 관리</AdminNavLink></li>
-                <li><AdminNavLink href='/admin/systems/notify'>공지 관리</AdminNavLink></li>
+                <li><AdminNavLink href='/admin/systems/notify?page=0'>공지 관리</AdminNavLink></li>
             </ul>
         </section>
     );

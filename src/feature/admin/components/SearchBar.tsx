@@ -32,7 +32,7 @@ export default function SearchBar({ page = true }: { page?: boolean }) {
                     value={searchInput}
                 />
             </div>
-            <button type='button' className="px-3 lg:px-4 py-2.5 lg:py-3 text-[#99A1AF] rounded-md text-sm md:text-base font-medium w-18 sm:w-20 lg:w-23 bg-[#1E2939]">필터</button>
+            <button type='button' className="px-3 lg:px-4 py-2.5 lg:py-3 text-[#99A1AF] rounded-md text-sm md:text-base font-medium w-18 sm:w-20 lg:w-23 bg-[#1E2939] border border-transparent transition-colors hover:border-white/30 hover:bg-white/10 hover:text-white">필터</button>
         </form>
     );
 }

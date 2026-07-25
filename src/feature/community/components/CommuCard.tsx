@@ -23,7 +23,11 @@ export default function CommuCard({ community }: { community: Communities }) {
         gap-1.5
         md:gap-3
         mt-6
-        hover:cursor-pointer">
+        transition-colors
+        hover:cursor-pointer
+        hover:border-white/25
+        hover:bg-[#17213a]
+        hover:text-white">
 
       <p className="
         flex items-center justify-center

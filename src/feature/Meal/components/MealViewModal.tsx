@@ -156,6 +156,7 @@ export default function MealViewModal({ isModal, closeModal, activeModal, myStat
                                 place-items-center
                                 rounded-lg border border-white/10
                                 bg-[#1E2939]/65 backdrop-blur-md
+                                transition-colors hover:border-white/25 hover:bg-[#17213a] hover:text-white
                                 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]
                                 ">
                                 <p className="
@@ -177,14 +178,14 @@ export default function MealViewModal({ isModal, closeModal, activeModal, myStat
                     <button
                         onClick={() => checkModal.openModal()}
                         type="button"
-                        className="flex w-full items-center justify-center rounded-lg bg-[#1E2939] pt-2 pb-3 text-center text-sm font-semibold text-white md:text-base"
+                        className="flex w-full items-center justify-center rounded-lg bg-[#1E2939] border border-transparent pt-2 pb-3 text-center text-sm font-semibold text-white transition-colors hover:bg-[#1E293999] hover:text-white md:text-base"
                     >
                         삭제하기
                     </button>
                     <button
                         type="button"
                         onClick={activeModal}
-                        className="flex w-full items-center justify-center rounded-lg bg-[#BFFF0B] pt-2 pb-3 text-center text-sm font-semibold text-black md:text-base"
+                        className="flex w-full items-center justify-center rounded-lg bg-[#BFFF0B] pt-2 pb-3 text-center text-sm font-semibold text-black transition-colors hover:bg-[#BFFF0B99] hover:text-black md:text-base"
                     >
                         수정하기
                     </button>

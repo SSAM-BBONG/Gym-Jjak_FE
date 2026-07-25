@@ -1,7 +1,5 @@
-import BarChart from "@/components/ui/BarChart";
-import { GymCurrentPt, GymMonthUser, GymTrainerNumber, PtZonePtManage } from "@/components/ui/image";
+import { GymCurrentPt, GymMonthUser, GymTrainerNumber } from "@/components/ui/image";
 import LineChart from "@/components/ui/LineChart";
-import PieChart from "@/components/ui/PieChart";
 import AdminDashboardCard from "@/feature/admin/components/AdminDashboardCard";
 import { GymDashboardCard } from "@/feature/organization/components/GymDashboard";
 import { getContentDashboard, getReservationDashboard, getUserDashboard } from "@/service/admin.service";
@@ -17,20 +15,20 @@ export default async function Page() {
             icon: GymTrainerNumber,
             highlighted: true,
             title: "활성된 pt 수",
-            value: `${dashboard.activePtCourseCount ?? 0}명`,
-            description: "서비스 시작 이후 총 이용자",
+            value: `${dashboard.activePtCourseCount ?? 0}개`,
+            description: "현재 진행 중인 활성된 pt 수",
         },
         {
-            icon: GymCurrentPt,
+            icon: GymTrainerNumber,
             title: "비활성된 pt 수",
-            value: `${dashboard.blindedPtCourseCount ?? 0}명`,
-            description: "현재 진행 중인 PT 수강생",
+            value: `${dashboard.blindedPtCourseCount ?? 0}개`,
+            description: "현재 진행 중인 비활성된 pt 수",
         },
         {
             icon: GymCurrentPt,
             title: "대기 신고 수",
-            value: `${dashboard.pendingReportGroupCount ?? 0}명`,
-            description: "현재 활성 트레이너",
+            value: `${dashboard.pendingReportGroupCount ?? 0}개`,
+            description: "현재 대기되어 있는 신고 수",
         }
     ];
 

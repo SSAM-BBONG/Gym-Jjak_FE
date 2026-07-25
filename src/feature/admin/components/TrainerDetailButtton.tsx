@@ -40,7 +40,7 @@ export default function TrainerDetailButton({ mode, trainerId }: DetailButtonMod
             }
 
             toast.success(response.message);
-            router.push("/admin/approvals/organizations?page=1");
+            router.push("/admin/approvals/organizations?page=0");
         } catch (error) {
             toast.error("네트워크 오류입니다. 다시 시도해주세요.");
         }
@@ -54,7 +54,7 @@ export default function TrainerDetailButton({ mode, trainerId }: DetailButtonMod
         <>
             <button
                 onClick={trainerModal.openModal}
-                className="flex items-center gap-1 sm:gap-1.5 lg:gap-2.5 text-[10px] sm:text-xs lg:text-sm font-medium text-white bg-[#1E2939] border-[#364153] border rounded-lg py-1.5 sm:py-2 px-2 lg:px-3">
+                className="flex items-center gap-1 sm:gap-1.5 lg:gap-2.5 text-[10px] sm:text-xs lg:text-sm font-medium text-white bg-[#1E2939] border-[#364153] border rounded-lg py-1.5 sm:py-2 px-2 lg:px-3 transition-colors hover:border-white/30 hover:bg-white/10 hover:text-white">
                 <div className="relative ml-auto w-3 h-3 sm:w-4 sm:h-4 lg:w-5 lg:h-5">
                     <Image
                         src={DetailButtonImg}

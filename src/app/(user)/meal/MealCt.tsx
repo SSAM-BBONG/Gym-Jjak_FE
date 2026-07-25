@@ -20,8 +20,6 @@ export default function MealCt({ page, myStatus }: { page: string, myStatus?: "A
     const {
         data: mealListData = { meals: [] },
         isLoading: isMealListLoading,
-        isError: isMealListError,
-        error: mealListError,
     } = useQuery({
         queryKey: ["meals", "list", format(selectDate, 'yyyy-MM-dd'), page],
         queryFn: () => mealListGetAction(format(selectDate, 'yyyy-MM-dd'), page),

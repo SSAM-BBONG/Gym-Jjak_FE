@@ -24,7 +24,7 @@ export default function OneButtonModal({ isModal, closeModal, activeModal, title
                     <button
                         type="button"
                         onClick={() => { activeModal?.(); closeModal(); }}
-                        className='w-full flex pt-2 pb-3 justify-center items-center rounded-lg text-black text-center font-semibold text-base bg-[#BFFF0B]'
+                        className='w-full flex pt-2 pb-3 justify-center items-center rounded-lg text-black text-center font-semibold text-base bg-[#BFFF0B] transition-colors hover:bg-[#BFFF0B99] hover:text-black'
                     >
                         확인
                     </button>

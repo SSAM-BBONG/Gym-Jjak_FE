@@ -5,7 +5,7 @@ export default function CalendarPtItem({ data }: { data: Pt }) {
 
         <Link
             href={`/pt/${data.ptId}`}
-            className="p-5 border-l-4 border-l-[#BFFF0B] rounded-[10px] bg-[#101828] m-2 flex items-center justify-between">
+            className="p-5 border-l-4 border-l-[#BFFF0B] rounded-[10px] bg-[#101828] m-2 flex items-center justify-between transition-colors hover:border-white/25 hover:bg-[#17213a] hover:text-white">
             <p>{data.title}</p>
         </Link>
 

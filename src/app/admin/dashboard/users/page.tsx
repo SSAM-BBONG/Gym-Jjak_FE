@@ -1,5 +1,4 @@
-import BarChart from "@/components/ui/BarChart";
-import { GymCumulativePt, GymCurrentPt, GymMonthUser, GymTrainerNumber, PtZonePtManage } from "@/components/ui/image";
+import { GymCumulativePt, GymCurrentPt, GymMonthUser, GymTrainerNumber } from "@/components/ui/image";
 import PieChart from "@/components/ui/PieChart";
 import AdminDashboardCard from "@/feature/admin/components/AdminDashboardCard";
 import { getUserDashboard } from "@/service/admin.service";
@@ -38,9 +37,8 @@ export default async function Page() {
     return (
         <section className="p-7.5">
             <h1 className="font-extrabold text-4xl text-white mb-8">회원 현황</h1>
-            <section className="flex gap-3 w-full">
-            </section>
-            <div className="grid grid-cols-3 gap-4 mb-5">
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-5">
                 {cards.map((card, index) => (
                     <AdminDashboardCard card={card} key={index} />
                 ))}
