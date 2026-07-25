@@ -10,14 +10,14 @@ interface PtRegistSelectGymProps {
 
 export default function PtRegistSelectGym({ organizations, register, error }: PtRegistSelectGymProps) {
     return (
-        <section className="flex flex-col gap-4 rounded-[16px] border border-[#36415380] bg-[linear-gradient(135deg,rgba(16,24,40,0.90)0%,rgba(30,41,57,0.90)100%)] p-8">
+        <section className="flex flex-col gap-3 rounded-[16px] border border-[#36415380] bg-[linear-gradient(135deg,rgba(16,24,40,0.90)0%,rgba(30,41,57,0.90)100%)] p-5 sm:gap-4 sm:p-6 md:p-7 lg:p-8">
             <div className="flex flex-col gap-1">
-                <p className="text-[20px] font-extrabold text-white">소속 헬스장 선택</p>
+                <p className="text-lg font-extrabold text-white sm:text-[19px] lg:text-[20px]">소속 헬스장 선택</p>
                 <p className="text-[12px] font-normal text-[#6A7282]">PT 등록할 헬스장을 선택해주세요.</p>
             </div>
 
             {organizations.length > 0 ? (
-                <div className="flex flex-col gap-3">
+                <div className="flex flex-col gap-2 sm:gap-3">
                     {organizations.map((organization) => (
                         <label key={organization.organizationId} className="cursor-pointer">
                             <input
@@ -26,8 +26,8 @@ export default function PtRegistSelectGym({ organizations, register, error }: Pt
                                 className="peer sr-only"
                                 {...register("organizationId")}
                             />
-                            <span className="block rounded-[10px] border border-[#364153] bg-[#1E2939] px-4 py-3 peer-checked:border-[#BFFF0B] peer-checked:bg-[#BFFF0B]/10">
-                                <strong className="block text-[16px] text-white peer-checked:text-[#BFFF0B]">{organization.businessName}</strong>
+                            <span className="block rounded-[10px] border border-[#364153] bg-[#1E2939] px-3 py-2 sm:px-4 sm:py-3 peer-checked:border-[#BFFF0B] peer-checked:bg-[#BFFF0B]/10">
+                                <strong className="block text-[14px] text-white sm:text-[15px] lg:text-[16px] peer-checked:text-[#BFFF0B]">{organization.businessName}</strong>
                                 <span className="mt-1 block text-[13px] text-[#99A1AF]">{organization.roadAddress}</span>
                             </span>
                         </label>

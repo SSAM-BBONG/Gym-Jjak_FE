@@ -134,8 +134,8 @@ export default function PtFeeBackRegistModal({
         onSubmit={handleSubmit(onSubmit)}
         className="
         bg-gradient-to-br from-[#101828] to-[#000]
-        h-150 w-2xl rounded-2xl border border-[#1E2939]
-        z-1000 fixed top-1/2 left-1/2 p-6
+        h-5/6 max-h-120 w-5/6 rounded-2xl border border-[#1E2939]
+        z-1000 fixed top-1/2 left-1/2 p-4 sm:h-5/6 sm:max-h-5/6 sm:w-4/5 sm:p-5 md:w-3/5 md:p-6 lg:h-150 lg:w-2xl lg:max-h-none
         flex -translate-x-1/2 -translate-y-1/2 flex-col justify-between
         overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden
         "
@@ -164,7 +164,7 @@ export default function PtFeeBackRegistModal({
             </p>
           </div>
 
-          <div className="flex flex-col gap-6 mt-6">
+          <div className="flex flex-col gap-4 mt-4 sm:gap-5 sm:mt-5 lg:gap-6 lg:mt-6">
             <div className="flex gap-2 items-center">
               <div className="relative w-4 h-4">
                 <Image
@@ -187,7 +187,7 @@ export default function PtFeeBackRegistModal({
                 flex flex-col gap-3
                 bg-[#1E293980]
                 border border-[#364153] rounded-[10px]
-                p-6
+                p-4 sm:p-5 lg:p-6
                 "
               >
                 <div className="flex gap-3">
@@ -273,7 +273,7 @@ export default function PtFeeBackRegistModal({
                 flex flex-col gap-3
                 bg-[#1E293980]
                 border border-[#364153] rounded-[10px]
-                p-6
+                p-4 sm:p-5 lg:p-6
                 "
               >
                 <div className="flex gap-3">
@@ -376,7 +376,7 @@ export default function PtFeeBackRegistModal({
                 flex
                 border border-[#364153] rounded-[10px]
                 bg-[#1E293980]
-                p-6
+                p-4 sm:p-5 lg:p-6
                 "
               >
                 <textarea

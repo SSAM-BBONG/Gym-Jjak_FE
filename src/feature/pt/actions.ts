@@ -500,11 +500,19 @@ export const changePtStatus = async (
   id:number, 
   status: "VISIBLE" | "HIDDEN"
 ) => {
-  await chagnePtzoneStatus(id, { status });
+  try {
+    const response = await chagnePtzoneStatus(id, { status });
 
-  revalidatePath('/pt/manage');
-  revalidatePath('/pt/find');
-  redirect('/pt/manage');
+    revalidatePath('/pt/manage');
+    revalidatePath('/pt/find');
+
+    return { success: true as const, message: response.message };
+  } catch (error) {
+    return {
+      success: false as const,
+      message: error instanceof Error ? error.message : "PT 강습 상태 변경에 실패하였습니다.",
+    };
+  }
 }
 
 type PtCourseEditFormData = {
@@ -625,6 +633,7 @@ export const changePtReservationStatus = async (
     return {
       success: true as const,
       data: response.data,
+      message: response.message,
     };
   } catch (error) {
     return {

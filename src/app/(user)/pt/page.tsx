@@ -37,7 +37,7 @@ export default async function PtZonePage() {
             {/* 역할에 따라 서로 다른 UI 분기 설정 */}
             {userinf?.role === "TRAINER" ?
                 (
-                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 md:grid-cols-3 md:gap-6 lg:grid-cols-3 lg:gap-6">
+                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 md:grid-cols-2 md:gap-6 xl:grid-cols-3 xl:gap-6">
                         <PtCard
                             imgsrc={PtZonePtRegist}
                             title="PT 등록"

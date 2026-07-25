@@ -56,14 +56,14 @@ export default function PtRegistPreview({
 
     return (
         <div className="
-        flex flex-col gap-4
+        flex flex-col gap-3 sm:gap-4
         bg-[#101828]
         border border-[#1E2939] rounded-[16px]
-        p-6
+        p-4 sm:p-5 lg:p-6
         ">
-            <p className="text-[18px] font-extrabold text-white"> 썸네일 이미지 </p>
-            <div className="flex gap-4 items-center">
-                <div className="relative flex items-center justify-center w-[200px] h-[200px] border border-[#364153] bg-[#1E2939] rounded-[10px] overflow-hidden">
+            <p className="text-base font-extrabold text-white sm:text-[17px] lg:text-[18px]"> 썸네일 이미지 </p>
+            <div className="flex gap-3 items-center sm:gap-4">
+                <div className="relative flex h-32 w-32 items-center justify-center overflow-hidden rounded-[10px] border border-[#364153] bg-[#1E2939] sm:h-40 sm:w-40 md:h-44 md:w-44 lg:h-[200px] lg:w-[200px]">
 
                     <div className={thumbnailPreview ? "relative w-full h-full" : "relative w-12 h-12"}>
                         <Image
@@ -82,14 +82,14 @@ export default function PtRegistPreview({
                             type="button"
                             aria-label="썸네일 이미지 삭제"
                             onClick={deleteThumbnailModal.openModal}
-                            className="absolute right-2 top-2 flex h-8 w-8 items-center justify-center rounded-full bg-black/65 text-white transition-colors hover:bg-black"
+                            className="absolute right-2 top-2 flex h-7 w-7 items-center justify-center rounded-full bg-black/65 text-white transition-colors hover:bg-black sm:h-8 sm:w-8"
                         >
                             <X size={18} aria-hidden />
                         </button>
                     )}
                 </div>
                 <label
-                    className="px-7 py-3 rounded-[10px] bg-[#BFFF0B] text-[16px] font-extrabold text-black cursor-pointer"
+                    className="cursor-pointer rounded-[10px] bg-[#BFFF0B] px-4 py-2 text-[14px] font-extrabold text-black sm:px-5 sm:py-3 sm:text-[15px] lg:px-7 lg:text-[16px]"
                     htmlFor="ptregist-img-upload"
                 >
                     이미지 업로드

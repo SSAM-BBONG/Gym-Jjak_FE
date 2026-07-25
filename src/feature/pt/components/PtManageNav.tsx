@@ -16,8 +16,8 @@ const navItems: { label: string; value: PtManageNavType }[] = [
 export default function PtManageNav({ href, type }: PtManageNavProps) {
     const currentType = type ?? "feedback";
 
-    const active = "py-3 text-[16px] font-extrabold text-black bg-[#BFFF0B] rounded-[10px] text-center";
-    const noneActive = "py-3 text-[16px] font-extrabold text-[#99A1AF] rounded-[10px] text-center";
+    const active = "py-2 text-[12px] font-extrabold text-black bg-[#BFFF0B] rounded-[10px] text-center sm:py-3 sm:text-[14px] lg:text-[16px]";
+    const noneActive = "py-2 text-[12px] font-extrabold text-[#99A1AF] rounded-[10px] text-center sm:py-3 sm:text-[14px] lg:text-[16px]";
 
     return (
         <div
@@ -25,7 +25,7 @@ export default function PtManageNav({ href, type }: PtManageNavProps) {
             grid grid-cols-3 gap-2
             bg-[#101828]
             border border-[#1E2939] rounded-[14px]
-            p-2
+            p-1 sm:p-2
             "
         >
             {navItems.map((item) => (

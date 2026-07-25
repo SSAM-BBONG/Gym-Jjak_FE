@@ -11,6 +11,7 @@ import PtFeeBackRegistModal from "./PtFeedBackRegistModal";
 import { deletePtFeedbackAction } from "../actions";
 import type { StudentFeedbackCurriculum } from "../type";
 import Image from "next/image";
+import { toast } from "sonner";
 
 interface PtManageFeedBackCardProps {
     data: StudentFeedbackCurriculum[];
@@ -24,12 +25,10 @@ export default function PtManageFeedBackCard({ data, reservationId, ptCourseId }
     const registModal = useModal();
     const feedbackUnavailableModal = useModal();
     const deleteConfirmModal = useModal();
-    const deleteResultModal = useModal();
 
     const [selectedCurriculum, setSelectedCurriculum] =
         useState<StudentFeedbackCurriculum | null>(null);
     const [selectedFeedbackId, setSelectedFeedbackId] = useState<number | null>(null);
-    const [deleteError, setDeleteError] = useState("");
 
     const openRegistModal = (item: StudentFeedbackCurriculum) => {
         if (new Date(item.reservedStartAt).getTime() > Date.now()) {
@@ -71,12 +70,12 @@ export default function PtManageFeedBackCard({ data, reservationId, ptCourseId }
         deleteConfirmModal.closeModal();
 
         if (result.success === false) {
-            setDeleteError(result.message);
-            deleteResultModal.openModal();
+            toast.error(result.message);
             return;
         }
 
         setSelectedFeedbackId(null);
+        toast.success("피드백을 삭제했습니다.");
         router.refresh();
     };
 
@@ -93,8 +92,8 @@ export default function PtManageFeedBackCard({ data, reservationId, ptCourseId }
     return (
         <>
             <div className="
-        flex flex-col gap-6
-        p-5
+        flex flex-col gap-4
+        p-4 sm:gap-5 sm:p-5 lg:gap-6
         border border-[#1E2939] rounded-[16px]
         bg-[#101828]
         ">
@@ -107,7 +106,7 @@ export default function PtManageFeedBackCard({ data, reservationId, ptCourseId }
                         (
                             <div
                                 key={item.ptCurriculumId}
-                                className="flex items-start gap-3 border border-[#BFFF0B4D] bg-[#1E293980] p-4 rounded-[14px]">
+                                className="flex items-start gap-2 border border-[#BFFF0B4D] bg-[#1E293980] p-3 rounded-[14px] sm:gap-3 sm:p-4">
                                 <div className="relative w-5 h-5">
                                     <Image
                                         src={PtRecordComplete}
@@ -118,20 +117,20 @@ export default function PtManageFeedBackCard({ data, reservationId, ptCourseId }
                                         className="object-cover"
                                     />
                                 </div>
-                                <div className="flex flex-col gap-3 w-full">
-                                    <div className="flex flex-1 justify-between items-start">
-                                        <div className="flex flex-col gap-1">
-                                            <p className="text-[16px] font-extrabold text-white"> {item.sessionNo}회차: {item.title} </p>
+                                <div className="flex flex-col gap-2 w-full sm:gap-3">
+                                    <div className="flex flex-1 justify-between items-start gap-3 sm:gap-4">
+                                        <div className="flex flex-col gap-1 min-w-0">
+                                            <p className="text-[13px] font-extrabold text-white sm:text-[16px]"> {item.sessionNo}회차: {item.title} </p>
                                             <p className="text-[12px] font-normal text-[#99A1AF]"> 수업일 : {feedback.createdAt} </p>
                                         </div>
-                                        <div className="flex gap-2">
+                                        <div className="flex shrink-0 flex-col gap-1 sm:flex-row sm:gap-2">
                                             <button
                                                 type="button"
                                                 onClick={(event) => {
                                                     event.stopPropagation();
                                                     openEditModal(item, feedback.feedbackId);
                                                 }}
-                                                className="px-4 py-2 rounded-[10px] bg-[#BFFF0B] text-[14px] font-extrabold text-black"
+                                                className="px-2 py-1 rounded-[10px] bg-[#BFFF0B] text-[12px] font-extrabold text-black sm:px-4 sm:py-2 sm:text-[14px]"
                                             >
                                                 수정
                                             </button>
@@ -141,7 +140,7 @@ export default function PtManageFeedBackCard({ data, reservationId, ptCourseId }
                                                     event.stopPropagation();
                                                     openDeleteConfirmModal(feedback.feedbackId);
                                                 }}
-                                                className="px-4 py-2 rounded-[10px] border border-red-400 text-[14px] font-extrabold text-red-300"
+                                                className="px-2 py-1 rounded-[10px] border border-red-400 text-[12px] font-extrabold text-red-300 sm:px-4 sm:py-2 sm:text-[14px]"
                                             >
                                                 삭제
                                             </button>
@@ -202,8 +201,8 @@ export default function PtManageFeedBackCard({ data, reservationId, ptCourseId }
                                     <div
                                         key={item.ptCurriculumId}
                                         className="
-        flex items-center justify-between gap-6
-        p-5
+        flex items-center justify-between gap-3
+        p-4 sm:gap-6 sm:p-5
         border border-[#1E2939] rounded-[16px]
         bg-[#101828]
         ">
@@ -250,13 +249,6 @@ export default function PtManageFeedBackCard({ data, reservationId, ptCourseId }
                 activeModal={handleDeleteFeedback}
                 title="피드백 삭제"
                 content="등록한 피드백을 삭제하시겠습니까?"
-            />
-
-            <OneButtonModal
-                isModal={deleteResultModal.isModal}
-                closeModal={deleteResultModal.closeModal}
-                title="피드백 삭제 실패"
-                content={deleteError}
             />
 
             <OneButtonModal

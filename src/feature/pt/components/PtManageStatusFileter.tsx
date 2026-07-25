@@ -19,7 +19,7 @@ export default function PtManageStatusFileter({
 }: PtManageStatusFileterProps) {
     return (
         <select
-            className="self-center  cursor-pointer rounded-[10px] border border-[#1E2939] bg-[#1E2939] px-4 py-2 text-[14px] font-extrabold text-white outline-none hover:border-[#BFFF0B]"
+            className="self-start cursor-pointer rounded-[10px] border border-[#1E2939] bg-[#1E2939] px-3 py-2 text-[14px] font-extrabold text-white outline-none hover:border-[#BFFF0B] sm:self-center sm:px-4"
             value={selectedStatus}
             onChange={(e) => onStatusChange(e.target.value)}
         >

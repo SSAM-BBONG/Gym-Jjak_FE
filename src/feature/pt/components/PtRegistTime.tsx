@@ -87,27 +87,27 @@ export default function PtRegistTime({
 
     return (
     <div className="
-        flex flex-col gap-6
+        flex flex-col gap-4 sm:gap-5 lg:gap-6
         bg-[#101828]
         border border-[#1E2939] rounded-[16px]
-        p-6
+        p-4 sm:p-5 lg:p-6
         ">
             <div className="flex justify-between items-center"> 
-                <p className="text-[18px] font-extrabold text-white"> 수업 시간 </p>
+                <p className="text-base font-extrabold text-white sm:text-[17px] lg:text-[18px]"> 수업 시간 </p>
                 <button
                     type="button"
                     onClick={handleAddTime}
-                    className="px-4 py-2 bg-[#364153] rounded-[10px] text-white text-[14px] font-medium"
+                    className="rounded-[10px] bg-[#364153] px-2 py-2 text-[14px] font-medium text-white sm:px-4"
                 >
                     + 시간 추가
                 </button>
             </div>
 
-            <div className="flex gap-3 items-center">
+            <div className="flex gap-1 items-center sm:gap-2 lg:gap-3">
                 <select
                 value={dayOfWeek}
                 onChange={(e) => setDayOfWeek(e.target.value as WeekValue)}
-                className="bg-[#1E2939] border border-[#364153] rounded-[10px] py-2 px-8 text-white"
+                className="rounded-[10px] border border-[#364153] bg-[#1E2939] px-2 py-2 text-white sm:px-4 lg:px-8"
                 >
                 <option value="MONDAY">월</option>
                 <option value="TUESDAY">화</option>
@@ -121,7 +121,7 @@ export default function PtRegistTime({
                 <select
                 value={startTime}
                 onChange={(e) => setStartTime(e.target.value)}
-                className="flex-1 bg-[#1E2939] border border-[#364153] rounded-[10px] py-2 px-4 text-white"
+                className="flex-1 rounded-[10px] border border-[#364153] bg-[#1E2939] px-2 py-2 text-white sm:px-3 lg:px-4"
                 >
                 <option value="01:00">01:00</option>
                 <option value="02:00">02:00</option>
@@ -154,7 +154,7 @@ export default function PtRegistTime({
                 <select
                 value={endTime}
                 onChange={(e) => setEndTime(e.target.value)}
-                className="flex-1 bg-[#1E2939] border border-[#364153] rounded-[10px] py-2 px-4 text-white"
+                className="flex-1 rounded-[10px] border border-[#364153] bg-[#1E2939] px-2 py-2 text-white sm:px-3 lg:px-4"
                 >
                 <option value="01:00">01:00</option>
                 <option value="02:00">02:00</option>
@@ -187,26 +187,26 @@ export default function PtRegistTime({
             {schedules.map((schedule, index) => (
                 <div
                 key={`${schedule.dayOfWeek}-${schedule.startTime}-${schedule.endTime}-${index}`}
-                className="flex gap-3 items-center"
+                className="flex gap-1 items-center sm:gap-2 lg:gap-3"
                 >
-                <p className="bg-[#1E2939] border border-[#364153] rounded-[10px] py-2 px-8 text-white">
+                <p className="rounded-[10px] border border-[#364153] bg-[#1E2939] px-2 py-2 text-white sm:px-4 lg:px-8">
                     {getDayLabel(schedule.dayOfWeek)}
                 </p>
 
-                <p className="flex-1 bg-[#1E2939] border border-[#364153] rounded-[10px] py-2 px-4 text-white">
+                <p className="flex-1 rounded-[10px] border border-[#364153] bg-[#1E2939] px-2 py-2 text-white sm:px-3 lg:px-4">
                     {schedule.startTime}
                 </p>
 
                 <p className="text-white text-[20px]">~</p>
 
-                <p className="flex-1 bg-[#1E2939] border border-[#364153] rounded-[10px] py-2 px-4 text-white">
+                <p className="flex-1 rounded-[10px] border border-[#364153] bg-[#1E2939] px-2 py-2 text-white sm:px-3 lg:px-4">
                     {schedule.endTime}
                 </p>
 
                 <button
                     type="button"
                     onClick={() => handleRemoveTime(index)}
-                    className="px-4 py-2 bg-[#82181A4D] rounded-[10px] text-[#FF6467] font-extrabold"
+                    className="rounded-[10px] bg-[#82181A4D] px-2 py-2 font-extrabold text-[#FF6467] sm:px-4"
                 >
                     ✕
                 </button>
