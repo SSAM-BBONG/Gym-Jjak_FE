@@ -38,6 +38,7 @@ export default function SystemsAdminDropDown() {
             </div>
             <ul hidden={dropDownView} className="px-4">
                 <li><AdminNavLink href='/admin/systems/exercises'>운동 종류 관리</AdminNavLink></li>
+                <li><AdminNavLink href='/admin/systems/notify'>공지 관리</AdminNavLink></li>
             </ul>
         </section>
     );

@@ -1,12 +1,12 @@
 'use client'
 
-import { InbodyData } from "@/feature/mypage/type";
+import { Inbody, InbodyData } from "@/feature/mypage/type";
 import InbodyAddButton from "./InbodyAddButton";
 import InbodyCt from "./InbodyCt";
 import NoneInbodyCt from "./NoneInbodyCt";
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
-export default function InbodyListCt({ response }: { response: { data: InbodyData } }) {
+export default function InbodyListCt({ setUpdate, response }: { setUpdate: Dispatch<SetStateAction<Inbody | null>>, response: { data: InbodyData } }) {
     const [inbodyData, setInbodyData] = useState<InbodyData>({
         inbodies: [],
         nextMeasuredDate: '',
@@ -16,7 +16,7 @@ export default function InbodyListCt({ response }: { response: { data: InbodyDat
 
     useEffect(() => (
         setInbodyData(response.data)
-    ), [])
+    ), [response.data])
 
 
     return (
@@ -25,7 +25,7 @@ export default function InbodyListCt({ response }: { response: { data: InbodyDat
                 <NoneInbodyCt />
             )}
             {inbodyData.inbodies.map((inbody, index) => {
-                return <InbodyCt inbody={inbody} key={inbody.inbodyId} index={index} />
+                return <InbodyCt setUpdate={setUpdate} inbody={inbody} key={inbody.inbodyId} index={index} />
             })}
             {inbodyData.hasNext && inbodyData.nextInbodyId && inbodyData.nextMeasuredDate &&
                 <InbodyAddButton setInbodyData={setInbodyData} nextInbodyId={inbodyData.nextInbodyId} nextInbodyDate={inbodyData.nextMeasuredDate} />

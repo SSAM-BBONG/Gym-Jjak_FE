@@ -1,21 +1,16 @@
 'use client'
 
-import { createInbodyAction } from "@/feature/mypage/actions";
+import { createInbodyAction, updateInbodyAction } from "@/feature/mypage/actions";
+import { Inbody } from "@/feature/mypage/type";
 import { InbodyFormType, inbodySchema } from "@/lib/inbodySchema";
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { Dispatch, SetStateAction, useEffect } from "react";
 import { useForm } from 'react-hook-form';
+import { toast } from "sonner";
 
-interface InbodyStateType {
-    success: boolean;
-    message?: string
-}
-
-export default function InbodyForm() {
-    const [inbodyState, setInbodyState] = useState<InbodyStateType>({
-        success: false,
-        message: ''
-    });
+export default function InbodyForm({ setUpdate, update }: { setUpdate: Dispatch<SetStateAction<Inbody | null>>, update?: Inbody | null }) {
+    const router = useRouter();
 
     const {
         register,
@@ -27,16 +22,43 @@ export default function InbodyForm() {
         mode: 'onSubmit'
     });
 
+    useEffect(() => {
+        reset({
+            measuredDate: update?.measuredDate,
+            height: update?.height,
+            weight: update?.weight,
+            bodyFatPercentage: update?.bodyFatPercentage,
+            skeletalMuscleMass: update?.skeletalMuscleMass,
+        });
+    }, [update, reset]);
+
     const onSubmint = async (data: InbodyFormType) => {
         try {
-            reset();
-            const result = await createInbodyAction(data);
-            setInbodyState(result);
+            let result;
+            if (update) {
+                result = await updateInbodyAction(update.inbodyId, data);
+                setUpdate(null);
+            } else {
+                result = await createInbodyAction(data);
+            }
+
+            if (!result?.success) {
+                toast.error(result.message)
+                return;
+            }
+
+            reset({
+                measuredDate: "",
+                height: NaN,
+                weight: NaN,
+                bodyFatPercentage: NaN,
+                skeletalMuscleMass: NaN,
+            });
+            toast.success(result.message)
+            router.push('/mypage/inbody');
         } catch (error) {
-            setInbodyState({
-                success: false,
-                message: '네트워크 연결이 원활하지 않습니다.'
-            })
+            toast.error('네트워크 연결이 원활하지 않습니다.')
+
         }
     }
 
@@ -53,7 +75,9 @@ export default function InbodyForm() {
                 id="measuredDate"
                 type="date"
                 placeholder="날짜를 입력해주세요"
-                className="w-full py-2.5 sm:py-3 lg:py-3 px-3 sm:px-4 lg:px-4 mb-4 sm:mb-5 lg:mb-5 text-sm sm:text-base lg:text-base font-normal rounded-md bg-[#1E2939] border-[#364153] border focus:outline-0 focus:border-[#BFFF0B] text-white" />
+                className="w-full py-2.5 sm:py-3 lg:py-3 px-3 sm:px-4 lg:px-4  text-sm sm:text-base lg:text-base font-normal rounded-md bg-[#1E2939] border-[#364153] border focus:outline-0 focus:border-[#BFFF0B] text-white" />
+            <p className="text-red-400 text-sm md:text-base m-1 mb-5">{errors.measuredDate?.message}</p>
+
             <div className="flex gap-4">
                 <div>
                     <label
@@ -67,7 +91,9 @@ export default function InbodyForm() {
                         id="height"
                         type="number"
                         placeholder="키를 입력해주세요"
-                        className="w-full py-2.5 sm:py-3 lg:py-3 px-3 sm:px-4 lg:px-4 mb-4 sm:mb-5 lg:mb-5 text-sm sm:text-base lg:text-base font-normal rounded-md bg-[#1E2939] border-[#364153] border focus:outline-0 focus:border-[#BFFF0B] text-white" />
+                        className="w-full py-2.5 sm:py-3 lg:py-3 px-3 sm:px-4 lg:px-4 text-sm sm:text-base lg:text-base font-normal rounded-md bg-[#1E2939] border-[#364153] border focus:outline-0 focus:border-[#BFFF0B] text-white" />
+                    <p className="text-red-400 text-sm md:text-base m-1 mb-5">{errors.height?.message}</p>
+
                 </div>
                 <div>
                     <label
@@ -81,7 +107,9 @@ export default function InbodyForm() {
                         id="weight"
                         type="number"
                         placeholder="몸무게를 입력해주세요"
-                        className="w-full py-2.5 sm:py-3 lg:py-3 px-3 sm:px-4 lg:px-4 mb-4 sm:mb-5 lg:mb-5 text-sm sm:text-base lg:text-base font-normal rounded-md bg-[#1E2939] border-[#364153] border focus:outline-0 focus:border-[#BFFF0B] text-white" />
+                        className="w-full py-2.5 sm:py-3 lg:py-3 px-3 sm:px-4 lg:px-4  text-sm sm:text-base lg:text-base font-normal rounded-md bg-[#1E2939] border-[#364153] border focus:outline-0 focus:border-[#BFFF0B] text-white" />
+                    <p className="text-red-400 text-sm md:text-base m-1 mb-5">{errors.weight?.message}</p>
+
                 </div>
             </div>
             <div className="flex gap-4">
@@ -100,7 +128,9 @@ export default function InbodyForm() {
                         id="bodyFatPercentage"
                         type="number"
                         placeholder="체지방률을 입력해주세요"
-                        className="w-full py-2.5 sm:py-3 lg:py-3 px-3 sm:px-4 lg:px-4 mb-4 sm:mb-5 lg:mb-5 text-sm sm:text-base lg:text-base font-normal rounded-md bg-[#1E2939] border-[#364153] border focus:outline-0 focus:border-[#BFFF0B] text-white" />
+                        className="w-full py-2.5 sm:py-3 lg:py-3 px-3 sm:px-4 lg:px-4  text-sm sm:text-base lg:text-base font-normal rounded-md bg-[#1E2939] border-[#364153] border focus:outline-0 focus:border-[#BFFF0B] text-white" />
+                    <p className="text-red-400 text-sm md:text-base m-1 mb-5">{errors.bodyFatPercentage?.message}</p>
+
                 </div>
                 <div>
                     <label
@@ -117,20 +147,14 @@ export default function InbodyForm() {
                         id="skeletalMuscleMass"
                         type="number"
                         placeholder="골격근량을 입력해주세요"
-                        className="w-full py-2.5 sm:py-3 lg:py-3 px-3 sm:px-4 lg:px-4 mb-4 sm:mb-5 lg:mb-5 text-sm sm:text-base lg:text-base font-normal rounded-md bg-[#1E2939] border-[#364153] border focus:outline-0 focus:border-[#BFFF0B] text-white" />
+                        className="w-full py-2.5 sm:py-3 lg:py-3 px-3 sm:px-4 lg:px-4  text-sm sm:text-base lg:text-base font-normal rounded-md bg-[#1E2939] border-[#364153] border focus:outline-0 focus:border-[#BFFF0B] text-white" />
+                    <p className="text-red-400 text-sm md:text-base m-1 mb-5">{errors.skeletalMuscleMass?.message}</p>
                 </div>
             </div>
-            <p className="text-red">{errors.form?.message}</p>
-            <p className="text-red">{errors.bodyFatPercentage?.message}</p>
-            <p className="text-red">{errors.height?.message}</p>
-            <p className="text-red">{errors.measuredDate?.message}</p>
-            <p className="text-red">{errors.skeletalMuscleMass?.message}</p>
-            <p className="text-red">{errors.weight?.message}</p>
-            <p>{inbodyState.message}</p>
             <button
                 disabled={isSubmitting}
                 className="w-full text-sm sm:text-base lg:text-base font-bold mb-5 sm:mb-6 lg:mb-6 text-black bg-[#BFFF0B] py-3 sm:py-3.5 lg:py-4 rounded-md">
-                저장하기
+                {update ? '수정하기' : '저장하기'}
             </button>
         </form>
     );

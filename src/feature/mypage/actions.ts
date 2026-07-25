@@ -23,52 +23,52 @@ export const createOrganizationApplicationAction = async (
   formData: FormData
 ) => {
   try {
-  const businessLicenseFile = formData.get("businessLicenseFile");
+    const businessLicenseFile = formData.get("businessLicenseFile");
 
-  if (!(businessLicenseFile instanceof File) || businessLicenseFile.size === 0) {
-    return {
-      success: false,
-      message: "사업자등록증 파일을 등록해주세요.",
+    if (!(businessLicenseFile instanceof File) || businessLicenseFile.size === 0) {
+      return {
+        success: false,
+        message: "사업자등록증 파일을 등록해주세요.",
+      };
+    }
+
+    const [uploadedBusinessLicenseFile] = await uploadFilesPresignedUrl([
+      {
+        file: businessLicenseFile,
+        fileType: "BUSINESS_LICENSE",
+      },
+    ]);
+
+    const latitude = String(formData.get("latitude") ?? "");
+    const longitude = String(formData.get("longitude") ?? "");
+
+    const payload = {
+      businessLicenseFile: uploadedBusinessLicenseFile,
+      requestedLoginId: String(formData.get("requestedLoginId") ?? "").trim(),
+      businessRegistrationNumber: String(formData.get("businessRegistrationNumber") ?? "").trim(),
+      businessName: String(formData.get("businessName") ?? "").trim(),
+      representativeName: String(formData.get("representativeName") ?? "").trim(),
+      representativePhone: String(formData.get("representativePhone") ?? "").trim(),
+      openingDate: String(formData.get("openingDate") ?? "").trim(),
+      roadAddress: String(formData.get("roadAddress") ?? "").trim(),
+      jibunAddress: String(formData.get("jibunAddress") ?? "").trim() || undefined,
+      detailAddress: String(formData.get("detailAddress") ?? "").trim() || undefined,
+      latitude: latitude ? Number(latitude) : undefined,
+      longitude: longitude ? Number(longitude) : undefined,
+      websiteUrl: String(formData.get("websiteUrl") ?? "").trim() || undefined,
+      instagramUrl: String(formData.get("instagramUrl") ?? "").trim() || undefined,
+      blogUrl: String(formData.get("blogUrl") ?? "").trim() || undefined,
+      facilityPhone: String(formData.get("facilityPhone") ?? "").trim() || undefined,
     };
-  }
 
-  const [uploadedBusinessLicenseFile] = await uploadFilesPresignedUrl([
-    {
-      file: businessLicenseFile,
-      fileType: "BUSINESS_LICENSE",
-    },
-  ]);
+    const response = await createOrganizationApplication(payload);
 
-  const latitude = String(formData.get("latitude") ?? "");
-  const longitude = String(formData.get("longitude") ?? "");
-
-  const payload = {
-    businessLicenseFile: uploadedBusinessLicenseFile,
-    requestedLoginId: String(formData.get("requestedLoginId") ?? "").trim(),
-    businessRegistrationNumber: String(formData.get("businessRegistrationNumber") ?? "").trim(),
-    businessName: String(formData.get("businessName") ?? "").trim(),
-    representativeName: String(formData.get("representativeName") ?? "").trim(),
-    representativePhone: String(formData.get("representativePhone") ?? "").trim(),
-    openingDate: String(formData.get("openingDate") ?? "").trim(),
-    roadAddress: String(formData.get("roadAddress") ?? "").trim(),
-    jibunAddress: String(formData.get("jibunAddress") ?? "").trim() || undefined,
-    detailAddress: String(formData.get("detailAddress") ?? "").trim() || undefined,
-    latitude: latitude ? Number(latitude) : undefined,
-    longitude: longitude ? Number(longitude) : undefined,
-    websiteUrl: String(formData.get("websiteUrl") ?? "").trim() || undefined,
-    instagramUrl: String(formData.get("instagramUrl") ?? "").trim() || undefined,
-    blogUrl: String(formData.get("blogUrl") ?? "").trim() || undefined,
-    facilityPhone: String(formData.get("facilityPhone") ?? "").trim() || undefined,
-  };
-
-  const response = await createOrganizationApplication(payload);
-
-  revalidatePath("/mypage/organization");
-  revalidatePath("/mypage/organization/application");
-  return {
-    success: true,
-    message: response.message || "조직 계정 신청이 완료되었습니다.",
-  };
+    revalidatePath("/mypage/organization");
+    revalidatePath("/mypage/organization/application");
+    return {
+      success: true,
+      message: response.message || "조직 계정 신청이 완료되었습니다.",
+    };
   } catch (error) {
     return {
       success: false,
@@ -479,20 +479,16 @@ export const createInbodyAction = async (data: InbodyFormType) => {
     };
   }
 
-  redirect('/mypage/inbody');
+  return {
+    success: true,
+    message: '인바디가 등록되었습니다',
+  };
 };
 
 
-export const updateInbodyAction = async (inbodyId: number, formData: FormData) => {
-  const payload = {
-
-  };
+export const updateInbodyAction = async (inbodyId: number, data: InbodyFormType) => {
   try {
-    // await patchInbody(inbodyId, payload);
-    return {
-      success: false,
-      message: '인바디 수정에 성공하였습니다.',
-    };
+    await patchInbody(inbodyId, data);
   } catch (error) {
     let errorMessage = "내 인바디 수정에 실패하였습니다.";
 
@@ -507,7 +503,7 @@ export const updateInbodyAction = async (inbodyId: number, formData: FormData) =
   }
 
   return {
-    success: false,
+    success: true,
     message: '인바디 수정에 성공하였습니다.',
   };
 };
@@ -529,7 +525,10 @@ export const deleteInbodyAction = async (inbodyId: number) => {
     };
   }
 
-  redirect('/mypage/inbody');
+  return {
+    success: true,
+    message: '인바디가 삭제되었습니다',
+  };
 };
 
 
