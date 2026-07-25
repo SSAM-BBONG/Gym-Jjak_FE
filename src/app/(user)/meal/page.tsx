@@ -17,7 +17,7 @@ export default async function Page({ searchParams }: paramsProps) {
 
     return (
         <CalendarQueryProvider>
-            <div className="pb-10 px-10 sm:px-20 md:px-30 lg:px-40 pt-5">
+            <div className="pb-10 px-5 sm:px-20 md:px-30 lg:px-40 pt-5">
                 <MealCt page={page} myStatus={subscripton?.status} />
             </div>
         </CalendarQueryProvider>
