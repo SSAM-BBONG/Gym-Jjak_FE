@@ -12,11 +12,15 @@ import type {
     ChatMessageReportReason,
     ChatRoomCreateRequest,
 } from "@/feature/chat/type";
-import { redirect } from "next/navigation";
 
 export const closeChatRoomAction = async (chatRoomId: number) => {
     try {
         await closeChatRoom(chatRoomId);
+
+        return {
+            success: true as const,
+            message: "채팅방 나가기가 완료되었습니다.",
+        };
     } catch (error) {
         let errorMessage = "채팅방 나가기에 실패하였습니다.";
 
@@ -24,10 +28,11 @@ export const closeChatRoomAction = async (chatRoomId: number) => {
             errorMessage = error.message;
         }
 
-        throw new Error(errorMessage);
+        return {
+            success: false as const,
+            message: errorMessage,
+        };
     }
-
-    redirect("/chat");
 };
 
 export const createChatRoomAction = async (payload: ChatRoomCreateRequest) => {

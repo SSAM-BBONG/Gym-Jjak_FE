@@ -8,12 +8,13 @@ import type { ReactNode } from "react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
-export default function ReportButtonVer2({ title, targetId, targetType, className, children }: {
+export default function ReportButtonVer2({ title, targetId, targetType, className, children, onSuccess }: {
     title: string,
     targetId: number,
-    targetType: "PT_COURSE" | "TRAINER_REVIEW" | "COMMENT" | "POST" | "FEEDBACK",
+    targetType: "PT_COURSE" | "TRAINER_REVIEW" | "COMMENT" | "POST" | "FEEDBACK" | "CHAT",
     className?: string,
     children?: ReactNode,
+    onSuccess?: (message: string) => void,
 }) {
     const reportModal = useModal();
     const checkModal = useModal();
@@ -51,6 +52,12 @@ export default function ReportButtonVer2({ title, targetId, targetType, classNam
             if (result.success) {
                 reset();
                 reportModal.closeModal();
+
+                if (onSuccess) {
+                    onSuccess(result.message);
+                    return;
+                }
+
                 checkModal.openModal();
             }
         } catch (error) {

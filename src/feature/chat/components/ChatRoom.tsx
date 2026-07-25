@@ -91,19 +91,19 @@ export default function ChatRoom({
     };
 
     return (
-        <main className="mx-auto flex min-h-[calc(100vh-70px)] w-full max-w-[880px] items-center px-4 py-7 sm:px-6">
-            <section className="flex min-h-[calc(100vh-126px)] w-full flex-col overflow-hidden rounded-[20px] border border-[#1E2939] bg-[#101828]">
-                <header className="flex h-[70px] shrink-0 items-center justify-between border-b border-[#253046] px-5 sm:px-6">
-                    <div className="flex items-center gap-4">
+        <main className="mx-auto flex min-h-[calc(100vh-70px)] w-full max-w-[880px] items-center px-3 py-5 sm:px-6 sm:py-7">
+            <section className="flex h-[calc(100dvh-126px)] w-full flex-col overflow-hidden rounded-[20px] border border-[#1E2939] bg-[#101828] lg:h-[calc(100vh-126px)]">
+                <header className="flex h-[70px] shrink-0 items-center justify-between border-b border-[#253046] px-3 sm:px-6">
+                    <div className="flex items-center gap-3 sm:gap-4">
                         <Link
                             href="/chat"
                             aria-label="채팅 목록으로 돌아가기"
-                            className="text-[#99A1AF] text-[25px] hover:text-white"
+                            className="text-[#99A1AF] text-[20px] hover:text-white sm:text-[22px] lg:text-[25px]"
                         >
                             ⭠
                         </Link>
 
-                        <div className="h-10 w-10 overflow-hidden rounded-full border border-[#364153] bg-[#101828]">
+                        <div className="h-9 w-9 overflow-hidden rounded-full border border-[#364153] bg-[#101828] sm:h-10 sm:w-10">
                             <img
                                 src={partnerProfileImageUrl || HeaderProfile}
                                 alt={`${partnerName} 프로필`}
@@ -123,7 +123,7 @@ export default function ChatRoom({
                     />
                 </header>
 
-                <div className="flex flex-1 flex-col overflow-y-auto px-5 py-6 sm:px-10">
+                <div className="flex flex-1 flex-col overflow-y-auto px-3 py-5 sm:px-10 sm:py-6 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
                     {hasMessages ? (
                         <div className="flex flex-col gap-4">
                             {chatMessages.map((message) => {
@@ -132,7 +132,7 @@ export default function ChatRoom({
                                 return (
                                     <div
                                         key={message.messageId}
-                                        className={`flex max-w-[85%] items-end gap-2 ${
+                                        className={`flex max-w-[90%] items-end gap-2 sm:max-w-[85%] ${
                                             isMyMessage ? "ml-auto flex-row-reverse" : ""
                                         }`}
                                     >
@@ -147,9 +147,9 @@ export default function ChatRoom({
                                         )}
                                         <div>
                                             <p
-                                                className={`rounded-2xl px-4 py-3 text-sm ${
+                                                className={`w-fit max-w-full rounded-2xl px-4 py-3 text-sm ${
                                                     isMyMessage
-                                                        ? "rounded-br-md bg-[#BFFF0B] text-black font-bold"
+                                                        ? "ml-auto rounded-br-md bg-[#BFFF0B] text-black font-bold"
                                                         : "rounded-bl-md bg-[#1E2939] text-white"
                                                 }`}
                                             >
@@ -170,7 +170,7 @@ export default function ChatRoom({
                         </div>
                     ) : (
                         <div className="m-auto flex flex-col items-center text-center">
-                            <div className="relative mb-7 h-20 w-20 rounded-full border-[4px] border-[#3A455B]">
+                            <div className="relative mb-7 h-16 w-16 rounded-full border-[4px] border-[#3A455B] sm:h-20 sm:w-20 lg:h-20 lg:w-20">
                                 <div className="absolute bottom-[-6px] right-[-9px] flex h-7 w-7 items-center justify-center rounded-full bg-[#BFFF0B]">
                                     <Image src={chat} alt="채팅" width={15} height={15} />
                                 </div>
@@ -195,7 +195,7 @@ export default function ChatRoom({
                     </p>
                 )}
 
-                <form onSubmit={handleSubmit} className="flex shrink-0 items-center gap-3 px-4 pb-4 sm:px-5 sm:pb-5">
+                <form onSubmit={handleSubmit} className="flex shrink-0 items-center gap-2 px-3 pb-3 sm:gap-3 sm:px-5 sm:pb-5">
                     <input
                         type="text"
                         placeholder={`${partnerName}에게 메시지 보내기...`}

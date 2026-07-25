@@ -378,7 +378,7 @@ export const TrainerAdminDetailAction = async (trainerId: number) => {
 //신고 등록
 export const createReportAction = async (
     targetId: number,
-    targetType: "PT_COURSE" | "TRAINER_REVIEW" | "COMMENT" | "POST" | "FEEDBACK",
+    targetType: "PT_COURSE" | "TRAINER_REVIEW" | "COMMENT" | "POST" | "FEEDBACK" | "CHAT",
     formData: FormData
 ) => {
     const reason = formData.get('reason') as "SPAM" | "ADVERTISEMENT" | "ABUSE" | "SEXUAL_CONTENT" | "FRAUD" | "PRIVACY_EXPOSURE" | "ETC" | 'default';
