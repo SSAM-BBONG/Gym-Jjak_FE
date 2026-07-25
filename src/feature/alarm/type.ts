@@ -9,7 +9,7 @@ export interface Alarm {
     targetType: 'PT_RESERVATION' | 'FEEDBACK' | 'ORGANIZATION_APPLICATION' | 'TRAINER_APPLICATION' | null;
     targetId: number | null;
     read: boolean;
-    eventAt: string;
+    eventAt: string | null;
 }
 
 export interface WebSocketAlarmError {
