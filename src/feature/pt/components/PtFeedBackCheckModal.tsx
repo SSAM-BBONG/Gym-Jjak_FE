@@ -66,7 +66,7 @@ export default function PtFeeBackCheckModal({ isModal, closeModal, reservationId
             className="z-999 bg-black/50 fixed top-0 left-0 w-screen h-screen"
             onClick={closeModal} >
             <form
-                className="bg-gradient-to-br from-[#101828] to-[#000] w-2xl rounded-2xl border border-[#1E2939] z-1000 fixed top-1/2 left-1/2 p-6 flex -translate-x-1/2 -translate-y-1/2 flex-col justify-between"
+                className="bg-gradient-to-br from-[#101828] to-[#000] w-5/6 max-h-120 rounded-2xl border border-[#1E2939] z-1000 fixed top-1/2 left-1/2 p-4 sm:w-4/5 sm:max-h-5/6 sm:p-5 md:w-3/5 md:max-h-5/6 md:p-6 lg:w-2xl lg:max-h-none flex -translate-x-1/2 -translate-y-1/2 flex-col justify-between"
                 onClick={(e) => e.stopPropagation()}>
                 <article>
                     <div className="flex flex-col gap-2 ">
@@ -94,7 +94,7 @@ export default function PtFeeBackCheckModal({ isModal, closeModal, reservationId
                         </p>
                     )}
                     {!isLoading && !errorMessage && (
-                    <div className="flex flex-col gap-6 mt-6">
+                    <div className="flex flex-col gap-4 mt-4 sm:gap-5 sm:mt-5 lg:gap-6 lg:mt-6">
                         <div className="flex justify-between items-center">
                             <div className="flex gap-2 items-center">
                                 <div className="relative w-4 h-4">
@@ -116,7 +116,7 @@ export default function PtFeeBackCheckModal({ isModal, closeModal, reservationId
                             flex flex-col gap-3
                             bg-[#1E293980]
                             border border-[#364153] rounded-[10px]
-                            p-6 ">
+                            p-4 sm:p-5 lg:p-6 ">
                                 <div className="flex gap-3">
                                     <div className="relative w-6 h-6">
                                         <Image
@@ -155,7 +155,7 @@ export default function PtFeeBackCheckModal({ isModal, closeModal, reservationId
                             flex flex-col gap-3
                             bg-[#1E293980]
                             border border-[#364153] rounded-[10px]
-                            p-6 ">
+                            p-4 sm:p-5 lg:p-6 ">
                                 <div className="flex gap-3">
                                     <div className="relative w-6 h-6">
                                         <Image
@@ -210,7 +210,7 @@ export default function PtFeeBackCheckModal({ isModal, closeModal, reservationId
                             <div className="
                             border border-[#364153] rounded-[10px]
                             bg-[#1E293980]
-                            p-6
+                            p-4 sm:p-5 lg:p-6
                             ">
                                 <p className="text-[14px] font-normal text-[#D1D5DC]"> {feedbackDetail?.content} </p>
                             </div>

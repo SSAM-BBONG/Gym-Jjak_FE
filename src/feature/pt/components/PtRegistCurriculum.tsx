@@ -71,13 +71,13 @@ export default function PtRegistCurriculum({
   };
 
   return (
-    <div className="flex flex-col gap-6 rounded-[16px] border border-[#1E2939] bg-[#101828] p-6">
+    <div className="flex flex-col gap-4 rounded-[16px] border border-[#1E2939] bg-[#101828] p-4 sm:gap-5 sm:p-5 lg:gap-6 lg:p-6">
       <div className="flex items-center justify-between">
-        <p className="text-[18px] font-extrabold text-white">커리큘럼</p>
+        <p className="text-base font-extrabold text-white sm:text-[17px] lg:text-[18px]">커리큘럼</p>
         <span className="text-[14px] font-medium text-[#99A1AF]">{curriculums.length}개 등록됨</span>
       </div>
 
-      <div className="flex flex-col gap-4 rounded-[10px] bg-[#1E2939] p-4">
+      <div className="flex flex-col gap-3 rounded-[10px] bg-[#1E2939] p-3 sm:gap-4 sm:p-4">
         <p className="text-[14px] font-bold text-white">
           {editingIndex === null ? "새 커리큘럼 작성" : `${editingIndex + 1}회차 커리큘럼 수정`}
         </p>
@@ -115,7 +115,7 @@ export default function PtRegistCurriculum({
         </p>
       ) : (
         curriculums.map((curriculum, index) => (
-          <div key={curriculum.id ?? `${curriculum.title}-${index}`} className="flex flex-col gap-4 rounded-[10px] bg-[#1E2939] p-4">
+          <div key={curriculum.id ?? `${curriculum.title}-${index}`} className="flex flex-col gap-3 rounded-[10px] bg-[#1E2939] p-3 sm:gap-4 sm:p-4">
             <div className="flex items-center justify-between">
               <p className="text-[14px] font-extrabold text-[#BFFF0B]">{index + 1}회차</p>
               <div className="flex gap-2">

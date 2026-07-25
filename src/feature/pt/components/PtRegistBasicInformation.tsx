@@ -15,13 +15,13 @@ export default function PtRegistBasicInformation({
 }: PtRegistBasicInformationProps) {
     return (
         <div className="
-            flex flex-col gap-4
+            flex flex-col gap-3 sm:gap-4
             bg-[#101828]
             border border-[#1E2939] rounded-[16px]
-            p-6
+            p-4 sm:p-5 lg:p-6
             ">
-                <p className="text-[18px] font-extrabold text-white"> 기본 정보</p>
-                <div className="flex flex-col gap-6 mt-3">
+                <p className="text-base font-extrabold text-white sm:text-[17px] lg:text-[18px]"> 기본 정보</p>
+                <div className="flex flex-col gap-4 mt-2 sm:gap-5 sm:mt-3 lg:gap-6">
                     <div className="flex flex-col gap-2">
                         <label className="text-[14px] font-medium text-white"> 강습명 </label>
                         <input

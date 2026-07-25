@@ -28,7 +28,7 @@ function DistributionItem({ label, percentage, change }: DistributionItemProps) 
 
   return (
     <li className="space-y-2">
-      <div className="flex items-center justify-between gap-4 text-[14px]">
+      <div className="flex items-center justify-between gap-2 sm:gap-3 lg:gap-4 text-[14px]">
         <span className="font-semibold text-white">{label}</span>
         <span className="text-[#99A1AF]">
           {percentage.toFixed(1)}% · {formatChange(change)}
@@ -51,10 +51,10 @@ function DistributionSection({
   children: React.ReactNode;
 }) {
   return (
-    <section className="rounded-[16px] border border-[#364153] bg-[#101828] p-6">
-      <h2 className="text-[20px] font-black text-white">{title}</h2>
+    <section className="rounded-[16px] border border-[#364153] bg-[#101828] p-4 md:p-5 lg:p-6">
+      <h2 className="text-base md:text-lg lg:text-xl font-black text-white">{title}</h2>
       <p className="mt-1 text-[14px] text-[#99A1AF]">{description}</p>
-      <ul className="mt-5 space-y-4">{children}</ul>
+      <ul className="mt-4 md:mt-5 space-y-3 md:space-y-4">{children}</ul>
     </section>
   );
 }
@@ -63,10 +63,10 @@ export default function TrainerMarketReport({ data }: TrainerMarketReportProps) 
   const snapshot = data.marketTrendsSnapshot;
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-4 md:gap-5 lg:gap-6">
       <header>
         <p className="text-[14px] font-bold text-[#BFFF0B]">AI 비서 · 데이터 기반 인사이트</p>
-        <h1 className="mt-1 text-[36px] font-black text-white">
+        <h1 className="mt-1 text-xl sm:text-2xl md:text-3xl lg:text-[36px] font-black text-white">
           {formatTargetMonth(data.targetMonth)} 시장 동향 리포트
         </h1>
         <p className="mt-2 text-[14px] text-[#99A1AF]">
@@ -74,8 +74,8 @@ export default function TrainerMarketReport({ data }: TrainerMarketReportProps) 
         </p>
       </header>
 
-      <section className="rounded-[16px] border border-[#BFFF0B4D] bg-[#BFFF0B0D] p-6">
-        <h2 className="text-[20px] font-black text-white">이번 달 AI 인사이트</h2>
+      <section className="rounded-[16px] border border-[#BFFF0B4D] bg-[#BFFF0B0D] p-4 md:p-5 lg:p-6">
+        <h2 className="text-base md:text-lg lg:text-xl font-black text-white">이번 달 AI 인사이트</h2>
         <p className="mt-4 whitespace-pre-line break-keep text-[15px] leading-7 text-[#D1D5DC]">
           {data.report}
         </p>
@@ -128,7 +128,7 @@ export default function TrainerMarketReport({ data }: TrainerMarketReportProps) 
         </DistributionSection>
       </div>
 
-      <p className="rounded-[12px] border border-[#364153] bg-[#101828] px-5 py-4 text-[13px] leading-6 text-[#99A1AF]">
+      <p className="rounded-[12px] border border-[#364153] bg-[#101828] px-4 py-3 md:px-5 md:py-4 text-[13px] leading-6 text-[#99A1AF]">
         본 리포트는 서비스 데이터 기반의 PT 상품 운영 참고 자료입니다. 운동 방법론이나 지도 방식에 대한 평가 또는 권고를 제공하지 않습니다.
       </p>
     </div>
