@@ -1,4 +1,3 @@
-import { HeaderProfile } from "@/components/ui/image";
 import type { ChatMessageRole, ChatSource, RoutineResponse } from "@/feature/chatbot/type";
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
@@ -8,6 +7,8 @@ import rehypeRaw from 'rehype-raw';
 import rehypeSanitize from 'rehype-sanitize';
 import Image from 'next/image';
 import RoutineContent from "@/feature/chatbot/components/RoutineContent";
+import { Copy } from "lucide-react";
+import { toast } from "sonner";
 
 
 
@@ -21,6 +22,18 @@ interface ChatItemProps {
 
 export default function ChatItem({ role, content, createdAt, routine, sources }: ChatItemProps) {
     const isMyMessage = role === "USER";
+
+    const handleCopy = async () => {
+        try {
+            await navigator.clipboard.writeText(content);
+
+            toast.success('복사되었습니다')
+        } catch (error) {
+            toast.error('복사 실패하였습니다')
+        }
+    };
+
+
 
     return (
         <div className={`flex items-end gap-2 ${isMyMessage ? " max-w-[85%] ml-auto flex-row-reverse" : "max-w-full"}`}>
@@ -94,10 +107,23 @@ export default function ChatItem({ role, content, createdAt, routine, sources }:
                             </ul>
                         </div>
                     )}
+
                 </div>
-                <p className={`mt-1 text-xs text-[#6A7282] ${isMyMessage ? "text-right" : ""}`}>
-                    {createdAt?.split("T")[0]}
-                </p>
+                <div className="flex gap-2">
+                    <p className={`mt-1 text-xs text-[#6A7282] ${isMyMessage ? "text-right" : ""}`}>
+                        {createdAt?.split("T")[0]}
+                    </p>
+                    {content && (
+                        <button
+                            type="button"
+                            onClick={handleCopy}
+                            aria-label="답변 복사"
+                        >
+                            <Copy size={14} />
+                            복사
+                        </button>
+                    )}
+                </div>
             </div>
         </div>
     );
