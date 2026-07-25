@@ -38,7 +38,7 @@ export default function CalendarNameSelecter({ isSelect, setIsSelect, exerciseNa
             <button
                 onClick={() => setIsSelect(true)}
                 type="button"
-                className="flex items-center border-[#364153] text-sm md:text-base border w-full py-3.5 px-6 bg-[#1E2939] rounded-md focus:border-[#BFFF0B] text-white focus:outline-none">
+                className="flex items-center border-[#364153] text-sm md:text-base border w-full py-3.5 px-6 bg-[#1E2939] rounded-md focus:border-[#BFFF0B] text-white focus:outline-none transition-colors hover:border-white/30 hover:bg-[#1E293999] hover:text-white">
                 {exerciseName.selectExercise || '운동 종류'}
             </button>
             <div className={`${!isSelect && 'hidden'} absolute w-full top-14 md:top-15 left-0 border-[#364153] bg-[#1E2939]`}>

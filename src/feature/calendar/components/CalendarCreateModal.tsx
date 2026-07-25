@@ -151,7 +151,7 @@ export default function CalendarCreateModal({ isModal, closeModal, selectedSetti
                         <button
                             onClick={() => (exerciseSet.length !== 1) && setExerciseSet([...exerciseSet].slice(0, -1))}
                             type="button"
-                            className="bg-[#1E2939] w-8 h-8 font-bold rounded-[5px] ml-auto">
+                            className="bg-[#1E2939] w-8 h-8 font-bold rounded-[5px] ml-auto transition-colors hover:bg-[#1E293999] hover:text-white">
                             -</button>
                         <button
                             onClick={() => setExerciseSet([...exerciseSet, {
@@ -160,7 +160,7 @@ export default function CalendarCreateModal({ isModal, closeModal, selectedSetti
                                 reps: 0,
                             }])}
                             type="button"
-                            className="bg-[#BFFF0B] w-8 h-8 font-bold text-black rounded-[5px]">
+                            className="bg-[#BFFF0B] w-8 h-8 font-bold text-black rounded-[5px] transition-colors hover:bg-[#BFFF0B99] hover:text-black">
                             +</button>
                     </div>
                     {exerciseSet.map((set) => {
@@ -175,13 +175,13 @@ export default function CalendarCreateModal({ isModal, closeModal, selectedSetti
                     <button
                         type="button"
                         onClick={handleClose}
-                        className='w-full flex pt-2 pb-3 justify-center items-center rounded-lg text-white text-center font-semibold text-s md:text-base bg-[#1E2939]'
+                        className='w-full flex pt-2 pb-3 justify-center items-center rounded-lg text-white text-center font-semibold text-s md:text-base bg-[#1E2939] border border-transparent transition-colors hover:bg-[#1E293999] hover:text-white'
                     >
                         취소
                     </button>
                     <button
                         type="submit"
-                        className='w-full flex pt-2 pb-3 justify-center items-center rounded-lg text-black text-center font-semibold text-s md:text-base bg-[#BFFF0B]'
+                        className='w-full flex pt-2 pb-3 justify-center items-center rounded-lg text-black text-center font-semibold text-s md:text-base bg-[#BFFF0B] transition-colors hover:bg-[#BFFF0B99] hover:text-black'
                     >
                         {mode === 'create' ? '저장하기' : '수정하기'}
                     </button>

@@ -30,17 +30,17 @@ export default async function CommuPage({ searchParams }: paramsProps) {
         <div className="flex gap-1 md:gap-4">
           <Link
             href={'/community?page=0'}
-            className={`${type === undefined ? 'bg-[#BFFF0B] text-black font-semibold' : "bg-[#1E2939] text-[#99A1AF]"} text-[10px] md:text-[14px] font-medium px-3 py-2 rounded-[5px] md:rounded-[10px] hover:cursor-pointer`}>
+            className={`${type === undefined ? 'bg-[#BFFF0B] text-black font-semibold hover:bg-[#BFFF0B99] hover:text-black' : "bg-[#1E2939] text-[#99A1AF] hover:bg-[#1E293999] hover:text-white"} text-[10px] md:text-[14px] font-medium px-3 py-2 rounded-[5px] md:rounded-[10px] transition-colors hover:cursor-pointer`}>
             전체
           </Link>
           <Link
             href={'/community?page=0&type=FREE'}
-            className={`${type === 'FREE' ? 'bg-[#BFFF0B] text-black font-semibold' : "bg-[#1E2939] text-[#99A1AF]"}  text-[10px] md:text-[14px] font-medium px-3 py-2 rounded-[5px] md:rounded-[10px] hover:cursor-pointer`}>
+            className={`${type === 'FREE' ? 'bg-[#BFFF0B] text-black font-semibold hover:bg-[#BFFF0B99] hover:text-black' : "bg-[#1E2939] text-[#99A1AF] hover:bg-[#1E293999] hover:text-white"}  text-[10px] md:text-[14px] font-medium px-3 py-2 rounded-[5px] md:rounded-[10px] transition-colors hover:cursor-pointer`}>
             자유게시판
           </Link>
           <Link
             href={'/community?page=0&type=NOTICE'}
-            className={` ${type === 'NOTICE' ? 'bg-[#BFFF0B] text-black font-semibold' : "bg-[#1E2939] text-[#99A1AF]"}  text-[10px] md:text-[14px] font-medium px-3 py-2 rounded-[5px] md:rounded-[10px] hover:cursor-pointer`}>
+            className={` ${type === 'NOTICE' ? 'bg-[#BFFF0B] text-black font-semibold hover:bg-[#BFFF0B99] hover:text-black' : "bg-[#1E2939] text-[#99A1AF] hover:bg-[#1E293999] hover:text-white"}  text-[10px] md:text-[14px] font-medium px-3 py-2 rounded-[5px] md:rounded-[10px] transition-colors hover:cursor-pointer`}>
             공지
           </Link>
         </div>
@@ -53,7 +53,7 @@ export default async function CommuPage({ searchParams }: paramsProps) {
             text-[12px]
             md:text-[16px] text-black 
             flex items-center justify-center font-semibold md:font-extrabold px-5 py-2
-            hover:cursor-pointer"
+            transition-colors hover:cursor-pointer hover:bg-[#BFFF0B99] hover:text-black"
         >
           + 글쓰기
         </Link>

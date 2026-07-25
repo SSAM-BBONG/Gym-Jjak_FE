@@ -94,7 +94,7 @@ export default function CommuForm({ post }: { post?: Community }) {
                 <button
                     disabled={isSubmitting}
                     className="
-                bg-[#BFFF0B] rounded-[5px] md:rounded-[10px] text-[12px] md:text-[16px] text-black  flex items-center justify-center font-semibold md:font-extrabold px-5 py-2 hover:cursor-pointer  w-full  md:w-40  mt-auto  ml-auto"
+                bg-[#BFFF0B] rounded-[5px] md:rounded-[10px] text-[12px] md:text-[16px] text-black  flex items-center justify-center font-semibold md:font-extrabold px-5 py-2 hover:cursor-pointer  w-full  md:w-40  mt-auto  ml-auto transition-colors hover:bg-[#BFFF0B99] hover:text-black"
                 >{post?.postId ? '수정완료' : '작성완료'}</button>
             </div>
         </form>

@@ -46,7 +46,7 @@ export default function MealAiCreate({ setSelectedImage, selectedImage }: { setS
 
             <div className="my-5">
                 <label htmlFor='mealImageFile'
-                    className=" px-4 md:px-6 py-2.5 md:py-3 rounded-lg font-bold bg-[#BFFF0B]">파일 선택</label>
+                    className=" px-4 md:px-6 py-2.5 md:py-3 rounded-lg font-bold bg-[#BFFF0B] transition-colors hover:bg-[#BFFF0B99] hover:text-black">파일 선택</label>
                 <input
                     hidden
                     type="file"
