@@ -122,7 +122,7 @@ export default function PtFeeBackCheckModal({
         >
             <form
                 onSubmit={(event) => event.preventDefault()}
-                className="z-1000 flex max-h-[calc(100dvh-1.5rem)] w-full max-w-4xl flex-col rounded-2xl border border-[#1E2939] bg-gradient-to-br from-[#101828] to-[#000] p-4 sm:max-h-[calc(100dvh-3rem)] sm:p-5 md:p-6"
+                className="z-1000 flex max-h-[calc(100dvh-1.5rem)] w-5/6 flex-col rounded-2xl border border-[#1E2939] bg-gradient-to-br from-[#101828] to-[#000] p-4 sm:max-h-[calc(100dvh-3rem)] sm:w-4/5 sm:p-5 md:w-3/5 md:p-6 lg:w-2xl"
                 onClick={(event) => event.stopPropagation()}
             >
                 <article className="min-h-0 flex-1 overflow-y-auto pr-1 [scrollbar-width:thin]">
