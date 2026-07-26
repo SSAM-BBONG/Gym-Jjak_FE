@@ -1,16 +1,13 @@
 "use client";
 
-import { ChatSendButton, Logo, MainImg } from "@/components/ui/image";
+import { ChatSendButton, Logo } from "@/components/ui/image";
 import Image from "next/image";
-import Link from "next/link";
 import ChatItem from "./ChatItem";
 import { FormEvent, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 import { getChatbotMessageListAction } from "@/feature/chatbot/action";
 import { useChatbotSocket } from "@/components/hooks/useChatbotSocket";
-// 수정된 코드 시작
 import type { ChatbotDoneEvent, ChatbotQuickReply, ChatbotSocketEvent, RoutineResponse } from "@/feature/chatbot/type";
-// 수정된 코드 끝
 import STTButton from "./STTButton";
 import { useRouter } from "next/navigation";
 import { ChevronDown } from "lucide-react";
@@ -33,7 +30,6 @@ export default function ChatCt({ sessionId }: { sessionId?: string }) {
     const queueRef = useRef<string[]>([]);
     const doneEventRef = useRef<ChatbotDoneEvent | null>(null);
 
-    // 수정된 코드 시작
     const activeSessionIdRef = useRef(sessionId);
     const [intentHint, setIntentHint] = useState<string>();
     const [quickReplies, setQuickReplies] = useState<ChatbotQuickReply[]>([]);
@@ -41,7 +37,6 @@ export default function ChatCt({ sessionId }: { sessionId?: string }) {
     useEffect(() => {
         activeSessionIdRef.current = sessionId;
     }, [sessionId]);
-    // 수정된 코드 끝
 
     const scrollToBottom = () => {
         endRef.current?.scrollIntoView({
@@ -136,10 +131,10 @@ export default function ChatCt({ sessionId }: { sessionId?: string }) {
                 queueRef.current = [];
                 doneEventRef.current = null;
                 requestIdRef.current = event.requestId;
-                // 수정된 코드 시작
+
                 activeSessionIdRef.current = event.sessionId;
                 setQuickReplies([]);
-                // 수정된 코드 끝
+
                 setLoading(true);
                 router.replace(`/chatbot?sessionId=${event.sessionId}`);
                 setSocketError("");
@@ -265,17 +260,13 @@ export default function ChatCt({ sessionId }: { sessionId?: string }) {
         setLoading(true);
         setSocketError("");
         setResponse("");
-        // 수정된 코드 시작
         setQuickReplies([]);
-        // 수정된 코드 끝
 
         const sent = sendMessage({
             sessionId: sessionId,
             content,
-            // 수정된 코드 시작
             intentHint,
             quickReply: null,
-            // 수정된 코드 끝
         });
 
         if (!sent) {
@@ -292,12 +283,10 @@ export default function ChatCt({ sessionId }: { sessionId?: string }) {
         });
 
         setMessage("");
-        // 수정된 코드 시작
+
         setIntentHint(undefined);
-        // 수정된 코드 끝
     };
 
-    // 수정된 코드 시작
     const handleQuickReply = (reply: ChatbotQuickReply) => {
         if (loading || !isConnected) {
             setSocketError("챗봇 서버에 연결 중입니다. 잠시 후 다시 시도해주세요.");
@@ -329,7 +318,6 @@ export default function ChatCt({ sessionId }: { sessionId?: string }) {
             setSocketError("선택지를 전송하지 못했습니다.");
         }
     };
-    // 수정된 코드 끝
 
     useLayoutEffect(() => {
         scrollToBottom();
@@ -360,11 +348,11 @@ export default function ChatCt({ sessionId }: { sessionId?: string }) {
                             짐짝과 새로운 대화를 시작해보세요.
                         </p>
                         <div className="mt-6 flex flex-wrap justify-center gap-2 sm:gap-3">
-                            {/* 수정된 코드 시작 */}
+
                             <button onClick={() => { setMessage("운동 루틴을 추천해주세요"); setIntentHint("ROUTINE_RECOMMENDATION"); }} className="rounded-full border border-[#364153] bg-[#101828] px-4 py-2 text-xs font-semibold text-[#99A1AF] transition-colors hover:border-[#BFFF0B]/60 hover:bg-[#BFFF0B]/10 hover:text-[#BFFF0B] focus-visible:border-[#BFFF0B] focus-visible:text-[#BFFF0B] focus-visible:outline-none sm:px-5 sm:text-sm">운동 루틴 추천</button>
                             <button onClick={() => { setMessage("짐짝 서비스를 설명해주세요"); setIntentHint("SERVICE_POLICY"); }} className="rounded-full border border-[#364153] bg-[#101828] px-4 py-2 text-xs font-semibold text-[#99A1AF] transition-colors hover:border-[#BFFF0B]/60 hover:bg-[#BFFF0B]/10 hover:text-[#BFFF0B] focus-visible:border-[#BFFF0B] focus-visible:text-[#BFFF0B] focus-visible:outline-none sm:px-5 sm:text-sm">짐짝이란?</button>
                             <button onClick={() => { setMessage("내 운동 기록을 확인해주세요"); setIntentHint("PERSONAL_RECORD"); }} className="rounded-full border border-[#364153] bg-[#101828] px-4 py-2 text-xs font-semibold text-[#99A1AF] transition-colors hover:border-[#BFFF0B]/60 hover:bg-[#BFFF0B]/10 hover:text-[#BFFF0B] focus-visible:border-[#BFFF0B] focus-visible:text-[#BFFF0B] focus-visible:outline-none sm:px-5 sm:text-sm">운동 기록 확인</button>
-                            {/* 수정된 코드 끝 */}
+
                         </div>
                     </div>
                 )}
@@ -398,7 +386,7 @@ export default function ChatCt({ sessionId }: { sessionId?: string }) {
                                 content={response || "답변을 준비하고 있습니다..."}
                             />
                         )}
-                        {/* 수정된 코드 시작 */}
+
                         {quickReplies.length > 0 && (
                             <div className="ml-10 flex flex-wrap gap-2">
                                 {quickReplies.map((reply) => (
@@ -414,7 +402,7 @@ export default function ChatCt({ sessionId }: { sessionId?: string }) {
                                 ))}
                             </div>
                         )}
-                        {/* 수정된 코드 끝 */}
+
                         <div ref={endRef}></div>
                     </div>
                 )}
@@ -439,12 +427,12 @@ export default function ChatCt({ sessionId }: { sessionId?: string }) {
                 <input
                     type="text"
                     value={message}
-                    // 수정된 코드 시작
+
                     onChange={(event) => {
                         setMessage(event.target.value);
                         setIntentHint(undefined);
                     }}
-                    // 수정된 코드 끝
+
                     placeholder={`메시지 보내기...`}
                     aria-label="메시지 입력"
                     maxLength={5000}

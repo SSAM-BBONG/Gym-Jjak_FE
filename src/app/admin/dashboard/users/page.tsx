@@ -1,11 +1,17 @@
 import { GymCumulativePt, GymCurrentPt, GymMonthUser, GymTrainerNumber } from "@/components/ui/image";
-import PieChart from "@/components/ui/PieChart";
 import AdminDashboardCard from "@/feature/admin/components/AdminDashboardCard";
 import { getUserDashboard } from "@/service/admin.service";
 import { GymDashboardCard } from "@/feature/organization/components/GymDashboard";
-import LineChart from "@/components/ui/LineChart";
+import { ChartLoadingUI } from "@/components/ui/ChartLoadingUi";
+import dynamic from "next/dynamic";
 
+const LineChart = dynamic(() => import("@/components/ui/LineChart"), {
+    loading: () => <ChartLoadingUI />,
+})
 
+const PieChart = dynamic(() => import("@/components/ui/PieChart"), {
+    loading: () => <ChartLoadingUI />,
+})
 
 export default async function Page() {
     const response = await getUserDashboard();

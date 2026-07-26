@@ -1,8 +1,13 @@
+import { ChartLoadingUI } from "@/components/ui/ChartLoadingUi";
 import { GymCurrentPt, GymMonthUser, GymTrainerNumber } from "@/components/ui/image";
-import LineChart from "@/components/ui/LineChart";
 import AdminDashboardCard from "@/feature/admin/components/AdminDashboardCard";
 import { GymDashboardCard } from "@/feature/organization/components/GymDashboard";
-import { getContentDashboard, getReservationDashboard, getUserDashboard } from "@/service/admin.service";
+import { getContentDashboard, getReservationDashboard } from "@/service/admin.service";
+import dynamic from "next/dynamic";
+
+const LineChart = dynamic(() => import("@/components/ui/LineChart"), {
+    loading: () => <ChartLoadingUI />,
+})
 
 export default async function Page() {
     const responseReservation = await getReservationDashboard();
