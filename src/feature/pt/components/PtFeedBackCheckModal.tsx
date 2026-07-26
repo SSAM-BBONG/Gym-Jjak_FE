@@ -1,18 +1,72 @@
 import { CloseButton, MypageMyActivity, PtFeedBackOnBoard, PtRecordVideo } from "@/components/ui/image";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { getFeedbackDetailAction } from "../actions";
-import { FeedbackDetailData } from "../type";
-import Image from "next/image";
+import type { FeedbackDetailData } from "../type";
 
-interface TrainerRejectModal {
+interface PtFeedBackCheckModalProps {
     isModal: boolean;
     closeModal: () => void;
     reservationId: string;
     feedbackId: number | null;
 }
 
+interface FeedbackMediaPreviewProps {
+    title: string;
+    mediaUrl?: string;
+}
 
-export default function PtFeeBackCheckModal({ isModal, closeModal, reservationId, feedbackId }: TrainerRejectModal) {
+function FeedbackMediaPreview({ title, mediaUrl }: FeedbackMediaPreviewProps) {
+    return (
+        <div className="flex min-w-0 flex-col gap-3 rounded-[10px] border border-[#364153] bg-[#1E293980] p-4 sm:p-5 lg:p-6">
+            <div className="flex items-center gap-3">
+                <div className="relative h-6 w-6 shrink-0">
+                    <Image
+                        src={PtFeedBackOnBoard}
+                        alt={`${title} 아이콘`}
+                        fill
+                        priority
+                        sizes="24px"
+                        className="object-cover"
+                    />
+                </div>
+                <p className="text-[14px] font-extrabold text-[#D1D5DC]">{title}</p>
+            </div>
+
+            {mediaUrl ? (
+                <video
+                    controls
+                    preload="metadata"
+                    className="aspect-video w-full rounded-lg bg-black object-contain"
+                    src={mediaUrl}
+                >
+                    브라우저가 영상을 재생하지 못합니다.
+                </video>
+            ) : (
+                <div className="flex aspect-video flex-col items-center justify-center gap-3 rounded-lg bg-black/40 px-4 text-center">
+                    <div className="relative h-12 w-12">
+                        <Image
+                            src={PtRecordVideo}
+                            alt={`${title} 없음`}
+                            fill
+                            priority
+                            sizes="48px"
+                            className="object-cover opacity-60"
+                        />
+                    </div>
+                    <p className="text-[12px] font-normal text-[#99A1AF]">등록된 영상이 없습니다.</p>
+                </div>
+            )}
+        </div>
+    );
+}
+
+export default function PtFeeBackCheckModal({
+    isModal,
+    closeModal,
+    reservationId,
+    feedbackId,
+}: PtFeedBackCheckModalProps) {
     const [feedbackDetail, setFeedbackDetail] = useState<FeedbackDetailData | null>(null);
     const [isLoading, setIsLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
@@ -20,209 +74,136 @@ export default function PtFeeBackCheckModal({ isModal, closeModal, reservationId
     useEffect(() => {
         if (!isModal || feedbackId === null) return;
 
+        let isCurrentRequest = true;
+
         const fetchFeedbackDetail = async () => {
             try {
                 setIsLoading(true);
                 setErrorMessage("");
+                setFeedbackDetail(null);
 
-                const response = await getFeedbackDetailAction(
-                    reservationId,
-                    feedbackId
-                );
+                const response = await getFeedbackDetailAction(reservationId, feedbackId);
+
+                if (!isCurrentRequest) return;
 
                 if (response.success === false) {
-                    setFeedbackDetail(null);
                     setErrorMessage(response.message);
                     return;
                 }
 
                 setFeedbackDetail(response.data);
             } catch (error) {
+                if (!isCurrentRequest) return;
+
                 setErrorMessage(
-                    error instanceof Error
-                        ? error.message
-                        : "피드백 상세 조회에 실패했습니다."
+                    error instanceof Error ? error.message : "피드백 상세 조회에 실패했습니다."
                 );
             } finally {
-                setIsLoading(false);
+                if (isCurrentRequest) setIsLoading(false);
             }
         };
 
-        fetchFeedbackDetail();
+        void fetchFeedbackDetail();
+
+        return () => {
+            isCurrentRequest = false;
+        };
     }, [isModal, reservationId, feedbackId]);
+
     if (!isModal) return null;
 
-    const beforeMedia = feedbackDetail?.mediaList.find(
-        (media) => media.mediaType === "BEFORE"
-    );
-
-    const afterMedia = feedbackDetail?.mediaList.find(
-        (media) => media.mediaType === "AFTER"
-    );
-
+    const beforeMedia = feedbackDetail?.mediaList.find((media) => media.mediaType === "BEFORE");
+    const afterMedia = feedbackDetail?.mediaList.find((media) => media.mediaType === "AFTER");
 
     return (
         <section
-            className="z-999 bg-black/50 fixed top-0 left-0 w-screen h-screen"
-            onClick={closeModal} >
+            className="fixed inset-0 z-999 flex items-center justify-center bg-black/50 p-3 sm:p-6"
+            onClick={closeModal}
+        >
             <form
-                className="bg-gradient-to-br from-[#101828] to-[#000] w-5/6 max-h-120 rounded-2xl border border-[#1E2939] z-1000 fixed top-1/2 left-1/2 p-4 sm:w-4/5 sm:max-h-5/6 sm:p-5 md:w-3/5 md:max-h-5/6 md:p-6 lg:w-2xl lg:max-h-none flex -translate-x-1/2 -translate-y-1/2 flex-col justify-between"
-                onClick={(e) => e.stopPropagation()}>
-                <article>
-                    <div className="flex flex-col gap-2 ">
-                        <div className="flex justify-between items-center pt-2">
-                            <h3 className="font-bold text-xl text-[#E8EAF0]"> 피드백 확인</h3>
-                            <button onClick={closeModal} className="relative ml-auto w-5 h-5 hover:cursor-pointer">
-                                <Image
-                                    src={CloseButton}
-                                    alt="모달 닫기 버튼"
-                                    fill
-                                    priority
-                                    sizes="w-4 h-4"
-                                />
-                            </button>                        </div>
-                        <p className="text-[14px] font-normal text-[#99A1AF] border-b-[#1E2939] border-b pb-8"> {feedbackDetail?.sessionNo}회차 - {feedbackDetail?.curriculumTitle} </p>
+                onSubmit={(event) => event.preventDefault()}
+                className="z-1000 flex max-h-[calc(100dvh-1.5rem)] w-full max-w-4xl flex-col rounded-2xl border border-[#1E2939] bg-gradient-to-br from-[#101828] to-[#000] p-4 sm:max-h-[calc(100dvh-3rem)] sm:p-5 md:p-6"
+                onClick={(event) => event.stopPropagation()}
+            >
+                <article className="min-h-0 flex-1 overflow-y-auto pr-1 [scrollbar-width:thin]">
+                    <div className="flex flex-col gap-2">
+                        <div className="flex items-center justify-between pt-2">
+                            <h3 className="text-xl font-bold text-[#E8EAF0]">피드백 확인</h3>
+                            <button
+                                type="button"
+                                onClick={closeModal}
+                                className="relative ml-auto h-5 w-5 cursor-pointer"
+                                aria-label="피드백 모달 닫기"
+                            >
+                                <Image src={CloseButton} alt="" fill priority sizes="20px" />
+                            </button>
+                        </div>
+                        <p className="border-b border-[#1E2939] pb-5 text-[14px] font-normal text-[#99A1AF] sm:pb-8">
+                            {feedbackDetail?.sessionNo}회차 - {feedbackDetail?.curriculumTitle}
+                        </p>
                     </div>
+
                     {isLoading && (
-                        <p className="mt-6 text-[14px] font-medium text-[#99A1AF]">
-                            피드백을 불러오는 중입니다.
-                        </p>
+                        <p className="mt-6 text-[14px] font-medium text-[#99A1AF]">피드백을 불러오는 중입니다.</p>
                     )}
+
                     {errorMessage && (
-                        <p className="mt-6 text-[14px] font-medium text-red-400">
-                            {errorMessage}
-                        </p>
+                        <p className="mt-6 text-[14px] font-medium text-red-400">{errorMessage}</p>
                     )}
-                    {!isLoading && !errorMessage && (
-                    <div className="flex flex-col gap-4 mt-4 sm:gap-5 sm:mt-5 lg:gap-6 lg:mt-6">
-                        <div className="flex justify-between items-center">
-                            <div className="flex gap-2 items-center">
-                                <div className="relative w-4 h-4">
-                                    <Image
-                                        src={PtRecordVideo}
-                                        alt="피드백 동영상"
-                                        fill
-                                        priority
-                                        sizes="w-8 h-8"
-                                        className="object-cover"
-                                    />
-                                </div>
-                                <p className="text-[14px] font-extrabold text-[#BFFF0B]"> 동영상 피드백 </p>
-                            </div>
-                            <p className="text-[12px] font-normal text-[#6A7282]"> {feedbackDetail?.createdAt} </p>
-                        </div>
-                        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5">
-                            <div className="
-                            flex flex-col gap-3
-                            bg-[#1E293980]
-                            border border-[#364153] rounded-[10px]
-                            p-4 sm:p-5 lg:p-6 ">
-                                <div className="flex gap-3">
-                                    <div className="relative w-6 h-6">
-                                        <Image
-                                            src={PtFeedBackOnBoard}
-                                            alt="피드백 녹화"
-                                            fill
-                                            priority
-                                            sizes="w-12 h-12"
-                                            className="object-cover"
-                                        />
-                                    </div>
-                                    <p className="text-[14px] font-extrabold text-[#D1D5DC]"> Before 영상 </p>
-                                </div>
-                                <div className="flex flex-col items-center gap-3">
-                                    <div className="relative w-15 h-15">
+
+                    {!isLoading && !errorMessage && feedbackDetail && (
+                        <div className="mt-4 flex flex-col gap-4 sm:mt-5 sm:gap-5 lg:mt-6 lg:gap-6">
+                            <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                                <div className="flex items-center gap-2">
+                                    <div className="relative h-4 w-4">
                                         <Image
                                             src={PtRecordVideo}
-                                            alt="피드백 동영상"
+                                            alt="영상 피드백"
                                             fill
                                             priority
-                                            sizes="w-30 h-30"
+                                            sizes="16px"
                                             className="object-cover"
                                         />
                                     </div>
-                                    <p className="text-[12px] font-normal text-[#99A1AF]"> 영상 피드백이 등록되었습니다. </p>
-                                    <a
-                                        href={beforeMedia?.fileUrl}
-                                        target="_blank"
-                                        className="px-5 py-2 bg-[#BFFF0B] rounded-[10px] text-[14px] font-extrabold text-black text-center"
-                                    >
-                                        영상 보기
-                                    </a>
+                                    <p className="text-[14px] font-extrabold text-[#BFFF0B]">영상 피드백</p>
                                 </div>
+                                <p className="text-[12px] font-normal text-[#6A7282]">{feedbackDetail.createdAt}</p>
                             </div>
-                            <div className="
-                            flex flex-col gap-3
-                            bg-[#1E293980]
-                            border border-[#364153] rounded-[10px]
-                            p-4 sm:p-5 lg:p-6 ">
-                                <div className="flex gap-3">
-                                    <div className="relative w-6 h-6">
+
+                            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5">
+                                <FeedbackMediaPreview title="Before 영상" mediaUrl={beforeMedia?.fileUrl} />
+                                <FeedbackMediaPreview title="After 영상" mediaUrl={afterMedia?.fileUrl} />
+                            </div>
+
+                            <div className="mb-2 flex flex-col gap-4 sm:mb-6">
+                                <div className="flex items-center gap-2">
+                                    <div className="relative h-5 w-5">
                                         <Image
-                                            src={PtFeedBackOnBoard}
-                                            alt="피드백 녹화"
+                                            src={MypageMyActivity}
+                                            alt="텍스트 피드백"
                                             fill
                                             priority
-                                            sizes="w-12 h-12"
+                                            sizes="20px"
                                             className="object-cover"
                                         />
                                     </div>
-                                    <p className="text-[14px] font-extrabold text-[#D1D5DC]"> After 영상 </p>
+                                    <p className="text-[14px] font-extrabold text-[#BFFF0B]">텍스트 피드백</p>
                                 </div>
-                                <div className="flex flex-col items-center gap-3">
-                                    <div className="relative w-15 h-15">
-                                        <Image
-                                            src={PtRecordVideo}
-                                            alt="피드백 동영상"
-                                            fill
-                                            priority
-                                            sizes="w-30 h-30"
-                                            className="object-cover"
-                                        />
-                                    </div>
-                                    <p className="text-[12px] font-normal text-[#99A1AF]"> 영상 피드백이 등록되었습니다. </p>
-
-                                    <a
-                                        href={afterMedia?.fileUrl}
-                                        target="_blank"
-                                        className="px-5 py-2 bg-[#BFFF0B] rounded-[10px] text-[14px] font-extrabold text-black text-center"
-                                    >
-                                        영상 보기
-                                    </a>
-
+                                <div className="rounded-[10px] border border-[#364153] bg-[#1E293980] p-4 sm:p-5 lg:p-6">
+                                    <p className="whitespace-pre-wrap break-words text-[14px] font-normal text-[#D1D5DC]">
+                                        {feedbackDetail.content}
+                                    </p>
                                 </div>
                             </div>
                         </div>
-                        <div className="flex flex-col gap-4 mb-6">
-                            <div className="flex gap-2 items-center">
-                                <div className="relative w-5 h-5">
-                                    <Image
-                                        src={MypageMyActivity}
-                                        alt="피드백 텍스트 피드백"
-                                        fill
-                                        priority
-                                        sizes="w-10 h-10"
-                                        className="object-cover"
-                                    />
-                                </div>
-                                <p className="text-[14px] font-extrabold text-[#BFFF0B]"> 텍스트 피드백 </p>
-                            </div>
-                            <div className="
-                            border border-[#364153] rounded-[10px]
-                            bg-[#1E293980]
-                            p-4 sm:p-5 lg:p-6
-                            ">
-                                <p className="text-[14px] font-normal text-[#D1D5DC]"> {feedbackDetail?.content} </p>
-                            </div>
-                        </div>
-                    </div>
                     )}
                 </article>
-                <article className='flex gap-3'>
+
+                <article className="mt-4 flex shrink-0 gap-3 border-t border-[#1E2939] pt-4">
                     <button
                         type="button"
                         onClick={closeModal}
-                        className='w-full flex pt-2 pb-3 justify-center items-center rounded-lg text-white text-center font-semibold text-sm md:text-base bg-[#1E2939] hover:cursor-pointer'
+                        className="flex w-full items-center justify-center rounded-lg bg-[#1E2939] py-3 text-center text-sm font-semibold text-white cursor-pointer md:text-base"
                     >
                         닫기
                     </button>
