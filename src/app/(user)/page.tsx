@@ -71,6 +71,12 @@ export default async function Page() {
               >
                 운동 캘린더 보기
               </Link>
+              <Link
+                href="/pose-analysis"
+                className="rounded-xl border border-[#bfff0b]/50 bg-[#bfff0b]/10 px-5 py-3.5 text-sm font-extrabold text-[#d4ff65] transition hover:bg-[#bfff0b] hover:text-[#0b0f19] focus:outline-none focus:ring-2 focus:ring-[#bfff0b] focus:ring-offset-2 focus:ring-offset-[#121a2b]"
+              >
+                자세 분석 Test
+              </Link>
             </div>
           </div>
 

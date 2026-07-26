@@ -5,10 +5,12 @@ import SystemDataItem from "./SystemDataItem";
 import PartSidebar from "./PartSideBar";
 
 
-export default function SystemDataList({ exercises, part }: { exercises: Exercise[], part: PartKo }) {
+export default function SystemDataList({ exercises, part, sort }: { exercises: Exercise[], part: PartKo, sort: "LATEST" | "NAME" }) {
+    const sortedExercises = sort === "NAME" ? [...exercises].sort((a, b) => a.exerciseName.localeCompare(b.exerciseName, "ko"),) : exercises;
+
     return (
         <div>
-            <SearchBar page={false}></SearchBar>
+            <SearchBar page={false} showSort sort={sort}></SearchBar>
             <PartSidebar part={part} />
             <section className="bg-[#1E2939] border-[#364153] border-separate border-spacing-0 md:border mt-4 sm:mt-5 lg:mt-6 rounded-md w-full ">
                 <div style={{ display: 'grid' }} className="grid grid-cols-8 sm:grid-cols-11 md:grid-cols-14 px-2 sm:px-3 md:px-4 lg:px-6 text-[#99A1AF] font-bold text-[10px] sm:text-[11px] md:text-xs lg:text-sm border-0 h-11 sm:h-12 lg:h-13 items-center">
@@ -19,7 +21,7 @@ export default function SystemDataList({ exercises, part }: { exercises: Exercis
                     <p className="col-span-2"></p>
                 </div>
 
-                {exercises.map((exercise) => (
+                {sortedExercises.map((exercise) => (
                     <SystemDataItem
                         key={exercise.exerciseId}
                         exercise={exercise}

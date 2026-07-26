@@ -3,12 +3,24 @@
 import useDebounce from "@/components/hooks/useDebounce";
 import { CommunitySearchBar } from "@/components/ui/image";
 import Image from "next/image";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 
-export default function CommuSearchBar() {
+type CommunitySort = "LATEST" | "VIEWS" | "POPULAR";
 
+export default function CommuSearchBar({ sort }: { sort: CommunitySort }) {
     const [searchInput, setSearchInput] = useState<string>('')
+    const router = useRouter();
+    const searchParams = useSearchParams();
+
     useDebounce(searchInput, true);
+
+    const handleSortChange = (value: CommunitySort) => {
+        const params = new URLSearchParams(searchParams);
+        params.set("sort", value);
+        params.set("page", "0");
+        router.replace(`?${params.toString()}`);
+    }
 
     return (
         <div className="flex gap-2 mt-6">
@@ -28,10 +40,14 @@ export default function CommuSearchBar() {
                     onChange={(e) => setSearchInput(e.target.value)}
                     value={searchInput} />
             </div>
-            <select className="bg-[#101828] text-white px-3 md:px-4 py-2 rounded-[5px] md:rounded-[10px] text-[12px] md:text-[16px] hover:cursor-pointer">
-                <option> 최신순 </option>
-                <option> 조회순 </option>
-                <option> 인기순 </option>
+            <select
+                value={sort}
+                onChange={(e) => handleSortChange(e.target.value as CommunitySort)}
+                className="bg-[#101828] text-white px-3 md:px-4 py-2 rounded-[5px] md:rounded-[10px] text-[12px] md:text-[16px] hover:cursor-pointer"
+            >
+                <option value="LATEST">최신순</option>
+                <option value="VIEWS">조회순</option>
+                <option value="POPULAR">인기순</option>
             </select>
         </div>
     );

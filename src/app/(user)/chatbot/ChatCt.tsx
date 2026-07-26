@@ -348,12 +348,6 @@ export default function ChatCt({ sessionId }: { sessionId?: string }) {
                         ⭠
                     </Link>
                 </div>
-
-                {/* <ChatRoomMenu
-                        chatRoomId={chatRoomId}
-                        reportMessageId={reportMessageId}
-                        partnerName={partnerName}
-                    /> */}
             </header>
 
             <div className="min-h-0 w-full flex-1 overflow-y-auto px-5 py-6 pb-20 sm:px-10 sm:pb-24 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">

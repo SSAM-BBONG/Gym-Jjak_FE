@@ -11,14 +11,21 @@ interface paramsProps {
     page: string;
     type: "FREE" | "NOTICE";
     keyword: string;
+    sort: string;
   }>
 }
 
 export default async function CommuPage({ searchParams }: paramsProps) {
 
-  const { page, type, keyword } = await searchParams;
+  const { page, type, keyword, sort } = await searchParams;
+  const sortParam = sort === "VIEWS" || sort === "POPULAR" ? sort : "LATEST";
   const response = await getCommunity(page, type, keyword);
   const communities: Communities[] = response.data.content;
+  const sortedCommunities = sortParam === "VIEWS"
+    ? [...communities].sort((a, b) => b.viewCount - a.viewCount)
+    : sortParam === "POPULAR"
+      ? [...communities].sort((a, b) => b.likeCount - a.likeCount)
+      : communities;
   const totalPage: number = response.data.totalPages
 
   return (
@@ -29,17 +36,17 @@ export default async function CommuPage({ searchParams }: paramsProps) {
       <div className="flex justify-between items-center mt-[30px]">
         <div className="flex gap-1 md:gap-4">
           <Link
-            href={'/community?page=0'}
+            href={`/community?page=0&sort=${sortParam}`}
             className={`${type === undefined ? 'bg-[#BFFF0B] text-black font-semibold hover:bg-[#BFFF0B99] hover:text-black' : "bg-[#1E2939] text-[#99A1AF] hover:bg-[#1E293999] hover:text-white"} text-[10px] md:text-[14px] font-medium px-3 py-2 rounded-[5px] md:rounded-[10px] transition-colors hover:cursor-pointer`}>
             전체
           </Link>
           <Link
-            href={'/community?page=0&type=FREE'}
+            href={`/community?page=0&type=FREE&sort=${sortParam}`}
             className={`${type === 'FREE' ? 'bg-[#BFFF0B] text-black font-semibold hover:bg-[#BFFF0B99] hover:text-black' : "bg-[#1E2939] text-[#99A1AF] hover:bg-[#1E293999] hover:text-white"}  text-[10px] md:text-[14px] font-medium px-3 py-2 rounded-[5px] md:rounded-[10px] transition-colors hover:cursor-pointer`}>
             자유게시판
           </Link>
           <Link
-            href={'/community?page=0&type=NOTICE'}
+            href={`/community?page=0&type=NOTICE&sort=${sortParam}`}
             className={` ${type === 'NOTICE' ? 'bg-[#BFFF0B] text-black font-semibold hover:bg-[#BFFF0B99] hover:text-black' : "bg-[#1E2939] text-[#99A1AF] hover:bg-[#1E293999] hover:text-white"}  text-[10px] md:text-[14px] font-medium px-3 py-2 rounded-[5px] md:rounded-[10px] transition-colors hover:cursor-pointer`}>
             공지
           </Link>
@@ -59,9 +66,9 @@ export default async function CommuPage({ searchParams }: paramsProps) {
         </Link>
       </div>
 
-      <CommuSearchBar />
+      <CommuSearchBar sort={sortParam} />
       {
-        communities.map((commu) => {
+        sortedCommunities.map((commu) => {
           return <CommuCard community={commu} key={commu.postId} />
 
         })
@@ -72,7 +79,7 @@ export default async function CommuPage({ searchParams }: paramsProps) {
         </div>
       )}
 
-      <Pagination url={`community`} page={page} totalPage={totalPage} />
+      <Pagination url={`community`} page={page} totalPage={totalPage} sort={sortParam} type={type} keyword={keyword} />
       <ChatbotFloatingButton />
     </div>
   );

@@ -2,8 +2,8 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { cancelMyPtReservation, cancelMyPtSessionReservation, chagnePtzoneResrvationStatus, chagnePtzoneStatus, createFeedback, createPtCourse, createPtRecommendation, createPtReservation, createPtReview, deleteFeedback, deletePtCourse, deletePtReview, getFeedbackDetail, getMyPtCourseSessionReservations, getMyPtReservationDetail, getMyPtReservationLists, getMyPtSessionReservations, getMyTrainerApplicationDetail, getMyTrainerApplicationList, getOnboarding, getPopularPtLists, getPtResrvationAvailableDates, getPtResrvationAvailableTimes, getTrainerCancel, getTrainerPtDashboard, getTrainerReportDetail, getTrainerReportList, getTrainerReviewList, getTrainerReviewSummary, getWithoutOnboarding, searchOrganizations, trainerApplication, updateFeedback, updatePtCourse, updatePtReview, updateTrainerApplication } from "@/service/ptzone.service";
-import { FeedbackDetailData, MyPtRecordDetailData, MyPtResrvationListsData, OrganizationSearchItem, PainOnset, PtCourseSessionReservationListData, PtCourseUpdateRequest, PtRecommendationData, PtRecommendationRequest, PtRecommendationTargetPart, PtRegistRequest, PtRegistSchedule, PtReservationRequest, PtReservationStatusChangeRequest, PtReviewCreateRequest, PtSessionReservationListData, TrainerApplicationData, TrainerApplicationEditData, TrainerPtDashboardData, TrainerReportDetailData, TrainerReportListData, TrainerReviewListData, TrainerReviewListRequest, TrainerReviewSummaryData } from "./type";
+import { cancelMyPtReservation, cancelMyPtSessionReservation, chagnePtzoneResrvationStatus, chagnePtzoneStatus, createFeedback, createPtCourse, createPtRecommendation, createPtReservation, createPtReview, createTrainerRoutineRecommendation, deleteFeedback, deletePtCourse, deletePtReview, getFeedbackDetail, getMyPtCourseSessionReservations, getMyPtReservationDetail, getMyPtReservationLists, getMyPtSessionReservations, getMyTrainerApplicationDetail, getMyTrainerApplicationList, getOnboarding, getPopularPtLists, getPtResrvationAvailableDates, getPtResrvationAvailableTimes, getTrainerCancel, getTrainerPtDashboard, getTrainerReportDetail, getTrainerReportList, getTrainerReviewList, getTrainerReviewSummary, getWithoutOnboarding, searchOrganizations, trainerApplication, updateFeedback, updatePtCourse, updatePtReview, updateTrainerApplication } from "@/service/ptzone.service";
+import { FeedbackDetailData, MyPtRecordDetailData, MyPtResrvationListsData, OrganizationSearchItem, PainOnset, PtCourseSessionReservationListData, PtCourseUpdateRequest, PtRecommendationData, PtRecommendationRequest, PtRecommendationTargetPart, PtRegistRequest, PtRegistSchedule, PtReservationRequest, PtReservationStatusChangeRequest, PtReviewCreateRequest, PtSessionReservationListData, TrainerApplicationData, TrainerApplicationEditData, TrainerPtDashboardData, TrainerReportDetailData, TrainerReportListData, TrainerReviewListData, TrainerReviewListRequest, TrainerReviewSummaryData, TrainerRoutineGender, TrainerRoutineGoal, TrainerRoutineRecommendationData, TrainerRoutineRecommendationRequest } from "./type";
 import { uploadFilesPresignedUrl } from "@/service/file.service";
 import { cookies } from "next/headers";
 
@@ -40,6 +40,54 @@ export const getPtRecommendationAction = async (
     return { success: true, data: response.data };
   } catch (error) {
     return { success: false, message: error instanceof Error ? error.message : "AI PT 추천을 불러오지 못했습니다." };
+  }
+};
+
+type TrainerRoutineRecommendationActionResult =
+  | { success: true; data: TrainerRoutineRecommendationData; message: string }
+  | { success: false; message: string };
+
+export const createTrainerRoutineRecommendationAction = async (
+  memberId: number,
+  payload: TrainerRoutineRecommendationRequest
+): Promise<TrainerRoutineRecommendationActionResult> => {
+  const genders: TrainerRoutineGender[] = ["MALE", "FEMALE", "UNSPECIFIED"];
+  const goals: TrainerRoutineGoal[] = [
+    "WEIGHT_LOSS",
+    "MUSCLE_GAIN",
+    "STRENGTH",
+    "HEALTH",
+    "REHABILITATION",
+  ];
+
+  try {
+    if (!Number.isInteger(memberId) || memberId < 1) {
+      return { success: false, message: "수강생 정보를 확인할 수 없습니다." };
+    }
+    if (!genders.includes(payload.gender) || !goals.includes(payload.goal)) {
+      return { success: false, message: "성별과 운동 목표를 다시 선택해주세요." };
+    }
+    if (!Number.isInteger(payload.age) || payload.age < 14 || payload.age > 100) {
+      return { success: false, message: "나이는 14세부터 100세 사이로 입력해주세요." };
+    }
+    if (!Number.isFinite(payload.heightCm) || payload.heightCm < 0.1 || payload.heightCm > 300) {
+      return { success: false, message: "키는 0.1cm부터 300cm 사이로 입력해주세요." };
+    }
+    if (!Number.isFinite(payload.weightKg) || payload.weightKg < 0.1 || payload.weightKg > 500) {
+      return { success: false, message: "체중은 0.1kg부터 500kg 사이로 입력해주세요." };
+    }
+
+    const response = await createTrainerRoutineRecommendation(memberId, payload);
+
+    return { success: true, data: response.data, message: response.message };
+  } catch (error) {
+    return {
+      success: false,
+      message:
+        error instanceof Error
+          ? error.message
+          : "수강생 맞춤 루틴 추천을 불러오지 못했습니다.",
+    };
   }
 };
 
