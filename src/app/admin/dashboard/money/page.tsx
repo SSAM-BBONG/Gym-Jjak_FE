@@ -1,6 +1,11 @@
+import { ChartLoadingUI } from "@/components/ui/ChartLoadingUi";
 import { GymMonthUser } from "@/components/ui/image";
-import ReveanueLineChart from "@/components/ui/RevenueLineChart";
 import { getRevenuesDashboard } from "@/service/admin.service";
+import dynamic from "next/dynamic";
+
+const ReveanueLineChart = dynamic(() => import("@/components/ui/RevenueLineChart"), {
+    loading: () => <ChartLoadingUI />,
+})
 
 export default async function Page() {
     const response = await getRevenuesDashboard();

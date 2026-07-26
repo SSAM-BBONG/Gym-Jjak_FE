@@ -45,7 +45,7 @@ export default function CalendarNameSelecter({ isSelect, setIsSelect, exerciseNa
                 <div className="p-2">
                     <input value={searchInput} onChange={(e) => setSearchInput(e.target.value)} className="box-border bg-[#364153] text-sm md:text-base border w-full py-2 px-3 rounded-md focus:border-[#BFFF0B] text-white focus:outline-none " />
                 </div>
-                <ul>
+                <ul className=" overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden max-h-35">
                     {exerciseData?.map((e) => {
                         return (
                             <li

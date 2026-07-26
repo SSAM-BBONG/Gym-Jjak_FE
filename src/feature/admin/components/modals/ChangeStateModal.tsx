@@ -92,7 +92,12 @@ export default function ChangeStateModal({ isModal, closeModal, status, name, us
                         </button>
                     </div>
                     <div className="flex justify-between items-center my-4">
-                        <h3 className="font-bold text-base md:text-lg lg:text-xl text-[#E8EAF0]">{name}</h3>
+                        <h3 className="flex items-center gap-2 py-2 text-sm font-semibold text-[#99A1AF] md:text-base">
+                            닉네임
+                            <span className="rounded-full border border-[#BFFF0B]/30 bg-[#BFFF0B]/10 px-3 py-1 text-sm font-bold text-[#BFFF0B] md:text-base">
+                                {name}
+                            </span>
+                        </h3>
                         <select {...register('status')} className="bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-[#BFFF0B] transition disabled:opacity-50 disabled:cursor-not-allowed">
                             <option value={'ACTIVE'}>활성</option>
                             <option value={'DAY_7'}>7일 정지</option>
