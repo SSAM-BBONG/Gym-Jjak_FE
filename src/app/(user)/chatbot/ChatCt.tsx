@@ -1,11 +1,11 @@
 "use client";
 
 import ChatItem from "./ChatItem";
-import { FormEvent, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { FormEvent, SetStateAction, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 import { getChatbotMessageListAction } from "@/feature/chatbot/action";
 import { useChatbotSocket } from "@/components/hooks/useChatbotSocket";
-import type { ChatbotDoneEvent, ChatbotQuickReply, ChatbotSocketEvent } from "@/feature/chatbot/type";
+import type { ChatbotDoneEvent, ChatbotQuickReply, ChatbotSocketEvent, ChatSource, RoutineResponse } from "@/feature/chatbot/type";
 import { useRouter } from "next/navigation";
 import ChatWelcome from "./ChatWelcome";
 import ChatQuickReplies from "./ChatQuickReplies";
@@ -37,6 +37,8 @@ export default function ChatCt({ sessionId }: { sessionId?: string }) {
 
     // sst
     const [isListening, setIsListening] = useState(false);
+    const [routine, setRoutine] = useState<RoutineResponse | null>(null);
+    const [sources, setSources] = useState<ChatSource[]>([]);
 
     // 큐에 사용되는 타이머
     const timeout = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -48,6 +50,24 @@ export default function ChatCt({ sessionId }: { sessionId?: string }) {
     const activeSessionIdRef = useRef(sessionId);
     const [intentHint, setIntentHint] = useState<string>();
     const [quickReplies, setQuickReplies] = useState<ChatbotQuickReply[]>([]);
+
+    const parseDoneJson = <T,>(value: string | null, fallback: T) => {
+        if (!value) {
+            return fallback;
+        }
+
+        try {
+            return JSON.parse(value) as T;
+        } catch (error) {
+            console.error("챗봇 응답 파싱 실패", error);
+            return fallback;
+        }
+    };
+
+    const resetStreamingMeta = () => {
+        setRoutine(null);
+        setSources([]);
+    };
 
     useEffect(() => {
         activeSessionIdRef.current = sessionId;
@@ -89,6 +109,8 @@ export default function ChatCt({ sessionId }: { sessionId?: string }) {
 
             if (doneEvent) {
                 setResponse(doneEvent.answer);
+                setRoutine(parseDoneJson<RoutineResponse | null>(doneEvent.routine, null));
+                setSources(parseDoneJson<ChatSource[]>(doneEvent.sources, []));
                 setQuickReplies(doneEvent.quickReplies ?? []);
                 setLoading(false);
                 requestIdRef.current = null;
@@ -117,6 +139,7 @@ export default function ChatCt({ sessionId }: { sessionId?: string }) {
             }
             queueRef.current = [];
             doneEventRef.current = null;
+            resetStreamingMeta();
         };
     }, []);
 
@@ -131,6 +154,7 @@ export default function ChatCt({ sessionId }: { sessionId?: string }) {
                 queueRef.current = [];
                 doneEventRef.current = null;
                 requestIdRef.current = event.requestId;
+                resetStreamingMeta();
 
                 activeSessionIdRef.current = event.sessionId;
                 setQuickReplies([]);
@@ -172,6 +196,7 @@ export default function ChatCt({ sessionId }: { sessionId?: string }) {
 
                 queueRef.current = [];
                 doneEventRef.current = null;
+                resetStreamingMeta();
 
                 setSocketError(event.message);
                 setLoading(false);
@@ -260,6 +285,7 @@ export default function ChatCt({ sessionId }: { sessionId?: string }) {
         setSocketError("");
         setResponse("");
         setQuickReplies([]);
+        resetStreamingMeta();
 
         const sent = sendMessage({
             sessionId: sessionId,
@@ -301,6 +327,7 @@ export default function ChatCt({ sessionId }: { sessionId?: string }) {
         setSocketError("");
         setResponse("");
         setQuickReplies([]);
+        resetStreamingMeta();
 
         const sent = sendMessage({
             sessionId: activeSessionIdRef.current,
@@ -325,6 +352,11 @@ export default function ChatCt({ sessionId }: { sessionId?: string }) {
 
     const handleMessageChange = (nextMessage: string) => {
         setMessage(nextMessage);
+        setIntentHint(undefined);
+    };
+
+    const handleSTTMessageChange = (value: SetStateAction<string>) => {
+        setMessage(value);
         setIntentHint(undefined);
     };
 
@@ -367,6 +399,8 @@ export default function ChatCt({ sessionId }: { sessionId?: string }) {
                         {(loading || response) && (
                             <ChatItem
                                 role="ASSISTANT"
+                                routine={routine}
+                                sources={sources}
                                 content={response || "답변을 준비하고 있습니다..."}
                             />
                         )}
@@ -391,7 +425,7 @@ export default function ChatCt({ sessionId }: { sessionId?: string }) {
                 onMessageChange={handleMessageChange}
                 onSubmit={handleSubmit}
                 onScrollToBottom={scrollToBottom}
-                setMessage={setMessage}
+                setMessage={handleSTTMessageChange}
                 setIsListening={setIsListening}
             />
         </div>

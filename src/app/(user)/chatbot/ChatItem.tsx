@@ -9,6 +9,7 @@ import Image from 'next/image';
 import RoutineContent from "@/feature/chatbot/components/RoutineContent";
 import { Copy } from "lucide-react";
 import { toast } from "sonner";
+import { memo } from "react";
 
 
 
@@ -20,7 +21,7 @@ interface ChatItemProps {
     sources?: ChatSource[]
 }
 
-export default function ChatItem({ role, content, createdAt, routine, sources }: ChatItemProps) {
+function ChatItem({ role, content, createdAt, routine, sources }: ChatItemProps) {
     const isMyMessage = role === "USER";
 
     const handleCopy = async () => {
@@ -80,3 +81,5 @@ export default function ChatItem({ role, content, createdAt, routine, sources }:
         </div>
     );
 }
+
+export default memo(ChatItem);
