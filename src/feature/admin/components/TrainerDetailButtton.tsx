@@ -40,7 +40,7 @@ export default function TrainerDetailButton({ mode, trainerId }: DetailButtonMod
             }
 
             toast.success(response.message);
-            router.push("/admin/approvals/organizations?page=0");
+            router.refresh();
         } catch (error) {
             toast.error("네트워크 오류입니다. 다시 시도해주세요.");
         }
