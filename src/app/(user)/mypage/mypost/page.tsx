@@ -14,12 +14,10 @@ export default async function Page({ searchParams }: paramsProps) {
     const response = await getMyCommuAction(page);
     const myPosts: MyCommu[] = response.data.content;
     const totalPage: number = response.data.totalPages
-    console.log(response.data.content)
-    // console.log(response)
     return (
-        <div className="flex flex-col px-40 pt-10">
-            <p className="text-[36px] font-black text-white"> 내가 작성한 게시글 </p>
-            <p className="text-[14px] font-normal text-[#99A1AF]"> 총 {myPosts?.length || 0}개의 게시글 </p>
+        <div className="flex flex-col px-4 sm:px-10 md:px-20 lg:px-40 pt-6 sm:pt-8 lg:pt-10">
+            <p className="text-2xl sm:text-3xl lg:text-[36px] font-black text-white"> 내가 작성한 게시글 </p>
+            <p className="text-xs sm:text-sm lg:text-[14px] font-normal text-[#99A1AF]"> 총 {myPosts?.length || 0}개의 게시글 </p>
             {myPosts.map((myPost) => {
                 return <MyPostCard myPost={myPost} key={myPost.postId} />
             })}

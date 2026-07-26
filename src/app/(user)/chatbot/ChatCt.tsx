@@ -1,33 +1,48 @@
 "use client";
 
-import { ChatSendButton, Logo } from "@/components/ui/image";
-import Image from "next/image";
 import ChatItem from "./ChatItem";
 import { FormEvent, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useInfiniteQuery, useQueryClient } from "@tanstack/react-query";
 import { getChatbotMessageListAction } from "@/feature/chatbot/action";
 import { useChatbotSocket } from "@/components/hooks/useChatbotSocket";
-import type { ChatbotDoneEvent, ChatbotQuickReply, ChatbotSocketEvent, RoutineResponse } from "@/feature/chatbot/type";
-import STTButton from "./STTButton";
+import type { ChatbotDoneEvent, ChatbotQuickReply, ChatbotSocketEvent } from "@/feature/chatbot/type";
 import { useRouter } from "next/navigation";
-import { ChevronDown } from "lucide-react";
+import ChatWelcome from "./ChatWelcome";
+import ChatQuickReplies from "./ChatQuickReplies";
+import ChatInputForm from "./ChatInputForm";
 
 export default function ChatCt({ sessionId }: { sessionId?: string }) {
 
+    const router = useRouter();
+
+
     const queryClient = useQueryClient();
+
+    // 무한 스크롤 데이터 불러오는 div
     const targetRef = useRef<HTMLDivElement>(null);
+    // 새로운 메세지가 올 때 스크롤될 div
+    const endRef = useRef<HTMLDivElement>(null);
+
+    // 현재 requestId가 있는지
     const requestIdRef = useRef<string | null>(null);
+
+    // 현재 메세지
     const [message, setMessage] = useState("");
     const [loading, setLoading] = useState(false);
+
     const [socketError, setSocketError] = useState("");
+
+    // 응답으로 오는 값 보여주는 state
     const [response, setResponse] = useState("");
+
+    // sst
     const [isListening, setIsListening] = useState(false);
-    const [routine, setRoutine] = useState<RoutineResponse | null>(null);
-    const [source, setSource] = useState("");
-    const router = useRouter();
-    const endRef = useRef<HTMLDivElement>(null);
+
+    // 큐에 사용되는 타이머
     const timeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+    // 백에서 넘어오는 event.text 를 저장해두는 큐
     const queueRef = useRef<string[]>([]);
+    // 이벤트가 끝났는지 확인
     const doneEventRef = useRef<ChatbotDoneEvent | null>(null);
 
     const activeSessionIdRef = useRef(sessionId);
@@ -44,8 +59,6 @@ export default function ChatCt({ sessionId }: { sessionId?: string }) {
             block: "end",
         });
     };
-
-
 
     const refreshChatbotData = async (doneEvent: ChatbotDoneEvent) => {
         try {
@@ -76,19 +89,6 @@ export default function ChatCt({ sessionId }: { sessionId?: string }) {
 
             if (doneEvent) {
                 setResponse(doneEvent.answer);
-
-                if (doneEvent.routine) {
-                    setRoutine(
-                        JSON.parse(doneEvent.routine)
-                    );
-                }
-
-                if (doneEvent.sources) {
-                    setSource(
-                        JSON.parse(doneEvent.sources)
-                    );
-                }
-
                 setQuickReplies(doneEvent.quickReplies ?? []);
                 setLoading(false);
                 requestIdRef.current = null;
@@ -207,7 +207,6 @@ export default function ChatCt({ sessionId }: { sessionId?: string }) {
         data,
         isError,
         error,
-        isPending,
         fetchNextPage,
         hasNextPage,
         isFetchingNextPage,
@@ -319,6 +318,16 @@ export default function ChatCt({ sessionId }: { sessionId?: string }) {
         }
     };
 
+    const handleSuggestionSelect = (suggestionMessage: string, suggestionIntentHint: string) => {
+        setMessage(suggestionMessage);
+        setIntentHint(suggestionIntentHint);
+    };
+
+    const handleMessageChange = (nextMessage: string) => {
+        setMessage(nextMessage);
+        setIntentHint(undefined);
+    };
+
     useLayoutEffect(() => {
         scrollToBottom();
     }, [messages.length]);
@@ -329,32 +338,7 @@ export default function ChatCt({ sessionId }: { sessionId?: string }) {
 
             <div className="flex min-h-0 w-full flex-1 flex-col overflow-y-auto px-5 py-6 pb-20 sm:px-10 sm:pb-24 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
                 {(!sessionId && !loading) && (
-                    <div className="flex flex-1 mt-10 md:mt-30 flex-col items-center justify-center px-4 text-center">
-                        <div className="flex size-12 items-center justify-center rounded-full border border-[#364153] bg-[#101828]">
-                            <div className="relative h-10 w-10 sm:h-13 sm:w-20 ">
-                                <Image
-                                    src={Logo}
-                                    alt="운동을 표현한 메인 일러스트"
-                                    fill
-                                    priority
-                                    sizes="w-20 h-20"
-                                />
-                            </div>
-                        </div>
-                        <p className="mt-4 text-xl font-semibold text-[#D1D5DC]">
-                            궁금한 점이 있으신가요?
-                        </p>
-                        <p className="mt-1 text-lg text-[#6A7282]">
-                            짐짝과 새로운 대화를 시작해보세요.
-                        </p>
-                        <div className="mt-6 flex flex-wrap justify-center gap-2 sm:gap-3">
-
-                            <button onClick={() => { setMessage("운동 루틴을 추천해주세요"); setIntentHint("ROUTINE_RECOMMENDATION"); }} className="rounded-full border border-[#364153] bg-[#101828] px-4 py-2 text-xs font-semibold text-[#99A1AF] transition-colors hover:border-[#BFFF0B]/60 hover:bg-[#BFFF0B]/10 hover:text-[#BFFF0B] focus-visible:border-[#BFFF0B] focus-visible:text-[#BFFF0B] focus-visible:outline-none sm:px-5 sm:text-sm">운동 루틴 추천</button>
-                            <button onClick={() => { setMessage("짐짝 서비스를 설명해주세요"); setIntentHint("SERVICE_POLICY"); }} className="rounded-full border border-[#364153] bg-[#101828] px-4 py-2 text-xs font-semibold text-[#99A1AF] transition-colors hover:border-[#BFFF0B]/60 hover:bg-[#BFFF0B]/10 hover:text-[#BFFF0B] focus-visible:border-[#BFFF0B] focus-visible:text-[#BFFF0B] focus-visible:outline-none sm:px-5 sm:text-sm">짐짝이란?</button>
-                            <button onClick={() => { setMessage("내 운동 기록을 확인해주세요"); setIntentHint("PERSONAL_RECORD"); }} className="rounded-full border border-[#364153] bg-[#101828] px-4 py-2 text-xs font-semibold text-[#99A1AF] transition-colors hover:border-[#BFFF0B]/60 hover:bg-[#BFFF0B]/10 hover:text-[#BFFF0B] focus-visible:border-[#BFFF0B] focus-visible:text-[#BFFF0B] focus-visible:outline-none sm:px-5 sm:text-sm">운동 기록 확인</button>
-
-                        </div>
-                    </div>
+                    <ChatWelcome onSelect={handleSuggestionSelect} />
                 )}
                 {isError ? (
                     <div className="flex flex-1 items-center justify-center px-4 text-center text-sm text-[#99A1AF]">
@@ -387,76 +371,29 @@ export default function ChatCt({ sessionId }: { sessionId?: string }) {
                             />
                         )}
 
-                        {quickReplies.length > 0 && (
-                            <div className="ml-10 flex flex-wrap gap-2">
-                                {quickReplies.map((reply) => (
-                                    <button
-                                        key={`${reply.questionId}-${reply.value}`}
-                                        type="button"
-                                        onClick={() => handleQuickReply(reply)}
-                                        disabled={loading || !isConnected}
-                                        className="rounded-full border border-[#364153] bg-[#101828] px-4 py-2 text-xs font-semibold text-[#99A1AF] transition-colors hover:border-[#BFFF0B]/60 hover:bg-[#BFFF0B]/10 hover:text-[#BFFF0B] disabled:cursor-not-allowed disabled:opacity-50"
-                                    >
-                                        {reply.label}
-                                    </button>
-                                ))}
-                            </div>
-                        )}
+                        <ChatQuickReplies
+                            quickReplies={quickReplies}
+                            disabled={loading || !isConnected}
+                            onSelect={handleQuickReply}
+                        />
 
                         <div ref={endRef}></div>
                     </div>
                 )}
             </div>
 
-            {socketError && (
-                <p className="absolute bottom-16 px-5 pb-2 text-center text-xs text-[#FB7185]">
-                    {socketError}
-                </p>
-            )}
-
-
-            {isListening && (
-                <p className="absolute bottom-16 px-5 pb-2 text-center text-xs text-[#99A1AF]">
-                    음성인식 중입니다...
-                </p>
-            )}
-            <form
+            <ChatInputForm
+                message={message}
+                loading={loading}
+                isConnected={isConnected}
+                isListening={isListening}
+                socketError={socketError}
+                onMessageChange={handleMessageChange}
                 onSubmit={handleSubmit}
-                className="absolute bottom-0 z-50 flex w-full items-center gap-3 bg-[#0B0F19] px-4 pb-4 sm:px-5 sm:pb-5"
-            >
-                <input
-                    type="text"
-                    value={message}
-
-                    onChange={(event) => {
-                        setMessage(event.target.value);
-                        setIntentHint(undefined);
-                    }}
-
-                    placeholder={`메시지 보내기...`}
-                    aria-label="메시지 입력"
-                    maxLength={5000}
-                    disabled={loading}
-                    className="h-11 min-w-0 flex-1 rounded-[15px] border border-[#364153] bg-[#0F172A] px-4 text-sm text-white outline-none placeholder:text-[#6A7282] focus:border-[#65748B]"
-                />
-                <STTButton loading={loading} isConnected={isConnected} setMessage={setMessage} isListening={isListening} setIsListening={setIsListening} />
-                <button
-                    type="submit"
-                    disabled={loading || !isConnected || !message.trim()}
-                    className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#BFFF0B] hover:scale-105 disabled:cursor-not-allowed disabled:opacity-50"
-                >
-                    <Image src={ChatSendButton} alt="채팅 보내기 버튼" width={20} height={15} />
-                </button>
-
-                <button
-                    type="button"
-                    onClick={scrollToBottom}
-                    aria-label="채팅 맨 아래로 이동"
-                    className="fixed right-4 bottom-20 z-60 flex h-9 w-9 items-center justify-center rounded-full bg-[#BFFF0B] shadow-lg transition-transform hover:scale-105 sm:right-5 sm:bottom-22"
-                >
-                    <ChevronDown aria-hidden="true" size={20} strokeWidth={2.5} className="text-black" />
-                </button>
-            </form>
+                onScrollToBottom={scrollToBottom}
+                setMessage={setMessage}
+                setIsListening={setIsListening}
+            />
         </div>
     );
 }
