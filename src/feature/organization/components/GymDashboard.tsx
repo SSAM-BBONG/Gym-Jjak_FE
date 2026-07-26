@@ -1,4 +1,6 @@
-import GymChart, { GymChartData } from "@/feature/organization/components/GymChart";
+import { ChartLoadingUI } from "@/components/ui/ChartLoadingUi";
+import { GymChartData } from "@/feature/organization/components/GymChart";
+import dynamic from "next/dynamic";
 
 export type GymDashboardCard = {
     icon: string;
@@ -17,6 +19,10 @@ type GymDashboardProps = {
     chartLabel: string;
     cardGridClassName?: string;
 };
+
+const GymChart = dynamic(() => import("@/feature/organization/components/GymChart"), {
+    loading: () => <ChartLoadingUI />,
+})
 
 export default function GymDashboard({
     cards,
@@ -41,10 +47,10 @@ export default function GymDashboard({
                         <div className="flex gap-2 items-center">
                             {card.iconWrapped ? (
                                 <p className="bg-[#1E293999] w-10 h-10 flex items-center justify-center rounded-[14px] p-2">
-                                    <img src={card.icon}/>
+                                    <img src={card.icon} />
                                 </p>
                             ) : (
-                                <img src={card.icon}/>
+                                <img src={card.icon} />
                             )}
                             <p className="text-[16px] text-white font-bold"> {card.title} </p>
                         </div>
@@ -56,10 +62,10 @@ export default function GymDashboard({
 
             <div className="p-6 border border-[#1E2939] rounded-[16px] bg-[#101828]">
                 <div className="flex items-center gap-2 pb-4">
-                    <img src={chartIcon}/>
+                    <img src={chartIcon} />
                     <p className="text-[14px] text-white font-black"> {chartTitle}</p>
                 </div>
-                <GymChart data={chartData} label={chartLabel}/>
+                <GymChart data={chartData} label={chartLabel} />
             </div>
         </>
     );

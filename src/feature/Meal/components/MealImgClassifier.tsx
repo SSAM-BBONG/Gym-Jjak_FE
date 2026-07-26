@@ -1,10 +1,9 @@
 'use client'
 
 import { useState, useRef, useEffect } from "react";
-import '@tensorflow/tfjs';
-import * as mobilenet from '@tensorflow-models/mobilenet'
+import type { MobileNet } from "@tensorflow-models/mobilenet";
 import { Meal } from "../type";
-import AiLoading from "@/components/ui/AiLoading";
+
 
 
 interface Prediction {
@@ -26,12 +25,14 @@ export default function MealImgClassifier({ mealData }: { mealData?: Meal }) {
     const [predictions, setPredictions] = useState<Prediction[]>([]);
 
     const [error, setError] = useState<string | null>(null);
-    const modelRef = useRef<mobilenet.MobileNet | null>(null);
+    const modelRef = useRef<MobileNet | null>(null);
     const [menu, setMenu] = useState(mealData?.menu ?? "");
 
 
 
     useEffect(() => {
+
+
         const modelInterval = setInterval(() => {
             setProgress((prev) => {
                 if (prev >= 95) return prev;
@@ -44,6 +45,13 @@ export default function MealImgClassifier({ mealData }: { mealData?: Meal }) {
             setProgressLabel('AI 분석 모델 준비 중…');
 
             try {
+
+                await import("@tensorflow/tfjs");
+
+                const mobilenet = await import(
+                    "@tensorflow-models/mobilenet"
+                );
+
                 const model = await mobilenet.load();
                 modelRef.current = model;
                 if (modelInterval) {

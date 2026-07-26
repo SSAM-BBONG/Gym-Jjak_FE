@@ -1,5 +1,7 @@
-import PoseAnalysisClient from "@/feature/pose/components/PoseAnalysisClient";
+import PostureAnalysis from "@/feature/pose/components/PostureAnalysis";
 
 export default function PoseAnalysisPage() {
-  return <PoseAnalysisClient />;
+  return (
+  <PostureAnalysis />
+  )
 }

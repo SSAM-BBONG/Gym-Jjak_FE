@@ -27,8 +27,25 @@ export default function AlarmSocket({ enabled }: AlarmSocketProps) {
           : {
               label: "알림 확인",
               onClick: () => router.push("/alarm"),
-            },
+          },
       });
+
+      if (
+        "Notification" in window &&
+        Notification.permission === "granted" &&
+        document.visibilityState !== "visible"
+      ) {
+        const browserNotification = new Notification(alarm.title, {
+          body: alarm.content,
+          tag: `alarm-${alarm.notificationId}`,
+        });
+
+        browserNotification.onclick = () => {
+          window.focus();
+          router.push("/alarm");
+          browserNotification.close();
+        };
+      }
     },
 
     onError: (error) => {

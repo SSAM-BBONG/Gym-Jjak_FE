@@ -75,7 +75,7 @@ export default function HeaderAuthArea({ userInf, notification, chatCount }: Hea
   }, [pathname]);
 
   return (
-    <div className="grid grid-cols-[20px_20px_80px] items-center justify-end gap-5 min-w-32">
+    <div className="flex min-w-32 items-center justify-end gap-5">
       {user && <AlarmSocket enabled={isAlarmSocketEnabled} />}
 
       <Link href="/alarm">
