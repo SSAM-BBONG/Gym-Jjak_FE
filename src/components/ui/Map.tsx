@@ -86,12 +86,13 @@ export default function KakaoMap({latitude, longitude, ptList, setOrganizationId
                  onClick={() => handleMarkerClick(item.businessName, item.organizationId)}
                  className={`
                   absolute bottom-full left-1/2 -translate-x-1/2
-                  max-w-25 px-3 py-2 border-2 bg-[#1e293994]  rounded-[10px] text-[12px]
+                  w-32 px-3 py-2 border-2 bg-[#1e293994] rounded-[10px] text-[12px]
+                  whitespace-normal break-words [overflow-wrap:anywhere]
                   hover:cursor-pointer 
                   ${isSelected ? "bg-[#beff0b] text-gray-700 font-medium" : "text-white border-[#99A1AF]"}
                   `}
               >
-                  <span className="pointer-events-none break-keep whitespace-normal text-center block">
+                  <span className="pointer-events-none block text-center">
                   {item.businessName}
                 </span>
               </button>

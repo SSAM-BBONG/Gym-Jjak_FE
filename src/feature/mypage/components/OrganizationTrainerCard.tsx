@@ -1,23 +1,45 @@
 'use client'
 import useModal from "@/components/hooks/useModal";
-import OrganizationTrainerAddForm from "./OrganizationTrainerAddForm";
 import { OrganizationManageTrainerListItem } from "../type";
 import { deleteOrganizationTrainerAction } from "../actions";
 import TwoButtonModal from "@/components/ui/TwoButtonModal";
-import OneButtonModal from "@/components/ui/OneButtonModal";
+import { useState } from "react";
+import { toast } from "sonner";
 
 interface OrganTrainerCardProps {
   data: OrganizationManageTrainerListItem[];
 }
 
 export default function OrganizationTrainerCard( {data}: OrganTrainerCardProps) {
+  const deleteConfirmModal = useModal();
+  const [selectedOrganizationTrainerId, setSelectedOrganizationTrainerId] = useState<number | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
 
-  const handleDeleteClick = async (trainerProfileId: number) => {
-    const response = await deleteOrganizationTrainerAction(trainerProfileId);
-  }
+  const handleDeleteClick = (organizationTrainerId: number) => {
+    setSelectedOrganizationTrainerId(organizationTrainerId);
+    deleteConfirmModal.openModal();
+  };
 
-  // const confirmModal = useModal(handleDeleteClick);
-  // const checkModal = useModal(confirmModal.openModal);
+  const handleDeleteTrainer = async () => {
+    if (selectedOrganizationTrainerId === null || isDeleting) return;
+
+    setIsDeleting(true);
+    try {
+      const response = await deleteOrganizationTrainerAction(selectedOrganizationTrainerId);
+
+      if (!response.success) {
+        toast.error(response.message);
+        return;
+      }
+
+      toast.success(response.message);
+    } catch {
+      toast.error("트레이너 삭제 중 오류가 발생했습니다.");
+    } finally {
+      setIsDeleting(false);
+      setSelectedOrganizationTrainerId(null);
+    }
+  };
 
   return (
     <div className="flex flex-col gap-6 p-6">
@@ -45,7 +67,7 @@ export default function OrganizationTrainerCard( {data}: OrganTrainerCardProps) 
             
             {data.map((item) => (           
             <div
-              key={item.trainerProfileId}
+              key={item.organizationTrainerId}
               className="grid grid-cols-[1.5fr_1fr_1fr_1fr_0.7fr] border-b border-[#1E2939] px-6 py-4 items-center text-[14px] text-white"
             >
                 <div>{item.username}</div>
@@ -55,29 +77,25 @@ export default function OrganizationTrainerCard( {data}: OrganTrainerCardProps) 
                 <div>
                   <button 
                     type="button"
-                    // onClick={checkModal.openModal}
+                    onClick={() => handleDeleteClick(item.organizationTrainerId)}
+                    disabled={isDeleting}
                     className="rounded-[10px] border border-[#FB2C364D] px-5 py-2 bg-[#FB2C361A] text-[#FB2C36] font-bold">
                     🗑 삭제
                   </button>
-                  {/* <TwoButtonModal
-                      isModal={checkModal.isModal}
-                      closeModal={checkModal.closeModal} 
-                      activeModal={checkModal.activeModal}
-                      content="트레이너를 삭제하시곘습니까?"
-                      title='트레이너 삭제' 
-                  />
-
-                  <OneButtonModal 
-                      isModal={confirmModal.isModal}
-                      closeModal={confirmModal.closeModal}
-                      activeModal={confirmModal.activeModal} 
-                      title='트레이너 삭제'
-                      content='트레이너 삭제가 완료했습니다.' 
-                  /> */}
                 </div>
             </div>
             ))}
         </div>
+      <TwoButtonModal
+        isModal={deleteConfirmModal.isModal}
+        closeModal={deleteConfirmModal.closeModal}
+        activeModal={() => {
+          deleteConfirmModal.closeModal();
+          void handleDeleteTrainer();
+        }}
+        title="트레이너 삭제"
+        content="소속 트레이너를 삭제하시겠습니까?"
+      />
     </div>
   );
 }

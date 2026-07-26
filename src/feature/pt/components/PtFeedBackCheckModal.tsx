@@ -111,7 +111,7 @@ export default function PtFeeBackCheckModal({ isModal, closeModal, reservationId
                             </div>
                             <p className="text-[12px] font-normal text-[#6A7282]"> {feedbackDetail?.createdAt} </p>
                         </div>
-                        <div className="grid grid-cols-2 gap-5">
+                        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5">
                             <div className="
                             flex flex-col gap-3
                             bg-[#1E293980]
@@ -222,7 +222,7 @@ export default function PtFeeBackCheckModal({ isModal, closeModal, reservationId
                     <button
                         type="button"
                         onClick={closeModal}
-                        className='w-full flex pt-2 pb-3 justify-center items-center rounded-lg text-white text-center font-semibold text-base bg-[#1E2939] hover:cursor-pointer'
+                        className='w-full flex pt-2 pb-3 justify-center items-center rounded-lg text-white text-center font-semibold text-sm md:text-base bg-[#1E2939] hover:cursor-pointer'
                     >
                         닫기
                     </button>

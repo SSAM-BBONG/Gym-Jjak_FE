@@ -91,7 +91,7 @@ export default function PtReservationModal({ isModal, closeModal, activeModal, n
             className="z-999 bg-black/50 fixed top-0 left-0 w-screen h-screen"
             onClick={closeModal} >
             <form
-                className="bg-gradient-to-br from-[#101828] to-[#000] w-3xl h-150 rounded-2xl border border-[#1E2939] z-1000 fixed top-1/2 left-1/2 p-6 flex -translate-x-1/2 -translate-y-1/2 flex-col justify-between
+                className="bg-gradient-to-br from-[#101828] to-[#000] w-5/6 max-h-120 sm:w-4/5 sm:max-h-5/6 md:w-3/5 md:max-h-5/6 lg:w-3xl lg:h-150 lg:max-h-none rounded-2xl border border-[#1E2939] z-1000 fixed top-1/2 left-1/2 p-6 flex -translate-x-1/2 -translate-y-1/2 flex-col justify-between
                 overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
                 onClick={(e) => e.stopPropagation()}>
                 <article>
@@ -107,8 +107,8 @@ export default function PtReservationModal({ isModal, closeModal, activeModal, n
                             />
                         </button>                    </div>
 
-                    <div className="flex justify-between items-center my-4">
-                        <h3 className="font-bold text-xl text-[#E8EAF0] py-2">{title}</h3>
+                    <div className="flex justify-between items-center my-3 sm:my-4">
+                        <h3 className="font-bold text-base text-[#E8EAF0] py-2 md:text-lg lg:text-xl">{title}</h3>
                     </div>
                     <div data-testid="reservation-calendar">
                         <Calendar
@@ -124,10 +124,10 @@ export default function PtReservationModal({ isModal, closeModal, activeModal, n
                         />
                     </div>
 
-                    <div className="w-full bg-[#1E2939] rounded-md border-[#364153] border mt-6 p-6">
+                    <div className="w-full bg-[#1E2939] rounded-md border-[#364153] border mt-4 p-4 sm:mt-5 sm:p-5 lg:mt-6 lg:p-6">
                         <h3 className="font-bold text-xl text-[#E8EAF0] py-2">시간 선택</h3>
 
-                        <div className="grid grid-cols-3 gap-3 mt-3">
+                        <div className="grid grid-cols-1 gap-2 mt-3 sm:grid-cols-2 sm:gap-3 lg:grid-cols-3">
                             {timeSlots.map((slot) => {
                                 const value = `${slot.startTime}-${slot.endTime}`;
                                 const isSelected =
@@ -162,12 +162,12 @@ export default function PtReservationModal({ isModal, closeModal, activeModal, n
                     )}
 
                 </article>
-                <article className='flex gap-3 mt-10'>
+                <article className='flex gap-2 mt-6 sm:gap-3 sm:mt-10'>
                     <button
                         data-testid="reservation-cancel-button"
                         type="button"
                         onClick={noneActiveModal}
-                        className='w-full flex pt-2 pb-3 justify-center items-center rounded-lg text-white text-center font-semibold text-base bg-[#1E2939]'
+                        className='w-full flex pt-2 pb-3 justify-center items-center rounded-lg text-white text-center font-semibold text-sm md:text-base bg-[#1E2939]'
                     >
                         취소
                     </button>
@@ -175,7 +175,7 @@ export default function PtReservationModal({ isModal, closeModal, activeModal, n
                         data-testid="reservation-submit-button"
                         type="button"
                         onClick={handleCreateReservation}
-                        className='w-full flex pt-2 pb-3 justify-center items-center rounded-lg text-black text-center font-semibold text-base bg-[#BFFF0B]'
+                        className='w-full flex pt-2 pb-3 justify-center items-center rounded-lg text-black text-center font-semibold text-sm md:text-base bg-[#BFFF0B]'
                     >
                         {isSubmitting ? "예약 중..." : "예약 하기"}
                     </button>
