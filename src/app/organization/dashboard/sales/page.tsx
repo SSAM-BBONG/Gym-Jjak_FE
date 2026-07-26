@@ -5,6 +5,11 @@ import GymDashboardTrainerSales from "@/feature/organization/components/GymDashb
 
 export default async function GymSalesDashboardPage() {
     const result = await getOrganizationSalesAction();
+    const monthOverMonthRate = result.data?.monthOverMonthRate ?? 0;
+    const currentMonth = new Intl.DateTimeFormat("ko-KR", {
+        month: "numeric",
+        timeZone: "Asia/Seoul",
+    }).format(new Date());
 
     const cards: GymDashboardCard[] = [
         {
@@ -18,9 +23,9 @@ export default async function GymSalesDashboardPage() {
         {
             icon: GymThisMonthSale,
             iconWrapped: true,
-            title: "이번 달 매출 (7월)",
+            title: `이번 달 매출 (${currentMonth})`,
             value: `${result.data?.thisMonthRevenue.toLocaleString() ?? 0}원`,
-            description: `전월 대비 ${result.data?.monthOverMonthRate ?? 0 >= 0 ? "+" : ""}${result.data?.monthOverMonthRate ?? 0}%`,
+            description: `전월 대비 ${monthOverMonthRate >= 0 ? "+" : ""}${monthOverMonthRate}%`,
         },
     ];
 

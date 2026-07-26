@@ -63,7 +63,7 @@ export default function PfFeebBackCard({ data, reservationId, errorMessage }: Pf
                         key={item.id}
                         className="
                 flex flex-col gap-4
-                p-4 sm:gap-5 sm:p-5 lg:gap-6
+                p-3 sm:gap-5 sm:p-5 lg:gap-6 lg:p-5
                 border border-[#1E2939] rounded-[16px]
                 bg-[#101828]
                 ">
@@ -71,7 +71,7 @@ export default function PfFeebBackCard({ data, reservationId, errorMessage }: Pf
                             <p className="px-4 py-2 text-[14px] font-extrabold text-black bg-[#BFFF0B] rounded-full"> {item.sessionNo} </p>
                             <div className="flex flex-1 flex-col gap-2 sm:flex-row sm:justify-between sm:items-center">
                                 <div className="flex flex-col gap-1">
-                                    <p className="text-[18px] font-extrabold text-white">
+                                    <p className="text-base font-extrabold text-white sm:text-lg lg:text-[18px]">
                                         {getDisplayText(item.title)}{getLessonDateLabel(item.reservedStartAt)}
                                     </p>
                                 </div>
@@ -122,13 +122,13 @@ export default function PfFeebBackCard({ data, reservationId, errorMessage }: Pf
                         key={item.id}
                         className="
                         flex flex-col items-center justify-between gap-3
-        p-4 sm:flex-row sm:gap-6 sm:p-5
+                        p-3 sm:flex-row sm:gap-6 sm:p-5 lg:p-5
         border border-[#1E2939] rounded-[16px]
         bg-[#101828]
         ">
                         <div className="flex items-center gap-2 sm:gap-3">
                             <p className="px-4 py-2 text-[14px] font-extrabold text-[#99A1AF] bg-[#364153] rounded-full"> {item.sessionNo} </p>
-                            <p className="text-[18px] font-extrabold text-white">
+                            <p className="text-base font-extrabold text-white sm:text-lg lg:text-[18px]">
                                 {getDisplayText(item.title)}{getLessonDateLabel(item.reservedStartAt)}
                             </p>
                         </div>

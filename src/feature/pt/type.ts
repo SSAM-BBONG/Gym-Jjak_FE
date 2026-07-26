@@ -36,6 +36,7 @@ export interface PtCourseDetailData {
   curriculums: PtCourseCurriculum[];
   schedules: PtCourseSchedule[];
   recentReviews: PtCourseReview[];
+  usedCount: number | null;
 }
 
 // PT 상세조회 응답값

@@ -1,4 +1,5 @@
 import { GymTrainerSituation } from "@/components/ui/image";
+import { Progress } from "@/components/ui/progress";
 import { OrganizationSalesData } from "@/feature/organization/type";
 
 type GymDashboardTrainerSalesProps = {
@@ -23,29 +24,33 @@ export default function GymDashboardTrainerSales({ data, errorMessage }: GymDash
             {errorMessage ? (
                 <p className="py-8 text-center text-sm text-red-400">{errorMessage}</p>
             ) : data?.trainerSales.length ? (
-                data.trainerSales.map((trainer) => (
-                    <div
-                        key={trainer.trainerProfileId}
-                        className="grid grid-cols-[2.5fr_1.5fr_1.5fr_1fr] border-b border-[#364153] text-[14px] py-3 items-center text-white font-bold "
-                    >
-                        <div className="flex items-center gap-2">
-                            <p className="border border-[#BFFF0B33] rounded-full bg-[#BFFF0B1A] px-2 py-1 text-[10px] text-[#BFFF0B]"> {trainer.trainerName.charAt(0)}</p>
-                            <p> {trainer.trainerName}</p>
-                        </div>
-                        <div className="font-normal">
-                            {trainer.thisMonthAmount.toLocaleString()}원
-                        </div>
-                        <div>
-                            {trainer.totalAmount.toLocaleString()}원
-                        </div>
-                        <div className="flex gap-2 items-center">
-                            <div className="w-16 h-2 bg-[#1E2939] rounded-full">
-                                <p className="w-4 h-2 bg-[#BFFF0B] rounded-full"></p>
+                data.trainerSales.map((trainer) => {
+                    const ratio = Number.isFinite(trainer.ratio)
+                        ? Math.min(100, Math.max(0, trainer.ratio))
+                        : 0;
+
+                    return (
+                        <div
+                            key={trainer.trainerProfileId}
+                            className="grid grid-cols-[2.5fr_1.5fr_1.5fr_1fr] border-b border-[#364153] text-[14px] py-3 items-center text-white font-bold "
+                        >
+                            <div className="flex items-center gap-2">
+                                <p className="border border-[#BFFF0B33] rounded-full bg-[#BFFF0B1A] px-2 py-1 text-[10px] text-[#BFFF0B]"> {trainer.trainerName.charAt(0)}</p>
+                                <p> {trainer.trainerName}</p>
                             </div>
-                            <p className="text-[12px] text-[#99A1AF] font-normal"> {trainer.ratio}%</p>
+                            <div className="font-normal">
+                                {trainer.thisMonthAmount.toLocaleString()}원
+                            </div>
+                            <div>
+                                {trainer.totalAmount.toLocaleString()}원
+                            </div>
+                            <div className="flex gap-2 items-center">
+                                <Progress value={ratio} className="h-2 w-16" />
+                                <p className="text-[12px] text-[#99A1AF] font-normal"> {ratio}%</p>
+                            </div>
                         </div>
-                    </div>
-                ))
+                    );
+                })
             ) : (
                 <p className="pt-8 pb-4 text-center text-sm text-[#6A7282]">조회된 트레이너 매출이 없습니다.</p>
             )}

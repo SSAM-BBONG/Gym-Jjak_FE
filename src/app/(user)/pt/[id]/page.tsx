@@ -123,7 +123,9 @@ export default async function PtDetailPage({ params }: PtDetailPageProps) {
                 <nav>
                     <PtDetailButton
                         ptCourseId={response.data.ptCourseId}
-                        title={response.data.title} />
+                        title={response.data.title}
+                        totalSessionCount={response.data.totalSessionCount}
+                        usedCount={response.data.usedCount} />
                 </nav>
 
                 <section>
