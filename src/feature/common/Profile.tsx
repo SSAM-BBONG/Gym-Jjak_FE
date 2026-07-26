@@ -2,7 +2,7 @@
 
 import { HeaderLogout, HeaderProfile, Profile } from "@/components/ui/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { logoutAction } from "../auth/action";
 import TwoButtonModal from "@/components/ui/TwoButtonModal";
 import { useRouter } from "next/navigation";
@@ -19,12 +19,29 @@ interface UserProfileProps {
 export default function UserProfile({ userInf, profile }: UserProfileProps) {
     const router = useRouter();
     const [visible, setVisible] = useState<boolean>(false);
+    const profileMenuRef = useRef<HTMLDivElement>(null);
 
     const [logoutConfirmModal, setLogoutConfirmModal] = useState<boolean>(false);
 
     const handleProfileClick = () => {
-        setVisible(!visible);
+        setVisible((previousVisible) => !previousVisible);
     }
+
+    useEffect(() => {
+        if (!visible) return;
+
+        const handleOutsideClick = (event: MouseEvent) => {
+            if (!profileMenuRef.current?.contains(event.target as Node)) {
+                setVisible(false);
+            }
+        };
+
+        document.addEventListener("mousedown", handleOutsideClick);
+
+        return () => {
+            document.removeEventListener("mousedown", handleOutsideClick);
+        };
+    }, [visible]);
 
     // 로그아웃 버튼 클릭 시 TwoButtonModal 열기
     const handleLogoutClick = () => {
@@ -50,7 +67,7 @@ export default function UserProfile({ userInf, profile }: UserProfileProps) {
 
     return (
         <>
-            <div className="relative min-w-5">
+            <div ref={profileMenuRef} className="relative min-w-5">
                 <div
                     onClick={handleProfileClick}
                     className="rounded-full size-8 border-gray-700 border-2 overflow-hidden flex items-center justify-center

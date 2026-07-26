@@ -958,34 +958,42 @@ export const createPtFeedbackAction = async (
   ptCourseId: string,
   formData: FormData
 ) => {
-  const beforeFile = formData.get("beforeFile");
-  const afterFile = formData.get("afterFile");
+  try {
+    const beforeFile = formData.get("beforeFile");
+    const afterFile = formData.get("afterFile");
 
-  if (!(beforeFile instanceof File) || beforeFile.size === 0) {
-    return { success: false as const, message: "Before 영상을 업로드해주세요." };
+    if (!(beforeFile instanceof File) || beforeFile.size === 0) {
+      return { success: false as const, message: "Before 영상을 업로드해주세요." };
+    }
+
+    if (!(afterFile instanceof File) || afterFile.size === 0) {
+      return { success: false as const, message: "After 영상을 업로드해주세요." };
+    }
+
+    const uploadedFiles = await uploadFilesPresignedUrl([
+      { file: beforeFile, fileType: "FEEDBACK_VIDEO" },
+      { file: afterFile, fileType: "FEEDBACK_VIDEO" },
+    ]);
+
+    await createFeedback(reservationId, {
+      ptCurriculumId: Number(formData.get("ptCurriculumId")),
+      content: String(formData.get("content") ?? "").trim(),
+      media: [
+        { file: uploadedFiles[0], mediaType: "BEFORE" },
+        { file: uploadedFiles[1], mediaType: "AFTER" },
+      ],
+    });
+
+    revalidatePath(`/pt/manage/${ptCourseId}/users/${reservationId}`);
+
+    return { success: true as const};
+  } catch (error) {
+    return {
+      success: false as const,
+      message:
+        error instanceof Error ? error.message : "피드백 등록에 실패하였습니다.",
+    };
   }
-
-  if (!(afterFile instanceof File) || afterFile.size === 0) {
-    return { success: false as const, message: "After 영상을 업로드해주세요." };
-  }
-
-  const uploadedFiles = await uploadFilesPresignedUrl([
-    { file: beforeFile, fileType: "FEEDBACK_VIDEO" },
-    { file: afterFile, fileType: "FEEDBACK_VIDEO" },
-  ]);
-
-  await createFeedback(reservationId, {
-    ptCurriculumId: Number(formData.get("ptCurriculumId")),
-    content: String(formData.get("content") ?? "").trim(),
-    media: [
-      { file: uploadedFiles[0], mediaType: "BEFORE" },
-      { file: uploadedFiles[1], mediaType: "AFTER" },
-    ],
-  });
-
-  revalidatePath(`/pt/manage/${ptCourseId}/users/${reservationId}`);
-
-  return { success: true as const};
 };
 
 // 피드백 수정

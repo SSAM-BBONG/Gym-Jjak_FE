@@ -13,25 +13,25 @@ export default function MyPostCard({ myPost }: { myPost: MyCommu }) {
     <Link
       href={`/community/${myPost.postId}`}
       className="
-        flex flex-col gap-2
-            p-6
+        flex flex-col gap-1.5 sm:gap-2
+            p-4 sm:p-5 lg:p-6
             bg-[linear-gradient(135deg,rgba(16,24,40,0.90)0%,rgba(30,41,57,0.90)100%)]
             border
             border-[#36415380]
-            rounded-[16px]
-            mt-8"
+            rounded-[12px] sm:rounded-[14px] lg:rounded-[16px]
+            mt-5 sm:mt-6 lg:mt-8"
     >
-      <div className="flex gap-3 items-center">
-        <p className="bg-[#364153] rounded-[4px] px-2 py-1 text-[12px] font-extrabold text-[#D1D5DC]"> 자유게시판</p>
-        <p className="text-[12px] font-normal text-[#6A7282]"> {format(myPost.createdAt, 'yyyy-MM-dd')}</p>
+      <div className="flex gap-2 sm:gap-3 items-center">
+        <p className="bg-[#364153] rounded-[4px] px-2 py-1 text-[10px] sm:text-[12px] font-extrabold text-[#D1D5DC]"> 자유게시판</p>
+        <p className="text-[10px] sm:text-[12px] font-normal text-[#6A7282]"> {format(myPost.createdAt, 'yyyy-MM-dd')}</p>
       </div>
-      <p className="text-[20px] text-white font-extrabold"> {myPost.title} </p>
-      <p className="text-[14px] text-[#99A1AF] font-normal">
+      <p className="text-base sm:text-lg lg:text-[20px] text-white font-extrabold"> {myPost.title} </p>
+      <p className="text-xs sm:text-[13px] lg:text-[14px] text-[#99A1AF] font-normal">
         {myPost.content}
       </p>
-      <div className="flex gap-3 mt-2">
+      <div className="flex gap-2 sm:gap-3 mt-1.5 lg:mt-2">
         <div className="flex gap-1 items-center">
-          <div className="relative w-4 h-4">
+          <div className="relative w-3.5 h-3.5 lg:w-4 lg:h-4">
             <Image
               src={CommunityLike}
               alt="커뮤니티 좋아요수"
@@ -40,10 +40,10 @@ export default function MyPostCard({ myPost }: { myPost: MyCommu }) {
               className="object-cover"
             />
           </div>
-          <p className="text-[12px] font-normal text-[#6A7282]">{myPost.likeCount}</p>
+          <p className="text-[10px] sm:text-[12px] font-normal text-[#6A7282]">{myPost.likeCount}</p>
         </div>
         <div className="flex gap-1 items-center">
-          <div className="relative w-4 h-4">
+          <div className="relative w-3.5 h-3.5 lg:w-4 lg:h-4">
             <Image
               src={CommunityComment}
               alt="커뮤니티 댓글수"
@@ -52,10 +52,10 @@ export default function MyPostCard({ myPost }: { myPost: MyCommu }) {
               className="object-cover"
             />
           </div>
-          <p className="text-[12px] font-normal text-[#6A7282]"> {myPost.commentCount}</p>
+          <p className="text-[10px] sm:text-[12px] font-normal text-[#6A7282]"> {myPost.commentCount}</p>
         </div>
         <div className="flex gap-1 items-center">
-          <div className="relative w-4 h-4">
+          <div className="relative w-3.5 h-3.5 lg:w-4 lg:h-4">
             <Image
               src={CommunityView}
               alt="커뮤니티 조회수"
@@ -64,7 +64,7 @@ export default function MyPostCard({ myPost }: { myPost: MyCommu }) {
               className="object-cover"
             />
           </div>
-          <p className="text-[12px] font-normal text-[#6A7282]">{myPost.viewCount}</p>
+          <p className="text-[10px] sm:text-[12px] font-normal text-[#6A7282]">{myPost.viewCount}</p>
         </div>
       </div>
     </Link>

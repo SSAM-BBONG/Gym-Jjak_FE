@@ -14,7 +14,7 @@ const NAV_ITEMS: readonly NavItem[] = [
   { href: "/pt", label: "PT ZONE" },
   { href: "/meal", label: "식단" },
   { href: "/community?page=0", label: "커뮤니티" },
-  { href: "/calendar", label: "캘린더", prefetch: false },
+  { href: "/calendar", label: "운동일지", prefetch: false },
   { href: "/pose-analysis", label: "자세 분석", beta: true },
 ];
 

@@ -36,7 +36,10 @@ export default async function GymDashBoardPage() {
             icon: GymThisMonthSales,
             title: "이번 달 매출",
             value: `${statsResult.data?.thisMonthRevenue.toLocaleString() ?? 0}원`,
-            description: "7월 기준",
+            description: `${new Intl.DateTimeFormat("ko-KR", {
+                month: "numeric",
+                timeZone: "Asia/Seoul",
+            }).format(new Date())} 기준`,
         },
     ];
 

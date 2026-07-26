@@ -23,6 +23,8 @@ type PurchaseConfirmationResult =
 interface PtDetailReservationButtonProps {
   ptCourseId: number;
   title: string;
+  totalSessionCount: number;
+  usedCount: number | null;
 }
 
 const PtReservationModal = dynamic(
@@ -40,6 +42,8 @@ const PtReservationModal = dynamic(
 export default function PtDetailButton({
   title,
   ptCourseId,
+  totalSessionCount,
+  usedCount,
 }: PtDetailReservationButtonProps) {
   const reservationModal = useModal();
   const resultModal = useModal();
@@ -55,6 +59,14 @@ export default function PtDetailButton({
     title: "",
     content: "",
   });
+  const remainingSessionCount = usedCount === null
+    ? null
+    : Math.max(0, totalSessionCount - usedCount);
+  const isCourseCompleted =
+    isPurchased && remainingSessionCount !== null && remainingSessionCount === 0;
+  const sessionProgress = totalSessionCount > 0 && usedCount !== null
+    ? Math.min(100, Math.round((usedCount / totalSessionCount) * 100))
+    : 0;
 
   const showResultModal = (modalTitle: string, content: string) => {
     setResultModalState({ title: modalTitle, content });
@@ -228,6 +240,28 @@ export default function PtDetailButton({
 
   return (
     <>
+      {isPurchased && remainingSessionCount !== null && (
+        <section className="mb-3 flex flex-col gap-3 rounded-[14px] border border-[#BFFF0B4D] bg-[#101828] p-4 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <p className="text-[12px] font-medium text-[#99A1AF]">예약 가능 횟수</p>
+            <p className="mt-1 text-[20px] font-black text-[#BFFF0B]">
+              {remainingSessionCount}회
+            </p>
+          </div>
+          <div className="w-full sm:max-w-65">
+            <div className="mb-2 flex justify-between text-[12px] font-medium text-[#99A1AF]">
+              <span>세션 진행 현황</span>
+              <span className="font-bold text-white">{usedCount}/{totalSessionCount}회</span>
+            </div>
+            <div className="h-2 overflow-hidden rounded-full bg-[#364153]">
+              <div
+                className="h-full rounded-full bg-[#BFFF0B] transition-[width]"
+                style={{ width: `${sessionProgress}%` }}
+              />
+            </div>
+          </div>
+        </section>
+      )}
       <div className="grid grid-cols-2 gap-3">
         {isPurchaseStatusLoading ? (
           <button
@@ -237,6 +271,14 @@ export default function PtDetailButton({
           >
             구매 상태 확인 중...
           </button>
+        ) : isCourseCompleted ? (
+          <button
+            type="button"
+            disabled
+            className="py-4 rounded-[14px] bg-[#364153] text-[16px] font-extrabold text-[#99A1AF] cursor-not-allowed"
+          >
+            수강 완료
+          </button>
         ) : isPurchased ? (
           <button
             data-testid="reservation-open-button"
@@ -244,7 +286,9 @@ export default function PtDetailButton({
             onClick={reservationModal.openModal}
             className="py-4 rounded-[14px] bg-[#1E2939] text-[16px] font-extrabold text-white hover:text-black hover:bg-[#BFFF0B]"
           >
-            예약하기
+            {remainingSessionCount === null
+              ? "예약하기"
+              : `예약 가능 ${remainingSessionCount}회 · 예약하기`}
           </button>
         ) : isPaymentPending ? (
           <button
