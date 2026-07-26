@@ -10,6 +10,7 @@ import OrganizationHeader from "./OrganizationHeader";
 import MobileNavMenu from "./MobileNavMenu";
 import AdminHeader from "./AdminHeader";
 import TrainerNavBar from "./TrainerNavBar";
+import BrowserNotificationEnableButton from "@/feature/alarm/components/BrowserNotificationEnableButton";
 
 export default async function Header() {
 
@@ -47,6 +48,7 @@ export default async function Header() {
                         </div>
                     </div>
                 </Link>
+                <BrowserNotificationEnableButton enabled={isAuthenticated} />
                 <Link href="/" className="hidden lg:block">
                     <div className="flex-col cursor-pointer">
                         <p className="text-[#BFFF0B] text-[12px]">GYMJJAK</p>
