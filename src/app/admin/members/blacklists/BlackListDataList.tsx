@@ -8,12 +8,15 @@ interface BlackDataListProps {
     blacklists: Blacklists[];
     totalPage: number;
     page: string;
+    sort: "LATEST" | "NAME";
 }
 
-export default function BlackListDataList({ blacklists, totalPage, page }: BlackDataListProps) {
+export default function BlackListDataList({ blacklists, totalPage, page, sort }: BlackDataListProps) {
+    const sortedBlacklists = sort === "NAME" ? [...blacklists].sort((a, b) => a.name.localeCompare(b.name, "ko"),) : blacklists;
+
     return (
         <div>
-            <SearchBar></SearchBar>
+            <SearchBar showSort sort={sort}></SearchBar>
             <section className="bg-[#1E2939] border-[#364153] border-separate border-spacing-0 md:border mt-4 sm:mt-5 lg:mt-6 rounded-md w-full ">
                 <div style={{ display: 'grid' }} className="grid md:grid-cols-11 grid-cols-9 px-2 sm:px-3 md:px-4 lg:px-6 text-[#99A1AF] font-bold text-[10px] sm:text-[11px] md:text-xs lg:text-sm border-0 h-11 sm:h-12 lg:h-13 items-center">
                     <p className="col-span-3">이메일</p>
@@ -22,7 +25,7 @@ export default function BlackListDataList({ blacklists, totalPage, page }: Black
                     <p className="col-span-2">상태</p>
                     <p className="col-span-2">관리</p>
                 </div>
-                {blacklists?.map((blacklist) => (
+                {sortedBlacklists?.map((blacklist) => (
                     <BlackListDataItem blacklist={blacklist} key={blacklist.userId} />
                 ))}
 
@@ -32,7 +35,7 @@ export default function BlackListDataList({ blacklists, totalPage, page }: Black
                     </div>
                 )}
             </section>
-            <AdminPagination url={`members/blacklists`} page={page} totalPage={totalPage} />
+            <AdminPagination url={`members/blacklists`} page={page} totalPage={totalPage} sort={sort} />
         </div>
     );
 }

@@ -3,12 +3,30 @@
 import useDebounce from "@/components/hooks/useDebounce";
 import { AdminSearchImg } from "@/components/ui/image";
 import Image from "next/image";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 
-export default function SearchBar({ page = true }: { page?: boolean }) {
+interface SearchBarProps {
+    page?: boolean;
+    showSort?: boolean;
+    sort?: "LATEST" | "NAME";
+}
+
+export default function SearchBar({ page = true, showSort = false, sort = "LATEST" }: SearchBarProps) {
     const [searchInput, setSearchInput] = useState<string>('')
+    const router = useRouter();
+    const searchParams = useSearchParams();
 
     useDebounce(searchInput, page);
+
+    const handleSortChange = (value: "LATEST" | "NAME") => {
+        const params = new URLSearchParams(searchParams);
+        params.set("sort", value);
+        if (page) {
+            params.set("page", "0");
+        }
+        router.replace(`?${params.toString()}`);
+    }
 
     return (
         <form
@@ -32,7 +50,18 @@ export default function SearchBar({ page = true }: { page?: boolean }) {
                     value={searchInput}
                 />
             </div>
-            <button type='button' className="px-3 lg:px-4 py-2.5 lg:py-3 text-[#99A1AF] rounded-md text-sm md:text-base font-medium w-18 sm:w-20 lg:w-23 bg-[#1E2939] border border-transparent transition-colors hover:border-white/30 hover:bg-white/10 hover:text-white">필터</button>
+            {showSort ? (
+                <select
+                    value={sort}
+                    onChange={(e) => handleSortChange(e.target.value as "LATEST" | "NAME")}
+                    className="px-3 lg:px-4 py-2.5 lg:py-3 text-[#99A1AF] rounded-md text-sm md:text-base font-medium w-24 sm:w-28 lg:w-32 bg-[#1E2939] border border-transparent"
+                >
+                    <option value="LATEST">최신순</option>
+                    <option value="NAME">이름순</option>
+                </select>
+            ) : (
+                <button type='button' className="px-3 lg:px-4 py-2.5 lg:py-3 text-[#99A1AF] rounded-md text-sm md:text-base font-medium w-18 sm:w-20 lg:w-23 bg-[#1E2939] border border-transparent transition-colors hover:border-white/30 hover:bg-white/10 hover:text-white">필터</button>
+            )}
         </form>
     );
 }

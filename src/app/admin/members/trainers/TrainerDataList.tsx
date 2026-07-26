@@ -9,12 +9,15 @@ interface TrainerDataListProps {
     trainers: Trainers[]
     totalPage: number;
     page: string;
+    sort: "LATEST" | "NAME";
 }
 
-export default function TrainerDataList({ trainers, totalPage, page }: TrainerDataListProps) {
+export default function TrainerDataList({ trainers, totalPage, page, sort }: TrainerDataListProps) {
+    const sortedTrainers = sort === "NAME" ? [...trainers].sort((a, b) => a.name.localeCompare(b.name, "ko"),) : trainers;
+
     return (
         <div>
-            <SearchBar></SearchBar>
+            <SearchBar showSort sort={sort}></SearchBar>
             <section className="bg-[#1E2939] border-[#364153] border-separate border-spacing-0 md:border mt-4 sm:mt-5 lg:mt-6 rounded-md w-full ">
                 <div style={{ display: 'grid' }} className="grid md:grid-cols-13 grid-cols-9 px-2 sm:px-3 md:px-4 lg:px-6 text-[#99A1AF] font-bold text-[10px] sm:text-[11px] md:text-xs lg:text-sm border-0 h-11 sm:h-12 lg:h-13 items-center">
                     <p className="col-span-3">이메일</p>
@@ -24,7 +27,7 @@ export default function TrainerDataList({ trainers, totalPage, page }: TrainerDa
                     <p className="col-span-2">관리</p>
                     <p className="col-span-2">상세</p>
                 </div>
-                {trainers?.map((trainer) => (
+                {sortedTrainers?.map((trainer) => (
                     <TrainerDataItem trainer={trainer} key={trainer.trainerProfileId} />
                 ))}
 
@@ -34,7 +37,7 @@ export default function TrainerDataList({ trainers, totalPage, page }: TrainerDa
                     </div>
                 )}
             </section>
-            <AdminPagination url={`members/trainers`} page={page} totalPage={totalPage} />
+            <AdminPagination url={`members/trainers`} page={page} totalPage={totalPage} sort={sort} />
 
         </div>
     );
