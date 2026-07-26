@@ -170,7 +170,7 @@ export default function PtFeeBackCheckModal({
                                 <p className="text-[12px] font-normal text-[#6A7282]">{feedbackDetail.createdAt}</p>
                             </div>
 
-                            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5">
+                            <div className="flex flex-col gap-4 sm:gap-5">
                                 <FeedbackMediaPreview title="Before 영상" mediaUrl={beforeMedia?.fileUrl} />
                                 <FeedbackMediaPreview title="After 영상" mediaUrl={afterMedia?.fileUrl} />
                             </div>
