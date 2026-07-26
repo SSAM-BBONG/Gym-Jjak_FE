@@ -21,11 +21,7 @@ export default async function CommuPage({ searchParams }: paramsProps) {
   const sortParam = sort === "VIEWS" || sort === "POPULAR" ? sort : "LATEST";
   const response = await getCommunity(page, type, keyword);
   const communities: Communities[] = response.data.content;
-  const sortedCommunities = sortParam === "VIEWS"
-    ? [...communities].sort((a, b) => b.viewCount - a.viewCount)
-    : sortParam === "POPULAR"
-      ? [...communities].sort((a, b) => b.likeCount - a.likeCount)
-      : communities;
+  const sortedCommunities = sortParam === "VIEWS" ? [...communities].sort((a, b) => b.viewCount - a.viewCount) : sortParam === "POPULAR" ? [...communities].sort((a, b) => b.likeCount - a.likeCount) : communities;
   const totalPage: number = response.data.totalPages
 
   return (

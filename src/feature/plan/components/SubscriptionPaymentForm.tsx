@@ -13,6 +13,7 @@ import { toast } from "sonner";
 
 interface SubscriptionPaymentFormProps {
     children: ReactNode;
+    isSubscribed: boolean;
 }
 
 const delay = (ms: number) =>
@@ -43,13 +44,15 @@ const planNames: Record<AiPlanType, string> = {
 
 export default function SubscriptionPaymentForm({
     children,
+    isSubscribed,
 }: SubscriptionPaymentFormProps) {
     const [isPending, setIsPending] = useState(false);
+    const [hasSubscription, setHasSubscription] = useState(isSubscribed);
 
     const handlePayment = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        if (isPending) return;
+        if (isPending || hasSubscription) return;
 
         const formData = new FormData(event.currentTarget);
         const selectedPlanType = formData.get("planType");
@@ -110,6 +113,7 @@ export default function SubscriptionPaymentForm({
                 return;
             }
 
+            setHasSubscription(true);
             toast.success("구독 결제가 완료되었습니다.");
         } catch (error) {
             toast.error(
@@ -130,11 +134,11 @@ export default function SubscriptionPaymentForm({
             {children}
             <button
                 type="submit"
-                disabled={isPending}
+                disabled={isPending || hasSubscription}
                 className="w-full flex items-center justify-center gap-2 lg:gap-3 mt-6 lg:mt-8 py-4 sm:py-5 lg:py-6 rounded-[16px] bg-[#BFFF0B] text-black text-[18px] sm:text-[20px] lg:text-[24px] font-black disabled:cursor-not-allowed disabled:opacity-60"
             >
                 <CreditCard size={28} />
-                {isPending ? "결제 처리 중..." : "구독 시작"}
+                {hasSubscription ? "구독 완료" : isPending ? "결제 처리 중..." : "구독 시작"}
                 <ChevronRight size={30} />
             </button>
             <p className="text-[13px] sm:text-[14px] lg:text-[16px] text-[#6A7282] font-normal mt-5 sm:mt-6 lg:mt-8">

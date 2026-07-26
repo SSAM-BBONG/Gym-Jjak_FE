@@ -1,10 +1,11 @@
-import AiAnswerScope from "@/feature/plan/components/AiAnswerScope";
 import FeatureCard from "@/feature/plan/components/FeatureCard";
 import PlanCard from "@/feature/plan/components/PlanCard";
 import ReportFeatureCard from "@/feature/plan/components/ReportFeatureCard";
 import SectionTitle from "@/feature/plan/components/SectionTitle";
 import SmallFeatureCard from "@/feature/plan/components/SmallFeatureCard";
 import SubscriptionPaymentForm from "@/feature/plan/components/SubscriptionPaymentForm";
+import { MyPlan } from "@/feature/payment/type";
+import { getMyPlan } from "@/service/payment.service";
 import {
     Camera,
     ClipboardList,
@@ -13,7 +14,10 @@ import {
     Sparkles,
 } from "lucide-react";
 
-export default function PlanPage() {
+export default async function PlanPage() {
+    const response = await getMyPlan();
+    const subscription: MyPlan | null = response.data;
+
     return (
         <main className="mx-10 sm:mx-2.5 md:mx-20 lg:mx-40 py-10 sm:py-12 md:py-14 lg:py-16">
             <section className="w-full flex flex-col items-center text-center">
@@ -32,7 +36,7 @@ export default function PlanPage() {
                     챗봇·식단 분석·시장 리포트를 하나의 구독으로.
                 </p>
             </section>
-            <SubscriptionPaymentForm>
+            <SubscriptionPaymentForm isSubscribed={!!subscription?.status}>
                 <h2 className="text-[26px] sm:text-[30px] lg:text-[36px] text-white font-black">구독 플랜 선택</h2>
 
                 <div className="w-full flex flex-col md:flex-row gap-4 sm:gap-5 lg:gap-6 mt-8 sm:mt-10 lg:mt-12">

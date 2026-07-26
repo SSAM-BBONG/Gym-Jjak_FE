@@ -338,21 +338,10 @@ export default function ChatCt({ sessionId }: { sessionId?: string }) {
 
     return (
         <div className="relative flex h-full min-h-0 w-full flex-col overflow-hidden pt-[70px] md:w-5/7 md:pt-0">
-            <header className="absolute top-0 z-50  h-[70px] w-full items-center justify-between  bg-[#0B0F19] px-5 sm:px-6 flex md:hidden">
-                <div className="flex items-center gap-4">
-                    <Link
-                        href="/"
-                        aria-label="메인으로 돌아가기"
-                        className="text-[#99A1AF] text-[25px] hover:text-white"
-                    >
-                        ⭠
-                    </Link>
-                </div>
-            </header>
 
-            <div className="min-h-0 w-full flex-1 overflow-y-auto px-5 py-6 pb-20 sm:px-10 sm:pb-24 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+            <div className="flex min-h-0 w-full flex-1 flex-col overflow-y-auto px-5 py-6 pb-20 sm:px-10 sm:pb-24 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
                 {(!sessionId && !loading) && (
-                    <div className="flex flex-1 mt-20 md:mt-50 flex-col items-center justify-center px-4 text-center">
+                    <div className="flex flex-1 mt-10 md:mt-30 flex-col items-center justify-center px-4 text-center">
                         <div className="flex size-12 items-center justify-center rounded-full border border-[#364153] bg-[#101828]">
                             <div className="relative h-10 w-10 sm:h-13 sm:w-20 ">
                                 <Image
