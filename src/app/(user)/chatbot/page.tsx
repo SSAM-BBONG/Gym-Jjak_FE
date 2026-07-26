@@ -15,7 +15,10 @@ export default async function Page({ searchParams }: paramsProps) {
         <CalendarQueryProvider>
             <main className="flex h-[calc(100dvh-70px)] overflow-hidden">
                 <ChatbotList sessionId={sessionId} />
-                <ChatCt sessionId={sessionId} />
+                <ChatCt
+                    key={sessionId ?? "new"}
+                    sessionId={sessionId}
+                />
             </main>
         </CalendarQueryProvider>
     );

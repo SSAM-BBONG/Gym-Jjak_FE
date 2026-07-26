@@ -8,6 +8,7 @@ import { SignUpFormData, signUpSchema } from "@/lib/registerSchema";
 import { registerAction } from "@/feature/auth/action";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import CheckContent, { AgreementKey, agreementContents } from "@/feature/auth/components/CheckContent";
 
 interface registerStateType {
     success: boolean;
@@ -21,11 +22,21 @@ export default function RegisterForm() {
             router.push('/auth/login');
         }
     });
+    const checkModal = useModal();
+
 
     const [registerState, setRegisterState] = useState<registerStateType>({
         success: false,
         message: ''
     });
+    const [agreements, setAgreements] = useState<Record<AgreementKey, boolean>>({
+        terms: false,
+        refund: false,
+        privacy: false,
+    });
+    const [selectedAgreement, setSelectedAgreement] = useState<AgreementKey | null>(null);
+    const isAllAgreed = Object.values(agreements).every(Boolean);
+
 
     const {
         register,
@@ -38,6 +49,8 @@ export default function RegisterForm() {
 
 
     const onSubmit = async (data: SignUpFormData) => {
+        if (!isAllAgreed) return;
+
         try {
             const result = await registerAction(data);
             setRegisterState(result)
@@ -49,6 +62,21 @@ export default function RegisterForm() {
             });
             modal.openModal();
         }
+    };
+
+    const handleAllAgreement = (checked: boolean) => {
+        setAgreements({
+            terms: checked,
+            refund: checked,
+            privacy: checked,
+        });
+    };
+
+    const handleAgreement = (key: AgreementKey, checked: boolean) => {
+        setAgreements((prev) => ({
+            ...prev,
+            [key]: checked,
+        }));
     };
 
     return (
@@ -132,10 +160,47 @@ export default function RegisterForm() {
                 {...register('phone')}
                 placeholder="전화번호를 입력해주세요"
                 className="w-full py-2.5 sm:py-3 lg:py-3 px-3 sm:px-4 lg:px-4 text-sm sm:text-base lg:text-base font-normal rounded-md bg-[#101828] border-[#364153] border focus:outline-0 focus:border-[#BFFF0B] text-white" />
-            {errors.phone?.message ? <p className="text-red-400 text-xs sm:text-sm lg:text-sm m-1 mb-8 sm:mb-9 md:mb-10 lg:mb-11">{errors.phone?.message}</p> : <p className="text-[#99A1AF] text-xs sm:text-sm lg:text-sm m-1 mb-8 sm:mb-9 md:mb-10 lg:mb-11">'-'을 포함하여 작성해주세요</p>}
+            {errors.phone?.message ? <p className="text-red-400 text-xs sm:text-sm lg:text-sm m-1 mb-4 sm:mb-5 lg:mb-5">{errors.phone?.message}</p> : <p className="text-[#99A1AF] text-xs sm:text-sm lg:text-sm m-1 mb-4 sm:mb-5 lg:mb-5">하이픈(-)을 포함하여 작성해주세요</p>}
+
+            <div className="mb-8 sm:mb-9 md:mb-10 lg:mb-11 rounded-md border border-[#364153] bg-[#101828] p-3 sm:p-4">
+                <label className="flex items-center gap-2 border-b border-[#364153] pb-3 text-sm font-bold text-white">
+                    <input
+                        type="checkbox"
+                        checked={isAllAgreed}
+                        onChange={(e) => handleAllAgreement(e.target.checked)}
+                        className="h-4 w-4 accent-[#BFFF0B]"
+                    />
+                    전체 동의
+                </label>
+                <div className="flex flex-col gap-3 pt-3">
+                    {(Object.keys(agreementContents) as AgreementKey[]).map((key) => (
+                        <div key={key} className="flex items-center justify-between gap-2">
+                            <label className="flex items-center gap-2 text-xs sm:text-sm text-[#D1D5DC]">
+                                <input
+                                    type="checkbox"
+                                    checked={agreements[key]}
+                                    onChange={(e) => handleAgreement(key, e.target.checked)}
+                                    className="h-4 w-4 accent-[#BFFF0B]"
+                                />
+                                {key === 'refund'
+                                    ? '환불 정책 동의 (필수) — 환불은 헬스장 정책에 따름'
+                                    : `${agreementContents[key].title} (필수)`}
+                            </label>
+                            <button
+                                type="button"
+                                onClick={() => { setSelectedAgreement(key); checkModal.openModal(); }}
+                                className="shrink-0 text-[10px] sm:text-xs text-[#99A1AF] underline underline-offset-2 hover:text-white"
+                            >
+                                자세히 보기
+                            </button>
+                        </div>
+                    ))}
+                </div>
+            </div>
             <button
                 type="submit"
-                className="w-full text-sm sm:text-base lg:text-base font-bold mb-5 sm:mb-6 lg:mb-6.5 text-black bg-[#BFFF0B] py-3 sm:py-3.5 lg:py-4 rounded-md">회원가입
+                disabled={isSubmitting || !isAllAgreed}
+                className="w-full text-sm sm:text-base lg:text-base font-bold mb-5 sm:mb-6 lg:mb-6.5 text-black bg-[#BFFF0B] py-3 sm:py-3.5 lg:py-4 rounded-md disabled:cursor-not-allowed disabled:opacity-50">회원가입
             </button>
 
             {!isSubmitting && (
@@ -147,6 +212,14 @@ export default function RegisterForm() {
                     content={registerState.success ?
                         '회원가입 성공' : registerState.message ?
                             registerState.message : `알 수 없는 오류입니다\n다시 시도해주세요`} />
+            )}
+            {checkModal && selectedAgreement && (
+                <CheckContent
+                    isModal={checkModal.isModal}
+                    closeModal={checkModal.closeModal}
+                    title={agreementContents[selectedAgreement].title}
+                    content={agreementContents[selectedAgreement].content}
+                />
             )}
         </form>
     );

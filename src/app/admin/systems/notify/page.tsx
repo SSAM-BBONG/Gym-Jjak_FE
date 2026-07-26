@@ -10,14 +10,17 @@ interface paramsProps {
     searchParams: Promise<{
         page: string;
         keyword: string;
+        sort: string;
     }>
 }
 
 export default async function Page({ searchParams }: paramsProps) {
 
-    const { page, keyword } = await searchParams;
+    const { page, keyword, sort } = await searchParams;
+    const sortParam = sort === "VIEWS" || sort === "POPULAR" ? sort : "LATEST";
     const response = await getCommunity(page, "NOTICE", keyword);
     const communities: Communities[] = response.data.content;
+    const sortedCommunities = sortParam === "VIEWS" ? [...communities].sort((a, b) => b.viewCount - a.viewCount) : sortParam === "POPULAR" ? [...communities].sort((a, b) => b.likeCount - a.likeCount) : communities;
     const totalPage: number = response.data.totalPages
 
     return (
@@ -28,9 +31,9 @@ export default async function Page({ searchParams }: paramsProps) {
                 <NotifyButton />
             </div>
 
-            <CommuSearchBar />
+            <CommuSearchBar sort={sortParam} />
             {
-                communities.map((commu) => {
+                sortedCommunities.map((commu) => {
                     return <CommuCard community={commu} key={commu.postId} />
                 })
             }
