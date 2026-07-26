@@ -8,12 +8,15 @@ interface UserDataListProps {
     users: Users[];
     totalPage: number;
     page: string;
+    sort: "LATEST" | "NAME";
 }
 
-export default function UserDataList({ users, totalPage, page }: UserDataListProps) {
+export default function UserDataList({ users, totalPage, page, sort }: UserDataListProps) {
+    const sortedUsers = sort === "NAME" ? [...users].sort((a, b) => a.name.localeCompare(b.name, "ko"),) : users;
+
     return (
         <div>
-            <SearchBar></SearchBar>
+            <SearchBar showSort sort={sort}></SearchBar>
             <section className="bg-[#1E2939] border-[#364153] border-separate border-spacing-0 md:border mt-4 sm:mt-5 lg:mt-6 rounded-md w-full ">
                 <div style={{ display: 'grid' }} className="grid  md:grid-cols-11 grid-cols-9 px-2 sm:px-3 md:px-4 lg:px-6 text-[#99A1AF] font-bold text-[10px] sm:text-[11px] md:text-xs lg:text-sm border-0 h-11 sm:h-12 lg:h-13 items-center">
                     <p className="col-span-3">이메일</p>
@@ -22,7 +25,7 @@ export default function UserDataList({ users, totalPage, page }: UserDataListPro
                     <p className="col-span-2">상태</p>
                     <p className="col-span-2">관리</p>
                 </div>
-                {users?.map((user) => (
+                {sortedUsers?.map((user) => (
                     <UserDataItem user={user} key={user.userId} />
                 ))}
 
@@ -32,7 +35,7 @@ export default function UserDataList({ users, totalPage, page }: UserDataListPro
                     </div>
                 )}
             </section>
-            <AdminPagination url={`members/users`} page={page} totalPage={totalPage} />
+            <AdminPagination url={`members/users`} page={page} totalPage={totalPage} sort={sort} />
 
         </div>
     );

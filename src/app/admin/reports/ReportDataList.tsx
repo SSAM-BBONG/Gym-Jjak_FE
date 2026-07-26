@@ -9,15 +9,17 @@ interface ReportDataListProps {
     reports: Reports[]
     totalPage: number;
     page: string;
+    sort: "LATEST" | "NAME";
 }
 
-export default function ReportDataList({ mode, reports, totalPage, page }: ReportDataListProps) {
+export default function ReportDataList({ mode, reports, totalPage, page, sort }: ReportDataListProps) {
 
     const modeType = { 'TRAINER_REVIEW': 'reviews', 'COMMENT': 'comments', 'PT_COURSE': 'pt', 'FEEDBACK': 'feedbacks', 'POST': 'posts', 'CHAT': 'chat' }
+    const sortedReports = sort === "NAME" ? [...reports].sort((a, b) => a.targetDisplayText.localeCompare(b.targetDisplayText, "ko"),) : reports;
 
     return (
         <div>
-            <SearchBar></SearchBar>
+            <SearchBar showSort sort={sort}></SearchBar>
             <section className="bg-[#1E2939] border-[#364153] border-separate border-spacing-0 md:border mt-4 sm:mt-5 lg:mt-6 rounded-md w-full ">
                 <div style={{ display: 'grid' }} className="grid grid-cols-11 md:grid-cols-23 px-1 sm:px-2 md:px-4 lg:px-6 text-[#99A1AF] font-bold text-[10px] sm:text-[10px] md:text-xs lg:text-sm border-0 h-11 sm:h-12 lg:h-13 items-center">
                     <p className="col-span-3 hidden md:block">신고 번호</p>
@@ -29,7 +31,7 @@ export default function ReportDataList({ mode, reports, totalPage, page }: Repor
                     <p className="col-span-3">신고 사유</p>
                     <p className="col-span-5">관리</p>
                 </div>
-                {reports?.map((report) => (
+                {sortedReports?.map((report) => (
                     <ReportDataItem mode={mode} report={report} key={report.reportGroupId} />
                 ))}
 
@@ -39,7 +41,7 @@ export default function ReportDataList({ mode, reports, totalPage, page }: Repor
                     </div>
                 )}
             </section>
-            <AdminPagination url={`reports/${modeType[mode]}`} page={page} totalPage={totalPage} />
+            <AdminPagination url={`reports/${modeType[mode]}`} page={page} totalPage={totalPage} sort={sort} />
         </div>
     );
 }

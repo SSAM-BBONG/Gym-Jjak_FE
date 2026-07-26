@@ -6,11 +6,13 @@ interface paramsProps {
     searchParams: Promise<{
         part: PartKo;
         keyword: string;
+        sort: string;
     }>
 }
 
 export default async function Page({ searchParams }: paramsProps) {
-    const { part, keyword } = await searchParams;
+    const { part, keyword, sort } = await searchParams;
+    const sortParam = sort === "NAME" ? "NAME" : "LATEST";
     const response = await getExercises(part, keyword);
     const exercises: Exercise[] = response.data;
 
@@ -21,7 +23,7 @@ export default async function Page({ searchParams }: paramsProps) {
                 <SystemAddButton />
             </div>
 
-            <SystemDataList exercises={exercises} part={part} />
+            <SystemDataList exercises={exercises} part={part} sort={sortParam} />
         </section>
     );
 }
