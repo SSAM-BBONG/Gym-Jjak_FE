@@ -106,6 +106,64 @@ export interface PtRecommendationItem {
   reason: string;
 }
 
+export type TrainerRoutineGender = "MALE" | "FEMALE" | "UNSPECIFIED";
+export type TrainerRoutineGoal =
+  | "WEIGHT_LOSS"
+  | "MUSCLE_GAIN"
+  | "STRENGTH"
+  | "HEALTH"
+  | "REHABILITATION";
+export type TrainerRoutineStatus = "COMPLETE" | "LIMITED";
+
+export interface TrainerRoutineRecommendationRequest {
+  gender: TrainerRoutineGender;
+  age: number;
+  heightCm: number;
+  weightKg: number;
+  goal: TrainerRoutineGoal;
+}
+
+export interface TrainerRoutineRecommendationResponse {
+  status: number;
+  code: string;
+  message: string;
+  data: TrainerRoutineRecommendationData;
+}
+
+export interface TrainerRoutineRecommendationData {
+  status: TrainerRoutineStatus;
+  title: string;
+  summary: string;
+  days: TrainerRoutineDay[];
+  cautions: string[];
+  missingData: string[];
+  sources: TrainerRoutineSource[];
+}
+
+export interface TrainerRoutineDay {
+  dayLabel: string;
+  goal: string;
+  warmUp: string[];
+  exercises: TrainerRoutineExercise[];
+  coolDown: string[];
+}
+
+export interface TrainerRoutineExercise {
+  name: string;
+  part: string;
+  sets: number;
+  reps: string;
+  intensity: string;
+  restSeconds: number;
+  rationale: string;
+}
+
+export interface TrainerRoutineSource {
+  source: string;
+  title: string;
+  category: string;
+}
+
 // PT 인기 강습 목록 데이터 타입
 export interface PtPopularCourseData {
   ptCourseId: number;

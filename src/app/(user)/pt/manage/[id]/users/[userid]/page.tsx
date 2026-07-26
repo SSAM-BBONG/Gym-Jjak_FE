@@ -4,6 +4,7 @@ import PtManageCalendar from "@/feature/pt/components/PtManageCalendar";
 import PtManageMeal from "@/feature/pt/components/PtManageMeal";
 import PtManageNav from "@/feature/pt/components/PtManageNav";
 import PtManageUserFeedBackTop from "@/feature/pt/components/PtManageUserFeedBackTop";
+import PtManageRoutineRecommendation from "@/feature/pt/components/PtManageRoutineRecommendation";
 import { getFeedBackLists, getPtStudentDetail } from "@/service/ptzone.service";
 
 interface PtManageUserFeedBackPageProps {
@@ -50,6 +51,12 @@ export default async function PtManageUserFeedBackPage({
                 }
                 {type === 'meal' &&
                     <PtManageMeal userId={response.data.userId} />
+                }
+                {type === 'routine' &&
+                    <PtManageRoutineRecommendation
+                        memberId={response.data.userId}
+                        nickname={response.data.nickname}
+                    />
                 }
 
             </div>
