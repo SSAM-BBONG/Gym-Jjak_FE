@@ -34,13 +34,13 @@ describe('조직 계정 신청 서비스', () => {
 
         // When
         const result = await organizationApplicationDupliCationId(
-            'organization1@test.com',
+            'organization2@test.com',
         );
 
         // Then
         expect(mockedFetchWithAuth).toHaveBeenCalledTimes(1);
         expect(mockedFetchWithAuth).toHaveBeenCalledWith(
-            '/api/organization-applications/login-id/duplicate?requestedLoginId=organization1%40test.com',
+            '/api/organization-applications/login-id/duplicate?requestedLoginId=organization2%40test.com',
         );
         expect(result).toEqual(responseData);
     });
@@ -54,7 +54,7 @@ describe('조직 계정 신청 서비스', () => {
                 contentType: 'image/png',
                 fileSize: 68,
             },
-            requestedLoginId: 'organization1@test.com',
+            requestedLoginId: 'organization2@test.com',
             businessRegistrationNumber: '1234567890',
             businessName: 'Playwright 피트니스',
             representativeName: '테스트 대표',

@@ -12,8 +12,8 @@ describe('ptRegistSchema PT 등록 검증 테스트', () => {
     thumbnailFile: validImageFile,
     title: '체형 교정 PT',
     description: '초보자를 위한 체형 교정 PT입니다.',
-    categoryId: 1,
-    tagId: 1,
+    part: 'FULL_BODY',
+    organizationId: 1,
     price: 50000,
     curriculums: [
       {
@@ -88,20 +88,20 @@ describe('ptRegistSchema PT 등록 검증 테스트', () => {
     expect(result.success).toBe(false);
   });
 
-  test('카테고리를 선택하지 않으면 검증에 실패한다', () => {
+  test('운동 부위를 선택하지 않으면 검증에 실패한다', () => {
     const data = {
       ...createValidData(),
-      categoryId: 0,
+      part: '',
     };
 
     const result = ptRegistSchema.safeParse(data);
     expect(result.success).toBe(false);
   });
 
-  test('태그를 선택하지 않으면 검증에 실패한다', () => {
+  test('소속 헬스장을 선택하지 않으면 검증에 실패한다', () => {
     const data = {
       ...createValidData(),
-      tagId: 0,
+      organizationId: 0,
     };
 
     const result = ptRegistSchema.safeParse(data);

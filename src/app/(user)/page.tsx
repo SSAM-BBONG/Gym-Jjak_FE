@@ -8,13 +8,22 @@ import FreeRecommendStartButton from "@/feature/pt/components/FreeRecommendStart
 
 const quickLinks = [
   {
+    href: "/plan",
+    eyebrow: "MEMBERSHIP PLAN",
+    title: "나에게 맞는 플랜을\n선택해 보세요",
+    description: "짐짝의 다양한 구독 혜택을 확인하고 나에게 맞는 플랜을 선택할 수 있어요.",
+    action: "구독 플랜 보기",
+    accent: "from-red-300 to-pink-400",
+    number: "01",
+  },
+  {
     href: "/meal",
     eyebrow: "MEAL TRACKER",
     title: "오늘 먹은 식단을\n기록해 보세요",
     description: "식사 기록을 모아 하루의 식단 흐름을 한눈에 관리할 수 있어요.",
     action: "식단 관리하기",
     accent: "from-orange-300 to-amber-400",
-    number: "01",
+    number: "02",
   },
   {
     href: "/calendar",
@@ -23,7 +32,7 @@ const quickLinks = [
     description: "PT 일정과 나만의 운동 기록을 날짜별로 편하게 확인하세요.",
     action: "운동 캘린더 열기",
     accent: "from-sky-300 to-cyan-400",
-    number: "02",
+    number: "03",
   },
   {
     href: "/community",
@@ -32,7 +41,7 @@ const quickLinks = [
     description: "운동 이야기와 유용한 팁을 나누며 꾸준함을 만들어 보세요.",
     action: "커뮤니티 둘러보기",
     accent: "from-violet-300 to-fuchsia-400",
-    number: "03",
+    number: "04",
   },
 ];
 
