@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-type PtManageNavType = "feedback" | "calendar" | "meal";
+type PtManageNavType = "feedback" | "calendar" | "meal" | "routine";
 
 interface PtManageNavProps {
     href: string;
@@ -11,6 +11,7 @@ const navItems: { label: string; value: PtManageNavType }[] = [
     { label: "피드백 관리", value: "feedback" },
     { label: "운동일지", value: "calendar" },
     { label: "식단관리", value: "meal" },
+    { label: "루틴 분석", value: "routine" },
 ];
 
 export default function PtManageNav({ href, type }: PtManageNavProps) {
@@ -22,7 +23,7 @@ export default function PtManageNav({ href, type }: PtManageNavProps) {
     return (
         <div
             className="
-            grid grid-cols-3 gap-2
+            grid grid-cols-2 gap-2 sm:grid-cols-4
             bg-[#101828]
             border border-[#1E2939] rounded-[14px]
             p-1 sm:p-2

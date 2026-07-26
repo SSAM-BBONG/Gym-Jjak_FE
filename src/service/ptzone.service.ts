@@ -51,7 +51,9 @@
   TrainerApplicationDetailResponse,
   TrainerApplicationListResponse,
   TrainerApplicationEditData,
-  TrainerApplicationResponse
+  TrainerApplicationResponse,
+  TrainerRoutineRecommendationRequest,
+  TrainerRoutineRecommendationResponse
 } from "@/feature/pt/type";
 import { fetchWithAuth, fetchWithAuthGet, fetchWithoutAuth } from "@/lib/feth";
 import { getErrorMessage } from "@/lib/stateError";
@@ -198,6 +200,31 @@ export const createPtRecommendation = async (
 
   if (!response.ok) {
     const message = await getErrorMessage(response, "AI PT 추천을 불러오지 못했습니다.");
+    throw new Error(message);
+  }
+
+  return response.json();
+};
+
+// 트레이너 수강생 맞춤 루틴 추천 API
+export const createTrainerRoutineRecommendation = async (
+  memberId: number,
+  payload: TrainerRoutineRecommendationRequest
+): Promise<TrainerRoutineRecommendationResponse> => {
+  const response = await fetchWithAuth(
+    `/api/trainers/members/${memberId}/routine-recommendations`,
+    {
+      method: "POST",
+      body: JSON.stringify(payload),
+    }
+  );
+
+  if (!response.ok) {
+    const message = await getErrorMessage(
+      response,
+      "수강생 맞춤 루틴 추천을 불러오지 못했습니다."
+    );
+
     throw new Error(message);
   }
 
