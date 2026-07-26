@@ -186,8 +186,8 @@ function createPoseFeedback({
   return feedbacks;
 }
 
-function isReliableKeypoint(keypoint?: Keypoint) {
-  return Boolean(keypoint && (keypoint.score ?? 0) >= MIN_KEYPOINT_SCORE);
+function isReliableKeypoint(keypoint?: Keypoint): keypoint is Keypoint {
+  return keypoint !== undefined && (keypoint.score ?? 0) >= MIN_KEYPOINT_SCORE;
 }
 
 export default function PoseAnalysisClient() {
