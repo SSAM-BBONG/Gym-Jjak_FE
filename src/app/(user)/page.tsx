@@ -71,12 +71,6 @@ export default async function Page() {
               >
                 운동 캘린더 보기
               </Link>
-              <Link
-                href="/pose-analysis"
-                className="rounded-xl border border-[#bfff0b]/50 bg-[#bfff0b]/10 px-5 py-3.5 text-sm font-extrabold text-[#d4ff65] transition hover:bg-[#bfff0b] hover:text-[#0b0f19] focus:outline-none focus:ring-2 focus:ring-[#bfff0b] focus:ring-offset-2 focus:ring-offset-[#121a2b]"
-              >
-                자세 분석 Test
-              </Link>
             </div>
           </div>
 
@@ -89,6 +83,26 @@ export default async function Page() {
               sizes="(max-width: 1024px) 100vw, 620px"
               className="object-contain object-center lg:-translate-x-6 lg:scale-90 lg:object-right"
             />
+          </div>
+        </section>
+
+        <section className="mt-8 rounded-[28px] border border-[#bfff0b]/35 bg-[#121a2b] px-7 py-7 shadow-[0_0_36px_rgba(191,255,11,0.08)] sm:px-10 sm:py-8">
+          <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <p className="inline-flex rounded-full border border-[#bfff0b]/40 bg-[#bfff0b]/10 px-3 py-1 text-xs font-black tracking-[0.12em] text-[#d4ff65]">
+                BETA · POSE ANALYSIS
+              </p>
+              <h2 className="mt-3 text-2xl font-black tracking-tight text-white sm:text-3xl">운동 자세를 영상으로 분석해보세요</h2>
+              <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-300">
+                브라우저에서 영상 속 관절 움직임을 분석해 운동별 반복 횟수와 참고용 피드백을 확인할 수 있습니다.
+              </p>
+            </div>
+            <Link
+              href="/pose-analysis"
+              className="inline-flex shrink-0 items-center justify-center rounded-xl bg-[#bfff0b] px-5 py-3.5 text-sm font-extrabold text-[#0b0f19] transition hover:bg-[#d4ff65] focus:outline-none focus:ring-2 focus:ring-[#bfff0b] focus:ring-offset-2 focus:ring-offset-[#121a2b]"
+            >
+              자세 분석 시작
+            </Link>
           </div>
         </section>
 

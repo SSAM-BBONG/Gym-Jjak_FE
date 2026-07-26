@@ -32,7 +32,7 @@ export default async function Header() {
     return (
         <header className="fixed top-0 left-0 z-9999 flex h-17.5 w-full items-center justify-between border-b border-b-[#1E2939] bg-black px-4 sm:px-10">
             <div className="flex shrink-0 items-center gap-3">
-                <MobileNavMenu />
+                <MobileNavMenu isTrainer={userinf?.role === "TRAINER"} />
                 <Link href="/">
                     <div className="size-10 rounded-[10px] flex items-center justify-center cursor-pointer">
                         <div className="relative w-10 h-10">
