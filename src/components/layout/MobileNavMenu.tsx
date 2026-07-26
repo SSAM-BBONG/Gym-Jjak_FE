@@ -3,16 +3,35 @@
 import Link from "next/link";
 import { useEffect, useId, useState } from "react";
 
-const NAV_ITEMS = [
+interface NavItem {
+  href: string;
+  label: string;
+  prefetch?: boolean;
+  beta?: boolean;
+}
+
+const NAV_ITEMS: readonly NavItem[] = [
   { href: "/pt", label: "PT ZONE" },
   { href: "/meal", label: "식단" },
   { href: "/community?page=0", label: "커뮤니티" },
   { href: "/calendar", label: "캘린더", prefetch: false },
-] as const;
+  { href: "/pose-analysis", label: "자세 분석", beta: true },
+];
 
-export default function MobileNavMenu() {
+const TRAINER_NAV_ITEMS: readonly NavItem[] = [
+  { href: "/pt", label: "PT ZONE" },
+  { href: "/community?page=0", label: "커뮤니티" },
+  { href: "/pose-analysis", label: "자세 분석", beta: true },
+];
+
+interface MobileNavMenuProps {
+  isTrainer: boolean;
+}
+
+export default function MobileNavMenu({ isTrainer }: MobileNavMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
   const menuId = useId();
+  const navItems = isTrainer ? TRAINER_NAV_ITEMS : NAV_ITEMS;
 
   useEffect(() => {
     const closeOnEscape = (event: KeyboardEvent) => {
@@ -61,7 +80,7 @@ export default function MobileNavMenu() {
             className="fixed top-17.5 left-0 z-20 w-full border-b border-[#364153] bg-[#111827] px-4 py-3 shadow-xl sm:px-10"
           >
             <div className="mx-auto grid max-w-5xl gap-1">
-              {NAV_ITEMS.map(({ href, label, ...linkProps }) => (
+              {navItems.map(({ href, label, beta, ...linkProps }) => (
                 <Link
                   key={href}
                   href={href}
@@ -69,7 +88,10 @@ export default function MobileNavMenu() {
                   onClick={() => setIsOpen(false)}
                   className="rounded-lg px-4 py-3 text-base font-semibold text-[#D1D5DC] transition hover:bg-[#1E2939] hover:text-[#BFFF0B] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#BFFF0B]"
                 >
-                  {label}
+                  <span className="flex items-center gap-2">
+                    {label}
+                    {beta && <span className="rounded-full bg-[#BFFF0B]/15 px-2 py-0.5 text-[10px] font-black tracking-wider text-[#BFFF0B]">BETA</span>}
+                  </span>
                 </Link>
               ))}
             </div>
