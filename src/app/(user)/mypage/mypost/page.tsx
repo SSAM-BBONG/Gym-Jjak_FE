@@ -14,6 +14,7 @@ export default async function Page({ searchParams }: paramsProps) {
     const response = await getMyCommuAction(page);
     const myPosts: MyCommu[] = response.data.content;
     const totalPage: number = response.data.totalPages
+    
     return (
         <div className="flex flex-col px-4 sm:px-10 md:px-20 lg:px-40 pt-6 sm:pt-8 lg:pt-10">
             <p className="text-2xl sm:text-3xl lg:text-[36px] font-black text-white"> 내가 작성한 게시글 </p>

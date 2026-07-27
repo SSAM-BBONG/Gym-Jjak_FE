@@ -43,18 +43,6 @@ export default function CalendarCreateModal({ isModal, closeModal, selectedSetti
     const [isSelect, setIsSelect] = useState(false);
     const [selectPart, setSelectPart] = useState<PartKo | ''>(data ? data?.part : '')
 
-    // useEffet 사용으로 마운트 시 작동 useRef로 막아도 제대로 작동하지 않음
-    // const isFirstRender = useRef(true);
-
-    // useEffect(() => {
-    //     if (isFirstRender.current) {
-    //         isFirstRender.current = false;
-    //         return;
-    //     } else {
-    //         setExerciseName({ searchExercise: '', selectExercise: '' });
-    //     }
-    // }, [selectPart])
-
     const currentPart = useRef(selectPart);
 
     if (currentPart.current !== selectPart) {
