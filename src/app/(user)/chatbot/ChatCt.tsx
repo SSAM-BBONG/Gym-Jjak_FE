@@ -12,7 +12,6 @@ import ChatQuickReplies from "./ChatQuickReplies";
 import ChatInputForm from "./ChatInputForm";
 
 export default function ChatCt({ sessionId }: { sessionId?: string }) {
-
     const router = useRouter();
 
 
@@ -374,7 +373,7 @@ export default function ChatCt({ sessionId }: { sessionId?: string }) {
                 )}
                 {isError ? (
                     <div className="flex flex-1 items-center justify-center px-4 text-center text-sm text-[#99A1AF]">
-                        {error.message}
+                        {error.message === '챗봇 접근 권한이 필요합니다.' ? '구독 결제가 필요합니다.' : error.message}
                     </div>
                 ) : (
                     <div className="flex flex-col gap-4">
