@@ -117,15 +117,15 @@ export default function PtFeeBackCheckModal({
 
     return (
         <section
-            className="fixed inset-0 z-999 flex items-center justify-center bg-black/50 p-3 sm:p-6"
+            className="fixed inset-0 z-999 flex items-center justify-center bg-black/50 pt-17.5 pr-3 pb-6 pl-3 sm:pr-6 sm:pb-6 sm:pl-6"
             onClick={closeModal}
         >
             <form
                 onSubmit={(event) => event.preventDefault()}
-                className="z-1000 flex max-h-[calc(100dvh-1.5rem)] w-5/6 flex-col rounded-2xl border border-[#1E2939] bg-gradient-to-br from-[#101828] to-[#000] p-4 sm:max-h-[calc(100dvh-3rem)] sm:w-4/5 sm:p-5 md:w-3/5 md:p-6 lg:w-2xl"
+                className="z-1000 flex max-h-[calc(100dvh-6rem)] w-5/6 flex-col rounded-2xl border border-[#1E2939] bg-gradient-to-br from-[#101828] to-[#000] p-4 sm:w-4/5 sm:p-5 md:w-3/5 md:p-6 lg:w-2xl"
                 onClick={(event) => event.stopPropagation()}
             >
-                <article className="min-h-0 flex-1 overflow-y-auto pr-1 [scrollbar-width:thin]">
+                <article className="min-h-0 flex-1 overflow-y-auto pr-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
                     <div className="flex flex-col gap-2">
                         <div className="flex items-center justify-between pt-2">
                             <h3 className="text-xl font-bold text-[#E8EAF0]">피드백 확인</h3>
